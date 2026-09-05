@@ -1,0 +1,4 @@
+interface:
+  display_name: "Starbase2 Agent"
+  short_description: "Build and evolve inspectable agent capabilities"
+  default_prompt: "Use $starbase2-agent to handle the relevant Starbase2 task with evidence proportionate to its scope."

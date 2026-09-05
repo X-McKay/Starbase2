@@ -1,0 +1,4 @@
+interface:
+  display_name: "Starbase2 Evaluate"
+  short_description: "Compare agent builds with defensible evidence"
+  default_prompt: "Use $starbase2-evaluate to handle the relevant Starbase2 task with evidence proportionate to its scope."

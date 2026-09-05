@@ -1,0 +1,4 @@
+interface:
+  display_name: "Starbase2 World"
+  short_description: "Design a truthful and enjoyable agent world"
+  default_prompt: "Use $starbase2-world to handle the relevant Starbase2 task with evidence proportionate to its scope."

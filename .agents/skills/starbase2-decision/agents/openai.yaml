@@ -1,0 +1,4 @@
+interface:
+  display_name: "Starbase2 Decision"
+  short_description: "Reconsider consequential architecture choices"
+  default_prompt: "Use $starbase2-decision to handle the relevant Starbase2 task with evidence proportionate to its scope."

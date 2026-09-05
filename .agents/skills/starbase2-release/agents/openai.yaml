@@ -1,0 +1,4 @@
+interface:
+  display_name: "Starbase2 Release"
+  short_description: "Verify a change or a scoped immutable release"
+  default_prompt: "Use $starbase2-release to handle the relevant Starbase2 task with evidence proportionate to its scope."

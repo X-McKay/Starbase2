@@ -1,0 +1,4 @@
+interface:
+  display_name: "Starbase2 Feature"
+  short_description: "Deliver one verified Starbase2 backend slice"
+  default_prompt: "Use $starbase2-feature to handle the relevant Starbase2 task with evidence proportionate to its scope."

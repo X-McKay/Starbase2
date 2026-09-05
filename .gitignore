@@ -1,0 +1,11 @@
+.DS_Store
+.venv/
+__pycache__/
+*.pyc
+target/
+node_modules/
+.godot/
+.env
+.env.*
+!.env.example
+.local/
