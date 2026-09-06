@@ -1,0 +1,41 @@
+.venv/bin/python -m scripts.deployment.build .local/linux-release/build-inputs-amd64.json --engine podman --execute
+podman build --platform linux/amd64 --pull=always --label org.opencontainers.image.revision=a0f2105bb843b2888499a7662ff754f71ef57594 --file deploy/core.Dockerfile --tag registry.almckay.io/starbase2/core:a0f2105bb843b2888499a7662ff754f71ef57594 --build-arg RUST_IMAGE=docker.io/library/rust@sha256:408fe88047cef61a2087653b0c5255fa51c0f2d6d94ddedd7a2562a9b91a46f6 --build-arg BASE_IMAGE=docker.io/library/debian@sha256:5ae3c39ebd15e229dcedd5cee596b2497182493d41ff162e824ba13fc1b2b867 .
+[1/2] STEP 1/6: FROM docker.io/library/rust@sha256:408fe88047cef61a2087653b0c5255fa51c0f2d6d94ddedd7a2562a9b91a46f6 AS build
+Trying to pull docker.io/library/rust@sha256:408fe88047cef61a2087653b0c5255fa51c0f2d6d94ddedd7a2562a9b91a46f6...
+Getting image source signatures
+Copying blob sha256:3af9207d37990175f61d5ce9faa0c7373ffcd2d6da1b6ba0a9ca9d61f8f47cc9
+Copying blob sha256:a6c1a23a6280781f0cf3b6b3a43fc59462763953c4285dd4addc7d4963cc923f
+Copying blob sha256:6b02178232c403d8a6d5b460ad955daba177c38e178ed7dd417e5c4d748e948d
+Copying blob sha256:c5a4625b533197abb25ea2a32be06c59c984d97c3c2dc9952e0b76f2e81ee0d2
+Copying blob sha256:d32ed818f20fae825717c40dbc77cd4ed4bcefad6ba95a83f8c4f3c1f8631c31
+Copying config sha256:897e260d0a1a5a5146433bdb73f62bd84f5f47e846d3485e5f70f63912b5917d
+Writing manifest to image destination
+[1/2] STEP 2/6: WORKDIR /build
+--> b837a6fea2a2
+[1/2] STEP 3/6: COPY Cargo.toml Cargo.lock rust-toolchain.toml ./
+--> 0784bd502fe3
+[1/2] STEP 4/6: COPY services/core services/core
+--> ada763f8ab89
+[1/2] STEP 5/6: COPY apps/console apps/console
+--> 3bb16d20abff
+[1/2] STEP 6/6: RUN cargo build --release --locked -p starbase-core
+info: syncing channel updates for 1.97.1-x86_64-unknown-linux-gnu
+info: latest update on 2026-07-16 for version 1.97.1 (8bab26f4f 2026-07-14)
+info: downloading component clippy
+error: process didn't exit successfully: `/usr/local/rustup/toolchains/1.97.1-x86_64-unknown-linux-gnu/bin/rustc -vV` (signal: 11, SIGSEGV: invalid memory reference)
+--- stderr
+qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+
+Error: building at STEP "RUN cargo build --release --locked -p starbase-core": while running runtime: exit status 101
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/al/git/Starbase2/scripts/deployment/build.py", line 64, in <module>
+    main()
+  File "/Users/al/git/Starbase2/scripts/deployment/build.py", line 56, in main
+    subprocess.run(command, cwd=ROOT, check=True, timeout=1800)
+  File "/Users/al/.local/share/mise/installs/python/3.12.13/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['podman', 'build', '--platform', 'linux/amd64', '--pull=always', '--label', 'org.opencontainers.image.revision=a0f2105bb843b2888499a7662ff754f71ef57594', '--file', 'deploy/core.Dockerfile', '--tag', 'registry.almckay.io/starbase2/core:a0f2105bb843b2888499a7662ff754f71ef57594', '--build-arg', 'RUST_IMAGE=docker.io/library/rust@sha256:408fe88047cef61a2087653b0c5255fa51c0f2d6d94ddedd7a2562a9b91a46f6', '--build-arg', 'BASE_IMAGE=docker.io/library/debian@sha256:5ae3c39ebd15e229dcedd5cee596b2497182493d41ff162e824ba13fc1b2b867', '.']' returned non-zero exit status 101.
+error: recipe `deployment-build` failed on line 115 with exit code 1

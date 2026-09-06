@@ -1,0 +1,6 @@
+{
+  "status": "passed",
+  "scope": "Checksum verification of the previously visually qualified macOS artifact; no new UI test run",
+  "source_files_verified": 256,
+  "archive_sha256": "44a07d557d0c9e93fabbfa4703afbec81b9474f9b2e3740ed70be1e5274de1c2"
+}

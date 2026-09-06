@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/app/services/runtime/starbase_runtime/worker.py", line 18, in <module>
+    from .activities import api, prepare, retain, run_trial
+  File "/app/services/runtime/starbase_runtime/activities.py", line 11, in <module>
+    WORKER_BUILDS = {variant: build_manifest(variant) for variant in ("baseline", "regressed")}
+                              ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/services/runtime/starbase_runtime/agent.py", line 100, in build_manifest
+    sources = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
+                                                        ^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/app/contracts/core.schema.json'

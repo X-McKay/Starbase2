@@ -1,0 +1,7 @@
+{
+  "platform": "linux/arm64",
+  "revision": "e7a51acf4c4d465287b913379876d7beda7f0d3c",
+  "core": "sha256:665baa0154e416573c07f3d3e12c956494fdec19543a46c6c5ac8b7417ab02e6",
+  "runtime": "sha256:65833c328b634e384336e834f969e15a36f989d967ef58f313c8b1027c9d241b",
+  "temporal": "docker.io/temporalio/temporal@sha256:66aa2305c9a8f3b4fad165273384d97833a89c301999a0b25ffbc760839a1611"
+}

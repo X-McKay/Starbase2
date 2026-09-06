@@ -64,8 +64,8 @@ below describe operator actions for a future authorized deployment.
 ## 1. Build and freeze the release
 
 1. Review and commit the source in the normal workflow. The release builder
-   rejects dirty/untracked application inputs. This current development checkout
-   is not itself an immutable release.
+   rejects dirty/untracked application inputs. Preserve the exact committed
+   revision for each release candidate.
 2. Copy [build inputs](../deploy/build-inputs.example.json) to a private working
    directory. Resolve the exact Linux platform and four base image digests from
    the intended registry; tags and unresolved placeholders are rejected. Kubani
@@ -81,7 +81,8 @@ below describe operator actions for a future authorized deployment.
    is deliberately not automated by the preparation command.
 5. Copy [production config](../deploy/production.example.json) to
    `.local/deploy/production.json`. Set the verified Kubernetes context, source
-   revision, published image digests and actual dependency service addresses.
+   revision, qualified Linux `platform`, published image digests and actual
+   dependency service addresses.
    Keep `replicas: 0` and `accept_work: false` initially.
 
 ```sh
@@ -456,3 +457,12 @@ crashed running `rustc -vV`; retain that failure and use a native amd64 builder
 before claiming amd64 readiness. The native arm64 build also exposed uv's valid
 platform suffix in `--version`; the release check accepts that suffix while
 still requiring exactly version 0.12.7.
+
+The [2026-09-06 arm64 qualification](../evidence/linux-release/README.md) passed
+16 lifecycle checks against committed images, including graceful PID 1 shutdown
+and PostgreSQL restore. It retains failures, exact image IDs and closed Temporal
+histories. These are local candidates, not published artifacts or cluster approval.
+Production images exclude development-only dependencies and include contract
+schemas; image construction now verifies worker import. Core handles SIGTERM
+and SIGINT with graceful HTTP shutdown. The test-only loopback relay models
+port-forward access; it is not part of the production deployment.

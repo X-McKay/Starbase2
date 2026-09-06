@@ -1,0 +1,478 @@
+{
+  "events": [
+    {
+      "eventId": "1",
+      "eventTime": "2026-09-06T22:45:50.394357216Z",
+      "eventType": "EVENT_TYPE_WORKFLOW_EXECUTION_STARTED",
+      "taskId": "1048587",
+      "workflowExecutionStartedEventAttributes": {
+        "workflowType": {
+          "name": "RepositoryReviewV2"
+        },
+        "taskQueue": {
+          "name": "starbase2-rehearsal-v1",
+          "kind": "TASK_QUEUE_KIND_NORMAL"
+        },
+        "input": {
+          "payloads": [
+            {
+              "metadata": {
+                "encoding": "anNvbi9wbGFpbg=="
+              },
+              "data": "ImRlcGxveS1yZXZpZXctMTc4ODczNDc0OTEzMTg0MzAwMCI="
+            }
+          ]
+        },
+        "workflowExecutionTimeout": "480s",
+        "workflowRunTimeout": "480s",
+        "workflowTaskTimeout": "10s",
+        "originalExecutionRunId": "01a078e6-3eba-7570-9970-a7698fdc3b1d",
+        "identity": "1@starbase2-image-ca7c04a27a43",
+        "firstExecutionRunId": "01a078e6-3eba-7570-9970-a7698fdc3b1d",
+        "attempt": 1,
+        "workflowExecutionExpirationTime": "2026-09-06T22:53:50.394Z",
+        "firstWorkflowTaskBackoff": "0s",
+        "workflowId": "starbase2-review-deploy-review-1788734749131843000",
+        "priority": {}
+      }
+    },
+    {
+      "eventId": "2",
+      "eventTime": "2026-09-06T22:45:50.394397716Z",
+      "eventType": "EVENT_TYPE_WORKFLOW_TASK_SCHEDULED",
+      "taskId": "1048588",
+      "workflowTaskScheduledEventAttributes": {
+        "taskQueue": {
+          "name": "starbase2-rehearsal-v1",
+          "kind": "TASK_QUEUE_KIND_NORMAL"
+        },
+        "startToCloseTimeout": "10s",
+        "attempt": 1
+      }
+    },
+    {
+      "eventId": "3",
+      "eventTime": "2026-09-06T22:45:50.395929503Z",
+      "eventType": "EVENT_TYPE_WORKFLOW_TASK_STARTED",
+      "taskId": "1048594",
+      "workflowTaskStartedEventAttributes": {
+        "scheduledEventId": "2",
+        "identity": "1@starbase2-image-ca7c04a27a43",
+        "requestId": "e228a1ee-a132-4150-815e-fe22cac33833",
+        "historySizeBytes": "403",
+        "workerVersion": {
+          "buildId": "c15488558e5c7ae533c12c372867d827"
+        }
+      }
+    },
+    {
+      "eventId": "4",
+      "eventTime": "2026-09-06T22:45:50.409027294Z",
+      "eventType": "EVENT_TYPE_WORKFLOW_TASK_COMPLETED",
+      "taskId": "1048598",
+      "workflowTaskCompletedEventAttributes": {
+        "scheduledEventId": "2",
+        "startedEventId": "3",
+        "identity": "1@starbase2-image-ca7c04a27a43",
+        "workerVersion": {
+          "buildId": "c15488558e5c7ae533c12c372867d827"
+        },
+        "sdkMetadata": {
+          "coreUsedFlags": [
+            2,
+            1,
+            3
+          ],
+          "sdkName": "temporal-python",
+          "sdkVersion": "1.32.0"
+        },
+        "meteringMetadata": {}
+      }
+    },
+    {
+      "eventId": "5",
+      "eventTime": "2026-09-06T22:45:50.409087544Z",
+      "eventType": "EVENT_TYPE_ACTIVITY_TASK_SCHEDULED",
+      "taskId": "1048599",
+      "activityTaskScheduledEventAttributes": {
+        "activityId": "1",
+        "activityType": {
+          "name": "review_prepare"
+        },
+        "taskQueue": {
+          "name": "starbase2-rehearsal-v1",
+          "kind": "TASK_QUEUE_KIND_NORMAL"
+        },
+        "header": {},
+        "input": {
+          "payloads": [
+            {
+              "metadata": {
+                "encoding": "anNvbi9wbGFpbg=="
+              },
+              "data": "ImRlcGxveS1yZXZpZXctMTc4ODczNDc0OTEzMTg0MzAwMCI="
+            }
+          ]
+        },
+        "scheduleToCloseTimeout": "120s",
+        "scheduleToStartTimeout": "120s",
+        "startToCloseTimeout": "60s",
+        "heartbeatTimeout": "0s",
+        "workflowTaskCompletedEventId": "4",
+        "retryPolicy": {
+          "initialInterval": "1s",
+          "backoffCoefficient": 2.0,
+          "maximumInterval": "100s",
+          "maximumAttempts": 2
+        },
+        "useWorkflowBuildId": true,
+        "priority": {}
+      }
+    },
+    {
+      "eventId": "6",
+      "eventTime": "2026-09-06T22:45:50.410082041Z",
+      "eventType": "EVENT_TYPE_ACTIVITY_TASK_STARTED",
+      "taskId": "1048606",
+      "activityTaskStartedEventAttributes": {
+        "scheduledEventId": "5",
+        "identity": "1@starbase2-image-ca7c04a27a43",
+        "requestId": "79bbf570-c4be-4961-a8ab-3ce4ed25b907",
+        "attempt": 1,
+        "workerVersion": {
+          "buildId": "c15488558e5c7ae533c12c372867d827"
+        }
+      }
+    },
+    {
+      "eventId": "7",
+      "eventTime": "2026-09-06T22:45:50.499392216Z",
+      "eventType": "EVENT_TYPE_ACTIVITY_TASK_COMPLETED",
+      "taskId": "1048607",
+      "activityTaskCompletedEventAttributes": {
+        "result": {
+          "payloads": [
+            {
+              "metadata": {
+                "encoding": "anNvbi9wbGFpbg=="
+              },
+              "data": "eyJjYW5kaWRhdGUiOm51bGwsImlkIjoiZGVwbG95LXJldmlldy0xNzg4NzM0NzQ5MTMxODQzMDAwIiwiaW5mZXJlbmNlIjpmYWxzZSwia2luZCI6InJldmlldyIsInByb2ZpbGUiOiJzdXJ2ZXlvci12MiIsInRhcmdldCI6InNhbXBsZSJ9"
+            }
+          ]
+        },
+        "scheduledEventId": "5",
+        "startedEventId": "6",
+        "identity": "1@starbase2-image-ca7c04a27a43"
+      }
+    },
+    {
+      "eventId": "8",
+      "eventTime": "2026-09-06T22:45:50.499399341Z",
+      "eventType": "EVENT_TYPE_WORKFLOW_TASK_SCHEDULED",
+      "taskId": "1048608",
+      "workflowTaskScheduledEventAttributes": {
+        "taskQueue": {
+          "name": "1@starbase2-image-ca7c04a27a43-bea7c42dc7c04c7482d9923c90eaa93e",
+          "kind": "TASK_QUEUE_KIND_STICKY",
+          "normalName": "starbase2-rehearsal-v1"
+        },
+        "startToCloseTimeout": "10s",
+        "attempt": 1
+      }
+    },
+    {
+      "eventId": "9",
+      "eventTime": "2026-09-06T22:45:50.500211088Z",
+      "eventType": "EVENT_TYPE_WORKFLOW_TASK_STARTED",
+      "taskId": "1048612",
+      "workflowTaskStartedEventAttributes": {
+        "scheduledEventId": "8",
+        "identity": "1@starbase2-image-ca7c04a27a43",
+        "requestId": "7f705f66-71cc-4d5c-89b9-d66294f8bd87",
+        "historySizeBytes": "1355",
+        "workerVersion": {
+          "buildId": "c15488558e5c7ae533c12c372867d827"
+        }
+      }
+    },
+    {
+      "eventId": "10",
+      "eventTime": "2026-09-06T22:45:50.502263706Z",
+      "eventType": "EVENT_TYPE_WORKFLOW_TASK_COMPLETED",
+      "taskId": "1048616",
+      "workflowTaskCompletedEventAttributes": {
+        "scheduledEventId": "8",
+        "startedEventId": "9",
+        "identity": "1@starbase2-image-ca7c04a27a43",
+        "workerVersion": {
+          "buildId": "c15488558e5c7ae533c12c372867d827"
+        },
+        "sdkMetadata": {},
+        "meteringMetadata": {}
+      }
+    },
+    {
+      "eventId": "11",
+      "eventTime": "2026-09-06T22:45:50.502282956Z",
+      "eventType": "EVENT_TYPE_ACTIVITY_TASK_SCHEDULED",
+      "taskId": "1048617",
+      "activityTaskScheduledEventAttributes": {
+        "activityId": "2",
+        "activityType": {
+          "name": "review_analyze"
+        },
+        "taskQueue": {
+          "name": "starbase2-rehearsal-v1",
+          "kind": "TASK_QUEUE_KIND_NORMAL"
+        },
+        "header": {},
+        "input": {
+          "payloads": [
+            {
+              "metadata": {
+                "encoding": "anNvbi9wbGFpbg=="
+              },
+              "data": "ImRlcGxveS1yZXZpZXctMTc4ODczNDc0OTEzMTg0MzAwMCI="
+            }
+          ]
+        },
+        "scheduleToCloseTimeout": "120s",
+        "scheduleToStartTimeout": "120s",
+        "startToCloseTimeout": "60s",
+        "heartbeatTimeout": "0s",
+        "workflowTaskCompletedEventId": "10",
+        "retryPolicy": {
+          "initialInterval": "1s",
+          "backoffCoefficient": 2.0,
+          "maximumInterval": "100s",
+          "maximumAttempts": 2
+        },
+        "useWorkflowBuildId": true,
+        "priority": {}
+      }
+    },
+    {
+      "eventId": "12",
+      "eventTime": "2026-09-06T22:45:50.502933954Z",
+      "eventType": "EVENT_TYPE_ACTIVITY_TASK_STARTED",
+      "taskId": "1048623",
+      "activityTaskStartedEventAttributes": {
+        "scheduledEventId": "11",
+        "identity": "1@starbase2-image-ca7c04a27a43",
+        "requestId": "6de4d0ad-b8c9-40c9-be4b-0f48c64bdead",
+        "attempt": 1,
+        "workerVersion": {
+          "buildId": "c15488558e5c7ae533c12c372867d827"
+        }
+      }
+    },
+    {
+      "eventId": "13",
+      "eventTime": "2026-09-06T22:45:50.516124329Z",
+      "eventType": "EVENT_TYPE_ACTIVITY_TASK_COMPLETED",
+      "taskId": "1048624",
+      "activityTaskCompletedEventAttributes": {
+        "result": {
+          "payloads": [
+            {
+              "metadata": {
+                "encoding": "anNvbi9wbGFpbg=="
+              },
+              "data": "eyJyZXZpZXciOnsic25hcHNob3RfZGlnZXN0IjoiNDIxYTY0ODk4ZmM2OGU0M2E0N2U1NzBhY2JmNDRlZjA5MzhjMzcxZWU0ODY2MGU5ZTY3NGVhOTI4MDFhNzIwNyIsImZpbmRpbmdzIjpbeyJjb2RlIjoiUzMwNyIsImZpbGUiOiJleGFtcGxlLnB5IiwibGluZSI6NiwibWVzc2FnZSI6IlVzZSBvZiBwb3NzaWJseSBpbnNlY3VyZSBmdW5jdGlvbjsgY29uc2lkZXIgdXNpbmcgYGFzdC5saXRlcmFsX2V2YWxgIn0seyJjb2RlIjoiUzExMyIsImZpbGUiOiJleGFtcGxlLnB5IiwibGluZSI6MTAsIm1lc3NhZ2UiOiJQcm9iYWJsZSB1c2Ugb2YgYHJlcXVlc3RzYCBjYWxsIHdpdGhvdXQgdGltZW91dCJ9XSwiZXJyb3JzIjpbXSwiZmlsZXNfcmV2aWV3ZWQiOjEsImVsYXBzZWRfbXMiOjEsImVuZ2luZSI6InJ1ZmYtMC4xNi42IiwibW9kZWxfY2FsbHMiOjB9LCJ0cmlhbHMiOltdfQ=="
+            }
+          ]
+        },
+        "scheduledEventId": "11",
+        "startedEventId": "12",
+        "identity": "1@starbase2-image-ca7c04a27a43"
+      }
+    },
+    {
+      "eventId": "14",
+      "eventTime": "2026-09-06T22:45:50.516128121Z",
+      "eventType": "EVENT_TYPE_WORKFLOW_TASK_SCHEDULED",
+      "taskId": "1048625",
+      "workflowTaskScheduledEventAttributes": {
+        "taskQueue": {
+          "name": "1@starbase2-image-ca7c04a27a43-bea7c42dc7c04c7482d9923c90eaa93e",
+          "kind": "TASK_QUEUE_KIND_STICKY",
+          "normalName": "starbase2-rehearsal-v1"
+        },
+        "startToCloseTimeout": "10s",
+        "attempt": 1
+      }
+    },
+    {
+      "eventId": "15",
+      "eventTime": "2026-09-06T22:45:50.516702452Z",
+      "eventType": "EVENT_TYPE_WORKFLOW_TASK_STARTED",
+      "taskId": "1048629",
+      "workflowTaskStartedEventAttributes": {
+        "scheduledEventId": "14",
+        "identity": "1@starbase2-image-ca7c04a27a43",
+        "requestId": "123320dd-4df7-4384-94ba-958242f21393",
+        "historySizeBytes": "2580",
+        "workerVersion": {
+          "buildId": "c15488558e5c7ae533c12c372867d827"
+        }
+      }
+    },
+    {
+      "eventId": "16",
+      "eventTime": "2026-09-06T22:45:50.518509488Z",
+      "eventType": "EVENT_TYPE_WORKFLOW_TASK_COMPLETED",
+      "taskId": "1048633",
+      "workflowTaskCompletedEventAttributes": {
+        "scheduledEventId": "14",
+        "startedEventId": "15",
+        "identity": "1@starbase2-image-ca7c04a27a43",
+        "workerVersion": {
+          "buildId": "c15488558e5c7ae533c12c372867d827"
+        },
+        "sdkMetadata": {},
+        "meteringMetadata": {}
+      }
+    },
+    {
+      "eventId": "17",
+      "eventTime": "2026-09-06T22:45:50.518526363Z",
+      "eventType": "EVENT_TYPE_ACTIVITY_TASK_SCHEDULED",
+      "taskId": "1048634",
+      "activityTaskScheduledEventAttributes": {
+        "activityId": "3",
+        "activityType": {
+          "name": "review_retain"
+        },
+        "taskQueue": {
+          "name": "starbase2-rehearsal-v1",
+          "kind": "TASK_QUEUE_KIND_NORMAL"
+        },
+        "header": {},
+        "input": {
+          "payloads": [
+            {
+              "metadata": {
+                "encoding": "anNvbi9wbGFpbg=="
+              },
+              "data": "eyJpZCI6ImRlcGxveS1yZXZpZXctMTc4ODczNDc0OTEzMTg0MzAwMCIsInJlcG9ydCI6eyJyZXZpZXciOnsic25hcHNob3RfZGlnZXN0IjoiNDIxYTY0ODk4ZmM2OGU0M2E0N2U1NzBhY2JmNDRlZjA5MzhjMzcxZWU0ODY2MGU5ZTY3NGVhOTI4MDFhNzIwNyIsImZpbmRpbmdzIjpbeyJjb2RlIjoiUzMwNyIsImZpbGUiOiJleGFtcGxlLnB5IiwibGluZSI6NiwibWVzc2FnZSI6IlVzZSBvZiBwb3NzaWJseSBpbnNlY3VyZSBmdW5jdGlvbjsgY29uc2lkZXIgdXNpbmcgYGFzdC5saXRlcmFsX2V2YWxgIn0seyJjb2RlIjoiUzExMyIsImZpbGUiOiJleGFtcGxlLnB5IiwibGluZSI6MTAsIm1lc3NhZ2UiOiJQcm9iYWJsZSB1c2Ugb2YgYHJlcXVlc3RzYCBjYWxsIHdpdGhvdXQgdGltZW91dCJ9XSwiZXJyb3JzIjpbXSwiZmlsZXNfcmV2aWV3ZWQiOjEsImVsYXBzZWRfbXMiOjEsImVuZ2luZSI6InJ1ZmYtMC4xNi42IiwibW9kZWxfY2FsbHMiOjB9LCJ0cmlhbHMiOltdfX0="
+            }
+          ]
+        },
+        "scheduleToCloseTimeout": "120s",
+        "scheduleToStartTimeout": "120s",
+        "startToCloseTimeout": "60s",
+        "heartbeatTimeout": "0s",
+        "workflowTaskCompletedEventId": "16",
+        "retryPolicy": {
+          "initialInterval": "1s",
+          "backoffCoefficient": 2.0,
+          "maximumInterval": "100s",
+          "maximumAttempts": 2
+        },
+        "useWorkflowBuildId": true,
+        "priority": {}
+      }
+    },
+    {
+      "eventId": "18",
+      "eventTime": "2026-09-06T22:45:50.519426819Z",
+      "eventType": "EVENT_TYPE_ACTIVITY_TASK_STARTED",
+      "taskId": "1048640",
+      "activityTaskStartedEventAttributes": {
+        "scheduledEventId": "17",
+        "identity": "1@starbase2-image-ca7c04a27a43",
+        "requestId": "57ff9ce9-4f15-47a3-b5da-6f5afcbd1ec5",
+        "attempt": 1,
+        "workerVersion": {
+          "buildId": "c15488558e5c7ae533c12c372867d827"
+        }
+      }
+    },
+    {
+      "eventId": "19",
+      "eventTime": "2026-09-06T22:45:50.533394983Z",
+      "eventType": "EVENT_TYPE_ACTIVITY_TASK_COMPLETED",
+      "taskId": "1048641",
+      "activityTaskCompletedEventAttributes": {
+        "result": {
+          "payloads": [
+            {
+              "metadata": {
+                "encoding": "anNvbi9wbGFpbg=="
+              },
+              "data": "eyJldmlkZW5jZSI6eyJyZXZpZXciOnsiYWR2aXNvcnkiOm51bGwsImVsYXBzZWRfbXMiOjEsImVuZ2luZSI6InJ1ZmYtMC4xNi42IiwiZXJyb3JzIjpbXSwiZmlsZXNfcmV2aWV3ZWQiOjEsImZpbmRpbmdzIjpbeyJjb2RlIjoiUzMwNyIsImZpbGUiOiJleGFtcGxlLnB5IiwibGluZSI6NiwibWVzc2FnZSI6IlVzZSBvZiBwb3NzaWJseSBpbnNlY3VyZSBmdW5jdGlvbjsgY29uc2lkZXIgdXNpbmcgYGFzdC5saXRlcmFsX2V2YWxgIn0seyJjb2RlIjoiUzExMyIsImZpbGUiOiJleGFtcGxlLnB5IiwibGluZSI6MTAsIm1lc3NhZ2UiOiJQcm9iYWJsZSB1c2Ugb2YgYHJlcXVlc3RzYCBjYWxsIHdpdGhvdXQgdGltZW91dCJ9XSwibW9kZWxfY2FsbHMiOjAsInNuYXBzaG90X2RpZ2VzdCI6IjQyMWE2NDg5OGZjNjhlNDNhNDdlNTcwYWNiZjQ0ZWYwOTM4YzM3MWVlNDg2NjBlOWU2NzRlYTkyODAxYTcyMDcifSwidHJpYWxzIjpbXX0sInN1bW1hcnkiOnsiZmlsZXNfcmV2aWV3ZWQiOjEsImZpbmRpbmdfY291bnQiOjIsIm91dGNvbWUiOiJmaW5kaW5ncyIsInF1YWxpZmljYXRpb24iOiJBZHZpc29yeSBzdGF0aWMgYW5hbHlzaXM7IG5vdCBwcm9vZiBvZiByZXBvc2l0b3J5IHNhZmV0eSIsInNpbXVsYXRpb24iOnRydWV9fQ=="
+            }
+          ]
+        },
+        "scheduledEventId": "17",
+        "startedEventId": "18",
+        "identity": "1@starbase2-image-ca7c04a27a43"
+      }
+    },
+    {
+      "eventId": "20",
+      "eventTime": "2026-09-06T22:45:50.533398816Z",
+      "eventType": "EVENT_TYPE_WORKFLOW_TASK_SCHEDULED",
+      "taskId": "1048642",
+      "workflowTaskScheduledEventAttributes": {
+        "taskQueue": {
+          "name": "1@starbase2-image-ca7c04a27a43-bea7c42dc7c04c7482d9923c90eaa93e",
+          "kind": "TASK_QUEUE_KIND_STICKY",
+          "normalName": "starbase2-rehearsal-v1"
+        },
+        "startToCloseTimeout": "10s",
+        "attempt": 1
+      }
+    },
+    {
+      "eventId": "21",
+      "eventTime": "2026-09-06T22:45:50.533984189Z",
+      "eventType": "EVENT_TYPE_WORKFLOW_TASK_STARTED",
+      "taskId": "1048646",
+      "workflowTaskStartedEventAttributes": {
+        "scheduledEventId": "20",
+        "identity": "1@starbase2-image-ca7c04a27a43",
+        "requestId": "998d040e-aa46-4d77-a4d8-83e95cd555b3",
+        "historySizeBytes": "4455",
+        "workerVersion": {
+          "buildId": "c15488558e5c7ae533c12c372867d827"
+        }
+      }
+    },
+    {
+      "eventId": "22",
+      "eventTime": "2026-09-06T22:45:50.535654434Z",
+      "eventType": "EVENT_TYPE_WORKFLOW_TASK_COMPLETED",
+      "taskId": "1048650",
+      "workflowTaskCompletedEventAttributes": {
+        "scheduledEventId": "20",
+        "startedEventId": "21",
+        "identity": "1@starbase2-image-ca7c04a27a43",
+        "workerVersion": {
+          "buildId": "c15488558e5c7ae533c12c372867d827"
+        },
+        "sdkMetadata": {},
+        "meteringMetadata": {}
+      }
+    },
+    {
+      "eventId": "23",
+      "eventTime": "2026-09-06T22:45:50.535676184Z",
+      "eventType": "EVENT_TYPE_WORKFLOW_EXECUTION_COMPLETED",
+      "taskId": "1048651",
+      "workflowExecutionCompletedEventAttributes": {
+        "result": {
+          "payloads": [
+            {
+              "metadata": {
+                "encoding": "anNvbi9wbGFpbg=="
+              },
+              "data": "eyJldmlkZW5jZSI6eyJyZXZpZXciOnsiYWR2aXNvcnkiOm51bGwsImVsYXBzZWRfbXMiOjEsImVuZ2luZSI6InJ1ZmYtMC4xNi42IiwiZXJyb3JzIjpbXSwiZmlsZXNfcmV2aWV3ZWQiOjEsImZpbmRpbmdzIjpbeyJjb2RlIjoiUzMwNyIsImZpbGUiOiJleGFtcGxlLnB5IiwibGluZSI6NiwibWVzc2FnZSI6IlVzZSBvZiBwb3NzaWJseSBpbnNlY3VyZSBmdW5jdGlvbjsgY29uc2lkZXIgdXNpbmcgYGFzdC5saXRlcmFsX2V2YWxgIn0seyJjb2RlIjoiUzExMyIsImZpbGUiOiJleGFtcGxlLnB5IiwibGluZSI6MTAsIm1lc3NhZ2UiOiJQcm9iYWJsZSB1c2Ugb2YgYHJlcXVlc3RzYCBjYWxsIHdpdGhvdXQgdGltZW91dCJ9XSwibW9kZWxfY2FsbHMiOjAsInNuYXBzaG90X2RpZ2VzdCI6IjQyMWE2NDg5OGZjNjhlNDNhNDdlNTcwYWNiZjQ0ZWYwOTM4YzM3MWVlNDg2NjBlOWU2NzRlYTkyODAxYTcyMDcifSwidHJpYWxzIjpbXX0sInN1bW1hcnkiOnsiZmlsZXNfcmV2aWV3ZWQiOjEsImZpbmRpbmdfY291bnQiOjIsIm91dGNvbWUiOiJmaW5kaW5ncyIsInF1YWxpZmljYXRpb24iOiJBZHZpc29yeSBzdGF0aWMgYW5hbHlzaXM7IG5vdCBwcm9vZiBvZiByZXBvc2l0b3J5IHNhZmV0eSIsInNpbXVsYXRpb24iOnRydWV9fQ=="
+            }
+          ]
+        },
+        "workflowTaskCompletedEventId": "22"
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+.venv/bin/python -m scripts.deployment.image_rehearsal .local/linux-release/qualification.json .local/linux-release/rehearsal-1
+fresh database/roles provisioned; identical provisioning is idempotent
+PostgreSQL schema verified
+PostgreSQL schema verified
+fresh schema migration, repeat migration and least-privilege grants
+runtime role denied DDL, evidence deletion and schema-version mutation
+dedicated Temporal namespace create, ownership and retention verification
+competing authoritative core refused by database advisory lock
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/al/git/Starbase2/scripts/deployment/image_rehearsal.py", line 284, in <module>
+    main()
+  File "/Users/al/git/Starbase2/scripts/deployment/image_rehearsal.py", line 278, in main
+    rehearse.main(driver)
+  File "/Users/al/git/Starbase2/scripts/deployment/rehearse.py", line 285, in main
+    raise RuntimeError("Worker build registration unavailable")
+RuntimeError: Worker build registration unavailable
+error: recipe `deployment-qualify-images` failed on line 132 with exit code 1

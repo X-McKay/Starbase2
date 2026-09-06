@@ -1,0 +1,11 @@
+{
+  "installation": "starbase2-rehearsal",
+  "namespace": "starbase2-rehearsal",
+  "files": {
+    "d8347b0d25aa6561fba22f83c373e234e0b85c49e5db6a721c180dec10776fee.json": "0e4d27ee592d6620c7c2d3588fba3e65a734181a592101664145567158bef1a1",
+    "16154fa125da0990abb586ed156937855f4fccef97aca9a74ec2a5b60ac34538.json": "e35360119da5fd2d00fff4decbe5cca6d4d9a00e80f17983e532996a5a7ab38b",
+    "82935a800a4b4d6d84a6e8e82f57b4fbe0616a7c90568923cd041db0220ba855.json": "ee25055dad770bbd9eef6017cadbf52cdb79ff17df2f183b8882f60045a18fd0",
+    "e52ac55aa6d171b23d3131e8eaf8043c5f3f74b4c3bacdf7209afbc186db0ee8.json": "e0fcbfd09f3cf2d765526f2c425e19ee72df0fd444c682247a5bfe05dae546cd"
+  },
+  "purpose": "For audit/replay, not an importable Temporal persistence backup"
+}

@@ -1,0 +1,108 @@
+.venv/bin/python -m scripts.deployment.build .local/linux-release/build-inputs-arm64.json --engine podman --execute
+podman build --platform linux/arm64 --pull=always --label org.opencontainers.image.revision=e7a51acf4c4d465287b913379876d7beda7f0d3c --file deploy/core.Dockerfile --tag registry.almckay.io/starbase2/core:e7a51acf4c4d465287b913379876d7beda7f0d3c --build-arg RUST_IMAGE=docker.io/library/rust@sha256:6e957ef098dcc77d33e310261e4ed5843bb108d5c3b5dc2b476cbc8b6caf53fa --build-arg BASE_IMAGE=docker.io/library/debian@sha256:6bd27d44e6c32a66bbd72d7cb2b76a8ae3497ec2e5274a81abd1b37f6013fa1f .
+[1/2] STEP 1/6: FROM docker.io/library/rust@sha256:6e957ef098dcc77d33e310261e4ed5843bb108d5c3b5dc2b476cbc8b6caf53fa AS build
+Trying to pull docker.io/library/rust@sha256:6e957ef098dcc77d33e310261e4ed5843bb108d5c3b5dc2b476cbc8b6caf53fa...
+Getting image source signatures
+Copying blob sha256:225a0a6c500bfb3b4e92e3971bd6e5d097e6b511817e446098aa783c771a70e9
+Copying blob sha256:01580955e3a7b0e76b94b97d19af0a4ed0b24301a70a502af5c2cc477de7616a
+Copying blob sha256:2c9a098bd6416b43625806c3a6a005297e2cd5b9b5664e389da30661f6acfb30
+Copying blob sha256:c6cbf97176c58c741329cd787e932a1e47931b35f5dc0f23db3e6e82924fef0f
+Copying blob sha256:a75326012c0e46bc6e0ebd4e16aaeed57151bdb35abecfaf1536077110c99c56
+Copying config sha256:72db5382ffef4a5dbf89a125ee07bf0073404cee718902ed4ef0d6da99b0261a
+Writing manifest to image destination
+[1/2] STEP 2/6: WORKDIR /build
+--> Using cache 4e51380cbfe6c50abe74b00e153b165ed28ae51bbd1bec17a7175c82bdce2025
+--> 4e51380cbfe6
+[1/2] STEP 3/6: COPY Cargo.toml Cargo.lock rust-toolchain.toml ./
+--> Using cache 74335d2131a7439286b980638aa78b9c3b510300feaafcb5e7cc71c5d3809ae0
+--> 74335d2131a7
+[1/2] STEP 4/6: COPY services/core services/core
+--> Using cache f81c8867fc3d62f23aa7d4fb6490b89ecaee0a7bd96127156407845044baaa96
+--> f81c8867fc3d
+[1/2] STEP 5/6: COPY apps/console apps/console
+--> Using cache 7d463540a9592f53a0cd6f5e8363f1107d0e1c042eb93868d13655eab80be9c0
+--> 7d463540a959
+[1/2] STEP 6/6: RUN cargo build --release --locked -p starbase-core
+--> Using cache f8e0b0cb922c30a41b7814aae3e9a5c487f87277ee9ffb0cb512786d703dbc39
+--> f8e0b0cb922c
+[2/2] STEP 1/6: FROM docker.io/library/debian@sha256:6bd27d44e6c32a66bbd72d7cb2b76a8ae3497ec2e5274a81abd1b37f6013fa1f
+Trying to pull docker.io/library/debian@sha256:6bd27d44e6c32a66bbd72d7cb2b76a8ae3497ec2e5274a81abd1b37f6013fa1f...
+Getting image source signatures
+Copying blob sha256:75782e20ea1f4a9d9259bc20a5ecbbea8d5943bf5370bf0f5727900728f1cc9a
+Copying config sha256:32d322b19846336d25f755f73618a448e3621982d52c48064e95af8b3dcbc2d9
+Writing manifest to image destination
+[2/2] STEP 2/6: COPY --from=build /build/target/release/starbase-core /usr/local/bin/starbase-core
+--> Using cache d634cda64ef6ef4e7fe78c2f7dfee62adb895ec64516798f58fd23dbc8c4d725
+--> d634cda64ef6
+[2/2] STEP 3/6: USER 10001:10001
+--> Using cache d12fb479547d54b8dd77af245bf063230ac7089edcc161238427c0b45af1aec6
+--> d12fb479547d
+[2/2] STEP 4/6: WORKDIR /tmp
+--> Using cache c4fd6b7d8ba1a111c8db9d13d12902bcaa9bb55e529a2898ecaba82f8f3cd44e
+--> c4fd6b7d8ba1
+[2/2] STEP 5/6: ENTRYPOINT ["/usr/local/bin/starbase-core"]
+--> Using cache 8c4e729038b69c8c1cf7074ad24c62cf0dae9f6e67f2ae4c0590c3199d6278b9
+--> 8c4e729038b6
+[2/2] STEP 6/6: LABEL "org.opencontainers.image.revision"="e7a51acf4c4d465287b913379876d7beda7f0d3c"
+[2/2] COMMIT registry.almckay.io/starbase2/core:e7a51acf4c4d465287b913379876d7beda7f0d3c
+--> 665baa0154e4
+Successfully tagged registry.almckay.io/starbase2/core:e7a51acf4c4d465287b913379876d7beda7f0d3c
+665baa0154e416573c07f3d3e12c956494fdec19543a46c6c5ac8b7417ab02e6
+podman build --platform linux/arm64 --pull=always --label org.opencontainers.image.revision=e7a51acf4c4d465287b913379876d7beda7f0d3c --file deploy/runtime.Dockerfile --tag registry.almckay.io/starbase2/runtime:e7a51acf4c4d465287b913379876d7beda7f0d3c --build-arg PYTHON_IMAGE=docker.io/library/python@sha256:3f9c7f75b916e8279e24136d7a57769aba9e193715be52570417698c52d6eed0 --build-arg UV_IMAGE=ghcr.io/astral-sh/uv@sha256:05a3d5587794de1c4077c7d114297256db83ae6f69862596278ad517d7152d3b .
+[1/2] STEP 1/1: FROM ghcr.io/astral-sh/uv@sha256:05a3d5587794de1c4077c7d114297256db83ae6f69862596278ad517d7152d3b AS uv
+Trying to pull ghcr.io/astral-sh/uv@sha256:05a3d5587794de1c4077c7d114297256db83ae6f69862596278ad517d7152d3b...
+Getting image source signatures
+Copying blob sha256:cdc798bc8e104248fc6581f7d4dc66baf87ed825d7b63a353b4b80f39588c6b3
+Copying blob sha256:c38ec07d73da29a5d34a987a93163e9012e6e2278769e1517028dfed8905b9f7
+Copying config sha256:79f90dc238bec1147ed7d44dee9a612b6c0555ce843ea26ba53df7db52298855
+Writing manifest to image destination
+--> 79f90dc238be
+[2/2] STEP 1/16: FROM docker.io/library/python@sha256:3f9c7f75b916e8279e24136d7a57769aba9e193715be52570417698c52d6eed0
+Trying to pull docker.io/library/python@sha256:3f9c7f75b916e8279e24136d7a57769aba9e193715be52570417698c52d6eed0...
+Getting image source signatures
+Copying blob sha256:36f9fc6fa467389200040d9f0da4e4c8bd987443720707bcf0f4cfffe160f95c
+Copying blob sha256:ae5ebbeec7106e0dd38e0331dbdb17e6aab3210872f193d7fbfd1ce7d0dd5814
+Copying blob sha256:0f5d7465a5bb9d419f60c93d126a161286c73a1ede4a8b2e46bd5e7ad5782cc7
+Copying blob sha256:bbe9f07ace1b7d522521b6360647a5fa1ded41a5302afdf20b30a18f942b0a68
+Copying config sha256:5f832b881814761acc99ff0b29e9273cb7277bc4026701423b7cc8fde9bb3d21
+Writing manifest to image destination
+[2/2] STEP 2/16: COPY --from=uv /uv /usr/local/bin/uv
+--> Using cache eb2645fe7aaa908e5cdc5c79dad9e3c12a0f55fa2c645184d1d567f86c744d53
+--> eb2645fe7aaa
+[2/2] STEP 3/16: WORKDIR /app
+--> Using cache e9e532e3195a1a24ebd487f103810a2242660caadcc6df1230322ef509fc93c8
+--> e9e532e3195a
+[2/2] STEP 4/16: ENV UV_PROJECT_ENVIRONMENT=/app/.venv UV_LINK_MODE=copy
+--> Using cache f3d1d3fe60377a12ca11a39b5bf297652a711b4ec7458544e38dd15027da4dd6
+--> f3d1d3fe6037
+[2/2] STEP 5/16: COPY pyproject.toml uv.lock ./
+--> Using cache 3736ad7274e17f5aac1967202b8284b9353168d97a943b7e77d945ccbdcba3d9
+--> 3736ad7274e1
+[2/2] STEP 6/16: RUN test "$(python --version)" = "Python 3.12.13" && uv --version | grep -Eq '^uv 0\.12\.7( \([^)]*\))?$'
+--> Using cache e8bd5bda7eb4c996a394c498f1b5d44124241d09c311ac913a25ce66168d96b5
+--> e8bd5bda7eb4
+[2/2] STEP 7/16: RUN uv sync --locked --no-install-project --no-dev --no-cache
+--> Using cache e25c48cacfad711e6523ff43e8700de6cdb589eba2448e18737e31076c8dfc76
+--> e25c48cacfad
+[2/2] STEP 8/16: COPY services/runtime services/runtime
+--> d71e73b16792
+[2/2] STEP 9/16: COPY services/core/src services/core/src
+--> 09884a72c700
+[2/2] STEP 10/16: COPY fixtures fixtures
+--> 7a1b8dd750fa
+[2/2] STEP 11/16: COPY contracts contracts
+--> 950e8a2ced96
+[2/2] STEP 12/16: ENV PATH=/app/.venv/bin:$PATH PYTHONPATH=/app/services/runtime PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+--> 32a65d5d9d06
+[2/2] STEP 13/16: RUN python -c "import starbase_runtime.worker"
+--> 823bd1acbe63
+[2/2] STEP 14/16: USER 10001:10001
+--> ee345c4e7453
+[2/2] STEP 15/16: ENTRYPOINT ["/app/.venv/bin/python", "-m", "starbase_runtime.worker", "worker"]
+--> a2e985a7fc9a
+[2/2] STEP 16/16: LABEL "org.opencontainers.image.revision"="e7a51acf4c4d465287b913379876d7beda7f0d3c"
+[2/2] COMMIT registry.almckay.io/starbase2/runtime:e7a51acf4c4d465287b913379876d7beda7f0d3c
+--> 65833c328b63
+Successfully tagged registry.almckay.io/starbase2/runtime:e7a51acf4c4d465287b913379876d7beda7f0d3c
+65833c328b634e384336e834f969e15a36f989d967ef58f313c8b1027c9d241b
+Images are local only. Publish through an authorized release workflow, then record registry digests.

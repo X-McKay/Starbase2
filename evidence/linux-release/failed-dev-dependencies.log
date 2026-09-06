@@ -1,0 +1,196 @@
+.venv/bin/python -m scripts.deployment.build .local/linux-release/build-inputs-arm64.json --engine podman --execute
+podman build --platform linux/arm64 --pull=always --label org.opencontainers.image.revision=9adc06e09a53b31b6eeb34409a00b92e3935f600 --file deploy/core.Dockerfile --tag registry.almckay.io/starbase2/core:9adc06e09a53b31b6eeb34409a00b92e3935f600 --build-arg RUST_IMAGE=docker.io/library/rust@sha256:6e957ef098dcc77d33e310261e4ed5843bb108d5c3b5dc2b476cbc8b6caf53fa --build-arg BASE_IMAGE=docker.io/library/debian@sha256:6bd27d44e6c32a66bbd72d7cb2b76a8ae3497ec2e5274a81abd1b37f6013fa1f .
+[1/2] STEP 1/6: FROM docker.io/library/rust@sha256:6e957ef098dcc77d33e310261e4ed5843bb108d5c3b5dc2b476cbc8b6caf53fa AS build
+Trying to pull docker.io/library/rust@sha256:6e957ef098dcc77d33e310261e4ed5843bb108d5c3b5dc2b476cbc8b6caf53fa...
+Getting image source signatures
+Copying blob sha256:c6cbf97176c58c741329cd787e932a1e47931b35f5dc0f23db3e6e82924fef0f
+Copying blob sha256:2c9a098bd6416b43625806c3a6a005297e2cd5b9b5664e389da30661f6acfb30
+Copying blob sha256:225a0a6c500bfb3b4e92e3971bd6e5d097e6b511817e446098aa783c771a70e9
+Copying blob sha256:01580955e3a7b0e76b94b97d19af0a4ed0b24301a70a502af5c2cc477de7616a
+Copying blob sha256:a75326012c0e46bc6e0ebd4e16aaeed57151bdb35abecfaf1536077110c99c56
+Copying config sha256:72db5382ffef4a5dbf89a125ee07bf0073404cee718902ed4ef0d6da99b0261a
+Writing manifest to image destination
+[1/2] STEP 2/6: WORKDIR /build
+--> Using cache 4e51380cbfe6c50abe74b00e153b165ed28ae51bbd1bec17a7175c82bdce2025
+--> 4e51380cbfe6
+[1/2] STEP 3/6: COPY Cargo.toml Cargo.lock rust-toolchain.toml ./
+--> Using cache 7e2fce7b2ab5eeabbc7f432a3804d7b621f198f3beb2abd2e75a4165560d8f34
+--> 7e2fce7b2ab5
+[1/2] STEP 4/6: COPY services/core services/core
+--> Using cache 8134984db08114b03c05c32db5fc5f99047916bf2cfa00d8ce377b883b30e2bc
+--> 8134984db081
+[1/2] STEP 5/6: COPY apps/console apps/console
+--> Using cache 5881579bac049ef0cfba3a37258e344a3f12f0e4d3b63a2f869afa19a630dd26
+--> 5881579bac04
+[1/2] STEP 6/6: RUN cargo build --release --locked -p starbase-core
+--> Using cache c824717292f5fe88deab8a86e69306f2e0e9fac3dfc1a824d4cc2c6c0b443375
+--> c824717292f5
+[2/2] STEP 1/6: FROM docker.io/library/debian@sha256:6bd27d44e6c32a66bbd72d7cb2b76a8ae3497ec2e5274a81abd1b37f6013fa1f
+Trying to pull docker.io/library/debian@sha256:6bd27d44e6c32a66bbd72d7cb2b76a8ae3497ec2e5274a81abd1b37f6013fa1f...
+Getting image source signatures
+Copying blob sha256:75782e20ea1f4a9d9259bc20a5ecbbea8d5943bf5370bf0f5727900728f1cc9a
+Copying config sha256:32d322b19846336d25f755f73618a448e3621982d52c48064e95af8b3dcbc2d9
+Writing manifest to image destination
+[2/2] STEP 2/6: COPY --from=build /build/target/release/starbase-core /usr/local/bin/starbase-core
+--> Using cache a46380c917384b2920b5fd4758c796e84a0a1ae65dd0d988300278988f26d145
+--> a46380c91738
+[2/2] STEP 3/6: USER 10001:10001
+--> Using cache 31a13db388c9178b04cdfb9b96b62ccc6f76639e98d2c761051ee9b1b31f31fe
+--> 31a13db388c9
+[2/2] STEP 4/6: WORKDIR /tmp
+--> Using cache 5631f909ccc70a06f7e766d14c570d79fabfde0adabf97efbe6896ccf9c368e4
+--> 5631f909ccc7
+[2/2] STEP 5/6: ENTRYPOINT ["/usr/local/bin/starbase-core"]
+--> Using cache a7734c822bb77d675096a8155de25161626dc4645889912c69e7a95cf9419df4
+--> a7734c822bb7
+[2/2] STEP 6/6: LABEL "org.opencontainers.image.revision"="9adc06e09a53b31b6eeb34409a00b92e3935f600"
+[2/2] COMMIT registry.almckay.io/starbase2/core:9adc06e09a53b31b6eeb34409a00b92e3935f600
+--> 30564e8fb5ad
+Successfully tagged registry.almckay.io/starbase2/core:9adc06e09a53b31b6eeb34409a00b92e3935f600
+30564e8fb5ad7e82eb35952542967c2aed4b0117e564099170554c39faa64944
+podman build --platform linux/arm64 --pull=always --label org.opencontainers.image.revision=9adc06e09a53b31b6eeb34409a00b92e3935f600 --file deploy/runtime.Dockerfile --tag registry.almckay.io/starbase2/runtime:9adc06e09a53b31b6eeb34409a00b92e3935f600 --build-arg PYTHON_IMAGE=docker.io/library/python@sha256:3f9c7f75b916e8279e24136d7a57769aba9e193715be52570417698c52d6eed0 --build-arg UV_IMAGE=ghcr.io/astral-sh/uv@sha256:05a3d5587794de1c4077c7d114297256db83ae6f69862596278ad517d7152d3b .
+[1/2] STEP 1/1: FROM ghcr.io/astral-sh/uv@sha256:05a3d5587794de1c4077c7d114297256db83ae6f69862596278ad517d7152d3b AS uv
+Trying to pull ghcr.io/astral-sh/uv@sha256:05a3d5587794de1c4077c7d114297256db83ae6f69862596278ad517d7152d3b...
+Getting image source signatures
+Copying blob sha256:cdc798bc8e104248fc6581f7d4dc66baf87ed825d7b63a353b4b80f39588c6b3
+Copying blob sha256:c38ec07d73da29a5d34a987a93163e9012e6e2278769e1517028dfed8905b9f7
+Copying config sha256:79f90dc238bec1147ed7d44dee9a612b6c0555ce843ea26ba53df7db52298855
+Writing manifest to image destination
+--> 79f90dc238be
+[2/2] STEP 1/14: FROM docker.io/library/python@sha256:3f9c7f75b916e8279e24136d7a57769aba9e193715be52570417698c52d6eed0
+Trying to pull docker.io/library/python@sha256:3f9c7f75b916e8279e24136d7a57769aba9e193715be52570417698c52d6eed0...
+Getting image source signatures
+Copying blob sha256:36f9fc6fa467389200040d9f0da4e4c8bd987443720707bcf0f4cfffe160f95c
+Copying blob sha256:0f5d7465a5bb9d419f60c93d126a161286c73a1ede4a8b2e46bd5e7ad5782cc7
+Copying blob sha256:ae5ebbeec7106e0dd38e0331dbdb17e6aab3210872f193d7fbfd1ce7d0dd5814
+Copying blob sha256:bbe9f07ace1b7d522521b6360647a5fa1ded41a5302afdf20b30a18f942b0a68
+Copying config sha256:5f832b881814761acc99ff0b29e9273cb7277bc4026701423b7cc8fde9bb3d21
+Writing manifest to image destination
+[2/2] STEP 2/14: COPY --from=uv /uv /usr/local/bin/uv
+--> Using cache eb2645fe7aaa908e5cdc5c79dad9e3c12a0f55fa2c645184d1d567f86c744d53
+--> eb2645fe7aaa
+[2/2] STEP 3/14: WORKDIR /app
+--> Using cache e9e532e3195a1a24ebd487f103810a2242660caadcc6df1230322ef509fc93c8
+--> e9e532e3195a
+[2/2] STEP 4/14: ENV UV_PROJECT_ENVIRONMENT=/app/.venv UV_LINK_MODE=copy
+--> Using cache f3d1d3fe60377a12ca11a39b5bf297652a711b4ec7458544e38dd15027da4dd6
+--> f3d1d3fe6037
+[2/2] STEP 5/14: COPY pyproject.toml uv.lock ./
+--> Using cache f54b1d27779f21fb77c8149da7a5901993dcf7799b74abc2c3c3e4207a6eebd3
+--> f54b1d27779f
+[2/2] STEP 6/14: RUN test "$(python --version)" = "Python 3.12.13" && uv --version | grep -Eq '^uv 0\.12\.7( \([^)]*\))?$'
+--> 23a8c9ebb7af
+[2/2] STEP 7/14: RUN uv sync --locked --no-install-project --group dev
+Using CPython 3.12.13 interpreter at: /usr/local/bin/python3
+Creating virtual environment at: .venv
+Resolved 72 packages in 0.54ms
+Downloading openai (1.7MiB)
+Downloading pydantic-ai-slim (1.6MiB)
+Downloading pygments (1.2MiB)
+Downloading pydantic-core (1.9MiB)
+Downloading ty (12.2MiB)
+Downloading numpy (15.0MiB)
+Downloading ruff (9.5MiB)
+Downloading temporalio (13.2MiB)
+ Downloaded pygments
+ Downloaded pydantic-ai-slim
+ Downloaded pydantic-core
+ Downloaded openai
+ Downloaded ruff
+ Downloaded ty
+ Downloaded temporalio
+ Downloaded numpy
+   Building falkordblite==0.5.0
+  × Failed to build `falkordblite==0.5.0`
+  ├─▶ The build backend returned an error
+  ╰─▶ Call to `setuptools.build_meta.build_wheel` failed (exit status: 1)
+
+      [stderr]
+      /root/.cache/uv/builds-v0/.tmpK1zGyF/lib/python3.12/site-packages/wheel/bdist_wheel.py:4:
+      FutureWarning: The 'wheel' package is no longer the canonical location
+      of the 'bdist_wheel' command, and will be removed in a future release.
+      Please update to setuptools v70.1 or later which contains an integrated
+      version of this command.
+        warn(
+      DEBUG:__main__:Building for platform: linux-aarch64
+      /root/.cache/uv/builds-v0/.tmpK1zGyF/lib/python3.12/site-packages/setuptools/dist.py:765:
+      SetuptoolsDeprecationWarning: License classifiers are deprecated.
+      !!
+
+      
+      ********************************************************************************
+              Please consider removing the following classifiers in favor of a
+      SPDX license expression:
+
+              License :: OSI Approved :: BSD License
+
+              See
+      https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license
+      for details.
+      
+      ********************************************************************************
+
+      !!
+        self._finalize_license_expression()
+      INFO:root:running bdist_wheel
+      INFO:root:running build
+      INFO:root:running build_py
+      INFO:root:creating build/lib.linux-aarch64-cpython-312/redislite
+      INFO:root:copying redislite/__init__.py ->
+      build/lib.linux-aarch64-cpython-312/redislite
+      INFO:root:copying redislite/async_client.py ->
+      build/lib.linux-aarch64-cpython-312/redislite
+      INFO:root:copying redislite/async_falkordb_client.py ->
+      build/lib.linux-aarch64-cpython-312/redislite
+      INFO:root:copying redislite/client.py ->
+      build/lib.linux-aarch64-cpython-312/redislite
+      INFO:root:copying redislite/configuration.py ->
+      build/lib.linux-aarch64-cpython-312/redislite
+      INFO:root:copying redislite/debug.py ->
+      build/lib.linux-aarch64-cpython-312/redislite
+      INFO:root:copying redislite/falkordb_client.py ->
+      build/lib.linux-aarch64-cpython-312/redislite
+      INFO:root:copying redislite/patch.py ->
+      build/lib.linux-aarch64-cpython-312/redislite
+      INFO:root:running egg_info
+      INFO:root:writing falkordblite.egg-info/PKG-INFO
+      INFO:root:writing dependency_links to
+      falkordblite.egg-info/dependency_links.txt
+      INFO:root:writing requirements to falkordblite.egg-info/requires.txt
+      INFO:root:writing top-level names to falkordblite.egg-info/top_level.txt
+      INFO:root:reading manifest file 'falkordblite.egg-info/SOURCES.txt'
+      INFO:root:reading manifest template 'MANIFEST.in'
+      WARNING:root:warning: no files found matching
+      'redis.submodule/deps/update-jemalloc.sh'
+      WARNING:root:warning: no files found matching '*' under directory
+      'redislite/bin'
+      WARNING:root:warning: no previously-included files found matching
+      '*dummy.o'
+      INFO:root:adding license file 'LICENSE.txt'
+      INFO:root:writing manifest file 'falkordblite.egg-info/SOURCES.txt'
+      INFO:root:copying redislite/package_metadata.json ->
+      build/lib.linux-aarch64-cpython-312/redislite
+      INFO:root:running build_ext
+      INFO:root:building 'dummy' extension
+      INFO:compilers.C.base:gcc -fno-strict-overflow -Wsign-compare -DNDEBUG
+      -g -O3 -Wall -fPIC -I/root/.cache/uv/builds-v0/.tmpK1zGyF/include
+      -I/usr/local/include/python3.12 -c src/dummy.c -o
+      build/temp.linux-aarch64-cpython-312/src/dummy.o
+      error: [Errno 2] No such file or directory: 'gcc'
+
+
+hint: `falkordblite` (v0.5.0) was included because `starbase-runtime:dev` (v0.1.0) depends on `falkordblite`
+hint: Build failures usually indicate a problem with the package or the build environment
+Error: building at STEP "RUN uv sync --locked --no-install-project --group dev": while running runtime: exit status 1
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/al/git/Starbase2/scripts/deployment/build.py", line 64, in <module>
+    main()
+  File "/Users/al/git/Starbase2/scripts/deployment/build.py", line 56, in main
+    subprocess.run(command, cwd=ROOT, check=True, timeout=1800)
+  File "/Users/al/.local/share/mise/installs/python/3.12.13/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['podman', 'build', '--platform', 'linux/arm64', '--pull=always', '--label', 'org.opencontainers.image.revision=9adc06e09a53b31b6eeb34409a00b92e3935f600', '--file', 'deploy/runtime.Dockerfile', '--tag', 'registry.almckay.io/starbase2/runtime:9adc06e09a53b31b6eeb34409a00b92e3935f600', '--build-arg', 'PYTHON_IMAGE=docker.io/library/python@sha256:3f9c7f75b916e8279e24136d7a57769aba9e193715be52570417698c52d6eed0', '--build-arg', 'UV_IMAGE=ghcr.io/astral-sh/uv@sha256:05a3d5587794de1c4077c7d114297256db83ae6f69862596278ad517d7152d3b', '.']' returned non-zero exit status 1.
+error: recipe `deployment-build` failed on line 115 with exit code 1

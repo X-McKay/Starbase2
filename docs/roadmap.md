@@ -170,8 +170,9 @@ The [setup, rollback, recovery and teardown playbook](deployment.md) prepares a 
 PostgreSQL-backed installation. Local SQLite and local Temporal histories are
 development-only and are not imported. The private deployment bundle starts
 stopped, with provider inference, legacy fixture API and unqualified sandbox
-repairs disabled. Cluster/image qualification and platform backup restoration
-remain required before activation; no Kubani deployment has been performed.
+repairs disabled. Local arm64 image qualification is complete; target cluster
+qualification and platform backup restoration remain required before activation.
+No Kubani deployment has been performed.
 
 ## Read-only field crew and memory
 
@@ -210,9 +211,10 @@ assistant with Al reviewing art. Fifty distinct character textures remain unmeas
 `just check-world-export` validates the actual unsigned macOS archive outside the
 checkout and retains an artifact manifest and native captures. Development test
 and import scripts are excluded; catalog JSON is explicitly included. Editor
-checks alone do not qualify an export. The remaining release owner tasks are to
-review/freeze the uncommitted application, build and qualify immutable Linux Core
-and worker images, record registry digests and the explicit Kubani target, and
-review activation through Kubani GitOps. No cluster deployment is implied by a
+checks alone do not qualify an export. The application is now committed and the
+Linux arm64 Core/worker images passed [local release qualification](../evidence/linux-release/README.md).
+The remaining release owner tasks are authorized publication, registry digest
+recording, explicit Kubani target verification, and activation through Kubani
+GitOps. Native amd64 qualification remains required for an amd64 target. No cluster deployment is implied by a
 passing local UI archive. Other crew’s animation and 50-texture performance remain
 separate art/performance work with the existing owner and native review gate.
