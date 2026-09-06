@@ -352,6 +352,16 @@ def main(images=None) -> None:
             },
         )
         request("/v2/runs/" + cancel_id + "/cancel", {})
+        queued_id = run_id + "-queued"
+        queued_input = {
+            "id": queued_id,
+            "kind": "review",
+            "target": "sample",
+            "profile": "surveyor-v2",
+            "inference": False,
+        }
+        request("/v2/runs", queued_input)
+        request("/v2/runs", queued_input)
         time.sleep(5.5)
         assert not request("/v2/snapshot")["worker"]["available"]
         worker = start(
@@ -365,7 +375,14 @@ def main(images=None) -> None:
                 raise RuntimeError("Cancelled work failed to reconcile after restart")
             time.sleep(0.3)
         assert request("/v2/runs/" + cancel_id)["report"] is None
+        deadline = time.monotonic() + 45
+        while request("/v2/runs/" + queued_id)["state"] != "completed":
+            if time.monotonic() > deadline:
+                raise RuntimeError("Queued review failed to resume after worker restart")
+            time.sleep(0.3)
+        assert request("/v2/snapshot")["worker"]["available"]
         record("worker loss becomes stale; restart reconciles cancellation without executing work")
+        record("duplicate queued intent completes after worker restart")
         for path, body in (
             ("/v1/missions", {}),
             ("/v3/repairs", {"id": "disabled", "scenario": "sum-positive", "mode": "fixture"}),

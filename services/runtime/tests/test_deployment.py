@@ -295,3 +295,40 @@ def test_image_qualification_rejects_wrong_architecture_or_revision():
         verify_image(info, "amd64", "a" * 40)
     with pytest.raises(ValueError, match="revision"):
         verify_image(info, "arm64", "b" * 40)
+
+
+def test_image_driver_does_not_forward_ambient_secrets_or_worker_db(tmp_path, monkeypatch):
+    from scripts.deployment.image_rehearsal import ImageRuntime
+
+    inputs = tmp_path / "inputs.json"
+    inputs.write_text(
+        json.dumps(
+            {
+                "platform": "linux/arm64",
+                "revision": "a" * 40,
+                "core": "sha256:" + "b" * 64,
+                "runtime": "sha256:" + "c" * 64,
+                "temporal": "registry.test/temporal@sha256:" + "d" * 64,
+            }
+        )
+    )
+    driver = ImageRuntime(inputs, tmp_path / "output")
+    token = tmp_path / "token"
+    token.write_text("synthetic")
+    monkeypatch.setattr(driver, "secret", lambda value: "synthetic-secret")
+    command, _ = driver.command(
+        ["python", "-m", "starbase_runtime.worker", "worker"],
+        {
+            "STARBASE_TOKEN_FILE": str(token),
+            "STARBASE_DATABASE_URL_FILE": "/must/not/read",
+            "STARBASE_API_KEY": "must-not-forward",
+            "OTHER_SECRET": "must-not-forward",
+            "STARBASE_REPAIRS_ENABLED": "false",
+        },
+    )
+    content = next(driver.output.glob("*.env")).read_text()
+    assert "must-not-forward" not in content
+    assert "DATABASE" not in content
+    assert "STARBASE_API_KEY" not in content
+    assert "STARBASE_REPAIRS_ENABLED=false" in content
+    assert sum(arg == "--secret" for arg in command) == 1

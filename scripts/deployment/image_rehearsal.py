@@ -189,7 +189,21 @@ socketserver.ThreadingTCPServer(('0.0.0.0', 18887), Forward).serve_forever()
             "--tmpfs",
             "/tmp:rw,size=256m,mode=1777",
         ]
-        values = {k: v for k, v in env.items() if k.startswith("STARBASE_")}
+        allowed = {
+            "STARBASE_ENV",
+            "STARBASE_INSTALLATION",
+            "STARBASE_TOKEN_FILE",
+            "STARBASE_DATABASE_URL_FILE",
+            "STARBASE_TEMPORAL_NAMESPACE",
+            "STARBASE_TEMPORAL_QUEUE",
+            "STARBASE_REPAIRS_ENABLED",
+            "STARBASE_LEGACY_ENABLED",
+            "STARBASE_FIELD_ENABLED",
+            "STARBASE_MEMORY_ENABLED",
+            "STARBASE_INFERENCE_ENABLED",
+            "STARBASE_ACCEPT_WORK",
+        }
+        values = {k: v for k, v in env.items() if k in allowed}
         # Model the production localhost pod, with private host ports only for the test driver.
         values.update(
             STARBASE_PORT="8787",
@@ -305,8 +319,31 @@ def main():
     try:
         driver.prepare()
         rehearse.main(driver)
+    except Exception as error:
+        path = driver.output / "report.json"
+        report = json.loads(path.read_text()) if path.exists() else {}
+        report.update(
+            status="failed",
+            error=type(error).__name__,
+            images=driver.images,
+            provenance=driver.provenance,
+            container_stops=driver.stops,
+        )
+        path.write_text(json.dumps(report, indent=2) + "\n")
+        raise
     finally:
-        driver.close()
+        path = driver.output / "report.json"
+        try:
+            driver.close()
+        except Exception:
+            report = json.loads(path.read_text()) if path.exists() else {}
+            report.update(status="failed", cleanup="failed")
+            path.write_text(json.dumps(report, indent=2) + "\n")
+            raise
+        if path.exists():
+            report = json.loads(path.read_text())
+            report["cleanup"] = "owned pod and secrets removed"
+            path.write_text(json.dumps(report, indent=2) + "\n")
 
 
 if __name__ == "__main__":
