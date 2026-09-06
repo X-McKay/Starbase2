@@ -15,6 +15,7 @@ from pathlib import Path
 
 from . import rehearse
 from .local_db import DIGESTS
+from .render import ROOT
 
 
 def verify_image(info: dict, architecture: str, revision: str | None = None) -> None:
@@ -49,8 +50,17 @@ class ImageRuntime:
         self.created = False
         self.secrets: dict[str, str] = {}
         self.children: dict[int, str] = {}
+        self.kinds: dict[int, str] = {}
+        self.stops: list[dict] = []
         self.counter = 0
         self.images = {}
+        self.provenance = {
+            "inputs_sha256": hashlib.sha256(inputs.read_bytes()).hexdigest(),
+            "harness_sources": {
+                str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
+                for p in sorted((ROOT / "scripts/deployment").glob("*.py"))
+            },
+        }
 
     def call(self, *args, **kwargs):
         return subprocess.run(
@@ -213,12 +223,31 @@ socketserver.ThreadingTCPServer(('0.0.0.0', 18887), Forward).serve_forever()
         command, name = self.command(args, env)
         child = subprocess.Popen(command, stdout=log, stderr=log, start_new_session=True)
         self.children[child.pid] = name
+        self.kinds[child.pid] = (
+            "temporal"
+            if Path(args[0]).name == "temporal"
+            else "runtime"
+            if "starbase_runtime.worker" in args
+            else "core"
+        )
         return child
 
     def stop(self, child):
+        was_running = child.poll() is None
+        started = time.monotonic()
         if child.poll() is None:
-            self.call("stop", "--time", "60", self.children[child.pid])
-        child.wait(timeout=75)
+            self.call("stop", "--time", "10", self.children[child.pid])
+        result = child.wait(timeout=20)
+        if was_running:
+            self.stops.append(
+                {
+                    "kind": self.kinds[child.pid],
+                    "exit_code": result,
+                    "seconds": round(time.monotonic() - started, 3),
+                }
+            )
+            if self.kinds[child.pid] != "temporal" and result != 0:
+                raise RuntimeError("Application container did not stop gracefully")
 
     def health(self, core, worker):
         self.call("exec", self.children[core.pid], "starbase-core", "--healthcheck")

@@ -131,7 +131,24 @@ async fn main() {
         .await
         .expect("bind loopback");
     println!("Starbase2 local core: http://127.0.0.1:{port}");
-    axum::serve(listener, app).await.unwrap();
+    axum::serve(listener, app)
+        .with_graceful_shutdown(shutdown_signal())
+        .await
+        .unwrap();
+}
+async fn shutdown_signal() {
+    #[cfg(unix)]
+    {
+        let mut terminate =
+            tokio::signal::unix::signal(tokio::signal::unix::SignalKind::terminate())
+                .expect("install SIGTERM handler");
+        tokio::select! {
+            _ = terminate.recv() => {},
+            result = tokio::signal::ctrl_c() => result.expect("SIGINT handler"),
+        }
+    }
+    #[cfg(not(unix))]
+    tokio::signal::ctrl_c().await.expect("shutdown handler");
 }
 async fn snapshot(State(app): State<App>) -> ApiResult<starbase_core::model::Snapshot> {
     app.lock().unwrap().snapshot().map(Json).map_err(err)

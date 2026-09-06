@@ -455,6 +455,8 @@ def main(images=None) -> None:
                     "images": images.images if images else None,
                     "source_revision": images.data["revision"] if images else None,
                     "platform": images.data["platform"] if images else None,
+                    "provenance": images.provenance if images else None,
+                    "container_stops": images.stops if images else None,
                     "dump_sha256": hashlib.sha256(dump).hexdigest(),
                     "checks": events,
                 },
