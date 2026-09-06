@@ -26,6 +26,7 @@ def load(path: Path) -> dict:
         "core_image",
         "runtime_image",
         "source_revision",
+        "platform",
         "replicas",
         "accept_work",
     }
@@ -50,6 +51,8 @@ def load(path: Path) -> dict:
             raise ValueError(f"{key} requires an immutable published digest")
     if not re.fullmatch(r"[a-f0-9]{40}", c["source_revision"]):
         raise ValueError("source_revision requires a committed revision")
+    if c["platform"] not in {"linux/amd64", "linux/arm64"}:
+        raise ValueError("platform must match a qualified Linux image architecture")
     if not c["context"] or "REPLACE" in c["context"]:
         raise ValueError("An explicit verified Kubernetes context is required")
     if type(c["retention_days"]) is not int or not 1 <= c["retention_days"] <= 90:
@@ -164,6 +167,10 @@ def objects(c: dict) -> list[dict]:
         },
     }
     pod = {
+        "nodeSelector": {
+            "kubernetes.io/os": "linux",
+            "kubernetes.io/arch": c["platform"].split("/")[1],
+        },
         "serviceAccountName": "starbase2",
         "automountServiceAccountToken": False,
         "securityContext": {

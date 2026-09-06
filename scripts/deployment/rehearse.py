@@ -25,9 +25,13 @@ DB = "starbase2_rehearsal"
 CONTAINER = "starbase2-deploy-rehearsal"
 
 
-def main() -> None:
+def main(images=None) -> None:
+    global LOCAL, CONTAINER
+    if images is not None:
+        LOCAL = images.output
+        CONTAINER = images.database
     LOCAL.mkdir(parents=True, exist_ok=True)
-    report = ROOT / "evidence/deployment-rehearsal.json"
+    report = LOCAL / "report.json" if images else ROOT / "evidence/deployment-rehearsal.json"
     if report.exists():
         history = ROOT / "evidence/deployment-rehearsal-history"
         history.mkdir(exist_ok=True)
@@ -37,10 +41,13 @@ def main() -> None:
     logs = []
     engine = shutil.which("podman") or "/opt/homebrew/opt/podman/bin/podman"
     # Explicit private, disposable container; no discovered cluster connection.
-    inspected = json.loads(subprocess.check_output([engine, "inspect", CONTAINER], text=True))[0]
-    bindings = inspected["HostConfig"]["PortBindings"]["5432/tcp"]
-    if bindings != [{"HostIp": "127.0.0.1", "HostPort": "55439"}]:
-        raise ValueError("Unexpected test database network boundary")
+    if images is None:
+        inspected = json.loads(subprocess.check_output([engine, "inspect", CONTAINER], text=True))[
+            0
+        ]
+        bindings = inspected["HostConfig"]["PortBindings"]["5432/tcp"]
+        if bindings != [{"HostIp": "127.0.0.1", "HostPort": "55439"}]:
+            raise ValueError("Unexpected test database network boundary")
     c = json.loads((ROOT / "deploy/production.example.json").read_text())
     c.update(
         installation="starbase2-rehearsal",
@@ -93,6 +100,9 @@ def main() -> None:
         "STARBASE_ENV": "production",
         "STARBASE_REPAIRS_ENABLED": "false",
         "STARBASE_LEGACY_ENABLED": "false",
+        "STARBASE_FIELD_ENABLED": "false",
+        "STARBASE_MEMORY_ENABLED": "false",
+        "STARBASE_INSTALLATION": c["installation"],
         "STARBASE_INFERENCE_ENABLED": "false",
         "STARBASE_ACCEPT_WORK": "true",
         "STARBASE_TEMPORAL": "127.0.0.1:17239",
@@ -110,13 +120,25 @@ def main() -> None:
     def start(name, args, env):
         log = (LOCAL / (name + ".log")).open("w")
         logs.append(log)
-        child = subprocess.Popen(
-            args, cwd=ROOT, env=env, stdout=log, stderr=log, start_new_session=True
+        child = (
+            images.start(args, env, log)
+            if images
+            else subprocess.Popen(
+                args, cwd=ROOT, env=env, stdout=log, stderr=log, start_new_session=True
+            )
         )
         processes.append(child)
         return child
 
+    def run_command(args, env, **kwargs):
+        return (
+            images.run(args, env, **kwargs) if images else subprocess.run(args, env=env, **kwargs)
+        )
+
     def stop(child):
+        if images:
+            images.stop(child)
+            return
         if child.poll() is None:
             os.killpg(child.pid, signal.SIGTERM)
             child.wait(timeout=75)
@@ -146,13 +168,13 @@ def main() -> None:
         database.provision(c, data, "admin")
         record("fresh database/roles provisioned; identical provisioning is idempotent")
         url_file.write_text(owner_url)
-        subprocess.run(
+        run_command(
             [str(ROOT / "target/debug/starbase-core"), "--migrate"],
             env=base,
             check=True,
             timeout=30,
         )
-        subprocess.run(
+        run_command(
             [str(ROOT / "target/debug/starbase-core"), "--migrate"],
             env=base,
             check=True,
@@ -228,7 +250,7 @@ def main() -> None:
         asyncio.run(provision_temporal())
         record("dedicated Temporal namespace create, ownership and retention verification")
         core_process = core()
-        competitor = subprocess.run(
+        competitor = run_command(
             [str(ROOT / "target/debug/starbase-core"), "--migrate"],
             env=base,
             capture_output=True,
@@ -281,6 +303,66 @@ def main() -> None:
         assert run["state"] == "completed", run["detail"]
         before = run["report"]
         record("real Temporal review retained in PostgreSQL through runtime role")
+        if images:
+            images.health(core_process, worker)
+            record("image probes, non-root/read-only execution and worker database isolation")
+        # Exercise both verdicts, and replay with the implementation inside the release image.
+        for profile, outcome in (("surveyor-v2", "improved"), ("surveyor-regressed", "regressed")):
+            evaluation_id = run_id + "-" + outcome
+            request(
+                "/v2/runs",
+                {
+                    "id": evaluation_id,
+                    "kind": "evaluation",
+                    "target": "sample",
+                    "profile": "surveyor-v1",
+                    "candidate": profile,
+                    "inference": False,
+                },
+            )
+            deadline = time.monotonic() + 90
+            while True:
+                evaluated = request("/v2/runs/" + evaluation_id)
+                if evaluated["state"] in {"completed", "failed", "cancelled"}:
+                    break
+                if time.monotonic() > deadline:
+                    raise RuntimeError("Image evaluation did not complete")
+                time.sleep(0.3)
+            assert evaluated["state"] == "completed", evaluated["detail"]
+            assert evaluated["report"]["summary"]["outcome"] == outcome
+            assert len(evaluated["report"]["evidence"]["trials"]) == 12
+            (LOCAL / (outcome + ".json")).write_text(json.dumps(evaluated, indent=2) + "\n")
+        record("paired evaluation distinguishes improvement and regression with 12 trials each")
+        if images:
+            images.replay(worker, [run_id, run_id + "-improved", run_id + "-regressed"])
+            record("completed Temporal histories replay with the exact release worker image")
+        stop(worker)
+        cancel_id = run_id + "-cancel"
+        request(
+            "/v2/runs",
+            {
+                "id": cancel_id,
+                "kind": "review",
+                "target": "sample",
+                "profile": "surveyor-v2",
+                "inference": False,
+            },
+        )
+        request("/v2/runs/" + cancel_id + "/cancel", {})
+        time.sleep(5.5)
+        assert not request("/v2/snapshot")["worker"]["available"]
+        worker = start(
+            "worker-restarted",
+            [str(ROOT / ".venv/bin/python"), "-m", "starbase_runtime.worker", "worker"],
+            base,
+        )
+        deadline = time.monotonic() + 30
+        while request("/v2/runs/" + cancel_id)["state"] != "cancelled":
+            if time.monotonic() > deadline:
+                raise RuntimeError("Cancelled work failed to reconcile after restart")
+            time.sleep(0.3)
+        assert request("/v2/runs/" + cancel_id)["report"] is None
+        record("worker loss becomes stale; restart reconciles cancellation without executing work")
         for path, body in (
             ("/v1/missions", {}),
             ("/v3/repairs", {"id": "disabled", "scenario": "sum-positive", "mode": "fixture"}),
@@ -361,10 +443,15 @@ def main() -> None:
                 {
                     "status": "passed",
                     "postgres_version": version,
-                    "temporal_cli": "1.8.3",
+                    "temporal_cli": "pinned image" if images else "1.8.3",
                     "scope": (
-                        "local PostgreSQL and Temporal; no Kubernetes deployment or image build"
+                        "local Linux images; no registry publish or Kubernetes deployment"
+                        if images
+                        else "local PostgreSQL/Temporal; no Kubernetes deployment or image build"
                     ),
+                    "images": images.images if images else None,
+                    "source_revision": images.data["revision"] if images else None,
+                    "platform": images.data["platform"] if images else None,
                     "dump_sha256": hashlib.sha256(dump).hexdigest(),
                     "checks": events,
                 },

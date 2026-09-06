@@ -6,7 +6,7 @@ COPY --from=uv /uv /usr/local/bin/uv
 WORKDIR /app
 ENV UV_PROJECT_ENVIRONMENT=/app/.venv UV_LINK_MODE=copy
 COPY pyproject.toml uv.lock ./
-RUN test "$(python --version)" = "Python 3.12.13" && test "$(uv --version)" = "uv 0.12.7"
+RUN test "$(python --version)" = "Python 3.12.13" && uv --version | grep -Eq '^uv 0\.12\.7( \([^)]*\))?$'
 RUN uv sync --locked --no-install-project --group dev
 COPY services/runtime services/runtime
 COPY services/core/src services/core/src

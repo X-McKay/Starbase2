@@ -13,6 +13,7 @@
   "core_image": "registry.almckay.io/starbase2/core@sha256:REPLACE_WITH_PUBLISHED_DIGEST",
   "runtime_image": "registry.almckay.io/starbase2/runtime@sha256:REPLACE_WITH_PUBLISHED_DIGEST",
   "source_revision": "REPLACE_WITH_COMMITTED_40_HEX_REVISION",
+  "platform": "linux/amd64",
   "replicas": 0,
   "accept_work": false
 }

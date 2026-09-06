@@ -33,6 +33,8 @@ def config(tmp_path):
         ("retention_days", 0),
         ("core_image", "registry.test/core:latest"),
         ("source_revision", "main"),
+        ("platform", "linux/386"),
+        ("platform", "darwin/arm64"),
     ],
 )
 def test_unsafe_targets_fail_before_execution(config, tmp_path, key, value):
@@ -266,3 +268,30 @@ def test_permanent_namespace_cleanup_refuses_foreign_resources(config, monkeypat
     monkeypatch.setattr(cli, "kubectl", fake)
     with pytest.raises(ValueError, match="Unowned"):
         cli.purge_kubernetes(config)
+
+
+@pytest.mark.parametrize("platform", ["linux/amd64", "linux/arm64"])
+def test_application_and_migration_schedule_only_on_qualified_architecture(config, platform):
+    config["platform"] = platform
+    resources = render.objects(config)
+    for obj in resources:
+        if obj["kind"] in {"Deployment", "Job"}:
+            assert obj["spec"]["template"]["spec"]["nodeSelector"] == {
+                "kubernetes.io/os": "linux",
+                "kubernetes.io/arch": platform.split("/")[1],
+            }
+
+
+def test_image_qualification_rejects_wrong_architecture_or_revision():
+    from scripts.deployment.image_rehearsal import verify_image
+
+    info = {
+        "Os": "linux",
+        "Architecture": "arm64",
+        "Config": {"Labels": {"org.opencontainers.image.revision": "a" * 40}},
+    }
+    verify_image(info, "arm64", "a" * 40)
+    with pytest.raises(ValueError, match="architecture"):
+        verify_image(info, "amd64", "a" * 40)
+    with pytest.raises(ValueError, match="revision"):
+        verify_image(info, "arm64", "b" * 40)

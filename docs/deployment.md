@@ -425,3 +425,34 @@ proposals/reviews and duties. Revoking memory prevents future recall without
 rewriting old evidence. Graphs can be rebuilt from approved SQL records; cleanup
 must select this installation's graph names, not flush a shared service. Keep
 field work and memory disabled during restore reconciliation, as with other work.
+
+### Exact Linux image rehearsal
+
+`just deployment-qualify-images INPUTS NEW_OUTPUT_DIRECTORY` runs the existing
+fresh PostgreSQL/Temporal provisioning and recovery rehearsal against local
+Core and worker images in a new disposable Podman pod. It never uses kubeconfig,
+publishes images, or adopts an existing container. Ports 18887 and 17239 must be
+free; only loopback is published. Temporary database authentication is deliberately
+trust-based inside this isolated pod; this does not qualify production database
+or Temporal authentication. Synthetic worker credentials are separate Podman
+secrets, and the worker receives no database secret.
+
+Inputs are JSON with `platform` (`linux/arm64` or `linux/amd64`), `revision` (the
+committed 40-character source revision), `core` and `runtime` (each an exact local
+`sha256:` image ID), and `temporal` (an immutable registry digest). PostgreSQL
+18.3 uses the platform-specific pinned digest in the test database helper.
+Dependency images must already be available locally. The command checks image
+architecture and source labels before creating resources. The Core and worker
+run as UID 10001 with read-only roots and all capabilities dropped. The output
+retains private logs, synthetic evaluation reports and Temporal histories; inspect
+and sanitize these before promoting evidence into Git. Unique resources created
+by the command are removed after success or failure; no shared service is stopped.
+
+The production configuration now requires `platform`. Both the application and
+migration pod select that Linux architecture explicitly. Qualifying one
+architecture does not qualify another, and local image IDs are not published
+registry digests. The first amd64 attempt on the local arm64 VM failed when QEMU
+crashed running `rustc -vV`; retain that failure and use a native amd64 builder
+before claiming amd64 readiness. The native arm64 build also exposed uv's valid
+platform suffix in `--version`; the release check accepts that suffix while
+still requiring exactly version 0.12.7.

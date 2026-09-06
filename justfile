@@ -127,6 +127,10 @@ test-postgres:
 deployment-rehearse: build
     .venv/bin/python -m scripts.deployment.rehearse
 
+# Exact local Linux images in a disposable pod; output must be a new directory.
+deployment-qualify-images inputs output:
+    .venv/bin/python -m scripts.deployment.image_rehearsal {{inputs}} {{output}}
+
 deployment-test-db-stop:
     .venv/bin/python -m scripts.deployment.local_db stop
 
