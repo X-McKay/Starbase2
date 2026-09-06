@@ -1,0 +1,51 @@
+[
+  {
+    "event": "worker_and_temporal_interrupted",
+    "seconds": 2.832,
+    "workflow_run_id": "01a0719c-122e-7111-af3c-2db93b370b7e"
+  },
+  {
+    "event": "recovered_and_replayed",
+    "seconds": 9.87,
+    "outcome": "improved",
+    "baseline_attempts": 2
+  },
+  {
+    "event": "regression",
+    "seconds": 11.585,
+    "outcome": "regressed"
+  },
+  {
+    "event": "unchanged",
+    "seconds": 13.641,
+    "outcome": "no_change"
+  },
+  {
+    "event": "cancelled_without_credit",
+    "seconds": 16.753,
+    "state": "cancelled"
+  },
+  {
+    "event": "ai-clamp",
+    "seconds": 23.023,
+    "outcome": "improved",
+    "xp": 25
+  },
+  {
+    "event": "ai-dedupe",
+    "seconds": 27.173,
+    "outcome": "improved",
+    "xp": 25
+  },
+  {
+    "event": "ai-repeat",
+    "seconds": 30.98,
+    "outcome": "improved",
+    "xp": 0
+  },
+  {
+    "event": "core_restart_retained_ledger",
+    "seconds": 31.024,
+    "xp": 50
+  }
+]

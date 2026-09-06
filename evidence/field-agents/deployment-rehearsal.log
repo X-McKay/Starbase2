@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/al/git/Starbase2/scripts/deployment/rehearse.py", line 20, in <module>
+    from . import database, render, temporal
+  File "/Users/al/git/Starbase2/scripts/deployment/temporal.py", line 8, in <module>
+    from starbase_runtime.connection import connect
+ModuleNotFoundError: No module named 'starbase_runtime'

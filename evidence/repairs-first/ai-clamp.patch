@@ -1,0 +1,7 @@
+--- a/solution.py
++++ b/solution.py
+@@ -1,2 +1,2 @@
+-def transform(value):
+-    return min(value, 100)
++def transform(value):
++    return max(0, min(value, 100))

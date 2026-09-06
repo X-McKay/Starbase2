@@ -1,0 +1,13 @@
+--- a/solution.py
++++ b/solution.py
+@@ -1,2 +1,8 @@
+-def transform(value):
+-    return sorted(set(value))
++def transform(value):
++    seen = set()
++    result = []
++    for item in value:
++        if item not in seen:
++            seen.add(item)
++            result.append(item)
++    return result

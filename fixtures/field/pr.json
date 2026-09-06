@@ -1,0 +1,20 @@
+{
+  "kind": "pr",
+  "simulation": true,
+  "repository": "training/example",
+  "number": 1,
+  "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "coverage": [],
+  "files": [
+    {
+      "path": "handler.py",
+      "sha256": "fixture",
+      "source": "def parse(value):\n    return eval(value)\n",
+      "added_lines": [
+        1,
+        2
+      ]
+    }
+  ]
+}

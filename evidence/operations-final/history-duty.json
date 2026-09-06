@@ -1,0 +1,340 @@
+{
+  "events": [
+    {
+      "eventId": "1",
+      "eventTime": "2026-09-05T09:24:52.069663Z",
+      "eventType": "EVENT_TYPE_WORKFLOW_EXECUTION_STARTED",
+      "taskId": "1048810",
+      "workflowExecutionStartedEventAttributes": {
+        "workflowType": {
+          "name": "RecurringReviewV2"
+        },
+        "taskQueue": {
+          "name": "starbase2-local-v1",
+          "kind": "TASK_QUEUE_KIND_NORMAL"
+        },
+        "input": {
+          "payloads": [
+            {
+              "metadata": {
+                "encoding": "anNvbi9wbGFpbg=="
+              },
+              "data": "eyJlbmFibGVkIjp0cnVlLCJnZW5lcmF0aW9uIjoxLCJpZCI6IndhdGNoIiwiaW50ZXJ2YWxfc2Vjb25kcyI6MzAsInByb2ZpbGUiOiJzdXJ2ZXlvci12MiIsInRhcmdldCI6InNhbXBsZSJ9"
+            }
+          ]
+        },
+        "workflowTaskTimeout": "10s",
+        "originalExecutionRunId": "01a070e2-92e5-7a1d-b35a-45b67aab1c02",
+        "identity": "59036@alair",
+        "firstExecutionRunId": "01a070e2-92e5-7a1d-b35a-45b67aab1c02",
+        "attempt": 1,
+        "firstWorkflowTaskBackoff": "0s",
+        "memo": {
+          "fields": {
+            "generation": {
+              "metadata": {
+                "encoding": "anNvbi9wbGFpbg=="
+              },
+              "data": "MQ=="
+            }
+          }
+        },
+        "workflowId": "starbase2-duty-watch",
+        "priority": {}
+      }
+    },
+    {
+      "eventId": "2",
+      "eventTime": "2026-09-05T09:24:52.069724Z",
+      "eventType": "EVENT_TYPE_WORKFLOW_TASK_SCHEDULED",
+      "taskId": "1048811",
+      "workflowTaskScheduledEventAttributes": {
+        "taskQueue": {
+          "name": "starbase2-local-v1",
+          "kind": "TASK_QUEUE_KIND_NORMAL"
+        },
+        "startToCloseTimeout": "10s",
+        "attempt": 1
+      }
+    },
+    {
+      "eventId": "3",
+      "eventTime": "2026-09-05T09:24:52.074359Z",
+      "eventType": "EVENT_TYPE_WORKFLOW_TASK_STARTED",
+      "taskId": "1048816",
+      "workflowTaskStartedEventAttributes": {
+        "scheduledEventId": "2",
+        "identity": "59036@alair",
+        "requestId": "139767cd-128f-4402-875d-7f073d1da733",
+        "historySizeBytes": "439",
+        "workerVersion": {
+          "buildId": "4159d5f03854f3ee9be274e2371bd804"
+        }
+      }
+    },
+    {
+      "eventId": "4",
+      "eventTime": "2026-09-05T09:25:02.077968Z",
+      "eventType": "EVENT_TYPE_WORKFLOW_TASK_TIMED_OUT",
+      "taskId": "2097161",
+      "workflowTaskTimedOutEventAttributes": {
+        "scheduledEventId": "2",
+        "startedEventId": "3",
+        "timeoutType": "TIMEOUT_TYPE_START_TO_CLOSE"
+      }
+    },
+    {
+      "eventId": "5",
+      "eventTime": "2026-09-05T09:25:02.077995Z",
+      "eventType": "EVENT_TYPE_WORKFLOW_TASK_SCHEDULED",
+      "taskId": "2097166",
+      "workflowTaskScheduledEventAttributes": {
+        "taskQueue": {
+          "name": "starbase2-local-v1",
+          "kind": "TASK_QUEUE_KIND_NORMAL"
+        },
+        "startToCloseTimeout": "10s",
+        "attempt": 2
+      }
+    },
+    {
+      "eventId": "6",
+      "eventTime": "2026-09-05T09:25:02.082501Z",
+      "eventType": "EVENT_TYPE_WORKFLOW_TASK_STARTED",
+      "taskId": "2097167",
+      "workflowTaskStartedEventAttributes": {
+        "scheduledEventId": "5",
+        "identity": "59042@alair",
+        "requestId": "91520d2a-0f5f-4735-b532-bd598272aa54",
+        "historySizeBytes": "588",
+        "workerVersion": {
+          "buildId": "4159d5f03854f3ee9be274e2371bd804"
+        }
+      }
+    },
+    {
+      "eventId": "7",
+      "eventTime": "2026-09-05T09:25:02.091506Z",
+      "eventType": "EVENT_TYPE_WORKFLOW_TASK_COMPLETED",
+      "taskId": "2097168",
+      "workflowTaskCompletedEventAttributes": {
+        "scheduledEventId": "5",
+        "startedEventId": "6",
+        "identity": "59042@alair",
+        "workerVersion": {
+          "buildId": "4159d5f03854f3ee9be274e2371bd804"
+        },
+        "sdkMetadata": {
+          "coreUsedFlags": [
+            1,
+            3,
+            2
+          ],
+          "sdkName": "temporal-python",
+          "sdkVersion": "1.32.0"
+        },
+        "meteringMetadata": {}
+      }
+    },
+    {
+      "eventId": "8",
+      "eventTime": "2026-09-05T09:25:02.091586Z",
+      "eventType": "EVENT_TYPE_TIMER_STARTED",
+      "taskId": "2097169",
+      "timerStartedEventAttributes": {
+        "timerId": "1",
+        "startToFireTimeout": "30s",
+        "workflowTaskCompletedEventId": "7"
+      }
+    },
+    {
+      "eventId": "9",
+      "eventTime": "2026-09-05T09:25:32.094864Z",
+      "eventType": "EVENT_TYPE_TIMER_FIRED",
+      "taskId": "2097174",
+      "timerFiredEventAttributes": {
+        "timerId": "1",
+        "startedEventId": "8"
+      }
+    },
+    {
+      "eventId": "10",
+      "eventTime": "2026-09-05T09:25:32.094875Z",
+      "eventType": "EVENT_TYPE_WORKFLOW_TASK_SCHEDULED",
+      "taskId": "2097175",
+      "workflowTaskScheduledEventAttributes": {
+        "taskQueue": {
+          "name": "59042@alair-f82396332fc54514a3339e402bdfc252",
+          "kind": "TASK_QUEUE_KIND_STICKY",
+          "normalName": "starbase2-local-v1"
+        },
+        "startToCloseTimeout": "10s",
+        "attempt": 1
+      }
+    },
+    {
+      "eventId": "11",
+      "eventTime": "2026-09-05T09:25:32.098657Z",
+      "eventType": "EVENT_TYPE_WORKFLOW_TASK_STARTED",
+      "taskId": "2097179",
+      "workflowTaskStartedEventAttributes": {
+        "scheduledEventId": "10",
+        "identity": "59042@alair",
+        "requestId": "2dec70c2-d225-465f-a48e-0cfdcf0d5091",
+        "historySizeBytes": "1045",
+        "workerVersion": {
+          "buildId": "4159d5f03854f3ee9be274e2371bd804"
+        }
+      }
+    },
+    {
+      "eventId": "12",
+      "eventTime": "2026-09-05T09:25:32.103924Z",
+      "eventType": "EVENT_TYPE_WORKFLOW_TASK_COMPLETED",
+      "taskId": "2097183",
+      "workflowTaskCompletedEventAttributes": {
+        "scheduledEventId": "10",
+        "startedEventId": "11",
+        "identity": "59042@alair",
+        "workerVersion": {
+          "buildId": "4159d5f03854f3ee9be274e2371bd804"
+        },
+        "sdkMetadata": {},
+        "meteringMetadata": {}
+      }
+    },
+    {
+      "eventId": "13",
+      "eventTime": "2026-09-05T09:25:32.103982Z",
+      "eventType": "EVENT_TYPE_ACTIVITY_TASK_SCHEDULED",
+      "taskId": "2097184",
+      "activityTaskScheduledEventAttributes": {
+        "activityId": "1",
+        "activityType": {
+          "name": "duty_tick"
+        },
+        "taskQueue": {
+          "name": "starbase2-local-v1",
+          "kind": "TASK_QUEUE_KIND_NORMAL"
+        },
+        "header": {},
+        "input": {
+          "payloads": [
+            {
+              "metadata": {
+                "encoding": "anNvbi9wbGFpbg=="
+              },
+              "data": "eyJpZCI6IndhdGNoIiwidGljayI6IjE3ODg2MDAzMzIifQ=="
+            }
+          ]
+        },
+        "scheduleToCloseTimeout": "0s",
+        "scheduleToStartTimeout": "0s",
+        "startToCloseTimeout": "5s",
+        "heartbeatTimeout": "0s",
+        "workflowTaskCompletedEventId": "12",
+        "retryPolicy": {
+          "initialInterval": "1s",
+          "backoffCoefficient": 2.0,
+          "maximumInterval": "100s",
+          "maximumAttempts": 2
+        },
+        "useWorkflowBuildId": true,
+        "priority": {}
+      }
+    },
+    {
+      "eventId": "14",
+      "eventTime": "2026-09-05T09:25:32.106664Z",
+      "eventType": "EVENT_TYPE_ACTIVITY_TASK_STARTED",
+      "taskId": "2097189",
+      "activityTaskStartedEventAttributes": {
+        "scheduledEventId": "13",
+        "identity": "59042@alair",
+        "requestId": "175c82d3-62b8-4cd8-88b9-044287d61280",
+        "attempt": 1,
+        "workerVersion": {
+          "buildId": "4159d5f03854f3ee9be274e2371bd804"
+        }
+      }
+    },
+    {
+      "eventId": "15",
+      "eventTime": "2026-09-05T09:25:32.115569Z",
+      "eventType": "EVENT_TYPE_ACTIVITY_TASK_COMPLETED",
+      "taskId": "2097190",
+      "activityTaskCompletedEventAttributes": {
+        "result": {
+          "payloads": [
+            {
+              "metadata": {
+                "encoding": "anNvbi9wbGFpbg=="
+              },
+              "data": "eyJpZCI6ImR1dHktd2F0Y2gtMTc4ODYwMDMzMiJ9"
+            }
+          ]
+        },
+        "scheduledEventId": "13",
+        "startedEventId": "14",
+        "identity": "59042@alair"
+      }
+    },
+    {
+      "eventId": "16",
+      "eventTime": "2026-09-05T09:25:32.115576Z",
+      "eventType": "EVENT_TYPE_WORKFLOW_TASK_SCHEDULED",
+      "taskId": "2097191",
+      "workflowTaskScheduledEventAttributes": {
+        "taskQueue": {
+          "name": "59042@alair-f82396332fc54514a3339e402bdfc252",
+          "kind": "TASK_QUEUE_KIND_STICKY",
+          "normalName": "starbase2-local-v1"
+        },
+        "startToCloseTimeout": "10s",
+        "attempt": 1
+      }
+    },
+    {
+      "eventId": "17",
+      "eventTime": "2026-09-05T09:25:32.116848Z",
+      "eventType": "EVENT_TYPE_WORKFLOW_TASK_STARTED",
+      "taskId": "2097195",
+      "workflowTaskStartedEventAttributes": {
+        "scheduledEventId": "16",
+        "identity": "59042@alair",
+        "requestId": "8b61eea0-b2cf-4c35-8ea2-3510d0a8cd95",
+        "historySizeBytes": "1741",
+        "workerVersion": {
+          "buildId": "4159d5f03854f3ee9be274e2371bd804"
+        }
+      }
+    },
+    {
+      "eventId": "18",
+      "eventTime": "2026-09-05T09:25:32.118891Z",
+      "eventType": "EVENT_TYPE_WORKFLOW_TASK_COMPLETED",
+      "taskId": "2097199",
+      "workflowTaskCompletedEventAttributes": {
+        "scheduledEventId": "16",
+        "startedEventId": "17",
+        "identity": "59042@alair",
+        "workerVersion": {
+          "buildId": "4159d5f03854f3ee9be274e2371bd804"
+        },
+        "sdkMetadata": {},
+        "meteringMetadata": {}
+      }
+    },
+    {
+      "eventId": "19",
+      "eventTime": "2026-09-05T09:25:32.118904Z",
+      "eventType": "EVENT_TYPE_TIMER_STARTED",
+      "taskId": "2097200",
+      "timerStartedEventAttributes": {
+        "timerId": "2",
+        "startToFireTimeout": "30s",
+        "workflowTaskCompletedEventId": "18"
+      }
+    }
+  ]
+}

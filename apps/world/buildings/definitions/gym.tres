@@ -1,0 +1,12 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+[ext_resource type="Script" path="res://building_definition.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"gym"
+title = "TRIAL HALL"
+exterior_image = "res://buildings/art/evaluation-lab.png"
+pad_margin = Vector4(1.5,1.5,3,1.5)
+image_pixel_size = 0.012
+image_door_pixel = Vector2(690, 933)
+collision_boxes = Array[Rect2]([Rect2(-7.5,-7,15,8.55)])
+interior_scene = "res://buildings/interiors/gym.tscn"

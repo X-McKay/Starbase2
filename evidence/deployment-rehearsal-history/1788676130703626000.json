@@ -1,0 +1,18 @@
+{
+  "status": "failed",
+  "error": "RPCError",
+  "checks": [
+    {
+      "check": "fresh database/roles provisioned; identical provisioning is idempotent",
+      "passed": true
+    },
+    {
+      "check": "fresh schema migration, repeat migration and least-privilege grants",
+      "passed": true
+    },
+    {
+      "check": "runtime role denied DDL, evidence deletion and schema-version mutation",
+      "passed": true
+    }
+  ]
+}

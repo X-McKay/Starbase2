@@ -1,0 +1,118 @@
+{
+  "date": "2026-09-05",
+  "scope": "Flush plateau-to-mainland join and inland terrain detail",
+  "implemented": [
+    "Exact northern join positions and elevation, with obsolete caprock overlay and cliff strip removed",
+    "One continuous smoothly shaded upland surface with denser near-field mesh, ridges and gullies",
+    "Shared soil shading at the foot, slope/elevation-driven rock exposure and erosion shading inland",
+    "Seven buried rock groups with loose chips and sparse fronds"
+  ],
+  "checks": {
+    "world": "Full just check-world passed including exact seam, coast confinement, movement, state, rooms, water motion preferences and native command tests",
+    "repository": "Lint, types, 27 Rust tests, 16 Python tests and contracts passed. The docs step initially ran before final artifacts existed; final documentation validation is recorded separately."
+  },
+  "captures": {
+    "overview": {
+      "camera_focus": "(0.0, -3.999991, 0.0)",
+      "colony_overview": true,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 2251.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frame_sampling": "monotonic process intervals",
+      "frames": 150,
+      "median_ms": 16.661,
+      "p95_ms": 16.976,
+      "player_position": "(0.0, 0.0, 5.5)",
+      "room": "",
+      "selected_id": "world-visual-control-01",
+      "startup_to_first_frame_ms": 599,
+      "viewport": "(1280.0, 800.0)",
+      "visual_fixture": false,
+      "walk_reached": false,
+      "walk_test": false
+    },
+    "survey": {
+      "camera_focus": "(20.96084, 0.0, -15.79251)",
+      "colony_overview": false,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 1155.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frame_sampling": "monotonic process intervals",
+      "frames": 570,
+      "median_ms": 16.661,
+      "p95_ms": 17.269,
+      "player_position": "(20.97413, 0.0, -15.82195)",
+      "room": "",
+      "selected_id": "world-visual-control-01",
+      "startup_to_first_frame_ms": 591,
+      "viewport": "(1280.0, 800.0)",
+      "visual_fixture": false,
+      "walk_reached": true,
+      "walk_test": true
+    },
+    "reduced-motion": {
+      "camera_focus": "(0.0, -4.0, 0.0)",
+      "colony_overview": true,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 2251.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frame_sampling": "monotonic process intervals",
+      "frames": 150,
+      "median_ms": 16.665,
+      "p95_ms": 16.85,
+      "player_position": "(0.0, 0.0, 5.5)",
+      "room": "",
+      "selected_id": "world-visual-control-01",
+      "startup_to_first_frame_ms": 580,
+      "viewport": "(1280.0, 800.0)",
+      "visual_fixture": false,
+      "walk_reached": false,
+      "walk_test": false
+    }
+  },
+  "corrections": [
+    "Seam-before.log reproduces the missing exact join",
+    "Lighting-first.png shows reversed upland face winding before correction",
+    "Check-world-first.log retained a western folded strip intruding into the playable shelf; classifying the short vertical west segment as exposed coast removed it",
+    "Removed the obsolete below-rim northern cliff strip that produced a thin line at the join"
+  ],
+  "limits": [
+    "Decorative height-field terrain, no erosion simulation or expanded traversal",
+    "Colony outline, physical confinement, operational permissions and backend are unchanged",
+    "Capped process-frame intervals on Apple M5/Godot 4.7.2 Compatibility, not an uncapped GPU benchmark or other-platform qualification",
+    "Authored rock variants, more varied prop arrangements and broader lighting/atmosphere polish remain open"
+  ]
+}

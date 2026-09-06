@@ -1,0 +1,53 @@
+ffmpeg version 7.1 Copyright (c) 2000-2024 the FFmpeg developers
+  built with Apple clang version 13.1.6 (clang-1316.0.21.2.5)
+  configuration: --prefix=/Volumes/tempdisk/sw --extra-cflags=-fno-stack-check --arch=arm64 --cc=/usr/bin/clang --enable-gpl --enable-libvmaf --enable-libopenjpeg --enable-libopus --enable-libmp3lame --enable-libx264 --enable-libx265 --enable-libvpx --enable-libwebp --enable-libass --enable-libfreetype --enable-fontconfig --enable-libtheora --enable-libvorbis --enable-libsnappy --enable-libaom --enable-libvidstab --enable-libzimg --enable-libsvtav1 --enable-libharfbuzz --enable-libkvazaar --pkg-config-flags=--static --enable-ffplay --enable-postproc --enable-neon --enable-runtime-cpudetect --disable-indev=qtkit --disable-indev=x11grab_xcb
+  libavutil      59. 39.100 / 59. 39.100
+  libavcodec     61. 19.100 / 61. 19.100
+  libavformat    61.  7.100 / 61.  7.100
+  libavdevice    61.  3.100 / 61.  3.100
+  libavfilter    10.  4.100 / 10.  4.100
+  libswscale      8.  3.100 /  8.  3.100
+  libswresample   5.  3.100 /  5.  3.100
+  libpostproc    58.  3.100 / 58.  3.100
+[aist#0:1/pcm_s16le @ 0x149f049e0] Guessed Channel Layout: stereo
+Input #0, avi, from '.local/illustrated-walk.avi':
+  Duration: 00:00:06.40, start: 0.000000, bitrate: 15934 kb/s
+  Stream #0:0: Video: mjpeg (Baseline) (MJPG / 0x47504A4D), yuvj420p(pc, bt470bg/unknown/unknown), 1280x800 [SAR 1:1 DAR 8:5], 14462 kb/s, 30 fps, 30 tbr, 30 tbn
+  Stream #0:1: Audio: pcm_s16le ([1][0][0][0] / 0x0001), 48000 Hz, stereo, s16, 1536 kb/s
+Stream mapping:
+  Stream #0:0 -> #0:0 (mjpeg (native) -> h264 (libx264))
+Press [q] to stop, [?] for help
+[swscaler @ 0x150078000] deprecated pixel format used, make sure you did set range correctly
+[libx264 @ 0x149f06870] using SAR=1/1
+[libx264 @ 0x149f06870] using cpu capabilities: ARMv8 NEON
+[libx264 @ 0x149f06870] profile High, level 3.2, 4:2:0, 8-bit
+[libx264 @ 0x149f06870] 264 - core 164 r3190 7ed753b - H.264/MPEG-4 AVC codec - Copyleft 2003-2024 - http://www.videolan.org/x264.html - options: cabac=1 ref=3 deblock=1:0:0 analyse=0x3:0x113 me=hex subme=7 psy=1 psy_rd=1.00:0.00 mixed_ref=1 me_range=16 chroma_me=1 trellis=1 8x8dct=1 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=-2 threads=15 lookahead_threads=2 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=3 b_pyramid=2 b_adapt=1 b_bias=0 direct=1 weightb=1 open_gop=0 weightp=2 keyint=250 keyint_min=25 scenecut=40 intra_refresh=0 rc_lookahead=40 rc=crf mbtree=1 crf=20.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=1:1.00
+Output #0, mp4, to 'evidence/illustrated-walk/preview.mp4':
+  Metadata:
+    encoder         : Lavf61.7.100
+  Stream #0:0: Video: h264 (avc1 / 0x31637661), yuv420p(pc, bt470bg/unknown/unknown, progressive), 1280x800 [SAR 1:1 DAR 8:5], q=2-31, 30 fps, 15360 tbn
+      Metadata:
+        encoder         : Lavc61.19.100 libx264
+      Side data:
+        cpb: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: N/A
+[mp4 @ 0x149f05260] Starting second pass: moving the moov atom to the beginning of the file
+[out#0/mp4 @ 0x149f05150] video:1442KiB audio:0KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.216237%
+frame=  192 fps=0.0 q=-1.0 Lsize=    1445KiB time=00:00:06.33 bitrate=1868.7kbits/s speed=14.5x    
+[libx264 @ 0x149f06870] frame I:1     Avg QP:13.33  size: 38267
+[libx264 @ 0x149f06870] frame P:48    Avg QP:21.80  size: 29244
+[libx264 @ 0x149f06870] frame B:143   Avg QP:14.15  size:   234
+[libx264 @ 0x149f06870] consecutive B-frames:  0.5%  0.0%  1.6% 97.9%
+[libx264 @ 0x149f06870] mb I  I16..4: 57.8% 37.9%  4.4%
+[libx264 @ 0x149f06870] mb P  I16..4:  5.5% 23.0%  3.1%  P16..4:  6.1%  4.4%  2.5%  0.0%  0.0%    skip:55.4%
+[libx264 @ 0x149f06870] mb B  I16..4:  0.1%  0.0%  0.0%  B16..8:  3.9%  0.1%  0.0%  direct: 0.3%  skip:95.7%  L0:49.5% L1:50.1% BI: 0.4%
+[libx264 @ 0x149f06870] 8x8 transform intra:70.1% inter:82.1%
+[libx264 @ 0x149f06870] coded y,uvDC,uvAC intra: 54.3% 20.3% 18.0% inter: 2.0% 1.2% 0.9%
+[libx264 @ 0x149f06870] i16 v,h,dc,p: 67% 30%  3%  0%
+[libx264 @ 0x149f06870] i8 v,h,dc,ddl,ddr,vr,hd,vl,hu: 31% 27% 24%  3%  3%  3%  2%  4%  3%
+[libx264 @ 0x149f06870] i4 v,h,dc,ddl,ddr,vr,hd,vl,hu: 41% 26% 10%  4%  5%  4%  3%  4%  3%
+[libx264 @ 0x149f06870] i8c dc,h,v,p: 75%  9% 13%  3%
+[libx264 @ 0x149f06870] Weighted P-Frames: Y:0.0% UV:0.0%
+[libx264 @ 0x149f06870] ref P L0: 49.7% 14.5% 30.5%  5.3%
+[libx264 @ 0x149f06870] ref B L0: 91.0%  7.8%  1.2%
+[libx264 @ 0x149f06870] ref B L1: 97.5%  2.5%
+[libx264 @ 0x149f06870] kb/s:1844.33

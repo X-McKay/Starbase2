@@ -1,0 +1,36 @@
+name: Local runtime
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  local-slice:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    services:
+      postgres:
+        # PostgreSQL 18.3 Linux amd64, pinned to the verified registry manifest.
+        image: postgres@sha256:a145910d7079e9fbf73e6df19d5fcca0ce59d747cf7d97ac772bff28c3759c32
+        env:
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 55439:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s --health-timeout 5s --health-retries 12
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Install pinned tools
+        run: |
+          python3 -m pip install --user uv==0.12.7
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          rustup toolchain install 1.97.1 --profile minimal --component rustfmt,clippy
+          cargo install --locked just --version 1.58.0
+      - run: just bootstrap
+      - run: just check
+      - run: just test-postgres
+      - run: just test-integration
+      - run: just test-operations

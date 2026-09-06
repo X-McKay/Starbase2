@@ -121,3 +121,24 @@ Collect real misroutes, unnecessary steps, missing evidence,
 and context cost. Narrow or merge a skill when evidence shows overlap; remove
 one when it no longer supports a recurring workflow. Owner: Al. Review after the
 first end-to-end slice and after material architecture changes.
+
+## First implementation review — 2026-09-05
+
+The local slice used feature as the coordinating procedure and read decision,
+agent/evaluate, and world at the affected seams. They did not require redundant
+approval. Concrete benefits were the pre-implementation failure check, retained
+per-trial results, actual Godot capture, and explicit separation of simulation
+from execution. No plugin or hook solved a missing workflow, so none was added.
+No skill rewrite was justified by one session; keep collecting misroutes and
+context cost before consolidating. Codex exposed this catalog; Claude-host
+discovery remains untested. Current implemented commands are now documented in
+[development](development.md), replacing the original planned-command guidance.
+
+## Operations implementation review — 2026-09-05
+
+The same focused procedures covered v2 without new plugin infrastructure. The
+agent/evaluate split was useful when a working inference transport produced a
+factually wrong explanation: the bad output stayed retained and a predeclared
+paired pilot tested the prompt change. World guidance exposed stale-state and
+compact-layout checks. Keep the skills unchanged; there is still no measured
+benefit from extra hooks, packaging, or a merged universal procedure.

@@ -1,0 +1,113 @@
+{
+  "date": "2026-09-05",
+  "scope": "Decorative canyon water below the colony cliffs",
+  "implemented": [
+    "Layered animated swells, broken ripple highlights and fine grain across canyon surface",
+    "Foam rings placed from shared sea-stack positions",
+    "Reduced-motion freezes rendered phase; hidden exterior pauses animation"
+  ],
+  "checks": {
+    "environment": "Passed animated/frozen/resumed spring and canyon water, hidden-room behavior, spring shore footprint checks",
+    "world": "Full just check-world passed: state, navigation, paths, scatter, environment, colony, crew, kit, rooms, interaction and native command fixtures",
+    "documentation": "Documentation checks passed"
+  },
+  "captures": {
+    "overview": {
+      "camera_focus": "(0.0, -3.999991, 0.0)",
+      "colony_overview": true,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 1975.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frame_sampling": "monotonic process intervals",
+      "frames": 150,
+      "median_ms": 16.67,
+      "p95_ms": 17.178,
+      "player_position": "(0.0, 0.0, 5.5)",
+      "room": "",
+      "selected_id": "world-visual-control-01",
+      "startup_to_first_frame_ms": 487,
+      "viewport": "(1280.0, 800.0)",
+      "visual_fixture": false,
+      "walk_reached": false,
+      "walk_test": false
+    },
+    "overlook": {
+      "camera_focus": "(0.0, 0.0, 26.83659)",
+      "colony_overview": false,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 1188.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frame_sampling": "monotonic process intervals",
+      "frames": 570,
+      "median_ms": 16.659,
+      "p95_ms": 17.374,
+      "player_position": "(0.0, 0.0, 26.83661)",
+      "room": "",
+      "selected_id": "world-visual-control-01",
+      "startup_to_first_frame_ms": 457,
+      "viewport": "(1280.0, 800.0)",
+      "visual_fixture": false,
+      "walk_reached": true,
+      "walk_test": true
+    },
+    "reduced-motion": {
+      "camera_focus": "(0.0, -4.0, 0.0)",
+      "colony_overview": true,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 1975.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frame_sampling": "monotonic process intervals",
+      "frames": 150,
+      "median_ms": 16.66,
+      "p95_ms": 17.061,
+      "player_position": "(0.0, 0.0, 5.5)",
+      "room": "",
+      "selected_id": "world-visual-control-01",
+      "startup_to_first_frame_ms": 462,
+      "viewport": "(1280.0, 800.0)",
+      "visual_fixture": false,
+      "walk_reached": false,
+      "walk_test": false
+    }
+  },
+  "visual_review": "Native overview and reduced-motion overview show wave texture; actual cliff-edge walk reached destination, but close camera framing mostly shows the rock face",
+  "limitations": [
+    "Decorative shader surface, no fluid simulation or water traversal",
+    "Short capped process-frame samples on Apple M5/Godot 4.7.2 Compatibility; not an uncapped performance benchmark",
+    "No backend, permission, dependency or deployment changes",
+    "Other platforms and exports not tested"
+  ]
+}

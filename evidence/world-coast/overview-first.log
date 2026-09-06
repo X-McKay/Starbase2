@@ -1,0 +1,16 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M5
+
+SCRIPT ERROR: Parse Error: Cannot infer the type of "p" variable because the value doesn't have a set type.
+          at: GDScript::reload (res://coastal_backdrop.gd:11)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://cliff_landform.gd:0)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://landscape.gd:0)
+ERROR: Failed to load script "res://landscape.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+SCRIPT ERROR: Invalid call. Nonexistent function 'build' in base 'GDScript'.
+          at: _ready (res://cliff_landform.gd:137)
+          GDScript backtrace (most recent call first):
+              [0] _ready (res://cliff_landform.gd:137)
+              [1] _ready (res://landscape.gd:79)

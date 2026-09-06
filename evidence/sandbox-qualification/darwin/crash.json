@@ -1,0 +1,88 @@
+{
+  "process_group": {
+    "passed": true,
+    "elapsed_seconds": 0.231,
+    "observations": [
+      {
+        "seconds": 0.23,
+        "status": "Crashed",
+        "ping_code": 1,
+        "ping_detail": "error: sandbox 'sb-crash-group' is not running (status: Crashed); cannot ping\n"
+      }
+    ],
+    "process_group_killed": true
+  },
+  "coordinator_only": {
+    "passed": true,
+    "elapsed_seconds": 10.533,
+    "observations": [
+      {
+        "seconds": 0.22,
+        "status": "Running",
+        "ping_code": 0,
+        "ping_detail": "   \u2713 Reachable    sb-crash-coordinator (110us)\n"
+      },
+      {
+        "seconds": 1.242,
+        "status": "Running",
+        "ping_code": 0,
+        "ping_detail": "   \u2713 Reachable    sb-crash-coordinator (192us)\n"
+      },
+      {
+        "seconds": 2.263,
+        "status": "Running",
+        "ping_code": 0,
+        "ping_detail": "   \u2713 Reachable    sb-crash-coordinator (136us)\n"
+      },
+      {
+        "seconds": 3.285,
+        "status": "Running",
+        "ping_code": 0,
+        "ping_detail": "   \u2713 Reachable    sb-crash-coordinator (131us)\n"
+      },
+      {
+        "seconds": 4.332,
+        "status": "Running",
+        "ping_code": 0,
+        "ping_detail": "   \u2713 Reachable    sb-crash-coordinator (304us)\n"
+      },
+      {
+        "seconds": 5.356,
+        "status": "Running",
+        "ping_code": 0,
+        "ping_detail": "   \u2713 Reachable    sb-crash-coordinator (141us)\n"
+      },
+      {
+        "seconds": 6.38,
+        "status": "Running",
+        "ping_code": 0,
+        "ping_detail": "   \u2713 Reachable    sb-crash-coordinator (147us)\n"
+      },
+      {
+        "seconds": 7.426,
+        "status": "Running",
+        "ping_code": 0,
+        "ping_detail": "   \u2713 Reachable    sb-crash-coordinator (306us)\n"
+      },
+      {
+        "seconds": 8.466,
+        "status": "Running",
+        "ping_code": 0,
+        "ping_detail": "   \u2713 Reachable    sb-crash-coordinator (306us)\n"
+      },
+      {
+        "seconds": 9.511,
+        "status": "Running",
+        "ping_code": 0,
+        "ping_detail": "   \u2713 Reachable    sb-crash-coordinator (282us)\n"
+      },
+      {
+        "seconds": 10.533,
+        "status": "Stopped",
+        "ping_code": 1,
+        "ping_detail": "error: sandbox 'sb-crash-coordinator' is not running (status: Stopped); cannot ping\n"
+      }
+    ],
+    "process_group_killed": false
+  }
+}

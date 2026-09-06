@@ -1,0 +1,53 @@
+{
+  "status": "passed",
+  "postgres_version": "18.3 (Debian 18.3-1.pgdg13+1)",
+  "temporal_cli": "1.8.3",
+  "scope": "local PostgreSQL and Temporal; no Kubernetes deployment or image build",
+  "dump_sha256": "53ed3b746c481f4c2fed4122e01cc49f0a8942262e3981bee6396c24f3d0e26e",
+  "checks": [
+    {
+      "check": "fresh database/roles provisioned; identical provisioning is idempotent",
+      "passed": true
+    },
+    {
+      "check": "fresh schema migration, repeat migration and least-privilege grants",
+      "passed": true
+    },
+    {
+      "check": "runtime role denied DDL, evidence deletion and schema-version mutation",
+      "passed": true
+    },
+    {
+      "check": "dedicated Temporal namespace create, ownership and retention verification",
+      "passed": true
+    },
+    {
+      "check": "competing authoritative core refused by database advisory lock",
+      "passed": true
+    },
+    {
+      "check": "real Temporal review retained in PostgreSQL through runtime role",
+      "passed": true
+    },
+    {
+      "check": "legacy and unqualified repair entry points disabled",
+      "passed": true
+    },
+    {
+      "check": "core restart preserves retained result",
+      "passed": true
+    },
+    {
+      "check": "pg_dump, owned purge/reprovision, transactional restore preserve evidence",
+      "passed": true
+    },
+    {
+      "check": "closed Temporal histories exported and checksums verified",
+      "passed": true
+    },
+    {
+      "check": "dedicated Temporal namespace and owned database/roles removed",
+      "passed": true
+    }
+  ]
+}

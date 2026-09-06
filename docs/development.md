@@ -1,113 +1,147 @@
 # Developer experience
 
-Status: proposed
+Status: accepted
 
-## One entry point, native tools underneath
+## Implemented local repair extension · 2026-09-05
 
-Use `mise` for pinned toolchains and `just` for discoverable commands. Use a
-Cargo workspace for Rust and a uv workspace for Python. Avoid a custom build
-system. Bootstrap should work with a fake model and isolated local services;
-a developer should not need Kubani or download a large model to run tests.
+For the isolated repair workshop, install pinned microsandbox 0.6.14, run `just sandbox-prepare`, then `just sandbox-doctor`. `just test-sandbox` and `just test-repairs` require local virtualization and bind isolated integration ports 18789/17235; they use no model calls. `just repair-pilot` explicitly makes three development model calls. See [repair operations](repairs.md).
 
-| Surface | Proposed tools |
-|---|---|
-| Rust | Cargo, rustfmt, Clippy, unit/integration tests, dependency and license checks |
-| Python | uv, pytest, Ruff formatting/lint, ty type checking, dependency audit |
-| Git checks | prek with pinned hook revisions; fast checks only before commit |
-| Godot | Pinned engine/export templates, headless state tests, scene import checks, visual review |
-| Web console | Small TypeScript application, generated contracts, keyboard/accessibility tests |
-| Contracts | OpenAPI/JSON Schema, deterministic generation, cross-language fixtures |
-| Integration | Disposable Postgres and Temporal; fake provider/model servers |
+This document describes the implemented local operations edition. Production tooling and
+unimplemented commands are explicitly deferred.
 
-[ty](https://docs.astral.sh/ty/) provides Python type checking and editor support;
-[prek](https://prek.j178.dev/) runs pre-commit-compatible checks. Resolve and
-lock their versions during bootstrap rather than putting floating `uvx` tools
-in required checks. Verify the PydanticAI/Temporal combination against those
-pins before scaffolding every service.
+## Start locally
 
-## Proposed source layout
+Install [mise](https://mise.jdx.dev/getting-started.html), then from this checkout:
 
-```text
-apps/world/                    Godot client and authored assets
-apps/console/                  compact operations view
-services/control/              Rust code, migrations, tests, docs
-services/evidence/             Rust code, migrations, tests, docs
-services/connectors/           Rust adapters, checkpoints, tests, docs
-services/runtime/              Python workflows, worker composition, tests
-agents/                        build definitions and role-specific skills
-evals/                         public scenarios, grader tests, analysis
-contracts/                     owner-defined wire schemas and generated clients
-deploy/                        reusable product deployment base
-tooling/                       small shared checks and plugin packaging
-.agents/skills/                canonical development procedures
-docs/                          product explanations, decisions, operation
+```sh
+mise install
+mise exec -- just bootstrap
+mise exec -- just check
+mise exec -- just dev
 ```
 
-Hidden evaluation cases are stored separately from candidate-accessible
-checkout paths and mounted only into the verifier. Directory naming alone does
-not establish secrecy. Runtime agent skills and development-agent skills have
-different authority and release lifecycles; do not auto-load one into the other.
+In another terminal:
 
-## Command contract
+```sh
+mise exec -- just world
+```
 
-Only `just check` and `python3 scripts/check_docs.py` exist in this initial
-design repository. Implement the following with the walking skeleton:
+The journal is at [localhost:8787](http://127.0.0.1:8787). `just dev` runs the Rust
+core, Python worker, and persistent Temporal development server. Ctrl-C stops
+its own processes and preserves `.local/` databases and logs. No browser or world
+window is required for execution. Launching Godot is optional.
 
-| Planned command | Required behavior |
+`just demo` is idempotent for the default ID `first-survey`. After changing a build,
+restart the worker and use `just demo another-survey`. Changed input under an
+existing mission ID is rejected. The journal creates v2 runs with fresh IDs.
+Use its Stop control to cancel a run;
+stopping the local launcher merely takes workers offline and leaves work durable.
+
+Run under `mise exec --` if tools are not on PATH. Bootstrap downloads a
+checksum-pinned Temporal CLI into `.local/tools`, runs `uv sync --locked` and
+`cargo build --locked`, and uses `.local/cache/uv`. It supports macOS/Linux ARM64
+and x86-64. Rust/Cargo use the normal Cargo cache; `CARGO_HOME` may point to a
+project cache when needed. Windows and clean Linux setup remain unverified.
+
+No `.env` file or provider credentials are loaded. The local launcher gives child
+processes only basic OS environment fields and project configuration. All listeners
+are loopback. Sandboxed development hosts may require permission to bind local
+ports and run native Godot; ordinary checks need neither network nor a cluster
+once dependencies are present.
+
+## Commands that exist
+
+| Command | Behavior |
 |---|---|
-| `just bootstrap` | Resolve pinned tools, lock dependencies, configure local checks, run doctor |
-| `just doctor` | Diagnose tool, port, container, and configuration prerequisites without mutation |
-| `just dev` | Start local services and a fake-model world; print URLs and clean up on exit |
-| `just fmt` / `just lint` | Native formatters, Ruff, ty, Clippy, schema and boundary checks |
-| `just test` | Fast deterministic tests with no external credentials |
-| `just test-integration` | Real disposable Postgres/Temporal, duplicate/crash/replay tests |
-| `just eval-smoke` | Fake-model and public scenario regression checks |
-| `just eval-compare BASE CANDIDATE SUITE` | Validate campaign/budget, run isolated trials, produce a comparison artifact |
-| `just bench` | Named repeatable backend, agent-cost, and UI workload profiles |
-| `just check` | Full applicable deterministic validation for changed surfaces |
+| `just bootstrap` | Locked dependencies, checksum-pinned Temporal CLI, Rust build |
+| `just doctor` | Read-only tool/version/file diagnostics |
+| `just build` | Build the Rust core from the locked workspace |
+| `just dev` | Build then launch persistent local Temporal, core, worker; logs in `.local/` |
+| `just demo ID` | Submit one synthetic baseline/regression campaign |
+| `just world` | Playable native outpost; H opens controls and comfort settings |
+| `just world-map` | Open the planetary colony overview |
+| `just world-crew` | Native preview of the actual generated crew atlas regions |
+| `just world-shot` | Capture the real native viewport to `.local/world-preview.png` |
+| `just contracts` | Generate Rust-owned JSON Schema and Python models |
+| `just fmt` / `just lint` | Rustfmt, Clippy, Ruff, ty for implemented sources |
+| `just test` | Rust store/grader/migration tests; Python review, fake-model, and inference-adapter tests |
+| `just check` | Lint, tests, Rust build, generated-contract drift, documentation |
+| `just check-world` | Import, state, navigation, keyboard/mouse and local HTTP command fixtures; visual QA remains separate |
+| `just characters-import` | Rebuild every registered illustrated sheet, then validate artwork, movement and the review room |
+| `just check-world-export` | On macOS, build and exercise an unsigned release outside the checkout; retain hashes, logs and native captures in a fresh `.local/world-release/` directory |
+| `just test-integration` | Fresh core/Temporal processes, worker SIGKILL, duplicates, cancellation, replay, core restart |
+| `just test-operations` | v2 review/gym, operator boundary, durable recurring timer restart, replay, pause; no inference |
+| `just inference-pilot` | Explicitly opt into twelve bounded hosted/Ollama synthetic prompt trials |
+| `just eval-smoke` | Public fake-model and grader controls; no real quality estimate |
 
-Model-backed evaluation must require an explicit provider profile and budget;
-ordinary checks never silently incur inference charges. CI uses the same
-commands, with separate fast, integration, model-eval, and release lanes.
-No untrusted PR job receives deployment credentials.
+The v1 integration uses ports 18787 and 17233 and a new `.local/integration-<timestamp>`
+directory. Failed runs and logs are retained. It kills only processes it launched.
+Run a named evidence capture with:
 
-## Codex and Claude as development collaborators
+```sh
+PYTHONPATH=services/runtime .venv/bin/python scripts/integration.py --output .local/my-experiment
+```
 
-Keep `AGENTS.md` short and shared; `CLAUDE.md` imports it. Author workflow skills
-once, then package thin tool-specific distributions. Codex discovers repository
-skills under `.agents/skills`; both products support plugin packaging, but
-their manifests and hook contracts must be validated separately.
-[Codex skills](https://learn.chatgpt.com/docs/build-skills),
-[Codex plugins](https://learn.chatgpt.com/docs/plugins),
-[Claude plugins](https://code.claude.com/docs/en/plugins).
+The v2 integration uses ports 18788 and 17234. Its optional `--inference` flag
+authorizes one additional hosted-model call in that invocation. See
+[operations](operations.md) for profiles, source handling, and recovery semantics.
 
-Six original procedures now cover backend features, agent capabilities/tools,
-evaluation/scenarios, world changes, architectural decisions, and release
-readiness. See the [skill review](skills-review.md) for scope and the explicit
-keep/rewrite/defer/drop decisions. Update file and command guidance as real
-implementation paths appear; do not copy every predecessor skill into this repo.
+Temporal CLI is pinned at 1.8.3 (embedded server 1.31.2); Python, uv, Rust, just,
+and Godot are pinned in [mise.toml](../mise.toml). Python uses one `uv.lock` and
+Rust one `Cargo.lock`. Generated model changes are checked; readers support
+additive snapshot fields, but commands are strict. Generator warnings about
+unsigned integer formats are bounded by Rust's authoritative command validation.
 
-Repository-local discovery uses canonical `.agents/skills` and Claude symlinks.
-Package portable Starbase2 plugins for each tool when cross-repository reuse is
-useful, generated from shared source and checked for drift. Add an optional MCP interface to query
-local runs/evidence and request bounded local evaluations only after an actual
-consumer benefits. Do not introduce MCP merely to wrap shell commands.
+## Source map
 
-Hooks invoke small shared scripts: expose relevant context at session start,
-run affected formatting/checks after edits, and produce an evidence summary at
-handoff. Test hook fixtures for both host tools and maintain a supported-version
-matrix. Do not assume identical event names or lifecycle semantics. Hooks are
-developer feedback, not a security boundary; CI, sandboxing, and server policy
-enforce the rules even when hooks are absent.
+`mise exec -- just world-kit` opens the isolated interior/exterior art showroom.
+Use `1`/`2`, `C`, `L`, and `R` for scene, camera, lighting and roof review; matching
+buttons are visible. It needs no services. See [art production](art-production.md)
+for scene authoring, asset contracts, evidence and the remaining integration gate.
 
-## Contribution sequence
+`mise exec -- just world-building repair` previews a building definition without
+services. Add `50` for the shared-art load fixture. The [building authoring guide](building-catalog.md)
+explains how PNG/native exteriors and reusable interior scenes are added without
+new building-specific GDScript. `Tab` includes searchable direct place visits.
 
-Select one observable journey, reproduce its failure, implement the smallest
-slice, validate it, and update its contract/docs. Agent-behavior changes carry
-a build diff and relevant evaluation evidence. UI changes carry actual captures
-and state/accessibility checks. Performance claims carry a baseline.
+The [playable rollout](world-rollout.md) runs with ordinary `just world`.
+For local visual checks, `godot --path apps/world -- --room=repair` starts in the
+workshop (`review` and `gym` select the other rooms). `--inspect` opens that
+room's inspector; normal startup remains outdoors. These flags dispatch no work.
 
-Benchmark bootstrap and common checks in a clean checkout before claiming the
-developer experience is seamless. Keep service docs and commands close to their
-owner. A new service must pay for its own identity, storage, telemetry, upgrade,
-and recovery burden in the ADR that creates it.
+- `services/core`: Rust API, SQLite migration, fixture grader, store tests.
+- `services/runtime`: Python review tools, inference adapter, legacy fake agent, workflows, coordinator, tests.
+- `contracts`: generated v1/v2 JSON Schemas; endpoint semantics in the owning README.
+- `apps/world`: original SVG art, reusable habitats, navigation, actors, HUD, native
+  operator client and state projection. See [playable world evidence](world-playable.md).
+- `apps/console`: dependency-free structured HTML journal embedded in the core.
+- `scripts`: bootstrap, launcher, integration experiment, contracts, documentation.
+- `evidence`: selected retained experiment records and actual rendered captures.
+
+## Limits and next tooling work
+
+General statistical comparison tooling, Postgres integration,
+container images, deployment, signing/notarization, and production telemetry are
+not implemented. Godot native export was exercised; web export needs matching
+web templates and same-origin API hosting. The native archive was also launched and rendered locally; it is unsigned
+and is not a distributed release.
+
+No plugin packaging or hooks were added. Existing tailored development skills
+were usable in this session; Codex exposed them, while actual Claude-host discovery
+is still unverified. Add prek/hooks only after a recurring workflow demonstrates
+value; CI runs the same checked-in commands without relying on local hooks.
+
+Static journal files need no Node runtime or frontend build step. For optional
+source formatting, this session used `npx --yes prettier@3.6.2 --write apps/console/*`
+with Node 24.19.0 and npm's cache under `.local/cache/npm`. JavaScript syntax was
+checked with `node --check apps/console/console.js`. These optional tools are not
+required by bootstrap or the running product.
+
+## Fresh Kubani deployment preparation
+
+The [setup, rollback, recovery and teardown playbook](deployment.md) prepares a fresh
+PostgreSQL-backed installation. Local SQLite and local Temporal histories are
+development-only and are not imported. The private deployment bundle starts
+stopped, with provider inference, legacy fixture API and unqualified sandbox
+repairs disabled. Cluster/image qualification and platform backup restoration
+remain required before activation; no Kubani deployment has been performed.

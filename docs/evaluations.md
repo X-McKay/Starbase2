@@ -2,6 +2,21 @@
 
 Status: proposed
 
+## Implemented local repair extension · 2026-09-05
+
+The [repair extension](repairs.md) executes baseline and candidate code in separate disposable VMs. The core grades six exact input/output cases per stage and retains all observations, hard gates and narrow qualifications. The three-call repair pilot is a functional smoke and duplicate-credit check, not a statistical quality comparison or a general repair benchmark.
+
+The implemented v2 gym and the two-endpoint inference pilot are documented in
+[operations](operations.md). Static conformance improvement/regression is measured
+on six public cases; the twelve-call model pilot is exploratory and does not
+qualify a build. The original v1 fake campaign below remains a regression control.
+
+Implemented subset: the [local experiment](local-slice.md) grades six public
+synthetic trials in Rust and retains each output, exact builds, latency, fake-model
+provenance, hard gates, and comparison. A known regression is detected; equal
+controls are inconclusive for real quality. There are no sealed holdouts, qualified
+process isolation, stochastic confidence estimates, or promotions yet.
+
 ## What we can promise
 
 For a defined workload and budget, Starbase2 should reliably detect meaningful

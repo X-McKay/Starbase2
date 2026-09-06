@@ -1,0 +1,35 @@
+I001 [*] Import block is un-sorted or un-formatted
+  --> scripts/memory_check.py:3:1
+   |
+ 1 |   """Real Graphiti/FalkorDB projection, restart persistence, scope and tamper checks."""
+ 2 |
+ 3 | / import asyncio
+ 4 | | import json
+ 5 | | import os
+ 6 | | import time
+ 7 | | from pathlib import Path
+ 8 | |
+ 9 | | from redislite.falkordb_client import FalkorDB
+10 | | from starbase_runtime.memory import driver, episode, recall
+11 | | from starbase_runtime.review import digest
+   | |__________________________________________^
+help: Organize imports
+   |
+12 |
+   -
+13 | ROOT = Path(__file__).resolve().parents[1]
+   |
+
+E501 Line too long (105 > 100)
+   --> services/runtime/starbase_runtime/field_sources.py:301:101
+    |
+299 |                                 subject + "/" + container["name"],
+300 |                                 "Container cannot enter a stable running state.",
+301 |                                 "Inspect image availability, startup configuration and restart history.",
+    |                                                                                                     ^^^^^
+302 |                             )
+303 |                         )
+    |
+
+Found 2 errors.
+[*] 1 fixable with the `--fix` option.

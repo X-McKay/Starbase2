@@ -1,0 +1,84 @@
+[gd_scene load_steps=3 format=3]
+[ext_resource type="PackedScene" path="res://scenes/kit/module.tscn" id="1"]
+[ext_resource type="Script" path="res://kit_shell.gd" id="2"]
+[node name="WorkshopExterior" type="Node3D"]
+script = ExtResource("2")
+[node name="Roof" type="Node3D" parent="."]
+[node name="Front0" parent="." instance=ExtResource("1")]
+position = Vector3(-2,0,3)
+kind = "hull"
+[node name="Front1" parent="." instance=ExtResource("1")]
+position = Vector3(2,0,3)
+kind = "hull"
+[node name="Back2" parent="." instance=ExtResource("1")]
+position = Vector3(-2,0,-3)
+rotation_degrees = Vector3(0,180,0)
+kind = "hull"
+[node name="Back3" parent="." instance=ExtResource("1")]
+position = Vector3(0,0,-3)
+rotation_degrees = Vector3(0,180,0)
+kind = "hull"
+[node name="Back4" parent="." instance=ExtResource("1")]
+position = Vector3(2,0,-3)
+rotation_degrees = Vector3(0,180,0)
+kind = "hull"
+[node name="Side5" parent="." instance=ExtResource("1")]
+position = Vector3(-3,0,-2)
+rotation_degrees = Vector3(0,-90,0)
+kind = "hull"
+[node name="Side6" parent="." instance=ExtResource("1")]
+position = Vector3(-3,0,0)
+rotation_degrees = Vector3(0,-90,0)
+kind = "hull"
+[node name="Side7" parent="." instance=ExtResource("1")]
+position = Vector3(-3,0,2)
+rotation_degrees = Vector3(0,-90,0)
+kind = "hull"
+[node name="Side8" parent="." instance=ExtResource("1")]
+position = Vector3(3,0,-2)
+rotation_degrees = Vector3(0,90,0)
+kind = "hull"
+[node name="Side9" parent="." instance=ExtResource("1")]
+position = Vector3(3,0,0)
+rotation_degrees = Vector3(0,90,0)
+kind = "hull"
+[node name="Side10" parent="." instance=ExtResource("1")]
+position = Vector3(3,0,2)
+rotation_degrees = Vector3(0,90,0)
+kind = "hull"
+[node name="Roof11" parent="Roof" instance=ExtResource("1")]
+position = Vector3(-2,3.12,-2)
+kind = "roof"
+solid = false
+[node name="Roof12" parent="Roof" instance=ExtResource("1")]
+position = Vector3(-2,3.12,0)
+kind = "roof"
+solid = false
+[node name="Roof13" parent="Roof" instance=ExtResource("1")]
+position = Vector3(-2,3.12,2)
+kind = "roof"
+solid = false
+[node name="Roof14" parent="Roof" instance=ExtResource("1")]
+position = Vector3(0,3.12,-2)
+kind = "roof"
+solid = false
+[node name="Roof15" parent="Roof" instance=ExtResource("1")]
+position = Vector3(0,3.12,0)
+kind = "roof"
+solid = false
+[node name="Roof16" parent="Roof" instance=ExtResource("1")]
+position = Vector3(0,3.12,2)
+kind = "roof"
+solid = false
+[node name="Roof17" parent="Roof" instance=ExtResource("1")]
+position = Vector3(2,3.12,-2)
+kind = "roof"
+solid = false
+[node name="Roof18" parent="Roof" instance=ExtResource("1")]
+position = Vector3(2,3.12,0)
+kind = "roof"
+solid = false
+[node name="Roof19" parent="Roof" instance=ExtResource("1")]
+position = Vector3(2,3.12,2)
+kind = "roof"
+solid = false

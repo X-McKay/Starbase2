@@ -1,0 +1,110 @@
+cargo fmt --all --check
+cargo clippy --locked --all-targets -- -D warnings
+    Checking starbase-core v0.1.0 (/Users/al/git/Starbase2/services/core)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.88s
+.venv/bin/ruff format --check services/runtime scripts
+60 files already formatted
+.venv/bin/ruff check services/runtime scripts
+All checks passed!
+.venv/bin/ty check services/runtime scripts
+All checks passed!
+cargo test --locked
+   Compiling starbase-core v0.1.0 (/Users/al/git/Starbase2/services/core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.03s
+     Running unittests src/lib.rs (target/debug/deps/starbase_core-9e7d947bf9c4bd34)
+
+running 34 tests
+test operations::tests::grader_distinguishes_inconclusive_invalid_ineligible_and_incomplete ... ok
+test operations::tests::duty_pause_fences_dispatch_and_busy_ticks_do_not_flood ... ok
+test operations::tests::completion_is_atomic_immutable_and_idempotent ... ok
+test field::tests::stopped_work_cannot_publish_evidence_or_memory ... ok
+test operations::tests::invalid_citations_and_unfrozen_reports_are_rejected ... ok
+test operations::tests::empty_scope_is_incomplete_and_workspace_inference_is_denied ... ok
+test field::tests::duty_generation_pause_and_tick_identity ... ok
+test field::tests::field_identity_evidence_and_scope ... ok
+test field::tests::reviewed_memory_freezes_and_revokes_without_awarding_authority ... ok
+test operations::tests::archive_paging_never_hides_active_dispatch ... ok
+test operations::tests::stop_fences_late_results_and_preserves_snapshot ... ok
+test repair::tests::authority_checks_revision_expiry_and_cancellation ... ok
+test repair::tests::controls_do_not_earn_progression ... ok
+test operations::tests::unchanged_snapshot_and_build_are_reported_without_new_qualification ... ok
+test repair::tests::duplicate_requests_frozen_evidence_and_retry_budget ... ok
+test repair::tests::independent_grader_rejects_claimed_success_and_regressions ... ok
+test repositories::tests::watch_normalizes_fences_stale_edits_and_retains_removal ... ok
+test repair::tests::progression_atomic_deduplicated_and_build_scoped ... ok
+test tests::duplicated_missing_and_wrong_build_trials_are_rejected ... ok
+test tests::equal_public_controls_are_inconclusive_for_quality ... ok
+test tests::grading_preserves_failures_no_change_and_hard_gates ... ok
+test operations::tests::v1_data_survives_migration ... ok
+test tests::a_newer_database_cannot_be_silently_downgraded ... ok
+test repair::tests::migration_preserves_v2_and_reopen_preserves_progression ... ok
+test tests::cancellation_fences_late_completion ... ok
+test tests::duplicate_ingestion_does_not_change_identity_or_dispatch ... ok
+test tests::failed_stop_acknowledgement_remains_failed ... ok
+test tests::source_drift_and_malformed_input_are_rejected ... ok
+test tests::stale_is_independent_of_execution_state ... ok
+test tests::retained_result_is_atomic_and_exact_retry_is_idempotent ... ok
+test repositories::persistence_tests::repository_configuration_survives_sqlite_reopen ... ok
+test tests::unverified_or_partial_results_never_complete ... ok
+test tests::reopening_preserves_evidence_and_migrations_are_repeatable ... ok
+test field::tests::capture_retry_and_active_history_remain_visible ... ok
+
+test result: ok. 34 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.50s
+
+     Running unittests src/main.rs (target/debug/deps/starbase_core-597dc28c21305c6b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests starbase_core
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+.venv/bin/python -m pytest -q
+.............................................                            [100%]
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/graphiti_core/driver/search_interface/search_interface.py:22
+  /Users/al/git/Starbase2/.venv/lib/python3.12/site-packages/graphiti_core/driver/search_interface/search_interface.py:22: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class SearchInterface(BaseModel):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+45 passed, 1 warning in 1.04s
+cargo build --locked
+   Compiling starbase-core v0.1.0 (/Users/al/git/Starbase2/services/core)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.40s
+.venv/bin/python scripts/contracts.py --check
+/Users/al/git/Starbase2/.venv/lib/python3.12/site-packages/datamodel_code_generator/parser/jsonschema.py:1379: UserWarning: format of 'uint32' not understood for 'integer' - using default
+  return _get_type(type_, format_, data_formats)
+/Users/al/git/Starbase2/.venv/lib/python3.12/site-packages/datamodel_code_generator/parser/jsonschema.py:1379: UserWarning: format of 'uint64' not understood for 'integer' - using default
+  return _get_type(type_, format_, data_formats)
+Found 1 error (1 fixed, 0 remaining).
+1 file left unchanged
+/Users/al/git/Starbase2/.venv/lib/python3.12/site-packages/datamodel_code_generator/parser/jsonschema.py:1379: UserWarning: format of 'uint32' not understood for 'integer' - using default
+  return _get_type(type_, format_, data_formats)
+/Users/al/git/Starbase2/.venv/lib/python3.12/site-packages/datamodel_code_generator/parser/jsonschema.py:1379: UserWarning: format of 'uint64' not understood for 'integer' - using default
+  return _get_type(type_, format_, data_formats)
+Found 1 error (1 fixed, 0 remaining).
+1 file left unchanged
+/Users/al/git/Starbase2/.venv/lib/python3.12/site-packages/datamodel_code_generator/parser/jsonschema.py:1379: UserWarning: format of 'uint32' not understood for 'integer' - using default
+  return _get_type(type_, format_, data_formats)
+/Users/al/git/Starbase2/.venv/lib/python3.12/site-packages/datamodel_code_generator/parser/jsonschema.py:1379: UserWarning: format of 'uint64' not understood for 'integer' - using default
+  return _get_type(type_, format_, data_formats)
+Found 1 error (1 fixed, 0 remaining).
+1 file left unchanged
+/Users/al/git/Starbase2/.venv/lib/python3.12/site-packages/datamodel_code_generator/parser/jsonschema.py:1379: UserWarning: format of 'uint32' not understood for 'integer' - using default
+  return _get_type(type_, format_, data_formats)
+/Users/al/git/Starbase2/.venv/lib/python3.12/site-packages/datamodel_code_generator/parser/jsonschema.py:1379: UserWarning: format of 'uint64' not understood for 'integer' - using default
+  return _get_type(type_, format_, data_formats)
+Found 1 error (1 fixed, 0 remaining).
+1 file left unchanged
+Contracts match.
+Contracts match.
+Contracts match.
+Contracts match.
+python3 scripts/check_docs.py
+docs/command-district.md: missing or invalid lifecycle status
+Checked 45 Markdown files and 12 requirement IDs.
+error: recipe `check` failed on line 55 with exit code 1

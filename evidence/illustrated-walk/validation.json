@@ -1,0 +1,27 @@
+{
+  "images": [
+    {
+      "file": "directional-draft.png",
+      "dimensions": [
+        1586,
+        992
+      ],
+      "png_color_type": 2,
+      "usable_alpha": false,
+      "sha256": "a801d0991a6600d5dd28174b7cb8bc5aa484b90efe495ceeb1c28039fbaf5969"
+    },
+    {
+      "file": "side-cycle.png",
+      "dimensions": [
+        1774,
+        887
+      ],
+      "png_color_type": 2,
+      "usable_alpha": false,
+      "sha256": "10d3c6e191e2a3c3ffb5e2c6ed2c932b6157535e6899eefee838af3437bd2cdb"
+    }
+  ],
+  "production_ready": false,
+  "default_crew_changed": false,
+  "native_animation_recorded": true
+}

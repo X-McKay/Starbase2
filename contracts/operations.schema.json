@@ -1,0 +1,760 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OperationsContract",
+  "type": "object",
+  "properties": {
+    "duty": {
+      "$ref": "#/$defs/Duty"
+    },
+    "run_input": {
+      "$ref": "#/$defs/RunInput"
+    },
+    "run_record": {
+      "$ref": "#/$defs/RunRecord"
+    },
+    "run_report": {
+      "$ref": "#/$defs/RunReport"
+    },
+    "snapshot": {
+      "$ref": "#/$defs/OperationsSnapshot"
+    },
+    "source_snapshot": {
+      "$ref": "#/$defs/SourceSnapshot"
+    }
+  },
+  "required": [
+    "snapshot",
+    "run_record",
+    "run_input",
+    "duty",
+    "source_snapshot",
+    "run_report"
+  ],
+  "$defs": {
+    "Action": {
+      "type": "object",
+      "properties": {
+        "attempts": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "digest": {
+          "type": "string"
+        },
+        "inputs": {
+          "type": "array",
+          "items": true
+        },
+        "observation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Execution"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source": {
+          "type": "string"
+        },
+        "stage": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "stage",
+        "digest",
+        "source",
+        "inputs",
+        "attempts",
+        "state"
+      ]
+    },
+    "CaseTrial": {
+      "type": "object",
+      "properties": {
+        "case_id": {
+          "type": "string"
+        },
+        "profile": {
+          "type": "string"
+        },
+        "report": {
+          "$ref": "#/$defs/ReviewReport"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "case_id",
+        "profile",
+        "report"
+      ]
+    },
+    "Crew": {
+      "type": "object",
+      "properties": {
+        "authority": {
+          "type": "string"
+        },
+        "completed_runs": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "xp": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "role",
+        "completed_runs",
+        "xp",
+        "authority"
+      ]
+    },
+    "Duty": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "generation": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "id": {
+          "type": "string"
+        },
+        "interval_seconds": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "profile": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "target",
+        "profile",
+        "interval_seconds",
+        "enabled",
+        "generation"
+      ]
+    },
+    "Execution": {
+      "type": "object",
+      "properties": {
+        "elapsed_ms": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "exit_code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "policy": true,
+        "stderr": {
+          "type": "string"
+        },
+        "stdout": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "exit_code",
+        "stdout",
+        "stderr",
+        "policy",
+        "elapsed_ms"
+      ]
+    },
+    "FrozenInput": {
+      "type": "object",
+      "properties": {
+        "builds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RegisteredBuild"
+          }
+        },
+        "request": {
+          "$ref": "#/$defs/RunInput"
+        }
+      },
+      "required": [
+        "request",
+        "builds"
+      ]
+    },
+    "Omission": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "reason"
+      ]
+    },
+    "OperationsSnapshot": {
+      "type": "object",
+      "properties": {
+        "active": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RunRecord"
+          }
+        },
+        "builds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RegisteredBuild"
+          }
+        },
+        "crew": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Crew"
+          }
+        },
+        "duties": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Duty"
+          }
+        },
+        "field_runs": {
+          "type": "array",
+          "default": [],
+          "items": true
+        },
+        "observed_at": {
+          "type": "number",
+          "format": "double"
+        },
+        "progression": {
+          "default": null
+        },
+        "recent": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RunRecord"
+          }
+        },
+        "repairs": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/RepairRecord"
+          }
+        },
+        "schema_version": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Target"
+          }
+        },
+        "worker": {
+          "$ref": "#/$defs/WorkerStatus"
+        }
+      },
+      "required": [
+        "schema_version",
+        "observed_at",
+        "worker",
+        "targets",
+        "crew",
+        "builds",
+        "duties",
+        "active",
+        "recent"
+      ]
+    },
+    "Proposal": {
+      "type": "object",
+      "properties": {
+        "inference": true,
+        "rationale": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "rationale",
+        "inference"
+      ]
+    },
+    "RegisteredBuild": {
+      "type": "object",
+      "properties": {
+        "digest": {
+          "type": "string"
+        },
+        "manifest": true
+      },
+      "required": [
+        "digest",
+        "manifest"
+      ]
+    },
+    "RepairInput": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "mode": {
+          "type": "string"
+        },
+        "scenario": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "scenario",
+        "mode"
+      ]
+    },
+    "RepairRecord": {
+      "type": "object",
+      "properties": {
+        "actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Action"
+          }
+        },
+        "baseline": {
+          "type": "string"
+        },
+        "build": true,
+        "created_at": {
+          "type": "number",
+          "format": "double"
+        },
+        "detail": {
+          "type": "string"
+        },
+        "events": {
+          "type": "array",
+          "items": true
+        },
+        "expires_at": {
+          "type": "number",
+          "format": "double"
+        },
+        "input": {
+          "$ref": "#/$defs/RepairInput"
+        },
+        "proposal": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Proposal"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "revision": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "summary": true,
+        "task": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "input",
+        "build",
+        "revision",
+        "baseline",
+        "task",
+        "state",
+        "detail",
+        "created_at",
+        "expires_at",
+        "actions",
+        "events"
+      ]
+    },
+    "RetainedReport": {
+      "type": "object",
+      "properties": {
+        "evidence": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RunReport"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "summary": true
+      },
+      "required": [
+        "summary"
+      ]
+    },
+    "ReviewFinding": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "file": {
+          "type": "string"
+        },
+        "line": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "file",
+        "line",
+        "message"
+      ]
+    },
+    "ReviewReport": {
+      "type": "object",
+      "properties": {
+        "advisory": {
+          "default": null
+        },
+        "elapsed_ms": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "engine": {
+          "type": "string"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Omission"
+          }
+        },
+        "files_reviewed": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ReviewFinding"
+          }
+        },
+        "model_calls": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "snapshot_digest": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "snapshot_digest",
+        "findings",
+        "errors",
+        "files_reviewed",
+        "elapsed_ms",
+        "engine",
+        "model_calls"
+      ]
+    },
+    "RunEvent": {
+      "type": "object",
+      "properties": {
+        "at": {
+          "type": "number",
+          "format": "double"
+        },
+        "detail": {
+          "type": "string"
+        },
+        "sequence": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "state": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "sequence",
+        "at",
+        "state",
+        "detail"
+      ]
+    },
+    "RunInput": {
+      "type": "object",
+      "properties": {
+        "candidate": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "id": {
+          "type": "string"
+        },
+        "inference": {
+          "type": "boolean",
+          "default": false
+        },
+        "kind": {
+          "type": "string"
+        },
+        "profile": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "target",
+        "profile"
+      ]
+    },
+    "RunRecord": {
+      "type": "object",
+      "properties": {
+        "created_at": {
+          "type": "number",
+          "format": "double"
+        },
+        "detail": {
+          "type": "string"
+        },
+        "events": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/RunEvent"
+          }
+        },
+        "input": {
+          "$ref": "#/$defs/FrozenInput"
+        },
+        "report": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RetainedReport"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "sequence": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "snapshot": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceSnapshot"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "state": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "sequence",
+        "input",
+        "state",
+        "created_at",
+        "updated_at",
+        "detail"
+      ]
+    },
+    "RunReport": {
+      "type": "object",
+      "properties": {
+        "review": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReviewReport"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "trials": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/CaseTrial"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "SourceFile": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "source",
+        "sha256"
+      ]
+    },
+    "SourceSnapshot": {
+      "type": "object",
+      "properties": {
+        "digest": {
+          "type": "string"
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceFile"
+          }
+        },
+        "redaction": {
+          "type": "string"
+        },
+        "skipped": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Omission"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "digest",
+        "files",
+        "skipped",
+        "redaction"
+      ]
+    },
+    "Target": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "simulation": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "simulation"
+      ]
+    },
+    "WorkerStatus": {
+      "type": "object",
+      "properties": {
+        "available": {
+          "type": "boolean"
+        },
+        "seen_at": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "required": [
+        "available"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+   Compiling starbase-core v0.1.0 (/Users/al/git/Starbase2/services/core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.49s
+     Running unittests src/lib.rs (target/debug/deps/starbase_core-9e7d947bf9c4bd34)
+
+running 3 tests
+test field::tests::stopped_work_cannot_publish_evidence_or_memory ... ok
+test field::tests::field_identity_evidence_and_scope ... ok
+test field::tests::reviewed_memory_freezes_and_revokes_without_awarding_authority ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 27 filtered out; finished in 0.01s
+
+     Running unittests src/main.rs (target/debug/deps/starbase_core-597dc28c21305c6b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

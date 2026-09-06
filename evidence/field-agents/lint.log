@@ -1,0 +1,45 @@
+ASYNC109 Async function definition with a `timeout` parameter
+  --> scripts/field_integration.py:62:24
+   |
+60 |             await asyncio.to_thread(p.wait, 20)
+61 |
+62 |     async def wait(fn, timeout=60):
+   |                        ^^^^^^^^^^
+63 |         until = time.monotonic() + timeout
+64 |         while time.monotonic() < until:
+   |
+help: Use `asyncio.timeout` instead
+
+ASYNC240 Async functions should not perform blocking pathlib.Path operations
+  --> scripts/memory_check.py:15:12
+   |
+14 | async def main():
+15 |     root = Path(__file__).resolve().parents[1]
+   |            ^^^^^^^^^^^^^^^^^^^^^^
+16 |     out = root / ".local" / ("memory-check-" + str(time.time_ns()))
+17 |     out.mkdir()
+   |
+
+E501 Line too long (102 > 100)
+   --> services/runtime/starbase_runtime/field_sources.py:277:101
+    |
+275 |                             subject,
+276 |                             "Available replicas are below desired replicas.",
+277 |                             "Inspect rollout conditions and scheduling before considering a restart.",
+    |                                                                                                     ^^
+278 |                         )
+279 |                     )
+    |
+
+E501 Line too long (128 > 100)
+   --> services/runtime/starbase_runtime/field_sources.py:301:101
+    |
+299 |                                 subject + "/" + container["name"],
+300 |                                 "Container cannot enter a stable running state.",
+301 |                                 "Inspect image availability, startup configuration and restart history; no automatic mutation.",
+    |                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+302 |                             )
+303 |                         )
+    |
+
+Found 4 errors.

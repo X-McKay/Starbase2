@@ -1,0 +1,13 @@
+{
+  "alternate_camera": false,
+  "art_pilot": true,
+  "draw_calls": 155.0,
+  "frames": 150,
+  "interior": false,
+  "live_activity": false,
+  "median_ms": 16.664,
+  "p95_ms": 18.546,
+  "sampling": "monotonic process-frame intervals; capped at 60 FPS; not GPU render time",
+  "viewport": "(1280.0, 800.0)",
+  "work_light": false
+}

@@ -1,0 +1,41 @@
+{
+  "browser": {
+    "created_control_from_form": true,
+    "id": "repair-007db283-cbbf-467a-8b83-50ba532f7085",
+    "completed": true,
+    "xp_unchanged": 50,
+    "case_table": {
+      "baseline": 3,
+      "candidate": 6,
+      "cases": 6
+    },
+    "mobile": {
+      "viewport": 390,
+      "page_scroll_width": 390,
+      "dialog_width": 354
+    },
+    "console_errors": [],
+    "mobile_navigation_regression": {
+      "before_page_width": 443,
+      "viewport": 390,
+      "cause": "Two new navigation links exceeded a fixed-height single flex row",
+      "fix": "Wrap navigation and allow automatic height",
+      "after_page_width": 390
+    },
+    "mobile_ledger_keyboard_open": true
+  },
+  "godot": {
+    "normal_viewport": [
+      1280,
+      800
+    ],
+    "synthetic_label_regression": "Fixed and covered in test_state.gd",
+    "xp": 50,
+    "level": 2,
+    "compact_viewport": [
+      960,
+      720
+    ]
+  },
+  "limits": "Visual spot checks, not a broad accessibility audit"
+}

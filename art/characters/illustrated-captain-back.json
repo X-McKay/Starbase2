@@ -1,0 +1,86 @@
+{
+  "id": "captain-back",
+  "source": "res://../../evidence/illustrated-walk/captain-back.png",
+  "canvas": [
+    256,
+    320
+  ],
+  "pivot": [
+    128,
+    296
+  ],
+  "scale": 0.42,
+  "grid": [
+    2,
+    2
+  ],
+  "anchors": [
+    [
+      362,
+      584
+    ],
+    [
+      870,
+      602
+    ],
+    [
+      369,
+      1234
+    ],
+    [
+      870,
+      1255
+    ]
+  ],
+  "matte": {
+    "minimum": 190,
+    "max_chroma": 12
+  },
+  "idle_atlas": "res://art/crew-adventure.png",
+  "idle_row": 0,
+  "clips": {
+    "walk_back": {
+      "frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "durations": [
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  },
+  "provenance": "Original illustrated captain; built-in image generation; deterministic boundary-connected matte cleanup; no 3D rendering or mirrored directions",
+  "stride_m": 3.2,
+  "include_idle": false,
+  "cells": [
+    [
+      0,
+      0,
+      607,
+      630
+    ],
+    [
+      607,
+      0,
+      607,
+      630
+    ],
+    [
+      0,
+      630,
+      607,
+      665
+    ],
+    [
+      607,
+      630,
+      607,
+      665
+    ]
+  ]
+}

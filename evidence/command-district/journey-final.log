@@ -1,0 +1,11 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M5
+
+Movie Maker mode enabled, recording movie in 1280×800 @ 30 FPS...
+--------------------------------------------------------------------------------
+Done recording movie at path: /Users/al/git/Starbase2/.local/command-movie/final.avi
+230 frames at 30 FPS (movie length: 00:00:07:20), recorded in 00:00:05 (140% of real-time speed).
+CPU render time: 0.18 seconds (average: 0.77 ms/frame)
+GPU render time: 0.00 seconds (average: 0.00 ms/frame)
+Encoding time: 0.97 seconds (average: 4.21 ms/frame)
+--------------------------------------------------------------------------------

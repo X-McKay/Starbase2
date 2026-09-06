@@ -1,0 +1,87 @@
+[
+  {
+    "event": "operator_and_worker_boundaries_passed",
+    "seconds": 0.025
+  },
+  {
+    "event": "paired_grading_and_replay_passed",
+    "seconds": 1.912,
+    "campaign": "improve",
+    "summary": {
+      "baseline_passed": 5,
+      "candidate_passed": 6,
+      "cases": 6,
+      "cost_usd": 0,
+      "hard_gate_failures": [],
+      "outcome": "improved",
+      "qualification": "No promotion, XP, or permission change",
+      "simulation": true,
+      "trials": 12,
+      "uncertainty": "Deterministic public conformance suite only. Equal scores do not establish equivalence; no generalization claim."
+    }
+  },
+  {
+    "event": "paired_grading_and_replay_passed",
+    "seconds": 2.947,
+    "campaign": "regress",
+    "summary": {
+      "baseline_passed": 5,
+      "candidate_passed": 4,
+      "cases": 6,
+      "cost_usd": 0,
+      "hard_gate_failures": [],
+      "outcome": "regressed",
+      "qualification": "No promotion, XP, or permission change",
+      "simulation": true,
+      "trials": 12,
+      "uncertainty": "Deterministic public conformance suite only. Equal scores do not establish equivalence; no generalization claim."
+    }
+  },
+  {
+    "event": "real_analyzer_snapshot_and_immutable_report_passed",
+    "seconds": 6.014,
+    "advisory": {
+      "advice": {
+        "recommendation": "Review the flagged code to identify the specific insecure function call. Replace it with a safer alternative (e.g., `pickle.Unpickler` with restricted globals, `yaml.safe_load`, or JSON) or ensure the input source is fully trusted and validated before deserialization.",
+        "summary": "The static analysis tool flagged code with rule S307, which typically indicates the use of a potentially insecure function (such as `pickle.loads`, `yaml.load`, or `marshal.loads`) that can execute arbitrary code if the input is untrusted. This suggests a potential deserialization vulnerability."
+      },
+      "calls": 1,
+      "cost_usd": null,
+      "elapsed_ms": 2190,
+      "endpoint": "https://llm.almckay.io/v1",
+      "qualification": "Unverified model advice; no effect on grading or permissions",
+      "reported_model": "Qwen3.6-35B-A3B-NVFP4",
+      "requested_model": "Qwen3.6-35B-A3B-NVFP4",
+      "status": "available",
+      "system_fingerprint": "vllm-0.27.1-3f888cac",
+      "usage": {
+        "completion_tokens": 130,
+        "prompt_tokens": 126,
+        "prompt_tokens_details": null,
+        "total_tokens": 256
+      }
+    }
+  },
+  {
+    "event": "worker_loss_stale_and_cancel_before_dispatch_passed",
+    "seconds": 12.148
+  },
+  {
+    "event": "worker_and_temporal_restart_during_durable_timer",
+    "seconds": 14.274,
+    "run_id": "01a070dd-90a0-7e3c-9e88-0cc67f52b72e"
+  },
+  {
+    "event": "durable_timer_recovery_replay_and_pause_passed",
+    "seconds": 43.883,
+    "run": "duty-watch-1788599993"
+  },
+  {
+    "event": "core_restart_retained_evidence_and_history",
+    "seconds": 44.096
+  },
+  {
+    "event": "passed",
+    "seconds": 44.097
+  }
+]

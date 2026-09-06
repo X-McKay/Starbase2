@@ -1,0 +1,14 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Development tests leaked into release
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://package_check.gd:6)
+       [1] run (res://package_check.gd:9)
+       [2] _verify_package (res://world.gd:215)
+ERROR: Art importer leaked into release
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://package_check.gd:6)
+       [1] run (res://package_check.gd:10)
+       [2] _verify_package (res://world.gd:215)

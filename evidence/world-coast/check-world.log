@@ -1,0 +1,74 @@
+python3 scripts/check_world.py
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Scanning file structure...[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Loading global class names...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifying GDExtensions...[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Creating autoload scripts...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Initializing plugins...[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Starting file scan...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | Started Registering global classes... (3 steps)[39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  25% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  50% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[92m[ DONE ][39m [1mupdate_scripts_classes[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Loading editor (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Loading editor layout...[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Loading docks...[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Godot state checks passed: disconnected, empty, stale, missing evidence, terminal and pending states
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Navigation checks passed: all crew, route around habitat, walls, colony boundary
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Path checks passed: every curved centerline stays on shelf, clears obstacles and ends at a reachable destination
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Surface scatter checks passed: shelf/path/landmark clearance, blocked outcrop routes and physics, traversable craters
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Environment checks passed: animated/frozen/resumed spring and canyon water, room visibility, shore footprint
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Coast checks passed: continuous backdrop extent, shelf clearance, fixed collision count, excluded mainland routes, three boundary contacts and returns
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Colony routes reach landing, habitat, expansion and survey districts
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+16 accepted sprite poses verified: alpha, nonempty content, atlas bounds, no clipped opaque pixels
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Art kit checks passed: atlas regions, shared materials, collision separation, editor rebuild, keyboard scene/camera/light/roof
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Room checks passed: three door journeys, prop/edge physics, route recovery, console inspection, stale/offline state, direct visits, map exit, no dispatch
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Interaction checks passed: keyboard directory, spatial interaction, walking, gym, camera, reduced motion, explicit form, offline fencing
+
+.venv/bin/python scripts/check_world_commands.py
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Native command checks passed: local origin, session, denial, pending deduplication, lost response, reconciliation without redispatch
+
+HTTP fixture verified four POSTs only; reconciliation used GET; no worker identity.

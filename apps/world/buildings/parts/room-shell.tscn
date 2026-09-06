@@ -1,0 +1,153 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="PackedScene" path="res://scenes/kit/module.tscn" id="kit"]
+[node name="RoomShell" type="Node3D"]
+[node name="Floor0_0" parent="." instance=ExtResource("kit")]
+position = Vector3(-4,0,-4)
+kind = "floor"
+solid = false
+[node name="Floor0_1" parent="." instance=ExtResource("kit")]
+position = Vector3(-4,0,-2)
+kind = "floor"
+solid = false
+[node name="Floor0_2" parent="." instance=ExtResource("kit")]
+position = Vector3(-4,0,0)
+kind = "floor"
+solid = false
+[node name="Floor0_3" parent="." instance=ExtResource("kit")]
+position = Vector3(-4,0,2)
+kind = "floor"
+solid = false
+[node name="Floor0_4" parent="." instance=ExtResource("kit")]
+position = Vector3(-4,0,4)
+kind = "floor"
+solid = false
+[node name="Floor1_0" parent="." instance=ExtResource("kit")]
+position = Vector3(-2,0,-4)
+kind = "floor"
+solid = false
+[node name="Floor1_1" parent="." instance=ExtResource("kit")]
+position = Vector3(-2,0,-2)
+kind = "floor"
+solid = false
+[node name="Floor1_2" parent="." instance=ExtResource("kit")]
+position = Vector3(-2,0,0)
+kind = "floor"
+solid = false
+[node name="Floor1_3" parent="." instance=ExtResource("kit")]
+position = Vector3(-2,0,2)
+kind = "floor"
+solid = false
+[node name="Floor1_4" parent="." instance=ExtResource("kit")]
+position = Vector3(-2,0,4)
+kind = "floor"
+solid = false
+[node name="Floor2_0" parent="." instance=ExtResource("kit")]
+position = Vector3(0,0,-4)
+kind = "floor"
+solid = false
+[node name="Floor2_1" parent="." instance=ExtResource("kit")]
+position = Vector3(0,0,-2)
+kind = "floor"
+solid = false
+[node name="Floor2_2" parent="." instance=ExtResource("kit")]
+position = Vector3(0,0,0)
+kind = "floor"
+solid = false
+[node name="Floor2_3" parent="." instance=ExtResource("kit")]
+position = Vector3(0,0,2)
+kind = "floor"
+solid = false
+[node name="Floor2_4" parent="." instance=ExtResource("kit")]
+position = Vector3(0,0,4)
+kind = "floor"
+solid = false
+[node name="Floor3_0" parent="." instance=ExtResource("kit")]
+position = Vector3(2,0,-4)
+kind = "floor"
+solid = false
+[node name="Floor3_1" parent="." instance=ExtResource("kit")]
+position = Vector3(2,0,-2)
+kind = "floor"
+solid = false
+[node name="Floor3_2" parent="." instance=ExtResource("kit")]
+position = Vector3(2,0,0)
+kind = "floor"
+solid = false
+[node name="Floor3_3" parent="." instance=ExtResource("kit")]
+position = Vector3(2,0,2)
+kind = "floor"
+solid = false
+[node name="Floor3_4" parent="." instance=ExtResource("kit")]
+position = Vector3(2,0,4)
+kind = "floor"
+solid = false
+[node name="Floor4_0" parent="." instance=ExtResource("kit")]
+position = Vector3(4,0,-4)
+kind = "floor"
+solid = false
+[node name="Floor4_1" parent="." instance=ExtResource("kit")]
+position = Vector3(4,0,-2)
+kind = "floor"
+solid = false
+[node name="Floor4_2" parent="." instance=ExtResource("kit")]
+position = Vector3(4,0,0)
+kind = "floor"
+solid = false
+[node name="Floor4_3" parent="." instance=ExtResource("kit")]
+position = Vector3(4,0,2)
+kind = "floor"
+solid = false
+[node name="Floor4_4" parent="." instance=ExtResource("kit")]
+position = Vector3(4,0,4)
+kind = "floor"
+solid = false
+[node name="Back0" parent="." instance=ExtResource("kit")]
+position = Vector3(-4,0,-5)
+kind = "wall"
+solid = false
+[node name="Back1" parent="." instance=ExtResource("kit")]
+position = Vector3(-2,0,-5)
+kind = "wall"
+solid = false
+[node name="Back2" parent="." instance=ExtResource("kit")]
+position = Vector3(0,0,-5)
+kind = "wall"
+solid = false
+[node name="Back3" parent="." instance=ExtResource("kit")]
+position = Vector3(2,0,-5)
+kind = "wall"
+solid = false
+[node name="Back4" parent="." instance=ExtResource("kit")]
+position = Vector3(4,0,-5)
+kind = "wall"
+solid = false
+[node name="Side-1_0" parent="." instance=ExtResource("kit")]
+position = Vector3(-5,0,-4)
+rotation_degrees = Vector3(0,90,0)
+kind = "wall"
+solid = false
+[node name="Side1_0" parent="." instance=ExtResource("kit")]
+position = Vector3(5,0,-4)
+rotation_degrees = Vector3(0,-90,0)
+kind = "wall"
+solid = false
+[node name="Side-1_1" parent="." instance=ExtResource("kit")]
+position = Vector3(-5,0,-2)
+rotation_degrees = Vector3(0,90,0)
+kind = "wall"
+solid = false
+[node name="Side1_1" parent="." instance=ExtResource("kit")]
+position = Vector3(5,0,-2)
+rotation_degrees = Vector3(0,-90,0)
+kind = "wall"
+solid = false
+[node name="Side-1_2" parent="." instance=ExtResource("kit")]
+position = Vector3(-5,0,0)
+rotation_degrees = Vector3(0,90,0)
+kind = "wall"
+solid = false
+[node name="Side1_2" parent="." instance=ExtResource("kit")]
+position = Vector3(5,0,0)
+rotation_degrees = Vector3(0,-90,0)
+kind = "wall"
+solid = false

@@ -1,0 +1,51 @@
+{
+  "schema_version": 2,
+  "observed_at": 0,
+  "worker": {
+    "available": false
+  },
+  "recent": [
+    {
+      "input": {
+        "request": {
+          "id": "fixture-failed-review",
+          "kind": "review"
+        }
+      },
+      "state": "failed",
+      "detail": "VISUAL FIXTURE: analyzer failed; retained failure is inspectable.",
+      "report": null
+    },
+    {
+      "input": {
+        "request": {
+          "id": "fixture-inconclusive-gym",
+          "kind": "gym"
+        }
+      },
+      "state": "completed",
+      "detail": "VISUAL FIXTURE: insufficient evidence to prefer the candidate.",
+      "report": {
+        "summary": {
+          "outcome": "inconclusive",
+          "simulation": true,
+          "baseline_passed": 4,
+          "candidate_passed": 4,
+          "cases": 6,
+          "qualification": "Inconclusive fixture. No qualification or operational authority."
+        }
+      }
+    }
+  ],
+  "repairs": [
+    {
+      "input": {
+        "id": "fixture-stale-repair",
+        "scenario": "clamp-v1"
+      },
+      "state": "executing",
+      "detail": "VISUAL FIXTURE: worker heartbeat expired. Last-known execution may have started; outcome is unknown.",
+      "summary": null
+    }
+  ]
+}

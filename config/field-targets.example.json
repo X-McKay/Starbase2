@@ -1,0 +1,21 @@
+[
+  {
+    "id": "kubani-observation",
+    "agent": "watchkeeper",
+    "kind": "kubernetes",
+    "api": "https://REPLACE-WITH-VERIFIED-API:6443",
+    "namespaces": ["starbase2-prod"],
+    "token_file": "/run/starbase2/cluster-read-token",
+    "ca_file": "/run/starbase2/cluster-ca.pem",
+    "allow_inference": false
+  },
+  {
+    "id": "starbase2-pr",
+    "agent": "reviewer",
+    "kind": "github",
+    "repository": "X-McKay/Starbase2",
+    "pull": 1,
+    "token_file": "/run/starbase2/github-read-token",
+    "allow_inference": false
+  }
+]

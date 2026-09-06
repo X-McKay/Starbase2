@@ -1,0 +1,115 @@
+{
+  "date": "2026-09-05",
+  "scope": "Natural plateau silhouette and matching bounded movement area",
+  "changes": [
+    "Baked rounded outline with western shoulder, eastern neck, southern headland and shallow coves",
+    "Shared northern arc reconnects decorative mainland to curved shelf",
+    "Navigation grid extent derived from polygon bounds",
+    "Existing buildings, paths, reserved plots and scatter positions retained"
+  ],
+  "checks": {
+    "before": "shape-before.log reproduces long straight edges, uneroded square corner and missing headland route coverage",
+    "shape": "Shape checks passed",
+    "world": "Full just check-world passed; see check-world-first.log",
+    "curved_boundary": "Additional focused test passed seven physical boundary contacts and return routes; see curved-boundary.log",
+    "repository": "just check passed: 27 Rust tests, 16 Python tests, lint/types/contracts/docs"
+  },
+  "captures": {
+    "overview": {
+      "camera_focus": "(0.0, -3.999991, 0.0)",
+      "colony_overview": true,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 2190.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frame_sampling": "monotonic process intervals",
+      "frames": 150,
+      "median_ms": 16.664,
+      "p95_ms": 16.952,
+      "player_position": "(0.0, 0.0, 5.5)",
+      "room": "",
+      "selected_id": "world-visual-control-01",
+      "startup_to_first_frame_ms": 592,
+      "viewport": "(1280.0, 800.0)",
+      "visual_fixture": false,
+      "walk_reached": false,
+      "walk_test": false
+    },
+    "walking": {
+      "camera_focus": "(0.0, 0.0, 26.83659)",
+      "colony_overview": false,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 1267.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frame_sampling": "monotonic process intervals",
+      "frames": 570,
+      "median_ms": 16.664,
+      "p95_ms": 17.253,
+      "player_position": "(0.0, 0.0, 26.83661)",
+      "room": "",
+      "selected_id": "world-visual-control-01",
+      "startup_to_first_frame_ms": 581,
+      "viewport": "(1280.0, 800.0)",
+      "visual_fixture": false,
+      "walk_reached": true,
+      "walk_test": true
+    },
+    "reduced-motion": {
+      "camera_focus": "(0.0, -4.0, 0.0)",
+      "colony_overview": true,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 2190.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frame_sampling": "monotonic process intervals",
+      "frames": 150,
+      "median_ms": 16.663,
+      "p95_ms": 17.107,
+      "player_position": "(0.0, 0.0, 5.5)",
+      "room": "",
+      "selected_id": "world-visual-control-01",
+      "startup_to_first_frame_ms": 571,
+      "viewport": "(1280.0, 800.0)",
+      "visual_fixture": false,
+      "walk_reached": false,
+      "walk_test": false
+    }
+  },
+  "limitations": [
+    "Floor remains flat; no climbing, swimming or off-shelf travel",
+    "Playable footprint changes to match the new polygon, but operational permissions and controls do not change",
+    "Short capped process-frame samples on Apple M5/Godot 4.7.2 Compatibility; no performance improvement or other-platform claim",
+    "Repeated cliff motifs and lighting polish remain under the existing art gate"
+  ]
+}

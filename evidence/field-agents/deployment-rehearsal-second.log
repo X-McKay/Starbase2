@@ -1,0 +1,13 @@
+fresh database/roles provisioned; identical provisioning is idempotent
+PostgreSQL schema verified
+PostgreSQL schema verified
+fresh schema migration, repeat migration and least-privilege grants
+runtime role denied DDL, evidence deletion and schema-version mutation
+dedicated Temporal namespace create, ownership and retention verification
+competing authoritative core refused by database advisory lock
+real Temporal review retained in PostgreSQL through runtime role
+legacy and unqualified repair entry points disabled
+core restart preserves retained result
+pg_dump, owned purge/reprovision, transactional restore preserve evidence
+closed Temporal histories exported and checksums verified
+dedicated Temporal namespace and owned database/roles removed

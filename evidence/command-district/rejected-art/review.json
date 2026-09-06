@@ -1,0 +1,31 @@
+{
+  "tool": "built-in image_gen",
+  "brief": "Four-direction, four-phase captain walk cycle matching the approved character, true alpha, equal cells and stable pivots. Second edit specifically requested checkerboard removal and alternating left/right contact and passing poses.",
+  "results": [
+    {
+      "file": "walk-second.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "png_color_type": 2,
+      "has_alpha": false,
+      "accepted": false
+    },
+    {
+      "file": "walk-first.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "png_color_type": 2,
+      "has_alpha": false,
+      "accepted": false
+    }
+  ],
+  "reason": "Both lack alpha; repeated poses and cell alignment failed visual review. Neither is used by the application.",
+  "prompts": [
+    "Create a production game sprite WALK ANIMATION SHEET of ONLY the silver-haired woman expedition captain from the FIRST ROW of reference. Keep her navy fitted space suit, ivory knee and wrist armor, gold belt, turquoise cape, dark boots and recognizable face. Original richly shaded clean RPG sprite look matching reference. Transparent alpha background, no labels, no grid lines, no shadows outside sprite. EXACT 4 columns by 4 rows, evenly spaced identical square cells, all characters same scale, full body with comfortable margins. Row 1 front view walking toward camera; row 2 rear view walking away; row 3 left profile walking left; row 4 right profile walking right. In EACH row, columns are consecutive four walk-cycle phases: left-foot-forward/right-arm-forward contact; passing pose with right leg lifting, left leg straight; right-foot-forward/left-arm-forward contact; passing pose with left leg lifting, right leg straight. Distinct anatomically believable leg articulation and gentle opposite arm swing, cape trailing slightly. One character per cell, sixteen sprites total. Every frame same head height, same body proportions, torso centered horizontally, feet baseline near bottom with room, no cropping. Use real alpha, not checkerboard background. This is an animation game asset, not a concept collage. Do not add any of the other three characters.",
+    "Revise this production RPG walk-cycle sheet. Preserve the exact silver-haired space captain design and 4x4 layout. Correct two defects: remove the baked checkerboard completely, output genuine transparent alpha. NO checkerboard pixels. Also make each row an actual four-frame alternating walk: column 1 LEFT leg forward, column 2 BOTH feet close together passing under torso, column 3 RIGHT leg forward, column 4 BOTH feet close together passing under torso with opposite knee lifted. Opposite arm swing, gently changing cape. Row1 front, row2 back, row3 left, row4 right. Every figure must stand centered at the horizontal middle of its equal quarter-width cell, with equal head-to-ground height, consistent bottom foot pivot 90% down each quarter-height cell. Keep each sprite fully within its cell with comfortable clear margins. Do not add anything or change the costume. Actual clean alpha is essential for import into Godot."
+  ]
+}

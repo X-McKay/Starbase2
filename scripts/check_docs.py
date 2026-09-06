@@ -4,13 +4,12 @@ Standard library only. Does not access the network or execute documented command
 External links, semantic accuracy, and diagram rendering require separate review.
 """
 
-from pathlib import Path
 import re
 import sys
-
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SKIP = {".git", ".venv", "node_modules", "target", ".godot"}
+SKIP = {".git", ".venv", "node_modules", "target", ".godot", ".local"}
 STATUSES = {"draft", "proposed", "accepted", "deprecated", "superseded", "withdrawn"}
 FENCE = re.compile(r"^```[^\n]*\n.*?^```\s*$", re.MULTILINE | re.DOTALL)
 LINK = re.compile(r"\[[^\]]+\]\(([^)]+)\)")

@@ -1,0 +1,99 @@
+{
+  "date": "2026-09-05",
+  "status": "passed local visual rollout",
+  "environment": "macOS Apple M5, Godot 4.7.2 Compatibility",
+  "checks": {
+    "just check-world": "passed: check-world.log; curved corridors, shelf/obstacle navigation, physical cliff contact, rooms, state, native command isolation",
+    "just check": "passed: check-repository.log; 27 Rust, 16 Python, contracts, lint, 36 Markdown documents",
+    "native_capture": "overview, walking, physical overlook walk, compact large-text reduced-motion stale fixture"
+  },
+  "asset_sha256": "d397f498e2038ceb06debf67ca584c670226d9fd872f01ae1ac03bf7f7b0f67f",
+  "captures": {
+    "before": {
+      "image": "before.png",
+      "pixels": [
+        1280,
+        800
+      ],
+      "frames": 150,
+      "median_ms": 16.671,
+      "p95_ms": 17.193,
+      "draw_calls": 1416.0,
+      "walk_reached": false,
+      "visual_fixture": false
+    },
+    "overview-final": {
+      "image": "overview-final.png",
+      "pixels": [
+        1280,
+        800
+      ],
+      "frames": 150,
+      "median_ms": 16.654,
+      "p95_ms": 17.165,
+      "draw_calls": 1677.0,
+      "walk_reached": false,
+      "visual_fixture": false
+    },
+    "walking-final": {
+      "image": "walking-final.png",
+      "pixels": [
+        1280,
+        800
+      ],
+      "frames": 150,
+      "median_ms": 16.642,
+      "p95_ms": 17.322,
+      "draw_calls": 1338.0,
+      "walk_reached": false,
+      "visual_fixture": false
+    },
+    "overlook": {
+      "image": "overlook.png",
+      "pixels": [
+        1280,
+        800
+      ],
+      "frames": 570,
+      "median_ms": 16.672,
+      "p95_ms": 17.368,
+      "draw_calls": 1047.0,
+      "walk_reached": true,
+      "visual_fixture": false
+    },
+    "stale-compact": {
+      "image": "stale-compact.png",
+      "pixels": [
+        960,
+        720
+      ],
+      "frames": 150,
+      "median_ms": 16.661,
+      "p95_ms": 17.197,
+      "draw_calls": 1240.0,
+      "walk_reached": false,
+      "visual_fixture": true
+    }
+  },
+  "measurement_limits": "Monotonic process-frame intervals, capped at 60 FPS, after 30 warmup frames; short samples on one machine. Not GPU timing or an uncapped performance comparison.",
+  "preserved_failure": "import-first.log: typed Vector3 declaration required in path marker generation",
+  "refinements": [
+    "Texture mapping and deep rock masses replace regular striping",
+    "Reduced rock brightness and varied block dimensions",
+    "Reduced fracture contrast and added quiet sand / exposed rock patches",
+    "Feathered path shoulders and endpoints; landing routes meet pad edges",
+    "Excluded vegetation and small debris from corridors"
+  ],
+  "unchanged_contracts": [
+    "Geography shelf polygon and physical rim",
+    "Structure and prop collision bounds",
+    "Authoritative activity, progression, command policy and interior journeys"
+  ],
+  "limits": [
+    "No climbing, falling or ground displacement",
+    "No authored normal map; texture includes shallow painted shading",
+    "Paths guide visually; click navigation still permits safe off-path travel",
+    "Large forms still procedural; no claim of reference-level finished art",
+    "No second platform or deployment verification"
+  ]
+}

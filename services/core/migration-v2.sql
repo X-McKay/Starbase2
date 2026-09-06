@@ -1,0 +1,22 @@
+BEGIN IMMEDIATE;
+CREATE TABLE IF NOT EXISTS builds_v2 (digest TEXT PRIMARY KEY, body TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS tasks_v2 (
+ id TEXT PRIMARY KEY, input TEXT NOT NULL, state TEXT NOT NULL,
+ created_at REAL NOT NULL, updated_at REAL NOT NULL, detail TEXT NOT NULL,
+ snapshot TEXT, report TEXT
+);
+CREATE TRIGGER IF NOT EXISTS task_report_immutable BEFORE UPDATE OF report ON tasks_v2
+WHEN OLD.report IS NOT NULL BEGIN SELECT RAISE(ABORT, 'report is immutable'); END;
+CREATE TRIGGER IF NOT EXISTS task_snapshot_immutable BEFORE UPDATE OF snapshot ON tasks_v2
+WHEN OLD.snapshot IS NOT NULL BEGIN SELECT RAISE(ABORT, 'snapshot is immutable'); END;
+CREATE TABLE IF NOT EXISTS events_v2 (
+ sequence INTEGER PRIMARY KEY AUTOINCREMENT, task_id TEXT NOT NULL REFERENCES tasks_v2(id),
+ at REAL NOT NULL, state TEXT NOT NULL, detail TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS duties_v2 (
+ id TEXT PRIMARY KEY, target TEXT NOT NULL, profile TEXT NOT NULL,
+ interval_seconds INTEGER NOT NULL, enabled INTEGER NOT NULL, generation INTEGER NOT NULL
+);
+CREATE TABLE IF NOT EXISTS runtime_v2 (id INTEGER PRIMARY KEY CHECK(id=1), seen REAL NOT NULL);
+PRAGMA user_version=2;
+COMMIT;

@@ -1,0 +1,83 @@
+{
+  "id": "captain-illustrated",
+  "source": "res://../../evidence/illustrated-walk/side-cycle.png",
+  "canvas": [
+    256,
+    320
+  ],
+  "pivot": [
+    128,
+    296
+  ],
+  "scale": 0.72,
+  "grid": [
+    4,
+    2
+  ],
+  "anchors": [
+    [
+      270,
+      410
+    ],
+    [
+      704,
+      411
+    ],
+    [
+      1110,
+      411
+    ],
+    [
+      1538,
+      411
+    ],
+    [
+      264,
+      852
+    ],
+    [
+      704,
+      852
+    ],
+    [
+      1110,
+      852
+    ],
+    [
+      1538,
+      852
+    ]
+  ],
+  "matte": {
+    "minimum": 190,
+    "max_chroma": 12
+  },
+  "idle_atlas": "res://art/crew-adventure.png",
+  "idle_row": 0,
+  "clips": {
+    "walk_right": {
+      "frames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "durations": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  },
+  "provenance": "Original illustrated captain; built-in image generation; deterministic boundary-connected matte cleanup; no 3D rendering or mirrored directions",
+  "stride_m": 3.2
+}

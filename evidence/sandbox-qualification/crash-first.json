@@ -1,0 +1,4 @@
+{
+  "passed": false,
+  "error": "Expected stopped/not-found within 38 seconds; probe did not persist raw status before assertion. Cleanup completed in finally. Investigate status semantics before inferring VM liveness."
+}

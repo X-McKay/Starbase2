@@ -1,0 +1,230 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RepairContract",
+  "type": "object",
+  "properties": {
+    "action": {
+      "$ref": "#/$defs/Action"
+    },
+    "input": {
+      "$ref": "#/$defs/RepairInput"
+    },
+    "proposal": {
+      "$ref": "#/$defs/Proposal"
+    },
+    "receipt": {
+      "$ref": "#/$defs/Receipt"
+    },
+    "record": {
+      "$ref": "#/$defs/RepairRecord"
+    }
+  },
+  "required": [
+    "input",
+    "record",
+    "proposal",
+    "receipt",
+    "action"
+  ],
+  "$defs": {
+    "Action": {
+      "type": "object",
+      "properties": {
+        "attempts": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "digest": {
+          "type": "string"
+        },
+        "inputs": {
+          "type": "array",
+          "items": true
+        },
+        "observation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Execution"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source": {
+          "type": "string"
+        },
+        "stage": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "stage",
+        "digest",
+        "source",
+        "inputs",
+        "attempts",
+        "state"
+      ]
+    },
+    "Execution": {
+      "type": "object",
+      "properties": {
+        "elapsed_ms": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "exit_code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "policy": true,
+        "stderr": {
+          "type": "string"
+        },
+        "stdout": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "exit_code",
+        "stdout",
+        "stderr",
+        "policy",
+        "elapsed_ms"
+      ]
+    },
+    "Proposal": {
+      "type": "object",
+      "properties": {
+        "inference": true,
+        "rationale": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "rationale",
+        "inference"
+      ]
+    },
+    "Receipt": {
+      "type": "object",
+      "properties": {
+        "attempt": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "digest": {
+          "type": "string"
+        },
+        "observation": {
+          "$ref": "#/$defs/Execution"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "digest",
+        "attempt",
+        "observation"
+      ]
+    },
+    "RepairInput": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "mode": {
+          "type": "string"
+        },
+        "scenario": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "scenario",
+        "mode"
+      ]
+    },
+    "RepairRecord": {
+      "type": "object",
+      "properties": {
+        "actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Action"
+          }
+        },
+        "baseline": {
+          "type": "string"
+        },
+        "build": true,
+        "created_at": {
+          "type": "number",
+          "format": "double"
+        },
+        "detail": {
+          "type": "string"
+        },
+        "events": {
+          "type": "array",
+          "items": true
+        },
+        "expires_at": {
+          "type": "number",
+          "format": "double"
+        },
+        "input": {
+          "$ref": "#/$defs/RepairInput"
+        },
+        "proposal": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Proposal"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "revision": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "summary": true,
+        "task": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "input",
+        "build",
+        "revision",
+        "baseline",
+        "task",
+        "state",
+        "detail",
+        "created_at",
+        "expires_at",
+        "actions",
+        "events"
+      ]
+    }
+  }
+}

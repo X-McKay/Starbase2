@@ -1,0 +1,155 @@
+{
+  "schema_version": 2,
+  "recent": [],
+  "worker": {
+    "available": true
+  },
+  "field_runs": [
+    {
+      "created_at": 1788722916.711018,
+      "detail": "Advisory findings retained",
+      "input": {
+        "agent": "reviewer",
+        "id": "duty-repo-bfa47b8c92d47e5292243168-0-1788722916",
+        "inference": false,
+        "target": "repo-bfa47b8c92d47e5292243168"
+      },
+      "state": "completed",
+      "summary": {
+        "finding_count": 1,
+        "memory_status": "empty",
+        "outcome": "findings",
+        "simulation": true,
+        "source_kind": "field"
+      },
+      "updated_at": 1788722916.988501
+    },
+    {
+      "created_at": 1788722883.818871,
+      "detail": "Advisory findings retained",
+      "input": {
+        "agent": "watchkeeper",
+        "id": "duty-cluster-watch-0-1788722883",
+        "inference": false,
+        "target": "cluster-fixture"
+      },
+      "state": "completed",
+      "summary": {
+        "finding_count": 2,
+        "memory_status": "empty",
+        "outcome": "findings",
+        "simulation": true,
+        "source_kind": "field"
+      },
+      "updated_at": 1788722884.578301
+    },
+    {
+      "created_at": 1788722851.950856,
+      "detail": "Advisory findings retained",
+      "input": {
+        "agent": "watchkeeper",
+        "id": "after-revoke",
+        "inference": false,
+        "target": "cluster-fixture"
+      },
+      "state": "completed",
+      "summary": {
+        "finding_count": 2,
+        "memory_status": "empty",
+        "outcome": "findings",
+        "simulation": true,
+        "source_kind": "field"
+      },
+      "updated_at": 1788722852.812687
+    },
+    {
+      "created_at": 1788722850.928933,
+      "detail": "Advisory findings retained",
+      "input": {
+        "agent": "watchkeeper",
+        "id": "after-restart",
+        "inference": false,
+        "target": "cluster-fixture"
+      },
+      "state": "completed",
+      "summary": {
+        "finding_count": 2,
+        "memory_status": "available",
+        "outcome": "findings",
+        "simulation": true,
+        "source_kind": "field"
+      },
+      "updated_at": 1788722851.76482
+    },
+    {
+      "created_at": 1788722850.92357,
+      "detail": "Stop requested; waiting for durable acknowledgement",
+      "input": {
+        "agent": "watchkeeper",
+        "id": "cancelled",
+        "inference": false,
+        "target": "cluster-fixture"
+      },
+      "state": "cancelled",
+      "summary": null,
+      "updated_at": 1788722851.680924
+    },
+    {
+      "created_at": 1788722845.009189,
+      "detail": "Advisory findings retained",
+      "input": {
+        "agent": "watchkeeper",
+        "id": "cluster-recall",
+        "inference": false,
+        "target": "cluster-fixture"
+      },
+      "state": "completed",
+      "summary": {
+        "finding_count": 2,
+        "memory_status": "available",
+        "outcome": "findings",
+        "simulation": true,
+        "source_kind": "field"
+      },
+      "updated_at": 1788722846.035628
+    },
+    {
+      "created_at": 1788722843.978541,
+      "detail": "Advisory findings retained",
+      "input": {
+        "agent": "reviewer",
+        "id": "pr-first",
+        "inference": false,
+        "target": "pr-fixture"
+      },
+      "state": "completed",
+      "summary": {
+        "finding_count": 1,
+        "memory_status": "empty",
+        "outcome": "findings",
+        "simulation": true,
+        "source_kind": "field"
+      },
+      "updated_at": 1788722844.954889
+    },
+    {
+      "created_at": 1788722842.750078,
+      "detail": "Advisory findings retained",
+      "input": {
+        "agent": "watchkeeper",
+        "id": "cluster-first",
+        "inference": false,
+        "target": "cluster-fixture"
+      },
+      "state": "completed",
+      "summary": {
+        "finding_count": 2,
+        "memory_status": "empty",
+        "outcome": "findings",
+        "simulation": true,
+        "source_kind": "field"
+      },
+      "updated_at": 1788722843.868408
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+[
+  {
+    "event": "cancel_before_dispatch_passed",
+    "elapsed_seconds": 0.837
+  },
+  {
+    "event": "worker_sigkill",
+    "elapsed_seconds": 1.869,
+    "mode": "direct",
+    "workflow_run_id": "01a0709c-ae8a-73d4-9276-6d907e1bbc15"
+  },
+  {
+    "event": "restart_duplicate_submission_replay_passed",
+    "elapsed_seconds": 16.748,
+    "mode": "direct",
+    "history_events": 53,
+    "baseline": 3,
+    "candidate": 1
+  },
+  {
+    "event": "cancellation_passed",
+    "elapsed_seconds": 19.628,
+    "mode": "direct",
+    "detail": "Stopped; Temporal status CANCELED"
+  },
+  {
+    "event": "worker_sigkill",
+    "elapsed_seconds": 20.672,
+    "mode": "integration",
+    "workflow_run_id": "01a0709c-f764-706d-b508-3dfc349f58cf"
+  },
+  {
+    "event": "restart_duplicate_submission_replay_passed",
+    "elapsed_seconds": 35.612,
+    "mode": "integration",
+    "history_events": 53,
+    "baseline": 3,
+    "candidate": 1
+  },
+  {
+    "event": "cancellation_passed",
+    "elapsed_seconds": 38.501,
+    "mode": "integration",
+    "detail": "Stopped; Temporal status CANCELED"
+  },
+  {
+    "event": "unloaded_build_rejected",
+    "elapsed_seconds": 40.56
+  },
+  {
+    "event": "core_restart_preserved_all_missions_and_evidence",
+    "elapsed_seconds": 40.789
+  },
+  {
+    "event": "passed",
+    "elapsed_seconds": 40.79,
+    "duration_seconds": 40.79
+  }
+]

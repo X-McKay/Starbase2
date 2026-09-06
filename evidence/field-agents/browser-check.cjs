@@ -1,0 +1,24 @@
+const {chromium}=require('/Users/al/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+let browser;
+(async()=>{
+ browser=await chromium.launch({headless:true,executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
+ const page=await browser.newPage({viewport:{width:1280,height:1000}});
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto('http://127.0.0.1:18794');
+ const section=page.locator('#field-agents');await section.waitFor();
+ await page.waitForFunction(()=>document.querySelector('#field-history p'));
+ if (!await page.locator('#field-submit').isDisabled()) throw Error('Paused installation accepted dispatch UI');
+ if (!(await page.locator('#field-target').innerText()).includes('SYNTHETIC')) throw Error('Fixture not labeled');
+ await section.getByRole('button',{name:'Inspect evidence'}).first().click();
+ await page.waitForFunction(()=>document.querySelector("#field-evidence").textContent.includes("\"snapshot_digest\""));
+ await section.getByRole('button',{name:'Source',exact:true}).first().click();
+ await page.waitForFunction(()=>document.querySelector('#field-evidence').textContent.includes('"source_run"') || document.querySelector('#field-evidence').textContent.includes('"memory_snapshot"'));
+ await section.scrollIntoViewIfNeeded();await page.evaluate(()=>document.querySelector('#field-agents').scrollIntoView());
+ await page.screenshot({path:'evidence/field-agents/journal.png'});
+ await page.route('**/v4/snapshot',route=>route.fulfill({status:503,body:'{}'}));
+ await page.waitForFunction(()=>document.querySelector('#field-notice').textContent.includes('disconnected'),null,{timeout:10000});
+ if (!await page.locator('#field-submit').isDisabled()) throw Error('Offline dispatch UI enabled');
+ if (errors.length) throw Error(errors.join('\n'));
+ console.log('Browser passed: synthetic labels, retained findings/provenance, source inspection, paused/offline commands, no script errors');
+ await browser.close();
+})().catch(async e=>{console.error(e);await browser?.close();process.exitCode=1});

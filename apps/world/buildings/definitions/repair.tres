@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+[ext_resource type="Script" path="res://building_definition.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"repair"
+title = "ENGINEERING HANGAR"
+exterior_image = "res://buildings/art/engineering-hangar.png"
+image_pixel_size = 0.009
+image_door_pixel = Vector2(928, 823)
+collision_boxes = Array[Rect2]([Rect2(-7.3,-6.75,10.7,8.3)])
+interior_scene = "res://buildings/interiors/repair.tscn"

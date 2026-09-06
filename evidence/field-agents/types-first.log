@@ -1,0 +1,23 @@
+error[invalid-argument-type]: Method `__getitem__` of type `bound method str.__getitem__(key: SupportsIndex | slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None], /) -> str` cannot be called with key of type `Literal["finding"]` on object of type `str`
+   --> services/runtime/starbase_runtime/field.py:100:14
+    |
+100 |     known = {m["finding"]["key"]: m for m in recalled["records"]}
+    |              ^
+
+error[call-non-callable]: Object of type `RunUsage` is not callable
+   --> services/runtime/starbase_runtime/field.py:152:26
+    |
+152 |             "usage": str(result.usage()),
+    |                          ^^^^^^^^^^^^^^
+
+error[unsupported-operator]: Unsupported `>` operation
+  --> services/runtime/starbase_runtime/memory.py:65:8
+   |
+65 |     if len(memories) > POLICY["limit"] or any(
+   |        -------------^^^---------------
+   |        |               |
+   |        |               Has type `int | str`
+   |        Has type `int`
+info: Operation fails because operator `>` is not supported between objects of type `int` and `str`
+
+Found 3 diagnostics

@@ -91,3 +91,41 @@ approved object storage, Godot performance and accessibility, agent quality,
 Rust-versus-Python development cost, framework compatibility at selected pins,
 and clean-checkout application setup. The delivery plan contains the experiments
 that must resolve these before claiming implementation or production readiness.
+
+## First local implementation — 2026-09-05
+
+The new [local experiment](local-slice.md) supplies executable evidence beyond
+the initial repository research. Its results narrowed local service ownership to
+one Rust core plus Python Temporal workers; they did not settle production storage,
+security isolation, agent quality, or the renderer choice.
+
+Current official [PydanticAI Temporal documentation](https://pydantic.dev/docs/ai/capabilities/durable_execution/temporal/)
+identifies `TemporalDurability` as the maintained capability path and the original
+wrapper as deprecated. The experiment pins PydanticAI 2.40.0 and exercises that
+capability alongside direct activities. The [Temporal Python SDK](https://github.com/temporalio/sdk-python)
+provided the real worker and replay implementation. Godot's
+[web export documentation](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_web.html)
+remains relevant to the unresolved export test; a missing installed template is
+not evidence that the engine cannot support the product.
+
+## Operations follow-up — 2026-09-05
+
+The [local operations experiment](operations.md) exercised real Ruff analysis,
+Temporal timer recovery, and both user-permitted inference endpoints. Official
+[Ruff rule documentation](https://docs.astral.sh/ruff/rules/) and the installed
+pinned CLI informed the controlled structural rule profiles. Godot's official
+[OptionButton reference](https://docs.godotengine.org/en/stable/classes/class_optionbutton.html)
+and [Button text clipping reference](https://docs.godotengine.org/en/stable/classes/class_button.html)
+supported the observed long-ID layout fix. Temporal's
+[Python Schedules documentation](https://docs.temporal.io/develop/python/workflows/schedules)
+was reviewed as an alternative to the implemented periodic durable workflow;
+calendar scheduling is not currently required.
+
+The hosted endpoint advertised `Qwen3.6-35B-A3B-NVFP4`; local Ollama advertised
+`qwen2.5-coder:7b` and Starbase/Qwen variants. Only sanitized rule metadata was
+sent in the recorded pilot. See its protocol and all outputs linked from the
+operations document; a successful response was not treated as a correct answer.
+
+## Implemented local repair extension · 2026-09-05
+
+The [sandbox landscape survey](sandbox-survey.md) compares microsandbox, CubeSandbox, OpenSandbox, Apple container, E2B and AIO Sandbox. Local microVM experiments and the [repair evidence](repairs.md) support reusing an existing runtime through a small adapter. They do not establish fleet or production readiness.

@@ -1,0 +1,121 @@
+{
+  "date": "2026-09-05",
+  "scope": "Local environment art; no service, authority or deployment changes",
+  "changes": [
+    "Cliff blocks with varied spacing, shear, width, profile and ledges",
+    "Rock material with derived relief, weathering, slope dust and varied roughness",
+    "Irregular spring shoreline with decorative ripples, shallow caustics and mineral bank",
+    "Reduced-motion freezes water phase; hidden exterior pauses its clock",
+    "Static surface detail in distant canyon channel"
+  ],
+  "visual_review": [
+    "Overview and actual walk to spring on native macOS at 1280x800",
+    "Reduced-motion overview",
+    "Softened initial over-strong rock grooves and water specular bands; corrected bank winding"
+  ],
+  "captures": {
+    "overview": {
+      "camera_focus": "(0.0, -3.999991, 0.0)",
+      "colony_overview": true,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 1977.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frame_sampling": "monotonic process intervals",
+      "frames": 150,
+      "median_ms": 16.665,
+      "p95_ms": 17.142,
+      "player_position": "(0.0, 0.0, 5.5)",
+      "room": "",
+      "selected_id": "world-visual-control-01",
+      "startup_to_first_frame_ms": 485,
+      "viewport": "(1280.0, 800.0)",
+      "visual_fixture": false,
+      "walk_reached": false,
+      "walk_test": false
+    },
+    "spring": {
+      "camera_focus": "(20.95993, 0.0, -15.79048)",
+      "colony_overview": false,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 1102.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frame_sampling": "monotonic process intervals",
+      "frames": 570,
+      "median_ms": 16.646,
+      "p95_ms": 17.562,
+      "player_position": "(20.97413, 0.0, -15.82195)",
+      "room": "",
+      "selected_id": "world-visual-control-01",
+      "startup_to_first_frame_ms": 460,
+      "viewport": "(1280.0, 800.0)",
+      "visual_fixture": false,
+      "walk_reached": true,
+      "walk_test": true
+    },
+    "reduced-motion": {
+      "camera_focus": "(0.0, -4.0, 0.0)",
+      "colony_overview": true,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 1977.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frame_sampling": "monotonic process intervals",
+      "frames": 150,
+      "median_ms": 16.665,
+      "p95_ms": 17.499,
+      "player_position": "(0.0, 0.0, 5.5)",
+      "room": "",
+      "selected_id": "world-visual-control-01",
+      "startup_to_first_frame_ms": 461,
+      "viewport": "(1280.0, 800.0)",
+      "visual_fixture": false,
+      "walk_reached": false,
+      "walk_test": false
+    }
+  },
+  "checks": {
+    "repository": "27 Rust and 16 Python tests, lint, types, contracts passed; see check-repository.log",
+    "environment": "Water animation/freeze/resume, hidden exterior and footprint checks passed; see environment.log",
+    "world": "Full just check-world passed: state, navigation, paths, scatter, environment, colony, crew, kit, rooms, interaction and native command fixtures",
+    "documentation": "Documentation checks and git diff --check passed"
+  },
+  "limitations": [
+    "Capped process-frame measurements on Apple M5 / Godot 4.7.2 Compatibility, not an uncapped GPU benchmark or performance improvement claim",
+    "Water is a decorative opaque shader; no real fluid simulation, depth refraction or water interactions",
+    "Relief comes from existing color artwork, not authored height/normal maps",
+    "Repeated cliff motifs and uneven building-detail quality remain; authored cliff kit and scene composition are the next art gate",
+    "Other platforms and export were not tested"
+  ]
+}

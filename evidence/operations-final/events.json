@@ -1,0 +1,87 @@
+[
+  {
+    "event": "operator_and_worker_boundaries_passed",
+    "seconds": 0.444
+  },
+  {
+    "event": "paired_grading_and_replay_passed",
+    "seconds": 2.138,
+    "campaign": "improve",
+    "summary": {
+      "baseline_passed": 5,
+      "candidate_passed": 6,
+      "cases": 6,
+      "cost_usd": 0,
+      "hard_gate_failures": [],
+      "outcome": "improved",
+      "qualification": "No promotion, XP, or permission change",
+      "simulation": true,
+      "trials": 12,
+      "uncertainty": "Deterministic public conformance suite only. Equal scores do not establish equivalence; no generalization claim."
+    }
+  },
+  {
+    "event": "paired_grading_and_replay_passed",
+    "seconds": 3.175,
+    "campaign": "regress",
+    "summary": {
+      "baseline_passed": 5,
+      "candidate_passed": 4,
+      "cases": 6,
+      "cost_usd": 0,
+      "hard_gate_failures": [],
+      "outcome": "regressed",
+      "qualification": "No promotion, XP, or permission change",
+      "simulation": true,
+      "trials": 12,
+      "uncertainty": "Deterministic public conformance suite only. Equal scores do not establish equivalence; no generalization claim."
+    }
+  },
+  {
+    "event": "real_analyzer_snapshot_and_immutable_report_passed",
+    "seconds": 5.644,
+    "advisory": {
+      "advice": {
+        "recommendation": "Review the code to replace `eval` with `ast.literal_eval` if only literal evaluation is required, or ensure strict input validation if dynamic execution is necessary.",
+        "summary": "Static analysis detected a potential security issue (S307) in the reviewed file, indicating the use of the `eval` function which can execute arbitrary code."
+      },
+      "calls": 1,
+      "cost_usd": null,
+      "elapsed_ms": 1563,
+      "endpoint": "https://llm.almckay.io/v1",
+      "qualification": "Unverified model advice; no effect on grading or permissions",
+      "reported_model": "Qwen3.6-35B-A3B-NVFP4",
+      "requested_model": "Qwen3.6-35B-A3B-NVFP4",
+      "status": "available",
+      "system_fingerprint": "vllm-0.27.1-3f888cac",
+      "usage": {
+        "completion_tokens": 82,
+        "prompt_tokens": 164,
+        "prompt_tokens_details": null,
+        "total_tokens": 246
+      }
+    }
+  },
+  {
+    "event": "worker_loss_stale_and_cancel_before_dispatch_passed",
+    "seconds": 11.578
+  },
+  {
+    "event": "worker_and_temporal_restart_during_durable_timer",
+    "seconds": 13.718,
+    "run_id": "01a070e2-92e5-7a1d-b35a-45b67aab1c02"
+  },
+  {
+    "event": "durable_timer_recovery_replay_and_pause_passed",
+    "seconds": 53.753,
+    "run": "duty-watch-1788600332"
+  },
+  {
+    "event": "core_restart_retained_evidence_and_history",
+    "seconds": 53.967
+  },
+  {
+    "event": "passed",
+    "seconds": 53.968
+  }
+]

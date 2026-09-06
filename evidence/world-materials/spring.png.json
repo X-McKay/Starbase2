@@ -1,0 +1,30 @@
+{
+  "camera_focus": "(20.95993, 0.0, -15.79048)",
+  "colony_overview": false,
+  "colony_walk_test": false,
+  "command_message": "",
+  "draw_calls": 1102.0,
+  "engine": {
+    "build": "official",
+    "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+    "hex": 263938,
+    "major": 4,
+    "minor": 7,
+    "patch": 2,
+    "status": "stable",
+    "string": "4.7.2-stable (official)",
+    "timestamp": 0
+  },
+  "frame_sampling": "monotonic process intervals",
+  "frames": 570,
+  "median_ms": 16.646,
+  "p95_ms": 17.562,
+  "player_position": "(20.97413, 0.0, -15.82195)",
+  "room": "",
+  "selected_id": "world-visual-control-01",
+  "startup_to_first_frame_ms": 460,
+  "viewport": "(1280.0, 800.0)",
+  "visual_fixture": false,
+  "walk_reached": true,
+  "walk_test": true
+}

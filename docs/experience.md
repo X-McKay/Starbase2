@@ -2,13 +2,98 @@
 
 Status: proposed
 
+## Asset-driven buildings · 2026-09-06
+
+The [building catalog](building-catalog.md) separates PNG/native exterior assets,
+placement, collision, and optional authored interiors. The Engineering Hangar now
+sits beside the landing district. A searchable directory provides direct room
+visits; the existing evidence and command boundaries are unchanged. A shared-art
+50-instance fixture establishes reuse, not 50 unique-art memory qualification.
+
+## Geology and connected paths · 2026-09-05
+
+The [geology pass](world-geology.md) replaces repeated cliff stripes with painted
+fractured rock, deep buttresses, a broken escarpment and soil-to-caprock blending.
+Curved colony corridors connect existing districts; the safe shelf boundary and
+all operational state remain unchanged. A connected mainland and headlands now
+place the colony in a wider coastal landscape. The natural-outline pass reshapes
+the playable shelf into rounded shoulders, headlands and coves; surrounding
+mainland remains decorative, with navigation and collision confined to the shelf.
+The upland transition now shares the exact shelf edge and soil shading, with
+eroded ridges and clustered outcrops replacing the separate pale wall.
+
+## Playable kit rollout · 2026-09-05
+
+The [approved kit now appears in the colony](world-rollout.md): three textured
+main buildings, plaza and habitat cladding, plus workshop, command and trial-hall
+interiors. Doorway/inspector visits, bounded walking, console inspection and
+return journeys preserve the existing authoritative state and non-spatial controls.
+These instanced interiors supersede earlier notes that all interiors are deferred.
+
+## Modular art pilot · 2026-09-05
+
+The [art-production workflow](art-production.md) introduces a separate native
+showroom with shared PNG surfaces and reusable interior/exterior modules. It
+establishes an implementation path; playable interiors and the production quality
+bar remain open. The running colony is not replaced by the showroom.
+
+## Implemented cliff shelf · 2026-09-05
+
+[The exposed colony shelf](world-cliff.md) replaces the enclosing rock barriers
+with a near-side drop and connected rear escarpment. One irregular polygon owns
+the rendered rim, physical edge and navigation clearance.
+
+## Implemented red-planet surface · 2026-09-05
+
+[The mineral basin](world-surface.md) adds red clay, cracked flats, dune shading,
+stratified cliffs, golden groundcover, a turquoise pool and weathered landmarks.
+This supersedes the first colony pass’s muted brown/green surface palette.
+
+## Implemented planetary colony · 2026-09-05
+
+[Aster colony](world-colony.md) expands the playable footprint into a planetary
+basin with trails, a landing district, habitat, botanical module and reserved
+sites. Follow/room cameras and a colony overview support exploration. This
+supersedes the floating-terrace setting; construction and resources are scenery.
+
+## Implemented space-adventure direction · 2026-09-05
+
+[Aster frontier](world-adventure.md) adds four distinct higher-detail crew suits,
+matching inspector portraits, a command bridge, engineering hangar, trial-hall
+gate, airlocks and a ringed-planet backdrop. This supersedes the earlier cozy
+solar-roof art direction; backend records and operational semantics are unchanged.
+
+## Implemented playable art pass · 2026-09-05
+
+[Aster outpost](world-playable.md) replaces the static blockout with original pixel
+characters, textured habitats, walking/collision, contextual inspectors, native
+synthetic repair commands, and core-backed achievement displays. Normal, compact,
+large-text, stale and offline captures are retained. Interiors, work-stage
+animation, sound, persistent decoration, and direct gym configuration remain open.
+
+## Implemented local repair extension · 2026-09-05
+
+Mender now has a persistent identity, 25 XP per distinct verified synthetic AI repair, two evidence-linked achievements and a level display in both clients. Qualification remains exact-build and permissions remain independent. This provisional progression curve is implemented, not usability-validated; see [repair operations](repairs.md).
+
+Implemented UI: the [local operations edition](operations.md) now has a responsive
+journal with review/gym/duty commands, stable Surveyor/Trainer role projections,
+run history, source citations, keyboard controls, and a decorative station
+illustration. Native Godot consumes the same v2 records and opens the journal for
+review/gym/duty commands; the playable extension adds native repair commands.
+The broader character simulation below remains proposed.
+
+Earlier experiment: [Surveyor’s terrace](local-slice.md) had three static
+crew, three work areas, a live mission inspector, and a keyboard-accessible
+journal. Native rendering/export is demonstrated; final art direction, animation,
+web delivery, and accessibility/performance budgets remain proposed.
+
 ## Direction
 
-Build a compact research settlement on a floating industrial terrace: warm
-workshop windows, weathered ceramic panels, mechanical couriers, hanging
-gardens, and a bright experimental gym. This is an initial art hypothesis,
-not an inherited station layout or final brand. Also prototype an orbital
-cutaway and a mobile research vessel before committing to the spatial theme.
+Build an inhabited planetary research colony: a small established civic center,
+newly landed equipment, surveyed sites and surrounding terrain with room to grow.
+The owner selected this direction after reviewing the space-adventure crew and
+station art. Prefer refining these authored districts over generating an endless
+map or adding operational systems solely to fill the landscape.
 
 Use Godot 4 with an orthographic 3D environment, restrained geometry, and
 expressive billboard/sprite characters. Compose scenes in the editor and
@@ -30,9 +115,9 @@ rendering; native desktop and web must be measured separately.
 
 Keep the world prominent. The inspector is a legible dock beside it, not tiny
 text pasted onto walls. A compact web console uses the same projections and
-command semantics, without requiring Godot. Initial Godot builds inspect and
-deep-link to the console for actions; direct in-world commands follow only
-after tested authentication, pending-state behavior, and accessibility parity.
+command semantics, without requiring Godot. Godot now creates and cancels synthetic repairs through the existing local
+operator session, with tested pending states and uncertain-response reconciliation.
+Review/gym/duty creation continues to deep-link to the console.
 
 Rooms are activity contexts. Operators do not need to know the backend topology.
 An event animation is a projection of work; a character reaching a door cannot

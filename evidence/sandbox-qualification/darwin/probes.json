@@ -1,0 +1,153 @@
+{
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "policy": {
+    "runtime": "microsandbox",
+    "version": "0.6.14",
+    "image": "python@sha256:900229622a576409d52f7a66b24cf441415a828d7e503b0107bf56452a4e44ac",
+    "cpus": 1,
+    "memory_mib": 256,
+    "root_disk_mib": 256,
+    "tmp_mib": 16,
+    "command_seconds": 10,
+    "lifetime_seconds": 30,
+    "output_bytes": 32768,
+    "network": "none",
+    "user": "65534:65534",
+    "host_mounts": []
+  },
+  "results": {
+    "isolation": {
+      "exit_code": 0,
+      "stdout": "{\"host_files_absent\": true, \"unprivileged\": true, \"credential_absent\": true, \"core_blocked\": true, \"host_gateway_blocked\": true, \"internet_blocked\": true, \"input_readonly\": true}\n",
+      "stderr": "",
+      "policy": {
+        "runtime": "microsandbox",
+        "version": "0.6.14",
+        "image": "python@sha256:900229622a576409d52f7a66b24cf441415a828d7e503b0107bf56452a4e44ac",
+        "cpus": 1,
+        "memory_mib": 256,
+        "root_disk_mib": 256,
+        "tmp_mib": 16,
+        "command_seconds": 10,
+        "lifetime_seconds": 30,
+        "output_bytes": 32768,
+        "network": "none",
+        "user": "65534:65534",
+        "host_mounts": []
+      },
+      "elapsed_ms": 451,
+      "removed": true,
+      "checks": {
+        "host_files_absent": true,
+        "unprivileged": true,
+        "credential_absent": true,
+        "core_blocked": true,
+        "host_gateway_blocked": true,
+        "internet_blocked": true,
+        "input_readonly": true
+      },
+      "passed": true
+    },
+    "memory": {
+      "exit_code": 0,
+      "stdout": "{\"bounded\": true}\n",
+      "stderr": "",
+      "policy": {
+        "runtime": "microsandbox",
+        "version": "0.6.14",
+        "image": "python@sha256:900229622a576409d52f7a66b24cf441415a828d7e503b0107bf56452a4e44ac",
+        "cpus": 1,
+        "memory_mib": 256,
+        "root_disk_mib": 256,
+        "tmp_mib": 16,
+        "command_seconds": 10,
+        "lifetime_seconds": 30,
+        "output_bytes": 32768,
+        "network": "none",
+        "user": "65534:65534",
+        "host_mounts": []
+      },
+      "elapsed_ms": 297,
+      "removed": true,
+      "checks": {
+        "bounded": true
+      },
+      "passed": true
+    },
+    "disk": {
+      "exit_code": 0,
+      "stdout": "{\"bounded\": true}\n",
+      "stderr": "",
+      "policy": {
+        "runtime": "microsandbox",
+        "version": "0.6.14",
+        "image": "python@sha256:900229622a576409d52f7a66b24cf441415a828d7e503b0107bf56452a4e44ac",
+        "cpus": 1,
+        "memory_mib": 256,
+        "root_disk_mib": 256,
+        "tmp_mib": 16,
+        "command_seconds": 10,
+        "lifetime_seconds": 30,
+        "output_bytes": 32768,
+        "network": "none",
+        "user": "65534:65534",
+        "host_mounts": []
+      },
+      "elapsed_ms": 286,
+      "removed": true,
+      "checks": {
+        "bounded": true
+      },
+      "passed": true
+    },
+    "timeout": {
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "error: exec timed out after 2s\n",
+      "policy": {
+        "runtime": "microsandbox",
+        "version": "0.6.14",
+        "image": "python@sha256:900229622a576409d52f7a66b24cf441415a828d7e503b0107bf56452a4e44ac",
+        "cpus": 1,
+        "memory_mib": 256,
+        "root_disk_mib": 256,
+        "tmp_mib": 16,
+        "command_seconds": 10,
+        "lifetime_seconds": 30,
+        "output_bytes": 32768,
+        "network": "none",
+        "user": "65534:65534",
+        "host_mounts": []
+      },
+      "elapsed_ms": 2253,
+      "removed": true,
+      "passed": true
+    },
+    "background": {
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "error: exec timed out after 2s\n",
+      "policy": {
+        "runtime": "microsandbox",
+        "version": "0.6.14",
+        "image": "python@sha256:900229622a576409d52f7a66b24cf441415a828d7e503b0107bf56452a4e44ac",
+        "cpus": 1,
+        "memory_mib": 256,
+        "root_disk_mib": 256,
+        "tmp_mib": 16,
+        "command_seconds": 10,
+        "lifetime_seconds": 30,
+        "output_bytes": 32768,
+        "network": "none",
+        "user": "65534:65534",
+        "host_mounts": []
+      },
+      "elapsed_ms": 2224,
+      "removed": true,
+      "passed": true
+    },
+    "cancellation": {
+      "passed": true
+    }
+  }
+}

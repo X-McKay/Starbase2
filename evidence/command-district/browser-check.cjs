@@ -1,0 +1,41 @@
+// Host-scoped visual QA recipe. Uses installed Playwright/Chrome, not a shipping dependency.
+const {chromium}=require('/Users/al/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const fs=require('node:fs'),path=require('node:path'),os=require('node:os'),crypto=require('node:crypto'),{spawn}=require('node:child_process');
+const root=process.cwd(), dir=fs.mkdtempSync(path.join(os.tmpdir(),'starbase-command-'));
+const token=crypto.randomBytes(32).toString('hex'),tokenFile=path.join(dir,'token');fs.writeFileSync(tokenFile,token,{mode:0o600});
+const origin='http://127.0.0.1:18794';
+const core=spawn(path.join(root,'target/debug/starbase-core'),[],{env:{PATH:process.env.PATH,STARBASE_PORT:'18794',STARBASE_DB:path.join(dir,'core.sqlite'),STARBASE_TOKEN_FILE:tokenFile,STARBASE_FIELD_ENABLED:'true'},stdio:['ignore','ignore','pipe']});
+let browser;
+const assert=(ok,message)=>{if(!ok)throw Error(message)};
+(async()=>{
+ for(let i=0;i<100;i++){try{await fetch(origin);break}catch{await new Promise(r=>setTimeout(r,100))}}
+ browser=await chromium.launch({headless:true,executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
+ const page=await browser.newPage({viewport:{width:1280,height:1000}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(origin); await page.locator('#watch-form').waitFor();
+ const post=async(url,body)=>page.evaluate(async({url,body})=>{const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});if(!r.ok)throw Error(await r.text());return r.json()},{url,body});
+ const internal=async(url,body)=>{const r=await fetch(origin+url,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify(body)});if(!r.ok)throw Error(await r.text());return r.json()};
+ const data=JSON.parse(fs.readFileSync('evidence/command-district/board-fixture.json'));
+ const run=data.details['pr-first'];await internal('/internal/v4/builds',run.build);
+ await post('/v4/runs',run.input);await internal('/internal/v4/runs/pr-first/running',{});await internal('/internal/v4/runs/pr-first/snapshot',run.snapshot);await internal('/internal/v4/runs/pr-first/finish',run.report);
+ await page.locator('#watch-repository').fill('Fixture/Command');await page.locator('#watch-save').click();
+ await page.waitForFunction(()=>document.querySelector('#repository-watches').textContent.includes('fixture/command'));
+ const watches=page.locator('#repository-watches');
+ await watches.getByRole('button',{name:'Pause',exact:true}).click();await page.waitForFunction(()=>document.querySelector('#repository-watches').textContent.includes('paused'));
+ await watches.getByRole('button',{name:'Resume',exact:true}).click();await page.waitForFunction(()=>document.querySelector('#repository-watches').textContent.includes('watch enabled'));
+ await watches.getByRole('button',{name:'Remove',exact:true}).click();await page.waitForFunction(()=>document.querySelector('#removed-watches').textContent.includes('fixture/command'));
+ await page.getByText('Removed watches (history retained)',{exact:true}).click();
+ await page.locator('#removed-watches').getByRole('button',{name:'Restore'}).click();await page.waitForFunction(()=>document.querySelector('#repository-watches').textContent.includes('watch enabled'));
+ const state=await (await fetch(origin+'/v4/snapshot')).json();assert(state.repositories.length===1&&state.repositories[0].config.generation===4,'watch history/config revisions');
+ await page.locator('#field-history').getByRole('button',{name:'Inspect evidence'}).first().click();
+ await page.waitForFunction(()=>document.querySelector('#field-evidence').textContent.includes('S307'));
+ assert(await page.locator('#field-evidence details').count()===1,'progressive evidence disclosure');
+ await page.locator('#field-memory').getByRole('button',{name:'approve',exact:true}).first().click();
+ await page.waitForFunction(()=>document.querySelector('#field-memory').textContent.includes('revision 1'));
+ await page.locator('#field-memory').getByRole('button',{name:'revoke',exact:true}).first().click();
+ await page.waitForFunction(()=>document.querySelector('#field-memory').textContent.includes('revision 2'));
+ await page.locator('#watch-form').scrollIntoViewIfNeeded();await page.screenshot({path:'evidence/command-district/browser-watches.png'});
+ await page.route('**/v4/snapshot',r=>r.fulfill({status:503,body:'{}'}));await page.waitForFunction(()=>document.querySelector('#field-notice').textContent.includes('disconnected'));
+ assert(await page.locator('#watch-save').isDisabled(),'offline watch mutation disabled');assert(await page.locator('#field-submit').isDisabled(),'offline dispatch disabled');
+ assert(errors.length===0,errors.join('\n'));
+ console.log('PASS: real core browser watch add/pause/resume/remove/restore, canonical identity and revision 4, findings, memory approve/revoke, progressive evidence, offline command fence; no worker/provider/external writes.');
+})().catch(e=>{console.error(e);process.exitCode=1}).finally(async()=>{await browser?.close();core.kill('SIGTERM');console.log('Private test state retained in '+dir)});

@@ -1,0 +1,235 @@
+{
+  "date": "2026-09-05",
+  "status": "passed local rollout",
+  "environment": "macOS Apple M5, Godot 4.7.2 Compatibility",
+  "checks": {
+    "mise exec -- just check-world": "passed: check-world-final.log",
+    "mise exec -- just check": "passed: check-repository.log; 27 Rust, 16 Python; contracts and docs",
+    "native_visual_review": "colony, workshop, command, trial hall, compact large-text stale fixture, offline inspector"
+  },
+  "samples": {
+    "command.png.json": {
+      "camera_focus": "(0.0, 1.5, 120.0)",
+      "colony_overview": false,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 276.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frame_sampling": "monotonic process intervals",
+      "frames": 150,
+      "median_ms": 16.668,
+      "p95_ms": 17.73,
+      "player_position": "(0.0, 0.0, 123.6)",
+      "room": "review",
+      "selected_id": "world-visual-control-01",
+      "startup_to_first_frame_ms": 409,
+      "viewport": "(1280.0, 800.0)",
+      "visual_fixture": false,
+      "walk_reached": false,
+      "walk_test": false,
+      "image_pixels": [
+        1280,
+        800
+      ]
+    },
+    "workshop.png.json": {
+      "camera_focus": "(0.0, 1.5, 120.0)",
+      "colony_overview": false,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 280.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frame_sampling": "monotonic process intervals",
+      "frames": 150,
+      "median_ms": 16.661,
+      "p95_ms": 18.188,
+      "player_position": "(0.0, 0.0, 123.6)",
+      "room": "repair",
+      "selected_id": "world-visual-control-01",
+      "startup_to_first_frame_ms": 439,
+      "viewport": "(1280.0, 800.0)",
+      "visual_fixture": false,
+      "walk_reached": false,
+      "walk_test": false,
+      "image_pixels": [
+        1280,
+        800
+      ]
+    },
+    "offline-interior.png.json": {
+      "camera_focus": "(2.6, 1.5, 120.0)",
+      "colony_overview": false,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 314.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frame_sampling": "monotonic process intervals",
+      "frames": 150,
+      "median_ms": 16.666,
+      "p95_ms": 17.683,
+      "player_position": "(0.0, 0.0, 123.6)",
+      "room": "repair",
+      "selected_id": "",
+      "startup_to_first_frame_ms": 421,
+      "viewport": "(1280.0, 800.0)",
+      "visual_fixture": false,
+      "walk_reached": false,
+      "walk_test": false,
+      "image_pixels": [
+        1280,
+        800
+      ]
+    },
+    "stale-interior.png.json": {
+      "camera_focus": "(2.6, 1.5, 120.0)",
+      "colony_overview": false,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 312.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frame_sampling": "monotonic process intervals",
+      "frames": 150,
+      "median_ms": 16.675,
+      "p95_ms": 18.013,
+      "player_position": "(0.0, 0.0, 123.6)",
+      "room": "repair",
+      "selected_id": "fixture-stale-repair",
+      "startup_to_first_frame_ms": 427,
+      "viewport": "(960.0, 720.0)",
+      "visual_fixture": true,
+      "walk_reached": false,
+      "walk_test": false,
+      "image_pixels": [
+        960,
+        720
+      ]
+    },
+    "colony.png.json": {
+      "camera_focus": "(0.0, 0.0, 5.499987)",
+      "colony_overview": false,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 1184.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frame_sampling": "monotonic process intervals",
+      "frames": 150,
+      "median_ms": 16.638,
+      "p95_ms": 17.596,
+      "player_position": "(0.0, 0.0, 5.5)",
+      "room": "",
+      "selected_id": "world-visual-control-01",
+      "startup_to_first_frame_ms": 431,
+      "viewport": "(1280.0, 800.0)",
+      "visual_fixture": false,
+      "walk_reached": false,
+      "walk_test": false,
+      "image_pixels": [
+        1280,
+        800
+      ]
+    },
+    "trial-hall.png.json": {
+      "camera_focus": "(0.0, 1.5, 120.0)",
+      "colony_overview": false,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 276.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frame_sampling": "monotonic process intervals",
+      "frames": 150,
+      "median_ms": 16.672,
+      "p95_ms": 18.48,
+      "player_position": "(0.0, 0.0, 123.6)",
+      "room": "gym",
+      "selected_id": "world-visual-control-01",
+      "startup_to_first_frame_ms": 411,
+      "viewport": "(1280.0, 800.0)",
+      "visual_fixture": false,
+      "walk_reached": false,
+      "walk_test": false,
+      "image_pixels": [
+        1280,
+        800
+      ]
+    }
+  },
+  "measurement_limits": "Capped 60 FPS, monotonic process-frame intervals after 30 warmup frames; no GPU or comparative performance claim. One machine only.",
+  "preserved_failures": [
+    "before.log: no room transition existed",
+    "rooms-first.log: fixture assertion raced an outstanding offline HTTP request; test now cancels the request before injecting state"
+  ],
+  "visual_corrections": [
+    "Raised plaza panels above overlapping trails",
+    "Expanded return-button width",
+    "Interior camera accommodates compact dock",
+    "Hide exterior terrain and sky during cutaway room rendering"
+  ],
+  "semantics": "Only retained core projections supply activity; fixtures labeled; travel, visiting and inspection dispatch no work.",
+  "limitations": [
+    "Instanced interiors use larger floorplans than exterior footprints",
+    "Immediate room/camera cut, no animated door or roof fade",
+    "No new art assets, authored crew animations, sound or lighting masks",
+    "Habitat, greenhouse and shuttle remain decorative",
+    "No export, second platform or deployment qualification"
+  ]
+}

@@ -1,0 +1,7 @@
+error[unresolved-reference]: Name `field_tick` used when not defined
+   --> services/runtime/starbase_runtime/worker.py:153:13
+    |
+153 |             field_tick,
+    |             ^^^^^^^^^^
+
+Found 1 diagnostic

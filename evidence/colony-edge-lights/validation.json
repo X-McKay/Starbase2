@@ -1,0 +1,77 @@
+{
+  "scope": "Decorative pad borders and runway edge lighting",
+  "checks": {
+    "focused": {
+      "exit_code": 0,
+      "log": "focused.log"
+    },
+    "world_suite": {
+      "exit_code": 0,
+      "log": "world.log"
+    },
+    "native_render": {
+      "exit_code": 0,
+      "log": "capture.log"
+    },
+    "resource_export": {
+      "exit_code": 0,
+      "log": "pack-export.log"
+    },
+    "exported_scene": {
+      "exit_code": 0,
+      "log": "pack-check.log"
+    },
+    "documentation": {
+      "exit_code": 0,
+      "log": "docs.log"
+    },
+    "tracked_whitespace": {
+      "exit_code": 0,
+      "log": "diff-check.log"
+    }
+  },
+  "render_measurement": {
+    "passed": true,
+    "pixel": "(632, 472)",
+    "pulse": {
+      "max": 0.593464057892561,
+      "min": 0.11111111442248,
+      "range": 0.482352943470081
+    },
+    "steady": {
+      "max": 0.593464057892561,
+      "min": 0.593464057892561,
+      "range": 0.0
+    }
+  },
+  "captures": [
+    "overview.png",
+    "arrival.png",
+    "pulse-bright.png",
+    "pulse-dim.png",
+    "reduced-motion.png"
+  ],
+  "retained_diagnostics": [
+    {
+      "file": "render-first.json",
+      "resolution": "The original pixel probe landed between lights. Sampling now selects the nearest generated beacon and its actual height."
+    },
+    {
+      "file": "docs-first.log",
+      "resolution": "The capture was still running when documentation validation checked its link. Validation passes after the artifact was written."
+    }
+  ],
+  "implementation": {
+    "pad_border": "steady blue core and soft surface halo",
+    "road_edges": "steady thin outline and flush yellow fixtures at 3m spacing",
+    "pulse_seconds": 2.4,
+    "reduced_motion": "steady fully lit",
+    "additional_meshes": 5,
+    "per_light_nodes": 0,
+    "collision_added": false
+  },
+  "limitations": [
+    "Visual surface glow; no dynamic illumination cast on nearby terrain.",
+    "Local macOS Godot validation and resource export only; no production deployment."
+  ]
+}

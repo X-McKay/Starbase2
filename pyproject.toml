@@ -1,0 +1,40 @@
+[project]
+name = "starbase-runtime"
+version = "0.1.0"
+requires-python = "==3.12.*"
+dependencies = [
+    "temporalio==1.32.0",
+    "pydantic-ai-slim[temporal]==2.40.0",
+    "httpx==0.28.1",
+    "graphiti-core[falkordb]==0.30.1",
+]
+
+[dependency-groups]
+dev = [
+    "pytest==9.1.1",
+    "ruff==0.16.6",
+    "ty==0.0.78",
+    "datamodel-code-generator==0.76.2",
+    "falkordblite==0.5.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["services/runtime", "."]
+testpaths = ["services/runtime/tests"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "ASYNC"]
+
+[tool.ty.environment]
+extra-paths = ["services/runtime"]
+
+[tool.ruff.lint.per-file-ignores]
+# Local test harness performs tiny artifact writes between awaited operations.
+"scripts/integration.py" = ["ASYNC240"]
+"scripts/operations_integration.py" = ["ASYNC240"]
+"scripts/inference_pilot.py" = ["ASYNC240"]
+"scripts/repair_integration.py" = ["ASYNC240"]

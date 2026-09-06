@@ -1,0 +1,17 @@
+*
+!Cargo.toml
+!Cargo.lock
+!rust-toolchain.toml
+!pyproject.toml
+!uv.lock
+!services/
+!services/**
+!apps/
+!apps/console/
+!apps/console/**
+!fixtures/
+!fixtures/**
+!deploy/
+!deploy/*.Dockerfile
+**/__pycache__
+**/*.pyc

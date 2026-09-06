@@ -1,0 +1,98 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Upland mesh must meet the exact plateau edge: (-40.0, -0.035, -22.5)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_uplands.gd:21)
+ERROR: Upland mesh must meet the exact plateau edge: (-40.0, -0.035, -25.5)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_uplands.gd:21)
+ERROR: Upland mesh must meet the exact plateau edge: (-39.0, -0.035, -28.25)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_uplands.gd:21)
+ERROR: Upland mesh must meet the exact plateau edge: (-37.0, -0.035, -30.75)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_uplands.gd:21)
+ERROR: Upland mesh must meet the exact plateau edge: (-34.25, -0.035, -32.75)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_uplands.gd:21)
+ERROR: Upland mesh must meet the exact plateau edge: (-30.75, -0.035, -34.25)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_uplands.gd:21)
+ERROR: Upland mesh must meet the exact plateau edge: (-26.75, -0.035, -35.25)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_uplands.gd:21)
+ERROR: Upland mesh must meet the exact plateau edge: (-22.25, -0.035, -35.75)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_uplands.gd:21)
+ERROR: Upland mesh must meet the exact plateau edge: (-18.0, -0.035, -35.5)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_uplands.gd:21)
+ERROR: Upland mesh must meet the exact plateau edge: (-14.0, -0.035, -34.5)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_uplands.gd:21)
+ERROR: Upland mesh must meet the exact plateau edge: (-10.0, -0.035, -33.5)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_uplands.gd:21)
+ERROR: Upland mesh must meet the exact plateau edge: (-6.0, -0.035, -32.5)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_uplands.gd:21)
+ERROR: Upland mesh must meet the exact plateau edge: (-2.0, -0.035, -32.125)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_uplands.gd:21)
+ERROR: Upland mesh must meet the exact plateau edge: (2.0, -0.035, -32.375)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_uplands.gd:21)
+ERROR: Upland mesh must meet the exact plateau edge: (6.25, -0.035, -33.375)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_uplands.gd:21)
+ERROR: Upland mesh must meet the exact plateau edge: (10.75, -0.035, -35.125)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_uplands.gd:21)
+ERROR: Upland mesh must meet the exact plateau edge: (15.75, -0.035, -36.5)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_uplands.gd:21)
+ERROR: Upland mesh must meet the exact plateau edge: (21.25, -0.035, -37.5)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_uplands.gd:21)
+ERROR: Upland mesh must meet the exact plateau edge: (26.25, -0.035, -37.25)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_uplands.gd:21)
+ERROR: Upland mesh must meet the exact plateau edge: (30.75, -0.035, -35.75)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_uplands.gd:21)
+ERROR: Upland mesh must meet the exact plateau edge: (34.75, -0.035, -33.5)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_uplands.gd:21)
+ERROR: Upland mesh must meet the exact plateau edge: (38.25, -0.035, -30.5)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_uplands.gd:21)
+ERROR: Upland mesh must meet the exact plateau edge: (40.75, -0.035, -27.25)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_uplands.gd:21)
+ERROR: Upland mesh must meet the exact plateau edge: (42.25, -0.035, -23.75)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_uplands.gd:21)

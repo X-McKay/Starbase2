@@ -1,0 +1,78 @@
+{
+  "status": "functional local read-only operations; production vision incomplete",
+  "checks": {
+    "rust_tests": 21,
+    "python_tests": 12,
+    "rustfmt_clippy": "passed",
+    "ruff_ty": "passed",
+    "generated_contracts": "passed",
+    "documentation": "passed",
+    "actionlint": "passed",
+    "javascript_syntax": "passed",
+    "godot_import_state": "passed"
+  },
+  "experiments": {
+    "v2_recovery_seconds": 53.968,
+    "v1_compatibility_seconds": 42.533,
+    "inference_pilot_attempts": 12
+  },
+  "inference_pilot": [
+    {
+      "model": "Qwen3.6-35B-A3B-NVFP4",
+      "with_rule_context": false,
+      "passed": 2,
+      "attempts": 3
+    },
+    {
+      "model": "Qwen3.6-35B-A3B-NVFP4",
+      "with_rule_context": true,
+      "passed": 3,
+      "attempts": 3
+    },
+    {
+      "model": "qwen2.5-coder:7b",
+      "with_rule_context": false,
+      "passed": 1,
+      "attempts": 3
+    },
+    {
+      "model": "qwen2.5-coder:7b",
+      "with_rule_context": true,
+      "passed": 3,
+      "attempts": 3
+    }
+  ],
+  "quality_conclusion": "Exploratory public smoke cases only; insufficient evidence for broad improvement or equivalence.",
+  "ui": {
+    "browser": "review and comparison submission; citations; unavailable/disconnected state; active filter; 390px layout without document overflow",
+    "godot": "normal and compact native captures; long-ID overflow fixed",
+    "web_export": "not implemented"
+  },
+  "external_effects": "No cluster/repository mutations, publication, or notifications. Authorized hosted/Ollama inference only.",
+  "source_sha256": {
+    "services/core/src/grader.rs": "ca195ea55b0af58f0d98fa07e70f331e3c85935a08de2765d04d39aa994b8137",
+    "services/core/src/lib.rs": "347dcc81541182b7c31bc2579f4fc8a8ebe34cb0e4971414d9b838bda05727a0",
+    "services/core/src/main.rs": "e22df5b4c5a56f1c564beea4d5774c1db062044bf3c67eb3677315280a831fa7",
+    "services/core/src/model.rs": "d00e3d7ce8a4c7ceb0e102c29c4d5b3304761e62c8a74ef934541db4ea48cf0d",
+    "services/core/src/operations.rs": "53e1c000cc7682865b9af9544763c4d4f5747ce72eafefb6f908974704fc0553",
+    "services/core/src/operations_api.rs": "343685bd4a465469f0e8be2f86432a7a0d204c0515a969016774ecfcfb2a8b10",
+    "services/runtime/starbase_runtime/__init__.py": "1e00ce6dd14341dba4308000622f0d167bc795da64d1ed890129ae64bb1d6773",
+    "services/runtime/starbase_runtime/activities.py": "688b2ed57889d3ad58befb7486172739bad9b846d85b2c080fc946f06de315d8",
+    "services/runtime/starbase_runtime/agent.py": "48b8e86c58c5468fdce29a83e4cf4bbaabbe0f1dfd18fb4c2b1f737e76ab02e9",
+    "services/runtime/starbase_runtime/contract.py": "92f5caf0009ef4122a79d7a5df3874a2a6d8ce995c0e05f7b1fb2ba57378bc66",
+    "services/runtime/starbase_runtime/dispatch.py": "ba2cf0fbabb0a81487b9912f9bc27a5040a22f50fe356d2ef26921700ea6f043",
+    "services/runtime/starbase_runtime/inference.py": "2727d037a104134710a2ac303de9242ab3d1d742c660a782cd8677362c9c7a6d",
+    "services/runtime/starbase_runtime/operations.py": "7a6bb76817d71e86ce76a98fef83fdfbf9ee4245ebf4a20ce0792413cc5e1e36",
+    "services/runtime/starbase_runtime/operations_contract.py": "b51243a25c406de7ec24974ff81aff1dcc21f66c778ece68baae710d9fddb3f8",
+    "services/runtime/starbase_runtime/operations_workflows.py": "88e92df1ffc62469a198ebfdeccb737b7851539bcf03474817a20b03f5c0302b",
+    "services/runtime/starbase_runtime/review.py": "56610948d0c99ae59da0285ce75ee81bbc66a10c553a9833807234e34af104e6",
+    "services/runtime/starbase_runtime/worker.py": "09432abff73561107edda19648e9355f1770b088844b73eef7bf0e0c3d646ded",
+    "services/runtime/starbase_runtime/workflows.py": "77809dda12602aed577b1d565ddd2713c03eb072d318e6ca952baf4c6f71d156",
+    "apps/console/console.css": "66dc5706d5ad58fa22d6d924a7d1d48f4034cdf909dfe5fc82228f10edc28abf",
+    "apps/console/console.js": "9b1c0185b424448e3f74c39022ecde23d1d4477f2b58cf4062d61a0e286c1fb8",
+    "apps/console/index.html": "ff4810c53c3a32541bb05a60504031e5aa4b2ba501cf531412933caf2d3d29e7",
+    "apps/world/state.gd": "6837ed98981002de058e95660e297bef43b525ca83f2f70eb07de2f3c976e195",
+    "apps/world/test_state.gd": "d0fce00fb0ecf085aa2006f49d703f6425c38de9510c92fa86f2273b5e2e5666",
+    "apps/world/world.gd": "dab842c0b8e9e403b6eb72cd7bf996eaef98fc308423dd49e37d23ca11650f3f"
+  }
+}

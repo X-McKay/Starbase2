@@ -1,0 +1,25 @@
+{
+  "checked_at": "2026-09-06T06:37:34.907417+00:00",
+  "scope": "local preparation only; Kubani unchanged",
+  "checks": {
+    "just check": "passed: 27 Rust tests, 36 Python tests, Ruff/ty/Clippy/fmt/contracts/docs",
+    "just test-postgres": "passed against disposable PostgreSQL 18.3; 27 tests, including development-only tests",
+    "just test-integration": "passed, local Temporal restart/replay and legacy compatibility",
+    "just test-operations": "passed, local authorization, grading, review, duty recovery, pause and retained evidence",
+    "deployment rehearsal": "passed; see deployment-rehearsal.json",
+    "kubectl kustomize": "passed offline using deliberately unpublished preview digests",
+    "CI workflow": "YAML parsed locally; remote CI not executed"
+  },
+  "not_performed": [
+    "Linux application image build/publication",
+    "Kubani server-side manifest validation/activation",
+    "Kubani PostgreSQL or Temporal mutation",
+    "Platform backup restore qualification"
+  ],
+  "inputs": {
+    "services/core/postgres-v1.sql": "993568b2027d199395e4c874a7f489eb780e9a5b2fc6179405c378ad4b250d06",
+    "Cargo.lock": "935272085686e318cd56d01d007f20088461a682a29e60e8e1833d8d37a14938",
+    "uv.lock": "25916e79e35b8b75185f62588ac0e677f4deb3e1be50c6c47177a3086a0ba7c7",
+    "scripts/deployment/render.py": "bef75bad2c11cfd411dcf9a308d260db8e8eb76282a831dbd792f85c8469dce4"
+  }
+}

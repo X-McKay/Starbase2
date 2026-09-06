@@ -1,0 +1,17 @@
+error[invalid-argument-type]: Argument to `AsyncOpenAI.__init__` is incorrect
+   --> services/runtime/starbase_runtime/field.py:149:17
+    |
+149 |                 http_client=http,
+    |                 ^^^^^^^^^^^^^^^^ Expected `httpx2._client.AsyncClient | None`, found `httpx._client.AsyncClient`
+info: Method defined here
+   --> .venv/lib/python3.12/site-packages/openai/_client.py:907:9
+    |
+907 |     def __init__(
+    |         ^^^^^^^^
+    |
+   ::: .venv/lib/python3.12/site-packages/openai/_client.py:927:9
+    |
+927 |         http_client: httpx2.AsyncClient | None = None,
+    |         --------------------------------------------- Parameter declared here
+
+Found 1 diagnostic

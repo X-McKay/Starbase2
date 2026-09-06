@@ -1,0 +1,11 @@
+{
+  "distinct_atlases": 2,
+  "draw_calls": 110.0,
+  "frames": 65,
+  "median_ms": 16.672,
+  "p95_ms": 18.556,
+  "pilot": true,
+  "texture_memory_bytes": 49694533.0,
+  "timing": "process intervals; capture/fixed-fps workload, not a performance benchmark",
+  "viewport": "(1280.0, 800.0)"
+}

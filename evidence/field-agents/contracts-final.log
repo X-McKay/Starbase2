@@ -1,0 +1,28 @@
+/Users/al/git/Starbase2/.venv/lib/python3.12/site-packages/datamodel_code_generator/parser/jsonschema.py:1379: UserWarning: format of 'uint32' not understood for 'integer' - using default
+  return _get_type(type_, format_, data_formats)
+/Users/al/git/Starbase2/.venv/lib/python3.12/site-packages/datamodel_code_generator/parser/jsonschema.py:1379: UserWarning: format of 'uint64' not understood for 'integer' - using default
+  return _get_type(type_, format_, data_formats)
+Found 1 error (1 fixed, 0 remaining).
+1 file left unchanged
+/Users/al/git/Starbase2/.venv/lib/python3.12/site-packages/datamodel_code_generator/parser/jsonschema.py:1379: UserWarning: format of 'uint32' not understood for 'integer' - using default
+  return _get_type(type_, format_, data_formats)
+/Users/al/git/Starbase2/.venv/lib/python3.12/site-packages/datamodel_code_generator/parser/jsonschema.py:1379: UserWarning: format of 'uint64' not understood for 'integer' - using default
+  return _get_type(type_, format_, data_formats)
+Found 1 error (1 fixed, 0 remaining).
+1 file left unchanged
+/Users/al/git/Starbase2/.venv/lib/python3.12/site-packages/datamodel_code_generator/parser/jsonschema.py:1379: UserWarning: format of 'uint32' not understood for 'integer' - using default
+  return _get_type(type_, format_, data_formats)
+/Users/al/git/Starbase2/.venv/lib/python3.12/site-packages/datamodel_code_generator/parser/jsonschema.py:1379: UserWarning: format of 'uint64' not understood for 'integer' - using default
+  return _get_type(type_, format_, data_formats)
+Found 1 error (1 fixed, 0 remaining).
+1 file left unchanged
+/Users/al/git/Starbase2/.venv/lib/python3.12/site-packages/datamodel_code_generator/parser/jsonschema.py:1379: UserWarning: format of 'uint32' not understood for 'integer' - using default
+  return _get_type(type_, format_, data_formats)
+/Users/al/git/Starbase2/.venv/lib/python3.12/site-packages/datamodel_code_generator/parser/jsonschema.py:1379: UserWarning: format of 'uint64' not understood for 'integer' - using default
+  return _get_type(type_, format_, data_formats)
+Found 1 error (1 fixed, 0 remaining).
+1 file left unchanged
+Contracts generated.
+Contracts generated.
+Contracts generated.
+Contracts generated.

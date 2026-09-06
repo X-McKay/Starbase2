@@ -26,6 +26,10 @@ Repository creation is authorized. Architecture acceptance, provider access,
 cluster deployment, data migration, and live execution are separate decisions.
 Source evidence and its limits are recorded in [research](../research.md).
 
+The local implementation now follows [ADR 0002](0002-local-walking-slice.md).
+Its measured scope supersedes the four-owner starting requirement locally; the
+broader foundation, production topology, and UI choice remain proposed.
+
 ## Proposed decision
 
 1. Start a new product monorepo. Preserve predecessor installations and history

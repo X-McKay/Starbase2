@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FieldContract",
+  "type": "object",
+  "properties": {
+    "duty": {
+      "$ref": "#/$defs/FieldDuty"
+    },
+    "input": {
+      "$ref": "#/$defs/FieldInput"
+    },
+    "memory_review": {
+      "$ref": "#/$defs/MemoryReview"
+    },
+    "report": {
+      "$ref": "#/$defs/FieldReport"
+    },
+    "repository_watch": {
+      "$ref": "#/$defs/RepositoryWatch"
+    }
+  },
+  "required": [
+    "input",
+    "report",
+    "memory_review",
+    "duty",
+    "repository_watch"
+  ],
+  "$defs": {
+    "FieldDuty": {
+      "type": "object",
+      "properties": {
+        "agent": {
+          "type": "string"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "generation": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "id": {
+          "type": "string"
+        },
+        "interval_seconds": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "target": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "agent",
+        "target",
+        "interval_seconds",
+        "enabled",
+        "generation"
+      ]
+    },
+    "FieldInput": {
+      "type": "object",
+      "properties": {
+        "agent": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "inference": {
+          "type": "boolean"
+        },
+        "target": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "agent",
+        "target",
+        "inference"
+      ]
+    },
+    "FieldReport": {
+      "type": "object",
+      "properties": {
+        "advisory": true,
+        "coverage": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Finding"
+          }
+        },
+        "memory": true,
+        "snapshot_digest": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "snapshot_digest",
+        "findings",
+        "coverage",
+        "memory"
+      ]
+    },
+    "Finding": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "line": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "recommendation": {
+          "type": "string"
+        },
+        "subject": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "key",
+        "code",
+        "subject",
+        "line",
+        "summary",
+        "recommendation"
+      ]
+    },
+    "MemoryReview": {
+      "type": "object",
+      "properties": {
+        "decision": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "revision": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision",
+        "decision"
+      ]
+    },
+    "RepositoryWatch": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "generation": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "interval_seconds": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "removed": {
+          "type": "boolean"
+        },
+        "repository": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "repository",
+        "interval_seconds",
+        "enabled",
+        "removed",
+        "generation"
+      ]
+    }
+  }
+}

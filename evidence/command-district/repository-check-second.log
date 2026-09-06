@@ -1,0 +1,16 @@
+cargo fmt --all --check
+cargo clippy --locked --all-targets -- -D warnings
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.15s
+.venv/bin/ruff format --check services/runtime scripts
+60 files already formatted
+.venv/bin/ruff check services/runtime scripts
+All checks passed!
+.venv/bin/ty check services/runtime scripts
+error[invalid-assignment]: Object of type `def capture(target: dict[Unknown, Unknown]) -> CoroutineType[Any, Any, dict[Unknown, Unknown]]` is not assignable to attribute `capture` of type `def capture(target: dict[Unknown, Unknown]) -> CoroutineType[Any, Any, dict[Unknown, Unknown]]`
+  --> scripts/repository_worker_fixture.py:65:5
+   |
+65 |     field_sources.capture = capture
+   |     ^^^^^^^^^^^^^^^^^^^^^
+
+Found 1 diagnostic
+error: recipe `lint` failed on line 46 with exit code 1

@@ -1,0 +1,130 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Sprite source lacks alpha
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Cropped opaque pixels: operator facing 0 walking true (25120 pixels)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Sprite source lacks alpha
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Cropped opaque pixels: operator facing 1 walking true (25120 pixels)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Sprite source lacks alpha
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Cropped opaque pixels: operator facing 2 walking true (25120 pixels)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Sprite source lacks alpha
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Cropped opaque pixels: operator facing 3 walking true (25120 pixels)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Sprite source lacks alpha
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Cropped opaque pixels: surveyor facing 0 walking true (25040 pixels)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Sprite source lacks alpha
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Cropped opaque pixels: surveyor facing 1 walking true (25040 pixels)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Sprite source lacks alpha
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Cropped opaque pixels: surveyor facing 2 walking true (25040 pixels)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Sprite source lacks alpha
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Cropped opaque pixels: surveyor facing 3 walking true (25040 pixels)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Sprite source lacks alpha
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Cropped opaque pixels: mender facing 0 walking true (25120 pixels)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Sprite source lacks alpha
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Cropped opaque pixels: mender facing 1 walking true (25120 pixels)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Sprite source lacks alpha
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Cropped opaque pixels: mender facing 2 walking true (25120 pixels)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Sprite source lacks alpha
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Cropped opaque pixels: mender facing 3 walking true (25120 pixels)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Sprite source lacks alpha
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Cropped opaque pixels: trainer facing 0 walking true (25040 pixels)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Sprite source lacks alpha
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Cropped opaque pixels: trainer facing 1 walking true (25040 pixels)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Sprite source lacks alpha
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Cropped opaque pixels: trainer facing 2 walking true (25040 pixels)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Sprite source lacks alpha
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)
+ERROR: Cropped opaque pixels: trainer facing 3 walking true (25040 pixels)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_crew.gd:25)

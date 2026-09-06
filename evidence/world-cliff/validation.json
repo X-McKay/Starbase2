@@ -1,0 +1,127 @@
+{
+  "date": "2026-09-05",
+  "platform": "macOS Apple M5",
+  "engine": "Godot 4.7.2 Compatibility",
+  "scope": "Exposed near cliff and connected rear escarpment",
+  "checks": {
+    "world": {
+      "result": "passed",
+      "log": "check-final.log",
+      "covers": [
+        "all crew and districts",
+        "irregular cliff cutout rejected",
+        "shelf-tip reachability",
+        "near and oblique physical edge collision",
+        "click-to-walk return after rim contact",
+        "pool and stone collisions",
+        "authoritative state and native command failure paths"
+      ]
+    },
+    "repository": {
+      "result": "passed",
+      "log": "repository-check.log",
+      "rust_tests": 27,
+      "python_tests": 16,
+      "markdown_files": 33
+    },
+    "whitespace": {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  },
+  "captures": {
+    "overview-final": {
+      "camera_focus": "(0.0, -3.99999, 0.0)",
+      "colony_overview": true,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 1446.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frames": 150,
+      "median_ms": 16.6666666666667,
+      "p95_ms": 16.6666666666667,
+      "player_position": "(0.0, 0.0, 5.5)",
+      "selected_id": "world-visual-control-01",
+      "startup_to_first_frame_ms": 400,
+      "viewport": "(1280.0, 800.0)",
+      "visual_fixture": false,
+      "walk_reached": false,
+      "walk_test": false
+    },
+    "overlook-final": {
+      "camera_focus": "(0.0, 0.0, 26.83659)",
+      "colony_overview": false,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 910.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frames": 570,
+      "median_ms": 16.6666666666667,
+      "p95_ms": 16.6666666666667,
+      "player_position": "(0.0, 0.0, 26.83661)",
+      "selected_id": "world-visual-control-01",
+      "startup_to_first_frame_ms": 397,
+      "viewport": "(1280.0, 800.0)",
+      "visual_fixture": false,
+      "walk_reached": true,
+      "walk_test": true
+    },
+    "stale-compact": {
+      "camera_focus": "(0.0, 0.0, 0.0)",
+      "colony_overview": false,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 1133.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frames": 150,
+      "median_ms": 16.6666666666667,
+      "p95_ms": 16.6666666666667,
+      "player_position": "(0.0, 0.0, 5.5)",
+      "selected_id": "fixture-stale-repair",
+      "startup_to_first_frame_ms": 420,
+      "viewport": "(960.0, 720.0)",
+      "visual_fixture": true,
+      "walk_reached": false,
+      "walk_test": false
+    }
+  },
+  "visual_review": "Native overview, physical overlook walk and compact larger-text stale fixture inspected. Rear wall extended into the canyon; below-rim columns and crags refined after initial render.",
+  "limits": [
+    "Flat finite walkable shelf",
+    "No falling, climbing or lower-canyon exploration",
+    "Haze and distant canyon are static decorative scenery",
+    "No other-platform qualification",
+    "Capped samples do not establish performance improvement"
+  ],
+  "operational_changes": "None: no new agent dispatch, inference, deployment, schema or authority changes."
+}

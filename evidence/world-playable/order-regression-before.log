@@ -1,0 +1,8 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:1035)
+SCRIPT ERROR: Assertion failed: Preserve core order; latest crew state must not come from the oldest run
+          at: _initialize (res://test_state.gd:31)
+          GDScript backtrace (most recent call first):
+              [0] _initialize (res://test_state.gd:31)

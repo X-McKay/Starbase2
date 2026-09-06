@@ -1,0 +1,59 @@
+[
+  {
+    "event": "cancel_before_dispatch_passed",
+    "elapsed_seconds": 1.256
+  },
+  {
+    "event": "worker_sigkill",
+    "elapsed_seconds": 2.294,
+    "mode": "direct",
+    "workflow_run_id": "01a071a3-7a1f-722e-bde8-fe629bdac8af"
+  },
+  {
+    "event": "restart_duplicate_submission_replay_passed",
+    "elapsed_seconds": 17.268,
+    "mode": "direct",
+    "history_events": 53,
+    "baseline": 3,
+    "candidate": 1
+  },
+  {
+    "event": "cancellation_passed",
+    "elapsed_seconds": 21.367,
+    "mode": "direct",
+    "detail": "Temporal CANCELED after stop request"
+  },
+  {
+    "event": "worker_sigkill",
+    "elapsed_seconds": 22.417,
+    "mode": "integration",
+    "workflow_run_id": "01a071a3-c891-7582-8cbe-f33a4e9b1e5a"
+  },
+  {
+    "event": "restart_duplicate_submission_replay_passed",
+    "elapsed_seconds": 37.579,
+    "mode": "integration",
+    "history_events": 53,
+    "baseline": 3,
+    "candidate": 1
+  },
+  {
+    "event": "cancellation_passed",
+    "elapsed_seconds": 41.502,
+    "mode": "integration",
+    "detail": "Temporal CANCELED after stop request"
+  },
+  {
+    "event": "unloaded_build_rejected",
+    "elapsed_seconds": 43.571
+  },
+  {
+    "event": "core_restart_preserved_all_missions_and_evidence",
+    "elapsed_seconds": 43.807
+  },
+  {
+    "event": "passed",
+    "elapsed_seconds": 43.808,
+    "duration_seconds": 43.808
+  }
+]

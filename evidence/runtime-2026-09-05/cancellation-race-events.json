@@ -1,0 +1,59 @@
+[
+  {
+    "event": "cancel_before_dispatch_passed",
+    "elapsed_seconds": 0.634
+  },
+  {
+    "event": "worker_sigkill",
+    "elapsed_seconds": 1.667,
+    "mode": "direct",
+    "workflow_run_id": "01a0709f-2a0e-70f6-91bf-a79305513d7d"
+  },
+  {
+    "event": "restart_duplicate_submission_replay_passed",
+    "elapsed_seconds": 16.575,
+    "mode": "direct",
+    "history_events": 53,
+    "baseline": 3,
+    "candidate": 1
+  },
+  {
+    "event": "cancellation_passed",
+    "elapsed_seconds": 19.459,
+    "mode": "direct",
+    "detail": "Stopped; Temporal status FAILED"
+  },
+  {
+    "event": "worker_sigkill",
+    "elapsed_seconds": 20.505,
+    "mode": "integration",
+    "workflow_run_id": "01a0709f-7310-7da4-8f0f-8794d418367b"
+  },
+  {
+    "event": "restart_duplicate_submission_replay_passed",
+    "elapsed_seconds": 35.425,
+    "mode": "integration",
+    "history_events": 53,
+    "baseline": 3,
+    "candidate": 1
+  },
+  {
+    "event": "cancellation_passed",
+    "elapsed_seconds": 38.31,
+    "mode": "integration",
+    "detail": "Stopped; Temporal status FAILED"
+  },
+  {
+    "event": "unloaded_build_rejected",
+    "elapsed_seconds": 40.376
+  },
+  {
+    "event": "core_restart_preserved_all_missions_and_evidence",
+    "elapsed_seconds": 40.617
+  },
+  {
+    "event": "passed",
+    "elapsed_seconds": 40.617,
+    "duration_seconds": 40.617
+  }
+]

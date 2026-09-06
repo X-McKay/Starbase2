@@ -1,0 +1,23 @@
+{
+  "draw_calls": 802.0,
+  "elapsed_ms": 2452.438,
+  "engine": {
+    "build": "official",
+    "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+    "hex": 263938,
+    "major": 4,
+    "minor": 7,
+    "patch": 2,
+    "status": "stable",
+    "string": "4.7.2-stable (official)",
+    "timestamp": 0
+  },
+  "fixture": "shared-art rendering, not 50 unique artworks",
+  "frames": 90,
+  "instances": 50,
+  "measurement": "capped native process intervals, not GPU timings",
+  "median_ms": 16.665,
+  "p95_ms": 17.724,
+  "texture_memory_bytes": 25605297.0,
+  "unique_exterior_textures": 1
+}

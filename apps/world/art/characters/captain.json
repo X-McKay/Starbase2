@@ -1,0 +1,456 @@
+{
+  "atlas_sha256": "189f06f51cd74a1b87a6cbd35bcc6b8ecf8891d5e8c4daeb496f95f941ea75f7",
+  "canvas": [
+    256.0,
+    320.0
+  ],
+  "clip": "walk-eight-poses-v1",
+  "frames": [
+    {
+      "clip": "idle",
+      "direction": "front",
+      "index": 0,
+      "rect": [
+        2,
+        2,
+        256,
+        320
+      ],
+      "sha256": "93d68172611e591e2f0a04300323cffa0901862312824714465ac7fea8a4ebb0"
+    },
+    {
+      "clip": "walk",
+      "direction": "front",
+      "index": 0,
+      "rect": [
+        262,
+        2,
+        256,
+        320
+      ],
+      "sha256": "2cd73f1d2e96157cbfdf72a279541a63a16e0859d43a8ab33ca13f120d68bb00"
+    },
+    {
+      "clip": "walk",
+      "direction": "front",
+      "index": 1,
+      "rect": [
+        522,
+        2,
+        256,
+        320
+      ],
+      "sha256": "f00703c03948a37bf4105d84cced27d7c6cb53559a42e350f202b394c5299954"
+    },
+    {
+      "clip": "walk",
+      "direction": "front",
+      "index": 2,
+      "rect": [
+        782,
+        2,
+        256,
+        320
+      ],
+      "sha256": "cabd285de462890249c454fcc123a55a85f6ed557cf061d4b09b71e302c11478"
+    },
+    {
+      "clip": "walk",
+      "direction": "front",
+      "index": 3,
+      "rect": [
+        1042,
+        2,
+        256,
+        320
+      ],
+      "sha256": "06913e8bba033f6ad217c887da5f5d4edf95901882f70fb6aff14afd82033cab"
+    },
+    {
+      "clip": "walk",
+      "direction": "front",
+      "index": 4,
+      "rect": [
+        1302,
+        2,
+        256,
+        320
+      ],
+      "sha256": "2f1b156797a0a2cdc046e056d94ad1e3dcc0dbda530703b1585ff5641a4ffb6b"
+    },
+    {
+      "clip": "walk",
+      "direction": "front",
+      "index": 5,
+      "rect": [
+        1562,
+        2,
+        256,
+        320
+      ],
+      "sha256": "019abec65caca986bf6f5d1a036d632052a16e84df1bfa47c46733f0e780864b"
+    },
+    {
+      "clip": "walk",
+      "direction": "front",
+      "index": 6,
+      "rect": [
+        1822,
+        2,
+        256,
+        320
+      ],
+      "sha256": "d867515bfda052d7ed8fce8a2a94712d319dfcb919436aa1f3f3a8d1ee381395"
+    },
+    {
+      "clip": "walk",
+      "direction": "front",
+      "index": 7,
+      "rect": [
+        2082,
+        2,
+        256,
+        320
+      ],
+      "sha256": "219850f768197aaa840129ea85a67fab095e635abcce8bee6b4fdc0ea5ac451a"
+    },
+    {
+      "clip": "idle",
+      "direction": "back",
+      "index": 0,
+      "rect": [
+        2,
+        326,
+        256,
+        320
+      ],
+      "sha256": "cbf442e0154e0363f83b02ee34e463b595d253dd7893b706494a7d1c0e9eb27a"
+    },
+    {
+      "clip": "walk",
+      "direction": "back",
+      "index": 0,
+      "rect": [
+        262,
+        326,
+        256,
+        320
+      ],
+      "sha256": "b735cd46a73e40e050d4a000932b5674de71df2d7ec1fab4dc6f1da4fa8312d0"
+    },
+    {
+      "clip": "walk",
+      "direction": "back",
+      "index": 1,
+      "rect": [
+        522,
+        326,
+        256,
+        320
+      ],
+      "sha256": "cc5f80272e36b97b0ed0d11917fa8cbee1eb54f3a42f000b23b17eab2122c946"
+    },
+    {
+      "clip": "walk",
+      "direction": "back",
+      "index": 2,
+      "rect": [
+        782,
+        326,
+        256,
+        320
+      ],
+      "sha256": "45107b6fbfe616850479eda149b9e614bbd5ea59de08665e28eae4dc7af3355e"
+    },
+    {
+      "clip": "walk",
+      "direction": "back",
+      "index": 3,
+      "rect": [
+        1042,
+        326,
+        256,
+        320
+      ],
+      "sha256": "6cb0982c90033fa89616b5560783cc03179f88de55e9f82b981b7478313d63b4"
+    },
+    {
+      "clip": "walk",
+      "direction": "back",
+      "index": 4,
+      "rect": [
+        1302,
+        326,
+        256,
+        320
+      ],
+      "sha256": "ba3d8e83271bf07c1bda7d7b5464ef4d76fba4414ef31f5a2004a0cffa06381e"
+    },
+    {
+      "clip": "walk",
+      "direction": "back",
+      "index": 5,
+      "rect": [
+        1562,
+        326,
+        256,
+        320
+      ],
+      "sha256": "7b5c03d78d1a769cdbd67030341d79d48bb706aeddafdc1c107919bb220290ca"
+    },
+    {
+      "clip": "walk",
+      "direction": "back",
+      "index": 6,
+      "rect": [
+        1822,
+        326,
+        256,
+        320
+      ],
+      "sha256": "12ece6b8304788aa577bd10f6dcdf85a80de4646893aff929705b45f12e3d126"
+    },
+    {
+      "clip": "walk",
+      "direction": "back",
+      "index": 7,
+      "rect": [
+        2082,
+        326,
+        256,
+        320
+      ],
+      "sha256": "ed3e4e256d528f259410f2c5773638ac1a33210437eff1326d151df65260ad13"
+    },
+    {
+      "clip": "idle",
+      "direction": "left",
+      "index": 0,
+      "rect": [
+        2,
+        650,
+        256,
+        320
+      ],
+      "sha256": "3d4fa5f9941b3adff12300cb917cb3629b68661a9acfe60799d92e13a0036022"
+    },
+    {
+      "clip": "walk",
+      "direction": "left",
+      "index": 0,
+      "rect": [
+        262,
+        650,
+        256,
+        320
+      ],
+      "sha256": "ecefeb3008f888a0a5ce5c8773545f9e36f0359469fd2bdce9471c399ee99b36"
+    },
+    {
+      "clip": "walk",
+      "direction": "left",
+      "index": 1,
+      "rect": [
+        522,
+        650,
+        256,
+        320
+      ],
+      "sha256": "7f5560a30cded794653cd622204c97f32177526cc4a3c621639621b447c61af2"
+    },
+    {
+      "clip": "walk",
+      "direction": "left",
+      "index": 2,
+      "rect": [
+        782,
+        650,
+        256,
+        320
+      ],
+      "sha256": "501b8faed6cda7e8f3852f7177af86ff52dbf69263a9baef08bc061367840376"
+    },
+    {
+      "clip": "walk",
+      "direction": "left",
+      "index": 3,
+      "rect": [
+        1042,
+        650,
+        256,
+        320
+      ],
+      "sha256": "1af79feddaf204755cf35a688cd65352f20cc3e58c8508e702be5d3df3dd11fb"
+    },
+    {
+      "clip": "walk",
+      "direction": "left",
+      "index": 4,
+      "rect": [
+        1302,
+        650,
+        256,
+        320
+      ],
+      "sha256": "c42071c55e7baad6e41436f6dd3c197cc3451ab6da65442930949ac13faacb7b"
+    },
+    {
+      "clip": "walk",
+      "direction": "left",
+      "index": 5,
+      "rect": [
+        1562,
+        650,
+        256,
+        320
+      ],
+      "sha256": "9710fe2b6d7e6a7bd5150d97f66b2b83b2691e7660171a71dd13f07fd0fd78de"
+    },
+    {
+      "clip": "walk",
+      "direction": "left",
+      "index": 6,
+      "rect": [
+        1822,
+        650,
+        256,
+        320
+      ],
+      "sha256": "1a687ca1c4b64481c085f8f129d26d7629685e251665c27419f2195565370369"
+    },
+    {
+      "clip": "walk",
+      "direction": "left",
+      "index": 7,
+      "rect": [
+        2082,
+        650,
+        256,
+        320
+      ],
+      "sha256": "9d200527ab2c3deb36959a125b6ee27ad54610274a232c9046e97ec4bde46db6"
+    },
+    {
+      "clip": "idle",
+      "direction": "right",
+      "index": 0,
+      "rect": [
+        2,
+        974,
+        256,
+        320
+      ],
+      "sha256": "84400aab22cdd333529167ebc9fe16206915e02870eef8b9731b6544117edf6d"
+    },
+    {
+      "clip": "walk",
+      "direction": "right",
+      "index": 0,
+      "rect": [
+        262,
+        974,
+        256,
+        320
+      ],
+      "sha256": "fa067e41c4617b361366bc95be6de654f679d31144e1874f08928d4ee72a3595"
+    },
+    {
+      "clip": "walk",
+      "direction": "right",
+      "index": 1,
+      "rect": [
+        522,
+        974,
+        256,
+        320
+      ],
+      "sha256": "f990f45e315138e0af8b33e58f7bf7e7e3ca92dcdfb314a130b4b9e4c221db30"
+    },
+    {
+      "clip": "walk",
+      "direction": "right",
+      "index": 2,
+      "rect": [
+        782,
+        974,
+        256,
+        320
+      ],
+      "sha256": "d858b5ed540c0132c6e538df4b1265b25b1c1cbc4dd1d2a867294d679f63d694"
+    },
+    {
+      "clip": "walk",
+      "direction": "right",
+      "index": 3,
+      "rect": [
+        1042,
+        974,
+        256,
+        320
+      ],
+      "sha256": "4e15a4a68192f9ba43b36f60810257e3b2ca737cb98d800de91b2defb7570741"
+    },
+    {
+      "clip": "walk",
+      "direction": "right",
+      "index": 4,
+      "rect": [
+        1302,
+        974,
+        256,
+        320
+      ],
+      "sha256": "52a74ca98ef700fc002532a13b1661097812a44293598f58d642c3ef17f1d3c9"
+    },
+    {
+      "clip": "walk",
+      "direction": "right",
+      "index": 5,
+      "rect": [
+        1562,
+        974,
+        256,
+        320
+      ],
+      "sha256": "5a0ca54b284b7f4ea33eba4e18d71a1334aa8bdbfff3b73db2663d4921eebeb7"
+    },
+    {
+      "clip": "walk",
+      "direction": "right",
+      "index": 6,
+      "rect": [
+        1822,
+        974,
+        256,
+        320
+      ],
+      "sha256": "053c952d566914f5b3d36568a4ab292f962b2c109842edc5b1b4409875c5b35b"
+    },
+    {
+      "clip": "walk",
+      "direction": "right",
+      "index": 7,
+      "rect": [
+        2082,
+        974,
+        256,
+        320
+      ],
+      "sha256": "1be12561f53edf04c74f12be07695e9284d691feabc24ed88a2eab1877c876ba"
+    }
+  ],
+  "gutter": 2,
+  "id": "captain",
+  "license": "Original Starbase2 artwork",
+  "packer_sha256": "e51e2531895079ebe4f79acce5937695bedfbcdbe83698ba56f27f7ed2d4c5b4",
+  "pivot": [
+    128.0,
+    280.0
+  ],
+  "rig_object": "Aster humanoid v1",
+  "source": "art/characters/captain.blend",
+  "source_sha256": "b0092f34e9562634d0003dc5601dd4d6e74c3b13a1a94f3c29bfd587b3e9a422",
+  "stride_m": 1.28,
+  "style_status": "Rejected visual direction; retained for technical validation only",
+  "tool": "Blender 4.5.3"
+}

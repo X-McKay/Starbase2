@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+[ext_resource type="Script" path="res://building_definition.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"habitat"
+title = "PIONEER HABITAT"
+exterior_image = "res://buildings/art/habitat.png"
+image_pixel_size = 0.014
+image_door_pixel = Vector2(670, 825)
+collision_boxes = Array[Rect2]([Rect2(-8,-8.65,17.35,10.2)])

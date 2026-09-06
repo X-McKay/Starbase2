@@ -1,0 +1,62 @@
+{
+  "scope": "Local colony layout: spaced buildings, separate rectangular dark pads, light-grey two-tile roads and yellow dashed centre lines.",
+  "paved_tiles": 1061,
+  "rendering": "Four static batched meshes: pads, roads, joint bed, centerline. Existing atlas reused; no per-tile nodes.",
+  "checks": {
+    "world": {
+      "command": "python3 scripts/check_world.py",
+      "exit_code": 0,
+      "log": "world-final.log"
+    },
+    "native_commands": {
+      "command": ".venv/bin/python scripts/check_world_commands.py",
+      "exit_code": 0,
+      "log": "commands.log"
+    },
+    "resource_export": {
+      "command": "godot --headless --path apps/world --export-pack macOS .local/building-work/Starbase2-streets.pck",
+      "exit_code": 0,
+      "log": "pack-export.log"
+    },
+    "exported_pack": {
+      "command": "godot --headless --main-pack .local/building-work/Starbase2-streets.pck --script res://test_paving.gd (cwd /private/tmp)",
+      "exit_code": 0,
+      "log": "pack-check.log"
+    },
+    "documentation": {
+      "command": "python3 scripts/check_docs.py",
+      "exit_code": 0,
+      "log": "docs.log"
+    },
+    "tracked_diff_whitespace": {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "log": "diff-check.log"
+    }
+  },
+  "retained_failures": [
+    {
+      "log": "paving-first.log",
+      "diagnostic": "paving-diagnostic.log",
+      "resolution": "Shifted western outcrop 0.75 metres left to clear all hangar pad tiles."
+    },
+    {
+      "log": "world-first.log",
+      "resolution": "Old click target was inside relocated Trial Hall; test now targets clear ground relative to the hangar return anchor. Actual click-to-walk passes."
+    }
+  ],
+  "captures": {
+    "mode": "Actual native Godot, disconnected API, no invented work state",
+    "files": [
+      "overview.png",
+      "arrival.png",
+      "commons.png",
+      "east.png"
+    ]
+  },
+  "limitations": [
+    "Paving is decorative; no road traffic or transport simulation.",
+    "The pack check is a resource export check, not a signed standalone app release.",
+    "No production deployment or backend behavior changed."
+  ]
+}

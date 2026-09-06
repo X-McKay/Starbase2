@@ -1,0 +1,4 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M5
+
+{ "pulse": { "min": 0.11111111442248, "max": 0.59346405789256, "range": 0.48235294347008 }, "steady": { "min": 0.59346405789256, "max": 0.59346405789256, "range": 0.0 }, "pixel": "(632, 472)", "passed": true }

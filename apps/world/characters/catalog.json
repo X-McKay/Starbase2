@@ -1,0 +1,16 @@
+{
+  "operator": {
+    "production": "res://characters/definitions/operator.tres",
+    "pilot": "res://characters/definitions/captain.tres"
+  },
+  "surveyor": {
+    "production": "res://characters/definitions/surveyor.tres",
+    "pilot": "res://characters/definitions/eva.tres"
+  },
+  "mender": {
+    "production": "res://characters/definitions/mender.tres"
+  },
+  "trainer": {
+    "production": "res://characters/definitions/trainer.tres"
+  }
+}

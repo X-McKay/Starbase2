@@ -1,0 +1,14 @@
+{
+  "tool": "Built-in image_gen",
+  "prompt": "Use case: stylized-concept. Asset type: production opaque PNG material atlas for a polished original sci-fi pixel-art RPG in Godot. This is a flat texture source to apply to modular geometry, NOT a scene or mockup. Generate one 1024x1024 square image, EXACTLY four equal 512x512 quadrants, no margins or gaps, no labels or text, no perspective, each quadrant completely filled edge to edge. All surfaces are orthographic straight-on and share restrained navy/slate blue-gray metal, desaturated teal, warm cream armor, tiny amber details. Exquisite hand-authored 32-bit pixel-art craftsmanship, deliberate crisp pixel clusters, convincing little bolts, recesses, vents and edge wear, moderately sized readable details, not photographic noise, no blurred painting. Lighting is even with only gentle painted recess shading, no cast shadows.\nTOP LEFT: a repeatable floor panel, slate steel plated floor with four large square slabs, narrow dark seams, tiny corner bolts, subtle scuffs, one short amber safety marking, no controls or furniture.\nTOP RIGHT: one interior bulkhead wall module, top and bottom horizontal structural trims, a centered broad blue-gray recessed service panel, neatly grouped ventilation slits near bottom, vertical narrow conduits at sides, subtle weathering and bolt details. No screens, no light bloom. This repeats side-by-side.\nBOTTOM LEFT: exterior colony hull panel, warm off-white ceramic armor on dark structural metal, a broad central beveled plate with angled corner notches, slim horizontal blue inset stripe, small vents and orange latch at bottom, finely placed scratches and fasteners. This repeats side-by-side.\nBOTTOM RIGHT: one dense but legible cockpit control panel seen perfectly flat head-on. A large inset dark teal display filling upper half with cyan technical diagram and tiny abstract line glyphs (no readable words), lower half orderly physical square keys, two amber warning tiles, small blue screens and metal recessed switches. It should look like richly detailed sprite artwork from a high-quality sci-fi RPG.\nConstraints: exactly 2x2 equally sized cells with no separators, no whole buildings, no characters, no scenery, no logo, no watermark, no title, no baked checkerboard. The result must be usable as a texture atlas in a game.",
+  "asset": "materials.png",
+  "status": "User approved pilot for local colony rollout; integrated into three main buildings and playable room variants",
+  "source": "exec-42eb3650-c105-43ac-b31d-e85706c9e4d7.png",
+  "limitations": [
+    "Generated surface shading is painted, not a normal map",
+    "No seamless-edge guarantee",
+    "No authored emissive mask"
+  ],
+  "asset_sha256": "cbacbf9ad56927d27dc347ddbd160ab731967b63b8efb1296f70cb0433c20995",
+  "alpha_contract": "Opaque RGB shader ignores source alpha; not a transparent sprite sheet"
+}

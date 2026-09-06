@@ -1,0 +1,41 @@
+{
+  "achievements": [
+    "First verified repair",
+    "Two distinct repairs"
+  ],
+  "authority": "Disposable synthetic solution.py only; no workspace, network, or production effects",
+  "credits": [
+    {
+      "at": 1788612470.169014,
+      "build": "6b2d123def361009590a052b0b7a80be7e818b49897b999a0cc1e31e1929b664",
+      "outcome_key": "clamp-v1:caafb1c952aa6d5f018906adc511227b695f2d13159067e46d9ef446bd476fd0",
+      "run_id": "ai-clamp",
+      "xp": 25
+    },
+    {
+      "at": 1788612474.304568,
+      "build": "6b2d123def361009590a052b0b7a80be7e818b49897b999a0cc1e31e1929b664",
+      "outcome_key": "dedupe-v1:114ca4160343374cae494e66233e1c5fac9de11d2895640439b963fe15a6e308",
+      "run_id": "ai-dedupe",
+      "xp": 25
+    }
+  ],
+  "id": "mender",
+  "level": 2,
+  "name": "Mender",
+  "next_level_xp": 100,
+  "qualifications": [
+    {
+      "build": "6b2d123def361009590a052b0b7a80be7e818b49897b999a0cc1e31e1929b664",
+      "run_id": "ai-clamp",
+      "scenario": "clamp-v1"
+    },
+    {
+      "build": "6b2d123def361009590a052b0b7a80be7e818b49897b999a0cc1e31e1929b664",
+      "run_id": "ai-dedupe",
+      "scenario": "dedupe-v1"
+    }
+  ],
+  "role": "Bounded repair missions",
+  "xp": 50
+}

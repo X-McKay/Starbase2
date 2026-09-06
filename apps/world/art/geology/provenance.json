@@ -1,0 +1,17 @@
+{
+  "tool": "Built-in image_gen",
+  "asset": "sandstone-v1.png",
+  "prompt": "Use case: stylized-concept. Asset type: a square seamless tiling diffuse/albedo PNG texture for a 2.5D space adventure game's sandstone cliffs, mapped onto actual 3D rock geometry. Paint an original polished game material, FRONT-ON flat orthographic surface study only, filling every pixel edge to edge. Weathered ochre and terracotta sandstone, large irregular broken plates, interrupted bedding, chipped pale warm edges, muted plum-brown fissures, fine pitting and sandy mineral grain. Organic variable-sized fracture shapes rather than brickwork or regular horizontal stripes. Broad quiet planes with concentrated detail around fractures. Hand-painted high-end RPG environment texture, tactile and softly sculpted, clean stylized detail, not photographic or noisy. Even diffuse light, shallow recess shading only; no directional cast shadows. Keep contrast moderate to combine with real 3D lighting. Seamless repeating edges in both axes. No objects, sky, floor perspective, plants, outlines around canvas, text, watermarks, panels, atlas grid or frame. Opaque RGB surface.",
+  "source": "exec-61d0e24c-e851-4d07-a950-7ab9fe254e2b.png",
+  "date": "2026-09-05",
+  "use": "Opaque RGB surface detail on cliff/rock geometry, exposed ground patches and feathered rim",
+  "sampling": "World-scaled triplanar on rocks; mirrored coordinates suppress unmatched edge joins; mipmaps and anisotropic filtering enabled",
+  "limitations": [
+    "No authored normal or displacement map",
+    "Shallow painted shading is part of the albedo",
+    "Seamless export not assumed; runtime mirrored sampling may reveal symmetry",
+    "Collision comes from original shelf and obstacle geometry, not pixels"
+  ],
+  "status": "Inspected in native overview, walking and overlook views",
+  "sha256": "d397f498e2038ceb06debf67ca584c670226d9fd872f01ae1ac03bf7f7b0f67f"
+}

@@ -1,0 +1,18 @@
+{
+  "installation": "starbase2-prod",
+  "context": "REPLACE_WITH_VERIFIED_KUBANI_CONTEXT",
+  "namespace": "starbase2-prod",
+  "database": "starbase2_prod",
+  "postgres_host": "postgresql.database.svc.cluster.local",
+  "postgres_namespace": "database",
+  "temporal_address": "temporal-frontend.temporal.svc.cluster.local:7233",
+  "temporal_namespace": "starbase2-prod",
+  "temporal_kubernetes_namespace": "temporal",
+  "temporal_queue": "starbase2-prod-v1",
+  "retention_days": 30,
+  "core_image": "registry.almckay.io/starbase2/core@sha256:REPLACE_WITH_PUBLISHED_DIGEST",
+  "runtime_image": "registry.almckay.io/starbase2/runtime@sha256:REPLACE_WITH_PUBLISHED_DIGEST",
+  "source_revision": "REPLACE_WITH_COMMITTED_40_HEX_REVISION",
+  "replicas": 0,
+  "accept_work": false
+}

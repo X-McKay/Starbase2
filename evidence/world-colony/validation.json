@@ -1,0 +1,176 @@
+{
+  "date": "2026-09-05",
+  "platform": "macOS Apple M5",
+  "engine": "Godot 4.7.2 Compatibility",
+  "scope": "Larger planetary colony, local navigation and camera presentation",
+  "navigation": {
+    "before_span": [
+      24,
+      15
+    ],
+    "after_span": [
+      79,
+      63
+    ],
+    "area_ratio_before_obstacles": 13.825,
+    "landmarks": [
+      "landing",
+      "habitat",
+      "expansion",
+      "survey"
+    ]
+  },
+  "checks": {
+    "godot": {
+      "result": "passed",
+      "log": "check-world-final.log",
+      "covers": [
+        "state freshness and retained evidence",
+        "all crew and four distant district routes",
+        "16 crew poses",
+        "keyboard and mouse interaction",
+        "map toggle",
+        "reduced-motion room cuts",
+        "physical survey boundary",
+        "physical greenhouse obstruction",
+        "native command failure and reconciliation"
+      ]
+    },
+    "repository": {
+      "command": "mise exec -- just check",
+      "result": "passed",
+      "rust_tests": 27,
+      "python_tests": 16,
+      "markdown_files": 31,
+      "log": "repository-check.log"
+    },
+    "whitespace": {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  },
+  "captures": {
+    "overview-final": {
+      "camera_focus": "(0.0, 0.0, -1.999995)",
+      "colony_overview": true,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 1245.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frames": 150,
+      "median_ms": 16.6666666666667,
+      "p95_ms": 16.6666666666667,
+      "player_position": "(0.0, 0.0, 5.5)",
+      "selected_id": "world-visual-control-01",
+      "startup_to_first_frame_ms": 365,
+      "viewport": "(1280.0, 800.0)",
+      "visual_fixture": false,
+      "walk_reached": false,
+      "walk_test": false
+    },
+    "colony-final": {
+      "camera_focus": "(0.0, 0.0, 5.499984)",
+      "colony_overview": false,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 1033.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frames": 150,
+      "median_ms": 16.6666666666667,
+      "p95_ms": 16.6666666666667,
+      "player_position": "(0.0, 0.0, 5.5)",
+      "selected_id": "world-visual-control-01",
+      "startup_to_first_frame_ms": 370,
+      "viewport": "(1280.0, 800.0)",
+      "visual_fixture": false,
+      "walk_reached": false,
+      "walk_test": false
+    },
+    "landing-final": {
+      "camera_focus": "(-23.8275, 0.0, 14.99999)",
+      "colony_overview": false,
+      "colony_walk_test": true,
+      "command_message": "",
+      "draw_calls": 615.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frames": 870,
+      "median_ms": 16.6666666666667,
+      "p95_ms": 16.6666666666667,
+      "player_position": "(-23.82751, 0.0, 15.0)",
+      "selected_id": "world-visual-control-01",
+      "startup_to_first_frame_ms": 361,
+      "viewport": "(1280.0, 800.0)",
+      "visual_fixture": false,
+      "walk_reached": true,
+      "walk_test": true
+    },
+    "stale-compact": {
+      "camera_focus": "(0.0, 0.0, 0.0)",
+      "colony_overview": false,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 985.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frames": 150,
+      "median_ms": 16.6666666666667,
+      "p95_ms": 16.6666666666667,
+      "player_position": "(0.0, 0.0, 5.5)",
+      "selected_id": "fixture-stale-repair",
+      "startup_to_first_frame_ms": 371,
+      "viewport": "(960.0, 720.0)",
+      "visual_fixture": true,
+      "walk_reached": false,
+      "walk_test": false
+    }
+  },
+  "visual_review": "Final native overview, gameplay, landing arrival and compact larger-text stale fixture inspected. Initial perimeter/palette rejected; rock triangle winding corrected after rendered failure.",
+  "limitations": [
+    "Survey boundary is finite; distant terrain is scenery",
+    "Walkable terrain is flat",
+    "Construction, resources, habitat interiors and shuttle flight are not implemented",
+    "Full character foot-stride cycles remain unfinished",
+    "Short capped frame intervals are not a comparative benchmark",
+    "Other platforms unverified"
+  ],
+  "operational_changes": "None. No new agent dispatch, inference, deployment, migration or permissions."
+}

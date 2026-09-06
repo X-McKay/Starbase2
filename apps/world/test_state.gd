@@ -1,0 +1,33 @@
+extends SceneTree
+const StateView = preload("res://state.gd")
+func _initialize() -> void:
+	assert(StateView.describe({}, true).begins_with("Disconnected"))
+	assert(StateView.describe({}, false).begins_with("Idle"))
+	assert(StateView.describe({"state":"running", "stale":true}, false).begins_with("Stale"))
+	assert(StateView.describe({"state":"completed", "stale":false}, false).begins_with("Unknown"))
+	for state in ["failed", "cancelled", "cancel_requested", "queued", "running", "blocked", "no_change"]:
+		assert(StateView.describe({"state":state, "stale":false}, false) == state.capitalize().replace("_", " "))
+	var projected = StateView.project({"schema_version":2, "worker":{"available":false}, "recent":[{"input":{"request":{"id":"review-one"}},"state":"running","report":null}]})
+	assert(projected.size() == 1)
+	assert(StateView.describe(projected[0], false).begins_with("Stale"))
+	assert(StateView.project({"schema_version":99}).is_empty())
+	assert(StateView.input_label({"synthetic_task":true}) == "synthetic fixture")
+	assert(StateView.input_label({"simulation":true}) == "synthetic fixture")
+	var repairs = StateView.project({"schema_version":2,"recent":[],"worker":{"available":false},"repairs":[{"input":{"id":"repair-one","scenario":"clamp-v1"},"state":"executing","summary":null}]})
+	assert(repairs.size() == 1 and repairs[0]["input"]["kind"] == "repair")
+	assert(StateView.describe(repairs[0],false).begins_with("Stale"))
+	assert(StateView.crew_activity([],"repair",true).begins_with("Unknown"))
+	assert(StateView.crew_activity([],"repair",false)=="No recorded work")
+	assert(StateView.crew_activity(repairs,"repair",false).begins_with("Stale"))
+	var record := {"input":{"id":"one","kind":"repair"},"state":"completed","stale":false,"evidence":{"summary":{"outcome":"inconclusive"}}}
+	assert(StateView.crew_activity([record],"repair",false)=="Inconclusive")
+	record["evidence"]["summary"]["outcome"]="no_change"
+	assert(StateView.crew_activity([record],"repair",false)=="Verified no change")
+	record["evidence"]=null
+	assert(StateView.crew_activity([record],"repair",false).begins_with("Unknown"))
+	var a := {"input":{"id":"two","kind":"repair"},"state":"executing","stale":false}
+	assert(StateView.crew_activity([record,a,a],"repair",false)=="2 open runs")
+	var ordered = StateView.project({"schema_version":2,"recent":[],"worker":{"available":true},"repairs":[{"input":{"id":"newest"},"state":"failed"},{"input":{"id":"older"},"state":"failed"}]})
+	assert(ordered[0]["input"]["id"]=="newest","Preserve core order; latest crew state must not come from the oldest run")
+	print("Godot state checks passed: disconnected, empty, stale, missing evidence, terminal and pending states")
+	quit()

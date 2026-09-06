@@ -1,0 +1,58 @@
+{
+  "date": "2026-09-06",
+  "pads": "Complete grid-aligned rectangles; overlapping foundations merge into a rectangular court. No individual tile clipping.",
+  "walkways": "Two tiles wide (3 metres), square caps, orthogonal grid-aligned turns.",
+  "tile_count": 807,
+  "meshes": 2,
+  "checks": [
+    "paving-final.log",
+    "paths-final.log",
+    "world-final.log",
+    "commands.log",
+    "pack-check.log",
+    "docs-check.log",
+    "diff-check.log"
+  ],
+  "reproduction": "before-test.log",
+  "captures": [
+    "overview.png",
+    "arrival.png",
+    "commons.png",
+    "east.png"
+  ],
+  "metrics": {
+    "camera_focus": "(0.0, -3.999998, 0.0)",
+    "colony_overview": true,
+    "colony_walk_test": false,
+    "command_message": "",
+    "draw_calls": 1366.0,
+    "engine": {
+      "build": "official",
+      "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+      "hex": 263938,
+      "major": 4,
+      "minor": 7,
+      "patch": 2,
+      "status": "stable",
+      "string": "4.7.2-stable (official)",
+      "timestamp": 0
+    },
+    "frame_sampling": "monotonic process intervals",
+    "frames": 270,
+    "median_ms": 16.656,
+    "p95_ms": 17.416,
+    "player_position": "(0.0, 0.0, 5.5)",
+    "room": "",
+    "selected_id": "",
+    "startup_to_first_frame_ms": 728,
+    "viewport": "(1280.0, 800.0)",
+    "visual_fixture": false,
+    "walk_reached": false,
+    "walk_test": false
+  },
+  "measurement_limits": "Short native Apple M5/Godot 4.7.2 sample capped at 60 FPS; process-frame intervals, not GPU timing or a performance improvement claim.",
+  "limitations": [
+    "Static scenery; no operational or permission changes.",
+    "Local native scene and resource pack verified; no signed application, browser or deployment qualification."
+  ]
+}

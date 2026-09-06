@@ -1,0 +1,4 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+wall sample: 0.48431404866278 -> 0.48431404866278; contacts 0 -> 0; position (0.619847, 0.0, 0.0)
+Actual CharacterBody3D wall collision, turns, reduced motion and teleport passed

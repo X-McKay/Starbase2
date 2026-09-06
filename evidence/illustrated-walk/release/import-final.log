@@ -1,0 +1,15 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Imported captain-illustrated / clips ["walk_right"] / retained enclosed light pixels; RGBA and canvas checks passed
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Imported captain-front / clips ["walk_front"] / retained enclosed light pixels; RGBA and canvas checks passed
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+SCRIPT ERROR: Assertion failed: Frame 2 exceeds canvas ([P: (-27, 44), S: (236, 253)]); fix scale/anchor
+          at: _initialize (res://characters/illustrated_import.gd:71)
+          GDScript backtrace (most recent call first):
+              [0] _initialize (res://characters/illustrated_import.gd:71)
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Imported captain-left / clips ["walk_left"] / retained enclosed light pixels; RGBA and canvas checks passed

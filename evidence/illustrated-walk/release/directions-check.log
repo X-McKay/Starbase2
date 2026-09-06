@@ -1,0 +1,41 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Cannot open file 'res://characters/frames/captain-back.tres'.
+   at: load (scene/resources/resource_format_text.cpp:1442)
+   GDScript backtrace (most recent call first):
+       [0] get_definition (res://characters/catalog.gd:14)
+       [1] run (res://test_illustrated_character.gd:16)
+ERROR: Failed loading resource: res://characters/frames/captain-back.tres.
+   at: _load (core/io/resource_loader.cpp:317)
+   GDScript backtrace (most recent call first):
+       [0] get_definition (res://characters/catalog.gd:14)
+       [1] run (res://test_illustrated_character.gd:16)
+ERROR: Cannot open file 'res://characters/frames/captain-left.tres'.
+   at: load (scene/resources/resource_format_text.cpp:1442)
+   GDScript backtrace (most recent call first):
+       [0] get_definition (res://characters/catalog.gd:14)
+       [1] run (res://test_illustrated_character.gd:16)
+ERROR: Failed loading resource: res://characters/frames/captain-left.tres.
+   at: _load (core/io/resource_loader.cpp:317)
+   GDScript backtrace (most recent call first):
+       [0] get_definition (res://characters/catalog.gd:14)
+       [1] run (res://test_illustrated_character.gd:16)
+ERROR: res://characters/definitions/operator.tres:16 - Parse Error: [ext_resource] referenced non-existent resource at: res://characters/frames/captain-back.tres.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+   GDScript backtrace (most recent call first):
+       [0] get_definition (res://characters/catalog.gd:14)
+       [1] run (res://test_illustrated_character.gd:16)
+ERROR: res://characters/definitions/operator.tres:16 - Parse Error: [ext_resource] referenced non-existent resource at: res://characters/frames/captain-back.tres.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+   GDScript backtrace (most recent call first):
+       [0] get_definition (res://characters/catalog.gd:14)
+       [1] run (res://test_illustrated_character.gd:16)
+ERROR: Failed loading resource: res://characters/definitions/operator.tres.
+   at: _load (core/io/resource_loader.cpp:317)
+   GDScript backtrace (most recent call first):
+       [0] get_definition (res://characters/catalog.gd:14)
+       [1] run (res://test_illustrated_character.gd:16)
+SCRIPT ERROR: Attempt to call function 'frames' in base 'null instance' on a null instance.
+          at: run (res://test_illustrated_character.gd:17)
+          GDScript backtrace (most recent call first):
+              [0] run (res://test_illustrated_character.gd:17)

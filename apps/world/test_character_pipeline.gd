@@ -1,0 +1,45 @@
+extends SceneTree
+const Check=preload("res://characters/validate.gd")
+const Catalog=preload("res://characters/catalog.gd")
+const Gait=preload("res://characters/gait.gd")
+func _initialize() -> void:
+	var failures: Array[String]=[]
+	assert(not Catalog.get_definition("operator").animated and not Catalog.get_definition("surveyor").animated,"Rejected 3D renders must not become the default")
+	for id in Catalog.definitions():
+		for pilot in [false,true]:
+			var definition=Catalog.get_definition(id,pilot)
+			failures.append_array(Check.definition_errors(definition))
+	var sources: Array=JSON.parse_string(FileAccess.get_file_as_string("res://../../art/characters/catalog.json"))
+	for entry in sources:
+		var id: String=entry.id
+		var base: String="res://art/characters/"+id
+		var manifest: Dictionary=JSON.parse_string(FileAccess.get_file_as_string(base+".json"))
+		assert(manifest.atlas_sha256==FileAccess.get_sha256(base+".png"),"Atlas provenance hash mismatch")
+		assert(manifest.source_sha256==FileAccess.get_sha256("res://../../"+manifest.source),"Source changed; render again")
+		assert(manifest.packer_sha256==FileAccess.get_sha256("res://characters/pack.gd"),"Packer changed; pack again")
+		assert(manifest.frames.size()==36)
+	var opaque:=Image.create(256,320,false,Image.FORMAT_RGBA8); opaque.fill(Color.WHITE)
+	assert(not Check.frame_errors(opaque,Vector2i(256,320)).is_empty(),"RGBA with opaque alpha must fail")
+	var empty:=Image.create(256,320,false,Image.FORMAT_RGBA8)
+	assert(not Check.frame_errors(empty,Vector2i(256,320)).is_empty(),"Empty cutout must fail")
+	var clipped:=Image.create(256,320,false,Image.FORMAT_RGBA8)
+	clipped.fill_rect(Rect2i(0,0,30,30),Color.WHITE)
+	assert(Check.frame_errors(clipped,Vector2i(256,320)).has("Artwork clips canvas margin"))
+	var gait=Gait.new()
+	gait.advance(.32,1.28)
+	assert(is_equal_approx(gait.phase,.25) and gait.contacts==0)
+	gait.advance(0,1.28)
+	assert(not gait.moving and is_equal_approx(gait.phase,.25),"Stop preserves phase without walking")
+	gait.advance(.32,1.28)
+	assert(gait.contacts==1 and is_equal_approx(gait.phase,.5),"Footfall shares contact phase")
+	gait.advance(.64,1.28)
+	assert(gait.contacts==1 and is_zero_approx(gait.phase),"Full stride loops")
+	gait.advance(.2,1.28,true)
+	assert(not gait.moving and gait.contacts==0 and gait.phase==0,"Teleport emits no step")
+	var slow=Gait.new(); var fast=Gait.new()
+	for i in range(80): slow.advance(.01,1.28)
+	for i in range(8): fast.advance(.1,1.28)
+	assert(is_equal_approx(slow.phase,fast.phase),"Frame phase is independent of speed and update count")
+	for failure in failures: push_error(failure)
+	if failures.is_empty(): print("Character contract, alpha rejection, frame bounds, distinct poses, displacement gait, stop, contact and teleport checks passed")
+	quit(0 if failures.is_empty() else 1)

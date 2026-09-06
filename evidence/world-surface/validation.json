@@ -1,0 +1,174 @@
+{
+  "date": "2026-09-05",
+  "platform": "macOS Apple M5",
+  "engine": "Godot 4.7.2 Compatibility",
+  "scope": "Red-planet materials, cliff geometry, golden vegetation, mineral pool and standing stones",
+  "captures": {
+    "overview-final": {
+      "camera_focus": "(0.0, 0.0, -1.999995)",
+      "colony_overview": true,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 1508.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frames": 150,
+      "median_ms": 16.6666666666667,
+      "p95_ms": 16.6666666666667,
+      "player_position": "(0.0, 0.0, 5.5)",
+      "selected_id": "world-visual-control-01",
+      "startup_to_first_frame_ms": 379,
+      "viewport": "(1280.0, 800.0)",
+      "visual_fixture": false,
+      "walk_reached": false,
+      "walk_test": false
+    },
+    "gameplay-final": {
+      "camera_focus": "(0.0, 0.0, 5.499985)",
+      "colony_overview": false,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 1210.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frames": 150,
+      "median_ms": 16.6666666666667,
+      "p95_ms": 16.6666666666667,
+      "player_position": "(0.0, 0.0, 5.5)",
+      "selected_id": "world-visual-control-01",
+      "startup_to_first_frame_ms": 376,
+      "viewport": "(1280.0, 800.0)",
+      "visual_fixture": false,
+      "walk_reached": false,
+      "walk_test": false
+    },
+    "survey-walk": {
+      "camera_focus": "(20.97412, 0.0, -15.82194)",
+      "colony_overview": false,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 978.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frames": 870,
+      "median_ms": 16.6666666666667,
+      "p95_ms": 16.6666666666667,
+      "player_position": "(20.97413, 0.0, -15.82195)",
+      "selected_id": "world-visual-control-01",
+      "startup_to_first_frame_ms": 376,
+      "viewport": "(1280.0, 800.0)",
+      "visual_fixture": false,
+      "walk_reached": true,
+      "walk_test": true
+    },
+    "stale-compact": {
+      "camera_focus": "(0.0, 0.0, 0.0)",
+      "colony_overview": false,
+      "colony_walk_test": false,
+      "command_message": "",
+      "draw_calls": 1182.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frames": 150,
+      "median_ms": 16.6666666666667,
+      "p95_ms": 16.6666666666667,
+      "player_position": "(0.0, 0.0, 5.5)",
+      "selected_id": "fixture-stale-repair",
+      "startup_to_first_frame_ms": 396,
+      "viewport": "(960.0, 720.0)",
+      "visual_fixture": true,
+      "walk_reached": false,
+      "walk_test": false
+    }
+  },
+  "art_sources": {
+    "type": "Original code-native shaders and geometry",
+    "references": "User-provided images and Bungie Prophecy development account; no reference assets copied",
+    "files": {
+      "terrain.gdshader": "96d70a71bc11d962e849b7dcb08a826401267d28f545f8ac4cb5bffb038bfa97",
+      "strata.gdshader": "c081aaf1f144e167dd8264138ad3789e2b3cd8a328eb8af705bc339e2d264f64",
+      "mineral_pool.gdshader": "51b736f5524ab21583780498eef6b51cd2406106fcb3344caa45de0ccb4292e9",
+      "landscape.gd": "312ce02fdd5b8fc754dd81cb1e02c21eb1143c9068143d713ea98aa35d13b2dd"
+    }
+  },
+  "checks": {
+    "world": {
+      "result": "passed",
+      "log": "world-confirmed.log",
+      "coverage": [
+        "state projection",
+        "crew and district routes",
+        "pool and stone path avoidance",
+        "pool and stone physical collision",
+        "reduced-motion camera",
+        "native command reconciliation",
+        "16 crew atlas poses"
+      ]
+    },
+    "native_walk": {
+      "result": "passed",
+      "target": [
+        21,
+        0,
+        -16
+      ],
+      "log": "survey-walk.log"
+    },
+    "repository": {
+      "result": "passed",
+      "log": "repository-check.log",
+      "rust_tests": 27,
+      "python_tests": 16,
+      "markdown_files": 32
+    },
+    "whitespace": {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  },
+  "visual_review": "Final overview, normal gameplay, physical survey walk and compact stale fixture inspected. Rejected cap striping and distant seam aliasing were corrected.",
+  "limitations": [
+    "Finite, flat traversable surface; cracks and dunes are shading",
+    "Mineral pool and standing stones are decorative, not resources or portals",
+    "No swimming, climbing, dynamic weather, mining or construction",
+    "Other platforms unverified",
+    "Short 60-FPS-capped samples do not establish performance improvement"
+  ],
+  "operational_changes": "None: no new agent work, inference, credentials, deployment or migration."
+}

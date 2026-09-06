@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "events": [
+    "Graphiti episode survives FalkorDB server restart",
+    "Tampered graph content rejected; no silent overwrite",
+    "Cross-agent memory rejected"
+  ],
+  "path": "/Users/al/git/Starbase2/.local/memory-check-1788721737743585000"
+}

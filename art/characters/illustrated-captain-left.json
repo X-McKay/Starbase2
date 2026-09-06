@@ -1,0 +1,86 @@
+{
+  "id": "captain-left",
+  "source": "res://../../evidence/illustrated-walk/captain-left.png",
+  "canvas": [
+    256,
+    320
+  ],
+  "pivot": [
+    128,
+    296
+  ],
+  "scale": 0.4,
+  "grid": [
+    2,
+    2
+  ],
+  "anchors": [
+    [
+      294,
+      587
+    ],
+    [
+      838,
+      588
+    ],
+    [
+      281,
+      1218
+    ],
+    [
+      849,
+      1230
+    ]
+  ],
+  "matte": {
+    "minimum": 190,
+    "max_chroma": 12
+  },
+  "idle_atlas": "res://art/crew-adventure.png",
+  "idle_row": 0,
+  "clips": {
+    "walk_left": {
+      "frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "durations": [
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  },
+  "provenance": "Original illustrated captain; built-in image generation; deterministic boundary-connected matte cleanup; no 3D rendering or mirrored directions",
+  "stride_m": 3.2,
+  "include_idle": false,
+  "cells": [
+    [
+      0,
+      0,
+      615,
+      630
+    ],
+    [
+      615,
+      0,
+      615,
+      630
+    ],
+    [
+      0,
+      630,
+      615,
+      648
+    ],
+    [
+      615,
+      630,
+      615,
+      648
+    ]
+  ]
+}

@@ -1,0 +1,39 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_etrhp"]
+albedo_color = Color(0.6509804, 0.627451, 0.7764706, 1)
+roughness = 0.9
+
+[sub_resource type="TorusMesh" id="TorusMesh_jbwsv"]
+inner_radius = 0.64
+outer_radius = 0.8
+rings = 48
+ring_segments = 8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jrwgt"]
+albedo_color = Color(0.3647059, 0.42745098, 0.53333336, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="BoxMesh_2minc"]
+size = Vector3(0.2, 0.8, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_e35g8"]
+size = Vector3(1.6, 2.2, 0.8)
+
+[node name="TrialApparatus" type="Node3D" unique_id=701178939]
+
+[node name="MeshInstance3D0" type="MeshInstance3D" parent="." unique_id=2029284530]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 1.4, 0)
+material_override = SubResource("StandardMaterial3D_etrhp")
+mesh = SubResource("TorusMesh_jbwsv")
+
+[node name="MeshInstance3D1" type="MeshInstance3D" parent="." unique_id=1284171029]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+material_override = SubResource("StandardMaterial3D_jrwgt")
+mesh = SubResource("BoxMesh_2minc")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="." unique_id=1971400803]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
+
+[node name="CollisionShape3D0" type="CollisionShape3D" parent="StaticBody3D2" unique_id=1240646012]
+shape = SubResource("BoxShape3D_e35g8")

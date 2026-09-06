@@ -1,0 +1,67 @@
+[
+  {
+    "event": "operator_and_worker_boundaries_passed",
+    "seconds": 0.685
+  },
+  {
+    "event": "paired_grading_and_replay_passed",
+    "seconds": 3.064,
+    "campaign": "improve",
+    "summary": {
+      "baseline_passed": 5,
+      "candidate_passed": 6,
+      "cases": 6,
+      "cost_usd": 0,
+      "hard_gate_failures": [],
+      "outcome": "improved",
+      "qualification": "No promotion, XP, or permission change",
+      "simulation": true,
+      "trials": 12,
+      "uncertainty": "Deterministic public conformance suite only. Equal scores do not establish equivalence; no generalization claim."
+    }
+  },
+  {
+    "event": "paired_grading_and_replay_passed",
+    "seconds": 3.894,
+    "campaign": "regress",
+    "summary": {
+      "baseline_passed": 5,
+      "candidate_passed": 4,
+      "cases": 6,
+      "cost_usd": 0,
+      "hard_gate_failures": [],
+      "outcome": "regressed",
+      "qualification": "No promotion, XP, or permission change",
+      "simulation": true,
+      "trials": 12,
+      "uncertainty": "Deterministic public conformance suite only. Equal scores do not establish equivalence; no generalization claim."
+    }
+  },
+  {
+    "event": "real_analyzer_snapshot_and_immutable_report_passed",
+    "seconds": 4.919,
+    "advisory": null
+  },
+  {
+    "event": "worker_loss_stale_and_cancel_before_dispatch_passed",
+    "seconds": 12.023
+  },
+  {
+    "event": "worker_and_temporal_restart_during_durable_timer",
+    "seconds": 14.119,
+    "run_id": "01a071a2-396d-78aa-8cc9-51cb77c5821b"
+  },
+  {
+    "event": "durable_timer_recovery_replay_and_pause_passed",
+    "seconds": 44.411,
+    "run": "duty-watch-1788612882"
+  },
+  {
+    "event": "core_restart_retained_evidence_and_history",
+    "seconds": 44.625
+  },
+  {
+    "event": "passed",
+    "seconds": 44.625
+  }
+]

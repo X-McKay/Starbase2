@@ -1,0 +1,25 @@
+cargo fmt --all --check
+cargo clippy --locked --all-targets -- -D warnings
+    Checking starbase-core v0.1.0 (/Users/al/git/Starbase2/services/core)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.05s
+.venv/bin/ruff format --check services/runtime scripts
+60 files already formatted
+.venv/bin/ruff check services/runtime scripts
+All checks passed!
+.venv/bin/ty check services/runtime scripts
+error[invalid-assignment]: Object of type `def capture(target) -> CoroutineType[Any, Any, Unknown]` is not assignable to attribute `capture` of type `def capture(target: dict[Unknown, Unknown]) -> CoroutineType[Any, Any, dict[Unknown, Unknown]]`
+  --> scripts/repository_worker_fixture.py:65:5
+   |
+65 |     field_sources.capture = capture
+   |     ^^^^^^^^^^^^^^^^^^^^^
+
+error[invalid-assignment]: Cannot assign to a subscript on an object of type `int`
+   --> services/runtime/tests/test_field.py:210:13
+    |
+210 |             listed[0]["head"]["sha"] = "c" * 40
+    |             ^^^^^^^^^^^^^^^^^^^^^^^^
+info: The full type of the subscripted object is `int | dict[str, str]`
+info: `int` does not have a `__setitem__` method.
+
+Found 2 diagnostics
+error: recipe `lint` failed on line 46 with exit code 1

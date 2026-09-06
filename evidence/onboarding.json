@@ -1,0 +1,17 @@
+{
+  "scope": "Fresh source copy and fresh .venv/target, existing toolchains and warm dependency/download caches",
+  "path": "/var/folders/sl/2t3mlgwj7bq2c4qj1x2csfx00000gn/T/starbase2-clean-6rhbiyee/checkout",
+  "steps": [
+    {
+      "command": "just bootstrap",
+      "exit_code": 0,
+      "seconds": 6.834
+    },
+    {
+      "command": "just check",
+      "exit_code": 0,
+      "seconds": 8.179
+    }
+  ],
+  "total_seconds": 15.075
+}

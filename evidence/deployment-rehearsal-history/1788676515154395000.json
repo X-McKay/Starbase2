@@ -1,0 +1,43 @@
+{
+  "status": "passed",
+  "scope": "local PostgreSQL and Temporal; no Kubernetes deployment or image build",
+  "dump_sha256": "18432bc10fa07c940913b6755266baa85fd9cec2ca590d7929fbd1b18eebe1e2",
+  "checks": [
+    {
+      "check": "fresh database/roles provisioned; identical provisioning is idempotent",
+      "passed": true
+    },
+    {
+      "check": "fresh schema migration, repeat migration and least-privilege grants",
+      "passed": true
+    },
+    {
+      "check": "runtime role denied DDL, evidence deletion and schema-version mutation",
+      "passed": true
+    },
+    {
+      "check": "dedicated Temporal namespace create, ownership and retention verification",
+      "passed": true
+    },
+    {
+      "check": "real Temporal review retained in PostgreSQL through runtime role",
+      "passed": true
+    },
+    {
+      "check": "legacy and unqualified repair entry points disabled",
+      "passed": true
+    },
+    {
+      "check": "core restart preserves retained result",
+      "passed": true
+    },
+    {
+      "check": "pg_dump, owned purge/reprovision, transactional restore preserve evidence",
+      "passed": true
+    },
+    {
+      "check": "dedicated Temporal namespace and owned database/roles removed",
+      "passed": true
+    }
+  ]
+}

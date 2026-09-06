@@ -1,0 +1,225 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Contract",
+  "type": "object",
+  "properties": {
+    "input": {
+      "$ref": "#/$defs/MissionInput"
+    },
+    "snapshot": {
+      "$ref": "#/$defs/Snapshot"
+    },
+    "submission": {
+      "$ref": "#/$defs/Submission"
+    },
+    "transition": {
+      "$ref": "#/$defs/Transition"
+    }
+  },
+  "required": [
+    "input",
+    "submission",
+    "transition",
+    "snapshot"
+  ],
+  "$defs": {
+    "Build": {
+      "type": "object",
+      "properties": {
+        "digest": {
+          "type": "string"
+        },
+        "manifest": true,
+        "variant": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "digest",
+        "variant",
+        "manifest"
+      ]
+    },
+    "Finding": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "file": {
+          "type": "string"
+        },
+        "line": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "file",
+        "line"
+      ]
+    },
+    "Mission": {
+      "type": "object",
+      "properties": {
+        "detail": {
+          "type": "string"
+        },
+        "evidence": true,
+        "input": {
+          "$ref": "#/$defs/MissionInput"
+        },
+        "stale": {
+          "type": "boolean"
+        },
+        "state": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "input",
+        "state",
+        "updated_at",
+        "detail",
+        "stale"
+      ]
+    },
+    "MissionInput": {
+      "type": "object",
+      "properties": {
+        "baseline": {
+          "$ref": "#/$defs/Build"
+        },
+        "candidate": {
+          "$ref": "#/$defs/Build"
+        },
+        "delay_seconds": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "id": {
+          "type": "string"
+        },
+        "integration": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "baseline",
+        "candidate",
+        "delay_seconds",
+        "integration"
+      ]
+    },
+    "Snapshot": {
+      "type": "object",
+      "properties": {
+        "missions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Mission"
+          }
+        },
+        "observed_at": {
+          "type": "number",
+          "format": "double"
+        },
+        "schema_version": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "simulation": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "schema_version",
+        "observed_at",
+        "simulation",
+        "missions"
+      ]
+    },
+    "Submission": {
+      "type": "object",
+      "properties": {
+        "trials": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Trial"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "trials"
+      ]
+    },
+    "Transition": {
+      "type": "object",
+      "properties": {
+        "detail": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "detail"
+      ]
+    },
+    "Trial": {
+      "type": "object",
+      "properties": {
+        "build_digest": {
+          "type": "string"
+        },
+        "case_id": {
+          "type": "string"
+        },
+        "elapsed_ms": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Finding"
+          }
+        },
+        "model": {
+          "type": "string"
+        },
+        "requests": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "case_id",
+        "build_digest",
+        "findings",
+        "elapsed_ms",
+        "model",
+        "requests"
+      ]
+    }
+  }
+}

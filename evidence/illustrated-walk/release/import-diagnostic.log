@@ -1,0 +1,12 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+SCRIPT ERROR: Assertion failed: Frame 0 exceeds canvas ([P: (-1, 27), S: (219, 273)]); fix scale/anchor
+          at: _initialize (res://characters/illustrated_import.gd:71)
+          GDScript backtrace (most recent call first):
+              [0] _initialize (res://characters/illustrated_import.gd:71)
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+SCRIPT ERROR: Assertion failed: Frame 0 exceeds canvas ([P: (-7, 33), S: (266, 269)]); fix scale/anchor
+          at: _initialize (res://characters/illustrated_import.gd:71)
+          GDScript backtrace (most recent call first):
+              [0] _initialize (res://characters/illustrated_import.gd:71)

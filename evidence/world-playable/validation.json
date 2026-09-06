@@ -1,0 +1,41 @@
+{
+  "date": "2026-09-05",
+  "scope": "First playable native art pass; no deployment",
+  "checks": {
+    "repository": "passed: 27 Rust, 16 Python, lint, contracts, 29 Markdown documents",
+    "godot": "passed: import, state/order, navigation, keyboard/mouse, comfort, local HTTP failure fixtures",
+    "real_control": {
+      "id": "world-visual-control-01",
+      "baseline": 5,
+      "candidate": 6,
+      "cases": 6,
+      "xp": 0,
+      "model_calls": 0
+    }
+  },
+  "captures": [
+    "outpost.png",
+    "walk.png",
+    "repair-command.png",
+    "compact-inspector.png",
+    "stale-compact-final.png",
+    "disconnected.png"
+  ],
+  "retained_failures": [
+    "import.log",
+    "first-render.log",
+    "order-regression-before.log",
+    "check-world-2.log",
+    "interaction-2.log",
+    "interaction-3.log",
+    "interaction-4.log",
+    "stale-compact.png",
+    "check-world-final.log"
+  ],
+  "limitations": [
+    "No interiors or work-stage gestures yet",
+    "No sound, persistent decoration, gamepad or web validation",
+    "Comfort settings are session-local",
+    "Short native frame sample is not a load or GPU benchmark"
+  ]
+}

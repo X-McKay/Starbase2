@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Starbase2 · Field station</title>
+    <link rel="stylesheet" href="/console.css" />
+  </head>
+  <body>
+    <aside class="rail">
+      <a class="brand" href="#station" aria-label="Starbase2 home"
+        >S<span>2</span></a
+      ><a href="#station">Station</a><a href="#work">Work</a
+      ><a href="#repairs">Repairs</a><a href="#progression">Crew</a
+      ><a href="#gym">Gym</a><a href="#duties">Duties</a
+      ><a href="#field-agents">Field crew</a><a href="#archive">Journal</a>
+      <div class="rail-end">LOCAL<br />FIELD STATION 01</div>
+    </aside>
+    <main>
+      <header>
+        <div>
+          <span class="eyebrow">AUTONOMY, WITH EVIDENCE</span>
+          <h1>Your station, at work.</h1>
+          <p>A small crew. Observable work. Every result has a record.</p>
+        </div>
+        <div id="connection" class="connection" role="status">
+          Connecting to core…
+        </div>
+      </header>
+      <div id="notice" role="status" aria-live="polite"></div>
+      <section id="station" class="station" aria-labelledby="station-title">
+        <div class="station-caption">
+          <span class="eyebrow">01 / THE FIELD STATION</span>
+          <h2 id="station-title">Quiet systems.<br />Clear signals.</h2>
+          <p id="station-state">Waiting for authoritative state.</p>
+          <a href="#archive">Follow the evidence ↗</a>
+        </div>
+        <svg
+          class="world"
+          viewBox="0 0 760 410"
+          role="img"
+          aria-label="Illustrated field station: workshop and gym. The illustration is decorative; live activity appears in the crew cards below."
+        >
+          <defs>
+            <linearGradient id="ground" x2="0" y2="1">
+              <stop stop-color="#4e7879" />
+              <stop offset="1" stop-color="#263f51" />
+            </linearGradient>
+            <linearGradient id="roof">
+              <stop stop-color="#f4d4a1" />
+              <stop offset="1" stop-color="#c0966d" />
+            </linearGradient>
+            <filter id="shadow"><feGaussianBlur stdDeviation="13" /></filter>
+          </defs>
+          <ellipse
+            cx="401"
+            cy="326"
+            rx="280"
+            ry="44"
+            fill="#08151f"
+            opacity=".6"
+            filter="url(#shadow)"
+          />
+          <path d="M74 232 382 76 686 232 380 391Z" fill="#213645" />
+          <path d="M74 210 382 54 686 210 380 369Z" fill="url(#ground)" />
+          <path d="M74 210v22l306 159v-22Z" fill="#2f4c57" />
+          <path d="m380 369 306-159v22L380 391Z" fill="#172d3b" />
+          <path d="m147 226 221-111 245 120-220 112Z" fill="#769185" />
+          <path
+            d="m166 248 211-105 213 106-29 14-185-91-181 91Z"
+            fill="#c8c2a0"
+          />
+          <g>
+            <path d="m174 171 109-55 111 55-110 57Z" fill="url(#roof)" />
+            <path d="m174 171 110 57v75l-110-56Z" fill="#ba9974" />
+            <path d="m284 228 110-57v75l-110 57Z" fill="#8a765f" />
+            <path d="m164 163 119-60 122 61-121 61Z" fill="#ecd3a5" />
+            <path d="m186 151 98-48 100 49-100 49Z" fill="#497775" />
+            <path
+              d="m303 234 26-14v32l-26 14Zm44-22 26-14v32l-26 14Z"
+              fill="#f7d99b"
+            />
+            <path d="m206 205 48 25v39l-48-25Z" fill="#254251" />
+            <path d="m209 208 42 22v22l-42-22Z" fill="#8bc7b5" />
+          </g>
+          <g>
+            <path d="m414 143 96-49 108 54-97 50Z" fill="#b8d4c0" />
+            <path d="m414 143 107 55v87l-107-55Z" fill="#659187" />
+            <path d="m521 198 97-50v87l-97 50Z" fill="#3e706b" />
+            <path d="m404 137 107-53 118 59-108 54Z" fill="#c4dfc7" />
+            <path d="m441 135 67-32 72 36-67 33Z" fill="#294b57" />
+            <path d="m447 135 61-28 60 30-62 28Z" fill="#91beb5" />
+            <path d="m434 175 67 34v38l-67-34Z" fill="#cfe4bd" />
+            <path d="m538 210 58-30v29l-58 30Z" fill="#8ab7a2" />
+          </g>
+          <g fill="#b89d7b">
+            <path d="m118 225 23-12 24 12-24 13Z" />
+            <path d="m118 225 23 13v23l-23-12Zm23 13 24-13v24l-24 12Z" />
+            <path d="m589 261 23-12 24 12-24 13Z" />
+            <path d="m589 261 23 13v23l-23-12Zm23 13 24-13v24l-24 12Z" />
+          </g>
+          <g fill="#79a284">
+            <ellipse cx="141" cy="221" rx="23" ry="30" />
+            <ellipse cx="612" cy="255" rx="23" ry="31" />
+          </g>
+          <g transform="translate(363 259)">
+            <ellipse cy="37" rx="18" ry="8" fill="#1c3844" opacity=".4" />
+            <path d="M-10 16v21h8V22h4v15h8V16" fill="#243c4c" />
+            <rect x="-14" y="-3" width="28" height="26" rx="7" fill="#ecc388" />
+            <circle cy="-12" r="11" fill="#dab394" />
+            <path d="M-12-15a12 12 0 0 1 24 0v3H-12Z" fill="#385967" />
+          </g>
+          <g transform="translate(472 293)">
+            <ellipse cy="29" rx="17" ry="7" fill="#1c3844" opacity=".4" />
+            <path d="M-9 8v20h7V15h4v13h7V8" fill="#243c4c" />
+            <rect
+              x="-12"
+              y="-12"
+              width="24"
+              height="26"
+              rx="6"
+              fill="#a2c8ae"
+            />
+            <circle cy="-21" r="10" fill="#b68d6f" />
+            <path d="M-11-23a11 11 0 0 1 22 0v4H-11Z" fill="#243c4c" />
+          </g>
+          <g
+            font-family="system-ui"
+            font-size="12"
+            font-weight="600"
+            letter-spacing="2"
+            fill="#e7e7d0"
+          >
+            <text x="237" y="86">WORKSHOP</text>
+            <text x="500" y="66">GYM</text>
+          </g></svg
+        ><span class="illustration-label"
+          >Station illustration · activity comes from records</span
+        >
+      </section>
+      <section id="crew" class="crew" aria-label="Crew state"></section>
+      <div class="two-columns">
+        <section id="work" class="card">
+          <div class="section-heading">
+            <span class="eyebrow">THE WORKSHOP</span
+            ><span class="number">01</span>
+          </div>
+          <h2>Send Surveyor to work</h2>
+          <p>
+            Read-only Python checks against a frozen source snapshot. No
+            repository code is executed.
+          </p>
+          <form id="review-form">
+            <label
+              >Repository<select id="target">
+                <option value="workspace">
+                  This checkout · real local review
+                </option>
+                <option value="sample">
+                  Training repository · synthetic input
+                </option>
+              </select></label
+            ><label
+              >Build<select id="profile">
+                <option value="surveyor-v2">
+                  Surveyor v2 · includes missing timeouts
+                </option>
+                <option value="surveyor-v1">
+                  Surveyor v1 · baseline checks
+                </option>
+              </select></label
+            ><label class="check"
+              ><input type="checkbox" id="inference" disabled /> Ask the model
+              to explain the training results</label
+            ><small
+              >Optional inference is limited to synthetic rule codes. It cannot
+              certify a result or change permissions.</small
+            ><button type="submit">Start review <span>↗</span></button>
+          </form>
+        </section>
+        <section id="gym" class="card">
+          <div class="section-heading">
+            <span class="eyebrow">THE GYM</span><span class="number">02</span>
+          </div>
+          <h2>Put a change to the test</h2>
+          <p>
+            Six public cases, twelve paired trials. The core grades each result
+            independently and retains the entire comparison.
+          </p>
+          <form id="evaluation-form">
+            <label
+              >Baseline<select id="baseline">
+                <option value="surveyor-v1">Surveyor v1</option>
+                <option value="surveyor-v2">Surveyor v2</option>
+              </select></label
+            ><label
+              >Candidate<select id="candidate">
+                <option value="surveyor-v2">
+                  Surveyor v2 · adds timeout checks
+                </option>
+                <option value="surveyor-regressed">
+                  Regression control · drops eval detection
+                </option>
+              </select></label
+            ><small
+              >This measures deterministic suite coverage. It does not establish
+              general model quality or award experience.</small
+            ><button type="submit" class="secondary">
+              Run comparison <span>↗</span>
+            </button>
+          </form>
+        </section>
+      </div>
+      <section id="repairs" class="card">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">WORKSHOP · REAL ISOLATED EXECUTION</p>
+            <h2>A repair you can inspect.</h2>
+          </div>
+        </div>
+        <p>
+          Mender proposes a change to a synthetic repository. Disposable
+          microVMs run the original and candidate; the core independently grades
+          their outputs. Your checkout is not a repair target.
+        </p>
+        <form id="repair-form">
+          <label
+            >Mission<select id="repair-scenario">
+              <option value="clamp-v1">
+                Clamp values · fix the lower bound
+              </option>
+              <option value="dedupe-v1">
+                Remove duplicates · preserve order
+              </option>
+            </select></label
+          >
+          <label
+            >Candidate<select id="repair-mode">
+              <option value="inference">AI repair · one model call</option>
+              <option value="control-good">Known-good control · no XP</option>
+              <option value="control-bad">Regression control · no XP</option>
+              <option value="control-unchanged">
+                Unchanged control · no XP
+              </option>
+            </select></label
+          ><button type="submit">Start isolated repair</button>
+        </form>
+        <p class="muted">
+          No network or host mounts inside the VM. Fixed execution budgets. No
+          PR publication or production authority.
+        </p>
+        <div id="repair-list" class="repair-list" aria-live="polite">
+          Waiting for mission records.
+        </div>
+      </section>
+      <section class="card" id="progression">
+        <p class="eyebrow">CREW RECORD · COSMETIC PROGRESSION</p>
+        <h2>Credit follows evidence.</h2>
+        <div id="progression-detail">Waiting for the outcome ledger.</div>
+      </section>
+      <section id="duties" class="card duty-card">
+        <div>
+          <span class="eyebrow">ONGOING RESPONSIBILITY</span>
+          <h2>A watch that survives restarts</h2>
+          <p>
+            Temporal keeps the timer. Pausing prevents future dispatch; stop an
+            active run separately.
+          </p>
+        </div>
+        <form id="duty-form">
+          <label
+            >Repository<select id="duty-target">
+              <option value="workspace">This checkout</option>
+              <option value="sample">Training repository</option>
+            </select></label
+          ><label
+            >Interval<select id="interval">
+              <option value="300">Every 5 minutes</option>
+              <option value="1800">Every 30 minutes</option>
+              <option value="30">Every 30 seconds · development</option>
+            </select></label
+          ><button type="submit" class="secondary">
+            Enable recurring review
+          </button>
+        </form>
+        <div id="duty-list"></div>
+      </section>
+      <section id="archive" class="card">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">THE JOURNAL</span>
+            <h2>Every run leaves a trail.</h2>
+          </div>
+          <label
+            >Show<select id="run-view">
+              <option value="recent">Recent runs</option>
+              <option value="active">Active runs</option>
+            </select></label
+          ><button id="refresh" class="ghost">Refresh</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Run / target</th>
+                <th>Activity</th>
+                <th>State</th>
+                <th>Recorded result</th>
+                <th>Inspect</th>
+              </tr>
+            </thead>
+            <tbody id="runs">
+              <tr>
+                <td colspan="5">Awaiting records…</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination">
+          <button id="latest" class="ghost">Latest</button
+          ><button id="older" class="ghost">Older runs →</button>
+        </div>
+      </section>
+      <footer>
+        Starbase2 / local development edition
+        <span
+          >Bounded local authority · Evidence-backed cosmetic XP ·
+          <a href="/v1/snapshot">v1 experiment archive</a></span
+        >
+      </footer>
+    </main>
+    <dialog id="inspector">
+      <div class="inspector-head">
+        <span class="eyebrow">RETAINED EVIDENCE</span
+        ><button id="close" class="ghost" aria-label="Close inspector">
+          Close ✕
+        </button>
+      </div>
+      <p id="inspection-notice" role="status" aria-live="polite"></p>
+      <div id="inspection"></div>
+    </dialog>
+    <dialog id="repair-inspector" aria-label="Repair evidence inspector">
+      <div class="dialog-top">
+        <button
+          class="ghost"
+          onclick="document.getElementById('repair-inspector').close()"
+        >
+          Close</button
+        ><button id="repair-refresh" class="ghost">Refresh evidence</button
+        ><button id="repair-stop" class="ghost">Stop repair</button>
+      </div>
+      <p id="repair-status" role="status"></p>
+      <div id="repair-body"></div>
+    </dialog>
+    <script src="/console.js"></script>
+    <script src="/field.js"></script>
+  </body>
+</html>

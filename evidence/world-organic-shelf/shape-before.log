@@ -1,0 +1,26 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Shelf still has a long straight edge
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_shelf_shape.gd:14)
+ERROR: Shelf still has a long straight edge
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_shelf_shape.gd:14)
+ERROR: Shelf still has a long straight edge
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_shelf_shape.gd:14)
+ERROR: Old square northwest corner must be eroded
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_shelf_shape.gd:14)
+ERROR: Natural headland must be reachable: (5.0, 0.0, 38.0)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_shelf_shape.gd:14)
+ERROR: Natural headland must be reachable: (-42.0, 0.0, 8.0)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _initialize (res://test_shelf_shape.gd:14)

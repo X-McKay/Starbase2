@@ -1,0 +1,115 @@
+{
+  "date": "2026-09-05",
+  "scope": "Native space-adventure art and interaction upgrade",
+  "platform": "macOS Apple M5",
+  "engine": "Godot 4.7.2",
+  "accepted_art": {
+    "path": "apps/world/art/crew-adventure.png",
+    "sha256": "ad94f6718547cf92f5b6460e34d5056771d7c8d947287360bee45106aa4987d0",
+    "poses": 16,
+    "walk_cycle": "Not implemented; procedural bobbing and directional standing poses only"
+  },
+  "checks": {
+    "repository": {
+      "command": "mise exec -- just check",
+      "result": "passed",
+      "rust_tests": 27,
+      "python_tests": 16,
+      "log": "repository-check.log"
+    },
+    "world": {
+      "command": "mise exec -- just check-world",
+      "result": "passed",
+      "log": "world-check.log"
+    },
+    "helmet_click": {
+      "reproduced_log": "helmet-hit-before.log",
+      "fixed_log": "helmet-hit-after.log"
+    }
+  },
+  "captures": {
+    "outpost": {
+      "command_message": "",
+      "draw_calls": 872.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frames": 210,
+      "median_ms": 16.6666666666667,
+      "p95_ms": 18.0555555555556,
+      "player_position": "(0.0, 0.0, 5.5)",
+      "selected_id": "world-visual-control-01",
+      "startup_to_first_frame_ms": 1099,
+      "viewport": "(1280.0, 800.0)",
+      "visual_fixture": false,
+      "walk_reached": false,
+      "walk_test": false
+    },
+    "walk": {
+      "command_message": "",
+      "draw_calls": 872.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frames": 390,
+      "median_ms": 16.6666666666667,
+      "p95_ms": 18.0555555555556,
+      "player_position": "(-6.82523, 0.0, 1.506682)",
+      "selected_id": "world-visual-control-01",
+      "startup_to_first_frame_ms": 377,
+      "viewport": "(1280.0, 800.0)",
+      "visual_fixture": false,
+      "walk_reached": true,
+      "walk_test": true
+    },
+    "stale-compact": {
+      "command_message": "",
+      "draw_calls": 886.0,
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "frames": 150,
+      "median_ms": 16.6666666666667,
+      "p95_ms": 16.6666666666667,
+      "player_position": "(0.0, 0.0, 5.5)",
+      "selected_id": "fixture-stale-repair",
+      "startup_to_first_frame_ms": 415,
+      "viewport": "(960.0, 720.0)",
+      "visual_fixture": true,
+      "walk_reached": false,
+      "walk_test": false
+    }
+  },
+  "visual_review": "Accepted crew silhouettes, futuristic architecture, gameplay scale and compact stale-state portrait. Four walking atlas candidates rejected; see asset provenance.",
+  "limitations": [
+    "Full foot-stride animation unfinished",
+    "Other platforms and exports unverified",
+    "Existing vegetation needs a future visual cohesion pass",
+    "Short frame samples are not evidence of performance improvement"
+  ],
+  "operational_changes": "None: no new agent dispatch, credentials, deployment, schema migration or permission changes"
+}

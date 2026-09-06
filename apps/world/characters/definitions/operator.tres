@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="" load_steps=7 format=3]
+[ext_resource type="Script" path="res://characters/definition.gd" id="1"]
+[ext_resource type="Texture2D" path="res://art/crew-adventure.png" id="2"]
+[ext_resource type="SpriteFrames" path="res://characters/frames/captain-illustrated.tres" id="3"]
+[ext_resource type="SpriteFrames" path="res://characters/frames/captain-front.tres" id="4"]
+[ext_resource type="SpriteFrames" path="res://characters/frames/captain-back.tres" id="5"]
+[ext_resource type="SpriteFrames" path="res://characters/frames/captain-left.tres" id="6"]
+[resource]
+script = ExtResource("1")
+id = "operator"
+atlas = ExtResource("2")
+animated = false
+legacy_row = 0
+source = "art/crew-adventure.png; approved illustrated stills and authored four-direction walks"
+sprite_frames = ExtResource("3")
+additional_frames = Array[SpriteFrames]([ExtResource("4"), ExtResource("5"), ExtResource("6")])
+clip_layouts = {
+"walk_front": {"canvas": Vector2i(256,320), "pivot": Vector2(128,296), "pixel_size": 0.010, "shaded": true, "frames": 4},
+"walk_back": {"canvas": Vector2i(256,320), "pivot": Vector2(128,296), "pixel_size": 0.011, "shaded": true, "frames": 4},
+"walk_left": {"canvas": Vector2i(256,320), "pivot": Vector2(128,296), "pixel_size": 0.0115, "shaded": true, "frames": 4},
+"walk_right": {"canvas": Vector2i(256,320), "pivot": Vector2(128,296), "pixel_size": 0.009, "shaded": true, "frames": 8}
+}
+stride = 3.2

@@ -1,0 +1,2 @@
+python3 scripts/check_world_export.py --output .local/release-world/rc4
+Export qualified. Artifact, captures, logs and provenance: /Users/al/git/Starbase2/.local/release-world/rc4

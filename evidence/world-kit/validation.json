@@ -1,0 +1,103 @@
+{
+  "date": "2026-09-05",
+  "status": "passed; visual pilot only",
+  "environment": "macOS Apple M5; Godot 4.7.2 Compatibility",
+  "asset_sha256": "cbacbf9ad56927d27dc347ddbd160ab731967b63b8efb1296f70cb0433c20995",
+  "checks": {
+    "just check-world": "passed; check-world.log",
+    "just check": "passed; check-repository.log",
+    "native_visual_review": "interior/exterior, alternate camera and cool light, 960x600 compact"
+  },
+  "initial_findings": [
+    "Nearest-filter capture exposed noisy fine detail; switched surface shader to linear sampling",
+    "Initial whole-sheet opacity check was an invalid contract for opaque RGB materials; source alpha is ignored, RGB content and UV bounds now checked",
+    "Roof repeated the ivory hull motif too strongly; roof now reuses steel panels",
+    "Initial camera framing intersected toolbar; raised view target"
+  ],
+  "frame_samples": {
+    "exterior.png.json": {
+      "alternate_camera": false,
+      "art_pilot": true,
+      "draw_calls": 155.0,
+      "frames": 150,
+      "interior": false,
+      "live_activity": false,
+      "median_ms": 16.664,
+      "p95_ms": 18.546,
+      "sampling": "monotonic process-frame intervals; capped at 60 FPS; not GPU render time",
+      "viewport": "(1280.0, 800.0)",
+      "work_light": false,
+      "capture_pixels": [
+        1280,
+        800
+      ]
+    },
+    "interior-alternate.png.json": {
+      "alternate_camera": true,
+      "art_pilot": true,
+      "draw_calls": 257.0,
+      "frames": 150,
+      "interior": true,
+      "live_activity": false,
+      "median_ms": 16.662,
+      "p95_ms": 18.187,
+      "sampling": "monotonic process-frame intervals; capped at 60 FPS; not GPU render time",
+      "viewport": "(1280.0, 800.0)",
+      "work_light": true,
+      "capture_pixels": [
+        1280,
+        800
+      ]
+    },
+    "interior-compact.png.json": {
+      "alternate_camera": false,
+      "art_pilot": true,
+      "draw_calls": 257.0,
+      "frames": 150,
+      "interior": true,
+      "live_activity": false,
+      "median_ms": 16.663,
+      "p95_ms": 17.832,
+      "sampling": "monotonic process-frame intervals; capped at 60 FPS; not GPU render time",
+      "viewport": "(1280.0, 800.0)",
+      "work_light": false,
+      "capture_pixels": [
+        960,
+        600
+      ]
+    },
+    "interior.png.json": {
+      "alternate_camera": false,
+      "art_pilot": true,
+      "draw_calls": 257.0,
+      "frames": 150,
+      "interior": true,
+      "live_activity": false,
+      "median_ms": 16.665,
+      "p95_ms": 17.987,
+      "sampling": "monotonic process-frame intervals; capped at 60 FPS; not GPU render time",
+      "viewport": "(1280.0, 800.0)",
+      "work_light": false,
+      "capture_pixels": [
+        1280,
+        800
+      ]
+    }
+  },
+  "measurement_limits": "150 monotonic process-frame intervals per view after 30 warmup frames, 60 FPS cap. Not GPU timings, uncapped capacity or a before/after performance comparison. Atlas did not collapse modules to one draw call.",
+  "implemented": [
+    "Shared PNG atlas and named region manifest",
+    "Reusable editor-preview modules with independent collision",
+    "Authored interior/exterior showroom scenes",
+    "Keyboard and button scene/camera/light/roof controls",
+    "Automated art kit checks"
+  ],
+  "remaining": [
+    "No playable interior or live colony integration",
+    "Static decorative door and consoles",
+    "Exterior and interior are separate size/composition studies",
+    "Pixel density, dedicated props, corner/roof assets and authored lighting masks need production art work",
+    "No web/export or second-platform qualification",
+    "No claim of reference-level polish or production art throughput"
+  ]
+}
