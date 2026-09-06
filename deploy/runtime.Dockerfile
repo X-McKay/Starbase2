@@ -11,6 +11,8 @@ RUN uv sync --locked --no-install-project --no-dev --no-cache
 COPY services/runtime services/runtime
 COPY services/core/src services/core/src
 COPY fixtures fixtures
+COPY contracts contracts
 ENV PATH=/app/.venv/bin:$PATH PYTHONPATH=/app/services/runtime PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+RUN python -c "import starbase_runtime.worker"
 USER 10001:10001
 ENTRYPOINT ["/app/.venv/bin/python", "-m", "starbase_runtime.worker", "worker"]

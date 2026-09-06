@@ -77,11 +77,48 @@ class ImageRuntime:
             "--name",
             self.name,
             "--publish",
-            "127.0.0.1:18887:8787",
+            "127.0.0.1:18887:18887",
             "--publish",
             "127.0.0.1:17239:7233",
         )
         self.created = True
+        # Podman port publishing targets the pod interface, whereas Core deliberately
+        # binds loopback. This test-only relay models kubectl's loopback port-forward.
+        relay = """
+import select, socket, socketserver
+class Forward(socketserver.BaseRequestHandler):
+    def handle(self):
+        with socket.create_connection(('127.0.0.1', 8787), timeout=10) as upstream:
+            sockets = [self.request, upstream]
+            while True:
+                ready, _, _ = select.select(sockets, [], [], 30)
+                if not ready:
+                    return
+                for source in ready:
+                    data = source.recv(65536)
+                    if not data:
+                        return
+                    sockets[1 - sockets.index(source)].sendall(data)
+socketserver.ThreadingTCPServer(('0.0.0.0', 18887), Forward).serve_forever()
+"""
+        self.call(
+            "run",
+            "--detach",
+            "--pod",
+            self.name,
+            "--name",
+            self.name + "-relay",
+            "--user",
+            "10001:10001",
+            "--read-only",
+            "--cap-drop=ALL",
+            "--security-opt=no-new-privileges",
+            "--entrypoint",
+            "/app/.venv/bin/python",
+            self.data["runtime"],
+            "-c",
+            relay,
+        )
         self.call(
             "run",
             "--detach",

@@ -265,7 +265,10 @@ def main(images=None) -> None:
             req = urllib.request.Request(
                 base["STARBASE_CORE"] + path,
                 data=json.dumps(body).encode() if body is not None else None,
-                headers={"Content-Type": "application/json", "Origin": base["STARBASE_CORE"]},
+                headers={
+                    "Content-Type": "application/json",
+                    "Origin": "http://127.0.0.1:8787" if images else base["STARBASE_CORE"],
+                },
             )
             with opener.open(req, timeout=10) as r:
                 return json.load(r) if path != "/" else r.read()

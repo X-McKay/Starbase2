@@ -4,6 +4,8 @@
 !rust-toolchain.toml
 !pyproject.toml
 !uv.lock
+!contracts/
+!contracts/**
 !services/
 !services/**
 !apps/
