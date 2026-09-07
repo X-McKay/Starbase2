@@ -4,10 +4,32 @@ Status: accepted
 
 ## Implemented local repair extension · 2026-09-05
 
-For the isolated repair workshop, install pinned microsandbox 0.6.14, run `just sandbox-prepare`, then `just sandbox-doctor`. `just test-sandbox` and `just test-repairs` require local virtualization and bind isolated integration ports 18789/17235; they use no model calls. `just repair-pilot` explicitly makes three development model calls. See [repair operations](repairs.md).
+For the isolated repair workshop, install pinned microsandbox 0.6.14, run `just sandbox-prepare`, then `just sandbox-doctor`. The sandbox image is pinned per CPU architecture (arm64 and x86_64 manifest digests of `python:3.12.13-alpine`). `just test-sandbox` and `just test-repairs` require local virtualization and bind isolated integration ports 18789/17235; they use no model calls. `just repair-pilot` explicitly makes three development model calls. See [repair operations](repairs.md).
 
 This document describes the implemented local operations edition. Production tooling and
 unimplemented commands are explicitly deferred.
+
+## Linux onboarding · 2026-09-07
+
+The existing stack ran for the first time on a clean x86_64 Linux host: pinned
+toolchain, bootstrap (114 s), `just check` (11 s), `just check-world` (64 s), the
+v1/v2 recovery harnesses (44 s / 54 s), an operator review plus paired comparison
+through the live core, and native captures showing the Godot client reading those
+retained records. See [the retained record](../evidence/linux-onboarding/README.md).
+The one onboarding defect was missing Git LFS content (below). The same host then
+ran the optional subsystems: FalkorDB memory (`test-memory`, `test-field`,
+`test-repositories`, a live field observation with an operator memory approval),
+microsandbox 0.6.14 (`test-sandbox`, `test-repairs`), Docker/podman PostgreSQL
+(`test-postgres`, `deployment-rehearse`) and the explicit inference, field and
+repair pilots. The sandbox first failed because the pinned image digest was the
+arm64 manifest; the adapter now pins one manifest digest per architecture. These
+are local functional checks; they establish nothing about performance or deployment.
+
+On Linux, install podman for `deployment-test-db`, `deployment-rehearse` and
+`deployment-qualify-images`; the local database helper also accepts
+`--engine docker`. Install microsandbox from the upstream release archive after
+verifying `checksums.sha256`; `msb` and `libkrunfw` live under `~/.microsandbox`
+with `~/.local/bin/msb` on `PATH`. The Ollama pilot expects `qwen2.5-coder:7b`.
 
 ## Start locally
 
@@ -41,7 +63,14 @@ Run under `mise exec --` if tools are not on PATH. Bootstrap downloads a
 checksum-pinned Temporal CLI into `.local/tools`, runs `uv sync --locked` and
 `cargo build --locked`, and uses `.local/cache/uv`. It supports macOS/Linux ARM64
 and x86-64. Rust/Cargo use the normal Cargo cache; `CARGO_HOME` may point to a
-project cache when needed. Windows and clean Linux setup remain unverified.
+project cache when needed. Windows remains unverified.
+
+Blender sources under `assets-production/**/*.blend` are Git LFS objects.
+`mise.toml` pins `git-lfs`; after `mise install`, run `git lfs install --local`
+once and `git lfs pull` (about 539 MB). `just doctor` reports unresolved pointer
+files. Without the objects, `just check-world` stops at the character provenance
+check: a failed headless assertion never reaches `quit()`, so the run idles until
+its 60-second guard instead of failing fast.
 
 No `.env` file or provider credentials are loaded. The local launcher gives child
 processes only basic OS environment fields and project configuration. All listeners

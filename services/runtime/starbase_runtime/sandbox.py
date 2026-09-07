@@ -7,6 +7,7 @@ if this coordinator dies. Output is untrusted and bounded before parsing.
 
 import asyncio
 import os
+import platform
 import re
 import shutil
 import tempfile
@@ -15,7 +16,22 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
 VERSION = "0.6.14"
-IMAGE = "python@sha256:900229622a576409d52f7a66b24cf441415a828d7e503b0107bf56452a4e44ac"
+# python:3.12.13-alpine, pinned by per-architecture manifest digest rather than the
+# multi-architecture index so every build manifest names the exact executed image.
+IMAGES = {
+    "aarch64": "python@sha256:900229622a576409d52f7a66b24cf441415a828d7e503b0107bf56452a4e44ac",
+    "x86_64": "python@sha256:aa679aa4eed6eb56c1dc6ad3f1b98b7d2d788fd961596779d188fdedad97fb38",
+}
+
+
+def image_for(machine: str) -> str:
+    key = {"arm64": "aarch64", "amd64": "x86_64"}.get(machine, machine)
+    if key not in IMAGES:
+        raise RuntimeError(f"No qualified sandbox image for architecture {machine!r}")
+    return IMAGES[key]
+
+
+IMAGE = image_for(platform.machine())
 POLICY: dict = {
     "runtime": "microsandbox",
     "version": VERSION,

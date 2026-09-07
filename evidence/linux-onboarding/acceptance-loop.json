@@ -1,0 +1,93 @@
+{
+ "worker": {
+  "available": true,
+  "seen_at": 1788806796.0308032
+ },
+ "runs": {
+  "gym-linux-20260907T144623": {
+   "state": "completed",
+   "detail": "Evidence retained",
+   "summary": {
+    "baseline_passed": 5,
+    "candidate_passed": 4,
+    "cases": 6,
+    "cost_usd": 0,
+    "hard_gate_failures": [],
+    "outcome": "regressed",
+    "qualification": "No promotion, XP, or permission change",
+    "simulation": true,
+    "trials": 12,
+    "uncertainty": "Deterministic public conformance suite only. Equal scores do not establish equivalence; no generalization claim."
+   },
+   "events": [
+    [
+     "queued",
+     "Awaiting durable dispatch"
+    ],
+    [
+     "running",
+     "Capturing bounded read-only input"
+    ],
+    [
+     "completed",
+     "Evidence retained"
+    ]
+   ],
+   "snapshot_digest": null,
+   "builds": [
+    [
+     null,
+     "a8c0d2faa3c1"
+    ],
+    [
+     null,
+     "643b85551eb1"
+    ]
+   ],
+   "finding_count": null,
+   "trials": null,
+   "report_keys": [
+    "evidence",
+    "summary"
+   ]
+  },
+  "review-linux-20260907T144623": {
+   "state": "completed",
+   "detail": "Evidence retained",
+   "summary": {
+    "files_reviewed": 1,
+    "finding_count": 2,
+    "outcome": "findings",
+    "qualification": "Advisory static analysis; not proof of repository safety",
+    "simulation": true
+   },
+   "events": [
+    [
+     "queued",
+     "Awaiting durable dispatch"
+    ],
+    [
+     "running",
+     "Capturing bounded read-only input"
+    ],
+    [
+     "completed",
+     "Evidence retained"
+    ]
+   ],
+   "snapshot_digest": "421a64898fc68e43a47e570acbf44ef0938c371ee48660e9e674ea92801a7207",
+   "builds": [
+    [
+     null,
+     "5ffc1dc942b8"
+    ]
+   ],
+   "finding_count": null,
+   "trials": null,
+   "report_keys": [
+    "evidence",
+    "summary"
+   ]
+  }
+ }
+}

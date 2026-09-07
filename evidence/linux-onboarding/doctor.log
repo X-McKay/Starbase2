@@ -1,0 +1,11 @@
+VERSION MISMATCH python3: Python 3.12.3
+MISSING cargo: run mise install and mise exec -- just doctor
+VERSION MISMATCH uv: uv 0.11.12 (x86_64-unknown-linux-gnu)
+OK godot: 4.7.2.stable.official.ed1daf0bf
+VERSION MISMATCH just: just 1.47.1
+MISSING git-lfs: run mise install and mise exec -- just doctor
+OK .venv/bin/python
+OK .local/tools/temporal
+OK target/debug/starbase-core
+OK Git LFS objects present for tracked .blend sources
+Runtime binds loopback ports 8787 and 7233. Integration uses 18787 and 17233.

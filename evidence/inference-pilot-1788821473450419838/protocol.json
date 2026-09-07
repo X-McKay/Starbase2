@@ -1,0 +1,18 @@
+{
+  "question": "Does supplying rule meanings prevent code-to-meaning confusion?",
+  "population": "three public synthetic rule-code cases",
+  "design": "one paired observation per case and endpoint, alternating order",
+  "endpoints": [
+    "https://llm.almckay.io/v1",
+    "http://127.0.0.1:11434/v1"
+  ],
+  "models": [
+    "Qwen3.6-35B-A3B-NVFP4",
+    "qwen2.5-coder:7b"
+  ],
+  "budget": "12 calls, at most 800 output tokens each; no retries",
+  "metric": "per-case predeclared factual smoke gates, not broad quality",
+  "stopping": "all 12 attempts, including failures; no optional stopping",
+  "decision": "inconclusive for generalization regardless of pilot score",
+  "cost": "unknown; user-authorized local/hosted development inference"
+}

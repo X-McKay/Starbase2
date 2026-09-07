@@ -572,3 +572,36 @@ mod tests {
         std::fs::remove_file(path).unwrap();
     }
 }
+
+#[cfg(test)]
+mod timestamp_tests {
+    use serde_json::{Value, json};
+
+    #[test]
+    fn stored_timestamps_round_trip_exactly() {
+        // Idempotent duplicates compare a stored JSON body with the in-memory record;
+        // a one-ULP parse error would make an exact repeat look like a change.
+        for observed in [1788822474.4166565_f64, 1788822474.4166563_f64] {
+            let text = json!({"at": observed}).to_string();
+            let stored: Value = serde_json::from_str(&text).unwrap();
+            assert_eq!(stored["at"].as_f64(), Some(observed), "{text}");
+        }
+        // Sweep the current epoch range at sub-microsecond steps.
+        let mut mismatches = Vec::new();
+        let mut at = 1788822474.0_f64;
+        for _ in 0..200_000 {
+            at = f64::from_bits(at.to_bits() + 1);
+            let text = serde_json::to_string(&at).unwrap();
+            let back: f64 = serde_json::from_str(&text).unwrap();
+            if back != at {
+                mismatches.push((text, back));
+            }
+        }
+        assert!(
+            mismatches.is_empty(),
+            "{} mismatches, e.g. {:?}",
+            mismatches.len(),
+            &mismatches[..3.min(mismatches.len())]
+        );
+    }
+}

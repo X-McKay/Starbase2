@@ -1,0 +1,9 @@
+cargo build --locked
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.05s
+.venv/bin/python scripts/repair_integration.py
+{"event": "worker_and_temporal_interrupted", "seconds": 3.262, "workflow_run_id": "01a07e15-7a21-7c79-bf0a-bd8d45bc4868"}
+{"event": "recovered_and_replayed", "seconds": 14.35, "outcome": "improved", "baseline_attempts": 2}
+{"event": "regression", "seconds": 20.07, "outcome": "regressed"}
+{"event": "unchanged", "seconds": 25.535, "outcome": "no_change"}
+{"event": "cancelled_without_credit", "seconds": 27.949, "state": "cancelled"}
+{"event": "core_restart_retained_ledger", "seconds": 27.988, "xp": 0}

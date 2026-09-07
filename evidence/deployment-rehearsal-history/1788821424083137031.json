@@ -2,13 +2,8 @@
   "status": "passed",
   "postgres_version": "18.3 (Debian 18.3-1.pgdg13+1)",
   "temporal_cli": "1.8.3",
-  "scope": "local PostgreSQL/Temporal; no Kubernetes deployment or image build",
-  "images": null,
-  "source_revision": null,
-  "platform": null,
-  "provenance": null,
-  "container_stops": null,
-  "dump_sha256": "902d4ca55a8327296e788bba13ff59c622d137a46d58a33bdf3933bef9680453",
+  "scope": "local PostgreSQL and Temporal; no Kubernetes deployment or image build",
+  "dump_sha256": "1e907120848a94071554d79f192669fa5c3257fae5160d130556045638f2b387",
   "checks": [
     {
       "check": "fresh database/roles provisioned; identical provisioning is idempotent",
@@ -32,18 +27,6 @@
     },
     {
       "check": "real Temporal review retained in PostgreSQL through runtime role",
-      "passed": true
-    },
-    {
-      "check": "paired evaluation distinguishes improvement and regression with 12 trials each",
-      "passed": true
-    },
-    {
-      "check": "worker loss becomes stale; restart reconciles cancellation without executing work",
-      "passed": true
-    },
-    {
-      "check": "duplicate queued intent completes after worker restart",
       "passed": true
     },
     {

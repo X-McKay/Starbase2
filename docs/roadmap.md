@@ -1,5 +1,16 @@
 # Delivery plan
 
+## Linux onboarding · 2026-09-07
+
+The local stack, repository checks, world checks, recovery harnesses and a live
+operator loop now pass on a clean x86_64 Linux host; see
+[developer experience](development.md) and [the record](../evidence/linux-onboarding/README.md).
+Git LFS is now a pinned, diagnosed prerequisite. FalkorDB memory, field agents,
+microsandbox repairs (with a per-architecture image pin), the PostgreSQL
+deployment rehearsal and the explicit model pilots also passed on that host,
+closing the Linux-host sandbox gate. Native amd64 image qualification and Kubani
+activation remain their own gates.
+
 ## Meshy/Blender continuation · 2026-09-07
 
 The [continuous colony pass](meshy-blender.md) covers all five buildings and six

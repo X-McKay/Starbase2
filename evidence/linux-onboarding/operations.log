@@ -1,0 +1,12 @@
+cargo build --locked
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.07s
+.venv/bin/python scripts/operations_integration.py
+{"event": "operator_and_worker_boundaries_passed", "seconds": 0.238}
+{"event": "paired_grading_and_replay_passed", "seconds": 2.531, "campaign": "improve", "summary": {"baseline_passed": 5, "candidate_passed": 6, "cases": 6, "cost_usd": 0, "hard_gate_failures": [], "outcome": "improved", "qualification": "No promotion, XP, or permission change", "simulation": true, "trials": 12, "uncertainty": "Deterministic public conformance suite only. Equal scores do not establish equivalence; no generalization claim."}}
+{"event": "paired_grading_and_replay_passed", "seconds": 3.557, "campaign": "regress", "summary": {"baseline_passed": 5, "candidate_passed": 4, "cases": 6, "cost_usd": 0, "hard_gate_failures": [], "outcome": "regressed", "qualification": "No promotion, XP, or permission change", "simulation": true, "trials": 12, "uncertainty": "Deterministic public conformance suite only. Equal scores do not establish equivalence; no generalization claim."}}
+{"event": "real_analyzer_snapshot_and_immutable_report_passed", "seconds": 4.58, "advisory": null}
+{"event": "worker_loss_stale_and_cancel_before_dispatch_passed", "seconds": 11.121}
+{"event": "worker_and_temporal_restart_during_durable_timer", "seconds": 13.264, "run_id": "01a07d32-0e32-73f1-aca5-2e33537e469b"}
+{"event": "durable_timer_recovery_replay_and_pause_passed", "seconds": 53.437, "run": "duty-watch-1788806867"}
+{"event": "core_restart_retained_evidence_and_history", "seconds": 53.646}
+{"event": "passed", "seconds": 53.646}
