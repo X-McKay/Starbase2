@@ -119,7 +119,7 @@ func _build_masthead() -> void:
 	root.add_child(mast)
 	UI.eyebrow(mast,"Starbase 02   /   Aster Colony")
 	var title := UI.label(mast,"A new world. A first foothold.","Display",false)
-	title.add_theme_color_override("font_shadow_color",Color("0b1622cc"))
+	title.add_theme_color_override("font_shadow_color",Color("000000cc"))
 	title.add_theme_constant_override("shadow_offset_y",2)
 	var pill := PanelContainer.new()
 	pill.theme_type_variation="Chip"
@@ -194,7 +194,7 @@ func _build_bottom_bar() -> void:
 	hints.size_flags_vertical=Control.SIZE_SHRINK_CENTER
 	for pair in [["E","Interact"],["Tab","Crew"],["B","Command"],["J","Journal"],["M","Map"],["H","Settings"]]:
 		UI.hint(hints,pair[0],pair[1])
-	UI.divider(col).color=Color("2f4d6380")
+	UI.divider(col)
 	roster=HFlowContainer.new()
 	roster.mouse_filter=Control.MOUSE_FILTER_IGNORE
 	roster.add_theme_constant_override("h_separation",8)
@@ -263,7 +263,7 @@ func _build_dock() -> void:
 	status.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	status.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	details = UI.label(state_card,"No evidence received.","Secondary")
-	evidence_toggle=UI.button(state_card,"Show evidence",func(): evidence.visible = not evidence.visible,"GhostButton","Enter")
+	evidence_toggle=UI.button(state_card,"Show evidence",func(): evidence.visible = not evidence.visible,"OutlineButton","Enter")
 	evidence = RichTextLabel.new()
 	evidence.fit_content=true
 	evidence.custom_minimum_size = Vector2(0,0)
@@ -304,7 +304,7 @@ func _build_dock() -> void:
 	command_status = UI.label(command_strip,"","Secondary")
 	command_status.add_theme_color_override("font_color",UI.color("accent"))
 	UI.divider(col)
-	UI.button(col,"Full journal & independent stop controls",func(): journal_requested.emit(),"GhostButton","J")
+	UI.button(col,"Full journal & independent stop controls",func(): journal_requested.emit(),"OutlineButton","J")
 	UI.label(col,"Poses and scenery are decorative. Levels grant no operational permissions.","Muted")
 	# The dock has a fixed width; long captions trim rather than widen it.
 	for b in dock.find_children("*","Button",true,false): b.clip_text=true
@@ -357,7 +357,7 @@ func _build_directory() -> void:
 	building_list.add_theme_constant_override("separation",6)
 	menu.add_child(building_list)
 	UI.divider(menu)
-	UI.button(menu,"Journal & all controls",func(): journal_requested.emit(),"GhostButton","J")
+	UI.button(menu,"Journal & all controls",func(): journal_requested.emit(),"OutlineButton","J")
 	UI.button(menu,"Return to outpost",close_panels,"GhostButton","Esc")
 	directory.hide()
 
@@ -408,7 +408,7 @@ func _build_help() -> void:
 	sound.toggled.connect(func(value: bool): sound_enabled=value; settings_changed.emit())
 	hc.add_child(sound)
 	UI.label(hc,"Ambient poses are decorative. Live work never waits for a character to arrive. Habitat, shuttle and reserved sites are scenery. The browser journal works independently of Godot.","Muted")
-	UI.button(hc,"Back to the outpost",close_panels,"GhostButton","Esc")
+	UI.button(hc,"Back to the outpost",close_panels,"OutlineButton","Esc")
 	help.hide()
 
 func _build_toast() -> void:

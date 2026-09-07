@@ -20,7 +20,12 @@ makes state legible without colour.
 ## Implemented
 
 One theme module, [`ui_theme.gd`](../apps/world/ui_theme.gd), owns colour tokens,
-a type scale, panel/button/input/tab/scrollbar styles and small composable parts:
+a type scale, panel/button/input/tab/scrollbar styles and small composable parts.
+The palette follows the shadcn dark convention: near-black zinc surfaces, one-pixel
+neutral borders, white headings, muted secondary text and a single orange accent
+for primary actions, key caps, section titles and prompts. Button variants are
+secondary (default), primary, outline, ghost, destructive and icon; tabs are a
+segmented list. The parts are:
 section rules, cards, key caps, badges, chips, toasts and a `Glyph` control. Every
 panel is built from those parts; no panel defines its own colours.
 

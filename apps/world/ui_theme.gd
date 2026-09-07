@@ -2,18 +2,19 @@ extends RefCounted
 ## One visual system for every native panel. Status is conveyed by shape and
 ## text as well as color; nothing here reads or invents operational state.
 
+# Zinc-dark surfaces with one orange accent, after the shadcn dark palette.
 const COLORS := {
-	"scrim":"0a1420a6","surface":"11243af7","raised":"1a3450","inset":"0c1a29",
-	"border":"2f4d63","border_strong":"5f8398","accent":"f0cf95","accent_strong":"f6bf62",
-	"ink":"0f1b26","text":"edf0e8","text_2":"bccbc9","muted":"8ea3a9",
+	"scrim":"000000b3","surface":"0a0a0cf7","raised":"18181b","inset":"0f0f12",
+	"border":"27272a","border_strong":"3f3f46","accent":"f97316","accent_strong":"fb923c",
+	"ink":"0a0a0a","text":"fafafa","text_2":"d4d4d8","muted":"a1a1aa",
 }
 
 # Tone → [color, shape]. Shapes stay distinct with color removed.
 const TONES := {
-	"live":["86e2ad","disc"],"verified":["86e2ad","check"],"pending":["8cc7ff","ring_dot"],
-	"stale":["f2b45c","half"],"unknown":["c0c8ce","ring"],"offline":["c0c8ce","ring"],
-	"failed":["ff8d84","cross"],"idle":["9fb2b8","dash"],"fixture":["d6a9ff","diamond"],
-	"no_change":["86e2ad","equals"],"paused":["f2b45c","pause"],
+	"live":["4ade80","disc"],"verified":["4ade80","check"],"pending":["60a5fa","ring_dot"],
+	"stale":["fbbf24","half"],"unknown":["a1a1aa","ring"],"offline":["a1a1aa","ring"],
+	"failed":["f87171","cross"],"idle":["71717a","dash"],"fixture":["c084fc","diamond"],
+	"no_change":["4ade80","equals"],"paused":["fbbf24","pause"],
 }
 
 const SIZES := {"display":26,"h1":20,"h2":16,"body":15,"small":13,"micro":11}
@@ -46,24 +47,24 @@ static func flat(bg: String, border: String = "", pad: Vector4 = Vector4(14,10,1
 
 static func panel_style(kind: String = "panel", pad: int = 18) -> StyleBoxFlat:
 	match kind:
-		"card": return flat(COLORS.raised,COLORS.border,Vector4(pad,pad*0.75,pad,pad*0.75),10)
+		"card": return flat(COLORS.raised,COLORS.border,Vector4(pad,pad*0.75,pad,pad*0.75),8)
 		"inset": return flat(COLORS.inset,COLORS.border,Vector4(pad,pad*0.75,pad,pad*0.75),8)
-		"strip": return flat(COLORS.inset+"",COLORS.border,Vector4(pad,pad*0.5,pad,pad*0.5),8)
-		"bar": return flat("0f2133f2",COLORS.border,Vector4(pad,pad*0.6,pad,pad*0.6),12,1,14)
-		_: return flat(COLORS.surface,COLORS.border_strong,Vector4(pad,pad,pad,pad),12,1,18)
+		"strip": return flat(COLORS.inset,COLORS.border,Vector4(pad,pad*0.5,pad,pad*0.5),6)
+		"bar": return flat("0a0a0cf2",COLORS.border,Vector4(pad,pad*0.6,pad,pad*0.6),10,1,8)
+		_: return flat(COLORS.surface,COLORS.border,Vector4(pad,pad,pad,pad),10,1,12)
 
 static func _button_styles(theme: Theme, variation: String, normal: String, hover: String, pressed: String, border: String, text_color: String, hover_border: String = "", pad: Vector4 = Vector4(16,8,16,8)) -> void:
 	if variation!="Button": theme.set_type_variation(variation,"Button")
-	theme.set_stylebox("normal",variation,flat(normal,border,pad,9))
-	theme.set_stylebox("hover",variation,flat(hover,hover_border if not hover_border.is_empty() else COLORS.border_strong,pad,9))
-	theme.set_stylebox("pressed",variation,flat(pressed,COLORS.accent_strong,pad,9))
-	theme.set_stylebox("disabled",variation,flat("18293a99","2b4052",pad,9))
-	var focus := flat("00000000",COLORS.accent,pad,9,2)
+	theme.set_stylebox("normal",variation,flat(normal,border,pad,8))
+	theme.set_stylebox("hover",variation,flat(hover,hover_border if not hover_border.is_empty() else COLORS.border_strong,pad,8))
+	theme.set_stylebox("pressed",variation,flat(pressed,COLORS.border_strong,pad,8))
+	theme.set_stylebox("disabled",variation,flat("18181b80","27272a",pad,8))
+	var focus := flat("00000000",COLORS.accent,pad,8,2)
 	focus.expand_margin_left=2; focus.expand_margin_right=2; focus.expand_margin_top=2; focus.expand_margin_bottom=2
 	theme.set_stylebox("focus",variation,focus)
 	for state in ["font_color","font_hover_color","font_focus_color","font_pressed_color","font_hover_pressed_color"]:
 		theme.set_color(state,variation,Color(text_color))
-	theme.set_color("font_disabled_color",variation,Color("7f8f99"))
+	theme.set_color("font_disabled_color",variation,Color("71717a"))
 
 static func build(large: bool = false) -> Theme:
 	var theme := Theme.new()
@@ -72,32 +73,33 @@ static func build(large: bool = false) -> Theme:
 	theme.set_font_size("font_size","Label",size("body",large))
 	theme.set_color("default_color","RichTextLabel",color("text"))
 	theme.set_font_size("normal_font_size","RichTextLabel",size("small",large)+1)
-	# Buttons: default, Primary (commitment), Ghost (quiet), Danger (stop), Nav (masthead).
-	_button_styles(theme,"Button","24405a","2f5171","3a5e7c",COLORS.border,COLORS.text)
-	_button_styles(theme,"PrimaryButton",COLORS.accent,"f8dcab",COLORS.accent_strong,"e9c17f",COLORS.ink,"ffffff")
-	_button_styles(theme,"GhostButton","00000000","1b3348","24405a","3b5a70",COLORS.text_2)
-	_button_styles(theme,"DangerButton","3a2530","553040","6a3a4c","7a4a58","ffd2cc")
-	_button_styles(theme,"NavButton","13273cf0","1f3b55","2a4a66",COLORS.border_strong,COLORS.text)
-	_button_styles(theme,"IconButton","00000000","1b3348","24405a","3b5a70",COLORS.text_2,"",Vector4(6,4,6,4))
+	# Buttons after shadcn variants: secondary (default), primary, ghost, destructive, outline (nav), icon.
+	_button_styles(theme,"Button","27272a","3f3f46","3f3f46","27272a",COLORS.text)
+	_button_styles(theme,"PrimaryButton",COLORS.accent,COLORS.accent_strong,"ea580c",COLORS.accent,COLORS.ink,COLORS.accent_strong)
+	_button_styles(theme,"GhostButton","00000000","27272a","3f3f46","00000000",COLORS.text_2)
+	_button_styles(theme,"DangerButton","2a1215","3f1a1f","4c1d24","7f1d1d","fca5a5","991b1b")
+	_button_styles(theme,"OutlineButton","00000000","27272a","3f3f46","27272a",COLORS.text)
+	_button_styles(theme,"NavButton","0a0a0cf0","27272a","3f3f46","27272a",COLORS.text)
+	_button_styles(theme,"IconButton","00000000","27272a","3f3f46","00000000",COLORS.text_2,"",Vector4(6,4,6,4))
 	theme.set_font_size("font_size","Button",size("body",large))
 	# Option buttons and their popup list.
-	theme.set_stylebox("normal","OptionButton",flat("0c1a29",COLORS.border,Vector4(14,8,36,8),9))
-	theme.set_stylebox("hover","OptionButton",flat("13273c",COLORS.border_strong,Vector4(14,8,36,8),9))
-	theme.set_stylebox("pressed","OptionButton",flat("13273c",COLORS.accent,Vector4(14,8,36,8),9))
-	theme.set_stylebox("disabled","OptionButton",flat("0c1a2999","2b4052",Vector4(14,8,36,8),9))
+	theme.set_stylebox("normal","OptionButton",flat("0a0a0c",COLORS.border,Vector4(14,8,36,8),8))
+	theme.set_stylebox("hover","OptionButton",flat("18181b",COLORS.border_strong,Vector4(14,8,36,8),8))
+	theme.set_stylebox("pressed","OptionButton",flat("18181b",COLORS.accent,Vector4(14,8,36,8),8))
+	theme.set_stylebox("disabled","OptionButton",flat("0a0a0c80","27272a",Vector4(14,8,36,8),8))
 	theme.set_stylebox("focus","OptionButton",theme.get_stylebox("focus","Button"))
 	theme.set_color("font_color","OptionButton",color("text"))
 	theme.set_color("font_hover_color","OptionButton",color("text"))
 	theme.set_color("font_focus_color","OptionButton",color("text"))
-	theme.set_stylebox("panel","PopupMenu",flat(COLORS.raised,COLORS.border_strong,Vector4(6,6,6,6),10,1,16))
-	theme.set_stylebox("hover","PopupMenu",flat("2f5171","",Vector4(10,4,10,4),6))
+	theme.set_stylebox("panel","PopupMenu",flat("0a0a0c",COLORS.border,Vector4(6,6,6,6),8,1,12))
+	theme.set_stylebox("hover","PopupMenu",flat("27272a","",Vector4(10,4,10,4),6))
 	theme.set_color("font_color","PopupMenu",color("text"))
-	theme.set_color("font_hover_color","PopupMenu",color("accent"))
+	theme.set_color("font_hover_color","PopupMenu",color("text"))
 	theme.set_font_size("font_size","PopupMenu",size("body",large))
 	# Text inputs.
 	theme.set_stylebox("normal","LineEdit",flat(COLORS.inset,COLORS.border,Vector4(12,8,12,8),8))
 	theme.set_stylebox("focus","LineEdit",flat(COLORS.inset,COLORS.accent,Vector4(12,8,12,8),8,2))
-	theme.set_stylebox("read_only","LineEdit",flat("0c1a2999","2b4052",Vector4(12,8,12,8),8))
+	theme.set_stylebox("read_only","LineEdit",flat("0a0a0c80","27272a",Vector4(12,8,12,8),8))
 	theme.set_color("font_color","LineEdit",color("text"))
 	theme.set_color("font_placeholder_color","LineEdit",color("muted"))
 	theme.set_color("caret_color","LineEdit",color("accent"))
@@ -109,33 +111,33 @@ static func build(large: bool = false) -> Theme:
 	theme.set_font_size("font_size","TextEdit",size("small",large))
 	# Toggles.
 	theme.set_color("font_color","CheckButton",color("text"))
-	theme.set_color("font_hover_color","CheckButton",color("accent"))
-	theme.set_color("font_focus_color","CheckButton",color("accent"))
+	theme.set_color("font_hover_color","CheckButton",color("text"))
+	theme.set_color("font_focus_color","CheckButton",color("text"))
 	theme.set_stylebox("focus","CheckButton",theme.get_stylebox("focus","Button"))
 	theme.set_stylebox("normal","CheckButton",flat("00000000","",Vector4(4,6,4,6),6))
-	theme.set_stylebox("hover","CheckButton",flat("1b3348","",Vector4(4,6,4,6),6))
-	theme.set_stylebox("pressed","CheckButton",flat("1b3348","",Vector4(4,6,4,6),6))
+	theme.set_stylebox("hover","CheckButton",flat("27272a","",Vector4(4,6,4,6),6))
+	theme.set_stylebox("pressed","CheckButton",flat("27272a","",Vector4(4,6,4,6),6))
 	# Tabs.
-	theme.set_stylebox("panel","TabContainer",flat("0c1a2900",COLORS.border,Vector4(0,14,0,0),0))
-	theme.set_stylebox("tab_selected","TabContainer",flat("1a3450",COLORS.accent,Vector4(18,8,18,8),8,2))
-	theme.set_stylebox("tab_unselected","TabContainer",flat("00000000","",Vector4(18,8,18,8),8))
-	theme.set_stylebox("tab_hovered","TabContainer",flat("152b40","",Vector4(18,8,18,8),8))
+	theme.set_stylebox("panel","TabContainer",flat("00000000","",Vector4(0,12,0,0),0))
+	theme.set_stylebox("tab_selected","TabContainer",flat("0a0a0c",COLORS.border_strong,Vector4(16,6,16,6),6))
+	theme.set_stylebox("tab_unselected","TabContainer",flat("00000000","",Vector4(16,6,16,6),6))
+	theme.set_stylebox("tab_hovered","TabContainer",flat("3f3f46","",Vector4(16,6,16,6),6))
 	theme.set_stylebox("tab_focus","TabContainer",theme.get_stylebox("focus","Button"))
-	theme.set_stylebox("tabbar_background","TabContainer",flat("00000000","",Vector4(0,0,0,0),0))
-	theme.set_color("font_selected_color","TabContainer",color("accent"))
-	theme.set_color("font_unselected_color","TabContainer",color("text_2"))
+	theme.set_stylebox("tabbar_background","TabContainer",flat("27272a","",Vector4(4,4,4,4),8))
+	theme.set_color("font_selected_color","TabContainer",color("text"))
+	theme.set_color("font_unselected_color","TabContainer",color("muted"))
 	theme.set_color("font_hovered_color","TabContainer",color("text"))
 	theme.set_font_size("font_size","TabContainer",size("body",large))
 	# Scrollbars: slim, visible, no arrows.
 	for bar in ["VScrollBar","HScrollBar"]:
-		theme.set_stylebox("scroll",bar,flat("0c1a2966","",Vector4(3,3,3,3),4))
-		theme.set_stylebox("grabber",bar,flat("4b6c83","",Vector4(0,0,0,0),4))
-		theme.set_stylebox("grabber_highlight",bar,flat("6e93ac","",Vector4(0,0,0,0),4))
+		theme.set_stylebox("scroll",bar,flat("00000000","",Vector4(3,3,3,3),4))
+		theme.set_stylebox("grabber",bar,flat("3f3f46","",Vector4(0,0,0,0),4))
+		theme.set_stylebox("grabber_highlight",bar,flat("52525b","",Vector4(0,0,0,0),4))
 		theme.set_stylebox("grabber_pressed",bar,flat(COLORS.accent,"",Vector4(0,0,0,0),4))
 	theme.set_stylebox("panel","ScrollContainer",flat("00000000","",Vector4(0,0,0,0),0))
 	theme.set_stylebox("focus","ScrollContainer",flat("00000000","",Vector4(0,0,0,0),0))
 	# Label variations.
-	for pair in [["Eyebrow","muted","micro"],["Muted","muted","small"],["Secondary","text_2","small"],["Title","accent","h1"],["Section","accent","h2"],["Display","accent","display"]]:
+	for pair in [["Eyebrow","muted","micro"],["Muted","muted","small"],["Secondary","text_2","small"],["Title","text","h1"],["Section","accent","h2"],["Display","text","display"]]:
 		theme.set_type_variation(pair[0],"Label")
 		theme.set_color("font_color",pair[0],color(pair[1]))
 		theme.set_font_size("font_size",pair[0],size(pair[2],large))
@@ -145,11 +147,11 @@ static func build(large: bool = false) -> Theme:
 		theme.set_type_variation(pair[0],"PanelContainer")
 		theme.set_stylebox("panel",pair[0],panel_style(pair[1]))
 	theme.set_type_variation("Kbd","PanelContainer")
-	theme.set_stylebox("panel","Kbd",flat("0c1a29",COLORS.border_strong,Vector4(7,1,7,2),5,1))
+	theme.set_stylebox("panel","Kbd",flat("18181b",COLORS.border_strong,Vector4(7,1,7,2),4,1))
 	theme.set_type_variation("Chip","PanelContainer")
-	theme.set_stylebox("panel","Chip",flat("13273c","3b5a70",Vector4(10,4,12,4),14,1))
+	theme.set_stylebox("panel","Chip",flat("18181b",COLORS.border,Vector4(10,4,12,4),14,1))
 	theme.set_type_variation("Toast","PanelContainer")
-	theme.set_stylebox("panel","Toast",flat("1a3450f5",COLORS.border_strong,Vector4(16,10,18,10),10,1,16))
+	theme.set_stylebox("panel","Toast",flat("18181bf7",COLORS.border_strong,Vector4(16,10,18,10),8,1,12))
 	theme.set_constant("separation","VBoxContainer",8)
 	theme.set_constant("separation","HBoxContainer",8)
 	return theme

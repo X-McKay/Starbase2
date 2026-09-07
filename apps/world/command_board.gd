@@ -246,7 +246,7 @@ func render() -> void:
 		focus_context=str(run.input.id)
 		var summary: Dictionary=run.get("summary") if run.get("summary") is Dictionary else {}
 		var actions := record_card(runs,run_tone(str(run.state)),str(run.state).capitalize(),str(run.input.agent)+" / "+str(run.input.target),str(run.detail)+(" · "+str(summary.get("finding_count",0))+" findings" if not summary.is_empty() else ""))
-		button(actions,"Findings",func(): inspect(str(run.input.id)),false,"GhostButton")
+		button(actions,"Findings",func(): inspect(str(run.input.id)),false,"OutlineButton")
 		if run.state not in TERMINAL:
 			button(actions,"Stop observation",func(): commands.submit("/v4/runs/"+str(run.input.id)+"/cancel",{},str(run.input.id)),true,"DangerButton")
 	if runs.get_child_count()==0: empty(runs,"No observations recorded. No activity inferred.")
@@ -270,7 +270,7 @@ func render() -> void:
 		actions.get_parent().move_child(last,actions.get_index())
 		button(actions,"Restore" if c.removed else "Pause" if c.enabled else "Resume",func(): edit_watch(c,not c.enabled,false),true)
 		if not c.removed: button(actions,"Remove",func(): edit_watch(c,false,true),true,"DangerButton")
-		if not latest.is_empty(): button(actions,"Latest findings",func(): inspect(str(latest.input.id)),false,"GhostButton")
+		if not latest.is_empty(): button(actions,"Latest findings",func(): inspect(str(latest.input.id)),false,"OutlineButton")
 	for duty in snapshot.get("duties",[]):
 		if str(duty.id).begins_with("repo-"): continue
 		for b in snapshot.get("builds",[]):
@@ -283,7 +283,7 @@ func render() -> void:
 		focus_context=str(m.id)
 		var decision := str(m.decision)
 		var actions := record_card(memories,{"approve":"verified","reject":"failed","revoke":"idle"}.get(decision,"pending"),decision.capitalize(),str(m.finding.summary),str(m.agent)+" · "+str(m.target)+" · revision "+str(m.revision))
-		button(actions,"Source",func(): inspect(str(m.source_run)),false,"GhostButton")
+		button(actions,"Source",func(): inspect(str(m.source_run)),false,"OutlineButton")
 		for choice in (["revoke"] if m.decision=="approve" else ["approve","reject"]):
 			button(actions,str(choice).capitalize(),func(): commands.submit("/v4/memory/review",{"id":m.id,"revision":m.revision,"decision":choice},str(m.id),"/v4/snapshot"),true,"PrimaryButton" if choice=="approve" else "DangerButton" if choice=="reject" else "")
 	if memories.get_child_count()==0: empty(memories,"No memory proposals recorded.")
@@ -377,5 +377,5 @@ func show_detail(run: Dictionary) -> void:
 		UI.label(advice,JSON.stringify(report.advisory),"Muted")
 	var raw := TextEdit.new()
 	raw.text=JSON.stringify(run,"  "); raw.editable=false; raw.custom_minimum_size.y=260; raw.hide()
-	button(detail,"Source, revisions & full record",func(): raw.visible=not raw.visible,false,"GhostButton")
+	button(detail,"Source, revisions & full record",func(): raw.visible=not raw.visible,false,"OutlineButton")
 	detail.add_child(raw)
