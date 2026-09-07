@@ -67,7 +67,8 @@ fresh standalone qualification exercises that final capture source.
 
 The first export correctly failed on motion-contact-sheet image-format errors
 after its journeys ran. The capture code now converts frames to RGB8. The fresh
-[unsigned macOS review archive](../../../.local/reviews/remaining-structures/20260907-final-02/Starbase2-macOS.zip)
+unsigned macOS review archive at the workspace-local path
+`.local/reviews/remaining-structures/20260907-final-02/Starbase2-macOS.zip`
 **passed standalone qualification**, including all native journeys with clean
 stderr, exterior/interior captures and a nonblank 12-frame motion contact sheet.
 The actual [Command interior](final/package-02/review-interior.png),
