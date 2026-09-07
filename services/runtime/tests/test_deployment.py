@@ -1,6 +1,7 @@
 """Lifecycle failure cases. All cluster/database calls are replaced by explicit fakes."""
 
 import json
+import subprocess
 
 import pytest
 from starbase_runtime.connection import settings
@@ -407,3 +408,36 @@ def test_teardown_prechecks_and_removes_both_dependency_policies(config, monkeyp
             ),
             ("delete", "namespace", config["namespace"], "--wait=false"),
         ]
+
+
+def test_image_driver_waits_for_tcp_database_readiness(tmp_path, monkeypatch):
+    from scripts.deployment.image_rehearsal import ImageRuntime
+
+    inputs = tmp_path / "inputs.json"
+    inputs.write_text(
+        json.dumps(
+            {
+                "platform": "linux/amd64",
+                "revision": "a" * 40,
+                "core": "sha256:" + "b" * 64,
+                "runtime": "sha256:" + "c" * 64,
+                "temporal": "registry.test/temporal@sha256:" + "d" * 64,
+            }
+        )
+    )
+    driver = ImageRuntime(inputs, tmp_path / "output")
+    # The official image answers socket pg_isready from its temporary initdb server,
+    # which then stops; only the final server listens on TCP.
+    command = driver.ready_command()
+    assert command[:3] == [driver.engine, "exec", driver.database]
+    assert "pg_isready" in command and "-h" in command and "127.0.0.1" in command
+    calls = []
+
+    def fake_run(argv, **kwargs):
+        calls.append(argv)
+        return subprocess.CompletedProcess(argv, 1 if len(calls) < 3 else 0)
+
+    monkeypatch.setattr("scripts.deployment.image_rehearsal.subprocess.run", fake_run)
+    monkeypatch.setattr("scripts.deployment.image_rehearsal.time.sleep", lambda _: None)
+    driver.wait_for_database()
+    assert len(calls) == 3 and all(c == command for c in calls)

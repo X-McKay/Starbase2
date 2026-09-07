@@ -1,0 +1,30 @@
+{
+  "note": "Closed Temporal histories from the disposable pod; payload files stay in the ignored .local output because history exports carry workflow payloads.",
+  "histories": [
+    {
+      "name": "2713867927d6da21b270f455f2c2aba6b49b19826c872634fb07a1d4bba86ff6.json",
+      "sha256": "8981db328c5dc810a70a446d65b753a61f61c3362b98a72ed3018dc228156d95",
+      "bytes": 17544
+    },
+    {
+      "name": "40830c7b56e3316c4caa1937078f9ff38a6c82354ee8c19490f096f928b5cc89.json",
+      "sha256": "84e7a7ad0be63c7ae77f8e756ee3ce3dbb6878968166edac1715e0a31a93c60b",
+      "bytes": 34691
+    },
+    {
+      "name": "e1143bc1602e148a31510be12f7e785e6258ce1e1bda7c5a722d1aaf04940617.json",
+      "sha256": "07c817b5a5c9c6127dbf0fa514cc79f9b08290f071c5904f5fc48bf75ae0f361",
+      "bytes": 17795
+    },
+    {
+      "name": "fe928cc7b300cd0f06265402041e1563aaf800803e28ae18547a1a36c39ccb1d.json",
+      "sha256": "19c17876acc301588df4674573005e540ab0f97b93b846fc2417bb086506c2f2",
+      "bytes": 35639
+    },
+    {
+      "name": "manifest.json",
+      "sha256": "ef418ac4c6b42c392c97ffdf24d431ee53534dc1e18e520cfbc8f897751a41a6",
+      "bytes": 758
+    }
+  ]
+}

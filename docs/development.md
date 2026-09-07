@@ -25,8 +25,9 @@ repair pilots. The sandbox first failed because the pinned image digest was the
 arm64 manifest; the adapter now pins one manifest digest per architecture. These
 are local functional checks; they establish nothing about performance or deployment.
 
-On Linux, install podman for `deployment-test-db`, `deployment-rehearse` and
-`deployment-qualify-images`; the local database helper also accepts
+On Linux, install podman **with crun** for `deployment-test-db`,
+`deployment-rehearse` and `deployment-qualify-images` (runc cannot mount secrets
+into the read-only pod rootfs); the local database helper also accepts
 `--engine docker`. Install microsandbox from the upstream release archive after
 verifying `checksums.sha256`; `msb` and `libkrunfw` live under `~/.microsandbox`
 with `~/.local/bin/msb` on `PATH`. The Ollama pilot expects `qwen2.5-coder:7b`.

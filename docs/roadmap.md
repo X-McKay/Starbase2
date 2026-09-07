@@ -8,8 +8,9 @@ operator loop now pass on a clean x86_64 Linux host; see
 Git LFS is now a pinned, diagnosed prerequisite. FalkorDB memory, field agents,
 microsandbox repairs (with a per-architecture image pin), the PostgreSQL
 deployment rehearsal and the explicit model pilots also passed on that host,
-closing the Linux-host sandbox gate. Native amd64 image qualification and Kubani
-activation remain their own gates.
+closing the Linux-host sandbox gate. Native amd64 Core/worker images were then
+built and qualified on the same host (see [deployment](deployment.md)); publishing
+their registry digests, node placement and Kubani activation remain separate gates.
 
 ## Meshy/Blender continuation · 2026-09-07
 
