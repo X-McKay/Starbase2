@@ -1,0 +1,32 @@
+[
+  {
+    "asset": "containment-reactor",
+    "output": "/Users/al/git/Starbase2/apps/world/art/engineering-polish/reactor.glb",
+    "min": [
+      -1.1796866655349731,
+      -1.3000000715255737,
+      0.23999999463558197
+    ],
+    "max": [
+      1.1796866655349731,
+      1.3000000715255737,
+      3.0691375732421875
+    ],
+    "removed_door_faces": 0
+  },
+  {
+    "asset": "cooling-service-module",
+    "output": "/Users/al/git/Starbase2/apps/world/art/engineering-polish/exterior.glb",
+    "min": [
+      -7.300000190734863,
+      -1.5500001907348633,
+      0.12999999523162842
+    ],
+    "max": [
+      3.3999998569488525,
+      6.75,
+      5.330000400543213
+    ],
+    "removed_door_faces": 1790
+  }
+]

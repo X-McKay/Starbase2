@@ -1,8 +1,8 @@
 extends RefCounted
 ## Decorative mainland around the fixed playable shelf; never creates collision.
 const Geography=preload("res://geography.gd")
-const WEST := [Vector2(-230,-80),Vector2(-155,-35),Vector2(-105,-16),Vector2(-72,-6),Vector2(-53,-15)]
-const EAST := [Vector2(58,-30),Vector2(84,-11),Vector2(118,-5),Vector2(165,-38),Vector2(230,-56)]
+const WEST := [Vector2(-322,-108),Vector2(-217,-47.25),Vector2(-147,-21.6),Vector2(-100.8,-8.1),Vector2(-95,-20.25)]
+const EAST := [Vector2(105,-40.5),Vector2(117.6,-14.85),Vector2(165.2,-6.75),Vector2(231,-51.3),Vector2(322,-75.6)]
 
 static func shoreline() -> PackedVector2Array:
 	var anchors := PackedVector2Array(WEST)

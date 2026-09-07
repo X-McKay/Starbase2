@@ -37,3 +37,16 @@ claims. Do not treat headless startup as visual or accessibility verification.
 Handoff: journey, event mapping, observed visual/accessibility states, captures,
 measurements, and any unverified export or platform. An API change additionally
 uses the compatibility checks in `starbase2-feature`.
+
+
+For Meshy/Blender asset production, use
+[starbase2-3d-assets](../starbase2-3d-assets/SKILL.md). For substantial scene,
+animation or local review-build validation, use
+[starbase2-world-qa](../starbase2-world-qa/SKILL.md). Ordinary HUD/state edits
+still use this procedure and proportionate checks; do not load asset-generation
+instructions just because the scene contains a 3D model.
+
+Use the [content taxonomy](../../../docs/content-organization.md) when naming or
+organizing assets and scenes. Prefer structures over buildings in new taxonomy;
+keep current code/resource names until a coordinated migration updates callers.
+Crew roles and room contexts remain distinct from character and structure assets.

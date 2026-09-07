@@ -30,8 +30,8 @@ func run() -> void:
 	frozen=basin.water_time
 	canyon_frozen=canyon.water_time
 	await create_timer(0.1).timeout
-	check(canyon.water_time==canyon_frozen,"Hidden canyon waves should pause")
-	check(basin.water_time==frozen,"Hidden exterior should not advance ambient water")
+	check(canyon.water_time>canyon_frozen,"Visible canyon waves continue through a seamless room")
+	check(basin.water_time>frozen,"Visible exterior continues ambient water")
 	world.exit_room()
 	for node in [basin.get_node("WaterSurface"),basin.get_node("MineralBank")]:
 		var bounds: AABB=node.get_aabb()

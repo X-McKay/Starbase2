@@ -1,0 +1,19 @@
+00:00.292  blend            | Read blend: "/Users/al/git/Starbase2/art/engineering-polish/engineer-imported.blend"
+Armature ARMATURE location (0.0, 0.0, 0.0) scale (0.009999999776482582, 0.009999999776482582, 0.009999999776482582) dimensions (14.192584991455078, 14.946922302246094, 13.861800193786621) matrix <Matrix 4x4 (0.0100, 0.0000, 0.0000, 0.0000)
+            (0.0000, 0.0100, 0.0000, 0.0000)
+            (0.0000, 0.0000, 0.0100, 0.0000)
+            (0.0000, 0.0000, 0.0000, 1.0000)>
+BONES ['Hips', 'LeftUpLeg', 'LeftLeg', 'LeftFoot', 'LeftToeBase', 'RightUpLeg', 'RightLeg', 'RightFoot', 'RightToeBase', 'Spine02', 'Spine01', 'Spine', 'LeftShoulder', 'LeftArm', 'LeftForeArm', 'LeftHand', 'RightShoulder', 'RightArm', 'RightForeArm', 'RightHand', 'neck', 'Head', 'head_end', 'headfront']
+char1 MESH location (0.0, 0.0, 0.0) scale (1.0, 1.0, 1.0) dimensions (1.32600736618042, 0.47436055541038513, 1.8499996662139893) matrix <Matrix 4x4 (0.0100, 0.0000, 0.0000, 0.0000)
+            (0.0000, 0.0100, 0.0000, 0.0000)
+            (0.0000, 0.0000, 0.0100, 0.0000)
+            (0.0000, 0.0000, 0.0000, 1.0000)>
+BOUNDS [(-0.6630038022994995, 0.6630039215087891), (-0.23718006908893585, 0.23718023300170898), (2.4500694806306456e-08, 1.8499997854232788)]
+Icosphere MESH location (0.0, 0.0, 0.0) scale (1.0, 1.0, 1.0) dimensions (1.9021157026290894, 1.9999998807907104, 2.0) matrix <Matrix 4x4 (1.0000, 0.0000, 0.0000, 0.0000)
+            (0.0000, 1.0000, 0.0000, 0.0000)
+            (0.0000, 0.0000, 1.0000, 0.0000)
+            (0.0000, 0.0000, 0.0000, 1.0000)>
+BOUNDS [(-0.9510578513145447, 0.9510578513145447), (-0.9999999403953552, 0.9999999403953552), (-1.0, 1.0)]
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit

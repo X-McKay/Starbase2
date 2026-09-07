@@ -1,0 +1,32 @@
+{
+  "status": "approved",
+  "balance_observed": 3200,
+  "credit_cap": 80,
+  "estimated_credits": 60,
+  "format": "glb",
+  "references": {
+    "structure": "https://www.meshy.ai/s/it48xz",
+    "character": "https://www.meshy.ai/s/84fVov"
+  },
+  "assets": [
+    {
+      "id": "engineering-exterior",
+      "estimated_credits": 30,
+      "prompt": "Detailed frontier research colony engineering hangar. Ivory ceramic hull panels, dark graphite recessed seams, restrained cyan light strips, amber hazard markings. Broad single-storey rectangular building, wide central front airlock, offset utility annex, rear heat exchangers and roof service rails. Clean silhouette, believable panel fasteners, lightly weathered industrial surfaces. Exterior only, closed doors, no terrain, people, text or floating parts. Polished hard-surface science fiction matching an ivory and cyan reactor laboratory."
+    },
+    {
+      "id": "reactor-apparatus",
+      "estimated_credits": 30,
+      "prompt": "Detailed standalone science-fiction laboratory reactor. Vertical cylindrical cyan energy chamber between ivory ceramic base and upper containment housing, graphite mechanical collars, bolted service panels, thick black coolant pipes, precise vents and amber caution accents. Clean manufactured hard-surface geometry, restrained weathering. Compact circular floor-standing footprint with accessible surrounding walkway. No room, walls, floor platform, people or lettering. Match a polished ivory and cyan frontier research laboratory."
+    }
+  ],
+  "local_work": [
+    "Blender cleanup, scale and floor pivots, texture/material inspection and export",
+    "Author matching modular interior walls, doors, floor and consoles in Blender",
+    "Keep roof and foreground walls separate for camera cutaways",
+    "Use existing building footprints and interior anchors for physical navigation",
+    "Drive character walk from actual displacement; honor reduced motion",
+    "Inspect native Godot visuals before expanding to the remaining districts"
+  ],
+  "character_strategy": "Repair existing Cybercat skin weights locally; reuse its current rig and walk cycle. No character generation charge."
+}

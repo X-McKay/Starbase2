@@ -164,6 +164,10 @@ world-command:
 world-characters:
     godot --path apps/world res://characters/showroom.tscn -- --production
 
+# Detailed Meshy character; isolated visual inspection with keyboard controls.
+world-meshy-character:
+    godot --path apps/world --script characters/meshy_preview.gd
+
 # The illustrated captain is now enabled in the regular colony.
 world-character-pilot:
     godot --path apps/world
@@ -187,3 +191,28 @@ characters-import *args:
 # Archived rejected 3D visual experiment; explicit opt-in only.
 world-rig-study:
     godot --path apps/world res://characters/showroom.tscn
+
+# Rebuild authored native buildings; no Meshy API calls or credit spend.
+world-colony-build blender="/Applications/Blender.app/Contents/MacOS/Blender":
+    "{{blender}}" --background --factory-startup --python art/meshy-blender/build_colony.py
+    python3 art/meshy-blender/connect_colony.py
+    python3 art/engineering-polish/connect_engineering.py
+    godot --headless --path apps/world --editor --import --quit
+
+# Review continuous Engineering entry and the rest of the colony.
+world-seamless:
+    godot --path apps/world -- --room=repair
+
+# Rebuild the approved Engineering slice from retained Meshy downloads; no paid calls.
+world-engineering-build blender="/Applications/Blender.app/Contents/MacOS/Blender":
+    "{{blender}}" --background --factory-startup --python art/engineering-polish/build_engineering.py
+    "{{blender}}" --background --factory-startup --python art/engineering-polish/prepare_models.py
+    "{{blender}}" --background --factory-startup --python art/engineering-polish/prepare_character.py
+    python3 art/engineering-polish/connect_engineering.py
+    godot --headless --path apps/world --editor --import
+
+# Rebuild the exact user-supplied Vanguard from retained rig exports; no paid calls.
+world-vanguard-build blender="/Applications/Blender.app/Contents/MacOS/Blender":
+    "{{blender}}" --background --factory-startup --python art/engineering-polish/prepare_character.py -- --asset cybercat-vanguard
+    "{{blender}}" --background --factory-startup --python art/engineering-polish/audit_character.py -- --vanguard
+    godot --headless --path apps/world --editor --import

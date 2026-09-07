@@ -1,0 +1,4 @@
+interface:
+  display_name: "Starbase2 3D Assets"
+  short_description: "Prepare Meshy and Blender assets for Godot"
+  default_prompt: "Use $starbase2-3d-assets to build a reviewable Starbase2 structure or character from the supplied assets."

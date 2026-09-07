@@ -17,10 +17,10 @@ func run() -> void:
 			if vertex.y>0:
 				check(not Geography.contains(Vector2(vertex.x,vertex.z),0.0),"Mainland surface must not invade the playable shelf")
 	check(landform.find_children("*","StaticBody3D",true,false).size()==Geography.OUTLINE.size()+1,"Backdrop must not add physical traversal surfaces")
-	for destination in [Vector3(-48,0,-25),Vector3(48,0,-28),Vector3(0,0,-38)]:
+	for destination in [Vector3(-48*1.4*1.35,0,-25*1.35),Vector3(48*1.4*1.35,0,-28*1.35),Vector3(0,0,-38*1.35)]:
 		check(world.navigator.route(Vector3(0,0,5.5),destination).is_empty(),"Mainland scenery must remain outside click navigation")
 	var operator=world.get_node("Operator")
-	for probe in [[Vector3(-38,0,-28),Vector3(-4,0,0)],[Vector3(38,0,-28),Vector3(4,0,0)],[Vector3(0,0,-30),Vector3(0,0,-4)]]:
+	for probe in [[Vector3(-38*1.4*1.35,0,-28*1.35),Vector3(-4,0,0)],[Vector3(38*1.4*1.35,0,-28*1.35),Vector3(4,0,0)],[Vector3(0,0,-30*1.35),Vector3(0,0,-4)]]:
 		operator.position=probe[0]
 		operator.motion=probe[1]
 		await create_timer(0.7).timeout

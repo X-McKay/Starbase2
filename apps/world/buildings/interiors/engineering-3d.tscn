@@ -1,0 +1,58 @@
+[gd_scene load_steps=7 format=3]
+[ext_resource type="PackedScene" path="res://art/meshy/engineering-interior.glb" id="room"]
+[ext_resource type="PackedScene" path="res://art/meshy/reactor-apparatus.glb" id="reactor"]
+[sub_resource type="BoxShape3D" id="apparatus"]
+size = Vector3(2.4,2.7,1.2)
+[sub_resource type="BoxShape3D" id="console"]
+size = Vector3(1.5,1.6,0.95)
+[sub_resource type="BoxShape3D" id="locker"]
+size = Vector3(0.8,1.74,0.9)
+[sub_resource type="BoxShape3D" id="post"]
+size = Vector3(0.2,3.3,0.25)
+[node name="EngineeringInterior" type="Node3D"]
+[node name="AuthoredShell" parent="." instance=ExtResource("room")]
+[node name="Reactor" parent="." instance=ExtResource("reactor")]
+[node name="Apparatus" type="StaticBody3D" parent="."]
+position = Vector3(0, 1.35, 0)
+[node name="Shape" type="CollisionShape3D" parent="Apparatus"]
+shape = SubResource("apparatus")
+[node name="LeftConsole" type="StaticBody3D" parent="."]
+position = Vector3(-3, 0.8, -3.4)
+[node name="Shape" type="CollisionShape3D" parent="LeftConsole"]
+shape = SubResource("console")
+[node name="RightConsole" type="StaticBody3D" parent="."]
+position = Vector3(3, 0.8, -3.4)
+[node name="Shape" type="CollisionShape3D" parent="RightConsole"]
+shape = SubResource("console")
+[node name="LeftGantry" type="StaticBody3D" parent="."]
+position = Vector3(-2.05, 1.65, -4.5)
+[node name="Shape" type="CollisionShape3D" parent="LeftGantry"]
+shape = SubResource("post")
+[node name="RightGantry" type="StaticBody3D" parent="."]
+position = Vector3(2.05, 1.65, -4.5)
+[node name="Shape" type="CollisionShape3D" parent="RightGantry"]
+shape = SubResource("post")
+[node name="Locker0" type="StaticBody3D" parent="."]
+position = Vector3(-3.7, 0.87, -1)
+[node name="Shape" type="CollisionShape3D" parent="Locker0"]
+shape = SubResource("locker")
+[node name="Locker1" type="StaticBody3D" parent="."]
+position = Vector3(-3.7, 0.87, 1.4)
+[node name="Shape" type="CollisionShape3D" parent="Locker1"]
+shape = SubResource("locker")
+[node name="Locker2" type="StaticBody3D" parent="."]
+position = Vector3(3.7, 0.87, -1)
+[node name="Shape" type="CollisionShape3D" parent="Locker2"]
+shape = SubResource("locker")
+[node name="Locker3" type="StaticBody3D" parent="."]
+position = Vector3(3.7, 0.87, 1.4)
+[node name="Shape" type="CollisionShape3D" parent="Locker3"]
+shape = SubResource("locker")
+[node name="Spawn" type="Marker3D" parent="."]
+position = Vector3(0, 0, 3.6)
+[node name="Crew" type="Marker3D" parent="."]
+position = Vector3(1.6, 0, -1.7)
+[node name="Console" type="Marker3D" parent="."]
+position = Vector3(0, 0, 1.7)
+[node name="Activity" type="Marker3D" parent="."]
+position = Vector3(0, 2.8, -4.4)

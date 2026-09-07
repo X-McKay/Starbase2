@@ -1,0 +1,12 @@
+12:32:16 | INFO: Data are loaded, start creating Blender stuff
+12:32:16 | INFO: Blender create Mesh node char1
+12:32:16 | INFO: glTF import finished in 0.06s
+Traceback (most recent call last):
+  File "/Users/al/git/Starbase2/art/engineering-polish/prepare_character.py", line 29, in <module>
+    assert 1.5 < hi.z - lo.z < 2.2, f"Inspect unexpected rig scale: {hi - lo}"
+           ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Inspect unexpected rig scale: <Vector (1.9021, 2.0000, 2.8500)>
+Info: Saved as "engineer-imported.blend"
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit

@@ -65,6 +65,7 @@ to a concrete completion condition in the delivery plan.
 
 Use the [Starbase2 skill catalog](docs/skills-review.md) when its task matches:
 `starbase2-feature`, `starbase2-agent`, `starbase2-evaluate`, `starbase2-world`,
-`starbase2-decision`, or `starbase2-release`. Choose the relevant procedure;
-do not load all six for every task. These are development skills, separate from
+`starbase2-3d-assets`, `starbase2-world-qa`, `starbase2-decision`, or
+`starbase2-release`. Choose the relevant procedure; do not load the whole catalog
+for every task. These are development skills, separate from
 the skills shipped inside runtime agent builds.

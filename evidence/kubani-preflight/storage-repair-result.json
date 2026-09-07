@@ -1,0 +1,9 @@
+{
+  "status": "verified",
+  "entries": 21329,
+  "ownership_changes": 21329,
+  "uid": 65532,
+  "gid": 65532,
+  "preserved": "paths, inodes, file types, modes, ACLs, sizes, mtimes and link counts",
+  "rollback": "/root/registry-storage-recovery-20260907/before.acl"
+}

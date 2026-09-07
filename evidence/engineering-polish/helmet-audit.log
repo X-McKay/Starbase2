@@ -1,0 +1,5 @@
+00:00.233  blend            | Read blend: "/Users/al/git/Starbase2/art/engineering-polish/engineer.blend"
+{"rigid_helmet_vertices": 1741, "clips": [{"clip": "idle", "samples": 25, "max_rigid_helmet_deformation_m": 7.833420679500525e-07}, {"clip": "walk", "samples": 25, "max_rigid_helmet_deformation_m": 8.222650317163356e-07}, {"clip": "run", "samples": 25, "max_rigid_helmet_deformation_m": 8.961779849686503e-07}, {"clip": "console", "samples": 25, "max_rigid_helmet_deformation_m": 4.877514037782174e-07}], "scope": "Measures repaired rigid region; visual review also required for collar and limbs."}
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit

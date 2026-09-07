@@ -1,0 +1,25 @@
+12:33:57 | INFO: Data are loaded, start creating Blender stuff
+12:33:57 | INFO: Blender create Mesh node char1
+12:33:57 | INFO: glTF import finished in 0.06s
+Info: Saved as "engineer-imported.blend"
+12:33:57 | INFO: Data are loaded, start creating Blender stuff
+12:33:57 | INFO: Blender create Mesh node char1
+12:33:57 | INFO: glTF import finished in 0.06s
+12:33:57 | INFO: Data are loaded, start creating Blender stuff
+12:33:57 | INFO: Blender create Mesh node char1
+12:33:57 | INFO: glTF import finished in 0.06s
+12:33:57 | INFO: Data are loaded, start creating Blender stuff
+12:33:57 | INFO: Blender create Mesh node char1
+12:33:57 | INFO: glTF import finished in 0.06s
+Info: Saved as "engineer.blend"
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+12:33:57 | INFO: Starting glTF 2.0 export
+12:33:57 | INFO: Extracting primitive: char1
+12:33:58 | INFO: Primitives created: 1
+12:33:58 | INFO: Finished glTF 2.0 export in 0.2622709274291992 s
+
+ENGINEER_EXPORTED ['walk', 'run', 'idle', 'console']
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit

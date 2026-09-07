@@ -3,6 +3,9 @@ extends CharacterBody3D
 const Art = preload("res://art.gd")
 const Catalog = preload("res://characters/catalog.gd")
 const Gait = preload("res://characters/gait.gd")
+const ModelVisual = preload("res://characters/model_visual.gd")
+var model_visual: Node3D
+var presentation_pose := ""
 signal foot_contact
 @export var character_definition: Resource
 var gait := Gait.new()
@@ -36,6 +39,12 @@ func _ready() -> void:
 	sprite.alpha_scissor_threshold = 0.5
 	sprite.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 	add_child(sprite)
+	if character_definition.model_scene:
+		model_visual = ModelVisual.new()
+		add_child(model_visual)
+		model_visual.configure(character_definition.model_scene, character_definition.model_scale, character_definition.model_floor_offset)
+		model_visual.apply_role(character_definition.model_tint*suit_tint)
+		sprite.visible = false
 	var shape := CollisionShape3D.new()
 	var capsule := CapsuleShape3D.new()
 	capsule.radius = 0.28
@@ -45,7 +54,7 @@ func _ready() -> void:
 	add_child(shape)
 	collision_layer = 2
 	collision_mask = 1
-	label = Art.sign(self, display_name, Vector3(0, 3.65, 0), "e8e6d4", 18)
+	label = Art.sign(self, display_name, Vector3(0, character_definition.label_height, 0), "e8e6d4", 18)
 	label.no_depth_test = true
 	label.pixel_size = 0.021
 	# Grounding shadow complements the real directional sprite shadow.
@@ -60,7 +69,12 @@ func _physics_process(_delta: float) -> void:
 	var traveled:=global_position-before
 	traveled.y=0
 	last_position=global_position
-	gait.advance(traveled.length(),character_definition.stride,teleported)
+	var stride: float = character_definition.model_stride if model_visual else character_definition.stride
+	if model_visual and model_visual.animation.has_animation("run") and traveled.length()/maxf(_delta,0.001)>5.0:
+		stride=character_definition.model_run_stride
+	gait.advance(traveled.length(),stride,teleported)
+	if model_visual:
+		model_visual.project(traveled,gait.moving,gait.phase,reduced_motion,_delta,presentation_pose)
 	if gait.moving:
 		if absf(traveled.x)>absf(traveled.z):
 			facing=3 if traveled.x>0 else 2

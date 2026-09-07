@@ -1,0 +1,22 @@
+{
+  "branch": "feature/meshy-blender",
+  "mesh_generation_credits": 60,
+  "approved_credit_cap": 80,
+  "remaining_balance": 3140,
+  "checks": {
+    "world_and_native_commands": "world-checks-final.log",
+    "model_movement_collision": "test-character.log",
+    "preview_keyboard_and_rig": "preview-controls.log",
+    "rig_deformation": "head-weight-repair.json",
+    "native_capture": "native-capture-verified.log",
+    "macos_packaged_game": "export-check.log"
+  },
+  "package_manifest": ".local/meshy-blender-release/manifest.json",
+  "limitations": [
+    "Only operator and Engineering migrated in this pass",
+    "Other crew and districts retain existing artwork",
+    "Work gestures, facial animation, IK and running input not implemented",
+    "Unsigned macOS package only; no web or deployment qualification",
+    "No measured performance improvement claimed"
+  ]
+}

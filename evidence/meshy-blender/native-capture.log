@@ -1,0 +1,8 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M5
+
+SCRIPT ERROR: Invalid assignment of property or key 'ui_scale' with value of type 'float' on a base object of type 'CanvasLayer (hud.gd)'.
+          at: run (res://../../evidence/meshy-blender/capture.gd:23)
+          GDScript backtrace (most recent call first):
+              [0] run (res://../../evidence/meshy-blender/capture.gd:23)
+              [1] shot (res://../../evidence/meshy-blender/capture.gd:8)

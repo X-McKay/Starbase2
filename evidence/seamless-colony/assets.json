@@ -1,0 +1,67 @@
+{
+  "blender": "5.2.1",
+  "godot": "4.7.2",
+  "additional_meshy_credits": 0,
+  "assets": {
+    "apps/world/art/colony-3d/greenhouse-interior.glb": {
+      "sha256": "78425997a36b602eed4c5f3e62ebadf3ec80df8b3b45f4769e7183482c40a869",
+      "bytes": 161412,
+      "triangles": 2580,
+      "meshes": 6
+    },
+    "apps/world/art/colony-3d/greenhouse-shell.glb": {
+      "sha256": "26c517d882d03c2a9e757f58d246fad16ec4093a9e5212152ee9580dd6e14afb",
+      "bytes": 2006696,
+      "triangles": 28512,
+      "meshes": 20
+    },
+    "apps/world/art/colony-3d/gym-interior.glb": {
+      "sha256": "366d9f0f69385452c555c8d5d1270e009a7f00d5894d484390d830cfb0bcc9b5",
+      "bytes": 185560,
+      "triangles": 2636,
+      "meshes": 5
+    },
+    "apps/world/art/colony-3d/gym-shell.glb": {
+      "sha256": "7b4019f3f7553ae4db50df0723f9a0e7fb1c9d97600f66dc69c1a5b095b62a02",
+      "bytes": 1987076,
+      "triangles": 28296,
+      "meshes": 20
+    },
+    "apps/world/art/colony-3d/habitat-interior.glb": {
+      "sha256": "caad1e7effda85dcd8c4458f89b215ac7702c3d811d4b7f13acfe2c2030e75ae",
+      "bytes": 111020,
+      "triangles": 1512,
+      "meshes": 5
+    },
+    "apps/world/art/colony-3d/habitat-shell.glb": {
+      "sha256": "a866e13eaec1b4714d74e7cb1c156fe722784bfaf0f0f2ce76e1e1bb288cf4c2",
+      "bytes": 2578472,
+      "triangles": 36720,
+      "meshes": 19
+    },
+    "apps/world/art/colony-3d/repair-interior.glb": {
+      "sha256": "3ca86f7c051c5ca8ad73d432a86be8fec6dc9efef0e7e9a882053452181f7b62",
+      "bytes": 123000,
+      "triangles": 1728,
+      "meshes": 4
+    },
+    "apps/world/art/colony-3d/repair-shell.glb": {
+      "sha256": "7ebb6c8472a0e29f65458d390489cf63448604bc32275253beb5114661c20251",
+      "bytes": 1614100,
+      "triangles": 23112,
+      "meshes": 20
+    },
+    "apps/world/art/colony-3d/review-interior.glb": {
+      "sha256": "a129cf3ebfb57af8dc616c0490495b7a9fa487585a8223478bdbf9ffe5fbc2ed",
+      "bytes": 133396,
+      "triangles": 1896,
+      "meshes": 4
+    },
+    "apps/world/art/colony-3d/review-shell.glb": {
+      "sha256": "96d2a45247b7998d1b112ece3cae0aae4aba3278d8ecd16a3d56f334358c3bd9",
+      "bytes": 1870860,
+      "triangles": 26612,
+      "meshes": 21
+    }
+  }
+}

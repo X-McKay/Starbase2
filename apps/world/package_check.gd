@@ -28,15 +28,22 @@ func run(tree:SceneTree, scene:Node) -> void:
 		for i in range(3): await tree.physics_frame
 		check(actor.sprite.animation=="idle_"+definition.DIRECTIONS[direction],"Reduced motion failed: "+clip)
 		actor.reduced_motion=false
+	check(actor.model_visual!=null and not actor.sprite.visible,"Packaged native character missing")
 	actor.free()
+	var engineer=scene.get_node("Mender").model_visual
+	for clip in ["idle","walk","run","console"]:
+		check(engineer.animation.has_animation(clip),"Missing packaged engineer clip "+clip)
 	# Load the actual colony and every authored interior using the supplied fixture.
 	for i in range(5): await tree.process_frame
 	check(scene.fixture_path!="","Export checks require an isolated fixture")
 	check(scene.get_node("Operator").character_definition.id=="operator","Wrong production character")
-	for kind in ["review","repair","gym","watchkeeper","reviewer"]:
+	for kind in ["review","repair","gym","watchkeeper","reviewer","Habitat","Greenhouse"]:
 		scene.enter_room(kind)
 		for i in range(3): await tree.process_frame
 		check(scene.active_room!=null,"Packaged interior missing: "+kind)
+		if scene.active_room!=null:
+			check(scene.active_room.definition.seamless,"Packaged room must be continuous")
+			check(not scene.travel_route(scene.active_building.return_position()).is_empty(),"Packaged exit route missing")
 		scene.exit_room()
-	if failures.is_empty(): print("EXPORTED WORLD PASSED: catalogs, four-direction playback, reduced motion, colony, three interiors and five room entry points; development scripts excluded")
+	if failures.is_empty(): print("EXPORTED WORLD PASSED: catalogs, four-direction playback, reduced motion, colony, five continuous interiors and seven room entry points; development scripts excluded")
 	tree.quit(0 if failures.is_empty() else 1)

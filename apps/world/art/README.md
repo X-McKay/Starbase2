@@ -49,3 +49,13 @@ images informed color and composition; no purchased or watermarked assets ship.
 The [cliff shelf](../../../docs/world-cliff.md) uses `geography.gd` for the
 shared rim and `cliff_landform.gd` for the cap, exposed face and rear wall.
 `canyon.gdshader` is static lower-canyon scenery; no falling or climbing is implied.
+
+## Current 3D production · September 7, 2026
+
+The earlier crew description above records the raster phase. The player now uses
+`cybercat-vanguard`, Mender uses `engineering-polish`, and the remaining crew use
+`meshy`. Illustrations still support portraits and fallbacks. `colony-3d` supplies
+the authored colony; `engineering-polish` supplies the selected Engineering art.
+Use the [source index](../../../art/README.md) and
+[content convention](../../../docs/content-organization.md) to navigate or retire
+assets. Keep Godot import sidecars with selected runtime files.

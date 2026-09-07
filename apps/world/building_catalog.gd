@@ -20,3 +20,10 @@ static func station_paths() -> Dictionary:
 	for placement in placements():
 		if not placement.interaction_kind.is_empty(): result[placement.interaction_kind]="Buildings/"+placement.name
 	return result
+
+static func navigation_bounds() -> Array[Rect2]:
+	var result: Array[Rect2]=[]
+	for placement in placements():
+		for rect in placement.definition.navigation_bounds():
+			result.append(Rect2(rect.position+Vector2(placement.position.x,placement.position.z),rect.size))
+	return result

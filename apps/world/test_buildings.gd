@@ -35,6 +35,7 @@ func run() -> void:
 	var invalid=Definition.new()
 	check(not invalid.problems().is_empty(),"Empty definition must fail validation")
 	invalid=load("res://buildings/definitions/repair.tres").duplicate()
+	invalid.exterior_image="res://buildings/art/engineering-hangar.png"
 	invalid.exterior_scene="res://buildings/exteriors/review.tscn"
 	check(not invalid.problems().is_empty(),"Two exterior modes must fail validation")
 	invalid.exterior_scene=""
@@ -51,9 +52,10 @@ func run() -> void:
 	var exterior_images := {}
 	var occupied: Array[Rect2]=[]
 	for station in layout.get_children():
-		check(not station.definition.exterior_image.is_empty(),"Every colony building has its own illustrated exterior")
-		check(not exterior_images.has(station.definition.exterior_image),"Placed colony buildings must have unique exterior artwork")
-		exterior_images[station.definition.exterior_image]=true
+		var asset: String=station.definition.exterior_scene if station.definition.exterior_image.is_empty() else station.definition.exterior_image
+		check(not asset.is_empty(),"Every colony building has an exterior asset")
+		check(not exterior_images.has(asset),"Placed colony buildings must have unique exterior artwork")
+		exterior_images[asset]=true
 		for local_rect in station.definition.collision_boxes:
 			var footprint: Rect2=Rect2(local_rect.position+Vector2(station.position.x,station.position.z),local_rect.size)
 			for other in occupied:
@@ -65,7 +67,7 @@ func run() -> void:
 			contexts[station.interaction_kind]=true
 		check(not nav.route(Vector3(0,0,5.5),station.entrance()).is_empty(),"Door approach unreachable: "+str(station.name))
 		check(not nav.route(station.return_position(),Vector3(0,0,5.5)).is_empty(),"Door return unreachable")
-		for rect in station.definition.collision_boxes:
+		for rect in station.definition.navigation_bounds():
 			var point=station.position+Vector3(rect.get_center().x,0,rect.get_center().y)
 			check(nav.route(Vector3.ZERO,point).is_empty(),"Navigation entered declared building footprint")
 			var query=PhysicsRayQueryParameters3D.create(point+Vector3(0,20,0),point-Vector3(0,1,0))
@@ -81,7 +83,13 @@ func run() -> void:
 		var definition=load("res://buildings/definitions/repair.tres").duplicate()
 		definition.id=StringName("scale-fixture-%02d" % i)
 		definition.title="Scale fixture %02d" % i
+		# This remains the original shared-image fixture, independently of the
+		# production hangar's move to a detailed mesh.
+		definition.exterior_scene=""
+		definition.exterior_image="res://buildings/art/engineering-hangar.png"
 		definition.yard_scene=""
+		definition.seamless=false
+		definition.interior_scene="res://buildings/interiors/engineering-3d.tscn"
 		var station=Station.new()
 		station.definition=definition
 		station.position=Vector3((i%8)*15,0,(i/8)*12)

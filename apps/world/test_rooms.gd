@@ -32,12 +32,12 @@ func run() -> void:
 		check(world.active_room!=null and world.room_kind==kind,"F enters "+kind)
 		if world.active_room==null: continue
 		var room: Node3D=world.active_room
-		check(world.room_environment.background_mode==Environment.BG_COLOR and world.hud.room_exit.visible,"Interior must expose return control and cutaway backdrop")
-		check(not world.sky_layer.visible and not world.get_node("Terrace").visible,"Interior must hide exterior sky and canyon scenery")
-		check(world.camera_focus.distance_to(room.position+Vector3(0,1.5,0))<0.01,"Reduced-motion entry uses an immediate room camera cut")
+		check(world.hud.room_exit.visible,"Interior must expose return control and cutaway backdrop")
+		check(world.sky_layer.visible and world.get_node("Terrace").visible,"Continuous interior retains exterior sky and canyon scenery")
+		check(world.camera_focus.distance_to(room.global_position+Vector3(room.definition.interior_bounds.get_center().x,1,room.definition.interior_bounds.get_center().y))<0.01,"Reduced-motion entry uses an immediate room camera cut")
 		check(world.commands.phase=="" and world.commands.payload.is_empty(),"Room entry must never dispatch work")
 		if kind=="repair": check(room.activity.text.contains("Stale"),"Room activity must preserve stale authoritative work")
-		var goal := room.position+Vector3(-2,0,-2)
+		var goal: Vector3 = room.content.get_node("WalkTarget").global_position
 		var click := InputEventMouseButton.new()
 		click.button_index=MOUSE_BUTTON_LEFT
 		click.pressed=true
@@ -45,27 +45,29 @@ func run() -> void:
 		world._unhandled_input(click)
 		check(not world.route.is_empty(),"Route around room worktable must exist")
 		for point in world.route:
-			check(room.clear(Vector2(point.x-room.position.x,point.z-room.position.z)),"Route intersects furniture")
+			check(room.clear(Vector2(point.x-room.global_position.x,point.z-room.global_position.z)),"Route intersects furniture")
 		for tick in range(360):
 			await physics_frame
 			if world.route.is_empty(): break
 		check(operator.position.distance_to(goal)<0.35,"Physical route must reach behind worktable in "+kind)
-		check(world.travel_route(room.position).is_empty(),"Clicking solid worktable must reject movement")
-		check(world.travel_route(room.position+Vector3(7,0,0)).is_empty(),"Click outside interior must reject movement")
-		# Check actual physics contact with the desk, then recover a safe route.
+		var block: Rect2=room.blocks[0]
+		var center := room.global_position+Vector3(block.get_center().x,0,block.get_center().y)
+		check(world.travel_route(center).is_empty(),"Clicking solid furniture rejects movement")
+		# Test real contact against the authored first prop, then route recovery.
 		world.set_physics_process(false)
-		operator.position=room.position+Vector3(0,0,1.5)
+		operator.position=center+Vector3(0,0,block.size.y/2+1)
 		operator.motion=Vector3(0,0,-3.7)
 		for tick in range(30): await physics_frame
-		check(operator.position.z>room.position.z+0.79,"Worktable collision must stop walking")
+		check(operator.position.z>center.z+block.size.y/2+0.26,"Authored furniture stops walking")
 		operator.motion=Vector3.ZERO
-		check(not world.travel_route(room.position+Vector3(2,0,2)).is_empty(),"Route must recover after physical prop contact")
-		operator.position=room.position+Vector3(4.3,0,3)
+		check(not world.travel_route(station.return_position()).is_empty(),"Route recovers from prop contact")
+		var bounds: Rect2=room.definition.interior_bounds
+		operator.position=room.global_position+Vector3(bounds.end.x-0.5,0,bounds.end.y-1)
 		operator.motion=Vector3(3.7,0,0)
 		for tick in range(25): await physics_frame
-		check(operator.position.x<room.position.x+4.65,"Cutaway edge still blocks physical movement")
+		check(operator.position.x<room.global_position.x+bounds.end.x,"Faded side wall retains collision")
 		operator.motion=Vector3.ZERO
-		operator.position=room.position+room.console_point
+		operator.position=room.global_position+room.console_point
 		world.set_physics_process(true)
 		await physics_frame
 		await physics_frame

@@ -1,0 +1,293 @@
+/Users/al/git/Starbase2/art/meshy-blender/build_colony.py:29: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  mat.use_nodes = True
+Info: Saved as "repair-building.blend"
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+09:38:23 | INFO: Starting glTF 2.0 export
+09:38:23 | INFO: Extracting primitive: Cube.117
+09:38:23 | INFO: Primitives created: 1
+09:38:23 | INFO: Extracting primitive: Cube.118
+09:38:23 | INFO: Primitives created: 1
+09:38:23 | INFO: Extracting primitive: Cube.101
+09:38:23 | INFO: Primitives created: 1
+09:38:23 | INFO: Extracting primitive: Cube.119
+09:38:23 | INFO: Primitives created: 1
+09:38:23 | INFO: Extracting primitive: Cube.108
+09:38:23 | INFO: Primitives created: 1
+09:38:23 | INFO: Extracting primitive: Cube.107
+09:38:23 | INFO: Primitives created: 1
+09:38:23 | INFO: Extracting primitive: Cube.177
+09:38:23 | INFO: Primitives created: 1
+09:38:23 | INFO: Extracting primitive: Cube.102
+09:38:23 | INFO: Primitives created: 1
+09:38:23 | INFO: Extracting primitive: Cube.113
+09:38:23 | INFO: Primitives created: 1
+09:38:23 | INFO: Extracting primitive: Cube.112
+09:38:23 | INFO: Primitives created: 1
+09:38:23 | INFO: Extracting primitive: Cube.111
+09:38:23 | INFO: Primitives created: 1
+09:38:23 | INFO: Extracting primitive: Cube.116
+09:38:23 | INFO: Primitives created: 1
+09:38:23 | INFO: Extracting primitive: Cube.115
+09:38:23 | INFO: Primitives created: 1
+09:38:23 | INFO: Extracting primitive: Cube.114
+09:38:23 | INFO: Primitives created: 1
+09:38:23 | INFO: Extracting primitive: Cube.001
+09:38:23 | INFO: Primitives created: 1
+09:38:23 | INFO: Extracting primitive: Cube.002
+09:38:23 | INFO: Primitives created: 1
+09:38:23 | INFO: Extracting primitive: Cube.191
+09:38:23 | INFO: Primitives created: 1
+09:38:23 | INFO: Extracting primitive: Cube.189
+09:38:23 | INFO: Primitives created: 1
+09:38:23 | INFO: Extracting primitive: Cube.190
+09:38:23 | INFO: Primitives created: 1
+09:38:23 | INFO: Extracting primitive: Cube.193
+09:38:23 | INFO: Primitives created: 1
+09:38:23 | INFO: Finished glTF 2.0 export in 0.023912906646728516 s
+
+09:38:23 | INFO: Starting glTF 2.0 export
+09:38:23 | INFO: Extracting primitive: Cube.219
+09:38:23 | INFO: Primitives created: 1
+09:38:23 | INFO: Extracting primitive: Cube.215
+09:38:23 | INFO: Primitives created: 1
+09:38:23 | INFO: Extracting primitive: Cube.218
+09:38:23 | INFO: Primitives created: 1
+09:38:23 | INFO: Extracting primitive: Cube.216
+09:38:23 | INFO: Primitives created: 1
+09:38:23 | INFO: Finished glTF 2.0 export in 0.004745960235595703 s
+/Users/al/git/Starbase2/art/meshy-blender/build_colony.py:29: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  mat.use_nodes = True
+
+Info: Saved as "review-building.blend"
+09:38:25 | INFO: Starting glTF 2.0 export
+09:38:25 | INFO: Extracting primitive: Cube.398
+09:38:25 | INFO: Primitives created: 1
+09:38:25 | INFO: Extracting primitive: Cube.399
+09:38:25 | INFO: Primitives created: 1
+09:38:25 | INFO: Extracting primitive: Cube.382
+09:38:25 | INFO: Primitives created: 1
+09:38:25 | INFO: Extracting primitive: Cube.400
+09:38:25 | INFO: Primitives created: 1
+09:38:25 | INFO: Extracting primitive: Cube.389
+09:38:25 | INFO: Primitives created: 1
+09:38:25 | INFO: Extracting primitive: Cube.388
+09:38:25 | INFO: Primitives created: 1
+09:38:25 | INFO: Extracting primitive: Cube.482
+09:38:25 | INFO: Primitives created: 1
+09:38:25 | INFO: Extracting primitive: Cube.383
+09:38:25 | INFO: Primitives created: 1
+09:38:25 | INFO: Extracting primitive: Cube.394
+09:38:25 | INFO: Primitives created: 1
+09:38:25 | INFO: Extracting primitive: Cube.393
+09:38:25 | INFO: Primitives created: 1
+09:38:25 | INFO: Extracting primitive: Cube.392
+09:38:25 | INFO: Primitives created: 1
+09:38:25 | INFO: Extracting primitive: Cube.397
+09:38:25 | INFO: Primitives created: 1
+09:38:25 | INFO: Extracting primitive: Cube.396
+09:38:25 | INFO: Primitives created: 1
+09:38:25 | INFO: Extracting primitive: Cube.395
+09:38:25 | INFO: Primitives created: 1
+09:38:25 | INFO: Extracting primitive: Cube.255
+09:38:25 | INFO: Primitives created: 1
+09:38:25 | INFO: Extracting primitive: Cube.256
+09:38:25 | INFO: Primitives created: 1
+09:38:25 | INFO: Extracting primitive: Cube.496
+09:38:25 | INFO: Primitives created: 1
+09:38:25 | INFO: Extracting primitive: Cube.494
+09:38:25 | INFO: Primitives created: 1
+09:38:25 | INFO: Extracting primitive: Cube.499
+09:38:25 | INFO: Primitives created: 1
+09:38:25 | INFO: Extracting primitive: Cube.495
+09:38:25 | INFO: Primitives created: 1
+09:38:25 | INFO: Extracting primitive: Cube.498
+09:38:25 | INFO: Primitives created: 1
+09:38:25 | INFO: Finished glTF 2.0 export in 0.02632904052734375 s
+
+09:38:25 | INFO: Starting glTF 2.0 export
+09:38:25 | INFO: Extracting primitive: Cube.502
+09:38:25 | INFO: Primitives created: 1
+09:38:25 | INFO: Extracting primitive: Cube.500
+09:38:25 | INFO: Primitives created: 1
+09:38:25 | INFO: Extracting primitive: Cube.501
+09:38:25 | INFO: Primitives created: 1
+09:38:25 | INFO: Extracting primitive: Cube.507
+09:38:25 | INFO: Primitives created: 1
+09:38:25 | INFO: Finished glTF 2.0 export in 0.004319906234741211 s
+
+Info: Saved as "gym-building.blend"
+09:38:26 | INFO: Starting glTF 2.0 export
+09:38:26 | INFO: Extracting primitive: Cube.698
+09:38:26 | INFO: Primitives created: 1
+09:38:26 | INFO: Extracting primitive: Cube.699
+09:38:26 | INFO: Primitives created: 1
+09:38:26 | INFO: Extracting primitive: Cube.682
+09:38:26 | INFO: Primitives created: 1
+09:38:26 | INFO: Extracting primitive: Cube.700
+09:38:26 | INFO: Primitives created: 1
+09:38:26 | INFO: Extracting primitive: Cube.689
+09:38:26 | INFO: Primitives created: 1
+09:38:26 | INFO: Extracting primitive: Cube.688
+09:38:26 | INFO: Primitives created: 1
+09:38:26 | INFO: Extracting primitive: Cube.788
+09:38:26 | INFO: Primitives created: 1
+09:38:26 | INFO: Extracting primitive: Cube.683
+09:38:26 | INFO: Primitives created: 1
+09:38:26 | INFO: Extracting primitive: Cube.694
+09:38:26 | INFO: Primitives created: 1
+09:38:26 | INFO: Extracting primitive: Cube.693
+09:38:26 | INFO: Primitives created: 1
+09:38:26 | INFO: Extracting primitive: Cube.692
+09:38:26 | INFO: Primitives created: 1
+09:38:26 | INFO: Extracting primitive: Cube.697
+09:38:26 | INFO: Primitives created: 1
+09:38:26 | INFO: Extracting primitive: Cube.696
+09:38:26 | INFO: Primitives created: 1
+09:38:26 | INFO: Extracting primitive: Cube.695
+09:38:26 | INFO: Primitives created: 1
+09:38:26 | INFO: Extracting primitive: Cube.546
+09:38:26 | INFO: Primitives created: 1
+09:38:26 | INFO: Extracting primitive: Cube.547
+09:38:26 | INFO: Primitives created: 1
+09:38:26 | INFO: Extracting primitive: Cube.802
+09:38:26 | INFO: Primitives created: 1
+09:38:26 | INFO: Extracting primitive: Cube.800
+09:38:26 | INFO: Primitives created: 1
+09:38:26 | INFO: Extracting primitive: Cube.801
+09:38:26 | INFO: Primitives created: 1
+09:38:26 | INFO: Extracting primitive: Cube.804
+09:38:26 | INFO: Primitives created: 1
+09:38:26 | INFO: Finished glTF 2.0 export in 0.02199578285217285 s
+
+09:38:26 | INFO: Starting glTF 2.0 export
+09:38:26 | INFO: Extracting primitive: Cube.807
+09:38:26 | INFO: Primitives created: 1
+09:38:26 | INFO: Extracting primitive: Cylinder.002
+09:38:26 | INFO: Primitives created: 1
+09:38:26 | INFO: Extracting primitive: Cube.818
+09:38:26 | INFO: Primitives created: 1
+09:38:26 | INFO: Extracting primitive: Cube.816
+09:38:26 | INFO: Primitives created: 1
+09:38:26 | INFO: Extracting primitive: Cube.806
+09:38:26 | INFO: Primitives created: 1
+09:38:26 | INFO: Finished glTF 2.0 export in 0.00570225715637207 s
+
+Info: Saved as "habitat-building.blend"
+09:38:29 | INFO: Starting glTF 2.0 export
+09:38:29 | INFO: Extracting primitive: Cube.1070
+09:38:29 | INFO: Primitives created: 1
+09:38:29 | INFO: Extracting primitive: Cube.1071
+09:38:29 | INFO: Primitives created: 1
+09:38:29 | INFO: Extracting primitive: Cube.1054
+09:38:29 | INFO: Primitives created: 1
+09:38:29 | INFO: Extracting primitive: Cube.1072
+09:38:29 | INFO: Primitives created: 1
+09:38:29 | INFO: Extracting primitive: Cube.1061
+09:38:29 | INFO: Primitives created: 1
+09:38:29 | INFO: Extracting primitive: Cube.1060
+09:38:29 | INFO: Primitives created: 1
+09:38:29 | INFO: Extracting primitive: Cube.1172
+09:38:29 | INFO: Primitives created: 1
+09:38:29 | INFO: Extracting primitive: Cube.1055
+09:38:29 | INFO: Primitives created: 1
+09:38:29 | INFO: Extracting primitive: Cube.1066
+09:38:29 | INFO: Primitives created: 1
+09:38:29 | INFO: Extracting primitive: Cube.1065
+09:38:29 | INFO: Primitives created: 1
+09:38:29 | INFO: Extracting primitive: Cube.1064
+09:38:29 | INFO: Primitives created: 1
+09:38:29 | INFO: Extracting primitive: Cube.1069
+09:38:29 | INFO: Primitives created: 1
+09:38:29 | INFO: Extracting primitive: Cube.1068
+09:38:29 | INFO: Primitives created: 1
+09:38:29 | INFO: Extracting primitive: Cube.1067
+09:38:29 | INFO: Primitives created: 1
+09:38:29 | INFO: Extracting primitive: Cube.855
+09:38:29 | INFO: Primitives created: 1
+09:38:29 | INFO: Extracting primitive: Cube.856
+09:38:29 | INFO: Primitives created: 1
+09:38:29 | INFO: Extracting primitive: Cube.1190
+09:38:29 | INFO: Primitives created: 1
+09:38:29 | INFO: Extracting primitive: Cube.1188
+09:38:29 | INFO: Primitives created: 1
+09:38:29 | INFO: Extracting primitive: Cube.1189
+09:38:29 | INFO: Primitives created: 1
+09:38:29 | INFO: Finished glTF 2.0 export in 0.027294158935546875 s
+
+09:38:29 | INFO: Starting glTF 2.0 export
+09:38:29 | INFO: Extracting primitive: Cube.1195
+09:38:29 | INFO: Primitives created: 1
+09:38:29 | INFO: Extracting primitive: Cube.1205
+09:38:29 | INFO: Primitives created: 1
+09:38:29 | INFO: Extracting primitive: Cube.1206
+09:38:29 | INFO: Primitives created: 1
+09:38:29 | INFO: Extracting primitive: Cube.1194
+09:38:29 | INFO: Primitives created: 1
+09:38:29 | INFO: Extracting primitive: Cube.1193
+09:38:29 | INFO: Primitives created: 1
+09:38:29 | INFO: Finished glTF 2.0 export in 0.0051081180572509766 s
+
+Info: Saved as "greenhouse-building.blend"
+09:38:31 | INFO: Starting glTF 2.0 export
+09:38:31 | INFO: Extracting primitive: Cube.1362
+09:38:31 | INFO: Primitives created: 1
+09:38:31 | INFO: Extracting primitive: Cube.1363
+09:38:31 | INFO: Primitives created: 1
+09:38:31 | INFO: Extracting primitive: Cube.1346
+09:38:31 | INFO: Primitives created: 1
+09:38:31 | INFO: Extracting primitive: Cube.1364
+09:38:31 | INFO: Primitives created: 1
+09:38:31 | INFO: Extracting primitive: Cube.1353
+09:38:31 | INFO: Primitives created: 1
+09:38:31 | INFO: Extracting primitive: Cube.1352
+09:38:31 | INFO: Primitives created: 1
+09:38:31 | INFO: Extracting primitive: Cube.1452
+09:38:31 | INFO: Primitives created: 1
+09:38:31 | INFO: Extracting primitive: Cube.1347
+09:38:31 | INFO: Primitives created: 1
+09:38:31 | INFO: Extracting primitive: Cube.1358
+09:38:31 | INFO: Primitives created: 1
+09:38:31 | INFO: Extracting primitive: Cube.1357
+09:38:31 | INFO: Primitives created: 1
+09:38:31 | INFO: Extracting primitive: Cube.1356
+09:38:31 | INFO: Primitives created: 1
+09:38:31 | INFO: Extracting primitive: Cube.1361
+09:38:31 | INFO: Primitives created: 1
+09:38:31 | INFO: Extracting primitive: Cube.1360
+09:38:31 | INFO: Primitives created: 1
+09:38:31 | INFO: Extracting primitive: Cube.1359
+09:38:31 | INFO: Primitives created: 1
+09:38:31 | INFO: Extracting primitive: Cube.1217
+09:38:31 | INFO: Primitives created: 1
+09:38:31 | INFO: Extracting primitive: Cube.1218
+09:38:31 | INFO: Primitives created: 1
+09:38:31 | INFO: Extracting primitive: Cube.1464
+09:38:31 | INFO: Primitives created: 1
+09:38:31 | INFO: Extracting primitive: Cube.1462
+09:38:31 | INFO: Primitives created: 1
+09:38:31 | INFO: Extracting primitive: Cube.1466
+09:38:31 | INFO: Primitives created: 1
+09:38:31 | INFO: Extracting primitive: Cube.1463
+09:38:31 | INFO: Primitives created: 1
+09:38:31 | INFO: Finished glTF 2.0 export in 0.021995067596435547 s
+
+09:38:31 | INFO: Starting glTF 2.0 export
+09:38:31 | INFO: Extracting primitive: Cube.1486
+09:38:31 | INFO: Primitives created: 1
+09:38:31 | INFO: Extracting primitive: Cube.1484
+09:38:31 | INFO: Primitives created: 1
+09:38:31 | INFO: Extracting primitive: Cube.1485
+09:38:31 | INFO: Primitives created: 1
+09:38:31 | INFO: Extracting primitive: Cube.1483
+09:38:31 | INFO: Primitives created: 1
+09:38:31 | INFO: Extracting primitive: Cylinder.004
+09:38:31 | INFO: Primitives created: 1
+09:38:31 | INFO: Extracting primitive: Cube.1481
+09:38:31 | INFO: Primitives created: 1
+09:38:31 | INFO: Finished glTF 2.0 export in 0.006147146224975586 s
+
+COLONY_AUTHORED ['repair', 'review', 'gym', 'habitat', 'greenhouse']
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit

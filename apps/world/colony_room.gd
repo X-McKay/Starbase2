@@ -36,11 +36,12 @@ func _ready() -> void:
 		blocks.append(Rect2(lo,hi-lo))
 	var bounds: Rect2=definition.interior_bounds
 	# Low physical cutaway edges retain a visible boundary without hiding crew.
-	for edge in [Rect2(bounds.position-Vector2(0.2,0.2),Vector2(0.2,bounds.size.y+0.4)),Rect2(Vector2(bounds.end.x,bounds.position.y-0.2),Vector2(0.2,bounds.size.y+0.4)),Rect2(bounds.position-Vector2(0,0.2),Vector2(bounds.size.x,0.2)),Rect2(Vector2(bounds.position.x,bounds.end.y),Vector2(bounds.size.x,0.2))]:
-		var center := Vector3(edge.get_center().x,0.17,edge.get_center().y)
-		Art.box(self,center,Vector3(edge.size.x,0.34,edge.size.y),"738e98")
-		Art.collider(self,Vector3(center.x,1.5,center.z),Vector3(edge.size.x,3,edge.size.y))
-	Art.sign(self,"F / COLONY",Vector3(0,0.7,bounds.end.y),"edcf95",16)
+	if not definition.seamless:
+		for edge in [Rect2(bounds.position-Vector2(0.2,0.2),Vector2(0.2,bounds.size.y+0.4)),Rect2(Vector2(bounds.end.x,bounds.position.y-0.2),Vector2(0.2,bounds.size.y+0.4)),Rect2(bounds.position-Vector2(0,0.2),Vector2(bounds.size.x,0.2)),Rect2(Vector2(bounds.position.x,bounds.end.y),Vector2(bounds.size.x,0.2))]:
+			var center := Vector3(edge.get_center().x,0.17,edge.get_center().y)
+			Art.box(self,center,Vector3(edge.size.x,0.34,edge.size.y),"738e98")
+			Art.collider(self,Vector3(center.x,1.5,center.z),Vector3(edge.size.x,3,edge.size.y))
+		Art.sign(self,"F / COLONY",Vector3(0,0.7,bounds.end.y),"edcf95",16)
 	var first := Vector2i((bounds.position*2).ceil())
 	var last := Vector2i((bounds.end*2).floor())
 	grid.region=Rect2i(first,last-first+Vector2i.ONE)
@@ -56,8 +57,8 @@ func clear(point: Vector2) -> bool:
 		if rect.grow(0.36).has_point(point): return false
 	return true
 func route(from: Vector3,to: Vector3) -> PackedVector3Array:
-	var start := Vector2(from.x-position.x,from.z-position.z)
-	var end := Vector2(to.x-position.x,to.z-position.z)
+	var start := Vector2(from.x-global_position.x,from.z-global_position.z)
+	var end := Vector2(to.x-global_position.x,to.z-global_position.z)
 	var a := Vector2i((start*2).round())
 	var b := Vector2i((end*2).round())
 	if not clear(end) or not grid.is_in_boundsv(a) or not grid.is_in_boundsv(b) or grid.is_point_solid(b): return PackedVector3Array()
@@ -78,5 +79,5 @@ func route(from: Vector3,to: Vector3) -> PackedVector3Array:
 					a=next
 	if grid.is_point_solid(a): return PackedVector3Array()
 	var path := PackedVector3Array()
-	for point in grid.get_point_path(a,b): path.append(position+Vector3(point.x,0,point.y))
+	for point in grid.get_point_path(a,b): path.append(global_position+Vector3(point.x,0,point.y))
 	return path

@@ -484,10 +484,10 @@ Placement remains an explicit gate: the only current arm64 node is tainted
 `nvidia.com/gpu=true:NoSchedule`. The arm64 selector alone does not qualify
 scheduling. Choose qualified amd64 images on general nodes or explicitly approve
 an arm64 scheduling exception; do not silently tolerate reserved-node taints.
-Registry authentication works and image publication is authorized. The first
-upload failed because the registry's non-root process cannot write its existing
-root-owned storage directories; no release manifest was published. A scoped
-ownership repair is prepared in [Kubani PR #127](https://github.com/X-McKay/kubani/pull/127)
-and awaits approval to modify shared storage. The platform backup production
-boundary also remains unresolved. Kubani preparation is inactive and all further
-deployment changes belong in that same draft PR.
+Registry authentication and the authorized storage ownership repair are now
+verified. Both qualified Linux arm64 images were published and pulled by their
+immutable registry digests; configuration identities match the qualified images.
+The [publication record](../evidence/kubani-preflight/publication-plan.json) retains
+those exact references. [Kubani PR #127](https://github.com/X-McKay/kubani/pull/127)
+was merged as inactive preparation. Platform backup readiness and qualified node
+placement remain unresolved; publication does not activate Starbase2.

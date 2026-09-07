@@ -1,0 +1,4 @@
+interface:
+  display_name: "Starbase2 World QA"
+  short_description: "Verify playable scenes and native game exports"
+  default_prompt: "Use $starbase2-world-qa to verify this world change and prepare a review with retained native evidence."

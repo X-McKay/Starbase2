@@ -13,6 +13,13 @@ extends Resource
 @export var sprite_frames: SpriteFrames
 @export var additional_frames: Array[SpriteFrames] = []
 @export var clip_layouts: Dictionary = {}
+@export var model_scene: PackedScene
+@export var model_tint := Color.WHITE
+@export var model_scale := 1.5
+@export var model_floor_offset := -0.10
+@export var label_height := 3.65
+@export var model_stride := 1.8
+@export var model_run_stride := 2.8
 var cached_frames: SpriteFrames
 const DIRECTIONS := ["front","back","left","right"]
 

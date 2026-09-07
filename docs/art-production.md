@@ -181,3 +181,10 @@ The [first illustrated animation integration](character-production.md#illustrate
 now enables the captain's screen-right cycle. Source-specific matte cleanup,
 registration and SpriteFrames imports preserve the illustrated style. Missing
 directional clips use approved stills; no mirrored frames or 3D art are substituted.
+
+## Source organization · September 7, 2026
+
+The [content convention](content-organization.md) defines current source/runtime/
+evidence boundaries, naming and retention. The [source index](../art/README.md)
+links the native 3D families that supersede the historical crew direction above.
+Historical pilot evidence remains evidence of that pilot, not the current roster.

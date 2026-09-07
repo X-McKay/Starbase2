@@ -1,0 +1,82 @@
+{
+  "status": "approved",
+  "scope": "One polished Engineering exterior-to-reactor experience for owner review",
+  "balance_observed": 3090,
+  "estimated_meshy_credits": 140,
+  "requested_cap": 250,
+  "asset_pipeline": [
+    {
+      "stage": "isolated design image",
+      "model": "nano-banana-pro",
+      "credits_each": 9
+    },
+    {
+      "stage": "image-to-3d untextured",
+      "model": "meshy-6",
+      "credits_each": 20
+    },
+    {
+      "stage": "remesh",
+      "credits_each": 5
+    },
+    {
+      "stage": "PBR texture",
+      "model": "meshy-6",
+      "credits_each": 10
+    }
+  ],
+  "assets": [
+    {
+      "id": "containment-reactor",
+      "height_m": 3.4,
+      "polycount": 40000,
+      "rig": false,
+      "description": "Hero cylindrical reactor with ivory containment ribs, graphite mechanical collars, copper coolant manifolds and a recessed cyan core. Full isolated object, clear silhouette, no room or platform, evenly lit.",
+      "integration_note": "Rotate main cylinder axis upright in Blender if generation follows the horizontal design orientation."
+    },
+    {
+      "id": "cooling-service-module",
+      "height_m": 5.2,
+      "polycount": 40000,
+      "rig": false,
+      "description": "Exterior industrial reactor cooling module with twin heat exchangers, service panels, copper pipes and dark intake louvers. Ivory ceramic panel shell, graphite substructure, amber maintenance accents. Isolated equipment, no building, floor or background scenery.",
+      "integration_role": "Full detailed exterior hull; generated design selected after visual review"
+    },
+    {
+      "id": "engineering-specialist",
+      "height_m": 1.85,
+      "polycount": 25000,
+      "rig": true,
+      "description": "Humanoid frontier engineer, practical ivory and charcoal pressure suit with ochre utility panels, articulated gloves and boots, compact belt tools, smooth sealed helmet with continuous dark visor. Neutral T pose, separate fingers and limbs, no weapons, no cape, no loose cables. Full body isolated studio reference."
+    },
+    {
+      "id": "cybercat-vanguard",
+      "height_m": 1.85,
+      "polycount": 31087,
+      "rig": true,
+      "description": "User-supplied CyberCat Vanguard, exact Meshy shared model GzLfrz. Rig and idle only; reuse provided textures and geometry.",
+      "source_stage": "source",
+      "rig_model_url": true
+    }
+  ],
+  "character_extra": {
+    "rig_credits": 5,
+    "animation_credits": 3,
+    "animation": "Meshy catalog ID 0 Idle; Blender authors console work with arm IK from that neutral pose.",
+    "reviewed_action_id": 0
+  },
+  "material_direction": "Ivory ceramic hulls, graphite steel structure, restrained copper coolant lines, cyan reactor light, warm amber maintenance light, fine directional wear. No painted shadows, no gibberish lettering.",
+  "local_work": [
+    "Concept image defines one consistent exterior/interior design",
+    "Inspect generated design images before dispatching model generation",
+    "Inspect silhouette and topology before remesh/texturing; retain task IDs and bounded spend ledger",
+    "Export GLB and preserve generated originals in meshy_output; save editable Blender sources and shipping assets separately",
+    "Author precise architecture, split roof/wall cutaways and articulated doors; keep a continuous walkable route",
+    "Integrate reactor core lighting, machinery animation, spatial ambience, readable console and character work pose",
+    "Review native exterior, interior, moving character and reduced-motion state; run route/collision and command-fencing checks"
+  ],
+  "review_gate": "Owner reviews the playable Engineering journey and native captures before any rollout to other buildings",
+  "approved_credit_cap": 250,
+  "approval": "User authorized 250 credits for this experience and no further budget check-in within that cap.",
+  "prior_generation_credits": 60
+}

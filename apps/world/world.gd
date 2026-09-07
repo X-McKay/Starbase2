@@ -28,7 +28,10 @@ var walk_test := false
 var walk_reached := false
 var overview := Vector3(0,0,0)
 var camera_focus := Vector3.ZERO
+var camera_offset := Vector3(10,36,46)
+const TRAVEL_SPEED := 6.0
 var zoom := 34.0
+var zoom_factor := 1.0
 var colony_overview := false
 var colony_walk_test := false
 var walk_destination := Vector3(-7,0,1.4)
@@ -157,6 +160,7 @@ func _ready() -> void:
 	hud.journal_requested.connect(func(): OS.shell_open(api))
 	hud.settings_changed.connect(apply_settings)
 	hud.map_requested.connect(toggle_map)
+	hud.zoom_requested.connect(adjust_zoom)
 	hud.room_requested.connect(enter_room)
 	hud.set_buildings($Buildings.get_children())
 	hud.exit_requested.connect(exit_room)
@@ -185,6 +189,13 @@ func _ready() -> void:
 	else:
 		timer.start()
 		poll()
+	# Crew inhabit their authored rooms; direct inspection remains available.
+	for kind in ["repair","review","gym"]:
+		var station=get_node(STATIONS[kind])
+		if station.room!=null:
+			var member=get_node(MEMBERS[kind])
+			member.position=station.room.to_global(station.room.crew_point)
+			member.home=member.position
 	if inspect_on_start:
 		hud.open_place(initial_crew)
 		hud.evidence.visible = true
@@ -220,6 +231,15 @@ func enter_room(kind: String) -> void:
 	if kind in ["watchkeeper","reviewer"]: kind="review"
 	var station: Node3D=get_node_or_null(STATIONS.get(kind,"Buildings/"+kind))
 	if station==null or station.definition.interior_scene.is_empty(): return
+	if station.definition.seamless:
+		$Operator.position=station.room.global_position+station.room.spawn_point
+		$Operator.motion=Vector3.ZERO
+		route.clear()
+		marker.hide()
+		hud.close_panels()
+		colony_overview=false
+		set_room_context(station)
+		return
 	if active_room != null: exit_room()
 	route.clear()
 	marker.hide()
@@ -247,8 +267,27 @@ func enter_room(kind: String) -> void:
 	camera_focus=active_room.position+Vector3(0,1,0)
 	show_mission()
 
+func set_room_context(station: Node3D) -> void:
+	if active_building==station: return
+	active_building=station
+	active_room=station.room if station!=null else null
+	room_kind=station.interaction_kind if station!=null else ""
+	foley.interior=station!=null
+	foley.doorway()
+	hud.room_exit.visible=station!=null
+	if station!=null: room_return=station.return_position()
+	show_mission()
+
 func exit_room() -> void:
 	if active_room == null: return
+	if active_room.definition.seamless:
+		$Operator.position=room_return
+		$Operator.motion=Vector3.ZERO
+		route.clear()
+		marker.hide()
+		hud.close_panels()
+		set_room_context(null)
+		return
 	if MEMBERS.has(room_kind):
 		get_node(MEMBERS[room_kind]).position=crew_return
 		get_node(MEMBERS[room_kind]).motion=Vector3.ZERO
@@ -270,12 +309,15 @@ func exit_room() -> void:
 	overview=room_return
 	camera_focus=room_return
 
+func adjust_zoom(direction: int) -> void:
+	zoom_factor=clampf(zoom_factor*pow(1.2,direction),0.4,2.0)
+
 func toggle_map() -> void:
 	if active_room != null: exit_room()
 	colony_overview=not colony_overview
 
 func travel_route(destination: Vector3) -> PackedVector3Array:
-	if active_room != null: return active_room.route($Operator.position,destination)
+	if active_room != null and not active_room.definition.seamless: return active_room.route($Operator.position,destination)
 	return navigator.route($Operator.position,destination)
 
 func apply_settings() -> void:
@@ -383,6 +425,8 @@ func show_mission() -> void:
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not event is InputEventKey or not event.pressed or event.echo: return
 	match event.physical_keycode:
+		KEY_EQUAL, KEY_PLUS, KEY_KP_ADD: adjust_zoom(-1)
+		KEY_MINUS, KEY_KP_SUBTRACT: adjust_zoom(1)
 		KEY_B: hud.open_board()
 		KEY_4: hud.open_place("watchkeeper")
 		KEY_5: hud.open_place("reviewer")
@@ -410,6 +454,11 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			if hud.dock.visible: hud.evidence.visible = not hud.evidence.visible
 
 func crew_hit_rect(actor: Node3D) -> Rect2:
+	if actor.model_visual!=null:
+		var top := camera.unproject_position(actor.global_position+Vector3(0,2.6,0))
+		var bottom := camera.unproject_position(actor.global_position)
+		var width := camera.unproject_position(actor.global_position+camera.global_basis.x*0.55).distance_to(bottom)
+		return Rect2(Vector2(minf(top.x,bottom.x)-width,top.y),Vector2(absf(top.x-bottom.x)+width*2,bottom.y-top.y)).grow(4)
 	var sprite: AnimatedSprite3D = actor.get("sprite")
 	var texture: Texture2D = sprite.sprite_frames.get_frame_texture(sprite.animation,sprite.frame)
 	var center := actor.position+sprite.position+camera.global_basis.x*sprite.offset.x*sprite.pixel_size+camera.global_basis.y*sprite.offset.y*sprite.pixel_size
@@ -422,9 +471,9 @@ func crew_hit_rect(actor: Node3D) -> Rect2:
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			zoom = clampf(zoom-2,20,52)
+			adjust_zoom(-1)
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			zoom = clampf(zoom+2,20,52)
+			adjust_zoom(1)
 		elif event.button_index == MOUSE_BUTTON_LEFT and not hud.is_open():
 			for pair in crew_pairs():
 				if (active_room == null or pair[0]==room_kind) and crew_hit_rect(pair[1]).has_point(event.position):
@@ -438,19 +487,24 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _physics_process(_delta: float) -> void:
 	if hud == null: return
+	var containing: Node3D=null
+	for station in $Buildings.get_children():
+		station.update_presentation($Operator.position,_delta,hud.reduced)
+		if station.contains($Operator.position): containing=station
+	if active_room==null or active_room.definition.seamless: set_room_context(containing)
 	var move := Vector3.ZERO
 	if not hud.is_open():
 		var x := float(Input.is_physical_key_pressed(KEY_D) or Input.is_physical_key_pressed(KEY_RIGHT))-float(Input.is_physical_key_pressed(KEY_A) or Input.is_physical_key_pressed(KEY_LEFT))
 		var y := float(Input.is_physical_key_pressed(KEY_S) or Input.is_physical_key_pressed(KEY_DOWN))-float(Input.is_physical_key_pressed(KEY_W) or Input.is_physical_key_pressed(KEY_UP))
 		if x != 0 or y != 0:
 			route.clear()
-			move = Vector3(x,0,y).normalized()*3.7
+			move = Vector3(x,0,y).normalized()*TRAVEL_SPEED
 		elif not route.is_empty():
 			var diff: Vector3 = route[0]-$Operator.position
 			diff.y = 0
 			if diff.length() < 0.18:
 				route.remove_at(0)
-			else: move = diff.normalized()*3.7
+			else: move = diff.normalized()*minf(TRAVEL_SPEED,diff.length()/_delta)
 	$Operator.motion = move
 	if route.is_empty(): marker.hide()
 	nearest = ""
@@ -462,6 +516,10 @@ func _physics_process(_delta: float) -> void:
 			distance = d
 		# Tiny ambient strolls remain local and don't invent operational activity.
 		var actor = pair[1]
+		if STATIONS.has(pair[0]):
+			var home_station=get_node(STATIONS[pair[0]])
+			actor.visible=not home_station.contains(actor.position) or home_station.cutaway<0.999
+		actor.presentation_pose="console" if pair[0]=="repair" and room_kind=="repair" and active_room!=null and hud.dock.visible and hud.filter_kind=="repair" else ""
 		if active_room != null or hud.reduced:
 			actor.motion = Vector3.ZERO
 		else:
@@ -472,7 +530,7 @@ func _physics_process(_delta: float) -> void:
 			if actor.motion == Vector3.ZERO: actor.facing = 0
 	near_door=""
 	if active_room != null:
-		if MEMBERS.has(room_kind) and $Operator.position.distance_to(active_room.position+active_room.console_point)<1.5: nearest=room_kind
+		if MEMBERS.has(room_kind) and $Operator.position.distance_to(active_room.global_position+active_room.console_point)<1.5: nearest=room_kind
 	else:
 		for station in $Buildings.get_children():
 			if not station.definition.interior_scene.is_empty() and $Operator.position.distance_to(station.entrance())<2.0: near_door=str(station.name)
@@ -496,21 +554,24 @@ func _process(delta: float) -> void:
 	frame_usec=now
 	# Fixed-camera mode advances by rooms, so reduced motion never strands the
 	# operator offscreen. Map view is explicit and never dispatches work.
-	if absf($Operator.position.x-overview.x)>zoom*0.32 or absf($Operator.position.z-overview.z)>zoom*0.22:
+	if absf($Operator.position.x-overview.x)>zoom*zoom_factor*0.32 or absf($Operator.position.z-overview.z)>zoom*zoom_factor*0.22:
 		overview = $Operator.position
 	var desired: Vector3 = $Operator.position if hud.follow else overview
 	if colony_overview: desired = Vector3(0,-4,0)
-	camera_focus = camera_focus.lerp(desired,1-exp(-delta*4)) if not hud.reduced else desired
-	camera.position = camera_focus+Vector3(10,36,46)
+	var desired_offset := Vector3(10,36,46)
+	var desired_size := 142.0 if colony_overview else zoom
+	if active_room != null and not colony_overview:
+		desired=active_room.global_position+Vector3(active_room.definition.interior_bounds.get_center().x,1.0,active_room.definition.interior_bounds.get_center().y)
+		if hud.dock.visible: desired+=Vector3(2.6,0,0)
+		desired_offset=Vector3(5,14,18)
+		desired_size=22.0 if compact and hud.dock.visible else 18.0
+	desired_size*=zoom_factor
+	var blend := 1.0 if hud.reduced else 1-exp(-delta*4)
+	camera_focus=camera_focus.lerp(desired,blend)
+	camera_offset=camera_offset.lerp(desired_offset,blend)
+	camera.position=camera_focus+camera_offset
 	camera.look_at(camera_focus)
-	camera.size = 90.0 if colony_overview else zoom
-	if active_room != null:
-		# Explicit room cut, including reduced-motion mode; no fly-through void.
-		camera_focus=active_room.position+Vector3(0,1.5,0)
-		if hud.dock.visible: camera_focus+=Vector3(2.6,0,0)
-		camera.position=camera_focus+Vector3(5,14,18)
-		camera.look_at(camera_focus)
-		camera.size=22.0 if compact and hud.dock.visible else 18.0
+	camera.size=lerpf(camera.size,desired_size,blend)
 	if fixture_path == "" and last_received > 0 and Time.get_ticks_msec()-last_received > 5000 and not disconnected:
 		disconnected = true
 		hud.connection.text = "STALE · no snapshot for five seconds"

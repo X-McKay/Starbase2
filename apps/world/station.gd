@@ -6,6 +6,13 @@ const Art = preload("res://art.gd")
 @export var definition: Definition
 ## Existing UI context assigned by placement, never inferred from artwork.
 @export var interaction_kind := ""
+var room: Node3D
+var openness := 0.0
+var cutaway := 1.0
+var door_collision: CollisionShape3D
+var door_leaves: Array[Node3D] = []
+var reveal_materials: Array[ShaderMaterial] = []
+var cut_materials: Array[ShaderMaterial] = []
 
 func _ready() -> void:
 	if definition==null: return
@@ -41,6 +48,7 @@ func _ready() -> void:
 		shade.material_override=shadow_material
 		shade.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		add_child(shade)
+	for rect in definition.shell_bounds():
 		Art.collider(self,Vector3(rect.get_center().x,definition.collision_height*0.5,rect.get_center().y),Vector3(rect.size.x,definition.collision_height,rect.size.y))
 	if not definition.interior_scene.is_empty():
 		# Shared physical sill ties the billboard door to the paved approach.
@@ -52,6 +60,52 @@ func _ready() -> void:
 		marker.name=pair[0]
 		marker.position=pair[1]
 		add_child(marker)
+
+	if definition.seamless:
+		room=preload("res://colony_room.gd").new()
+		room.name="Room"
+		room.definition=definition
+		add_child(room)
+		var body := StaticBody3D.new()
+		body.name="Airlock"
+		body.position=definition.threshold+Vector3(0,1.4,-0.1)
+		add_child(body)
+		door_collision=CollisionShape3D.new()
+		var shape := BoxShape3D.new()
+		shape.size=Vector3(2.5,2.8,0.2)
+		door_collision.shape=shape
+		body.add_child(door_collision)
+		for mesh in find_children("*","MeshInstance3D",true,false):
+			if str(mesh.name).begins_with("DoorLeft") or str(mesh.name).begins_with("DoorRight"):
+				door_leaves.append(mesh)
+				mesh.set_meta("closed_x",mesh.position.x)
+			if str(mesh.name).begins_with("Roof") or str(mesh.name).begins_with("Cutaway") or str(mesh.name).begins_with("InteriorReveal"):
+				for i in mesh.mesh.get_surface_count():
+					var source = mesh.get_active_material(i)
+					var material := preload("res://buildings/materials.gd").cutaway(source)
+					mesh.set_surface_override_material(i,material)
+					if str(mesh.name).begins_with("InteriorReveal"):
+						reveal_materials.append(material)
+						material.set_shader_parameter("visibility",0.0)
+					else: cut_materials.append(material)
+
+func contains(point: Vector3) -> bool:
+	var local := to_local(point)
+	return definition.seamless and definition.interior_bounds.has_point(Vector2(local.x,local.z))
+
+func update_presentation(point: Vector3, delta: float, reduced: bool) -> void:
+	if not definition.seamless: return
+	var local := to_local(point)
+	var distance := Vector2(local.x-definition.threshold.x,local.z-definition.threshold.z).length()
+	var target := 1.0 if distance<3.2 else 0.0
+	openness=target if reduced else move_toward(openness,target,delta*3.5)
+	for leaf in door_leaves: leaf.position.x=float(leaf.get_meta("closed_x"))+(-1.3 if str(leaf.name).begins_with("DoorLeft") else 1.3)*smoothstep(0,1,openness)
+	door_collision.set_deferred("disabled",openness>0.8)
+	var visibility := 0.0 if contains(point) or distance<3.4 else 1.0
+	cutaway=visibility if reduced else move_toward(cutaway,visibility,delta*2.5)
+	if room!=null: room.visible=cutaway<0.999
+	for material in cut_materials: material.set_shader_parameter("visibility",cutaway)
+	for material in reveal_materials: material.set_shader_parameter("visibility",1.0-cutaway)
 
 func entrance() -> Vector3: return to_global(definition.approach)
 func return_position() -> Vector3: return to_global(definition.return_point)

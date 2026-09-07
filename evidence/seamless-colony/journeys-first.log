@@ -1,0 +1,47 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+JOURNEY Workshop
+JOURNEY Commons
+JOURNEY Gym
+JOURNEY Habitat
+JOURNEY Greenhouse
+ERROR: Route exists to (-23.35, 0.0, 2.5)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_seamless_colony.gd:51)
+ERROR: Physical arrival (-23.35, 0.0, 2.5) got (-27.99318, 0.0, -0.847354)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_seamless_colony.gd:51)
+ERROR: Route exists to (-0.4, 0.0, -15.5)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_seamless_colony.gd:51)
+ERROR: Physical arrival (-0.4, 0.0, -15.5) got (-4.993596, 0.0, -18.85105)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_seamless_colony.gd:51)
+ERROR: Route exists to (4.1, 0.0, 4.0)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_seamless_colony.gd:51)
+ERROR: Physical arrival (4.1, 0.0, 4.0) got (1.5, 0.0, -1.361664)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_seamless_colony.gd:51)
+ERROR: Route exists to (30.275, 0.0, -8.0)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_seamless_colony.gd:51)
+ERROR: Physical arrival (30.275, 0.0, -8.0) got (25.51985, 0.0, -12.37179)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_seamless_colony.gd:51)
+ERROR: Route exists to (22.0, 0.0, 22.0)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_seamless_colony.gd:51)
+ERROR: Physical arrival (22.0, 0.0, 22.0) got (19.5, 0.0, 19.17309)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_seamless_colony.gd:51)

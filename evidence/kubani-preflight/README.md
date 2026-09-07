@@ -113,3 +113,31 @@ The same Kubani PR now contains a proposed ownership repair with a retained ACL
 snapshot and rollback procedure. Read-only checks identified the exact PVC,
 PV, host path and node (`strix`), and available recovery tooling. Repair was
 not executed and requires approval because it changes shared production storage.
+
+## Storage repair and publication completed · 2026-09-07
+
+After explicit operator approval, the exact registry PVC/PV/node was rechecked.
+No registry Jobs/CronJobs, garbage-collection process, or recent write requests
+were observed. The repair changed 21,329 root-owned entries in the registry's
+`docker` tree to UID/GID 65532. The full before/after inventory verified unchanged
+paths, inodes, types, modes, ACLs, sizes, mtimes and link counts. This was metadata
+verification, not a full content-hash scan. Root-only rollback metadata remains
+at `/root/registry-storage-recovery-20260907/before.acl` on `strix`.
+See [repair result](storage-repair-result.json).
+
+The same registry pod stayed Ready with zero restarts. Its repository/blob
+storage is now writable, and an existing `backup-agent:0.1.0` manifest remains
+readable. Both authorized qualified images published successfully. Digest pulls
+verified their exact configuration identities and Linux arm64 platform; the
+[publication record](publication-plan.json) contains the immutable references.
+Published manifest digests differ from pre-push local manifests due to layer
+compression; the qualified configuration identities are unchanged.
+
+Podman's `manifest inspect` rejected a valid single-image OCI manifest because
+it treats this path as a manifest list. Verification used actual image pulls by
+digest and image inspection instead; this was a client limitation, not a failed
+registry upload. Pulls may reuse content-addressed local layers.
+
+PR #127 is now merged as inactive preparation. No Starbase2 workload was deployed,
+no database/Temporal provisioning occurred, and native amd64 qualification,
+placement and production recovery gates remain outstanding.

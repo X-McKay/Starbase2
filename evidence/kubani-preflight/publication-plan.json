@@ -1,5 +1,5 @@
 {
-  "status": "authorized_blocked_by_registry_storage_permissions",
+  "status": "published_and_verified_linux_arm64",
   "registry": "registry.almckay.io",
   "source_revision": "e7a51acf4c4d465287b913379876d7beda7f0d3c",
   "platform": "linux/arm64",
@@ -25,5 +25,22 @@
     "registry_error": "filesystem: mkdir /var/lib/registry/docker/registry/v2/repositories/starbase2: permission denied",
     "manifest_after_attempt": "absent",
     "runtime_attempted": false
-  }
+  },
+  "verification_results": [
+    {
+      "component": "core",
+      "reference": "registry.almckay.io/starbase2/core@sha256:07681d9b024fd4480090fd1cecf3c6db1304466fc7f75044b5e891a1cb8038a4",
+      "config_digest": "sha256:665baa0154e416573c07f3d3e12c956494fdec19543a46c6c5ac8b7417ab02e6",
+      "platform": "linux/arm64",
+      "digest_pull": "passed"
+    },
+    {
+      "component": "runtime",
+      "reference": "registry.almckay.io/starbase2/runtime@sha256:5bf6386dc5ee1789a0728aff1ad7d827e35744b218c2b26c2499ad76f98a5de2",
+      "config_digest": "sha256:65833c328b634e384336e834f969e15a36f989d967ef58f313c8b1027c9d241b",
+      "platform": "linux/arm64",
+      "digest_pull": "passed"
+    }
+  ],
+  "storage_repair": "storage-repair-result.json"
 }

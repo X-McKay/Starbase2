@@ -1,13 +1,15 @@
-[gd_resource type="Resource" script_class="" load_steps=7 format=3]
+[gd_resource type="Resource" script_class="" load_steps=8 format=3]
 [ext_resource type="Script" path="res://characters/definition.gd" id="1"]
 [ext_resource type="Texture2D" path="res://art/crew-adventure.png" id="2"]
 [ext_resource type="SpriteFrames" path="res://characters/frames/captain-illustrated.tres" id="3"]
 [ext_resource type="SpriteFrames" path="res://characters/frames/captain-front.tres" id="4"]
 [ext_resource type="SpriteFrames" path="res://characters/frames/captain-back.tres" id="5"]
 [ext_resource type="SpriteFrames" path="res://characters/frames/captain-left.tres" id="6"]
+[ext_resource type="PackedScene" path="res://art/cybercat-vanguard/vanguard.glb" id="7"]
 [resource]
 script = ExtResource("1")
 id = "operator"
+model_scene = ExtResource("7")
 atlas = ExtResource("2")
 animated = false
 legacy_row = 0
@@ -21,3 +23,9 @@ clip_layouts = {
 "walk_right": {"canvas": Vector2i(256,320), "pivot": Vector2(128,296), "pixel_size": 0.009, "shaded": true, "frames": 8}
 }
 stride = 3.2
+model_scale = 1.0
+model_floor_offset = 0.15
+label_height = 2.55
+model_stride = 1.6
+model_tint = Color(1,1,1,1)
+model_run_stride = 2.8

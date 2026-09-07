@@ -1,0 +1,11 @@
+12:53:02 | INFO: Data are loaded, start creating Blender stuff
+12:53:02 | INFO: Blender create Mesh node char1
+12:53:03 | INFO: glTF import finished in 0.12s
+{'height': 1.8499998377641305, 'upper_region_vertices': 22810, 'head_dominant': 8654, 'head_partial': 13198, 'head_under_20_percent': 9468}
+neck (5.3625826694769785e-05, -0.0883462131023407, 1.4939649105072021)
+Head (-6.988866374513236e-08, -0.09257397800683975, 1.567964792251587)
+LeftShoulder (0.027293536812067032, -0.07588490843772888, 1.4636335372924805)
+RightShoulder (-0.03021347150206566, -0.07598011940717697, 1.4612014293670654)
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit

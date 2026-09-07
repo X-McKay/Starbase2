@@ -1,0 +1,6 @@
+[gd_scene load_steps=3 format=3]
+[ext_resource type="PackedScene" path="res://art/engineering-polish/engineering-shell.glb" id="1"]
+[ext_resource type="PackedScene" path="res://art/engineering-polish/exterior.glb" id="2"]
+[node name="Engineering" type="Node3D"]
+[node name="Architecture" parent="." instance=ExtResource("1")]
+[node name="GeneratedHull" parent="." instance=ExtResource("2")]

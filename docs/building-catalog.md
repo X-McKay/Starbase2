@@ -1,5 +1,17 @@
 # Asset-driven colony buildings
 
+Terminology: the [content taxonomy](content-organization.md) defines the target
+`assets-production/` and `apps/world/assets/` categories. Existing paths and
+commands below remain current until the coordinated migration; buildings map to
+structures, while crew roles and room IDs retain their product meaning.
+
+The [Meshy/Blender pass](meshy-blender.md) now supplies native shells and furnished
+interiors for all five buildings. Gross footprints still own paving exclusion;
+`navigation_bounds()` combines doorway wall segments and furniture. Persistent
+rooms share world coordinates, automatic doors and Compatibility-safe cutaways.
+This supersedes the detached-room presentation described in the historical
+rollout below. Operational bindings and structured direct visits are preserved.
+
 Status: accepted
 
 Date: 2026-09-06. Scope: the authorized local hangar milestone and reusable
@@ -257,7 +269,6 @@ paving and packaged-resource checks. Actual native captures:
 [central courtyard](../evidence/rectangular-paving/commons.png) and
 [eastern pads](../evidence/rectangular-paving/east.png).
 The shared tile field still uses two static meshes and the original floor material.
-
 
 ## Separate foundations and colony streets · 2026-09-06
 

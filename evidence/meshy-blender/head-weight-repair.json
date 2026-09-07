@@ -1,0 +1,70 @@
+{
+  "source": "art/meshy-blender/cybercat-source.blend",
+  "blender": "5.2.1 LTS",
+  "rigid_region_z_m": 1.47,
+  "blend_bottom_z_m": 1.4,
+  "changed_vertices": 6877,
+  "rigid_vertices": 4050,
+  "measured_edges": 5631,
+  "baseline": [
+    {
+      "frame": 0.8,
+      "max_relative_edge_strain": 2.1746301316292818
+    },
+    {
+      "frame": 4.9,
+      "max_relative_edge_strain": 2.3323804835528246
+    },
+    {
+      "frame": 9.1,
+      "max_relative_edge_strain": 2.1972566972649723
+    },
+    {
+      "frame": 13.2,
+      "max_relative_edge_strain": 2.0096782886741384
+    },
+    {
+      "frame": 17.3,
+      "max_relative_edge_strain": 1.6262676661160613
+    },
+    {
+      "frame": 21.5,
+      "max_relative_edge_strain": 1.6311460308416517
+    },
+    {
+      "frame": 25.6,
+      "max_relative_edge_strain": 2.1746341816301675
+    }
+  ],
+  "repaired": [
+    {
+      "frame": 0.8,
+      "max_relative_edge_strain": 5.113274827306391e-05
+    },
+    {
+      "frame": 4.9,
+      "max_relative_edge_strain": 4.001213695681294e-05
+    },
+    {
+      "frame": 9.1,
+      "max_relative_edge_strain": 7.055678016043565e-05
+    },
+    {
+      "frame": 13.2,
+      "max_relative_edge_strain": 4.515277155558994e-05
+    },
+    {
+      "frame": 17.3,
+      "max_relative_edge_strain": 5.0032202806749027e-05
+    },
+    {
+      "frame": 21.5,
+      "max_relative_edge_strain": 6.203090189105254e-05
+    },
+    {
+      "frame": 25.6,
+      "max_relative_edge_strain": 5.768799666738822e-05
+    }
+  ],
+  "unchanged_below_blend": true
+}

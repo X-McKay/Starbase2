@@ -8,7 +8,9 @@ Reviewed: 2026-09-05 UTC
 
 ## Decision
 
-Author six small repository skills around recurring decisions and real work.
+The original catalog authored six small repository skills around recurring
+decisions and real work; the September 7 production review adds two focused
+world-production skills.
 Do not import either predecessor's skill tree. Keep high-value invariants in
 the charter and detailed product semantics in the owning docs; a skill explains
 how to do a task without reciting the whole repository.
@@ -25,6 +27,8 @@ are not presented as available until the walking skeleton adds them.
 | [starbase2-world](../.agents/skills/starbase2-world/SKILL.md) | Original scenes, truthful state, progression UI, parity and actual visual QA |
 | [starbase2-decision](../.agents/skills/starbase2-decision/SKILL.md) | Consequential architecture tradeoffs and bounded experiments |
 | [starbase2-release](../.agents/skills/starbase2-release/SKILL.md) | Proportionate change readiness; separately scoped publication/deployment |
+| [starbase2-3d-assets](../.agents/skills/starbase2-3d-assets/SKILL.md) | Supplied/generated models, credit accounting, Blender preparation and Godot integration |
+| [starbase2-world-qa](../.agents/skills/starbase2-world-qa/SKILL.md) | Physical journeys, native visual/motion review, accessibility and exact local export evidence |
 
 ## Predecessor disposition
 
@@ -142,3 +146,37 @@ factually wrong explanation: the bad output stayed retained and a predeclared
 paired pilot tested the prompt change. World guidance exposed stale-state and
 compact-layout checks. Keep the skills unchanged; there is still no measured
 benefit from extra hooks, packaging, or a merged universal procedure.
+
+
+## World production review — 2026-09-07
+
+Engineering and Vanguard exposed repeatable work beyond the original visual
+spike. Two repository development skills now capture it, with focused Meshy,
+Blender and Godot references and an optional review template. The world skill
+routes to them when applicable. Canonical files remain under `.agents/skills`,
+with matching Claude links and Codex UI metadata. These skills do not alter
+runtime crew builds, tools, memory or production authority.
+
+The [curated lessons](world-production-lessons.md) link observations to retained
+evidence and distinguish model-specific repairs from generally useful practice.
+Existing generation scripts remain concrete examples; no second Meshy client,
+new hook or plugin was added. User approval and total credit accounting persist
+across batches. A new asset does not itself justify another approval prompt.
+
+| Request | Intended handling |
+|---|---|
+| Add a traversable generated hangar with an authored interior | world + 3d-assets; choose only needed generation; verify the continuous physical journey with world-qa |
+| Use this shared character; it may already be animated | 3d-assets; retrieve/inspect the exact source before purchasing any rig or clip |
+| Repair a helmet stretched by walking | 3d-assets Blender reference; reproduce weights/pose defect, use a model-specific region and native motion review |
+| Check a candidate world build for owner review | world-qa; affected behavior, actual native captures and exact artifact qualification |
+| Change a HUD label or fix a docs link | proportionate world/docs checks; no Meshy generation or mandatory export |
+| Generation POST timed out without a task ID | retain reservation and reconcile; no blind retry or new paid task |
+| Tests passed but the owner dislikes the room | record technical pass and visual feedback separately; iterate the requested art scope |
+| Add a runtime agent tool or persistent memory | agent; these development skills do not grant or install runtime capabilities |
+
+These cases are self-reviewed routing/behavior probes. Static skill validation,
+metadata parsing, reference resolution and symlink checks are recorded in
+[evidence](../evidence/world-production-skills/README.md). No paid generation,
+live model evaluation, game rebuild or host-discovery effectiveness claim is
+needed for this documentation-only skill change. Apply the skills on the next
+new asset slice and record gaps before promoting more rules.

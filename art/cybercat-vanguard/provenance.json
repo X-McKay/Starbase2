@@ -1,0 +1,38 @@
+{
+  "source_url": "https://www.meshy.ai/s/GzLfrz",
+  "stages": {
+    "cybercat-vanguard/source": {
+      "task_id": "01a07ca6-670a-771d-ae60-08f7e669bfef",
+      "status": "complete",
+      "consumed_credits": 0
+    },
+    "cybercat-vanguard/rig": {
+      "task_id": "01a07cc4-96db-7038-80e8-d8b5be949533",
+      "status": "complete",
+      "consumed_credits": 5
+    },
+    "cybercat-vanguard/animation": {
+      "task_id": "01a07cc8-df2e-71f7-a169-f710655fa1c8",
+      "status": "complete",
+      "consumed_credits": 3
+    }
+  },
+  "new_credits": 8,
+  "total_project_credits": 208,
+  "approved_cap": 250,
+  "remaining_credits": 42,
+  "source_sha256": "b8fa720460c1061d693591768868d45ac55ee8f1cfcb6df72f4409f33349ad60",
+  "output": "apps/world/art/cybercat-vanguard/vanguard.glb",
+  "output_sha256": "1be1433ffd420a8dbbd72ee03a99fbb06132fad0bb2bdd2b475b06a1c8a0e998",
+  "output_bytes": 8859192,
+  "triangles": 31087,
+  "clips": [
+    "walk",
+    "run",
+    "idle",
+    "console"
+  ],
+  "joints": 24,
+  "texture_limit": 2048,
+  "rigid_region_audit": "evidence/cybercat-vanguard/helmet-audit.json"
+}

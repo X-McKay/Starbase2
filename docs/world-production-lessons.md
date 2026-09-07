@@ -1,0 +1,68 @@
+# World asset production lessons
+
+Status: accepted
+
+Owner: Al McKay. Recorded: 2026-09-07.
+
+Scope: reusable development guidance from the Engineering and CyberCat Vanguard
+slices. This is a curated evidence record, not runtime agent memory or permission
+to generate, publish or deploy. The art direction still awaits the owner's
+judgment; technical qualification is recorded separately.
+
+## Workflows now worth reusing
+
+Use [3D asset production](../.agents/skills/starbase2-3d-assets/SKILL.md) for
+retrieval/generation, Blender preparation and integration, and
+[world QA](../.agents/skills/starbase2-world-qa/SKILL.md) for playable verification
+and review artifacts. The original [world skill](../.agents/skills/starbase2-world/SKILL.md)
+continues to own truthful state and interaction semantics. The installed Meshy
+skill owns endpoint/client details; these new skills add project experience.
+
+| Observed issue and evidence | Reusable practice | Scope / what not to assume |
+|---|---|---|
+| Vanguard's shared GLB had no skin or clips; [source provenance](../art/cybercat-vanguard/provenance.json) records the exact asset | Inspect actual file contents before promising animation or regenerating a model | A model viewer pose or a newer model version does not prove better animation |
+| Website task metadata was readable but rigging by task ID returned HTTP 400; the returned GLB URL succeeded ([record](../evidence/cybercat-vanguard/README.md)) | Keep a supported source-URL path after a definite task-ID rejection; retain the original failure | This is not a reason to blindly retry every failure or bypass an uncertain submission |
+| An earlier 60-credit batch and a 140-credit Engineering batch initially had separate accounting; Vanguard added 8 ([provenance](../art/engineering-polish/provenance.json)) | Count prior batches and pending reservations under the user's total cap; reuse existing authorization | Provider account balance is not the authorized budget; historical prices are not future quotes |
+| Engineering bounds included a rig control Icosphere ([inspection](../evidence/engineering-polish/rig-inspection.log)) | Select intended skinned meshes and update evaluated transforms before measuring/exporting | Do not rescale a valid character to compensate for unrelated control geometry |
+| Imported bone tails exceeded joint spacing; console baking also lost correct hierarchy ([record](../evidence/engineering-polish/README.md)) | Reproduce the tail defect; preserve bind orientation and bake parent-relative transforms/action slots | No universal tail multiplier or bone naming convention is established |
+| Face/helmet vertices had shoulder influence ([Vanguard weights](../evidence/cybercat-vanguard/source-weights.json)) | Locate the actual collar, stabilize the rigid region and preserve a flexible neck transition | Do not copy a previous model's height threshold or certify the entire character from one region |
+| The first Vanguard audit included nearly rigid neck vertices; [final audit](../evidence/cybercat-vanguard/helmet-audit.json) measures fully rigid vertices | Define the measured region and units; match export influence limits before measurement | A changed selection needs explanation; do not relax thresholds just to pass |
+| Generated hull shape exposed authored rear-wall/furniture geometry in exterior views ([iterations](../evidence/engineering-polish/README.md)) | Review both exterior and cutaway; align collision, doorway, visibility and interior dressing | A plausible Blender render does not prove physical access or correct native occlusion |
+| Character speed shared a short walking stride; [cadence check](../apps/world/test_run_cadence.gd) now measures physical travel and contacts | Use displacement-driven walk/run cadence, collision-stop and reduced-motion tests | 1.6 m / 2.8 m are current player settings, not universal rig values |
+| An interior reveal assertion sampled before the physics update ([record](../evidence/engineering-polish/README.md)) | Wait for the relevant update and test observable arrival/visibility | Do not hide a timing defect behind arbitrary long sleeps or repeated retries |
+| The first standalone capture ended without an interior image; [qualification log](../evidence/engineering-polish/package-qualified.log) passed after retaining a bounded wall-clock wait | Let capture completion end the scene, preserve failed attempts and require real exported images | The precise OS drawable timing was not independently isolated; do not label every missing capture the same bug |
+| Local source continued evolving between reviews; the [export runner](../scripts/check_world_export.py) binds source/artifact hashes | Freeze the source during qualification and publish a new local artifact for later changes | A previously qualified package does not certify subsequent source edits |
+
+## Evidence and reusable implementations
+
+- [Engineering review](../art/engineering-polish/REVIEW.md): concept to hull/reactor,
+  authored interior, tested continuous journeys, native captures and limitations.
+- [Vanguard review](../art/cybercat-vanguard/README.md): exact supplied asset,
+  rigging, 2K game textures, face/helmet stabilization and runtime selection.
+- [Preparation](../art/engineering-polish/prepare_character.py),
+  [rigid-region audit](../art/engineering-polish/audit_character.py), and
+  [building connection](../art/engineering-polish/connect_engineering.py): working
+  implementations with asset-specific assumptions to inspect before reuse.
+- [World checks](../scripts/check_world.py) and
+  [standalone qualification](../scripts/check_world_export.py): executable checks,
+  not a substitute for inspecting their actual coverage and native output.
+
+Raw generation originals remain in ignored `meshy_output`; qualified local
+packages/manifests remain under `.local`. Keep selected sanitized provenance and
+review evidence in the repository. Do not treat machine-local artifacts as
+available on every checkout or automatically export credentials/signed URLs.
+
+## How this record improves
+
+At the next structure/character slice, the implementing agent records a concrete
+failure or success, evidence, cause or uncertainty, correction, scope and an
+observable regression check. Al owns visual acceptance and review of material
+workflow changes. Promote a short instruction only when it changes a future
+decision; keep case-specific detail with the slice. Remove or narrow guidance
+that causes unnecessary generation, approvals, tests or incorrect routing.
+
+Completion condition for the next skill review: apply these skills to one new
+structure or character, retain the resulting native/package evidence as relevant,
+and record which instructions helped, misrouted or missed a failure. The current
+skills have static validation and scenario self-review, not an independent
+behavioral effectiveness study or verified discovery in every host.

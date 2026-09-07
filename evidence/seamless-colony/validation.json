@@ -1,0 +1,25 @@
+{
+  "branch": "feature/meshy-blender",
+  "world_and_native_command_suite": "passed",
+  "five_physical_journeys": "passed",
+  "native_visual_review": [
+    "Engineering",
+    "Command",
+    "Training",
+    "Habitat",
+    "Botanical House",
+    "colony overview"
+  ],
+  "unsigned_macos_export": "qualified",
+  "export_manifest": ".local/seamless-colony-final/manifest.json",
+  "documentation": "passed",
+  "python_lint": "passed",
+  "diff_whitespace": "passed",
+  "additional_meshy_credits": 0,
+  "limitations": [
+    "Shared Cybercat geometry with role colors, not six unique sculpts",
+    "Legacy illustrated portraits remain",
+    "No facial animation, hand/foot IK or authored work gestures",
+    "Not deployed, signed, or web-qualified"
+  ]
+}

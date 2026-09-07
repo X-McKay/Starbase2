@@ -1,0 +1,631 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+50 definition/host fixture creation ms: 322.245
+ERROR: Interior anchor unreachable: gym.tres
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Navigation entered declared building footprint
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No physics under declared footprint
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Navigation entered declared building footprint
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No physics under declared footprint
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Navigation entered declared building footprint
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No physics under declared footprint
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: No operational status may be inferred from building art
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: Every definition gets common doorway anchors
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)
+ERROR: One shared host owns declared physics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_buildings.gd:112)

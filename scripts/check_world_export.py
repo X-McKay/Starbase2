@@ -133,8 +133,9 @@ def main() -> None:
             run(
                 [
                     *common,
-                    "--quit-after",
-                    "720",
+                    # The scene exits after writing its rendered capture. Keep
+                    # the wall-clock timeout in run(); a frame cutoff can exit
+                    # while a macOS window is still awaiting a drawable.
                     "--",
                     "--fixture=" + str(fixture),
                     "--frames=600",

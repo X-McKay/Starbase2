@@ -3,7 +3,7 @@ extends RefCounted
 const Geography = preload("res://geography.gd")
 const Surface = preload("res://surface_layout.gd")
 const Buildings = preload("res://building_catalog.gd")
-static var STRUCTURES: Array[Rect2] = Buildings.structure_bounds()
+static var STRUCTURES: Array[Rect2] = Buildings.navigation_bounds()
 const PROPS := Surface.NATURAL_BLOCKS+Surface.UTILITY_BLOCKS+[Rect2(-6.5,5.6,2,0.85),Rect2(4.5,5.6,2,0.85),Rect2(-4.8,-1.4,1,0.7)]
 static var BLOCKS: Array[Rect2] = inflated_blocks()
 var grid := AStarGrid2D.new()

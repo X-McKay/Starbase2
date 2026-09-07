@@ -17,6 +17,8 @@ extends Resource
 @export var pad_margin := Vector4(1.5,1.5,1.5,1.5)
 @export_file("*.tscn") var yard_scene := ""
 @export_file("*.tscn") var interior_scene := ""
+@export var seamless := false
+@export var room_blocks: Array[Rect2] = []
 @export var interior_bounds := Rect2(-4.6,-4.6,9.2,9.2)
 
 func problems() -> PackedStringArray:
@@ -34,3 +36,12 @@ func problems() -> PackedStringArray:
 			if rect.grow(0.4).has_point(Vector2(point.x,point.z)): errors.append("Entrance approach/return intersects collision")
 	if not interior_scene.is_empty() and (interior_bounds.size.x<=0 or interior_bounds.size.y<=0): errors.append("Interior bounds must have positive area")
 	return errors
+
+func shell_bounds() -> Array[Rect2]:
+	if not seamless: return collision_boxes
+	var r := collision_boxes[0]
+	var door := threshold.x
+	return [Rect2(r.position,Vector2(r.size.x,0.2)),Rect2(r.position,Vector2(0.2,r.size.y)),Rect2(Vector2(r.end.x-0.2,r.position.y),Vector2(0.2,r.size.y)),Rect2(Vector2(r.position.x,r.end.y-0.2),Vector2(door-1.25-r.position.x,0.2)),Rect2(Vector2(door+1.25,r.end.y-0.2),Vector2(r.end.x-door-1.25,0.2))]
+
+func navigation_bounds() -> Array[Rect2]:
+	return shell_bounds()+room_blocks

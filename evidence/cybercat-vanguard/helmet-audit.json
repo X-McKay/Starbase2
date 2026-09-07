@@ -1,0 +1,26 @@
+{
+  "rigid_helmet_vertices": 15565,
+  "clips": [
+    {
+      "clip": "idle",
+      "samples": 25,
+      "max_rigid_helmet_deformation_m": 6.801409726587979e-07
+    },
+    {
+      "clip": "walk",
+      "samples": 25,
+      "max_rigid_helmet_deformation_m": 6.52849105550692e-07
+    },
+    {
+      "clip": "run",
+      "samples": 25,
+      "max_rigid_helmet_deformation_m": 6.829599972211009e-07
+    },
+    {
+      "clip": "console",
+      "samples": 25,
+      "max_rigid_helmet_deformation_m": 4.682376401268997e-07
+    }
+  ],
+  "scope": "Measures repaired rigid region; visual review also required for collar and limbs."
+}

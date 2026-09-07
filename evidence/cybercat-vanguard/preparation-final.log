@@ -1,0 +1,25 @@
+12:54:54 | INFO: Data are loaded, start creating Blender stuff
+12:54:54 | INFO: Blender create Mesh node char1
+12:54:55 | INFO: glTF import finished in 0.12s
+Info: Saved as "vanguard-imported.blend"
+12:54:55 | INFO: Data are loaded, start creating Blender stuff
+12:54:55 | INFO: Blender create Mesh node char1
+12:54:55 | INFO: glTF import finished in 0.10s
+12:54:55 | INFO: Data are loaded, start creating Blender stuff
+12:54:55 | INFO: Blender create Mesh node char1
+12:54:55 | INFO: glTF import finished in 0.12s
+12:54:55 | INFO: Data are loaded, start creating Blender stuff
+12:54:55 | INFO: Blender create Mesh node char1
+12:54:55 | INFO: glTF import finished in 0.11s
+Info: Saved as "vanguard.blend"
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+12:54:59 | INFO: Starting glTF 2.0 export
+12:54:59 | INFO: Extracting primitive: char1
+12:55:01 | INFO: Primitives created: 1
+12:55:01 | INFO: Finished glTF 2.0 export in 2.312082052230835 s
+
+ENGINEER_EXPORTED ['walk', 'run', 'idle', 'console']
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit

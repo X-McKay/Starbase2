@@ -4,7 +4,14 @@
 script = ExtResource("1")
 id = &"habitat"
 title = "PIONEER HABITAT"
-exterior_image = "res://buildings/art/habitat.png"
 image_pixel_size = 0.014
 image_door_pixel = Vector2(670, 825)
 collision_boxes = Array[Rect2]([Rect2(-8,-8.65,17.35,10.2)])
+seamless = true
+exterior_scene = "res://buildings/exteriors/habitat-continuous.tscn"
+interior_scene = "res://buildings/interiors/habitat-continuous.tscn"
+interior_bounds = Rect2(-7.7600,-8.4100,16.8700,9.7200)
+threshold = Vector3(0.6750,0.0000,1.5500)
+approach = Vector3(0.6750,0.0000,2.4000)
+return_point = Vector3(0.6750,0.0000,3.1000)
+room_blocks = Array[Rect2]([Rect2(-5.6800,-8.0500,2.3000,2.0000),Rect2(-0.4750,-8.0500,2.3000,2.0000),Rect2(4.7300,-8.0500,2.3000,2.0000),Rect2(2.5250,-0.9500,1.5000,0.9000)])

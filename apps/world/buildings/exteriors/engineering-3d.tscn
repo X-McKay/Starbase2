@@ -1,0 +1,4 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="PackedScene" path="res://art/meshy/engineering-exterior.glb" id="model"]
+[node name="EngineeringExterior" type="Node3D"]
+[node name="MeshyHull" parent="." instance=ExtResource("model")]

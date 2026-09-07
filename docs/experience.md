@@ -1,6 +1,29 @@
 # A world worth watching
 
+The [Meshy/Blender pass](meshy-blender.md) implements the owner's native 3D direction
+across the five-building colony and shared skeletal crew roster. Walk through
+opening airlocks into furnished interiors as roofs fade and the camera eases in.
+Structured inspection and authoritative state remain available. This supersedes
+the earlier sprite-only and detached-room presentation on this branch.
+
 Status: proposed
+
+## Faster exploration and expansion land · 2026-09-07
+
+Keyboard and click-route travel now use 6 m/s (previously 3.7 m/s). Route steps
+cap movement to the remaining distance so the faster pace cannot overshoot a
+nearby waypoint. Actual displacement continues to drive the existing walk clip.
+Visible Zoom in/out buttons, +/− keys and the wheel share bounded zoom in outdoor,
+interior and map views. Reduced motion applies zoom immediately.
+
+The playable outline is 40% wider and 35% deeper, providing 89% more area. Existing
+structures keep their coordinates. The same expanded outline owns the cap,
+cliff collision, navigation and northern mainland seam; the overview camera fits
+the larger plateau. A subsequent rear expansion adds another 35% width at the
+northern edge, tapering smoothly to the unchanged midsection and front. Northern
+shoreline anchors follow the widened shoulders. New construction, roads and
+district assets are future work.
+See [exploration evidence](../evidence/colony-expansion/README.md).
 
 ## Asset-driven buildings · 2026-09-06
 
@@ -215,3 +238,11 @@ a bounded burst of 100 updates/second. These are proposed test conditions,
 not measured system capacity. Record frame time, memory, startup/download,
 projection lag, and time to reach evidence. Stop expanding the map until the
 small scene is readable, enjoyable, and technically sound.
+
+The Engineering review slice adds a generated PBR hull and reactor around an
+authored continuous interior. The player uses CyberCat Vanguard; Mender retains the detailed Engineering
+suit. Running follows actual displacement; Mender's console
+gesture follows local inspection in Engineering, never inferred operational
+activity. Reduced motion freezes the decorative effects and skeletal animation;
+reactor sound defaults off. The [review notes](../art/engineering-polish/REVIEW.md)
+define the bounded milestone and remaining visual review.

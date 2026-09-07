@@ -9,3 +9,7 @@ node_modules/
 .env.*
 !.env.example
 .local/
+meshy_output/
+art/meshy-blender/*.blend1
+# Blender recovery copies are local, not selected production sources.
+art/**/*.blend[0-9]*

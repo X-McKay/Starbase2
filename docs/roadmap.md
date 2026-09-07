@@ -1,5 +1,15 @@
 # Delivery plan
 
+## Meshy/Blender continuation · 2026-09-07
+
+The [continuous colony pass](meshy-blender.md) covers all five buildings and six
+placed skeletal characters. Engineering is expanded into a shared continuous
+entry, console and exit journey. Owner: implementation assistant, with art review
+by Al. Bespoke character silhouettes, new matching portraits and work gestures
+remain a further art pass, gated on native animation/collision review. Existing
+crew share the repaired Cybercat geometry with role colors. This supersedes the
+older sprite-only and detached-room rollout for this branch.
+
 Status: proposed
 
 ## Implemented local repair extension · 2026-09-05
@@ -204,7 +214,6 @@ approved illustrated crew in production. The illustrated captain has all four wa
 the colony/interior and packaged macOS game. Next: all EVA 2D walk frames that
 preserve that look, pass shared checks, and receive native visual acceptance. Owner: implementation
 assistant with Al reviewing art. Fifty distinct character textures remain unmeasured.
-
 
 ## Packaged world qualification · 2026-09-06
 

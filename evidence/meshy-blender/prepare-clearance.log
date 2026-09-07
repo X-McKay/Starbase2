@@ -1,0 +1,67 @@
+09:16:06 | INFO: Data are loaded, start creating Blender stuff
+09:16:06 | INFO: Blender create Mesh node 0
+09:16:06 | INFO: glTF import finished in 0.04s
+/Users/al/git/Starbase2/art/meshy-blender/prepare_assets.py:24: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  material.use_nodes = True
+Info: Saved as "engineering-exterior.blend"
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+09:16:06 | INFO: Starting glTF 2.0 export
+09:16:06 | INFO: Extracting primitive: Cube.002
+09:16:06 | INFO: Primitives created: 1
+09:16:06 | INFO: Extracting primitive: Cube.001
+09:16:06 | INFO: Primitives created: 1
+09:16:06 | INFO: Extracting primitive: Cube.012
+09:16:06 | INFO: Primitives created: 1
+09:16:06 | INFO: Extracting primitive: Mesh_0
+09:16:06 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+09:16:06 | INFO: Primitives created: 1
+09:16:06 | INFO: Extracting primitive: Cube.032
+09:16:06 | INFO: Primitives created: 1
+09:16:06 | INFO: Extracting primitive: Cube.011
+09:16:06 | INFO: Primitives created: 1
+09:16:06 | INFO: Extracting primitive: Cube.007
+09:16:06 | INFO: Primitives created: 1
+09:16:06 | INFO: Finished glTF 2.0 export in 0.0792088508605957 s
+
+09:16:06 | INFO: Data are loaded, start creating Blender stuff
+09:16:06 | INFO: Blender create Mesh node 0
+09:16:06 | INFO: glTF import finished in 0.04s
+Info: Saved as "reactor-apparatus.blend"
+09:16:06 | INFO: Starting glTF 2.0 export
+09:16:06 | INFO: Extracting primitive: Mesh_0.001
+09:16:06 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+09:16:06 | INFO: Primitives created: 1
+09:16:06 | INFO: Finished glTF 2.0 export in 0.08805084228515625 s
+
+[
+  {
+    "asset": "engineering-exterior",
+    "preview_task": "01a07bf9-4397-713e-a518-95322f35e45b",
+    "texture_task": "01a07bfa-8427-7135-9aaa-78769cf4f7c4",
+    "credits": 30,
+    "source_sha256": "4e48064590c7e3ec5f57d312a9dff79eef6dcbf3cb449ee633c40725028415ea",
+    "output": "apps/world/art/meshy/engineering-exterior.glb",
+    "output_sha256": "53604d302f2712e60c72032877d79074cb845e51e964a1a42216d81a8cb6be26",
+    "bytes": 8896372,
+    "scale": 5.273712154493591,
+    "removed_ground_vertices": 985,
+    "triangles": 29949
+  },
+  {
+    "asset": "reactor-apparatus",
+    "preview_task": "01a07bf9-9adf-76b6-b5ed-8daad4bc429b",
+    "texture_task": "01a07bfb-3907-75fb-aafa-25574e569aef",
+    "credits": 30,
+    "source_sha256": "5cc1365d65a4bcb00b8d552aaa05a0930deb20fb9cee1d6705d93f454895c427",
+    "output": "apps/world/art/meshy/reactor-apparatus.glb",
+    "output_sha256": "a242f7ba306e9eae22c3e6deacfc2dd0da8052d71ca376e3101fa5f05123d956",
+    "bytes": 12160796,
+    "scale": 0.9438701091225181,
+    "removed_ground_vertices": 0,
+    "triangles": 29960
+  }
+]
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit

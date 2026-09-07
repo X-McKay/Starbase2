@@ -13,6 +13,7 @@ signal repair_requested(scenario: String, mode: String)
 signal cancel_requested
 signal selection_changed(id: String)
 signal settings_changed
+signal zoom_requested(direction: int)
 signal map_requested
 signal room_requested(kind: String)
 signal exit_requested
@@ -118,6 +119,19 @@ func _ready() -> void:
 	button(top,"Map  [M]",func(): map_requested.emit())
 	button(top,"Crew  [Tab]",toggle_directory)
 	button(top,"Journal  [J]",func(): journal_requested.emit())
+	var zoom_controls := HBoxContainer.new()
+	root.add_child(zoom_controls)
+	zoom_controls.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
+	zoom_controls.grow_horizontal=Control.GROW_DIRECTION_BEGIN
+	zoom_controls.offset_left=-310
+	zoom_controls.offset_right=-26
+	zoom_controls.offset_top=76
+	var zoom_in := button(zoom_controls,"Zoom in  [+]",func(): zoom_requested.emit(-1))
+	zoom_in.name="ZoomIn"
+	zoom_in.tooltip_text="Zoom in · + or mouse wheel up"
+	var zoom_out := button(zoom_controls,"Zoom out  [−]",func(): zoom_requested.emit(1))
+	zoom_out.name="ZoomOut"
+	zoom_out.tooltip_text="Zoom out · - or mouse wheel down"
 	room_exit=button(root,"Return to colony  [F]",func(): exit_requested.emit())
 	room_exit.custom_minimum_size=Vector2(240,40)
 	room_exit.position=Vector2(28,112)
@@ -264,7 +278,7 @@ func _ready() -> void:
 	hc.add_theme_constant_override("separation",12)
 	help.add_child(hc)
 	text(hc,"FIELD GUIDE & COMFORT",18,"efd29d")
-	text(hc,"WASD / arrows: walk    Mouse: choose path\nE: crew / console    F: enter nearby room / leave interior\n1–5: inspect crew    Visit this room: travel directly\nTab: directory    Enter: focused control    Esc: close\nC: follow / room camera    M: colony map\nWheel: zoom    B: command board    J: journal\nHabitat, shuttle and reserved sites are decorative.",15)
+	text(hc,"WASD / arrows: move    Mouse: choose path\nE: crew / console    F: enter nearby room / leave interior\n1–5: inspect crew    Visit this room: travel directly\nTab: directory    Enter: focused control    Esc: close\nC: follow / room camera    M: colony map\n+ / - or wheel: zoom    B: command board    J: journal\nHabitat, shuttle and reserved sites are decorative.",15)
 	var rm := CheckButton.new()
 	rm.text = "Reduced motion (room cuts, still crew)"
 	rm.toggled.connect(func(value: bool): reduced=value; settings_changed.emit())

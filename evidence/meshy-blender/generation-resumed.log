@@ -1,0 +1,29 @@
+TASK_CREATED: 01a07bf9-9adf-76b6-b5ed-8daad4bc429b
+  [███████████████░░░░░] 77% — IN_PROGRESS (0s, poll #1)
+  [█████████████████░░░] 88% — IN_PROGRESS (5s, poll #2)
+  [███████████████████░] 99% — IN_PROGRESS (12.5s, poll #3)
+  [███████████████████░] 99% — IN_PROGRESS (27.5s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (42.5s, poll #5)
+  [████████████████████] 100% — SUCCEEDED (57.5s, poll #6)
+TASK_CREATED: 01a07bfa-8427-7135-9aaa-78769cf4f7c4
+  [███████████████████░] 99% — IN_PROGRESS (0s, poll #1)
+  [███████████████████░] 99% — IN_PROGRESS (15s, poll #2)
+  [███████████████████░] 99% — IN_PROGRESS (30s, poll #3)
+  [████████████████████] 100% — SUCCEEDED (45s, poll #4)
+TASK_CREATED: 01a07bfb-3907-75fb-aafa-25574e569aef
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (0s, poll #1)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (5s, poll #2)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (12.5s, poll #3)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (23.75s, poll #4)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████░░░░░] 78% — IN_PROGRESS (65.9375s, poll #6)
+  [████████████████████] 100% — SUCCEEDED (95.9375s, poll #7)
+Downloading /Users/al/git/Starbase2/meshy_output/20260907_090529_engineering-exterior_01a07bf9/refined.glb...
+DOWNLOADED: /Users/al/git/Starbase2/meshy_output/20260907_090529_engineering-exterior_01a07bf9/refined.glb (8.4 MB)
+  [███████████████░░░░░] 78% — IN_PROGRESS (0s, poll #1)
+  [███████████████░░░░░] 78% — IN_PROGRESS (5s, poll #2)
+  [██████████████████░░] 90% — IN_PROGRESS (12.5s, poll #3)
+  [████████████████████] 100% — SUCCEEDED (23.75s, poll #4)
+Downloading /Users/al/git/Starbase2/meshy_output/20260907_090552_reactor-apparatus_01a07bf9/refined.glb...
+DOWNLOADED: /Users/al/git/Starbase2/meshy_output/20260907_090552_reactor-apparatus_01a07bf9/refined.glb (11.8 MB)
+BATCH_COMPLETE

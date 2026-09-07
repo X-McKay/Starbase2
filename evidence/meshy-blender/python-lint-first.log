@@ -1,0 +1,183 @@
+E501 Line too long (103 > 100)
+  --> art/meshy-blender/build_interior.py:90:101
+   |
+88 |     box("Monitor display", (x,3.26,1.30), (1.31,0.035,0.52), screen)
+89 |     for row in range(4):
+90 |         box("Decorative screen row", (x-0.12,3.235,1.12+row*0.10), (0.93-row*0.13,0.008,0.023), cyan,0)
+   |                                                                                                     ^^^
+91 |     for knob in range(6):
+92 |         box("Console key", (x-0.5+knob*0.20,3.04,0.99), (0.075,0.11,0.025), cyan,0.004)
+   |
+
+E501 Line too long (103 > 100)
+   --> art/meshy-blender/build_interior.py:118:101
+    |
+116 | bpy.ops.wm.save_as_mainfile(filepath=str(root / "art/meshy-blender/engineering-interior.blend"))
+117 | for mat in (ivory,graphite,steel,floor,cyan,amber,screen):
+118 |     objects=[obj for obj in bpy.context.scene.objects if obj.type=="MESH" and obj.active_material==mat]
+    |                                                                                                     ^^^
+119 |     bpy.ops.object.select_all(action="DESELECT")
+120 |     for obj in objects: obj.select_set(True)
+    |
+
+E701 Multiple statements on one line (colon)
+   --> art/meshy-blender/build_interior.py:120:23
+    |
+118 |     objects=[obj for obj in bpy.context.scene.objects if obj.type=="MESH" and obj.active_material==mat]
+119 |     bpy.ops.object.select_all(action="DESELECT")
+120 |     for obj in objects: obj.select_set(True)
+    |                       ^
+121 |     bpy.context.view_layer.objects.active=objects[0]
+122 |     bpy.ops.object.join()
+    |
+
+E501 Line too long (141 > 100)
+   --> art/meshy-blender/build_interior.py:124:101
+    |
+122 | …
+123 | …
+124 | …ld/art/meshy/engineering-interior.glb"), export_format="GLB", export_animations=False)
+    |                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+125 | …),"material batches")
+    |
+
+E501 Line too long (107 > 100)
+ --> art/meshy-blender/export_character.py:3:101
+  |
+1 | """Export the inspected Meshy source with Blender 5.2.1, outside the live session.
+2 |
+3 | blender --background art/meshy-blender/cybercat-source.blend --python art/meshy-blender/export_character.py
+  |                                                                                                     ^^^^^^^
+4 | """
+5 | from pathlib import Path
+  |
+
+E501 Line too long (109 > 100)
+  --> art/meshy-blender/export_character.py:30:101
+   |
+28 |     bpy.context.scene.frame_set(int(frame), subframe=frame % 1)
+29 |     for bone in rig.pose.bones:
+30 |         samples[bone.name].append((bone.rotation_quaternion.copy(), bone.location.copy(), bone.scale.copy()))
+   |                                                                                                     ^^^^^^^^^
+31 | idle = bpy.data.actions.new("idle")
+32 | rig.animation_data.action = idle
+   |
+
+E501 Line too long (117 > 100)
+  --> art/meshy-blender/export_character.py:38:101
+   |
+36 |     aligned = [q if q.dot(reference) >= 0 else -q for q, _, _ in values]
+37 |     bone.rotation_mode = "QUATERNION"
+38 |     bone.rotation_quaternion = Quaternion([sum(q[i] for q in aligned) / len(aligned) for i in range(4)]).normalized()
+   |                                                                                                     ^^^^^^^^^^^^^^^^^
+39 |     bone.location = sum((v[1] for v in values), Vector()) / len(values)
+40 |     bone.scale = sum((v[2] for v in values), Vector()) / len(values)
+   |
+
+E402 Module level import not at top of file
+  --> art/meshy-blender/generate_assets.py:11:1
+   |
+ 9 |   root = Path(__file__).resolve().parents[2]
+10 |   sys.path.insert(0, str(root / ".agents/skills/meshy-3d-generation/scripts"))
+11 | / from meshy_task import (
+12 | |     create_task,
+13 | |     download,
+14 | |     get_project_dir,
+15 | |     poll_task,
+16 | |     record_task,
+17 | |     save_thumbnail,
+18 | | )
+   | |_^
+19 |
+20 |   plan = json.loads((Path(__file__).with_name("generation-plan.json")).read_text())
+   |
+help: Move module level imports to top of file
+
+E501 Line too long (113 > 100)
+  --> art/meshy-blender/generate_assets.py:26:101
+   |
+24 |     assert len(asset["prompt"]) <= 600
+25 | tasks = json.loads(ledger.read_text())["tasks"] if ledger.exists() else []
+26 | assert all(not item["status"].startswith("submitting") for item in tasks), "Reconcile uncertain submission first"
+   |                                                                                                     ^^^^^^^^^^^^^
+27 | endpoint = "/openapi/v2/text-to-3d"
+   |
+
+E501 Line too long (101 > 100)
+  --> art/meshy-blender/generate_assets.py:47:101
+   |
+45 |         "should_remesh": True, "target_formats": ["glb"],
+46 |     })
+47 |     item.update(preview=task, directory=get_project_dir(task, asset["id"]), status="preview_pending")
+   |                                                                                                     ^
+48 |     save()
+49 |     record_task(item["directory"], task, "text-to-3d", "preview", prompt=prompt)
+   |
+
+E501 Line too long (211 > 100)
+  --> art/meshy-blender/generate_assets.py:62:101
+   |
+60 | …
+61 | …
+62 | …seams, restrained cyan luminous accents, subtle industrial wear, realistic roughness and metal, clean readable surfaces.",
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+63 | …
+64 | …
+   |
+
+E501 Line too long (101 > 100)
+  --> art/meshy-blender/generate_assets.py:78:101
+   |
+76 |     if result.get("thumbnail_url"):
+77 |         save_thumbnail(item["directory"], result["thumbnail_url"])
+78 |     record_task(item["directory"], item["refine"], "text-to-3d", "downloaded", files=["refined.glb"])
+   |                                                                                                     ^
+79 |     item["status"] = "downloaded"
+80 |     save()
+   |
+
+E501 Line too long (110 > 100)
+   --> art/meshy-blender/prepare_assets.py:109:101
+    |
+107 |         # Batch added repeated parts by material after preserving their geometry.
+108 |         for mat in list(bpy.data.materials):
+109 |             pieces=[obj for obj in bpy.context.scene.objects if obj.type=="MESH" and obj.active_material==mat]
+    |                                                                                                     ^^^^^^^^^^
+110 |             if len(pieces)<2: continue
+111 |             bpy.ops.object.select_all(action="DESELECT")
+    |
+
+E701 Multiple statements on one line (colon)
+   --> art/meshy-blender/prepare_assets.py:110:29
+    |
+108 |         for mat in list(bpy.data.materials):
+109 |             pieces=[obj for obj in bpy.context.scene.objects if obj.type=="MESH" and obj.active_material==mat]
+110 |             if len(pieces)<2: continue
+    |                             ^
+111 |             bpy.ops.object.select_all(action="DESELECT")
+112 |             for obj in pieces: obj.select_set(True)
+    |
+
+E701 Multiple statements on one line (colon)
+   --> art/meshy-blender/prepare_assets.py:112:30
+    |
+110 |             if len(pieces)<2: continue
+111 |             bpy.ops.object.select_all(action="DESELECT")
+112 |             for obj in pieces: obj.select_set(True)
+    |                              ^
+113 |             bpy.context.view_layer.objects.active=pieces[0]
+114 |             bpy.ops.object.join()
+    |
+
+E501 Line too long (102 > 100)
+  --> art/meshy-blender/repair_head_weights.py:74:101
+   |
+72 | for index, point in enumerate(points):
+73 |     if point.z <= blend_bottom:
+74 |         assert original[index] == tuple((g.group, g.weight) for g in mesh.data.vertices[index].groups)
+   |                                                                                                     ^^
+75 | report = {
+76 |     "source": "art/meshy-blender/cybercat-source.blend",
+   |
+
+Found 18 errors (2 fixed, 16 remaining).

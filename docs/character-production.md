@@ -1,5 +1,19 @@
 # Character production
 
+Terminology: the [content taxonomy](content-organization.md) defines the target
+`assets-production/` and `apps/world/assets/` categories. Existing paths and
+commands below remain current until the coordinated migration; buildings map to
+structures, while crew roles and room IDs retain their product meaning.
+
+## Native Meshy model pass · 2026-09-07
+
+The owner now supports native 3D characters. The [Meshy/Blender pass](meshy-blender.md)
+enables the repaired Cybercat skeleton across six placed crew, with role colors,
+displacement-driven walking, blended turns/poses and idle breathing. Illustrations
+remain portraits and fallback resources. Reduced motion selects a static pose.
+This supersedes the sprite-only recommendation below for this branch; the earlier
+rejected segmented models remain unapproved. Bespoke roster geometry remains open.
+
 Status: accepted for the shared runtime and four-direction captain cycle; the remaining roster artwork is open.
 
 ## Visual decision · 2026-09-06
@@ -188,3 +202,19 @@ compact interior. It rejects logged errors, missing completion/captures, source
 changes during the run and nonempty output directories. SHA-256 provenance binds
 the archive, executable, PCK, inputs and captured evidence. This is an unsigned
 private macOS candidate; Linux/backend deployment has separate gates.
+
+
+## CyberCat Vanguard · September 7, 2026
+
+The player now uses the exact user-supplied Vanguard model, with a new 24-bone
+rig, walk/run/idle and a locally baked console clip. The original shared GLB
+was unrigged; these were added, not inherited as existing animations. Blender
+stabilizes the helmet/face above a smoothly blended neck and limits game
+textures to 2K. Mender keeps the separate Engineering suit, and the other crew
+retain the earlier CyberCat asset. Illustrated portraits/fallbacks remain.
+
+Walking and running have separate displacement strides (1.6 m / 2.8 m for the
+player), avoiding an excessively fast walk cadence at 6 m/s. Reduced motion
+selects a fixed idle pose. See [Vanguard provenance and rebuild instructions](../art/cybercat-vanguard/README.md)
+and [review evidence](../evidence/cybercat-vanguard/README.md). This follow-up
+spent 8 credits; total recorded generation is 208 / 250.

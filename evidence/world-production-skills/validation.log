@@ -1,0 +1,16 @@
+starbase2-3d-assets: Skill is valid!
+starbase2-3d-assets: UI metadata valid; normal discovery enabled
+starbase2-3d-assets: Claude symlink resolves to canonical source
+starbase2-3d-assets: references resolve
+starbase2-world-qa: Skill is valid!
+starbase2-world-qa: UI metadata valid; normal discovery enabled
+starbase2-world-qa: Claude symlink resolves to canonical source
+starbase2-world-qa: references resolve
+starbase2-world: Skill is valid!
+starbase2-world: UI metadata valid; normal discovery enabled
+starbase2-world: Claude symlink resolves to canonical source
+starbase2-world: references resolve
+Checked 77 Markdown files and 12 requirement IDs.
+Documentation checks passed.
+git diff --check passed
+Scenario cases: author self-review only; no independent execution or host discovery claim.
