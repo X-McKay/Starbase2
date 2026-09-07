@@ -4,7 +4,7 @@ extends RefCounted
 
 # Zinc-dark surfaces with one orange accent, after the shadcn dark palette.
 const COLORS := {
-	"scrim":"000000b3","surface":"0a0a0cf7","raised":"18181b","inset":"0f0f12",
+	"scrim":"000000b3","surface":"0a0a0cfa","raised":"18181b","inset":"0f0f12",
 	"border":"27272a","border_strong":"3f3f46","accent":"f97316","accent_strong":"fb923c",
 	"ink":"0a0a0a","text":"fafafa","text_2":"d4d4d8","muted":"a1a1aa",
 }
@@ -17,7 +17,10 @@ const TONES := {
 	"no_change":["4ade80","equals"],"paused":["fbbf24","pause"],
 }
 
-const SIZES := {"display":26,"h1":20,"h2":16,"body":15,"small":13,"micro":11}
+# Angular chrome: one small radius everywhere, so edges read as panels, not pills.
+const RADIUS := 2
+
+const SIZES := {"display":26,"h1":20,"h2":16,"body":15,"small":13,"micro":12}
 
 static func color(name: String) -> Color:
 	return Color(COLORS[name])
@@ -47,24 +50,31 @@ static func flat(bg: String, border: String = "", pad: Vector4 = Vector4(14,10,1
 
 static func panel_style(kind: String = "panel", pad: int = 18) -> StyleBoxFlat:
 	match kind:
-		"card": return flat(COLORS.raised,COLORS.border,Vector4(pad,pad*0.75,pad,pad*0.75),8)
-		"inset": return flat(COLORS.inset,COLORS.border,Vector4(pad,pad*0.75,pad,pad*0.75),8)
-		"strip": return flat(COLORS.inset,COLORS.border,Vector4(pad,pad*0.5,pad,pad*0.5),6)
-		"bar": return flat("0a0a0cf2",COLORS.border,Vector4(pad,pad*0.6,pad,pad*0.6),10,1,8)
-		_: return flat(COLORS.surface,COLORS.border,Vector4(pad,pad,pad,pad),10,1,12)
+		"card": return flat(COLORS.raised,COLORS.border,Vector4(pad,pad*0.75,pad,pad*0.75),RADIUS)
+		"inset": return flat(COLORS.inset,COLORS.border,Vector4(pad,pad*0.75,pad,pad*0.75),RADIUS)
+		"strip": return flat(COLORS.inset,COLORS.border,Vector4(pad,pad*0.5,pad,pad*0.5),RADIUS)
+		"bar": return flat("0a0a0cf5",COLORS.border,Vector4(pad,pad*0.6,pad,pad*0.6),RADIUS,1,8)
+		"shell": return flat(COLORS.surface,COLORS.border,Vector4(0,0,0,0),RADIUS,1,12)
+		"header":
+			var h := flat("111114","",Vector4(pad,pad*0.7,pad*0.7,pad*0.7),0)
+			h.border_color=Color(COLORS.border); h.set_border_width(SIDE_BOTTOM,1)
+			return h
+		"mast": return flat("0a0a0cd9",COLORS.border,Vector4(14,8,16,10),RADIUS)
+		_: return flat(COLORS.surface,COLORS.border,Vector4(pad,pad,pad,pad),RADIUS,1,12)
 
 static func _button_styles(theme: Theme, variation: String, normal: String, hover: String, pressed: String, border: String, text_color: String, hover_border: String = "", pad: Vector4 = Vector4(16,8,16,8)) -> void:
 	if variation!="Button": theme.set_type_variation(variation,"Button")
-	theme.set_stylebox("normal",variation,flat(normal,border,pad,8))
-	theme.set_stylebox("hover",variation,flat(hover,hover_border if not hover_border.is_empty() else COLORS.border_strong,pad,8))
-	theme.set_stylebox("pressed",variation,flat(pressed,COLORS.border_strong,pad,8))
-	theme.set_stylebox("disabled",variation,flat("18181b80","27272a",pad,8))
-	var focus := flat("00000000",COLORS.accent,pad,8,2)
+	theme.set_stylebox("normal",variation,flat(normal,border,pad,RADIUS))
+	theme.set_stylebox("hover",variation,flat(hover,hover_border if not hover_border.is_empty() else COLORS.border_strong,pad,RADIUS))
+	theme.set_stylebox("pressed",variation,flat(pressed,COLORS.border_strong,pad,RADIUS))
+	theme.set_stylebox("disabled",variation,flat("18181b80","27272a",pad,RADIUS))
+	# Keyboard focus is the primary navigation signal: a 2 px accent ring plus a tint.
+	var focus := flat("f9731626",COLORS.accent,pad,RADIUS,2)
 	focus.expand_margin_left=2; focus.expand_margin_right=2; focus.expand_margin_top=2; focus.expand_margin_bottom=2
 	theme.set_stylebox("focus",variation,focus)
 	for state in ["font_color","font_hover_color","font_focus_color","font_pressed_color","font_hover_pressed_color"]:
 		theme.set_color(state,variation,Color(text_color))
-	theme.set_color("font_disabled_color",variation,Color("71717a"))
+	theme.set_color("font_disabled_color",variation,Color("8a8a93"))
 
 static func build(large: bool = false) -> Theme:
 	var theme := Theme.new()
@@ -83,29 +93,29 @@ static func build(large: bool = false) -> Theme:
 	_button_styles(theme,"IconButton","00000000","27272a","3f3f46","00000000",COLORS.text_2,"",Vector4(6,4,6,4))
 	theme.set_font_size("font_size","Button",size("body",large))
 	# Option buttons and their popup list.
-	theme.set_stylebox("normal","OptionButton",flat("0a0a0c",COLORS.border,Vector4(14,8,36,8),8))
-	theme.set_stylebox("hover","OptionButton",flat("18181b",COLORS.border_strong,Vector4(14,8,36,8),8))
-	theme.set_stylebox("pressed","OptionButton",flat("18181b",COLORS.accent,Vector4(14,8,36,8),8))
-	theme.set_stylebox("disabled","OptionButton",flat("0a0a0c80","27272a",Vector4(14,8,36,8),8))
+	theme.set_stylebox("normal","OptionButton",flat("0a0a0c",COLORS.border,Vector4(14,8,36,8),RADIUS))
+	theme.set_stylebox("hover","OptionButton",flat("18181b",COLORS.border_strong,Vector4(14,8,36,8),RADIUS))
+	theme.set_stylebox("pressed","OptionButton",flat("18181b",COLORS.accent,Vector4(14,8,36,8),RADIUS))
+	theme.set_stylebox("disabled","OptionButton",flat("0a0a0c80","27272a",Vector4(14,8,36,8),RADIUS))
 	theme.set_stylebox("focus","OptionButton",theme.get_stylebox("focus","Button"))
 	theme.set_color("font_color","OptionButton",color("text"))
 	theme.set_color("font_hover_color","OptionButton",color("text"))
 	theme.set_color("font_focus_color","OptionButton",color("text"))
-	theme.set_stylebox("panel","PopupMenu",flat("0a0a0c",COLORS.border,Vector4(6,6,6,6),8,1,12))
-	theme.set_stylebox("hover","PopupMenu",flat("27272a","",Vector4(10,4,10,4),6))
+	theme.set_stylebox("panel","PopupMenu",flat("0a0a0c",COLORS.border,Vector4(6,6,6,6),RADIUS,1,12))
+	theme.set_stylebox("hover","PopupMenu",flat("27272a","",Vector4(10,4,10,4),RADIUS))
 	theme.set_color("font_color","PopupMenu",color("text"))
 	theme.set_color("font_hover_color","PopupMenu",color("text"))
 	theme.set_font_size("font_size","PopupMenu",size("body",large))
 	# Text inputs.
-	theme.set_stylebox("normal","LineEdit",flat(COLORS.inset,COLORS.border,Vector4(12,8,12,8),8))
-	theme.set_stylebox("focus","LineEdit",flat(COLORS.inset,COLORS.accent,Vector4(12,8,12,8),8,2))
-	theme.set_stylebox("read_only","LineEdit",flat("0a0a0c80","27272a",Vector4(12,8,12,8),8))
+	theme.set_stylebox("normal","LineEdit",flat(COLORS.inset,COLORS.border,Vector4(12,8,12,8),RADIUS))
+	theme.set_stylebox("focus","LineEdit",flat(COLORS.inset,COLORS.accent,Vector4(12,8,12,8),RADIUS,2))
+	theme.set_stylebox("read_only","LineEdit",flat("0a0a0c80","27272a",Vector4(12,8,12,8),RADIUS))
 	theme.set_color("font_color","LineEdit",color("text"))
 	theme.set_color("font_placeholder_color","LineEdit",color("muted"))
 	theme.set_color("caret_color","LineEdit",color("accent"))
-	theme.set_stylebox("normal","TextEdit",flat(COLORS.inset,COLORS.border,Vector4(12,10,12,10),8))
-	theme.set_stylebox("focus","TextEdit",flat(COLORS.inset,COLORS.accent,Vector4(12,10,12,10),8,2))
-	theme.set_stylebox("read_only","TextEdit",flat(COLORS.inset,COLORS.border,Vector4(12,10,12,10),8))
+	theme.set_stylebox("normal","TextEdit",flat(COLORS.inset,COLORS.border,Vector4(12,10,12,10),RADIUS))
+	theme.set_stylebox("focus","TextEdit",flat(COLORS.inset,COLORS.accent,Vector4(12,10,12,10),RADIUS,2))
+	theme.set_stylebox("read_only","TextEdit",flat(COLORS.inset,COLORS.border,Vector4(12,10,12,10),RADIUS))
 	theme.set_color("font_color","TextEdit",color("text_2"))
 	theme.set_color("font_readonly_color","TextEdit",color("text_2"))
 	theme.set_font_size("font_size","TextEdit",size("small",large))
@@ -114,26 +124,28 @@ static func build(large: bool = false) -> Theme:
 	theme.set_color("font_hover_color","CheckButton",color("text"))
 	theme.set_color("font_focus_color","CheckButton",color("text"))
 	theme.set_stylebox("focus","CheckButton",theme.get_stylebox("focus","Button"))
-	theme.set_stylebox("normal","CheckButton",flat("00000000","",Vector4(4,6,4,6),6))
-	theme.set_stylebox("hover","CheckButton",flat("27272a","",Vector4(4,6,4,6),6))
-	theme.set_stylebox("pressed","CheckButton",flat("27272a","",Vector4(4,6,4,6),6))
+	theme.set_stylebox("normal","CheckButton",flat("00000000","",Vector4(4,6,4,6),RADIUS))
+	theme.set_stylebox("hover","CheckButton",flat("27272a","",Vector4(4,6,4,6),RADIUS))
+	theme.set_stylebox("pressed","CheckButton",flat("27272a","",Vector4(4,6,4,6),RADIUS))
 	# Tabs.
 	theme.set_stylebox("panel","TabContainer",flat("00000000","",Vector4(0,12,0,0),0))
-	theme.set_stylebox("tab_selected","TabContainer",flat("0a0a0c",COLORS.border_strong,Vector4(16,6,16,6),6))
-	theme.set_stylebox("tab_unselected","TabContainer",flat("00000000","",Vector4(16,6,16,6),6))
-	theme.set_stylebox("tab_hovered","TabContainer",flat("3f3f46","",Vector4(16,6,16,6),6))
+	var active := flat("0a0a0c","",Vector4(16,6,16,6),RADIUS)
+	active.border_color=Color(COLORS.accent); active.set_border_width(SIDE_BOTTOM,2)
+	theme.set_stylebox("tab_selected","TabContainer",active)
+	theme.set_stylebox("tab_unselected","TabContainer",flat("00000000","",Vector4(16,6,16,6),RADIUS))
+	theme.set_stylebox("tab_hovered","TabContainer",flat("3f3f46","",Vector4(16,6,16,6),RADIUS))
 	theme.set_stylebox("tab_focus","TabContainer",theme.get_stylebox("focus","Button"))
-	theme.set_stylebox("tabbar_background","TabContainer",flat("27272a","",Vector4(4,4,4,4),8))
+	theme.set_stylebox("tabbar_background","TabContainer",flat("27272a","",Vector4(4,4,4,4),RADIUS))
 	theme.set_color("font_selected_color","TabContainer",color("text"))
 	theme.set_color("font_unselected_color","TabContainer",color("muted"))
 	theme.set_color("font_hovered_color","TabContainer",color("text"))
 	theme.set_font_size("font_size","TabContainer",size("body",large))
 	# Scrollbars: slim, visible, no arrows.
 	for bar in ["VScrollBar","HScrollBar"]:
-		theme.set_stylebox("scroll",bar,flat("00000000","",Vector4(3,3,3,3),4))
-		theme.set_stylebox("grabber",bar,flat("3f3f46","",Vector4(0,0,0,0),4))
-		theme.set_stylebox("grabber_highlight",bar,flat("52525b","",Vector4(0,0,0,0),4))
-		theme.set_stylebox("grabber_pressed",bar,flat(COLORS.accent,"",Vector4(0,0,0,0),4))
+		theme.set_stylebox("scroll",bar,flat("18181b","",Vector4(4,4,4,4),RADIUS))
+		theme.set_stylebox("grabber",bar,flat("52525b","",Vector4(0,0,0,0),RADIUS))
+		theme.set_stylebox("grabber_highlight",bar,flat("71717a","",Vector4(0,0,0,0),RADIUS))
+		theme.set_stylebox("grabber_pressed",bar,flat(COLORS.accent,"",Vector4(0,0,0,0),RADIUS))
 	theme.set_stylebox("panel","ScrollContainer",flat("00000000","",Vector4(0,0,0,0),0))
 	theme.set_stylebox("focus","ScrollContainer",flat("00000000","",Vector4(0,0,0,0),0))
 	# Label variations.
@@ -143,15 +155,15 @@ static func build(large: bool = false) -> Theme:
 		theme.set_font_size("font_size",pair[0],size(pair[2],large))
 	# Panel variations.
 	theme.set_stylebox("panel","PanelContainer",panel_style())
-	for pair in [["Card","card"],["Inset","inset"],["Strip","strip"],["Bar","bar"]]:
+	for pair in [["Card","card"],["Inset","inset"],["Strip","strip"],["Bar","bar"],["Shell","shell"],["Header","header"],["Mast","mast"]]:
 		theme.set_type_variation(pair[0],"PanelContainer")
 		theme.set_stylebox("panel",pair[0],panel_style(pair[1]))
 	theme.set_type_variation("Kbd","PanelContainer")
-	theme.set_stylebox("panel","Kbd",flat("18181b",COLORS.border_strong,Vector4(7,1,7,2),4,1))
+	theme.set_stylebox("panel","Kbd",flat("27272a",COLORS.border_strong,Vector4(7,1,7,2),RADIUS,1))
 	theme.set_type_variation("Chip","PanelContainer")
-	theme.set_stylebox("panel","Chip",flat("18181b",COLORS.border,Vector4(10,4,12,4),14,1))
+	theme.set_stylebox("panel","Chip",flat("18181b",COLORS.border,Vector4(10,4,12,4),RADIUS,1))
 	theme.set_type_variation("Toast","PanelContainer")
-	theme.set_stylebox("panel","Toast",flat("18181bf7",COLORS.border_strong,Vector4(16,10,18,10),8,1,12))
+	theme.set_stylebox("panel","Toast",flat("18181bf7",COLORS.border_strong,Vector4(16,10,18,10),RADIUS,1,12))
 	theme.set_constant("separation","VBoxContainer",8)
 	theme.set_constant("separation","HBoxContainer",8)
 	return theme
@@ -216,6 +228,12 @@ static func section(parent: Node, title: String) -> HBoxContainer:
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation",10)
 	parent.add_child(row)
+	var notch := ColorRect.new()
+	notch.color=color("accent")
+	notch.custom_minimum_size=Vector2(3,12)
+	notch.size_flags_vertical=Control.SIZE_SHRINK_CENTER
+	notch.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	row.add_child(notch)
 	var l := label(row,title.to_upper(),"Eyebrow",false)
 	l.size_flags_vertical=Control.SIZE_SHRINK_CENTER
 	var rule := ColorRect.new()
@@ -246,6 +264,90 @@ static func card(parent: Node, variation: String = "Card", separation: int = 6) 
 	p.add_child(col)
 	return col
 
+## A card with a tone-coloured rail on its leading edge, so a column of records
+## scans by shape and colour before the text is read.
+static func tone_card(parent: Node, variation: String, tone: String, separation: int = 6) -> VBoxContainer:
+	var p := PanelContainer.new()
+	p.theme_type_variation=variation
+	p.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	parent.add_child(p)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation",12)
+	p.add_child(row)
+	var rail := ColorRect.new()
+	rail.color=tone_color(tone)
+	rail.custom_minimum_size=Vector2(3,0)
+	rail.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	row.add_child(rail)
+	var col := VBoxContainer.new()
+	col.add_theme_constant_override("separation",separation)
+	col.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	row.add_child(col)
+	col.set_meta("rail",rail)
+	return col
+
+static func set_card_tone(col: VBoxContainer, tone: String) -> void:
+	col.get_meta("rail").color=tone_color(tone)
+
+## Panel chrome: a bordered shell with a header band and a padded scrolling body.
+static func shell(panel: PanelContainer) -> VBoxContainer:
+	panel.theme_type_variation="Shell"
+	var body := VBoxContainer.new()
+	body.add_theme_constant_override("separation",0)
+	panel.add_child(body)
+	return body
+
+static func header(parent: Node, title: String, subtitle: String, close: Callable, key: String = "Esc") -> Dictionary:
+	var band := PanelContainer.new()
+	band.theme_type_variation="Header"
+	parent.add_child(band)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation",10)
+	band.add_child(row)
+	var titles := VBoxContainer.new()
+	titles.add_theme_constant_override("separation",2)
+	titles.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	titles.size_flags_vertical=Control.SIZE_SHRINK_CENTER
+	row.add_child(titles)
+	var t := label(titles,title,"Title")
+	var sub: Label = label(titles,subtitle,"Muted") if not subtitle.is_empty() else null
+	var extras := HBoxContainer.new()
+	extras.add_theme_constant_override("separation",10)
+	extras.size_flags_vertical=Control.SIZE_SHRINK_CENTER
+	row.add_child(extras)
+	if not key.is_empty():
+		var cap := kbd(row,key)
+		cap.size_flags_vertical=Control.SIZE_SHRINK_CENTER
+	var x := icon_button(row,"×",close,"Close  ["+key+"]")
+	x.size_flags_vertical=Control.SIZE_SHRINK_CENTER
+	return {"band":band,"title":t,"subtitle":sub,"extras":extras,"close":x}
+
+static func scroll_body(parent: Node, pad: int = 18, separation: int = 10) -> VBoxContainer:
+	var scroll := ScrollContainer.new()
+	scroll.follow_focus=true
+	scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.size_flags_vertical=Control.SIZE_EXPAND_FILL
+	parent.add_child(scroll)
+	var margin := MarginContainer.new()
+	margin.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	for side in ["margin_left","margin_top","margin_right","margin_bottom"]: margin.add_theme_constant_override(side,pad)
+	scroll.add_child(margin)
+	var col := VBoxContainer.new()
+	col.add_theme_constant_override("separation",separation)
+	col.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	margin.add_child(col)
+	return col
+
+static func padded_body(parent: Node, pad: int = 18, separation: int = 10) -> VBoxContainer:
+	var margin := MarginContainer.new()
+	margin.size_flags_vertical=Control.SIZE_EXPAND_FILL
+	for side in ["margin_left","margin_top","margin_right","margin_bottom"]: margin.add_theme_constant_override(side,pad)
+	parent.add_child(margin)
+	var col := VBoxContainer.new()
+	col.add_theme_constant_override("separation",separation)
+	margin.add_child(col)
+	return col
+
 static func kbd(parent: Node, key: String) -> PanelContainer:
 	var p := PanelContainer.new()
 	p.theme_type_variation="Kbd"
@@ -255,6 +357,7 @@ static func kbd(parent: Node, key: String) -> PanelContainer:
 	var l := Label.new()
 	l.text=key
 	l.theme_type_variation="Secondary"
+	l.custom_minimum_size.x=14
 	l.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
 	l.mouse_filter=Control.MOUSE_FILTER_IGNORE
 	l.add_theme_color_override("font_color",color("accent"))

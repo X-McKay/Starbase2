@@ -93,7 +93,7 @@ func run() -> void:
 		for column in [hud.board.runs,hud.board.watches,hud.board.memories]:
 			check(column.get_child_count()==1 and column.get_child(0) is PanelContainer,"Board renders one card per record"+tag)
 		for b in hud.board.find_children("*","Button",true,false):
-			if not b.text.is_empty() and not b.clip_text: check(b.get_combined_minimum_size().x>48,"Board button keeps its caption: "+b.text+tag)
+			if not b.text.is_empty() and not b.clip_text and b.theme_type_variation!="IconButton": check(b.get_combined_minimum_size().x>48,"Board button keeps its caption: "+b.text+tag)
 		check(hud.board.launch.disabled and hud.board.watch_save.disabled,"Fixture keeps mutations disabled"+tag)
 		var glyphs: Array = hud.board.find_children("Glyph","",true,false)
 		check(glyphs.size()>=5,"Board records carry shape glyphs"+tag)

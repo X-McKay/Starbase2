@@ -71,28 +71,14 @@ func _ready() -> void:
 	theme=UI.build(large_text)
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	offset_left=28; offset_right=-28; offset_top=112; offset_bottom=-135
-	var col := VBoxContainer.new()
-	col.add_theme_constant_override("separation",10)
-	add_child(col)
-	var heading := HBoxContainer.new()
-	heading.add_theme_constant_override("separation",12)
-	col.add_child(heading)
-	var title_col := VBoxContainer.new()
-	title_col.add_theme_constant_override("separation",4)
-	title_col.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-	heading.add_child(title_col)
-	UI.eyebrow(title_col,"Command · field operations")
-	UI.label(title_col,"COMMAND BOARD","Title")
+	var body := UI.shell(self)
+	var head := UI.header(body,"COMMAND BOARD","Command · field operations · observations and local drafts only",func(): hide(); closed.emit())
 	var pill := PanelContainer.new()
 	pill.theme_type_variation="Chip"
-	pill.size_flags_vertical=Control.SIZE_SHRINK_CENTER
-	heading.add_child(pill)
+	head.extras.add_child(pill)
 	connection_badge=UI.badge(pill,"unknown","Connecting to the core…")
 	connection=connection_badge.get_node("Text")
-	var close := UI.button(heading,"Close",func(): hide(); closed.emit(),"GhostButton","Esc")
-	close.size_flags_horizontal=Control.SIZE_SHRINK_END
-	close.size_flags_vertical=Control.SIZE_SHRINK_CENTER
-	close.custom_minimum_size=Vector2(124,40)
+	var col := UI.padded_body(body,18,10)
 	notice_strip=PanelContainer.new()
 	notice_strip.theme_type_variation="Strip"
 	col.add_child(notice_strip)
@@ -203,7 +189,7 @@ func clear(parent: Node) -> void:
 	for child in parent.get_children(): parent.remove_child(child); child.queue_free()
 
 func record_card(parent: Node, tone: String, state_text: String, title: String, subtitle: String) -> HBoxContainer:
-	var card := UI.card(parent,"Card",6)
+	var card := UI.tone_card(parent,"Card",tone,6)
 	var head := HBoxContainer.new()
 	head.add_theme_constant_override("separation",12)
 	card.add_child(head)
@@ -333,7 +319,7 @@ func show_detail(run: Dictionary) -> void:
 		l.get_node("Text").autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 		l.get_node("Text").size_flags_horizontal=Control.SIZE_EXPAND_FILL
 		return
-	var head := UI.card(detail,"Card",6)
+	var head := UI.tone_card(detail,"Card",run_tone(str(run.state)),6)
 	var head_row := HBoxContainer.new()
 	head_row.add_theme_constant_override("separation",12)
 	head.add_child(head_row)

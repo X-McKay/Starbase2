@@ -23,9 +23,18 @@ One theme module, [`ui_theme.gd`](../apps/world/ui_theme.gd), owns colour tokens
 a type scale, panel/button/input/tab/scrollbar styles and small composable parts.
 The palette follows the shadcn dark convention: near-black zinc surfaces, one-pixel
 neutral borders, white headings, muted secondary text and a single orange accent
-for primary actions, key caps, section titles and prompts. Button variants are
-secondary (default), primary, outline, ghost, destructive and icon; tabs are a
-segmented list. The parts are:
+for primary actions, key caps, section titles and prompts. Corners are angular
+(a two-pixel radius everywhere), so edges read as panels rather than pills.
+Button variants are secondary (default), primary, outline, ghost, destructive
+and icon; tabs are a segmented list whose active tab carries an accent underline.
+
+Readability and navigation follow common game-interface practice: every panel
+has a header band with the title and the close control in the same place, and
+its body scrolls beneath it; the masthead sits on a backing strip so it stays
+legible over bright terrain; status and record cards carry a tone-coloured rail
+on their leading edge so a column scans before it is read; section titles carry
+a short accent notch; keyboard focus is a two-pixel accent ring with a tint;
+scrollbars are wide enough to see; and disabled text stays readable. The parts are:
 section rules, cards, key caps, badges, chips, toasts and a `Glyph` control. Every
 panel is built from those parts; no panel defines its own colours.
 

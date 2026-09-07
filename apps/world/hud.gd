@@ -42,6 +42,7 @@ var roster: HFlowContainer
 var heading: Label
 var status: Label
 var status_badge: HBoxContainer
+var state_card: VBoxContainer
 var details: Label
 var evidence: RichTextLabel
 var evidence_toggle: Button
@@ -94,7 +95,7 @@ func _ready() -> void:
 	board.api=api; board.fixture=board_fixture
 	root.add_child(board)
 	board.offset_left=margin; board.offset_right=-margin
-	board.offset_top=100 if compact else 104
+	board.offset_top=126 if compact else 132
 	board.offset_bottom=-(bar_height+margin+10)
 	board.closed.connect(close_panels)
 	add_child(toast_timer)
@@ -112,11 +113,15 @@ func _build_scrim() -> void:
 	root.add_child(scrim)
 
 func _build_masthead() -> void:
+	var backing := PanelContainer.new()
+	backing.theme_type_variation="Mast"
+	backing.position = Vector2(margin,14)
+	backing.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root.add_child(backing)
 	var mast := VBoxContainer.new()
-	mast.position = Vector2(margin+4,16)
 	mast.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	mast.add_theme_constant_override("separation",2)
-	root.add_child(mast)
+	backing.add_child(mast)
 	UI.eyebrow(mast,"Starbase 02   /   Aster Colony")
 	var title := UI.label(mast,"A new world. A first foothold.","Display",false)
 	title.add_theme_color_override("font_shadow_color",Color("000000cc"))
@@ -130,7 +135,7 @@ func _build_masthead() -> void:
 	connection=connection_badge.get_node("Text")
 	room_exit=UI.button(root,"Return to colony",func(): exit_requested.emit(),"NavButton","F")
 	room_exit.custom_minimum_size=Vector2(232,42)
-	room_exit.position=Vector2(margin+4,112)
+	room_exit.position=Vector2(margin,128)
 	room_exit.hide()
 
 func _build_nav() -> void:
@@ -208,21 +213,11 @@ func _build_dock() -> void:
 	dock.set_anchors_and_offsets_preset(Control.PRESET_RIGHT_WIDE)
 	dock.offset_left = -((344 if compact else 392)+margin)
 	dock.offset_right = -margin
-	dock.offset_top = 100 if compact else 104
+	dock.offset_top = 126 if compact else 132
 	dock.offset_bottom = -(bar_height+margin+10)
-	var scroll := ScrollContainer.new()
-	scroll.follow_focus = true
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	dock.add_child(scroll)
-	var col := VBoxContainer.new()
-	col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	col.add_theme_constant_override("separation",10)
-	scroll.add_child(col)
-	var row := HBoxContainer.new()
-	col.add_child(row)
-	heading = UI.label(row,"MENDER / WORKSHOP","Title")
-	heading.size_flags_vertical=Control.SIZE_SHRINK_CENTER
-	UI.icon_button(row,"×",close_panels,"Close  [Esc]")
+	var body := UI.shell(dock)
+	heading = UI.header(body,"MENDER / WORKSHOP","",close_panels,"" if compact else "Esc").title
+	var col := UI.scroll_body(body,18)
 	var identity_card := UI.card(col,"Card",4)
 	var identity := HBoxContainer.new()
 	identity.add_theme_constant_override("separation",14)
@@ -257,7 +252,7 @@ func _build_dock() -> void:
 		selected_id = str(list.get_item_metadata(index))
 		selection_changed.emit(selected_id))
 	col.add_child(list)
-	var state_card := UI.card(col,"Inset",6)
+	state_card = UI.tone_card(col,"Inset","unknown",6)
 	status_badge=UI.badge(state_card,"unknown","Unknown","Section")
 	status=status_badge.get_node("Text")
 	status.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
@@ -316,25 +311,11 @@ func _build_directory() -> void:
 	directory.set_anchors_and_offsets_preset(Control.PRESET_LEFT_WIDE)
 	directory.offset_left=margin
 	directory.offset_right=margin+(330 if compact else 380)
-	directory.offset_top=100 if compact else 104
+	directory.offset_top=126 if compact else 132
 	directory.offset_bottom=-(bar_height+margin+10)
-	var directory_scroll := ScrollContainer.new()
-	directory_scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED
-	directory_scroll.follow_focus=true
-	directory.add_child(directory_scroll)
-	var menu := VBoxContainer.new()
-	menu.add_theme_constant_override("separation",8)
-	menu.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-	directory_scroll.add_child(menu)
-	var head := HBoxContainer.new()
-	menu.add_child(head)
-	var title_col := VBoxContainer.new()
-	title_col.add_theme_constant_override("separation",2)
-	title_col.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-	head.add_child(title_col)
-	UI.label(title_col,"STATION DIRECTORY","Title")
-	UI.label(title_col,"Inspect or act from anywhere. No travel required.","Muted")
-	UI.icon_button(head,"×",close_panels,"Close  [Esc]")
+	var body := UI.shell(directory)
+	UI.header(body,"STATION DIRECTORY","Inspect or act from anywhere. No travel required.",close_panels,"" if compact else "Esc")
+	var menu := UI.scroll_body(body,18,8)
 	directory_first=UI.button(menu,"Command board",open_board,"PrimaryButton","B")
 	UI.section(menu,"Crew")
 	for kind in CREW:
@@ -367,20 +348,11 @@ func _build_help() -> void:
 	help.set_anchors_and_offsets_preset(Control.PRESET_LEFT_WIDE)
 	help.offset_left=margin
 	help.offset_right=margin+(400 if compact else 460)
-	help.offset_top=100 if compact else 104
+	help.offset_top=126 if compact else 132
 	help.offset_bottom=-(bar_height+margin+10)
-	var scroll := ScrollContainer.new()
-	scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED
-	scroll.follow_focus=true
-	help.add_child(scroll)
-	var hc := VBoxContainer.new()
-	hc.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-	hc.add_theme_constant_override("separation",10)
-	scroll.add_child(hc)
-	var head := HBoxContainer.new()
-	hc.add_child(head)
-	UI.label(head,"FIELD GUIDE & COMFORT","Title")
-	UI.icon_button(head,"×",close_panels,"Close  [Esc]")
+	var body := UI.shell(help)
+	UI.header(body,"FIELD GUIDE & COMFORT","Keys, comfort and what the scenery does not mean.",close_panels,"" if compact else "H")
+	var hc := UI.scroll_body(body,18)
 	UI.section(hc,"Keys")
 	var grid := GridContainer.new()
 	grid.columns=2
@@ -434,6 +406,7 @@ func set_connection(text_value: String, tone: String) -> void:
 
 func set_status(text_value: String, tone: String) -> void:
 	UI.set_badge(status_badge,tone,text_value)
+	UI.set_card_tone(state_card,tone)
 
 func set_progression(text_value: String, tone: String) -> void:
 	UI.set_badge(progression_badge,tone,text_value)
