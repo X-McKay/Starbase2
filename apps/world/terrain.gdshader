@@ -61,6 +61,11 @@ void fragment() {
 		col=mix(col,rock*vec3(0.88,0.75,0.61),blend*smoothstep(0.15,0.68,slope+patch*0.30)*0.78);
 		col*=1.0-drainage*blend*0.10;
 	}
+	// Fine pebbles and wind-laid streaks read at walking zoom without new textures.
+	float pebble=step(0.935,noise(p*7.5+warp*3.0))*(0.5+0.5*noise(p*23.0));
+	col=mix(col,col*0.72+vec3(0.06,0.03,0.02),pebble*0.55);
+	float streak=noise(vec2(p.x*0.28+p.y*0.07,p.y*2.6))*noise(p*0.9+3.0);
+	col*=1.0+(streak-0.35)*0.10*sand;
 	if(compacted) col=mix(col,vec3(0.55,0.30,0.18),0.8);
 	ALBEDO=col;
 	ROUGHNESS=0.98;

@@ -143,6 +143,7 @@ func _ready() -> void:
 		rock(p,Vector3(0.8,rng.randf_range(1.4,2.8),0.9),"76bebc")
 	planet_landmarks()
 	surface_scatter()
+	set_dressing()
 	Art.sign(self,"BASIN / ASTER",Vector3(0,0.4,10),"ead7b2",22)
 
 func planet_landmarks() -> void:
@@ -229,3 +230,85 @@ func crater(center: Vector3, radius: float) -> void:
 		var angle := rng.randf_range(0,TAU)
 		var p := center+Vector3(cos(angle)*radius*0.86,0.07,sin(angle)*radius*0.73)
 		rock(p,Vector3(0.28,0.14,0.24),"a77750")
+
+func container(pos: Vector3, size: Vector3, color: String, yaw: float = 0.0) -> void:
+	var body := Art.box(self,pos+Vector3(0,size.y*0.5,0),size,color)
+	body.rotation.y=yaw
+	var face := Kit.panel(body,"hull",Vector3(0,0,size.z*0.5+0.006),Vector2(size.x*0.9,size.y*0.86))
+	face.position.y=0
+	var back := Kit.panel(body,"hull",Vector3(0,0,-size.z*0.5-0.006),Vector2(size.x*0.9,size.y*0.86),Vector3(0,180,0))
+	back.position.y=0
+	for x in [-size.x*0.5+0.12,size.x*0.5-0.12]:
+		Art.box(body,Vector3(x,0,0),Vector3(0.08,size.y+0.04,size.z+0.04),"2b3a48")
+	Art.box(body,Vector3(0,size.y*0.5+0.02,0),Vector3(size.x*0.9,0.04,size.z*0.9),"5c6a76")
+
+func drum(pos: Vector3, color: String) -> void:
+	Art.cylinder(self,pos+Vector3(0,0.42,0),0.3,0.84,color)
+	for y in [0.3,0.6]: Art.cylinder(self,pos+Vector3(0,y,0),0.31,0.05,"2b3a48")
+
+func conduit(from: Vector3, to: Vector3, radius: float, color: String) -> void:
+	var node := Art.cylinder(self,(from+to)*0.5,radius,from.distance_to(to),color)
+	node.look_at_from_position(node.position,to,Vector3.UP)
+	node.rotate_object_local(Vector3.RIGHT,PI/2)
+
+func set_dressing() -> void:
+	# Cargo yard: containers, drums and a work light on the freight staging pad.
+	var yard: Rect2=Surface.CARGO_YARD
+	var origin := Vector3(yard.get_center().x,0,yard.get_center().y)
+	container(origin+Vector3(-1.1,0,-0.5),Vector3(2.2,1.1,1.0),"7c6a4e")
+	container(origin+Vector3(-1.0,1.1,-0.45),Vector3(1.9,0.9,0.95),"6c7a86")
+	container(origin+Vector3(1.3,0,-0.6),Vector3(1.6,1.0,1.0),"8a4f3a",0.12)
+	for i in range(3): drum(origin+Vector3(0.6+i*0.66,0,0.85),["c9772b","5f6b75","c9772b"][i])
+	Art.box(self,origin+Vector3(-1.6,0.11,0.9),Vector3(1.2,0.22,0.8),"3f4d5c")
+	Art.lamp(self,origin+Vector3(2.1,0,1.2))
+	Art.box(self,origin+Vector3(0,0.02,0),Vector3(yard.size.x,0.02,yard.size.y),"5a4a3c")
+	# Parked survey rover on the landing apron.
+	var rover: Rect2=Surface.ROVER
+	var at := Vector3(rover.get_center().x,0,rover.get_center().y)
+	for x in [-0.85,0.85]:
+		for z in [-0.65,0.65]:
+			var wheel := Art.cylinder(self,at+Vector3(x,0.32,z),0.32,0.3,"2b3038")
+			wheel.rotation.x=PI/2
+	Art.box(self,at+Vector3(0,0.62,0),Vector3(2.4,0.42,1.3),"9aa6ad")
+	Kit.panel(self,"hull",at+Vector3(0,0.62,0.66),Vector2(2.1,0.36))
+	Art.box(self,at+Vector3(-0.45,1.05,0),Vector3(1.1,0.55,1.2),"2f4a5c")
+	Art.box(self,at+Vector3(-0.45,1.1,0.61),Vector3(0.9,0.3,0.02),"7fdcff","",true)
+	Art.box(self,at+Vector3(0.75,0.95,0),Vector3(0.7,0.3,1.0),"c9772b")
+	Art.box(self,at+Vector3(0.95,1.55,-0.4),Vector3(0.04,0.9,0.04),"bbc5b8")
+	Art.box(self,at+Vector3(0.95,2.0,-0.4),Vector3(0.28,0.02,0.28),"d5d8c2")
+	# Utility conduit and a junction cabinet along the solar field.
+	conduit(Vector3(-29.5,0.16,-11.7),Vector3(-17.2,0.16,-11.7),0.09,"6b7986")
+	for x in [-27.0,-23.0,-19.0]: Art.box(self,Vector3(x,0.12,-11.7),Vector3(0.3,0.24,0.34),"2b3a48")
+	Art.box(self,Vector3(-17.0,0.65,-13.6),Vector3(0.9,1.3,0.7),"5c6a76")
+	Art.box(self,Vector3(-17.0,0.9,-13.24),Vector3(0.5,0.08,0.02),"ffb347","",true)
+	Art.box(self,Vector3(-17.0,1.33,-13.6),Vector3(0.96,0.06,0.76),"2b3a48")
+	# Freight staging: strapped pallets beside the low ground details.
+	for x in [-30.0,-28.0]:
+		Art.box(self,Vector3(x,0.32,8.4),Vector3(1.1,0.42,0.9),"7c6a4e")
+		Art.box(self,Vector3(x,0.56,8.4),Vector3(1.14,0.03,0.12),"d97a2a")
+	# Wind-laid dust drifting across the basin; still under reduced motion.
+	var dust := CPUParticles3D.new()
+	dust.name="Dust"
+	dust.amount=70
+	dust.lifetime=11.0
+	dust.preprocess=6.0
+	dust.emission_shape=CPUParticles3D.EMISSION_SHAPE_BOX
+	dust.emission_box_extents=Vector3(42,1.6,32)
+	dust.position=Vector3(0,1.8,0)
+	dust.direction=Vector3(1,0.05,0.25)
+	dust.spread=12
+	dust.gravity=Vector3.ZERO
+	dust.initial_velocity_min=0.9
+	dust.initial_velocity_max=1.8
+	dust.scale_amount_min=0.7
+	dust.scale_amount_max=1.6
+	var mesh := QuadMesh.new()
+	mesh.size=Vector2(0.11,0.11)
+	var material := StandardMaterial3D.new()
+	material.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.transparency=BaseMaterial3D.TRANSPARENCY_ALPHA
+	material.billboard_mode=BaseMaterial3D.BILLBOARD_PARTICLES
+	material.albedo_color=Color(0.86,0.62,0.42,0.30)
+	mesh.material=material
+	dust.mesh=mesh
+	add_child(dust)

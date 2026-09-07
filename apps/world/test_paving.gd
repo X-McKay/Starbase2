@@ -68,7 +68,8 @@ func run() -> void:
 		for obstacle in Paving.exclusions(): check(not rect.intersects(obstacle),"Paving at %s overlaps terrain exclusion %s" % [rect,obstacle])
 	var drawn=Paving.new()
 	root.add_child(drawn)
-	check(drawn.get_child_count()==4,"Pads, roads, joints and paint each use one batched mesh")
+	check(drawn.get_child_count()==5,"Pads, worn pads, roads, joints and paint each use one batched mesh")
+	check(drawn.get_node("WornTiles").material_override==Paving.Kit.material("floor_worn"),"Worn pad tiles use the kit's worn floor variant")
 	check(drawn.get_node("TileField").material_override==Paving.Kit.material("floor"),"Pads retain the dark central floor material")
 	check(drawn.get_node("RoadTiles").material_override.shader==load("res://road_surface.gdshader"),"Roads need their separate light-grey material")
 	for cell in Paving.road_tiles():
@@ -79,7 +80,9 @@ func run() -> void:
 		check(dash.size==Vector2(0.9,0.14) or dash.size==Vector2(0.14,0.9),"Road paint must use consistent orthogonal dashes")
 		for point in [dash.position,dash.end,Vector2(dash.position.x,dash.end.y),Vector2(dash.end.x,dash.position.y)]:
 			check(Paving.road_tiles().has(Paving.cell_at(point)),"Yellow paint must stay on grey roads")
-	var counts={"TileField":Paving.pad_tiles().size(),"RoadTiles":Paving.road_tiles().size(),"JointBed":tiles.size(),"Centerline":dashes.size()}
+	var worn_count: int=drawn.get_node("WornTiles").mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX].size()/6
+	check(worn_count>0 and worn_count<Paving.pad_tiles().size()/3,"A minority of pad tiles show wear")
+	var counts={"TileField":Paving.pad_tiles().size()-worn_count,"WornTiles":worn_count,"RoadTiles":Paving.road_tiles().size(),"JointBed":tiles.size(),"Centerline":dashes.size()}
 	check(not drawn.is_processing() and not drawn.is_physics_processing(),"Static paving must not poll")
 	for mesh in drawn.get_children():
 		var arrays=mesh.mesh.surface_get_arrays(0)
@@ -89,5 +92,5 @@ func run() -> void:
 			check((vertices[i+1]-vertices[i]).cross(vertices[i+2]-vertices[i]).y<0,"Paving face folds downward")
 	drawn.free()
 	for failure in failures: push_error(failure)
-	if failures.is_empty(): print("Paving checks passed: ",tiles.size()," unique tiles, rectangular pads, two-tile corridors, separate pad/road materials, yellow dashes, four batched meshes, connected door/landing walks, terrain clearance")
+	if failures.is_empty(): print("Paving checks passed: ",tiles.size()," unique tiles, rectangular pads, two-tile corridors, separate pad/worn/road materials, yellow dashes, five batched meshes, connected door/landing walks, terrain clearance")
 	quit(0 if failures.is_empty() else 1)

@@ -126,20 +126,38 @@ func _ready() -> void:
 	add_child(camera)
 	camera.look_at(Vector3.ZERO)
 	camera.current = true
+	# Late-afternoon key light: warm, lower, with soft ortho-split shadows.
 	var sun := DirectionalLight3D.new()
-	sun.rotation_degrees = Vector3(-52,-32,-8)
-	sun.light_color = Color("e7d7cf")
-	sun.light_energy = 0.65
+	sun.name="Sun"
+	sun.rotation_degrees = Vector3(-47,-36,-8)
+	sun.light_color = Color("f0d3ae")
+	sun.light_energy = 0.82
 	sun.shadow_enabled = true
-	sun.directional_shadow_max_distance = 150
+	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_ORTHOGONAL
+	sun.directional_shadow_max_distance = 120
+	sun.shadow_blur = 1.4
+	sun.shadow_normal_bias = 1.6
 	add_child(sun)
 	var env := WorldEnvironment.new()
 	env.environment = room_environment
 	room_environment.background_color=Color("0d1828")
 	env.environment.background_mode = Environment.BG_CANVAS
 	env.environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	env.environment.ambient_light_color = Color("97b3d8")
-	env.environment.ambient_light_energy = 0.40
+	env.environment.ambient_light_color = Color("8ea9cf")
+	env.environment.ambient_light_energy = 0.38
+	env.environment.tonemap_mode = Environment.TONE_MAPPER_ACES
+	env.environment.tonemap_white = 1.0
+	env.environment.adjustment_enabled = true
+	env.environment.adjustment_contrast = 1.04
+	env.environment.adjustment_saturation = 1.04
+	# Thin warm haze toward the coast; disabled indoors.
+	env.environment.fog_enabled = true
+	env.environment.fog_mode = Environment.FOG_MODE_EXPONENTIAL
+	env.environment.fog_light_color = Color("c9a58e")
+	env.environment.fog_light_energy = 0.7
+	env.environment.fog_density = 0.00035
+	env.environment.fog_aerial_perspective = 0.12
+	env.environment.fog_sky_affect = 0.0
 	add_child(env)
 	marker = Art.cylinder(self,Vector3(0,0.07,0),0.24,0.025,"f5d295")
 	marker.hide()
@@ -234,6 +252,7 @@ func enter_room(kind: String) -> void:
 	if member!=null: crew_return=member.position
 	active_room=Room.new()
 	active_room.definition=station.definition
+	active_room.reduced_motion=hud.reduced
 	active_room.position=Vector3(0,0,120)
 	add_child(active_room)
 	$Operator.position=active_room.position+active_room.spawn_point
@@ -246,6 +265,9 @@ func enter_room(kind: String) -> void:
 	hud.close_panels()
 	hud.room_exit.show()
 	room_environment.background_mode=Environment.BG_COLOR
+	room_environment.fog_enabled=false
+	room_environment.ambient_light_color=Color("4a5a78")
+	room_environment.ambient_light_energy=0.34
 	sky_layer.hide()
 	$Terrace.hide()
 	camera_focus=active_room.position+Vector3(0,1,0)
@@ -268,6 +290,9 @@ func exit_room() -> void:
 	room_kind=""
 	hud.room_exit.hide()
 	room_environment.background_mode=Environment.BG_CANVAS
+	room_environment.fog_enabled=true
+	room_environment.ambient_light_color=Color("8ea9cf")
+	room_environment.ambient_light_energy=0.38
 	sky_layer.show()
 	$Terrace.show()
 	hud.close_panels()
@@ -288,6 +313,9 @@ func apply_settings() -> void:
 	$Terrace/PavingLights.reduced_motion = hud.reduced
 	$Terrace/MineralBasin.reduced_motion = hud.reduced
 	$Terrace/Landform.reduced_motion = hud.reduced
+	if active_room != null: active_room.reduced_motion = hud.reduced
+	var dust := $Terrace.get_node_or_null("Dust")
+	if dust != null: dust.emitting = not hud.reduced
 	for member in [$Operator]+MEMBERS.values().map(func(label): return get_node(label)):
 		member.reduced_motion = hud.reduced
 	if hud.reduced: hud.follow = false

@@ -118,14 +118,18 @@ static func quad(surface: SurfaceTool, rect: Rect2, height: float) -> void:
 
 func _ready() -> void:
 	var pads := SurfaceTool.new()
+	var worn := SurfaceTool.new()
 	var roads := SurfaceTool.new()
 	var bed := SurfaceTool.new()
 	var markings := SurfaceTool.new()
-	for surface in [pads,roads,bed,markings]: surface.begin(Mesh.PRIMITIVE_TRIANGLES)
+	for surface in [pads,worn,roads,bed,markings]: surface.begin(Mesh.PRIMITIVE_TRIANGLES)
 	for cell in cells():
 		var rect := Rect2(Vector2(cell)*TILE,Vector2.ONE*TILE)
 		quad(bed,rect,HEIGHT-0.025)
-		quad(pads if pad_tiles().has(cell) else roads,rect.grow(-0.018),HEIGHT)
+		if pad_tiles().has(cell):
+			# Stable per-cell hash: roughly one tile in five shows wear.
+			quad(worn if (cell.x*73856093 ^ cell.y*19349663)%5==0 else pads,rect.grow(-0.018),HEIGHT)
+		else: quad(roads,rect.grow(-0.018),HEIGHT)
 	for rect in centerline_rectangles(): quad(markings,rect,HEIGHT+0.006)
 	var substrate := StandardMaterial3D.new()
 	substrate.albedo_color=Color("344651")
@@ -137,7 +141,7 @@ func _ready() -> void:
 	var yellow := StandardMaterial3D.new()
 	yellow.albedo_color=Color("efbf35")
 	yellow.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED
-	for part in [["TileField",pads,Kit.material("floor")],["RoadTiles",roads,road],["JointBed",bed,substrate],["Centerline",markings,yellow]]:
+	for part in [["TileField",pads,Kit.material("floor")],["WornTiles",worn,Kit.material("floor_worn")],["RoadTiles",roads,road],["JointBed",bed,substrate],["Centerline",markings,yellow]]:
 		var instance := MeshInstance3D.new()
 		instance.name=part[0]
 		instance.mesh=part[1].commit()

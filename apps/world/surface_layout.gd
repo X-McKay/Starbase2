@@ -6,6 +6,10 @@ const LANDING_RADIUS := 6.0
 const NATURAL_BLOCKS := [Rect2(24,-32,12,10),Rect2(8,-25,4,4),Rect2(31,19,4,4)]
 const UTILITY_BLOCKS := [Rect2(-30,-17.5,14,6),Rect2(-17.5,-28,2,2)]
 const RESERVED_PLOTS := [Vector2(3,34.5),Vector2(-7,23)]
+# Physical set dressing: a cargo yard beside the freight staging and a parked rover.
+const CARGO_YARD := Rect2(-32.5,2.6,4.8,3.2)
+const ROVER := Rect2(-20.7,21.1,3.0,2.1)
+const SET_DRESSING := [CARGO_YARD,ROVER]
 const OUTCROPS := [
 	{"at":Vector2(-34,-22),"size":Vector3(3.2,1.7,2.8)},
 	{"at":Vector2(-24,-23),"size":Vector3(2.2,0.9,2.0)},

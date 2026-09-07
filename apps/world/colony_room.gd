@@ -2,7 +2,14 @@ extends Node3D
 ## All interiors are ordinary authored scenes. This host owns shared traversal.
 const Definition = preload("res://building_definition.gd")
 const Art = preload("res://art.gd")
+const Dressing = preload("res://room_dressing.gd")
 var definition: Definition
+var reduced_motion := false:
+	set(value):
+		reduced_motion=value
+		if content!=null:
+			var motes := content.get_node_or_null("Dressing/Dust")
+			if motes: motes.emitting=not value
 var blocks: Array[Rect2] = []
 var grid := AStarGrid2D.new()
 var activity: Label3D
@@ -14,6 +21,8 @@ var content: Node3D
 func _ready() -> void:
 	content=load(definition.interior_scene).instantiate()
 	add_child(content)
+	# Dressing goes under the authored content so its physical props join the block list.
+	Dressing.apply(content,definition,reduced_motion)
 	console_point=content.get_node("Console").position
 	spawn_point=content.get_node("Spawn").position
 	crew_point=content.get_node("Crew").position

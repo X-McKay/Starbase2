@@ -2,6 +2,14 @@
 
 Status: proposed
 
+## World quality pass · 2026-09-07
+
+The [world quality pass](world-quality.md) adds a warm key light with soft
+shadows, ACES tonemapping and thin coastal haze, dresses every interior with
+lamps, pipes, screens, worn floors and props, and adds a cargo yard, a rover,
+utility conduit and drifting dust outside. Everything is scenery; navigation and
+records are unchanged.
+
 ## Native interface polish · 2026-09-07
 
 The [interface pass](world-ui.md) gives the HUD, inspector, directory, guide and

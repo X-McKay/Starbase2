@@ -13,6 +13,12 @@ void fragment() {
 	vec2 cells=floor(uv*vec2(420,250));
 	float star=step(0.990,hash(cells))*step(length(fract(uv*vec2(420,250))-0.5),0.15);
 	col+=star*vec3(0.52,0.66,0.76);
+	vec2 big=floor(uv*vec2(90,55));
+	vec2 bf=fract(uv*vec2(90,55))-0.5;
+	float bright=step(0.975,hash(big+7.0))*exp(-dot(bf,bf)*38.0);
+	col+=bright*vec3(0.85,0.90,1.0)*(0.5+0.5*hash(big+3.0));
+	float galaxy=exp(-pow((uv.y-0.62+uv.x*0.25)*2.6,2.0))*(noise(uv*9.0)*0.7+noise(uv*31.0)*0.3);
+	col+=vec3(0.10,0.11,0.16)*galaxy;
 	vec2 p=(uv-vec2(0.87,0.22))*vec2(1.6,1);
 	float r=length(p);
 	float disc=1.0-smoothstep(0.16,0.161,r);
