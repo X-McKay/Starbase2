@@ -1,0 +1,266 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Scanning file structure...[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Loading global class names...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifying GDExtensions...[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Creating autoload scripts...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Initializing plugins...[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Starting file scan...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | Started Registering global classes... (64 steps)[39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   1% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   3% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   4% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   6% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   7% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   9% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  10% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  12% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  13% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  15% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  16% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  18% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  20% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  21% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  23% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  24% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  26% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  27% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  29% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  30% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  32% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  33% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  35% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  36% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  38% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  40% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  41% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  43% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  44% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  46% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  47% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  49% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  50% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  52% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  53% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  55% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  56% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  58% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  60% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  61% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  63% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  64% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  66% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  67% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  69% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  70% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  72% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  73% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  75% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  76% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  78% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  80% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  81% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  83% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  84% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  86% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  87% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  89% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  90% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  92% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  93% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  95% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  96% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[92m[ DONE ][39m [1mupdate_scripts_classes[22m
+[0m
+[   0% ] [90m[1m_update_scan_actions[22m | Started Scanning actions... (25 steps)[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | captain-back.png[39m[0m
+[   3% ] [90m[1m_update_scan_actions[22m | captain-front.png[39m[0m
+[   7% ] [90m[1m_update_scan_actions[22m | captain-illustrated.png[39m[0m
+[  11% ] [90m[1m_update_scan_actions[22m | captain-left.png[39m[0m
+[  15% ] [90m[1m_update_scan_actions[22m | captain.png[39m[0m
+[  19% ] [90m[1m_update_scan_actions[22m | eva.png[39m[0m
+[  23% ] [90m[1m_update_scan_actions[22m | sandstone-v1.png[39m[0m
+[  26% ] [90m[1m_update_scan_actions[22m | materials.png[39m[0m
+[  30% ] [90m[1m_update_scan_actions[22m | crew-adventure.png[39m[0m
+[  34% ] [90m[1m_update_scan_actions[22m | deck.svg[39m[0m
+[  38% ] [90m[1m_update_scan_actions[22m | garden.svg[39m[0m
+[  42% ] [90m[1m_update_scan_actions[22m | mender.svg[39m[0m
+[  46% ] [90m[1m_update_scan_actions[22m | operator.svg[39m[0m
+[  50% ] [90m[1m_update_scan_actions[22m | plant.svg[39m[0m
+[  53% ] [90m[1m_update_scan_actions[22m | solar.svg[39m[0m
+[  57% ] [90m[1m_update_scan_actions[22m | surveyor.svg[39m[0m
+[  61% ] [90m[1m_update_scan_actions[22m | trainer.svg[39m[0m
+[  65% ] [90m[1m_update_scan_actions[22m | tree.svg[39m[0m
+[  69% ] [90m[1m_update_scan_actions[22m | wall.svg[39m[0m
+[  73% ] [90m[1m_update_scan_actions[22m | engineering-hangar.png[39m[0m
+[  76% ] [90m[1m_update_scan_actions[22m | evaluation-lab.png[39m[0m
+[  80% ] [90m[1m_update_scan_actions[22m | greenhouse.png[39m[0m
+[  84% ] [90m[1m_update_scan_actions[22m | habitat.png[39m[0m
+[  88% ] [90m[1m_update_scan_actions[22m | repair-cradle.png[39m[0m
+[  92% ] [90m[1m_update_scan_actions[22m | survey-command.png[39m[0m
+[92m[ DONE ][39m [1m_update_scan_actions[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (25 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   3% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   7% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  11% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  15% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  19% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  23% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  26% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  30% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  34% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  38% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  42% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  46% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  50% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  53% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  57% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  61% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  65% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  69% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  73% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  76% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  80% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  84% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  88% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  92% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing pre-reimport operations...[39m[0m
+[   0% ] [90m[1mreimport[22m | survey-command.png[39m[0m
+[   3% ] [90m[1mreimport[22m | repair-cradle.png[39m[0m
+[   7% ] [90m[1mreimport[22m | habitat.png[39m[0m
+[  11% ] [90m[1mreimport[22m | greenhouse.png[39m[0m
+[  15% ] [90m[1mreimport[22m | evaluation-lab.png[39m[0m
+[  19% ] [90m[1mreimport[22m | engineering-hangar.png[39m[0m
+[  23% ] [90m[1mreimport[22m | wall.svg[39m[0m
+[  26% ] [90m[1mreimport[22m | tree.svg[39m[0m
+[  30% ] [90m[1mreimport[22m | trainer.svg[39m[0m
+[  34% ] [90m[1mreimport[22m | surveyor.svg[39m[0m
+[  38% ] [90m[1mreimport[22m | solar.svg[39m[0m
+[  42% ] [90m[1mreimport[22m | plant.svg[39m[0m
+[  46% ] [90m[1mreimport[22m | operator.svg[39m[0m
+[  50% ] [90m[1mreimport[22m | mender.svg[39m[0m
+[  53% ] [90m[1mreimport[22m | garden.svg[39m[0m
+[  57% ] [90m[1mreimport[22m | deck.svg[39m[0m
+[  61% ] [90m[1mreimport[22m | crew-adventure.png[39m[0m
+[  65% ] [90m[1mreimport[22m | materials.png[39m[0m
+[  69% ] [90m[1mreimport[22m | sandstone-v1.png[39m[0m
+[  73% ] [90m[1mreimport[22m | eva.png[39m[0m
+[  76% ] [90m[1mreimport[22m | captain.png[39m[0m
+[  80% ] [90m[1mreimport[22m | captain-left.png[39m[0m
+[  84% ] [90m[1mreimport[22m | captain-illustrated.png[39m[0m
+[  88% ] [90m[1mreimport[22m | captain-front.png[39m[0m
+[  92% ] [90m[1mreimport[22m | captain-back.png[39m[0m
+[  96% ] [90m[1mreimport[22m | Finalizing Asset Import...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (25 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing post-reimport operations...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Loading editor (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Loading editor layout...[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Loading docks...[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Godot state checks passed: disconnected, empty, stale, missing evidence, terminal and pending states
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Command board checks passed: fixture/offline command fences, findings, coverage and compact bounds
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Visual fixture cannot open a live operational Command board or dispatch work
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Navigation checks passed: all crew, route around habitat, walls, colony boundary
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Shelf shape checks passed: broken long edges, eroded corner and reachable headlands
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Path checks passed: every orthogonal centerline stays on shelf, clears obstacles and ends at a reachable destination
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Paving checks passed: 1061 unique tiles, rectangular pads, two-tile corridors, separate pad/road materials, yellow dashes, four batched meshes, connected door/landing walks, terrain clearance
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Paving light checks passed: all pad borders, exposed road edges, inset fixtures, three-metre spacing, reduced-motion settings, five meshes, no collision or CPU polling
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Surface scatter checks passed: shelf/path/landmark clearance, blocked outcrop routes and physics, traversable craters
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Environment checks passed: animated/frozen/resumed spring and canyon water, room visibility, shore footprint
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Coast checks passed: continuous backdrop extent, shelf clearance, fixed collision count, excluded mainland routes, seven boundary contacts and returns
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Upland seam checks passed: every northern boundary vertex matches the plateau position and elevation
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Colony routes reach landing, habitat, expansion and survey districts
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+16 accepted sprite poses verified: alpha, nonempty content, atlas bounds, no clipped opaque pixels
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Character contract, alpha rejection, frame bounds, distinct poses, displacement gait, stop, contact and teleport checks passed
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Illustrated character passed: alpha, provenance, all four directions live, contacts, stop layout, wall and reduced motion
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+wall sample: 0.48431404866278 -> 0.48431404866278; contacts 0 -> 0; position (0.619847, 0.0, 0.0)
+Actual CharacterBody3D wall collision, turns, reduced motion and teleport passed
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Character showroom controls, default mute, and sprite anchoring passed
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Field crew checks passed: two characters, reachable positions, keyboard directory inspectors, authoritative fixture and offline state
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Art kit checks passed: atlas regions, shared materials, collision separation, editor rebuild, keyboard scene/camera/light/roof
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+50 definition/host fixture creation ms: 97.604
+Building catalog checks passed: assets, alpha, malformed metadata, room anchors, placement physics/routes, 50 IDs, shared texture, no per-frame polling
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Room checks passed: three door journeys, prop/edge physics, route recovery, console inspection, stale/offline state, direct visits, map exit, no dispatch
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Interaction checks passed: keyboard directory, spatial interaction, walking, gym, camera, reduced motion, explicit form, offline fencing
+
+exit=0

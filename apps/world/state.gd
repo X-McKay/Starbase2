@@ -12,6 +12,35 @@ static func describe(mission: Dictionary, disconnected: bool) -> String:
 		return "Unknown · completion evidence missing"
 	return current.capitalize().replace("_", " ")
 
+## Tone is a presentation category derived only from the record. Shapes and
+## colors in the UI follow it; it never adds information the record lacks.
+static func tone(mission: Dictionary, disconnected: bool) -> String:
+	if disconnected: return "offline"
+	if mission.is_empty(): return "idle"
+	if mission.get("stale", true): return "stale"
+	var current := str(mission.get("state", "unknown"))
+	if current == "completed":
+		if mission.get("evidence") == null: return "unknown"
+		var outcome := str(mission["evidence"].get("summary", {}).get("outcome", "unknown"))
+		if outcome in ["regressed"]: return "failed"
+		if outcome in ["inconclusive", "partial", "unknown", "invalid", "ineligible"]: return "unknown"
+		if outcome == "no_change": return "no_change"
+		return "verified"
+	if current == "failed": return "failed"
+	if current == "cancelled": return "idle"
+	if current in ["unknown", "blocked"]: return "unknown"
+	return "pending"
+
+static func crew_tone(missions: Array, kind: String, disconnected: bool) -> String:
+	if disconnected: return "offline"
+	var own: Array = missions.filter(func(m): return m.get("input",{}).get("kind","review") == kind)
+	if own.is_empty(): return "idle"
+	var active: Array = own.filter(func(m): return m.get("state") not in ["completed","failed","cancelled"])
+	if not active.is_empty():
+		if active.any(func(m): return m.get("stale",true)): return "stale"
+		return "pending"
+	return tone(own[0], false)
+
 static func project(snapshot: Dictionary) -> Array:
 	if snapshot.get("schema_version") != 2 or not snapshot.get("recent") is Array:
 		return []

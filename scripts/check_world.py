@@ -6,6 +6,7 @@ for args in [
     ["--editor", "--import"],
     ["--script", "test_state.gd"],
     ["--script", "test_command_board.gd"],
+    ["--script", "test_ui.gd"],
     ["--script", "test_visual_fixture.gd", "--", "--fixture=res://../../fixtures/world/stale.json"],
     ["--script", "test_navigation.gd"],
     ["--script", "test_shelf_shape.gd"],

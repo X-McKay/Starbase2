@@ -2,6 +2,13 @@
 
 Status: proposed
 
+## Native interface polish · 2026-09-07
+
+The [interface pass](world-ui.md) gives the HUD, inspector, directory, guide and
+command board one theme with shape-coded status glyphs, key caps, cards, a modal
+scrim and toasts. State still comes only from retained records; unknown, stale,
+offline, failed and no-change remain distinguishable without colour.
+
 ## Asset-driven buildings · 2026-09-06
 
 The [building catalog](building-catalog.md) separates PNG/native exterior assets,

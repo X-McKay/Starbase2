@@ -45,6 +45,7 @@ var foley: Node
 var large_on_start := false
 var reduced_on_start := false
 var directory_on_start := false
+var guide_on_start := false
 var pending_selection_id := ""
 var initial_xp := -1
 var award_notice := ""
@@ -62,6 +63,7 @@ const Buildings = preload("res://building_catalog.gd")
 var STATIONS: Dictionary = Buildings.station_paths()
 var active_building: Node3D
 const MEMBERS := {"repair":"Mender", "review":"Surveyor", "gym":"Trainer", "watchkeeper":"Watchkeeper", "reviewer":"Reviewer"}
+const TITLES := {"repair":"Mender", "review":"Surveyor", "gym":"Trainer", "watchkeeper":"Watchkeeper", "reviewer":"PR Reviewer"}
 
 func crew_pairs() -> Array:
 	return MEMBERS.keys().map(func(kind): return [kind,get_node(MEMBERS[kind])])
@@ -96,6 +98,7 @@ func _ready() -> void:
 		if arg == "--large-text": large_on_start = true
 		if arg == "--reduced-motion": reduced_on_start = true
 		if arg == "--directory": directory_on_start = true
+		if arg == "--guide": guide_on_start = true
 	if "--verify-package" in OS.get_cmdline_user_args() and fixture_path.is_empty():
 		push_error("Package verification requires an offline fixture")
 		# These nodes are normally parented later in _ready; release on refusal.
@@ -166,8 +169,8 @@ func _ready() -> void:
 	commands.api = api
 	add_child(commands)
 	commands.feedback.connect(func(message: String,pending: bool):
-		hud.command_status.text = message
-		hud.command_pending = pending
+		hud.set_command_status(message,pending)
+		if not pending: hud.notify(message,"failed" if message.begins_with("Request rejected") or message.begins_with("Could not") else "unknown" if message.begins_with("Outcome unknown") else "verified")
 		show_mission())
 	commands.accepted.connect(func(id: String): pending_selection_id=id; poll())
 	add_child(http)
@@ -181,7 +184,7 @@ func _ready() -> void:
 	if fixture_path != "":
 		var data = JSON.parse_string(FileAccess.get_file_as_string(fixture_path))
 		if data is Dictionary: receive_snapshot(data)
-		hud.connection.text = "VISUAL TEST FIXTURE · not live operational activity"
+		hud.set_connection("Visual test fixture · not live operational activity","fixture")
 	else:
 		timer.start()
 		poll()
@@ -195,6 +198,7 @@ func _ready() -> void:
 		hud.reduced = true
 		apply_settings()
 	if directory_on_start: hud.toggle_directory()
+	if guide_on_start: hud.toggle_help()
 	if walk_test:
 		route = navigator.route($Operator.position, walk_destination)
 	if test_command != "":
@@ -303,19 +307,19 @@ func poll() -> void:
 	if fixture_path != "" or http.get_http_client_status() != HTTPClient.STATUS_DISCONNECTED: return
 	if http.request(api+"/v2/snapshot") != OK:
 		disconnected = true
-		hud.connection.text = "DISCONNECTED · last-known records only"
+		hud.set_connection("Disconnected · last-known records only","offline")
 		show_mission()
 
 func on_response(result: int, response: int, _headers: PackedStringArray, body: PackedByteArray) -> void:
 	if result != HTTPRequest.RESULT_SUCCESS or response != 200:
 		disconnected = true
-		hud.connection.text = "DISCONNECTED · last-known records only"
+		hud.set_connection("Disconnected · last-known records only","offline")
 		show_mission()
 		return
 	var data = JSON.parse_string(body.get_string_from_utf8())
 	if not data is Dictionary or data.get("schema_version") != 2 or not data.get("recent") is Array:
 		disconnected = true
-		hud.connection.text = "UNKNOWN · unsupported snapshot"
+		hud.set_connection("Unknown · unsupported snapshot","unknown")
 		show_mission()
 		return
 	receive_snapshot(data)
@@ -328,7 +332,7 @@ func receive_snapshot(data: Dictionary) -> void:
 	if pending_selection_id != "" and missions.any(func(m): return m["input"]["id"] == pending_selection_id):
 		hud.selected_id = pending_selection_id
 		pending_selection_id = ""
-	hud.connection.text = "LIVE CORE · observed " + Time.get_datetime_string_from_unix_time(int(data.get("observed_at",0))).replace("T"," ") + " UTC"
+	hud.set_connection("Live core · observed " + Time.get_datetime_string_from_unix_time(int(data.get("observed_at",0))).replace("T"," ") + " UTC","live")
 	show_mission()
 
 func selected_mission() -> Dictionary:
@@ -340,7 +344,7 @@ func show_mission() -> void:
 	if hud == null: return
 	hud.update_list(missions)
 	var mission := selected_mission()
-	hud.status.text = StateView.describe(mission,disconnected)
+	hud.set_status(StateView.describe(mission,disconnected),StateView.tone(mission,disconnected))
 	hud.details.text = str(mission.get("detail","No snapshot available; work is unknown." if disconnected else "No run recorded here. Open the journal for reviews and gym campaigns."))
 	var evidence = mission.get("evidence")
 	if evidence != null:
@@ -358,24 +362,28 @@ func show_mission() -> void:
 	var progress = snapshot.get("progression")
 	if progress is Dictionary:
 		var xp := int(progress.get("xp",0))
-		hud.progression.text = "Mender · Level %d · %d verified XP\n%s" % [progress.get("level",1),xp," · ".join(progress.get("achievements",[]))]
-		if disconnected: hud.progression.text += "\nLast-known progression · core unavailable"
+		var achievements: Array = progress.get("achievements",[])
+		var ledger := "Mender · Level %d · %d verified XP" % [progress.get("level",1),xp]
+		if not achievements.is_empty(): ledger += "\n" + " · ".join(achievements)
+		if disconnected: ledger += "\nLast-known progression · core unavailable"
+		hud.set_progression(ledger,"offline" if disconnected else "verified" if not achievements.is_empty() else "idle")
 		if initial_xp >= 0 and xp > initial_xp and not disconnected:
 			award_notice = "Verified achievement retained · inspect Mender’s evidence"
+			hud.notify(award_notice,"verified",8.0)
 		initial_xp = xp
 		for i in range(trophies.size()):
 			trophies[i].visible = not disconnected and progress.get("achievements",[]).size() > i
 	else:
-		hud.progression.text = "Progression unknown · no retained ledger"
+		hud.set_progression("Progression unknown · no retained ledger","unknown")
 		for trophy in trophies: trophy.hide()
 	hud.submit.disabled = disconnected or hud.command_pending or fixture_path != ""
 	hud.stop.disabled = disconnected or hud.command_pending or mission.is_empty() or mission.get("state") in ["completed","failed","cancelled"] or fixture_path != ""
-	var labels: Array[String] = []
+	var entries: Array = []
 	for pair in crew_pairs():
 		var activity := StateView.crew_activity(missions,pair[0],disconnected)
 		pair[1].label.text = pair[1].display_name + "\n" + activity
-		labels.append(pair[1].display_name.capitalize()+": "+activity)
-	hud.roster.text = "    /    ".join(labels.slice(0,3))+"\n"+"    /    ".join(labels.slice(3))
+		entries.append([TITLES[pair[0]],activity,StateView.crew_tone(missions,pair[0],disconnected)])
+	hud.set_roster(entries)
 	if active_room != null:
 		active_room.activity.text=StateView.crew_activity(missions,room_kind,disconnected) if MEMBERS.has(room_kind) else "Colony interior · scenery"
 		if fixture_path!="": active_room.activity.text="FIXTURE · "+active_room.activity.text
@@ -398,10 +406,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		KEY_2: hud.open_place("review")
 		KEY_3: hud.open_place("gym")
 		KEY_J: OS.shell_open(api)
-		KEY_H:
-			var was: bool = hud.help.visible
-			hud.close_panels()
-			hud.help.visible = not was
+		KEY_H: hud.toggle_help()
 		KEY_C:
 			colony_overview = false
 			if not hud.reduced: hud.follow = not hud.follow
@@ -476,14 +481,14 @@ func _physics_process(_delta: float) -> void:
 	else:
 		for station in $Buildings.get_children():
 			if not station.definition.interior_scene.is_empty() and $Operator.position.distance_to(station.entrance())<2.0: near_door=str(station.name)
+	var parts: Array = [["WASD","Explore the colony"],"·",["M","Overview"]]
 	if nearest != "":
-		hud.prompt.text = "E  ·  Inspect " + {"repair":"Mender’s workshop","review":"Surveyor’s briefing","gym":"Trainer’s gym","watchkeeper":"Watchkeeper’s cluster watch","reviewer":"PR Reviewer’s drafts"}[nearest]
-	else:
-		hud.prompt.text = award_notice if award_notice != "" else "WASD / arrows · Explore the colony · M overview"
+		parts = [["E","Inspect " + {"repair":"Mender’s workshop","review":"Surveyor’s briefing","gym":"Trainer’s gym","watchkeeper":"Watchkeeper’s cluster watch","reviewer":"PR Reviewer’s drafts"}[nearest]]]
 	if active_room != null:
-		hud.prompt.text=("E · Inspect console / crew   ·   " if nearest!="" else "Explore "+active_building.definition.title+"   ·   ")+"F · Return to colony"
+		parts = ([["E","Inspect console / crew"]] if nearest!="" else ["Explore "+active_building.definition.title])+["·",["F","Return to colony"]]
 	elif near_door!="":
-		hud.prompt.text="F · Enter "+get_node("Buildings/"+near_door).definition.title+"   ·   E · Inspect nearby crew"
+		parts = [["F","Enter "+get_node("Buildings/"+near_door).definition.title],"·",["E","Inspect nearby crew"]]
+	hud.set_prompt(parts)
 	if walk_test and $Operator.position.distance_to(walk_destination) < 0.65: walk_reached = true
 
 func _process(delta: float) -> void:

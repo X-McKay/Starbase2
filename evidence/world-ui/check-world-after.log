@@ -1,0 +1,121 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Scanning file structure...[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Loading global class names...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifying GDExtensions...[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Creating autoload scripts...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Initializing plugins...[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Starting file scan...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | Started Registering global classes... (2 steps)[39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  33% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[92m[ DONE ][39m [1mupdate_scripts_classes[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Loading editor (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Loading editor layout...[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Loading docks...[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Godot state checks passed: disconnected, empty, stale, missing evidence, terminal, pending states and presentation tones
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Command board checks passed: fixture/offline command fences, findings, coverage and compact bounds
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+UI checks passed: distinct tone shapes, key caps, roster chips, structured prompts, dock/directory/help/board bounds at 1280x800 and 960x720 with larger text, scrim and focus handling, toast and reduced motion
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Visual fixture cannot open a live operational Command board or dispatch work
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Navigation checks passed: all crew, route around habitat, walls, colony boundary
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Shelf shape checks passed: broken long edges, eroded corner and reachable headlands
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Path checks passed: every orthogonal centerline stays on shelf, clears obstacles and ends at a reachable destination
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Paving checks passed: 1061 unique tiles, rectangular pads, two-tile corridors, separate pad/road materials, yellow dashes, four batched meshes, connected door/landing walks, terrain clearance
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Paving light checks passed: all pad borders, exposed road edges, inset fixtures, three-metre spacing, reduced-motion settings, five meshes, no collision or CPU polling
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Surface scatter checks passed: shelf/path/landmark clearance, blocked outcrop routes and physics, traversable craters
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Environment checks passed: animated/frozen/resumed spring and canyon water, room visibility, shore footprint
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Coast checks passed: continuous backdrop extent, shelf clearance, fixed collision count, excluded mainland routes, seven boundary contacts and returns
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Upland seam checks passed: every northern boundary vertex matches the plateau position and elevation
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Colony routes reach landing, habitat, expansion and survey districts
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+16 accepted sprite poses verified: alpha, nonempty content, atlas bounds, no clipped opaque pixels
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Character contract, alpha rejection, frame bounds, distinct poses, displacement gait, stop, contact and teleport checks passed
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Illustrated character passed: alpha, provenance, all four directions live, contacts, stop layout, wall and reduced motion
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+wall sample: 0.48431404866278 -> 0.48431404866278; contacts 0 -> 0; position (0.619847, 0.0, 0.0)
+Actual CharacterBody3D wall collision, turns, reduced motion and teleport passed
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Character showroom controls, default mute, and sprite anchoring passed
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Field crew checks passed: two characters, reachable positions, keyboard directory inspectors, authoritative fixture and offline state
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Art kit checks passed: atlas regions, shared materials, collision separation, editor rebuild, keyboard scene/camera/light/roof
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+50 definition/host fixture creation ms: 112.462
+Building catalog checks passed: assets, alpha, malformed metadata, room anchors, placement physics/routes, 50 IDs, shared texture, no per-frame polling
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Room checks passed: three door journeys, prop/edge physics, route recovery, console inspection, stale/offline state, direct visits, map exit, no dispatch
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Interaction checks passed: keyboard directory, spatial interaction, walking, gym, camera, reduced motion, explicit form, offline fencing
+
+exit=0

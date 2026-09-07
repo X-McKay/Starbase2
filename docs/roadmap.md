@@ -31,6 +31,9 @@ The [cliff shelf](world-cliff.md) now replaces the enclosing rock barriers with
 a continuous drop, depth scenery and rear wall. Navigation and physical movement
 share the shelf boundary; lower-canyon traversal remains unimplemented.
 No building introduces a service, and cosmetic progression grants no authority.
+The [native interface pass](world-ui.md) gives every panel one theme and
+shape-coded status; its next gate is the owner's in-game review, then a matching
+status vocabulary in the browser journal.
 
 The [geology and paths pass](world-geology.md) adds painted rock detail, irregular
 cliff masses, localized ground erosion and connected curved walking corridors.
