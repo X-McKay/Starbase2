@@ -38,7 +38,7 @@ func _ready() -> void:
 	shore.mesh=bank.commit()
 	var sediment := ShaderMaterial.new()
 	sediment.shader=preload("res://strata.gdshader")
-	sediment.set_shader_parameter("stone",preload("res://art/geology/sandstone-v1.png"))
+	sediment.set_shader_parameter("stone",preload("res://assets/environment/sandstone/sandstone-v1.png"))
 	sediment.set_shader_parameter("rock_color",Color("a79973"))
 	shore.material_override=sediment
 	add_child(shore)

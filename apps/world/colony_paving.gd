@@ -1,7 +1,7 @@
 extends Node3D
 ## One aligned tile field joins catalog-derived foundations and authored routes.
 ## Decorative, flush paving adds no navigation or operational restrictions.
-const Buildings=preload("res://building_catalog.gd")
+const Structures=preload("res://structure_catalog.gd")
 const Paths=preload("res://colony_paths.gd")
 const Surface=preload("res://surface_layout.gd")
 const Geography=preload("res://geography.gd")
@@ -23,7 +23,7 @@ static func contains(point: Vector2) -> bool:
 
 static func foundations() -> Array[Rect2]:
 	var result: Array[Rect2]=[]
-	for placement in Buildings.placements():
+	for placement in Structures.placements():
 		var definition=placement.definition
 		var origin := Vector2(placement.position.x,placement.position.z)
 		var bounds: Rect2=definition.collision_boxes[0]

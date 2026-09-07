@@ -38,7 +38,7 @@ func rock(pos: Vector3, size: Vector3, color: String) -> void:
 	node.rotation.y = rng.randf_range(0,TAU)
 	var material := ShaderMaterial.new()
 	material.shader = preload("res://strata.gdshader")
-	material.set_shader_parameter("stone",preload("res://art/geology/sandstone-v1.png"))
+	material.set_shader_parameter("stone",preload("res://assets/environment/sandstone/sandstone-v1.png"))
 	material.set_shader_parameter("rock_color",Color(color))
 	if pos.y< -1.0: material.set_shader_parameter("canyon_haze",0.70)
 	node.material_override = material
@@ -220,7 +220,7 @@ func crater(center: Vector3, radius: float) -> void:
 	instance.position=center
 	var material := ShaderMaterial.new()
 	material.shader=preload("res://crater.gdshader")
-	material.set_shader_parameter("stone",preload("res://art/geology/sandstone-v1.png"))
+	material.set_shader_parameter("stone",preload("res://assets/environment/sandstone/sandstone-v1.png"))
 	instance.material_override=material
 	instance.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	add_child(instance)

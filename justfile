@@ -135,8 +135,8 @@ deployment-test-db-stop:
     .venv/bin/python -m scripts.deployment.local_db stop
 
 # Preview one building definition; use count=50 for the shared-art load fixture.
-world-building definition="repair" count="1":
-    godot --path apps/world --script building_gallery.gd -- --definition=res://buildings/definitions/{{definition}}.tres --count={{count}}
+world-structure definition="repair" count="1":
+    godot --path apps/world --script structure_gallery.gd -- --definition=res://structures/definitions/{{definition}}.tres --count={{count}}
 
 # Real local Temporal and FalkorDB, synthetic provider inputs, recovery and replay.
 test-field: build
@@ -194,9 +194,9 @@ world-rig-study:
 
 # Rebuild authored native buildings; no Meshy API calls or credit spend.
 world-colony-build blender="/Applications/Blender.app/Contents/MacOS/Blender":
-    "{{blender}}" --background --factory-startup --python art/meshy-blender/build_colony.py
-    python3 art/meshy-blender/connect_colony.py
-    python3 art/engineering-polish/connect_engineering.py
+    "{{blender}}" --background --factory-startup --python assets-production/scripts/build_colony.py
+    python3 assets-production/scripts/connect_colony.py
+    python3 assets-production/scripts/connect_engineering.py
     godot --headless --path apps/world --editor --import --quit
 
 # Review continuous Engineering entry and the rest of the colony.
@@ -205,14 +205,14 @@ world-seamless:
 
 # Rebuild the approved Engineering slice from retained Meshy downloads; no paid calls.
 world-engineering-build blender="/Applications/Blender.app/Contents/MacOS/Blender":
-    "{{blender}}" --background --factory-startup --python art/engineering-polish/build_engineering.py
-    "{{blender}}" --background --factory-startup --python art/engineering-polish/prepare_models.py
-    "{{blender}}" --background --factory-startup --python art/engineering-polish/prepare_character.py
-    python3 art/engineering-polish/connect_engineering.py
+    "{{blender}}" --background --factory-startup --python assets-production/scripts/build_engineering.py
+    "{{blender}}" --background --factory-startup --python assets-production/scripts/prepare_models.py
+    "{{blender}}" --background --factory-startup --python assets-production/scripts/prepare_character.py
+    python3 assets-production/scripts/connect_engineering.py
     godot --headless --path apps/world --editor --import
 
 # Rebuild the exact user-supplied Vanguard from retained rig exports; no paid calls.
 world-vanguard-build blender="/Applications/Blender.app/Contents/MacOS/Blender":
-    "{{blender}}" --background --factory-startup --python art/engineering-polish/prepare_character.py -- --asset cybercat-vanguard
-    "{{blender}}" --background --factory-startup --python art/engineering-polish/audit_character.py -- --vanguard
+    "{{blender}}" --background --factory-startup --python assets-production/scripts/prepare_character.py -- --asset cybercat-vanguard
+    "{{blender}}" --background --factory-startup --python assets-production/scripts/audit_character.py -- --vanguard
     godot --headless --path apps/world --editor --import

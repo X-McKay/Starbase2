@@ -29,7 +29,7 @@ for args in [
     ["--script", "test_character_lab.gd"],
     ["--script", "test_field_crew.gd", "--", "--api=http://127.0.0.1:1"],
     ["--script", "test_kit.gd"],
-    ["--script", "test_buildings.gd"],
+    ["--script", "test_structures.gd"],
     ["--script", "test_rooms.gd", "--", "--api=http://127.0.0.1:1"],
     ["--script", "test_interaction.gd", "--", "--api=http://127.0.0.1:1"],
 ]:

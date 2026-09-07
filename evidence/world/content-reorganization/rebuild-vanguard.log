@@ -1,0 +1,49 @@
+"/Applications/Blender.app/Contents/MacOS/Blender" --background --factory-startup --python assets-production/scripts/prepare_character.py -- --asset cybercat-vanguard
+13:39:09 | INFO: Data are loaded, start creating Blender stuff
+13:39:09 | INFO: Blender create Mesh node char1
+13:39:09 | INFO: glTF import finished in 0.11s
+Info: Saved as "vanguard-imported.blend"
+13:39:09 | INFO: Data are loaded, start creating Blender stuff
+13:39:09 | INFO: Blender create Mesh node char1
+13:39:09 | INFO: glTF import finished in 0.10s
+13:39:09 | INFO: Data are loaded, start creating Blender stuff
+13:39:09 | INFO: Blender create Mesh node char1
+13:39:09 | INFO: glTF import finished in 0.10s
+13:39:09 | INFO: Data are loaded, start creating Blender stuff
+13:39:09 | INFO: Blender create Mesh node char1
+13:39:09 | INFO: glTF import finished in 0.10s
+Info: Saved as "vanguard.blend"
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+13:39:13 | INFO: Starting glTF 2.0 export
+13:39:13 | INFO: Extracting primitive: char1
+13:39:15 | INFO: Primitives created: 1
+13:39:15 | INFO: Finished glTF 2.0 export in 2.3647170066833496 s
+
+ENGINEER_EXPORTED ['walk', 'run', 'idle', 'console']
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit
+"/Applications/Blender.app/Contents/MacOS/Blender" --background --factory-startup --python assets-production/scripts/audit_character.py -- --vanguard
+00:00.246  blend            | Read blend: "/Users/al/git/Starbase2/assets-production/characters/cybercat-vanguard/blender/vanguard.blend"
+{"rigid_helmet_vertices": 15565, "clips": [{"clip": "idle", "samples": 25, "max_rigid_helmet_deformation_m": 6.801409726587979e-07}, {"clip": "walk", "samples": 25, "max_rigid_helmet_deformation_m": 6.52849105550692e-07}, {"clip": "run", "samples": 25, "max_rigid_helmet_deformation_m": 6.829599972211009e-07}, {"clip": "console", "samples": 25, "max_rigid_helmet_deformation_m": 4.682376401268997e-07}], "scope": "Measures repaired rigid region; visual review also required for collar and limbs."}
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit
+godot --headless --path apps/world --editor --import
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Scanning file structure...[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Loading global class names...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifying GDExtensions...[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Creating autoload scripts...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Initializing plugins...[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Starting file scan...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Loading editor (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Loading editor layout...[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Loading docks...[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m

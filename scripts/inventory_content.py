@@ -10,7 +10,7 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-ROOTS = ("art", "apps/world/art", "apps/world/buildings/art", "evidence", "meshy_output", ".local")
+ROOTS = ("assets-production", "apps/world/assets", "evidence", "meshy_output", ".local")
 
 
 def main():

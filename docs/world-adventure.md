@@ -37,8 +37,8 @@ remain available. No backend schema, authentication or service boundary changed.
 
 The built-in image-generation tool produced the crew artwork; source prompts and
 correction history are retained in
-[crew-provenance.json](../apps/world/art/crew-provenance.json). The standing atlas
-is [crew-adventure.png](../apps/world/art/crew-adventure.png); Godot loads it directly rather than displaying a screenshot mockup. Original vector
+[crew-provenance.json](../apps/world/assets/characters/frontier-crew/crew-provenance.json). The standing atlas
+is [crew-adventure.png](../apps/world/assets/characters/frontier-crew/crew-adventure.png); Godot loads it directly rather than displaying a screenshot mockup. Original vector
 textures, reusable geometry and the sky shader remain editable source.
 
 The standing source has sixteen poses, four facings for each identity. Travel currently uses procedural bobbing, with no separate foot-stride artwork.

@@ -34,7 +34,7 @@ static func remove_matte(image:Image, minimum:int, chroma:int) -> Dictionary:
 	return {"image":Image.create_from_data(size.x,size.y,false,Image.FORMAT_RGBA8,data),"removed_pixels":queue.size()}
 
 func _initialize() -> void:
-	var path:="res://../../art/characters/illustrated-captain.json"
+	var path:="res://../../assets-production/characters/captain/illustrated-captain.json"
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--manifest="): path=arg.trim_prefix("--manifest=")
 	var config:Dictionary=JSON.parse_string(FileAccess.get_file_as_string(path))
@@ -74,7 +74,7 @@ func _initialize() -> void:
 		var target:=Vector2i(column*cell.x+2,row*cell.y+2)
 		atlas.blit_rect(normalized,Rect2i(Vector2i.ZERO,size),target)
 		regions.append(Rect2i(target,size))
-	var output:String="res://art/characters/"+config.id+".png"
+	var output:String="res://assets/characters/captain/"+config.id+".png"
 	assert(atlas.save_png(ProjectSettings.globalize_path(output))==OK)
 	# External PNG references keep the SpriteFrames resource small and editable.
 	var resources:Array[String]=[]

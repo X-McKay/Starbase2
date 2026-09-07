@@ -1,8 +1,7 @@
 # Asset-driven colony buildings
 
-Terminology: the [content taxonomy](content-organization.md) defines the target
-`assets-production/` and `apps/world/assets/` categories. Existing paths and
-commands below remain current until the coordinated migration; buildings map to
+Terminology: the [content taxonomy](content-organization.md) defines the shared
+`assets-production/` and `apps/world/assets/` categories. Resource links and current commands below follow the migration; buildings map to
 structures, while crew roles and room IDs retain their product meaning.
 
 The [Meshy/Blender pass](meshy-blender.md) now supplies native shells and furnished
@@ -33,7 +32,7 @@ their runtime host has no building-type rendering branches.
 
 ![Hangar interior](../evidence/building-catalog/interior.png)
 
-The [building definition](../apps/world/building_definition.gd) is a Godot Resource
+The [building definition](../apps/world/structure_definition.gd) is a Godot Resource
 edited through the Inspector or its `.tres` text. Each definition contains:
 
 - An ID and display title; exactly one PNG exterior or native exterior scene.
@@ -42,7 +41,7 @@ edited through the Inspector or its `.tres` text. Each definition contains:
 - Foundation margins (left, back, right, front), independent of collision.
 - Optional yard and interior scene paths; an interior navigation rectangle.
 
-The [placement scene](../apps/world/buildings/colony.tscn) assigns a definition to
+The [placement scene](../apps/world/structures/colony.tscn) assigns a definition to
 each shared building host. It also assigns an optional existing UI context. Art
 does not determine an agent, service, permissions, health, or work state. Places
 with no operational binding can have interiors with a scenery label.
@@ -59,11 +58,11 @@ the original crew inspectors and shortcuts remain available.
 
 ## Add another unique building
 
-1. Put an original/licensed transparent PNG in `apps/world/buildings/art/`, with
+1. Put an original/licensed transparent PNG in `apps/world/structures/art/`, with
    provenance. Use the same fixed exterior view (approximately 37° downward,
    12° side view), lighting and crew scale. Preserve alpha; keep shadows and
    operational indicators separate from painted art.
-2. Duplicate [the hangar definition](../apps/world/buildings/definitions/repair.tres).
+2. Duplicate [the hangar definition](../apps/world/structures/definitions/repair.tres).
    Give it a unique ID/title, change its PNG path, and calibrate the threshold pixel,
    pixel size and physical footprint. Clear optional yard/interior paths if absent.
 3. Add a building host node to the placement scene and assign the definition.
@@ -80,13 +79,13 @@ the original crew inspectors and shortcuts remain available.
    does not prove a correct doorway or occlusion.
 
 ```sh
-mise exec -- just world-building repair
-mise exec -- just world-building repair 50
+mise exec -- just world-structure repair
+mise exec -- just world-structure repair 50
 mise exec -- just check-world
 mise exec -- just world
 ```
 
-`world-building` accepts a definition filename without `.tres`. It is an isolated
+`world-structure` accepts a definition filename without `.tres`. It is an isolated
 art preview with no backend connection. Close/relaunch the preview after edits.
 The native scenes are the editable source; no generator is needed to rebuild
 them. A new static PNG building needs artwork, a resource and a placement, with
@@ -137,7 +136,7 @@ volume or an arbitrary-angle asset. Whole-building shadows, animated doors,
 separate emission layers, and a matching alternate-angle image are not provided.
 Painted screens, machinery and lights are decorative. Original PNG prompts,
 generation method and SHA-256 hashes are in
-[art provenance](../apps/world/buildings/art/provenance.json).
+[art provenance](../assets-production/batches/illustrated-structures/provenance.json).
 
 ## Five-building district rollout · 2026-09-06
 

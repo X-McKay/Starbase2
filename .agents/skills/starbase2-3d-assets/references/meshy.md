@@ -35,7 +35,7 @@ batches covered by a total cap; account balance is not spending authorization.
 Reuse the user's existing approval. Ask only if the next necessary action would
 exceed or materially change it, with the prepared next action made concrete.
 
-The existing [pipeline](../../../../art/engineering-polish/pipeline.py) and its
+The existing [pipeline](../../../../assets-production/scripts/pipeline.py) and its
 plan/ledger demonstrate this boundary. A future slice should use its own asset
 plan and reviewed inputs, not silently append unrelated work to an old batch.
 

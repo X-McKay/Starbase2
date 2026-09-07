@@ -45,8 +45,8 @@ live IK can export incorrectly when baking loses the hierarchy or action slot.
 Match the engine/export skin-influence limit in the editable source before
 measuring it; inspect exporter warnings rather than accepting silent pruning.
 
-[Preparation script](../../../../art/engineering-polish/prepare_character.py)
-and [helmet audit](../../../../art/engineering-polish/audit_character.py) are
+[Preparation script](../../../../assets-production/scripts/prepare_character.py)
+and [helmet audit](../../../../assets-production/scripts/audit_character.py) are
 concrete examples. The audit measures fully rigid vertices in head space over
 multiple poses; deliberately blended neck vertices need separate evaluation.
 Its threshold and sampled region must remain explicit. A passing rigid-region

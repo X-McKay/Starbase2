@@ -9,7 +9,7 @@ func run(tree:SceneTree, scene:Node) -> void:
 	check(not ResourceLoader.exists("res://test_state.gd"),"Development tests leaked into release")
 	check(not ResourceLoader.exists("res://characters/illustrated_import.gd"),"Art importer leaked into release")
 	check(FileAccess.file_exists("res://characters/catalog.json"),"Missing character catalog")
-	check(FileAccess.file_exists("res://art/kits/aster-v1/manifest.json"),"Missing surface catalog")
+	check(FileAccess.file_exists("res://assets/kits/aster-v1/manifest.json"),"Missing surface catalog")
 	var catalog=load("res://characters/catalog.gd")
 	var definition=catalog.get_definition("operator")
 	var actor=load("res://actor.gd").new()

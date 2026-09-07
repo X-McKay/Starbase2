@@ -1,0 +1,26 @@
+00:00.232  blend            | Read blend: "/Users/al/git/Starbase2/assets-production/characters/captain/blender/captain.blend"
+00:00.249  blend            | Read blend: "/Users/al/git/Starbase2/assets-production/characters/cybercat-sentinel/blender/cybercat-repaired.blend"
+00:00.301  blend            | Read blend: "/Users/al/git/Starbase2/assets-production/characters/cybercat-sentinel/blender/cybercat-source.blend"
+00:00.356  blend            | Read blend: "/Users/al/git/Starbase2/assets-production/characters/cybercat-sentinel/blender/cybercat.blend"
+00:00.411  blend            | Read blend: "/Users/al/git/Starbase2/assets-production/characters/cybercat-vanguard/blender/vanguard-imported.blend"
+00:00.885  blend            | Read blend: "/Users/al/git/Starbase2/assets-production/characters/cybercat-vanguard/blender/vanguard.blend"
+00:02.718  blend            | Read blend: "/Users/al/git/Starbase2/assets-production/characters/engineering-specialist/blender/engineer-imported.blend"
+00:02.803  blend            | Read blend: "/Users/al/git/Starbase2/assets-production/characters/engineering-specialist/blender/engineer.blend"
+00:03.058  blend            | Read blend: "/Users/al/git/Starbase2/assets-production/characters/eva/blender/eva.blend"
+00:03.078  blend            | Read blend: "/Users/al/git/Starbase2/assets-production/props/containment-reactor/blender/containment-reactor.blend"
+00:03.289  blend            | Read blend: "/Users/al/git/Starbase2/assets-production/props/reactor-apparatus/blender/reactor-apparatus.blend"
+00:03.428  blend            | Read blend: "/Users/al/git/Starbase2/assets-production/structures/botanical/blender/greenhouse-building.blend"
+00:03.443  blend            | Read blend: "/Users/al/git/Starbase2/assets-production/structures/command/blender/review-building.blend"
+00:03.464  blend            | Read blend: "/Users/al/git/Starbase2/assets-production/structures/engineering/blender/cooling-service-module.blend"
+00:03.858  blend            | Read blend: "/Users/al/git/Starbase2/assets-production/structures/engineering/blender/engineering-architecture.blend"
+00:03.881  blend            | Read blend: "/Users/al/git/Starbase2/assets-production/structures/engineering/blender/repair-building.blend"
+00:03.899  blend            | Read blend: "/Users/al/git/Starbase2/assets-production/structures/engineering-prototype/blender/engineering-exterior.blend"
+00:03.965  blend            | Read blend: "/Users/al/git/Starbase2/assets-production/structures/engineering-prototype/blender/engineering-interior.blend"
+00:03.980  blend            | Read blend: "/Users/al/git/Starbase2/assets-production/structures/habitat/blender/habitat-building.blend"
+00:03.999  blend            | Read blend: "/Users/al/git/Starbase2/assets-production/structures/training/blender/gym-building.blend"
+Warning: Library file, loading empty scene
+Warning: Library file, loading empty scene
+SOURCE_AUDIT_OK 20
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit

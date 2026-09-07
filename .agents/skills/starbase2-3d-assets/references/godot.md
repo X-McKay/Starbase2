@@ -21,7 +21,7 @@ routes clear of decorative risers, lockers and consoles, with collisions where
 needed. Preserve existing user edits when reconnecting generated scenes.
 
 See the existing station/room/definition scripts and
-[Engineering connection](../../../../art/engineering-polish/connect_engineering.py).
+[Engineering connection](../../../../assets-production/scripts/connect_engineering.py).
 Its coordinates and names belong to that slice. If a broad colony rebuild would
 overwrite a selected scene, update the rebuild recipe to reapply that selection.
 

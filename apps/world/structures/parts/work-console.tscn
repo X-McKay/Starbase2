@@ -1,0 +1,57 @@
+[gd_scene format=3]
+
+[ext_resource type="Shader" path="res://kit_surface.gdshader" id="1_huo4e"]
+[ext_resource type="Texture2D" path="res://assets/kits/aster-v1/materials.png" id="2_7q1ql"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8ttce"]
+albedo_color = Color(0.23921569, 0.3372549, 0.39607844, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="BoxMesh_mv30l"]
+size = Vector3(2.4, 1.2, 1.1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vrvmw"]
+render_priority = 0
+shader = ExtResource("1_huo4e")
+shader_parameter/atlas = ExtResource("2_7q1ql")
+shader_parameter/region = Vector4(0.5015949, 0.5015949, 0.4968102, 0.4968102)
+shader_parameter/emission_strength = 0.12
+
+[sub_resource type="QuadMesh" id="QuadMesh_2t4e1"]
+size = Vector2(2.38, 1.08)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t62kf"]
+render_priority = 0
+shader = ExtResource("1_huo4e")
+shader_parameter/atlas = ExtResource("2_7q1ql")
+shader_parameter/region = Vector4(0.0015948963, 0.5015949, 0.4968102, 0.4968102)
+shader_parameter/emission_strength = 0.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_ewtar"]
+size = Vector2(2.3, 1.12)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_juamy"]
+size = Vector3(2.4, 1.2, 1.1)
+
+[node name="WorkConsole" type="Node3D" unique_id=1307131473]
+
+[node name="MeshInstance3D0" type="MeshInstance3D" parent="." unique_id=1202983409]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+material_override = SubResource("StandardMaterial3D_8ttce")
+mesh = SubResource("BoxMesh_mv30l")
+
+[node name="MeshInstance3D1" type="MeshInstance3D" parent="." unique_id=370967854]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 1.21, 0)
+material_override = SubResource("ShaderMaterial_vrvmw")
+mesh = SubResource("QuadMesh_2t4e1")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1500794789]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0.56)
+material_override = SubResource("ShaderMaterial_t62kf")
+mesh = SubResource("QuadMesh_ewtar")
+
+[node name="StaticBody3D3" type="StaticBody3D" parent="." unique_id=337374826]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+
+[node name="CollisionShape3D0" type="CollisionShape3D" parent="StaticBody3D3" unique_id=1203317443]
+shape = SubResource("BoxShape3D_juamy")

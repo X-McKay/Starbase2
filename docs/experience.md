@@ -244,5 +244,5 @@ authored continuous interior. The player uses CyberCat Vanguard; Mender retains 
 suit. Running follows actual displacement; Mender's console
 gesture follows local inspection in Engineering, never inferred operational
 activity. Reduced motion freezes the decorative effects and skeletal animation;
-reactor sound defaults off. The [review notes](../art/engineering-polish/REVIEW.md)
+reactor sound defaults off. The [review notes](../assets-production/batches/engineering-polish/REVIEW.md)
 define the bounded milestone and remaining visual review.

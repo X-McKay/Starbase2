@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+[ext_resource type="Script" path="res://structure_definition.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"repair"
+title = "ENGINEERING HANGAR"
+image_pixel_size = 0.009
+image_door_pixel = Vector2(928, 823)
+collision_boxes = Array[Rect2]([Rect2(-7.3,-6.75,10.7,8.3)])
+seamless = true
+exterior_scene = "res://structures/exteriors/engineering-polished.tscn"
+interior_scene = "res://structures/interiors/engineering-polished.tscn"
+interior_bounds = Rect2(-7.0600,-6.5100,10.2200,7.8200)
+threshold = Vector3(-1.9500,0.0000,1.5500)
+approach = Vector3(-1.9500,0.0000,2.4000)
+return_point = Vector3(-1.9500,0.0000,3.1000)
+room_blocks = Array[Rect2]([Rect2(-3.3000,-3.9500,2.7000,2.7000),Rect2(-6.7000,-6.3800,1.3000,0.7600),Rect2(1.5000,-6.3800,1.3000,0.7600),Rect2(0.0000,-0.9000,1.3000,0.8000),Rect2(-7.0400,-5.0500,0.4800,2.0000),Rect2(2.6600,-5.0500,0.4800,2.0000),Rect2(-3.9500,-2.7000,0.2000,0.2000),Rect2(-0.1500,-2.7000,0.2000,0.2000)])

@@ -20,9 +20,9 @@ skill owns endpoint/client details; these new skills add project experience.
 
 | Observed issue and evidence | Reusable practice | Scope / what not to assume |
 |---|---|---|
-| Vanguard's shared GLB had no skin or clips; [source provenance](../art/cybercat-vanguard/provenance.json) records the exact asset | Inspect actual file contents before promising animation or regenerating a model | A model viewer pose or a newer model version does not prove better animation |
+| Vanguard's shared GLB had no skin or clips; [source provenance](../assets-production/characters/cybercat-vanguard/provenance.json) records the exact asset | Inspect actual file contents before promising animation or regenerating a model | A model viewer pose or a newer model version does not prove better animation |
 | Website task metadata was readable but rigging by task ID returned HTTP 400; the returned GLB URL succeeded ([record](../evidence/cybercat-vanguard/README.md)) | Keep a supported source-URL path after a definite task-ID rejection; retain the original failure | This is not a reason to blindly retry every failure or bypass an uncertain submission |
-| An earlier 60-credit batch and a 140-credit Engineering batch initially had separate accounting; Vanguard added 8 ([provenance](../art/engineering-polish/provenance.json)) | Count prior batches and pending reservations under the user's total cap; reuse existing authorization | Provider account balance is not the authorized budget; historical prices are not future quotes |
+| An earlier 60-credit batch and a 140-credit Engineering batch initially had separate accounting; Vanguard added 8 ([provenance](../assets-production/batches/engineering-polish/provenance.json)) | Count prior batches and pending reservations under the user's total cap; reuse existing authorization | Provider account balance is not the authorized budget; historical prices are not future quotes |
 | Engineering bounds included a rig control Icosphere ([inspection](../evidence/engineering-polish/rig-inspection.log)) | Select intended skinned meshes and update evaluated transforms before measuring/exporting | Do not rescale a valid character to compensate for unrelated control geometry |
 | Imported bone tails exceeded joint spacing; console baking also lost correct hierarchy ([record](../evidence/engineering-polish/README.md)) | Reproduce the tail defect; preserve bind orientation and bake parent-relative transforms/action slots | No universal tail multiplier or bone naming convention is established |
 | Face/helmet vertices had shoulder influence ([Vanguard weights](../evidence/cybercat-vanguard/source-weights.json)) | Locate the actual collar, stabilize the rigid region and preserve a flexible neck transition | Do not copy a previous model's height threshold or certify the entire character from one region |
@@ -35,13 +35,13 @@ skill owns endpoint/client details; these new skills add project experience.
 
 ## Evidence and reusable implementations
 
-- [Engineering review](../art/engineering-polish/REVIEW.md): concept to hull/reactor,
+- [Engineering review](../assets-production/batches/engineering-polish/REVIEW.md): concept to hull/reactor,
   authored interior, tested continuous journeys, native captures and limitations.
-- [Vanguard review](../art/cybercat-vanguard/README.md): exact supplied asset,
+- [Vanguard review](../assets-production/characters/cybercat-vanguard/README.md): exact supplied asset,
   rigging, 2K game textures, face/helmet stabilization and runtime selection.
-- [Preparation](../art/engineering-polish/prepare_character.py),
-  [rigid-region audit](../art/engineering-polish/audit_character.py), and
-  [building connection](../art/engineering-polish/connect_engineering.py): working
+- [Preparation](../assets-production/scripts/prepare_character.py),
+  [rigid-region audit](../assets-production/scripts/audit_character.py), and
+  [building connection](../assets-production/scripts/connect_engineering.py): working
   implementations with asset-specific assumptions to inspect before reuse.
 - [World checks](../scripts/check_world.py) and
   [standalone qualification](../scripts/check_world_export.py): executable checks,
@@ -66,3 +66,15 @@ structure or character, retain the resulting native/package evidence as relevant
 and record which instructions helped, misrouted or missed a failure. The current
 skills have static validation and scenario self-review, not an independent
 behavioral effectiveness study or verified discovery in every host.
+
+## Content migration follow-up — 2026-09-07
+
+The [migration record](../evidence/world/content-reorganization/README.md) retains
+the source/runtime mapping, duplicate-removal hashes and actual package review.
+A directory rename also needs Godot `$Node` shorthand and export include filters
+checked. Editable Blender libraries may contain valid datablocks without a scene;
+a source audit must distinguish those from empty/broken assets. A second direct
+macOS GUI launch stalled before engine output; Launch Services rendered the same
+archive and the fresh qualification passed. Use the current export harness,
+including its native error checks and narrowly scoped timeout cleanup. The exact
+OS cause was not isolated, so do not generalize this to all launch failures.

@@ -1,0 +1,116 @@
+python3 scripts/check_world.py
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Scanning file structure...[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Loading global class names...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifying GDExtensions...[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Creating autoload scripts...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Initializing plugins...[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Starting file scan...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Loading editor (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Loading editor layout...[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Loading docks...[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Godot state checks passed: disconnected, empty, stale, missing evidence, terminal and pending states
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Command board checks passed: fixture/offline command fences, findings, coverage and compact bounds
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Node not found: "Buildings" (relative to "/root/AsterOutpost").
+   at: get_node (scene/main/node.cpp:1976)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://world.gd:165)
+       [1] run (res://test_visual_fixture.gd:5)
+SCRIPT ERROR: Cannot call method 'get_children' on a null value.
+          at: _ready (res://world.gd:165)
+          GDScript backtrace (most recent call first):
+              [0] _ready (res://world.gd:165)
+              [1] run (res://test_visual_fixture.gd:5)
+ERROR: Node not found: "Buildings" (relative to "/root/AsterOutpost").
+   at: get_node (scene/main/node.cpp:1976)
+   GDScript backtrace (most recent call first):
+       [0] _physics_process (res://world.gd:491)
+SCRIPT ERROR: Cannot call method 'get_children' on a null value.
+          at: _physics_process (res://world.gd:491)
+          GDScript backtrace (most recent call first):
+              [0] _physics_process (res://world.gd:491)
+ERROR: Node not found: "Buildings" (relative to "/root/AsterOutpost").
+   at: get_node (scene/main/node.cpp:1976)
+   GDScript backtrace (most recent call first):
+       [0] _physics_process (res://world.gd:491)
+SCRIPT ERROR: Cannot call method 'get_children' on a null value.
+          at: _physics_process (res://world.gd:491)
+          GDScript backtrace (most recent call first):
+              [0] _physics_process (res://world.gd:491)
+ERROR: Node not found: "Buildings" (relative to "/root/AsterOutpost").
+   at: get_node (scene/main/node.cpp:1976)
+   GDScript backtrace (most recent call first):
+       [0] _physics_process (res://world.gd:491)
+SCRIPT ERROR: Cannot call method 'get_children' on a null value.
+          at: _physics_process (res://world.gd:491)
+          GDScript backtrace (most recent call first):
+              [0] _physics_process (res://world.gd:491)
+ERROR: Node not found: "Buildings" (relative to "/root/AsterOutpost").
+   at: get_node (scene/main/node.cpp:1976)
+   GDScript backtrace (most recent call first):
+       [0] _physics_process (res://world.gd:491)
+SCRIPT ERROR: Cannot call method 'get_children' on a null value.
+          at: _physics_process (res://world.gd:491)
+          GDScript backtrace (most recent call first):
+              [0] _physics_process (res://world.gd:491)
+ERROR: Node not found: "Buildings" (relative to "/root/AsterOutpost").
+   at: get_node (scene/main/node.cpp:1976)
+   GDScript backtrace (most recent call first):
+       [0] _physics_process (res://world.gd:491)
+SCRIPT ERROR: Cannot call method 'get_children' on a null value.
+          at: _physics_process (res://world.gd:491)
+          GDScript backtrace (most recent call first):
+              [0] _physics_process (res://world.gd:491)
+ERROR: Node not found: "Buildings" (relative to "/root/AsterOutpost").
+   at: get_node (scene/main/node.cpp:1976)
+   GDScript backtrace (most recent call first):
+       [0] _physics_process (res://world.gd:491)
+SCRIPT ERROR: Cannot call method 'get_children' on a null value.
+          at: _physics_process (res://world.gd:491)
+          GDScript backtrace (most recent call first):
+              [0] _physics_process (res://world.gd:491)
+ERROR: Node not found: "Buildings" (relative to "/root/AsterOutpost").
+   at: get_node (scene/main/node.cpp:1976)
+   GDScript backtrace (most recent call first):
+       [0] _physics_process (res://world.gd:491)
+SCRIPT ERROR: Cannot call method 'get_children' on a null value.
+          at: _physics_process (res://world.gd:491)
+          GDScript backtrace (most recent call first):
+              [0] _physics_process (res://world.gd:491)
+ERROR: Node not found: "Buildings" (relative to "/root/AsterOutpost").
+   at: get_node (scene/main/node.cpp:1976)
+   GDScript backtrace (most recent call first):
+       [0] _physics_process (res://world.gd:491)
+SCRIPT ERROR: Cannot call method 'get_children' on a null value.
+          at: _physics_process (res://world.gd:491)
+          GDScript backtrace (most recent call first):
+              [0] _physics_process (res://world.gd:491)
+ERROR: Node not found: "Buildings" (relative to "/root/AsterOutpost").
+   at: get_node (scene/main/node.cpp:1976)
+   GDScript backtrace (most recent call first):
+       [0] _physics_process (res://world.gd:491)
+SCRIPT ERROR: Cannot call method 'get_children' on a null value.
+          at: _physics_process (res://world.gd:491)
+          GDScript backtrace (most recent call first):
+              [0] _physics_process (res://world.gd:491)
+Visual fixture cannot open a live operational Command board or dispatch work
+WARNING: 7 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+
+Godot validation failed; inspect the retained command output.
+error: recipe `check-world` failed on line 62 with exit code 1

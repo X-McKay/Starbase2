@@ -61,8 +61,8 @@ var crew_return := Vector3.ZERO
 var room_return := Vector3.ZERO
 var frame_usec := 0
 const Room = preload("res://colony_room.gd")
-const Buildings = preload("res://building_catalog.gd")
-var STATIONS: Dictionary = Buildings.station_paths()
+const Structures = preload("res://structure_catalog.gd")
+var STATIONS: Dictionary = Structures.station_paths()
 var active_building: Node3D
 const MEMBERS := {"repair":"Mender", "review":"Surveyor", "gym":"Trainer", "watchkeeper":"Watchkeeper", "reviewer":"Reviewer"}
 
@@ -162,7 +162,7 @@ func _ready() -> void:
 	hud.map_requested.connect(toggle_map)
 	hud.zoom_requested.connect(adjust_zoom)
 	hud.room_requested.connect(enter_room)
-	hud.set_buildings($Buildings.get_children())
+	hud.set_structures($Structures.get_children())
 	hud.exit_requested.connect(exit_room)
 	hud.repair_requested.connect(launch_repair)
 	hud.cancel_requested.connect(cancel_selected)
@@ -229,7 +229,7 @@ func _verify_package() -> void:
 
 func enter_room(kind: String) -> void:
 	if kind in ["watchkeeper","reviewer"]: kind="review"
-	var station: Node3D=get_node_or_null(STATIONS.get(kind,"Buildings/"+kind))
+	var station: Node3D=get_node_or_null(STATIONS.get(kind,"Structures/"+kind))
 	if station==null or station.definition.interior_scene.is_empty(): return
 	if station.definition.seamless:
 		$Operator.position=station.room.global_position+station.room.spawn_point
@@ -488,7 +488,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _physics_process(_delta: float) -> void:
 	if hud == null: return
 	var containing: Node3D=null
-	for station in $Buildings.get_children():
+	for station in $Structures.get_children():
 		station.update_presentation($Operator.position,_delta,hud.reduced)
 		if station.contains($Operator.position): containing=station
 	if active_room==null or active_room.definition.seamless: set_room_context(containing)
@@ -532,7 +532,7 @@ func _physics_process(_delta: float) -> void:
 	if active_room != null:
 		if MEMBERS.has(room_kind) and $Operator.position.distance_to(active_room.global_position+active_room.console_point)<1.5: nearest=room_kind
 	else:
-		for station in $Buildings.get_children():
+		for station in $Structures.get_children():
 			if not station.definition.interior_scene.is_empty() and $Operator.position.distance_to(station.entrance())<2.0: near_door=str(station.name)
 	if nearest != "":
 		hud.prompt.text = "E  ·  Inspect " + {"repair":"Mender’s workshop","review":"Surveyor’s briefing","gym":"Trainer’s gym","watchkeeper":"Watchkeeper’s cluster watch","reviewer":"PR Reviewer’s drafts"}[nearest]
@@ -541,7 +541,7 @@ func _physics_process(_delta: float) -> void:
 	if active_room != null:
 		hud.prompt.text=("E · Inspect console / crew   ·   " if nearest!="" else "Explore "+active_building.definition.title+"   ·   ")+"F · Return to colony"
 	elif near_door!="":
-		hud.prompt.text="F · Enter "+get_node("Buildings/"+near_door).definition.title+"   ·   E · Inspect nearby crew"
+		hud.prompt.text="F · Enter "+get_node("Structures/"+near_door).definition.title+"   ·   E · Inspect nearby crew"
 	if walk_test and $Operator.position.distance_to(walk_destination) < 0.65: walk_reached = true
 
 func _process(delta: float) -> void:

@@ -1,0 +1,122 @@
+[
+  {
+    "path": "assets-production/structures/engineering-prototype/blender/engineering-exterior.blend",
+    "selected_sha256": "225083d37b9db8be61d20771a9bde67f0db911efcec58c611ab152bd8a39c1c6",
+    "rebuild_sha256": "225083d37b9db8be61d20771a9bde67f0db911efcec58c611ab152bd8a39c1c6",
+    "selected_source_preserved": true
+  },
+  {
+    "path": "assets-production/structures/botanical/blender/greenhouse-building.blend",
+    "selected_sha256": "11674696563202cb66922d4f2e74a83b1efd347b46eb7d9c6c094437b3813050",
+    "rebuild_sha256": "c35b99152771c65bb22c81dabf8dba041da5a4c52eadb8f5e4337d87ff17b186",
+    "selected_source_preserved": true
+  },
+  {
+    "path": "assets-production/structures/training/blender/gym-building.blend",
+    "selected_sha256": "87146f87a1acdbf483342479d7f55d3ccedafc423cefe844b6b0ff5a34e5462d",
+    "rebuild_sha256": "01e5a09e6c4547fd53afc1b95a2148541eeb67337fd08c349188a9c148d47279",
+    "selected_source_preserved": true
+  },
+  {
+    "path": "assets-production/characters/cybercat-sentinel/blender/cybercat-source.blend",
+    "selected_sha256": "b79ea808fc47d5564aa12420680c0834d67a72e1c9677cc43ff2f08834b1b8e8",
+    "rebuild_sha256": "b79ea808fc47d5564aa12420680c0834d67a72e1c9677cc43ff2f08834b1b8e8",
+    "selected_source_preserved": true
+  },
+  {
+    "path": "assets-production/structures/engineering-prototype/blender/engineering-interior.blend",
+    "selected_sha256": "4f133f3d60484d8923a7480b700c99ff379c72c03f9bad43330808360424db98",
+    "rebuild_sha256": "4f133f3d60484d8923a7480b700c99ff379c72c03f9bad43330808360424db98",
+    "selected_source_preserved": true
+  },
+  {
+    "path": "assets-production/structures/command/blender/review-building.blend",
+    "selected_sha256": "1b880405184863562aa6d29a0e8f099d4ad8364f4401f9a0eb190a5b9d73f3bc",
+    "rebuild_sha256": "303dda8ed68a34a13e3a14f71c55d4bb7a75dccc7e35169dd0583287bb6b963c",
+    "selected_source_preserved": true
+  },
+  {
+    "path": "assets-production/structures/habitat/blender/habitat-building.blend",
+    "selected_sha256": "d68224eced8a98a853c77f9b3b4f80472a08b79760f795a602384a45ef424cdf",
+    "rebuild_sha256": "7460cf847c450e1cbbeadf6907f262abdaa1f2f84fa77d5b10eb2890f7ef0a7c",
+    "selected_source_preserved": true
+  },
+  {
+    "path": "assets-production/props/reactor-apparatus/blender/reactor-apparatus.blend",
+    "selected_sha256": "ccc099923d910c678ef0125e42acb9fe3ffcf730787416fe380fae05800a78df",
+    "rebuild_sha256": "ccc099923d910c678ef0125e42acb9fe3ffcf730787416fe380fae05800a78df",
+    "selected_source_preserved": true
+  },
+  {
+    "path": "assets-production/characters/cybercat-sentinel/blender/cybercat.blend",
+    "selected_sha256": "99ed6d9ece89756ad666c2ece568cb307e0764d791ad31ad0969ea2e0e311ef7",
+    "rebuild_sha256": "99ed6d9ece89756ad666c2ece568cb307e0764d791ad31ad0969ea2e0e311ef7",
+    "selected_source_preserved": true
+  },
+  {
+    "path": "assets-production/characters/cybercat-sentinel/blender/cybercat-repaired.blend",
+    "selected_sha256": "d138ef404daeae1c16088f22e73dfc8a425c8946ae3e75d33341e49b976fa64b",
+    "rebuild_sha256": "d138ef404daeae1c16088f22e73dfc8a425c8946ae3e75d33341e49b976fa64b",
+    "selected_source_preserved": true
+  },
+  {
+    "path": "assets-production/structures/engineering/blender/repair-building.blend",
+    "selected_sha256": "7b445c5b7b552a71fcafa3c773949864560359d69c96d249f6bec4c70d949ae7",
+    "rebuild_sha256": "2f5e02d459fdc4cfd1f5bb31a28c3693c9b47ef053400479a7e0c7acd565eda0",
+    "selected_source_preserved": true
+  },
+  {
+    "path": "assets-production/characters/cybercat-vanguard/blender/vanguard-imported.blend",
+    "selected_sha256": "21b0235fb192a8b865763753fd59d8326aa4418801bdca2a723f74bac403e7d7",
+    "rebuild_sha256": "e996ae538e76c35aaa1e7fd4115c4636b7486f3b71ef7612592d3aad56002459",
+    "selected_source_preserved": true
+  },
+  {
+    "path": "assets-production/characters/cybercat-vanguard/blender/vanguard.blend",
+    "selected_sha256": "b06c80c324804878fd6ef18239166263f18aed5fede945d0755b707b9b1f2605",
+    "rebuild_sha256": "d2ae8e3d0e30c92f8c5f274c65d486e22de6db39f56f2946405e6ef4b413660f",
+    "selected_source_preserved": true
+  },
+  {
+    "path": "assets-production/structures/engineering/blender/engineering-architecture.blend",
+    "selected_sha256": "289d5d14a0493101255d697c2d351261acfc492357ad6c636bc83b22e7b141f1",
+    "rebuild_sha256": "ca0277b96f0c52951c882a7571aada4849877478166e440bfa77721ae9d4503b",
+    "selected_source_preserved": true
+  },
+  {
+    "path": "assets-production/characters/engineering-specialist/blender/engineer-imported.blend",
+    "selected_sha256": "f2db5169570f32335979d24c042ea0df22c85b767815140d7ddc16a063e8f875",
+    "rebuild_sha256": "6d59a4a05e8756cb648f9c9a97bf474e7aa54c34656ee50046c270ec6f722c70",
+    "selected_source_preserved": true
+  },
+  {
+    "path": "assets-production/props/containment-reactor/blender/containment-reactor.blend",
+    "selected_sha256": "79cf8e9ba9dc0cf400494cb790284d54a6536f7e11c1b1f29247e59267be33ed",
+    "rebuild_sha256": "9cc7fe3a41fb5972662f71ee7a1732281d3045ec830e84de28b26e4e34cd0250",
+    "selected_source_preserved": true
+  },
+  {
+    "path": "assets-production/characters/engineering-specialist/blender/engineer.blend",
+    "selected_sha256": "396e39fb753fd320f0cea3e811cdcf57861d886d4e8c5807f1da6d740bd9ebf1",
+    "rebuild_sha256": "d2e28b3b6089b05f95b32ac808c8d3f31eddb2f050f41885048e164462f3f77b",
+    "selected_source_preserved": true
+  },
+  {
+    "path": "assets-production/structures/engineering/blender/cooling-service-module.blend",
+    "selected_sha256": "0bc5ef79789426a3bbfd2eb215708bb31d33ea3c03af9beb0b79866647484e40",
+    "rebuild_sha256": "53aebee12676b6dd4fc36da55e238c1d0b7f42d0c25ca3f181a84fe27555f49b",
+    "selected_source_preserved": true
+  },
+  {
+    "path": "assets-production/characters/captain/blender/captain.blend",
+    "selected_sha256": "b0092f34e9562634d0003dc5601dd4d6e74c3b13a1a94f3c29bfd587b3e9a422",
+    "rebuild_sha256": "b0092f34e9562634d0003dc5601dd4d6e74c3b13a1a94f3c29bfd587b3e9a422",
+    "selected_source_preserved": true
+  },
+  {
+    "path": "assets-production/characters/eva/blender/eva.blend",
+    "selected_sha256": "2b97b60ee22d0c46d1157609d19bdd7b40e50503d8c5fdebb8fe46302019626d",
+    "rebuild_sha256": "2b97b60ee22d0c46d1157609d19bdd7b40e50503d8c5fdebb8fe46302019626d",
+    "selected_source_preserved": true
+  }
+]

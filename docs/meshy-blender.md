@@ -52,8 +52,8 @@ collision recovery, keyboard inspection, stale/offline activity and map controls
 ## Face and helmet repair
 
 The supplied rig assigned upper-head vertices to shoulder and arm bones. The
-copied source remains in `art/meshy-blender/cybercat-source.blend`.
-[The repair](../art/meshy-blender/repair_head_weights.py) makes vertices at world
+copied source remains in `assets-production/characters/cybercat-sentinel/blender/cybercat-source.blend`.
+[The repair](../assets-production/scripts/repair_head_weights.py) makes vertices at world
 Z >= 1.47 metres rigid to `Head`, with a smooth transition from 1.40 metres.
 Weights below that region remain unchanged. This region is authored for this
 source, not a general repair algorithm.
@@ -62,7 +62,7 @@ source, not a general repair algorithm.
 5,631 edges within the rigid region. Maximum relative edge-length strain fell
 from 2.3324 to 0.0000706. This verifies rigidity, not anatomical perfection.
 The source face texture, helmet shape and lower hair retain generation artifacts.
-The final editable scene is `art/meshy-blender/cybercat.blend`.
+The final editable scene is `assets-production/characters/cybercat-sentinel/blender/cybercat.blend`.
 
 ## Production and cost
 
@@ -75,12 +75,12 @@ The owner approved an 80-credit cap. Two Meshy-6 preview/texturing pipelines cos
 60 credits total; the character repair used no credits. The API task list does
 not expose the supplied web-workspace assets. The structure is a newly generated
 interpretation, not a download of the original room. Prompts and cap are in the
-[generation plan](../art/meshy-blender/generation-plan.json). The runner resumes
+[generation plan](../assets-production/batches/meshy-blender/generation-plan.json). The runner resumes
 recorded IDs and refuses to retry uncertain submissions.
 
 Raw downloads, task responses and thumbnails stay in ignored `meshy_output/`.
 Shipping GLBs, extracted Godot textures, editable Blender sources and
-[task IDs/hashes/costs](../art/meshy-blender/provenance.json) live in the branch.
+[task IDs/hashes/costs](../assets-production/batches/meshy-blender/provenance.json) live in the branch.
 The generated exterior ground platform is trimmed because the colony owns
 paving. Downloads are unchanged. The interior exports seven material batches;
 repeated exterior trim is batched by material. These choices are not measured
@@ -108,14 +108,14 @@ backend activity. The remaining crew retain the earlier repaired Cybercat.
 
 The batch consumed 140 credits; including the earlier 60-credit batch, the
 recorded total is 200 of the approved 250 Meshy credits. See
-[the review notes](../art/engineering-polish/REVIEW.md) and
-[asset provenance](../art/engineering-polish/provenance.json) for the exact scope,
+[the review notes](../assets-production/batches/engineering-polish/REVIEW.md) and
+[asset provenance](../assets-production/batches/engineering-polish/provenance.json) for the exact scope,
 charges, source IDs, editable sources and review limitations. Rebuild locally
 with `mise exec -- just world-engineering-build`; this reuses retained downloads
 and does not call paid endpoints. New bespoke rooms wait for owner review.
 
 
-The subsequent [CyberCat Vanguard integration](../art/cybercat-vanguard/README.md)
+The subsequent [CyberCat Vanguard integration](../assets-production/characters/cybercat-vanguard/README.md)
 replaces the player's Engineering suit with the exact supplied CyberCat model.
 Its source had no rig or clips; rigging and idle cost 8 credits, with walk/run
 included. Total recorded spend is now 208 / 250 (42 remaining). Mender retains

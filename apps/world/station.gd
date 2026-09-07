@@ -1,7 +1,7 @@
 @tool
 extends Node3D
 ## Shared host for both illustrated PNG exteriors and authored native scenes.
-const Definition = preload("res://building_definition.gd")
+const Definition = preload("res://structure_definition.gd")
 const Art = preload("res://art.gd")
 @export var definition: Definition
 ## Existing UI context assigned by placement, never inferred from artwork.
@@ -82,7 +82,7 @@ func _ready() -> void:
 			if str(mesh.name).begins_with("Roof") or str(mesh.name).begins_with("Cutaway") or str(mesh.name).begins_with("InteriorReveal"):
 				for i in mesh.mesh.get_surface_count():
 					var source = mesh.get_active_material(i)
-					var material := preload("res://buildings/materials.gd").cutaway(source)
+					var material := preload("res://structures/materials.gd").cutaway(source)
 					mesh.set_surface_override_material(i,material)
 					if str(mesh.name).begins_with("InteriorReveal"):
 						reveal_materials.append(material)

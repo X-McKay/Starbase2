@@ -10,7 +10,7 @@ static func mat(color: String, texture: String = "", glow: bool = false) -> Stan
 	m.albedo_color = Color(color)
 	m.roughness = 0.9
 	if texture != "":
-		m.albedo_texture = load("res://art/" + texture + ".svg")
+		m.albedo_texture = load("res://assets/kits/frontier-surfaces/" + texture + ".svg")
 		m.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
 	if glow:
 		m.emission_enabled = true
@@ -44,7 +44,8 @@ static func cylinder(parent: Node3D, pos: Vector3, radius: float, height: float,
 
 static func sprite(parent: Node3D, asset: String, pos: Vector3, scale_px: float = 0.045) -> Sprite3D:
 	var s := Sprite3D.new()
-	s.texture = load("res://art/" + asset + ".svg")
+	var category := "environment/frontier-plants" if asset in ["tree", "plant"] else "characters/frontier-crew"
+	s.texture = load("res://assets/" + category + "/" + asset + ".svg")
 	s.position = pos
 	s.pixel_size = scale_px
 	s.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST

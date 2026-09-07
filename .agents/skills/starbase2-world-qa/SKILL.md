@@ -14,8 +14,9 @@ For asset organization changes, use the
 [content taxonomy](../../../docs/content-organization.md). Verify matching
 category/asset IDs across production and runtime, distinguish structures from
 rooms and character assets from crew identities, and check all migrated resource,
-build, test and documentation references. Do not infer that legacy paths already
-moved. Taxonomy-only documentation changes need documentation checks; actual
+build, test and documentation references, including Godot `$Node` shorthand
+and exported resource include filters. Read the current production index rather
+than applying obsolete paths from historical logs. Taxonomy-only documentation changes need documentation checks; actual
 asset moves need import/rebuild and affected game checks. Keep linked historical
 evidence and paid originals until their retention conditions are satisfied.
 
@@ -68,7 +69,11 @@ Do not edit world source while qualification is running. A subsequent source
 change needs a new appropriately qualified artifact. Use a fresh output folder
 and retain failed-attempt logs. Native captures must complete under a bounded
 wall-clock timeout; a fixed frame cutoff can end while macOS awaits a drawable.
-Investigate missing captures instead of copying in an editor screenshot.
+Investigate missing captures instead of copying in an editor screenshot. The
+macOS harness uses fresh Launch Services GUI instances after a reproduced direct
+launch stall; retain native stdout/stderr and restrict timeout cleanup to the
+exact isolated executable. A successful launcher exit alone does not prove the
+app rendered without errors.
 
 Inspect the actual exported captures and qualification result. Describe an
 unsigned local review package as such; this does not authorize a commit, push,

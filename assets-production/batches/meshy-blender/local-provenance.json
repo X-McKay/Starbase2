@@ -1,0 +1,40 @@
+{
+  "blender": "5.2.1",
+  "godot": "4.7.2",
+  "character_reference": "https://www.meshy.ai/s/84fVov",
+  "source_method": "Blender MCP library copy from the existing open character; original project preserved",
+  "files": {
+    "assets-production/characters/cybercat-sentinel/blender/cybercat-source.blend": {
+      "sha256": "b79ea808fc47d5564aa12420680c0834d67a72e1c9677cc43ff2f08834b1b8e8",
+      "bytes": 7149591
+    },
+    "assets-production/characters/cybercat-sentinel/blender/cybercat-repaired.blend": {
+      "sha256": "d138ef404daeae1c16088f22e73dfc8a425c8946ae3e75d33341e49b976fa64b",
+      "bytes": 7098896
+    },
+    "assets-production/characters/cybercat-sentinel/blender/cybercat.blend": {
+      "sha256": "99ed6d9ece89756ad666c2ece568cb307e0764d791ad31ad0969ea2e0e311ef7",
+      "bytes": 7150271
+    },
+    "assets-production/scripts/repair_head_weights.py": {
+      "sha256": "efa0638c94c6201d20587df0da028abe5ee590679ce192ad93a5fdcbc1048a0a",
+      "bytes": 3810
+    },
+    "assets-production/scripts/export_character.py": {
+      "sha256": "626eaeca2f06f2adf100220067d935b6f2b2305e6280516bdfb1c825f5d9ad0c",
+      "bytes": 2445
+    },
+    "apps/world/assets/characters/cybercat-sentinel/cybercat.glb": {
+      "sha256": "68041c62e82c26fcde2d0b7cc3cec2624e8d62de08c2977d08f0116ec3ed8e25",
+      "bytes": 7281204
+    },
+    "apps/world/assets/structures/engineering-prototype/engineering-interior.glb": {
+      "sha256": "4aea3eaf9d1d0ccc623b43be947618d5066738696736f8aa26ae48fee8467146",
+      "bytes": 1577496
+    },
+    "assets-production/scripts/build_interior.py": {
+      "sha256": "4b40734ffffaeca84c7ece315288a754e86dab07963595a4de5fd170a6062170",
+      "bytes": 6467
+    }
+  }
+}

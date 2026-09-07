@@ -18,9 +18,9 @@ func run() -> void:
 	for i in range(pads.size()):
 		for j in range(i+1,pads.size()):
 			check(not pads[i].intersects(pads[j]),"Every structure must retain its own non-overlapping rectangular pad")
-	for i in range(Paving.Buildings.placements().size()):
-		for j in range(i+1,Paving.Buildings.placements().size()):
-			check(not pads[i].grow(1).intersects(pads[j].grow(1)),"Buildings need at least two tiles between their pads")
+	for i in range(Paving.Structures.placements().size()):
+		for j in range(i+1,Paving.Structures.placements().size()):
+			check(not pads[i].grow(1).intersects(pads[j].grow(1)),"Structures need at least two tiles between their pads")
 	for strip in Paving.route_cells():
 		check(mini(strip.size.x,strip.size.y)==2,"Every walkway segment must be exactly two tiles across")
 		for x in range(strip.position.x,strip.end.x):
@@ -48,7 +48,7 @@ func run() -> void:
 			if clear:
 				connected[next]=true
 				queue.append(next)
-	for placement in Paving.Buildings.placements():
+	for placement in Paving.Structures.placements():
 		var origin=Vector2(placement.position.x,placement.position.z)
 		for box in placement.definition.collision_boxes:
 			check(Paving.contains(origin+box.get_center()),"Building lacks a tile foundation: "+placement.name)

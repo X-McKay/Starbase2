@@ -1,0 +1,28 @@
+python3 scripts/check_world_export.py --output .local/reviews/content-reorganization/20260907
+Traceback (most recent call last):
+  File "/Users/al/git/Starbase2/scripts/check_world_export.py", line 38, in run
+    result = subprocess.run(
+             ^^^^^^^^^^^^^^^
+  File "/Users/al/.local/share/mise/installs/python/3.12.13/lib/python3.12/subprocess.py", line 550, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/al/.local/share/mise/installs/python/3.12.13/lib/python3.12/subprocess.py", line 1209, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/al/.local/share/mise/installs/python/3.12.13/lib/python3.12/subprocess.py", line 2116, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+  File "/Users/al/.local/share/mise/installs/python/3.12.13/lib/python3.12/subprocess.py", line 1253, in _check_timeout
+    raise TimeoutExpired(
+subprocess.TimeoutExpired: Command '['/var/folders/sl/2t3mlgwj7bq2c4qj1x2csfx00000gn/T/starbase2-export-geev4smj/Starbase2 · Aster Colony.app/Contents/MacOS/Starbase2 · Aster Colony', '--max-fps', '60', '--', '--fixture=/Users/al/git/Starbase2/evidence/command-district/world-fixture.json', '--frames=600', '--capture=/Users/al/git/Starbase2/.local/reviews/content-reorganization/20260907/interior.png', '--room=review', '--compact', '--reduced-motion']' timed out after 180 seconds
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/al/git/Starbase2/scripts/check_world_export.py", line 173, in <module>
+    main()
+  File "/Users/al/git/Starbase2/scripts/check_world_export.py", line 133, in main
+    run(
+  File "/Users/al/git/Starbase2/scripts/check_world_export.py", line 49, in run
+    raise RuntimeError(f"Export check timed out; retained {log}") from error
+RuntimeError: Export check timed out; retained /Users/al/git/Starbase2/.local/reviews/content-reorganization/20260907/interior.log
+error: recipe `check-world-export` failed on line 28 with exit code 1

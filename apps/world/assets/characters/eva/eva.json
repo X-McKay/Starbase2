@@ -1,0 +1,456 @@
+{
+  "atlas_sha256": "598e429be5c795f7684e49938a2d24ce50c41185a8b8193d82c4d8ccceaf4e95",
+  "canvas": [
+    256.0,
+    320.0
+  ],
+  "clip": "walk-eight-poses-v1",
+  "frames": [
+    {
+      "clip": "idle",
+      "direction": "front",
+      "index": 0,
+      "rect": [
+        2,
+        2,
+        256,
+        320
+      ],
+      "sha256": "7fcad472c0a679225e6344f4394e0f9cc39ce28814343fd41b38dced57bb7b25"
+    },
+    {
+      "clip": "walk",
+      "direction": "front",
+      "index": 0,
+      "rect": [
+        262,
+        2,
+        256,
+        320
+      ],
+      "sha256": "09f18931040e8c6a13ba88bd1c77c25ca6af34484f02831ffeced10f44076013"
+    },
+    {
+      "clip": "walk",
+      "direction": "front",
+      "index": 1,
+      "rect": [
+        522,
+        2,
+        256,
+        320
+      ],
+      "sha256": "c95c40b2e7d3725804bf490549b179b978020a41108a3ef243e4406ede10236e"
+    },
+    {
+      "clip": "walk",
+      "direction": "front",
+      "index": 2,
+      "rect": [
+        782,
+        2,
+        256,
+        320
+      ],
+      "sha256": "885b036ee41a0e7bb0287d1cb2428d96cb07b8532a2c02114fa33a196692d7d4"
+    },
+    {
+      "clip": "walk",
+      "direction": "front",
+      "index": 3,
+      "rect": [
+        1042,
+        2,
+        256,
+        320
+      ],
+      "sha256": "e8ebe6aeb9e860c424d17b5d68320cb49b05af38a5c604bea3f19a94200881c5"
+    },
+    {
+      "clip": "walk",
+      "direction": "front",
+      "index": 4,
+      "rect": [
+        1302,
+        2,
+        256,
+        320
+      ],
+      "sha256": "5b44eb31ddb2b53f70527e87a0cfd1750dcb681d727fa154dfad91b4046641c3"
+    },
+    {
+      "clip": "walk",
+      "direction": "front",
+      "index": 5,
+      "rect": [
+        1562,
+        2,
+        256,
+        320
+      ],
+      "sha256": "18c88d33a03dcd74503021621baea1c3efc82fc3617baecda54512913d352e1b"
+    },
+    {
+      "clip": "walk",
+      "direction": "front",
+      "index": 6,
+      "rect": [
+        1822,
+        2,
+        256,
+        320
+      ],
+      "sha256": "35c0d4e451deda39586053dfbca4de448df766a22f6ef84b7dd3c5e1ffbd55c8"
+    },
+    {
+      "clip": "walk",
+      "direction": "front",
+      "index": 7,
+      "rect": [
+        2082,
+        2,
+        256,
+        320
+      ],
+      "sha256": "b2651daa602ffb54ec4c47abaef215b73bcc96855e909649f14f3d6e71f06f61"
+    },
+    {
+      "clip": "idle",
+      "direction": "back",
+      "index": 0,
+      "rect": [
+        2,
+        326,
+        256,
+        320
+      ],
+      "sha256": "ad012b2dca9e917ca225edada45a96a6d404697b6da21f6cbde3a644b70beea0"
+    },
+    {
+      "clip": "walk",
+      "direction": "back",
+      "index": 0,
+      "rect": [
+        262,
+        326,
+        256,
+        320
+      ],
+      "sha256": "c4b2b335f41cee27280fc6df7fda4c4fdb17c5f236be2926eaa3bc56b4e53200"
+    },
+    {
+      "clip": "walk",
+      "direction": "back",
+      "index": 1,
+      "rect": [
+        522,
+        326,
+        256,
+        320
+      ],
+      "sha256": "e7848a3de86734ff302e6d0e23bcb24c13805039e42efd804b0026ec42ffc12d"
+    },
+    {
+      "clip": "walk",
+      "direction": "back",
+      "index": 2,
+      "rect": [
+        782,
+        326,
+        256,
+        320
+      ],
+      "sha256": "bce29a9605ce8b63dc72c01a798d5ba82aea273ef29f0387a3737e0f269147cb"
+    },
+    {
+      "clip": "walk",
+      "direction": "back",
+      "index": 3,
+      "rect": [
+        1042,
+        326,
+        256,
+        320
+      ],
+      "sha256": "a8471b999a536a6c8e40bf33aed77ea77b9cf6a9274f8684e32017b202a5b198"
+    },
+    {
+      "clip": "walk",
+      "direction": "back",
+      "index": 4,
+      "rect": [
+        1302,
+        326,
+        256,
+        320
+      ],
+      "sha256": "84ea08db5129bfbde81c9b9182b0af3b75a08dfb8e16de34d1bdb447a167472b"
+    },
+    {
+      "clip": "walk",
+      "direction": "back",
+      "index": 5,
+      "rect": [
+        1562,
+        326,
+        256,
+        320
+      ],
+      "sha256": "5f9ea26d5a537443fa618a30b8162d0f47f159664aa298684119f5ec1d3a1064"
+    },
+    {
+      "clip": "walk",
+      "direction": "back",
+      "index": 6,
+      "rect": [
+        1822,
+        326,
+        256,
+        320
+      ],
+      "sha256": "2ca1c0a33df0368629028c4e77fd06a0fff3aafba15e264e67372546bd1d91fd"
+    },
+    {
+      "clip": "walk",
+      "direction": "back",
+      "index": 7,
+      "rect": [
+        2082,
+        326,
+        256,
+        320
+      ],
+      "sha256": "4c344c0879d230a887400f43208ba7fd9ab6de60412bc51094693a9853466f08"
+    },
+    {
+      "clip": "idle",
+      "direction": "left",
+      "index": 0,
+      "rect": [
+        2,
+        650,
+        256,
+        320
+      ],
+      "sha256": "1fa37f0abe1469d8c8131aae4ef61c17371a9fc4e9f9dcea2c27072ca622d00e"
+    },
+    {
+      "clip": "walk",
+      "direction": "left",
+      "index": 0,
+      "rect": [
+        262,
+        650,
+        256,
+        320
+      ],
+      "sha256": "3df916000c7d4856eef183fc4724ee83eb4379d1354420bf084450091e13ea11"
+    },
+    {
+      "clip": "walk",
+      "direction": "left",
+      "index": 1,
+      "rect": [
+        522,
+        650,
+        256,
+        320
+      ],
+      "sha256": "62c0378a4903e5ebee2809e601131e119ffa58d5e9822a895a96e1ea395aebb1"
+    },
+    {
+      "clip": "walk",
+      "direction": "left",
+      "index": 2,
+      "rect": [
+        782,
+        650,
+        256,
+        320
+      ],
+      "sha256": "b13ca7f2dbbd8b155710a88797aa09373e9115d59b7a362e90d1adb450d979b6"
+    },
+    {
+      "clip": "walk",
+      "direction": "left",
+      "index": 3,
+      "rect": [
+        1042,
+        650,
+        256,
+        320
+      ],
+      "sha256": "e5a613ef354212e8a0267a725ecc9095002a9f0357ce39460901ff604a948979"
+    },
+    {
+      "clip": "walk",
+      "direction": "left",
+      "index": 4,
+      "rect": [
+        1302,
+        650,
+        256,
+        320
+      ],
+      "sha256": "80cab5a6463bc831fb6e7bd5a798f2229524723684d9ceddf215fab5f379c0db"
+    },
+    {
+      "clip": "walk",
+      "direction": "left",
+      "index": 5,
+      "rect": [
+        1562,
+        650,
+        256,
+        320
+      ],
+      "sha256": "ad9339f4a6352c4b18c87a10340c6d3456064ab1be3cc3066538dbff836a65ba"
+    },
+    {
+      "clip": "walk",
+      "direction": "left",
+      "index": 6,
+      "rect": [
+        1822,
+        650,
+        256,
+        320
+      ],
+      "sha256": "e071c1875a664c891a4ddc2457c8438e58f4ecc92121cfadf00b87de86b151b1"
+    },
+    {
+      "clip": "walk",
+      "direction": "left",
+      "index": 7,
+      "rect": [
+        2082,
+        650,
+        256,
+        320
+      ],
+      "sha256": "416c33a5ee7a97472bc7a01d37245f1bc7e97c58bc158d3d7b55a143093e5f45"
+    },
+    {
+      "clip": "idle",
+      "direction": "right",
+      "index": 0,
+      "rect": [
+        2,
+        974,
+        256,
+        320
+      ],
+      "sha256": "75a999ff730a3efbde46dc89b91f96d33ab8f7c4da52e8132d39fad7eccb6178"
+    },
+    {
+      "clip": "walk",
+      "direction": "right",
+      "index": 0,
+      "rect": [
+        262,
+        974,
+        256,
+        320
+      ],
+      "sha256": "20dee7ca832be876c2575bf025ef95a87c02f7767b9f6e9664e35008cee2021a"
+    },
+    {
+      "clip": "walk",
+      "direction": "right",
+      "index": 1,
+      "rect": [
+        522,
+        974,
+        256,
+        320
+      ],
+      "sha256": "c56c2bdcaad75bd8b7e9fc089f36a2ead8594ed051c2fede465170e07bcde963"
+    },
+    {
+      "clip": "walk",
+      "direction": "right",
+      "index": 2,
+      "rect": [
+        782,
+        974,
+        256,
+        320
+      ],
+      "sha256": "a68ae48d40e598eacb3f7927d3ced7d4c3e52e3348ba05cee02dc242e2da8ac8"
+    },
+    {
+      "clip": "walk",
+      "direction": "right",
+      "index": 3,
+      "rect": [
+        1042,
+        974,
+        256,
+        320
+      ],
+      "sha256": "4b806162f680fafe8af6ab3c49b96780d02b3e7849d7ec980aa9430ea70df55f"
+    },
+    {
+      "clip": "walk",
+      "direction": "right",
+      "index": 4,
+      "rect": [
+        1302,
+        974,
+        256,
+        320
+      ],
+      "sha256": "47e27c0fed4779415f193ef6c9cb8ae74c3e776d6977dd293af75764aa1d1898"
+    },
+    {
+      "clip": "walk",
+      "direction": "right",
+      "index": 5,
+      "rect": [
+        1562,
+        974,
+        256,
+        320
+      ],
+      "sha256": "5761263035956bb02af4165b2aaf9098818a7ed40123b38f40ec77bfd4616012"
+    },
+    {
+      "clip": "walk",
+      "direction": "right",
+      "index": 6,
+      "rect": [
+        1822,
+        974,
+        256,
+        320
+      ],
+      "sha256": "40ac47af4eb9eb76793fc59ac685069543fe3d826e0d4fa2b521f786744f22fb"
+    },
+    {
+      "clip": "walk",
+      "direction": "right",
+      "index": 7,
+      "rect": [
+        2082,
+        974,
+        256,
+        320
+      ],
+      "sha256": "650e075f0838e78582572e9847b84186151690959395170273108ed6684c6668"
+    }
+  ],
+  "gutter": 2,
+  "id": "eva",
+  "license": "Original Starbase2 artwork",
+  "packer_sha256": "ced4c47fa74cade525e6009591ceb7e68f18ca4daa9956bddb6fc2dbe5ddb9ef",
+  "pivot": [
+    128.0,
+    280.0
+  ],
+  "rig_object": "Aster humanoid v1",
+  "source": "assets-production/characters/eva/blender/eva.blend",
+  "source_sha256": "2b97b60ee22d0c46d1157609d19bdd7b40e50503d8c5fdebb8fe46302019626d",
+  "stride_m": 1.28,
+  "style_status": "Rejected visual direction; retained for technical validation only",
+  "tool": "Blender 4.5.3"
+}

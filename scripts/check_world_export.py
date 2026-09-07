@@ -3,7 +3,9 @@
 import argparse
 import hashlib
 import json
+import os
 import platform
+import signal
 import subprocess
 import tempfile
 import tomllib
@@ -60,6 +62,50 @@ def run(
     if result.returncode or any(x in result.stdout for x in ("ERROR:", "Parse Error")):
         raise RuntimeError(f"Export check failed; retained {log}")
     return result.stdout
+
+
+def native_capture(
+    executable: Path, arguments: list[str], output: Path, name: str, cwd: Path
+) -> None:
+    """Launch a fresh GUI instance through macOS; direct second launches can stall."""
+    stdout = output / f"{name}.log"
+    stderr = output / f"{name}-stderr.log"
+    try:
+        run(
+            [
+                "open",
+                "-n",
+                "-W",
+                "-a",
+                str(executable.parents[2]),
+                "--stdout",
+                str(stdout),
+                "--stderr",
+                str(stderr),
+                "--args",
+                "--max-fps",
+                "60",
+                "--",
+                *arguments,
+            ],
+            output / f"{name}-launch.log",
+            cwd,
+        )
+    except Exception:
+        # open -W is not the app process. A timed-out launch must not leave the
+        # isolated review running. Match this exact temporary executable only.
+        processes = subprocess.check_output(["ps", "-axo", "pid=,command="], text=True)
+        for line in processes.splitlines():
+            fields = line.strip().split(maxsplit=1)
+            if len(fields) == 2 and fields[1].startswith(str(executable) + " "):
+                try:
+                    os.kill(int(fields[0]), signal.SIGTERM)
+                except ProcessLookupError:
+                    pass
+        raise
+    log = stdout.read_text() + stderr.read_text()
+    if "Godot Engine" not in log or any(x in log for x in ("ERROR:", "Parse Error")):
+        raise RuntimeError(f"Native capture failed; inspect {stdout} and {stderr}")
 
 
 def main() -> None:
@@ -130,19 +176,16 @@ def main() -> None:
             ("interior", ["--room=review", "--compact", "--reduced-motion"]),
         ]:
             capture = output / (name + ".png")
-            run(
+            native_capture(
+                executable,
                 [
-                    *common,
-                    # The scene exits after writing its rendered capture. Keep
-                    # the wall-clock timeout in run(); a frame cutoff can exit
-                    # while a macOS window is still awaiting a drawable.
-                    "--",
                     "--fixture=" + str(fixture),
                     "--frames=600",
                     "--capture=" + str(capture),
                     *options,
                 ],
-                output / (name + ".log"),
+                output,
+                name,
                 isolated,
             )
             if not capture.exists() or not capture.with_suffix(".png.json").exists():

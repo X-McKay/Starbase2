@@ -99,7 +99,7 @@ Use `1`/`2`, `C`, `L`, and `R` for scene, camera, lighting and roof review; matc
 buttons are visible. It needs no services. See [art production](art-production.md)
 for scene authoring, asset contracts, evidence and the remaining integration gate.
 
-`mise exec -- just world-building repair` previews a building definition without
+`mise exec -- just world-structure repair` previews a building definition without
 services. Add `50` for the shared-art load fixture. The [building authoring guide](building-catalog.md)
 explains how PNG/native exteriors and reusable interior scenes are added without
 new building-specific GDScript. `Tab` includes searchable direct place visits.

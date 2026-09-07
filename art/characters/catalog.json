@@ -1,4 +1,0 @@
-[
-  {"id":"captain","source":"art/characters/captain.blend","rig_object":"Aster humanoid v1","clip":"walk-eight-poses-v1","stride_m":1.28},
-  {"id":"eva","source":"art/characters/eva.blend","rig_object":"Aster humanoid v1","clip":"walk-eight-poses-v1","stride_m":1.28}
-]

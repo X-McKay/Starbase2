@@ -1,6 +1,6 @@
 [gd_resource type="SpriteFrames" load_steps=7 format=3]
-[ext_resource type="Texture2D" path="res://art/characters/captain-back.png" id="1"]
-[ext_resource type="Texture2D" path="res://art/crew-adventure.png" id="2"]
+[ext_resource type="Texture2D" path="res://assets/characters/captain/captain-back.png" id="1"]
+[ext_resource type="Texture2D" path="res://assets/characters/frontier-crew/crew-adventure.png" id="2"]
 [sub_resource type="AtlasTexture" id="Frame_1"]
 atlas = ExtResource("1")
 region = Rect2(2,2,256,320)

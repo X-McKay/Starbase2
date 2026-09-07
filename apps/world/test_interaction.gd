@@ -83,7 +83,7 @@ func run() -> void:
 	var click := InputEventMouseButton.new()
 	click.button_index = MOUSE_BUTTON_LEFT
 	click.pressed = true
-	click.position = world.camera.unproject_position(world.get_node("Buildings/Workshop").return_position()+Vector3(4,0,5))
+	click.position = world.camera.unproject_position(world.get_node("Structures/Workshop").return_position()+Vector3(4,0,5))
 	# Headless mouse injection targets the viewport, which has no OS pointer focus.
 	root.push_input(click,true)
 	await process_frame
@@ -113,7 +113,7 @@ func run() -> void:
 	operator.motion=Vector3(0,0,-5)
 	await create_timer(0.5).timeout
 	check(operator.position.z<9,"Former shuttle footprint is physically walkable")
-	var greenhouse=world.get_node("Buildings/Greenhouse")
+	var greenhouse=world.get_node("Structures/Greenhouse")
 	operator.position = greenhouse.return_position()
 	operator.motion = Vector3(0,0,-10)
 	await create_timer(0.5).timeout

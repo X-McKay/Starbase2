@@ -13,12 +13,12 @@ outline still owns the top, physical boundary and navigation clearance. Added
 foreground rock masses remain below the walkable rim; rear masses remain beyond
 the northern boundary. No new climb, fall or elevation traversal is implied.
 
-An original generated [sandstone texture](../apps/world/art/geology/sandstone-v1.png)
+An original generated [sandstone texture](../apps/world/assets/environment/sandstone/sandstone-v1.png)
 supplies chipped edges, fractures and mineral grain. World-scale triplanar
 sampling avoids stretching paint across vertical faces. Mipmaps and anisotropic
 filtering support map-scale views; mirrored coordinates hide source-edge mismatch
 without claiming that the generated image is a seamless production tile. Full
-[prompt and provenance](../apps/world/art/geology/provenance.json) are retained.
+[prompt and provenance](../apps/world/assets/environment/sandstone/provenance.json) are retained.
 The built-in image-generation tool produced the asset; reference images were not
 copied into the project. This is color artwork, not an authored normal map.
 

@@ -1,0 +1,119 @@
+[
+  {
+    "path": "art/meshy-blender/review-building.blend1",
+    "bytes": 234702,
+    "sha256": "22f36ff1e9bbb916509f63b5776581e1242b76f0d0bb084695e0aaee8bdf2f85",
+    "selected_source": "assets-production/structures/command/blender/review-building.blend",
+    "selected_exists": true,
+    "identical": false,
+    "reason": "Superseded numbered recovery copy; selected source audited, baseline pushed, active rebuilds passed."
+  },
+  {
+    "path": "art/meshy-blender/habitat-building.blend1",
+    "bytes": 269968,
+    "sha256": "cf702fb536a0558ef5730ea687583afb16fa80f0711b6a11dcc75f5bfe745f8c",
+    "selected_source": "assets-production/structures/habitat/blender/habitat-building.blend",
+    "selected_exists": true,
+    "identical": false,
+    "reason": "Superseded numbered recovery copy; selected source audited, baseline pushed, active rebuilds passed."
+  },
+  {
+    "path": "art/meshy-blender/gym-building.blend1",
+    "bytes": 246229,
+    "sha256": "4d05d53db0d64af2db8f376ceb997354ef06bb55917ad4f9642d657231e9d48b",
+    "selected_source": "assets-production/structures/training/blender/gym-building.blend",
+    "selected_exists": true,
+    "identical": false,
+    "reason": "Superseded numbered recovery copy; selected source audited, baseline pushed, active rebuilds passed."
+  },
+  {
+    "path": "art/meshy-blender/engineering-exterior.blend1",
+    "bytes": 8711495,
+    "sha256": "0c9df3e2433eeabf1f76cdce43502499e908d70ab4eec6243d7238b638ddb5b0",
+    "selected_source": "assets-production/structures/engineering-prototype/blender/engineering-exterior.blend",
+    "selected_exists": true,
+    "identical": false,
+    "reason": "Superseded numbered recovery copy; selected source audited, baseline pushed, active rebuilds passed."
+  },
+  {
+    "path": "art/meshy-blender/engineering-interior.blend1",
+    "bytes": 272021,
+    "sha256": "bb92709e37493d2e561b6999833a1bd33e2c154684bf02d552ea257d22f71e9a",
+    "selected_source": "assets-production/structures/engineering-prototype/blender/engineering-interior.blend",
+    "selected_exists": true,
+    "identical": false,
+    "reason": "Superseded numbered recovery copy; selected source audited, baseline pushed, active rebuilds passed."
+  },
+  {
+    "path": "art/meshy-blender/greenhouse-building.blend1",
+    "bytes": 257287,
+    "sha256": "4f8552bad33c74d583249dd3d739011a9ea9cae2c4344c939a7398e34a3515f9",
+    "selected_source": "assets-production/structures/botanical/blender/greenhouse-building.blend",
+    "selected_exists": true,
+    "identical": false,
+    "reason": "Superseded numbered recovery copy; selected source audited, baseline pushed, active rebuilds passed."
+  },
+  {
+    "path": "art/meshy-blender/repair-building.blend1",
+    "bytes": 213829,
+    "sha256": "4d05e47acfd3fb21b01334ebdab26ae48821c6b2e0c68e5b600861ad7a2ac56b",
+    "selected_source": "assets-production/structures/engineering/blender/repair-building.blend",
+    "selected_exists": true,
+    "identical": false,
+    "reason": "Superseded numbered recovery copy; selected source audited, baseline pushed, active rebuilds passed."
+  },
+  {
+    "path": "art/meshy-blender/reactor-apparatus.blend1",
+    "bytes": 19540192,
+    "sha256": "827afcd72ad3d093ec2782926d780a2b3dbd1f81267b87c2d17fd5efa62ec512",
+    "selected_source": "assets-production/props/reactor-apparatus/blender/reactor-apparatus.blend",
+    "selected_exists": true,
+    "identical": false,
+    "reason": "Superseded numbered recovery copy; selected source audited, baseline pushed, active rebuilds passed."
+  },
+  {
+    "path": "art/cybercat-vanguard/vanguard.blend1",
+    "bytes": 276597503,
+    "sha256": "5abe5db64ab9d4a164cff4960b767c67b4127e38d965063ef432576056f9312c",
+    "selected_source": "assets-production/characters/cybercat-vanguard/blender/vanguard.blend",
+    "selected_exists": true,
+    "identical": false,
+    "reason": "Superseded numbered recovery copy; selected source audited, baseline pushed, active rebuilds passed."
+  },
+  {
+    "path": "art/cybercat-vanguard/vanguard-imported.blend1",
+    "bytes": 70665078,
+    "sha256": "2387d02906411f9a528cabc2f97956e500af1ef55ae28c7816da3abe06dbc78e",
+    "selected_source": "assets-production/characters/cybercat-vanguard/blender/vanguard-imported.blend",
+    "selected_exists": true,
+    "identical": false,
+    "reason": "Superseded numbered recovery copy; selected source audited, baseline pushed, active rebuilds passed."
+  },
+  {
+    "path": "art/engineering-polish/engineer-imported.blend1",
+    "bytes": 10367681,
+    "sha256": "065fda3d8862be25679e07c3cd7bb513c159b253f00edbfa09bebe6973c4fb66",
+    "selected_source": "assets-production/characters/engineering-specialist/blender/engineer-imported.blend",
+    "selected_exists": true,
+    "identical": false,
+    "reason": "Superseded numbered recovery copy; selected source audited, baseline pushed, active rebuilds passed."
+  },
+  {
+    "path": "art/engineering-polish/engineering-architecture.blend1",
+    "bytes": 373347,
+    "sha256": "ac55d811886e3edb05c2ee2705d7baab25b04a44f6fd2ba2641b94ff4df46a7f",
+    "selected_source": "assets-production/structures/engineering/blender/engineering-architecture.blend",
+    "selected_exists": true,
+    "identical": false,
+    "reason": "Superseded numbered recovery copy; selected source audited, baseline pushed, active rebuilds passed."
+  },
+  {
+    "path": "art/engineering-polish/engineer.blend1",
+    "bytes": 36825456,
+    "sha256": "a75e65ac487332a6e9b79e75b542e0c1e489da35732e7d81c2466f8b2121b602",
+    "selected_source": "assets-production/characters/engineering-specialist/blender/engineer.blend",
+    "selected_exists": true,
+    "identical": false,
+    "reason": "Superseded numbered recovery copy; selected source audited, baseline pushed, active rebuilds passed."
+  }
+]

@@ -1,0 +1,322 @@
+[
+  {
+    "path": "apps/world/assets/characters/frontier-crew/crew-adventure.png",
+    "sha256": "ad94f6718547cf92f5b6460e34d5056771d7c8d947287360bee45106aa4987d0",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/environment/frontier-plants/plant.svg",
+    "sha256": "7a3ad253b708c0b3bcca5ea1160d7fb21cdba863c2fd4ef2013f1ec9154e91d8",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/characters/frontier-crew/trainer.svg",
+    "sha256": "58115ee6d33122d780656f2f1c8dd800bb624d9b80db8bcd579ec0edec56ae5a",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/characters/frontier-crew/mender.svg",
+    "sha256": "2eb36dbac6d2e747b2215013303f39d02dad9ebd8fceb570c9e02913dab72e5b",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/characters/frontier-crew/surveyor.svg",
+    "sha256": "f285df029013a3b74473ea734bfe12d9464523195b08111b1b293c0799ebff94",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/kits/frontier-surfaces/wall.svg",
+    "sha256": "e4f1067af868676796de4e6e3ae3b9a41accb0bc6e5cca038068297fdea9a87c",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/environment/frontier-plants/tree.svg",
+    "sha256": "78e893f06b97e4f15f1b86745fc37027fe2746a1d1c11d8a5bf79828d7ffdfbf",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/characters/frontier-crew/operator.svg",
+    "sha256": "7001a1364387282b77859342dd111794c3d5248cbfed647af6fa63806c9e6b47",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/kits/frontier-surfaces/deck.svg",
+    "sha256": "07db782898d9c8bf516a3ba8c2a6f2083b0f0b314f5641474435e5003cff801b",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/kits/frontier-surfaces/garden.svg",
+    "sha256": "5893193a144782399adcfbe3633328f23d92a0fac11b45f74624c8a280eee4a5",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/kits/frontier-surfaces/solar.svg",
+    "sha256": "6011c4e3eb701f49997d2ff627abf5d0c9853839f921f5eacc28005ecd47c4fe",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/structures/engineering/repair-shell.glb",
+    "sha256": "7ebb6c8472a0e29f65458d390489cf63448604bc32275253beb5114661c20251",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/structures/habitat/habitat-interior.glb",
+    "sha256": "6f953d6b91ea4088b466ad3dfa8a529c89936be67ee68735e93afe404579d965",
+    "unchanged": false
+  },
+  {
+    "path": "apps/world/assets/structures/command/review-interior.glb",
+    "sha256": "a129cf3ebfb57af8dc616c0490495b7a9fa487585a8223478bdbf9ffe5fbc2ed",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/structures/engineering/repair-interior.glb",
+    "sha256": "3ca86f7c051c5ca8ad73d432a86be8fec6dc9efef0e7e9a882053452181f7b62",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/structures/botanical/greenhouse-shell.glb",
+    "sha256": "779e20bc6aedb5cca4f281c6a5e7a7c88236c25fd46c67e54084c0db476b28e1",
+    "unchanged": false
+  },
+  {
+    "path": "apps/world/assets/structures/training/gym-shell.glb",
+    "sha256": "7b4019f3f7553ae4db50df0723f9a0e7fb1c9d97600f66dc69c1a5b095b62a02",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/structures/habitat/habitat-shell.glb",
+    "sha256": "853eb1a3794adcbdefd433dc89eed82e59e1863973ce6942ad4566a105f517be",
+    "unchanged": false
+  },
+  {
+    "path": "apps/world/assets/structures/botanical/greenhouse-interior.glb",
+    "sha256": "78425997a36b602eed4c5f3e62ebadf3ec80df8b3b45f4769e7183482c40a869",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/structures/training/gym-interior.glb",
+    "sha256": "366d9f0f69385452c555c8d5d1270e009a7f00d5894d484390d830cfb0bcc9b5",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/structures/command/review-shell.glb",
+    "sha256": "96d2a45247b7998d1b112ece3cae0aae4aba3278d8ecd16a3d56f334358c3bd9",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/structures/engineering-prototype/engineering-exterior.glb",
+    "sha256": "53604d302f2712e60c72032877d79074cb845e51e964a1a42216d81a8cb6be26",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/characters/cybercat-sentinel/cybercat_texture_0.png",
+    "sha256": "3dd8b8b8ac8f2f40d6a4bb88d28487d95b7e0eb6b201291acb98819b8e31400a",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/structures/engineering-prototype/engineering-interior.glb",
+    "sha256": "4aea3eaf9d1d0ccc623b43be947618d5066738696736f8aa26ae48fee8467146",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/props/reactor-apparatus/reactor-apparatus.glb",
+    "sha256": "a242f7ba306e9eae22c3e6deacfc2dd0da8052d71ca376e3101fa5f05123d956",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/props/reactor-apparatus/reactor-apparatus_Image_0.jpg",
+    "sha256": "2b130b3ea5d213ccc20f9d5aa8d56c0438170e9af142d1be07c2f68cf8c31062",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/props/reactor-apparatus/reactor-apparatus_Image_1.jpg",
+    "sha256": "7aec73a1a6d2ced548bb7e86b0ab30bfcd09a7689a4ec709e654bf8dd8f8a16d",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/props/reactor-apparatus/reactor-apparatus_Image_3.jpg",
+    "sha256": "1add1b382a6b22b40fb8e658d1148d2531929f5c905c0c20b9a485abd53eb571",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/props/reactor-apparatus/reactor-apparatus_Image_2.jpg",
+    "sha256": "e47f5a813e2b3b954d2a1b736d66dde25c6f052718f72cc680f9a872eaf40e8a",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/structures/engineering-prototype/engineering-exterior_Image_3.jpg",
+    "sha256": "7a298673b7f80019520988dcf69a484820373759f4116bc2c72d85f6a4644f03",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/structures/engineering-prototype/engineering-exterior_Image_2.jpg",
+    "sha256": "466a52244e2481615c244dd361f3d1c700798873178ca04f9ca621215dc6a790",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/characters/cybercat-sentinel/cybercat.glb",
+    "sha256": "68041c62e82c26fcde2d0b7cc3cec2624e8d62de08c2977d08f0116ec3ed8e25",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/structures/engineering-prototype/engineering-exterior_Image_0.jpg",
+    "sha256": "36d6e00dd2227f7e81135f4b5b34e29a136a3408ebd61138a0bae5c023de3d0f",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/structures/engineering-prototype/engineering-exterior_Image_1.jpg",
+    "sha256": "9a7df48c6e4c7acad9ad3281ce300cb5f285b4e3edfea03a2e9b09283f8d52d2",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/environment/sandstone/sandstone-v1.png",
+    "sha256": "d397f498e2038ceb06debf67ca584c670226d9fd872f01ae1ac03bf7f7b0f67f",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/characters/cybercat-vanguard/vanguard.glb",
+    "sha256": "1be1433ffd420a8dbbd72ee03a99fbb06132fad0bb2bdd2b475b06a1c8a0e998",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/characters/cybercat-vanguard/vanguard_texture_0.png",
+    "sha256": "6cbc71725a391ae9173342941d54eb5048c6ef61879f61a011ec165e9fd390c1",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/props/containment-reactor/reactor_base_color.jpg",
+    "sha256": "62c98ee9452791fb0ade3de1f397ea9b86036778010adceeaff15117f2ea7e45",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/structures/engineering/engineering-shell.glb",
+    "sha256": "af508bdf0f240a7c7ef3044c5e977da71fe89458515226c8d165108404a1c6fb",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/props/containment-reactor/reactor_emissive.jpg",
+    "sha256": "a1f47a79d0adaa5cab9226ccd1dd98b10f788c0abe1a0e592e2f6c5e04d8442b",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/structures/engineering/exterior_base_color.jpg",
+    "sha256": "561280278d07ddc8e589b5e77bca119db81fc97ef8cadd53e349a5b24ac8594a",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/characters/engineering-specialist/engineer_texture_0.png",
+    "sha256": "8de283a4e6f2b6db16ed86237b56deec786aca33397f6c2d40b13fb417ea3f13",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/structures/engineering/exterior_metallic_roughness.jpg",
+    "sha256": "d5f2d098042661f8f15a12a4fb0288413b33af91b070866633c9adc8cdbd6aa2",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/props/containment-reactor/reactor_metallic_roughness.jpg",
+    "sha256": "0f563027753c5621c8788d2f02203e3544dee193ef111384d2fcf503458ae8e1",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/structures/engineering/exterior_normal.jpg",
+    "sha256": "2014bac7347efd553df117c4624a005f8f4ace6cf0ad86481b599a090efd3acd",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/characters/engineering-specialist/engineer.glb",
+    "sha256": "3c32f755d926b8d9c7ea798d15b470ebc3e4fca666d4cdea3d0870a1aa9b7e45",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/structures/engineering/engineering-interior.glb",
+    "sha256": "2479c320065402bf4cb1a540e41d68512df5ae54586c3b5d800a47c987b6ef2d",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/props/containment-reactor/reactor.glb",
+    "sha256": "2fd0e61a4d35a2c46e580dd903b37aa6e9e1a390380200165856956ea7a647da",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/structures/engineering/exterior_emissive.jpg",
+    "sha256": "e1b33cad8ff3b2a4bb75c1d25ed7a2bb19fca9ff8c5d28198cd63aad1a3c9bc9",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/props/containment-reactor/reactor_normal.jpg",
+    "sha256": "b3a4ab7827fd4dd2588779e58d1b620ea7dc0aaa650c266d483a0236e47b8aec",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/structures/engineering/exterior.glb",
+    "sha256": "6ce1beefc191cd04ac5f18fafeb508beab6bc166b775807b02103eacfdc184a7",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/characters/captain/captain-front.png",
+    "sha256": "c3e34c7a8b6d9b0714a50b3d37e25f23a12b961812fa9a153a317c5e516f4496",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/characters/captain/captain-back.png",
+    "sha256": "551be8eb0ebcf99b39d4387888d3aa11fa0dd7f3064927a8cfc5963e19e39da6",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/characters/captain/captain-left.png",
+    "sha256": "fa184a2c59ae9417447b6e6dc818664505e3268b34f467e4cf79cc79f6ca19ce",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/characters/eva/eva.png",
+    "sha256": "598e429be5c795f7684e49938a2d24ce50c41185a8b8193d82c4d8ccceaf4e95",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/characters/captain/captain.png",
+    "sha256": "189f06f51cd74a1b87a6cbd35bcc6b8ecf8891d5e8c4daeb496f95f941ea75f7",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/characters/captain/captain-illustrated.png",
+    "sha256": "7aa225da5b27fe29363a9bf85a9acd541c1d1fe4648c8156e5a72e986efd2e35",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/kits/aster-v1/materials.png",
+    "sha256": "cbacbf9ad56927d27dc347ddbd160ab731967b63b8efb1296f70cb0433c20995",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/structures/botanical/greenhouse.png",
+    "sha256": "952dd46fac7494f61b987e5fe0ca9b0fd2fa4a75bba268095d9e7a3c0ad2b59b",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/structures/engineering/repair-cradle.png",
+    "sha256": "f769b35622d2b8d5d280ce89928ec3bf3e293b21ef327e98d9a0da234a0e9f82",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/structures/engineering/engineering-hangar.png",
+    "sha256": "529f9b79349fbfb52dbcb54beaf7923ba9bc17640312b487ad7308c083a35bc3",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/structures/command/survey-command.png",
+    "sha256": "7445448427834fd8060939f7f3073a0e1185e4e3843e5fc5fb0563a664739eb6",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/structures/habitat/habitat.png",
+    "sha256": "7ac4ff26e41273f2cd3314f7fc044d89abb83202f38e7d62fc558caf38b0301d",
+    "unchanged": true
+  },
+  {
+    "path": "apps/world/assets/structures/training/evaluation-lab.png",
+    "sha256": "c6325f432e8e5f10b6cdfef11bee326d2417e3e06219f7587b80b98c72e5f89d",
+    "unchanged": true
+  }
+]

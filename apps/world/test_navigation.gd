@@ -2,7 +2,7 @@ extends SceneTree
 const Navigation = preload("res://navigation.gd")
 func _initialize() -> void:
 	var nav := Navigation.new()
-	for placement in Navigation.Buildings.placements():
+	for placement in Navigation.Structures.placements():
 		var destination: Vector3=placement.position+placement.definition.return_point
 		var path := nav.route(Vector3(0,0,5.5),destination)
 		assert(not path.is_empty(),"Each crew and the back path must be reachable")

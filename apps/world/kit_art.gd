@@ -1,6 +1,6 @@
 extends RefCounted
 ## Runtime UV sampling: no bitmap rewriting and no material-per-instance copies.
-const MANIFEST_PATH := "res://art/kits/aster-v1/manifest.json"
+const MANIFEST_PATH := "res://assets/kits/aster-v1/manifest.json"
 static var manifest: Dictionary = {}
 static var materials: Dictionary = {}
 static func definition() -> Dictionary:

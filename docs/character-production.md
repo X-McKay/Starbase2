@@ -1,8 +1,7 @@
 # Character production
 
-Terminology: the [content taxonomy](content-organization.md) defines the target
-`assets-production/` and `apps/world/assets/` categories. Existing paths and
-commands below remain current until the coordinated migration; buildings map to
+Terminology: the [content taxonomy](content-organization.md) defines the shared
+`assets-production/` and `apps/world/assets/` categories. Resource links and current commands below follow the migration; buildings map to
 structures, while crew roles and room IDs retain their product meaning.
 
 ## Native Meshy model pass · 2026-09-07
@@ -26,7 +25,7 @@ them as the style reference for new characters.
 
 The illustrated captain now has authored walks in all four directions.
 Continue authoring other crew’s illustrated 2D walk frames against
-`apps/world/art/crew-adventure.png`, preserving costume, silhouette, proportions,
+`apps/world/assets/characters/frontier-crew/crew-adventure.png`, preserving costume, silhouette, proportions,
 palette and texture. A layered source or a carefully drawn sprite sheet can use
 the same import contract. Blender is an optional producer, not a required art
 style or a runtime dependency. The earlier recommendation to standardize on
@@ -76,7 +75,7 @@ after native review found the inherited rigged stride too fast at normal movemen
 speed. Additional optional work/gesture clips have no runtime dispatch
 implemented yet; they must not substitute for authoritative state labels.
 
-Add a character's editable source entry to `art/characters/catalog.json`. Supply
+Add a character's editable source entry to `assets-production/characters/catalog.json`. Supply
 36 PNGs under a frame directory, named `front-0.png` through `right-8.png`; zero
 is idle, 1–8 are walk samples. A `source.json` names the project-relative editable
 `source`, `tool`, `canvas`, `pivot`, and `stride_m`. Pack into one atlas and generated
@@ -100,7 +99,7 @@ hashes. It cannot certify anatomy, readability or absence of painted checkerboar
 
 ## Retained technical experiment
 
-`art/characters/captain.blend` and `eva.blend` are original editable models with a
+`assets-production/characters/captain/blender/captain.blend` and `eva.blend` are original editable models with a
 shared native Blender armature, rigid segment weights and a named eight-pose walk
 Action. Idle is frame 0, walk is frames 1–8. This is **not a Rigify implementation**;
 soft skinning, expressive cloth, detailed illustrated shading and production art
@@ -157,7 +156,7 @@ This is a controlled matte-removal recipe for this source, not general-purpose
 segmentation. Different background colors or open pale silhouettes need adjusted
 metadata and visual review. No light-colored pixels are globally deleted.
 
-`art/characters/illustrated-captain.json` owns source cells, anchors, uniform scale,
+`assets-production/characters/captain/illustrated-captain.json` owns source cells, anchors, uniform scale,
 clip order/duration and matte parameters. The CharacterDefinition binds the
 SpriteFrames resource and per-clip layout/stride. This permits adding artwork or
 clips without new actor branches. Runtime timing honors per-frame durations;
@@ -184,7 +183,7 @@ performance qualification.
 A character can compose its base SpriteFrames with `additional_frames` libraries.
 Each direction’s PNG, source crop, scale, foot anchor and timing remain metadata;
 the actor contains no direction-specific or character-specific rendering branches.
-`art/characters/illustrated.json` lists every illustrated import manifest, so
+`assets-production/characters/illustrated.json` lists every illustrated import manifest, so
 `just characters-import` rebuilds all registered sheets and validates the result.
 Optional explicit `cells` handle source sheets whose row boundaries are uneven.
 
@@ -215,6 +214,6 @@ retain the earlier CyberCat asset. Illustrated portraits/fallbacks remain.
 
 Walking and running have separate displacement strides (1.6 m / 2.8 m for the
 player), avoiding an excessively fast walk cadence at 6 m/s. Reduced motion
-selects a fixed idle pose. See [Vanguard provenance and rebuild instructions](../art/cybercat-vanguard/README.md)
+selects a fixed idle pose. See [Vanguard provenance and rebuild instructions](../assets-production/characters/cybercat-vanguard/README.md)
 and [review evidence](../evidence/cybercat-vanguard/README.md). This follow-up
 spent 8 credits; total recorded generation is 208 / 250.

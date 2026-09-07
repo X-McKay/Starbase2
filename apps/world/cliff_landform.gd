@@ -20,7 +20,7 @@ func mesh_from_triangles(points: PackedVector3Array, material: Material) -> Mesh
 func strata(color: String, haze: float = 0.0) -> ShaderMaterial:
 	var m := ShaderMaterial.new()
 	m.shader=preload("res://strata.gdshader")
-	m.set_shader_parameter("stone",preload("res://art/geology/sandstone-v1.png"))
+	m.set_shader_parameter("stone",preload("res://assets/environment/sandstone/sandstone-v1.png"))
 	m.set_shader_parameter("rock_color",Color(color))
 	m.set_shader_parameter("canyon_haze",haze)
 	return m
@@ -61,7 +61,7 @@ func _ready() -> void:
 		cap_vertices.append(Vector3(outline[index].x,-0.035,outline[index].y))
 	var ground_material := ShaderMaterial.new()
 	ground_material.shader=preload("res://terrain.gdshader")
-	ground_material.set_shader_parameter("stone",preload("res://art/geology/sandstone-v1.png"))
+	ground_material.set_shader_parameter("stone",preload("res://assets/environment/sandstone/sandstone-v1.png"))
 	var cap := mesh_from_triangles(cap_vertices,ground_material)
 	cap.name="WalkableShelf"
 	cap.create_trimesh_collision()
@@ -104,7 +104,7 @@ func _ready() -> void:
 	rim_mesh.mesh=rim_surface.commit()
 	var rim_material := ShaderMaterial.new()
 	rim_material.shader=preload("res://cliff_rim.gdshader")
-	rim_material.set_shader_parameter("stone",preload("res://art/geology/sandstone-v1.png"))
+	rim_material.set_shader_parameter("stone",preload("res://assets/environment/sandstone/sandstone-v1.png"))
 	rim_mesh.material_override=rim_material
 	rim_mesh.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	add_child(rim_mesh)

@@ -5,11 +5,10 @@ Status: accepted
 Owner: Al; implementation assistant maintains the taxonomy and migration checks.
 Date: 2026-09-07.
 
-The terminology below is the agreed naming contract. The directory layout is a
-migration target, not a claim that files have moved. Current recipes and paths
-remain valid until migrated together with their consumers. No assets were moved
-or removed by this documentation change. See the
-[current assessment](../evidence/content-organization/README.md).
+The category layout is implemented on `feature/meshy-blender`. The
+[migration record](../evidence/world/content-reorganization/README.md) records
+moves, cleanup, validation and the pushed baseline. Original paid inputs remain
+local rebuild dependencies. See the [initial assessment](../evidence/content-organization/README.md).
 
 ## Canonical taxonomy
 
@@ -34,7 +33,7 @@ than permanent asset directories. UI labels such as Engineering and backend IDs
 such as `repair` can differ deliberately; record the mapping rather than renaming
 an operational identity during an art cleanup.
 
-## Target layout
+## Repository layout
 
 ```text
 assets-production/
@@ -48,14 +47,14 @@ assets-production/
     scripts/                   asset-specific preparation and export
   structures/engineering/
   props/containment-reactor/
-  kits/aster/
+  kits/aster-v1/
   environment/sandstone/
 apps/world/
   assets/                      same category and asset ID as production
     characters/cybercat-vanguard/
     structures/engineering/
     props/containment-reactor/
-    kits/aster/
+    kits/aster-v1/
     environment/sandstone/
   structures/                  composition, definitions, collision and behavior
   characters/                  definitions and character behavior
@@ -81,17 +80,19 @@ directory in the target. Retain Godot `.import` and `.uid` metadata alongside
 resources. `.godot/` is regenerable cache. Runtime exports are retained so a
 checkout can run without Blender or a paid generation call.
 
-Keep shared build/check entry points in `scripts/` and the `justfile`; move a
-family helper there only when it has an actual shared caller. Keep one canonical
-provenance record and link it. Do not create a parallel asset database.
+Keep repository checks in `scripts/` and callable recipes in the `justfile`.
+Shared Blender/provider preparation belongs in `assets-production/scripts/`;
+asset-specific helpers can live under the asset. Multi-asset generation records
+belong in `assets-production/batches/<batch-id>/`, a production-only grouping,
+not another runtime category. Link those records rather than duplicate ledgers.
 
-## Current names and migration mapping
+## Previous names and migration mapping
 
-| Current name | Target / interpretation |
+| Previous name | Current interpretation |
 |---|---|
 | `art/`, earlier proposed `asset-production/` | `assets-production/` |
 | `apps/world/art/` and `apps/world/buildings/art/` | `apps/world/assets/<category>/<asset-id>/` |
-| `apps/world/buildings/`, building catalogs/classes/recipes | `structures` vocabulary after a coordinated code migration; current callable names remain valid |
+| `apps/world/buildings/`, building catalogs/classes/recipes | `apps/world/structures/`, structure catalog/gallery/test and `world-structure` recipe |
 | `art/cybercat-vanguard/` | `assets-production/characters/cybercat-vanguard/` |
 | `engineering-polish` | Split by actual contents: Engineering structure, reactor prop, engineer character; it remains an evidence milestone |
 | `meshy-blender`, `colony-3d` | Split by actual structure/character identity; neither tool nor colony is an asset category |
@@ -99,10 +100,11 @@ provenance record and link it. Do not create a parallel asset database.
 | `source/`, `references/` in the earlier draft | `blender/` for Blender sources, `originals/` for unchanged inputs, `concepts/` for design references |
 | Existing `evidence/<milestone>/` | Historical paths retained; new world reviews use the target layout |
 
-The existing [source index](../art/README.md) describes today's files. Historical
+The [source index](../assets-production/README.md) describes today's files. Historical
 documents and measured evidence retain accurate old names and links; add migration
-notes rather than globally replacing words inside old records. Coordinate future
-`building_*` symbols, tests, recipes and documentation with their actual callers.
+notes rather than globally replacing words inside old records. Preserve product room IDs and historical measurements when renaming runtime
+resources. New category names use structures; ordinary descriptive uses of the
+word building do not create a separate category.
 A missing text-search match is not proof that a dynamically loaded file is unused.
 
 ## Original downloads and local state
@@ -112,9 +114,9 @@ reconciliation ledgers. It is ignored but **not disposable cache**. The target
 `originals/` folder is for selected immutable inputs, not raw provider responses.
 Migrating downloads requires updating ledger paths, scripts and hashes together,
 plus deciding how large inputs will be retained/restored. Until then, keep their
-existing location and record that dependency in the asset README. This standard
-does not introduce Git LFS or external storage, nor put large originals in Git
-by default. A source ID or expired URL is not a backup.
+existing location and record that dependency in the asset README. Selected editable `.blend` sources use Git LFS under
+[ADR 0007](adr/0007-versioned-blender-sources.md); paid originals are not added
+to Git by default. A source ID or expired URL is not a backup.
 
 Keep credentials, signed URLs and live ledgers out of committed provenance.
 `.local/` contains tools and live service state as well as temporary outputs;
@@ -163,5 +165,5 @@ canonical sources, move paths and update recipes/provenance/docs together,
 rebuild without generation, and validate native output before retiring the old
 copy. Al owns the decision to retire art; the implementing task owns reference
 updates and checks. Completion means the documented rebuild and supported
-journeys work with the old paths absent. Bulk migration is deferred until that
-work is scheduled; this change establishes the convention and navigation.
+journeys work with the old paths absent. The first migration is recorded in the linked evidence. Future migrations use
+the same checks and retain an exact baseline before cleanup.

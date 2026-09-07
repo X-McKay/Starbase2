@@ -23,7 +23,7 @@ func run() -> void:
  world.fixture_path="test-only"
  world.http.cancel_request()
  var actor=world.get_node("Operator")
- for station in world.get_node("Buildings").get_children():
+ for station in world.get_node("Structures").get_children():
   actor.position=station.return_position()
   actor.motion=Vector3.ZERO
   await physics_frame

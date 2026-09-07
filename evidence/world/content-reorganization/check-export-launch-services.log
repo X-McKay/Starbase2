@@ -1,0 +1,2 @@
+python3 scripts/check_world_export.py --output .local/reviews/content-reorganization/20260907-launch-services
+Export qualified. Artifact, captures, logs and provenance: /Users/al/git/Starbase2/.local/reviews/content-reorganization/20260907-launch-services

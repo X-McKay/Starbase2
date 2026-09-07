@@ -47,6 +47,6 @@ still use this procedure and proportionate checks; do not load asset-generation
 instructions just because the scene contains a 3D model.
 
 Use the [content taxonomy](../../../docs/content-organization.md) when naming or
-organizing assets and scenes. Prefer structures over buildings in new taxonomy;
-keep current code/resource names until a coordinated migration updates callers.
+organizing assets and scenes. Use `structures` in category, catalog and gallery names. Coordinate any further
+resource, scene-node and caller changes; the current index records actual paths.
 Crew roles and room contexts remain distinct from character and structure assets.

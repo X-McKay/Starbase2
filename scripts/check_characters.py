@@ -31,7 +31,7 @@ def main() -> None:
     args = parser.parse_args()
     manifests = [args.illustrated_manifest] if args.illustrated_manifest else []
     if args.illustrated:
-        catalog = ROOT / "art/characters/illustrated.json"
+        catalog = ROOT / "assets-production/characters/illustrated.json"
         manifests += [str(catalog.parent / name) for name in json.loads(catalog.read_text())]
     for manifest in manifests:
         run(
@@ -52,7 +52,13 @@ def main() -> None:
         local = ROOT / ".local/tools/character-renderer/Blender.app/Contents/MacOS/Blender"
         blender = args.blender or shutil.which("blender") or str(local)
         run(
-            [blender, "--background", "--factory-startup", "--python", "art/characters/render.py"],
+            [
+                blender,
+                "--background",
+                "--factory-startup",
+                "--python",
+                "assets-production/scripts/render.py",
+            ],
             300,
         )
         run(["godot", "--headless", "--path", "apps/world", "--script", "characters/pack.gd"])

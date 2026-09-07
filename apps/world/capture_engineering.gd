@@ -19,7 +19,7 @@ func setup() -> void:
  world.hud.reduced=reduced
  world.set_physics_process(false)
  world.set_process(false)
- var station=world.get_node("Buildings/Workshop")
+ var station=world.get_node("Structures/Workshop")
  var actor=world.get_node("Operator")
  if exterior:
   actor.position=station.return_position()+Vector3(0,0,1)

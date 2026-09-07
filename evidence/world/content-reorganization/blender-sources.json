@@ -1,0 +1,162 @@
+[
+  {
+    "path": "assets-production/characters/captain/blender/captain.blend",
+    "sha256": "b0092f34e9562634d0003dc5601dd4d6e74c3b13a1a94f3c29bfd587b3e9a422",
+    "meshes": 57,
+    "vertices": 4058,
+    "actions": 1,
+    "missing_external_images": []
+  },
+  {
+    "path": "assets-production/characters/cybercat-sentinel/blender/cybercat-repaired.blend",
+    "sha256": "d138ef404daeae1c16088f22e73dfc8a425c8946ae3e75d33341e49b976fa64b",
+    "meshes": 1,
+    "vertices": 16023,
+    "actions": 1,
+    "missing_external_images": []
+  },
+  {
+    "path": "assets-production/characters/cybercat-sentinel/blender/cybercat-source.blend",
+    "sha256": "b79ea808fc47d5564aa12420680c0834d67a72e1c9677cc43ff2f08834b1b8e8",
+    "meshes": 1,
+    "vertices": 16023,
+    "actions": 1,
+    "missing_external_images": []
+  },
+  {
+    "path": "assets-production/characters/cybercat-sentinel/blender/cybercat.blend",
+    "sha256": "99ed6d9ece89756ad666c2ece568cb307e0764d791ad31ad0969ea2e0e311ef7",
+    "meshes": 1,
+    "vertices": 16023,
+    "actions": 1,
+    "missing_external_images": []
+  },
+  {
+    "path": "assets-production/characters/cybercat-vanguard/blender/vanguard-imported.blend",
+    "sha256": "21b0235fb192a8b865763753fd59d8326aa4418801bdca2a723f74bac403e7d7",
+    "meshes": 2,
+    "vertices": 41482,
+    "actions": 0,
+    "missing_external_images": []
+  },
+  {
+    "path": "assets-production/characters/cybercat-vanguard/blender/vanguard.blend",
+    "sha256": "b06c80c324804878fd6ef18239166263f18aed5fede945d0755b707b9b1f2605",
+    "meshes": 2,
+    "vertices": 41482,
+    "actions": 4,
+    "missing_external_images": []
+  },
+  {
+    "path": "assets-production/characters/engineering-specialist/blender/engineer-imported.blend",
+    "sha256": "f2db5169570f32335979d24c042ea0df22c85b767815140d7ddc16a063e8f875",
+    "meshes": 2,
+    "vertices": 23145,
+    "actions": 0,
+    "missing_external_images": []
+  },
+  {
+    "path": "assets-production/characters/engineering-specialist/blender/engineer.blend",
+    "sha256": "396e39fb753fd320f0cea3e811cdcf57861d886d4e8c5807f1da6d740bd9ebf1",
+    "meshes": 2,
+    "vertices": 23145,
+    "actions": 4,
+    "missing_external_images": []
+  },
+  {
+    "path": "assets-production/characters/eva/blender/eva.blend",
+    "sha256": "2b97b60ee22d0c46d1157609d19bdd7b40e50503d8c5fdebb8fe46302019626d",
+    "meshes": 60,
+    "vertices": 4084,
+    "actions": 1,
+    "missing_external_images": []
+  },
+  {
+    "path": "assets-production/props/containment-reactor/blender/containment-reactor.blend",
+    "sha256": "79cf8e9ba9dc0cf400494cb790284d54a6536f7e11c1b1f29247e59267be33ed",
+    "meshes": 1,
+    "vertices": 45840,
+    "actions": 0,
+    "missing_external_images": []
+  },
+  {
+    "path": "assets-production/props/reactor-apparatus/blender/reactor-apparatus.blend",
+    "sha256": "ccc099923d910c678ef0125e42acb9fe3ffcf730787416fe380fae05800a78df",
+    "meshes": 1,
+    "vertices": 41648,
+    "actions": 0,
+    "missing_external_images": []
+  },
+  {
+    "path": "assets-production/structures/botanical/blender/greenhouse-building.blend",
+    "sha256": "11674696563202cb66922d4f2e74a83b1efd347b46eb7d9c6c094437b3813050",
+    "meshes": 303,
+    "vertices": 16152,
+    "actions": 0,
+    "missing_external_images": []
+  },
+  {
+    "path": "assets-production/structures/command/blender/review-building.blend",
+    "sha256": "1b880405184863562aa6d29a0e8f099d4ad8364f4401f9a0eb190a5b9d73f3bc",
+    "meshes": 293,
+    "vertices": 14840,
+    "actions": 0,
+    "missing_external_images": []
+  },
+  {
+    "path": "assets-production/structures/engineering/blender/cooling-service-module.blend",
+    "sha256": "0bc5ef79789426a3bbfd2eb215708bb31d33ea3c03af9beb0b79866647484e40",
+    "meshes": 1,
+    "vertices": 52767,
+    "actions": 0,
+    "missing_external_images": []
+  },
+  {
+    "path": "assets-production/structures/engineering/blender/engineering-architecture.blend",
+    "sha256": "289d5d14a0493101255d697c2d351261acfc492357ad6c636bc83b22e7b141f1",
+    "meshes": 599,
+    "vertices": 23208,
+    "actions": 0,
+    "missing_external_images": []
+  },
+  {
+    "path": "assets-production/structures/engineering/blender/repair-building.blend",
+    "sha256": "7b445c5b7b552a71fcafa3c773949864560359d69c96d249f6bec4c70d949ae7",
+    "meshes": 254,
+    "vertices": 12928,
+    "actions": 0,
+    "missing_external_images": []
+  },
+  {
+    "path": "assets-production/structures/engineering-prototype/blender/engineering-exterior.blend",
+    "sha256": "225083d37b9db8be61d20771a9bde67f0db911efcec58c611ab152bd8a39c1c6",
+    "meshes": 7,
+    "vertices": 39456,
+    "actions": 0,
+    "missing_external_images": []
+  },
+  {
+    "path": "assets-production/structures/engineering-prototype/blender/engineering-interior.blend",
+    "sha256": "4f133f3d60484d8923a7480b700c99ff379c72c03f9bad43330808360424db98",
+    "meshes": 312,
+    "vertices": 16608,
+    "actions": 0,
+    "missing_external_images": []
+  },
+  {
+    "path": "assets-production/structures/habitat/blender/habitat-building.blend",
+    "sha256": "d68224eced8a98a853c77f9b3b4f80472a08b79760f795a602384a45ef424cdf",
+    "meshes": 362,
+    "vertices": 19840,
+    "actions": 0,
+    "missing_external_images": []
+  },
+  {
+    "path": "assets-production/structures/training/blender/gym-building.blend",
+    "sha256": "87146f87a1acdbf483342479d7f55d3ccedafc423cefe844b6b0ff5a34e5462d",
+    "meshes": 311,
+    "vertices": 16088,
+    "actions": 0,
+    "missing_external_images": []
+  }
+]

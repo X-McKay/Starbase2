@@ -9,10 +9,10 @@ func _initialize() -> void:
 		for pilot in [false,true]:
 			var definition=Catalog.get_definition(id,pilot)
 			failures.append_array(Check.definition_errors(definition))
-	var sources: Array=JSON.parse_string(FileAccess.get_file_as_string("res://../../art/characters/catalog.json"))
+	var sources: Array=JSON.parse_string(FileAccess.get_file_as_string("res://../../assets-production/characters/catalog.json"))
 	for entry in sources:
 		var id: String=entry.id
-		var base: String="res://art/characters/"+id
+		var base: String="res://assets/characters/"+id+"/"+id
 		var manifest: Dictionary=JSON.parse_string(FileAccess.get_file_as_string(base+".json"))
 		assert(manifest.atlas_sha256==FileAccess.get_sha256(base+".png"),"Atlas provenance hash mismatch")
 		assert(manifest.source_sha256==FileAccess.get_sha256("res://../../"+manifest.source),"Source changed; render again")

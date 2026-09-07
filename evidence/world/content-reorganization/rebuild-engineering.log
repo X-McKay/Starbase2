@@ -1,0 +1,148 @@
+"/Applications/Blender.app/Contents/MacOS/Blender" --background --factory-startup --python assets-production/scripts/build_engineering.py
+/Users/al/git/Starbase2/assets-production/scripts/build_engineering.py:37: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  mat.use_nodes = True
+Info: Saved as "engineering-architecture.blend"
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+13:39:03 | INFO: Starting glTF 2.0 export
+13:39:03 | INFO: Extracting primitive: Cube.390
+13:39:03 | INFO: Primitives created: 1
+13:39:03 | INFO: Extracting primitive: Cube.389
+13:39:03 | INFO: Primitives created: 1
+13:39:03 | INFO: Extracting primitive: Cube.393
+13:39:03 | INFO: Primitives created: 1
+13:39:03 | INFO: Extracting primitive: Cube.398
+13:39:03 | INFO: Primitives created: 1
+13:39:03 | INFO: Extracting primitive: Cube.395
+13:39:03 | INFO: Primitives created: 1
+13:39:03 | INFO: Extracting primitive: Cube.396
+13:39:03 | INFO: Primitives created: 1
+13:39:03 | INFO: Extracting primitive: Cube.397
+13:39:03 | INFO: Primitives created: 1
+13:39:03 | INFO: Extracting primitive: Cube.402
+13:39:03 | INFO: Primitives created: 1
+13:39:03 | INFO: Extracting primitive: Cube.399
+13:39:03 | INFO: Primitives created: 1
+13:39:03 | INFO: Extracting primitive: Cube.400
+13:39:03 | INFO: Primitives created: 1
+13:39:03 | INFO: Extracting primitive: Cube.401
+13:39:03 | INFO: Primitives created: 1
+13:39:03 | INFO: Extracting primitive: Cube.242
+13:39:03 | INFO: Primitives created: 1
+13:39:03 | INFO: Extracting primitive: Cube.553
+13:39:03 | INFO: Primitives created: 1
+13:39:03 | INFO: Extracting primitive: Cube.003
+13:39:03 | INFO: Primitives created: 1
+13:39:03 | INFO: Extracting primitive: Cube.002
+13:39:03 | INFO: Primitives created: 1
+13:39:03 | INFO: Extracting primitive: Cube.001
+13:39:03 | INFO: Primitives created: 1
+13:39:03 | INFO: Extracting primitive: Cube.249
+13:39:03 | INFO: Primitives created: 1
+13:39:03 | INFO: Extracting primitive: Cylinder.001
+13:39:03 | INFO: Primitives created: 1
+13:39:03 | INFO: Extracting primitive: Cube.250
+13:39:03 | INFO: Primitives created: 1
+13:39:03 | INFO: Extracting primitive: Cube.244
+13:39:03 | INFO: Primitives created: 1
+13:39:03 | INFO: Extracting primitive: Cube.247
+13:39:03 | INFO: Primitives created: 1
+13:39:03 | INFO: Finished glTF 2.0 export in 0.024461984634399414 s
+
+13:39:03 | INFO: Starting glTF 2.0 export
+13:39:03 | INFO: Extracting primitive: Cube.512
+13:39:03 | INFO: Primitives created: 1
+13:39:03 | INFO: Extracting primitive: Cylinder.007
+13:39:03 | INFO: Primitives created: 1
+13:39:03 | INFO: Extracting primitive: Cube.507
+13:39:03 | INFO: Primitives created: 1
+13:39:03 | INFO: Extracting primitive: Cube.506
+13:39:03 | INFO: Primitives created: 1
+13:39:03 | INFO: Extracting primitive: Cylinder.009
+13:39:03 | INFO: Primitives created: 1
+13:39:03 | INFO: Extracting primitive: Cube.505
+13:39:03 | INFO: Primitives created: 1
+13:39:03 | INFO: Finished glTF 2.0 export in 0.006844043731689453 s
+
+ENGINEERING_ARCHITECTURE_EXPORTED
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit
+"/Applications/Blender.app/Contents/MacOS/Blender" --background --factory-startup --python assets-production/scripts/prepare_models.py
+13:39:03 | INFO: Data are loaded, start creating Blender stuff
+13:39:03 | INFO: Blender create Mesh node mesh
+13:39:03 | INFO: glTF import finished in 0.05s
+Info: Saved as "containment-reactor.blend"
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+13:39:03 | INFO: Starting glTF 2.0 export
+13:39:03 | INFO: Extracting primitive: mesh
+13:39:04 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+13:39:04 | INFO: Primitives created: 1
+13:39:04 | INFO: Finished glTF 2.0 export in 0.21258282661437988 s
+
+13:39:04 | INFO: Data are loaded, start creating Blender stuff
+13:39:04 | INFO: Blender create Mesh node mesh
+13:39:04 | INFO: glTF import finished in 0.06s
+Info: Saved as "cooling-service-module.blend"
+13:39:04 | INFO: Starting glTF 2.0 export
+13:39:04 | INFO: Extracting primitive: mesh.001
+13:39:04 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+13:39:04 | INFO: Primitives created: 1
+13:39:04 | INFO: Finished glTF 2.0 export in 0.205610990524292 s
+
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit
+"/Applications/Blender.app/Contents/MacOS/Blender" --background --factory-startup --python assets-production/scripts/prepare_character.py
+13:39:05 | INFO: Data are loaded, start creating Blender stuff
+13:39:05 | INFO: Blender create Mesh node char1
+13:39:05 | INFO: glTF import finished in 0.06s
+Info: Saved as "engineer-imported.blend"
+13:39:05 | INFO: Data are loaded, start creating Blender stuff
+13:39:05 | INFO: Blender create Mesh node char1
+13:39:05 | INFO: glTF import finished in 0.06s
+13:39:05 | INFO: Data are loaded, start creating Blender stuff
+13:39:05 | INFO: Blender create Mesh node char1
+13:39:05 | INFO: glTF import finished in 0.06s
+13:39:05 | INFO: Data are loaded, start creating Blender stuff
+13:39:05 | INFO: Blender create Mesh node char1
+13:39:05 | INFO: glTF import finished in 0.06s
+Info: Saved as "engineer.blend"
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+13:39:05 | INFO: Starting glTF 2.0 export
+13:39:05 | INFO: Extracting primitive: char1
+13:39:05 | INFO: Primitives created: 1
+13:39:05 | INFO: Finished glTF 2.0 export in 0.26606321334838867 s
+
+ENGINEER_EXPORTED ['walk', 'run', 'idle', 'console']
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit
+python3 assets-production/scripts/connect_engineering.py
+godot --headless --path apps/world --editor --import
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Scanning file structure...[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Loading global class names...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifying GDExtensions...[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Creating autoload scripts...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Initializing plugins...[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Starting file scan...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1m_update_scan_actions[22m | Started Scanning actions... (5 steps)[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | engineer.glb[39m[0m
+[  16% ] [90m[1m_update_scan_actions[22m | reactor.glb[39m[0m
+[  33% ] [90m[1m_update_scan_actions[22m | engineering-interior.glb[39m[0m
+[  50% ] [90m[1m_update_scan_actions[22m | engineering-shell.glb[39m[0m
+[  66% ] [90m[1m_update_scan_actions[22m | exterior.glb[39m[0m
+[92m[ DONE ][39m [1m_update_scan_actions[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Loading editor (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Loading editor layout...[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Loading docks...[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m

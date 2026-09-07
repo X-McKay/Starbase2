@@ -1,6 +1,6 @@
 extends Node3D
 ## All interiors are ordinary authored scenes. This host owns shared traversal.
-const Definition = preload("res://building_definition.gd")
+const Definition = preload("res://structure_definition.gd")
 const Art = preload("res://art.gd")
 var definition: Definition
 var blocks: Array[Rect2] = []

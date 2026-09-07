@@ -9,7 +9,7 @@ func run() -> void:
  await process_frame
  world.fixture_path="test-only"
  world.http.cancel_request()
- var station=world.get_node("Buildings/Workshop")
+ var station=world.get_node("Structures/Workshop")
  var content=station.room.content
  check(content.has_node("Reactor"),"Hero reactor imports")
  check(not station.reveal_materials.is_empty(),"Authored interior has a reveal transition")

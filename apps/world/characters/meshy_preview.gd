@@ -38,7 +38,7 @@ func build() -> void:
 	material.albedo_color = Color("405361")
 	ground.material_override = material
 	stage.add_child(ground)
-	model = load("res://art/meshy/cybercat.glb").instantiate()
+	model = load("res://assets/characters/cybercat-sentinel/cybercat.glb").instantiate()
 	stage.add_child(model)
 	player = model.find_children("*", "AnimationPlayer", true, false)[0]
 	var clips := player.get_animation_list()

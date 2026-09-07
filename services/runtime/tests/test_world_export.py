@@ -51,3 +51,35 @@ def test_expected_refusal_does_not_hide_secondary_errors(tmp_path):
     with patch("scripts.check_world_export.subprocess.run", return_value=result):
         with pytest.raises(RuntimeError, match="Expected clean refusal"):
             run(["godot"], tmp_path / "log", tmp_path, expected_refusal="fixture required")
+
+
+def test_native_launcher_success_does_not_hide_app_errors(tmp_path):
+    from scripts.check_world_export import native_capture
+
+    executable = tmp_path / "Review.app/Contents/MacOS/Review"
+    (tmp_path / "interior.log").write_text("Godot Engine\n")
+    (tmp_path / "interior-stderr.log").write_text("ERROR: missing texture\n")
+    with patch("scripts.check_world_export.run"):
+        with pytest.raises(RuntimeError, match="Native capture failed"):
+            native_capture(executable, [], tmp_path, "interior", tmp_path)
+
+
+def test_native_timeout_stops_only_exact_isolated_executable(tmp_path):
+    import signal
+
+    from scripts.check_world_export import native_capture
+
+    executable = tmp_path / "Review.app/Contents/MacOS/Review"
+    processes = (
+        f"101 {executable} -- --capture=interior.png\n"
+        "102 /other/Review.app/Contents/MacOS/Review -- --capture=interior.png\n"
+        f"103 {executable}-other -- --capture=interior.png\n"
+    )
+    with (
+        patch("scripts.check_world_export.run", side_effect=RuntimeError("timed out")),
+        patch("scripts.check_world_export.subprocess.check_output", return_value=processes),
+        patch("scripts.check_world_export.os.kill") as kill,
+    ):
+        with pytest.raises(RuntimeError, match="timed out"):
+            native_capture(executable, [], tmp_path, "interior", tmp_path)
+        kill.assert_called_once_with(101, signal.SIGTERM)

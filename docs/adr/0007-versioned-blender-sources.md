@@ -28,7 +28,8 @@ this does not certify that every paid-source rebuild works from a fresh clone.
 
 Install Git LFS, run `git lfs install --local`, then `git lfs pull` to hydrate
 editable sources after cloning. CI jobs that need Blender sources must enable
-LFS checkout; current game checks use committed runtime exports. Validate pointer
+LFS checkout; playing/exporting uses committed runtime exports, while full world checks also
+verify pilot source hashes and require hydrated sources. Validate pointer
 integrity and remote upload on the baseline push. Old Git revisions remain
 unchanged. Revisit storage when quotas or collaboration needs make LFS unsuitable;
 export hydrated files and their hashes before changing storage providers.

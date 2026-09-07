@@ -1,0 +1,11 @@
+00:00.314  blend            | Read blend: "/Users/al/git/Starbase2/assets-production/characters/captain/blender/captain.blend"
+00:00.332  blend            | Read blend: "/Users/al/git/Starbase2/assets-production/characters/cybercat-sentinel/blender/cybercat-repaired.blend"
+Traceback (most recent call last):
+  File "/tmp/audit_blender_sources.py", line 8, in <module>
+    assert meshes, str(path)
+           ^^^^^^
+AssertionError: /Users/al/git/Starbase2/assets-production/characters/cybercat-sentinel/blender/cybercat-repaired.blend
+Warning: Library file, loading empty scene
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit

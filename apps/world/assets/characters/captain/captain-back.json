@@ -1,0 +1,33 @@
+{
+  "atlas_sha256": "551be8eb0ebcf99b39d4387888d3aa11fa0dd7f3064927a8cfc5963e19e39da6",
+  "automatic_mirroring": false,
+  "canvas": [
+    256.0,
+    320.0
+  ],
+  "frames_sha256": "f4bee10a10a16a6e2177140ce8ea6cc2ef1036fc1e9a12fd658a14e102fbe9a3",
+  "implemented_clips": [
+    "walk_back"
+  ],
+  "importer_sha256": "20aa2be3abe995e13174cdb1e0b2a5b91a9fcadf357a2911c1d96ce3f3bb208a",
+  "manifest_sha256": "eb40e62d2786aeba2d846dc12aaeeb6495d4740c165717ab03d7c3f7849b9a92",
+  "matte_removed_pixels": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "missing_walk_directions": [
+    "front",
+    "left",
+    "right"
+  ],
+  "pivot": [
+    128.0,
+    296.0
+  ],
+  "provenance": "Original illustrated captain; built-in image generation; deterministic boundary-connected matte cleanup; no 3D rendering or mirrored directions",
+  "scale": 0.42,
+  "source_sha256": "6aae29835dd6c438cdfbebf7ccf9f69814f47a9cc97bd1ba1cdb44439c0416a2",
+  "stride_m": 3.2
+}

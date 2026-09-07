@@ -1,13 +1,13 @@
 [gd_scene load_steps=5 format=3]
 [ext_resource type="Script" path="res://world.gd" id="1"]
 [ext_resource type="Script" path="res://landscape.gd" id="2"]
-[ext_resource type="PackedScene" path="res://buildings/colony.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://structures/colony.tscn" id="3"]
 [ext_resource type="Script" path="res://actor.gd" id="4"]
 [node name="AsterOutpost" type="Node3D"]
 script = ExtResource("1")
 [node name="Terrace" type="Node3D" parent="."]
 script = ExtResource("2")
-[node name="Buildings" parent="." instance=ExtResource("3")]
+[node name="Structures" parent="." instance=ExtResource("3")]
 [node name="Operator" type="CharacterBody3D" parent="."]
 position = Vector3(0,0,5.5)
 script = ExtResource("4")

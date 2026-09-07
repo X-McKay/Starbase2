@@ -27,7 +27,7 @@ suite and final native captures. The first package capture was preempted before
 writing its interior image; the qualification harness now uses its existing
 wall-clock timeout while the scene exits after capture.
 
-See [the art review](../../art/engineering-polish/REVIEW.md) for scope, rebuild,
+See [the art review](../../assets-production/batches/engineering-polish/REVIEW.md) for scope, rebuild,
 limitations and the budget ledger: 140 credits this pass, 200 including the
 previous 60-credit generation, under the total 250-credit authorization.
 

@@ -100,12 +100,12 @@ func run() -> void:
 	# A new unbound place can reuse the same host and scene without a UI branch.
 	var annex=preload("res://station.gd").new()
 	annex.name="VisitorAnnex"
-	annex.definition=load("res://buildings/definitions/repair.tres").duplicate()
+	annex.definition=load("res://structures/definitions/repair.tres").duplicate()
 	annex.definition.id=&"visitor-annex-fixture"
 	annex.definition.title="VISITOR ANNEX"
 	annex.position=Vector3(28,0,12)
-	world.get_node("Buildings").add_child(annex)
-	world.hud.set_buildings(world.get_node("Buildings").get_children())
+	world.get_node("Structures").add_child(annex)
+	world.hud.set_structures(world.get_node("Structures").get_children())
 	world.hud.building_search.text="visitor annex"
 	world.hud.filter_buildings("visitor annex")
 	var visible_places=world.hud.building_list.get_children().filter(func(entry): return entry.visible)

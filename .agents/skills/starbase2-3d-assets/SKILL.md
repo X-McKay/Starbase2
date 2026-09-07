@@ -38,9 +38,13 @@ Follow the [content taxonomy](../../../docs/content-organization.md):
 `structures`, `characters`, `props`, `kits`, or `environment`; use `concepts/`,
 `originals/`, `blender/`, and `scripts/` within production assets as needed.
 Keep animation-selection/gameplay behavior in runtime code, not production.
-Existing paths are migration inputs, not already renamed: preserve working
-recipes until their resources, scripts and references move together. Keep required
-`meshy_output` inputs and ledgers until a verified restoration/migration exists.
+Use the [production index](../../../assets-production/README.md) for current
+recipes. Shared preparation lives in `assets-production/scripts/`; multi-asset
+plans and provenance live in `assets-production/batches/`, not runtime categories.
+Keep required `meshy_output` inputs and ledgers until a verified restoration or
+migration exists. Hydrate `.blend` sources with Git LFS before Blender work;
+Playing/exporting uses committed runtime assets; the full world suite also
+verifies pilot source hashes and needs hydrated sources.
 Record source/task IDs, actual credit charges, tool versions, output hashes,
 geometry/texture budgets and the connection to the runtime resource. Credentials
 and expiring signed URLs do not belong in committed provenance.

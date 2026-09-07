@@ -1,0 +1,23 @@
+[
+  {
+    "path": "apps/world/assets/structures/habitat/habitat-interior.glb",
+    "gltf_metadata_identical": true,
+    "changed_accessor_elements": 4,
+    "maximum_float_difference": 2.9802322387695312e-08,
+    "integer_indices_identical": true
+  },
+  {
+    "path": "apps/world/assets/structures/botanical/greenhouse-shell.glb",
+    "gltf_metadata_identical": true,
+    "changed_accessor_elements": 4,
+    "maximum_float_difference": 2.9802322387695312e-08,
+    "integer_indices_identical": true
+  },
+  {
+    "path": "apps/world/assets/structures/habitat/habitat-shell.glb",
+    "gltf_metadata_identical": true,
+    "changed_accessor_elements": 68,
+    "maximum_float_difference": 2.9802322387695312e-08,
+    "integer_indices_identical": true
+  }
+]

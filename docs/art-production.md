@@ -48,7 +48,7 @@ Run `mise exec -- just world-kit`. This opens a separate native art showroom:
 - `C`: alternate camera; `L`: daylight / cool work light; `R`: exterior roof cutaway.
 - Every shortcut has a visible button. There is no ambient movement or audio.
 
-The [manifest](../apps/world/art/kits/aster-v1/manifest.json) provides six named
+The [manifest](../apps/world/assets/kits/aster-v1/manifest.json) provides six named
 UV regions in one original generated 1254×1254 PNG. One module scene supports
 floor, wall, hull, console and roof configurations. Authored
 [interior](../apps/world/scenes/kit/workshop_interior.tscn) and
@@ -152,7 +152,7 @@ Actual native renders: [interior](../evidence/world-kit/interior.png),
 [alternate camera under cool light](../evidence/world-kit/interior-alternate.png).
 [Validation record](../evidence/world-kit/validation.json) retains checks, short
 frame samples and limitations. The atlas prompt and provenance are retained
-[with the asset](../apps/world/art/kits/aster-v1/provenance.json).
+[with the asset](../apps/world/assets/kits/aster-v1/provenance.json).
 
 The pilot establishes that shared PNG artwork and scene modules can render both
 inside and outside in the current Godot architecture. It does not establish
@@ -185,6 +185,6 @@ directional clips use approved stills; no mirrored frames or 3D art are substitu
 ## Source organization · September 7, 2026
 
 The [content convention](content-organization.md) defines current source/runtime/
-evidence boundaries, naming and retention. The [source index](../art/README.md)
+evidence boundaries, naming and retention. The [source index](../assets-production/README.md)
 links the native 3D families that supersede the historical crew direction above.
 Historical pilot evidence remains evidence of that pilot, not the current roster.

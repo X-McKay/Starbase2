@@ -11,7 +11,7 @@ three reusable habitat scenes, solar roofs, ceramic panel textures, planted
 walkways, hull depth, real directional shadows, and a distant planet. The user's
 three supplied game images informed silhouettes, layered scenery, surface detail,
 and readable paths; their artwork was not copied. Original editable SVG sources
-live in [the art directory](../apps/world/art/README.md).
+live in [the art directory](../apps/world/assets/README.md).
 
 Walk with WASD/arrows or click a path. Collision prevents walking through habitats
 or off the terrace; click routing goes around obstacles. E near a crew member

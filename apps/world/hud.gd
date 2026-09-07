@@ -303,7 +303,7 @@ func open_board() -> void:
 	close_panels()
 	board.open()
 
-func set_buildings(buildings: Array) -> void:
+func set_structures(buildings: Array) -> void:
 	for child in building_list.get_children():
 		building_list.remove_child(child)
 		child.queue_free()
