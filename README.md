@@ -18,6 +18,7 @@ contain a running agent system, game client, or deployment.
 - [Architecture](docs/architecture.md): four initial services and their boundaries.
 - [Agent evaluations](docs/evaluations.md): how to distinguish improvement from noise.
 - [World and RPG design](docs/experience.md): crew, equipment, progression, and the gym.
+- [World asset sources](docs/asset-sources.md): where to find free models, how they reach Blender and Godot, and provenance rules.
 - [Development workflow](docs/development.md): Rust/Python tooling and Codex/Claude integration.
 - [Skills review and new catalog](docs/skills-review.md): six original procedures and what was dropped or deferred.
 - [Delivery plan](docs/roadmap.md): a playable first slice, then continuous duties and improvement.
