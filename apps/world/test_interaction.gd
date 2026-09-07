@@ -14,6 +14,23 @@ func key(code: Key, pressed: bool = true) -> void:
 func _initialize() -> void:
 	call_deferred("run")
 
+func probe_cliff(world:Node,index:int,oblique:bool=false) -> void:
+	var geography=preload("res://geography.gd")
+	var a:Vector2=geography.OUTLINE[index]
+	var b:Vector2=geography.OUTLINE[(index+1)%geography.OUTLINE.size()]
+	var tangent:Vector2=(b-a).normalized()
+	var inward:=Vector2(-tangent.y,tangent.x)
+	var start:Vector2=(a+b)*0.5+inward*1.1
+	var movement:Vector2=-inward*10.0+(tangent*3.0 if oblique else Vector2.ZERO)
+	check(not geography.contains(start+movement*0.6,0.0),"Cliff probe must attempt to cross the actual current rim")
+	var operator=world.get_node("Operator")
+	operator.position=Vector3(start.x,0,start.y)
+	operator.motion=Vector3(movement.x,0,movement.y)
+	await create_timer(0.6).timeout
+	operator.motion=Vector3.ZERO
+	check(geography.contains(Vector2(operator.position.x,operator.position.z),0.20),"Current cliff rim must stop physical movement")
+	check(not world.navigator.route(operator.position,Vector3(0,0,27)).is_empty(),"Click-to-walk returns from physical rim contact")
+
 func run() -> void:
 	var world = load("res://main.tscn").instantiate()
 	root.add_child(world)
@@ -104,10 +121,7 @@ func run() -> void:
 	await process_frame
 	await process_frame
 	check(world.camera_focus.distance_to(operator.position)<0.1,"Reduced-motion room camera reaches distant districts without interpolation")
-	operator.position = Vector3(37,0,0)
-	operator.motion = Vector3(6,0,0)
-	await create_timer(0.4).timeout
-	check(preload("res://geography.gd").contains(Vector2(operator.position.x,operator.position.z),0.20),"Physical survey boundary stops keyboard movement at the reshaped edge")
+	await probe_cliff(world,31)
 	# The retired blockout shuttle may not leave an invisible obstacle.
 	operator.position=Vector3(-24,0,11)
 	operator.motion=Vector3(0,0,-5)
@@ -118,23 +132,17 @@ func run() -> void:
 	operator.motion = Vector3(0,0,-10)
 	await create_timer(0.5).timeout
 	check(operator.position.z>greenhouse.global_position.z+greenhouse.definition.collision_boxes[0].end.y+0.2,"Greenhouse collision agrees with its blocked navigation footprint")
-	operator.position = Vector3(30,0,-20)
+	var pool:Rect2=preload("res://surface_layout.gd").NATURAL_BLOCKS[0]
+	operator.position = Vector3(pool.get_center().x,0,pool.end.y+2)
 	operator.motion = Vector3(0,0,-10)
 	await create_timer(0.4).timeout
-	check(operator.position.z>-21.8,"Mineral pool prevents walking onto the water")
+	check(operator.position.z>pool.end.y+0.2,"Mineral pool prevents walking onto the water")
 	operator.position = Vector3(10,0,-18)
 	operator.motion = Vector3(0,0,-10)
 	await create_timer(0.5).timeout
 	check(operator.position.z>-20.8,"Weathered landmark blocks physical movement")
-	operator.position = Vector3(0,0,28)
-	operator.motion = Vector3(0,0,10)
-	await create_timer(0.6).timeout
-	check(preload("res://geography.gd").contains(Vector2(operator.position.x,operator.position.z),0.20),"Near cliff edge stops the operator on the shelf")
-	operator.position = Vector3(36,0,25)
-	operator.motion = Vector3(8,0,6)
-	await create_timer(0.6).timeout
-	check(preload("res://geography.gd").contains(Vector2(operator.position.x,operator.position.z),0.20),"Oblique cliff collision agrees with the polygon")
-	check(not world.navigator.route(operator.position,Vector3(0,0,27)).is_empty(),"Click-to-walk can return from physical contact with the cliff rim")
+	await probe_cliff(world,47)
+	await probe_cliff(world,35,true)
 	operator.motion = Vector3.ZERO
 	world.queue_free()
 	await process_frame

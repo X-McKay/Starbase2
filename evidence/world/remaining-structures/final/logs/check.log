@@ -1,0 +1,94 @@
+cargo fmt --all --check
+cargo clippy --locked --all-targets -- -D warnings
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.30s
+.venv/bin/ruff format --check services/runtime scripts
+66 files already formatted
+.venv/bin/ruff check services/runtime scripts
+All checks passed!
+.venv/bin/ty check services/runtime scripts
+error[unresolved-attribute]: Unresolved attribute `_cmd_check_env` on type `ModuleType`
+  --> services/runtime/tests/test_remaining_generation.py:18:5
+   |
+18 |     fake._cmd_check_env = lambda args: None
+   |     ^^^^^^^^^^^^^^^^^^^
+
+error[unresolved-attribute]: Unresolved attribute `record_task` on type `ModuleType`
+  --> services/runtime/tests/test_remaining_generation.py:19:5
+   |
+19 |     fake.record_task = lambda *args, **kwargs: None
+   |     ^^^^^^^^^^^^^^^^
+
+error[unresolved-attribute]: Unresolved attribute `save_thumbnail` on type `ModuleType`
+  --> services/runtime/tests/test_remaining_generation.py:20:5
+   |
+20 |     fake.save_thumbnail = lambda *args: None
+   |     ^^^^^^^^^^^^^^^^^^^
+
+error[invalid-argument-type]: Argument to function `module_from_spec` is incorrect
+  --> services/runtime/tests/test_remaining_generation.py:26:46
+   |
+26 |     module = importlib.util.module_from_spec(spec)
+   |                                              ^^^^ Expected `ModuleSpec`, found `ModuleSpec | None`
+info: element `None` of union `ModuleSpec | None` is not assignable to `ModuleSpec`
+info: Function defined here
+  --> stdlib/_frozen_importlib.pyi:45:5
+   |
+45 | def module_from_spec(spec: importlib.machinery.ModuleSpec) -> types.ModuleType:
+   |     ^^^^^^^^^^^^^^^^ ------------------------------------ Parameter declared here
+
+error[unresolved-attribute]: Attribute `exec_module` is not defined on `None` in union `Loader | None`
+  --> services/runtime/tests/test_remaining_generation.py:27:5
+   |
+27 |     spec.loader.exec_module(module)
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
+
+error[unresolved-attribute]: Attribute `loader` is not defined on `None` in union `ModuleSpec | None`
+  --> services/runtime/tests/test_remaining_generation.py:27:5
+   |
+27 |     spec.loader.exec_module(module)
+   |     ^^^^^^^^^^^
+
+error[unresolved-attribute]: Unresolved attribute `ROOT` on type `ModuleType`
+  --> services/runtime/tests/test_remaining_generation.py:29:5
+   |
+29 |     module.ROOT = tmp_path
+   |     ^^^^^^^^^^^
+
+error[unresolved-attribute]: Unresolved attribute `PLAN` on type `ModuleType`
+  --> services/runtime/tests/test_remaining_generation.py:30:5
+   |
+30 |     module.PLAN = tmp_path / "plan.json"
+   |     ^^^^^^^^^^^
+
+error[unresolved-attribute]: Unresolved attribute `LEDGER` on type `ModuleType`
+  --> services/runtime/tests/test_remaining_generation.py:31:5
+   |
+31 |     module.LEDGER = tmp_path / "meshy_output/remaining-structures-ledger.json"
+   |     ^^^^^^^^^^^^^
+
+error[unresolved-attribute]: Unresolved attribute `create_task` on type `ModuleType`
+  --> services/runtime/tests/test_remaining_generation.py:68:5
+   |
+68 |     fake.create_task = create
+   |     ^^^^^^^^^^^^^^^^
+
+error[unresolved-attribute]: Unresolved attribute `get_project_dir` on type `ModuleType`
+  --> services/runtime/tests/test_remaining_generation.py:69:5
+   |
+69 |     fake.get_project_dir = directory
+   |     ^^^^^^^^^^^^^^^^^^^^
+
+error[unresolved-attribute]: Unresolved attribute `_cmd_get` on type `ModuleType`
+  --> services/runtime/tests/test_remaining_generation.py:70:5
+   |
+70 |     fake._cmd_get = get
+   |     ^^^^^^^^^^^^^
+
+error[unresolved-attribute]: Unresolved attribute `download` on type `ModuleType`
+  --> services/runtime/tests/test_remaining_generation.py:71:5
+   |
+71 |     fake.download = lambda url, path: Path(path).write_bytes(b"synthetic image")
+   |     ^^^^^^^^^^^^^
+
+Found 13 diagnostics
+error: recipe `lint` failed on line 50 with exit code 1

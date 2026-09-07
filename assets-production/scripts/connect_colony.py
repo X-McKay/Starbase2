@@ -19,6 +19,10 @@ def rect(values):
 
 FAMILIES = {"repair": "engineering", "review": "command", "gym": "training", "greenhouse": "botanical", "habitat": "habitat"}
 for kind, data in layout.items():
+    selected_layout = root / "assets-production/structures" / FAMILIES[kind] / "layout.json"
+    if kind != "repair" and selected_layout.exists():
+        print("PRESERVE_SELECTED_CONNECTION", FAMILIES[kind])
+        continue
     exterior = f"res://assets/structures/{FAMILIES[kind]}/{kind}-shell.glb"
     furniture = f"res://assets/structures/{FAMILIES[kind]}/{kind}-interior.glb"
     (world / f"structures/exteriors/{kind}-continuous.tscn").write_text(

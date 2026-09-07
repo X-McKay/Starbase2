@@ -5,6 +5,19 @@ var failures:Array[String]=[]
 func check(condition:bool, message:String) -> void:
 	if not condition: failures.append(message); push_error(message)
 
+func walk(tree:SceneTree,scene:Node,target:Vector3,station:Node3D) -> void:
+	scene.route=scene.travel_route(target)
+	check(not scene.route.is_empty(),"Packaged physical route missing: "+str(target))
+	var actor=scene.get_node("Operator")
+	var previous:Vector3=actor.position
+	for tick in range(600):
+		await tree.physics_frame
+		check(actor.position.distance_to(previous)<0.22,"Packaged walking teleported")
+		previous=actor.position
+		if scene.route.is_empty(): break
+	check(actor.position.distance_to(target)<0.45,"Packaged physical arrival failed: "+str(target))
+	check(scene.active_building==station,"Packaged crossing selected wrong room")
+
 func run(tree:SceneTree, scene:Node) -> void:
 	check(not ResourceLoader.exists("res://test_state.gd"),"Development tests leaked into release")
 	check(not ResourceLoader.exists("res://characters/illustrated_import.gd"),"Art importer leaked into release")
@@ -45,5 +58,18 @@ func run(tree:SceneTree, scene:Node) -> void:
 			check(scene.active_room.definition.seamless,"Packaged room must be continuous")
 			check(not scene.travel_route(scene.active_building.return_position()).is_empty(),"Packaged exit route missing")
 		scene.exit_room()
-	if failures.is_empty(): print("EXPORTED WORLD PASSED: catalogs, four-direction playback, reduced motion, colony, five continuous interiors and seven room entry points; development scripts excluded")
+	for station in scene.get_node("Structures").get_children():
+		var player=scene.get_node("Operator")
+		player.position=station.return_position()
+		player.motion=Vector3.ZERO
+		await tree.physics_frame
+		await walk(tree,scene,station.room.content.get_node("WalkTarget").global_position,station)
+		check(station.cutaway<0.01,"Packaged interior cutaway failed")
+		await walk(tree,scene,station.room.to_global(station.room.console_point),station)
+		await walk(tree,scene,station.return_position()+Vector3(0,0,3),null)
+		for tick in range(60): await tree.physics_frame
+		check(station.openness==0 and not station.door_collision.disabled,"Packaged airlock does not close")
+		check(scene.commands.payload.is_empty(),"Packaged travel dispatched work")
+		print("EXPORTED_JOURNEY ",station.definition.id)
+	if failures.is_empty(): print("EXPORTED WORLD PASSED: catalogs, character playback, reduced motion, five physical console/exit journeys and seven direct entry points; development scripts excluded")
 	tree.quit(0 if failures.is_empty() else 1)

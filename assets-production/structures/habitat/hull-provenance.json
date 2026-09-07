@@ -1,0 +1,41 @@
+{
+  "asset_id": "habitat",
+  "task_id": "01a07d32-446f-7251-84a4-ba9d4c6a0496",
+  "consumed_credits": 30,
+  "source": "meshy_output/20260907_142836_habitat-hull_01a07d20/mesh.glb",
+  "source_sha256": "74482f965c049b3f54234b655a5829ef599b4e8afc90c6e7a07b5ef6e068a4d2",
+  "raw_bounds_blender_xyz": {
+    "min": [
+      -0.9502580165863037,
+      -0.7318789958953857,
+      -0.42242512106895447
+    ],
+    "max": [
+      0.9484649896621704,
+      0.7337201237678528,
+      0.42081907391548157
+    ]
+  },
+  "nonuniform_fit_scale": [
+    9.606456756591797,
+    9.033848762512207,
+    5.573711395263672
+  ],
+  "fit_size_width_depth_height_m": [
+    18.239999771118164,
+    13.239999771118164,
+    4.699999809265137
+  ],
+  "removed_door_faces": 70,
+  "clearance": {
+    "width_m": 2.68,
+    "height_m": 3.12,
+    "front_depth_m": 1.2
+  },
+  "blender_version": "5.2.1 LTS",
+  "files": {
+    "assets-production/structures/habitat/blender/habitat-hull.blend": "7824359cfc3816ea502123046c209161ccf5c4869ad8008ee18b410e6fc2c38f",
+    "apps/world/assets/structures/habitat/hull.glb": "3f621c0dbbac8aff018616d3094821969996c75014c56cd1cf53528ff495c168"
+  },
+  "limitations": "Generated hull has an explicit visual opening; authored collision and floor remain authoritative. Native exterior/interior review required."
+}

@@ -1,0 +1,16 @@
+15:00:58 | INFO: Data are loaded, start creating Blender stuff
+15:00:58 | INFO: Blender create Mesh node 0
+15:00:58 | INFO: glTF import finished in 0.08s
+Info: Saved as "training-hull.blend"
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+15:00:58 | INFO: Starting glTF 2.0 export
+15:00:58 | INFO: Extracting primitive: Mesh_0
+15:00:58 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+15:00:58 | INFO: Primitives created: 1
+15:00:58 | INFO: Finished glTF 2.0 export in 0.2017829418182373 s
+
+HULL_PREPARED training removed_faces 1131
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit

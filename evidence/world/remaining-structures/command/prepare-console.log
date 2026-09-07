@@ -1,0 +1,20 @@
+14:43:11 | INFO: Data are loaded, start creating Blender stuff
+14:43:11 | INFO: Blender create Mesh node 0
+14:43:11 | INFO: glTF import finished in 0.03s
+/Users/al/git/Starbase2/assets-production/scripts/prepare_remaining_props.py:66: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  entry = {"name": name, "use_nodes": material.use_nodes, "principled": [], "textures": []}
+/Users/al/git/Starbase2/assets-production/scripts/prepare_remaining_props.py:67: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  if material.use_nodes:
+Info: Saved as "analysis-console.blend"
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+14:43:12 | INFO: Starting glTF 2.0 export
+14:43:12 | INFO: Extracting primitive: Mesh_0.001
+14:43:12 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+14:43:12 | INFO: Primitives created: 1
+14:43:12 | INFO: Finished glTF 2.0 export in 0.018237829208374023 s
+
+{"asset": "analysis-console", "runtime": "/Users/al/git/Starbase2/apps/world/assets/props/analysis-console/analysis-console.glb", "scale": 1.3165093498660358, "geometry": {"objects": 1, "vertices": 29527, "polygons": 20128, "triangles": 20128}}
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit

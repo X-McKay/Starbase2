@@ -1,0 +1,48 @@
+{
+  "asset_id": "training",
+  "room_id": "gym",
+  "blender_version": "5.2.1 LTS",
+  "units": "metres; Godot Y-up exported from Blender Z-up",
+  "footprint": [
+    -8.0,
+    -10.45,
+    16.0,
+    12.0
+  ],
+  "palette": [
+    0.58,
+    0.33,
+    0.78
+  ],
+  "source_kind": "authored architecture; generated equipment remains separate props",
+  "files": {
+    "assets-production/structures/training/blender/training-polished.blend": {
+      "sha256": "f6d7b09819a835974d967d4c23895341927421c4118c4fdb6bc71a35a1ac7aa4",
+      "bytes": 374481
+    },
+    "apps/world/assets/structures/training/gym-shell.glb": {
+      "sha256": "804a2932f381d79c08f92cd5cb29296794ffabcdba4a506792b5fc05f82bfb85",
+      "bytes": 3726436
+    },
+    "apps/world/assets/structures/training/gym-interior.glb": {
+      "sha256": "50e0c565d9c4da67a04c2f632d855879aedf397b824a56973664d0177c562d68",
+      "bytes": 221968
+    },
+    "assets-production/scripts/build_remaining_structures.py": {
+      "sha256": "852aaf360ae6081ec96be5f0f3bcbf5da906091bac0e2417b5bce11318ddba13",
+      "bytes": 20538
+    }
+  },
+  "semantic_groups": [
+    "CutawayEntrance",
+    "DoorLeft",
+    "DoorRight",
+    "Floor",
+    "Furniture",
+    "InteriorRevealBack",
+    "InteriorRevealRail"
+  ],
+  "mesh_objects": 29,
+  "triangles": 53900,
+  "review_status": "Requires native and package qualification; owner art judgment separate"
+}

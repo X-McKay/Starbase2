@@ -1,0 +1,41 @@
+{
+  "asset_id": "botanical",
+  "task_id": "01a07d32-475e-7270-bf9f-fd2ca56a74c8",
+  "consumed_credits": 30,
+  "source": "meshy_output/20260907_142837_botanical-hull_01a07d21/mesh.glb",
+  "source_sha256": "3728c53f307c00497f6de9d62feb9d29e41e0fa1c4faa706e1865f2b42d53504",
+  "raw_bounds_blender_xyz": {
+    "min": [
+      -0.9498599767684937,
+      -0.8695430755615234,
+      -0.5064921975135803
+    ],
+    "max": [
+      0.9481160044670105,
+      0.8671681880950928,
+      0.5054820775985718
+    ]
+  },
+  "nonuniform_fit_scale": [
+    9.08336067199707,
+    7.0478034019470215,
+    5.336103916168213
+  ],
+  "fit_size_width_depth_height_m": [
+    17.239999771118164,
+    12.239999771118164,
+    5.400000095367432
+  ],
+  "removed_door_faces": 118,
+  "clearance": {
+    "width_m": 2.68,
+    "height_m": 3.12,
+    "front_depth_m": 1.2
+  },
+  "blender_version": "5.2.1 LTS",
+  "files": {
+    "assets-production/structures/botanical/blender/botanical-hull.blend": "441915b9ea07706f0306b870647f049ddbaf33385fc925ecbce2cbc89b1b1a1c",
+    "apps/world/assets/structures/botanical/hull.glb": "d971677583eb39d0f680ce4c41db636b45029d0cf0a3235bac45dfa3609b2e07"
+  },
+  "limitations": "Generated hull has an explicit visual opening; authored collision and floor remain authoritative. Native exterior/interior review required."
+}

@@ -1,0 +1,1905 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-09-07T19:30:43.779020+00:00",
+  "scope": "Remaining structures: generation and local files; visual acceptance is separate",
+  "status": "locally_complete",
+  "plan": {
+    "path": "assets-production/batches/remaining-structures/plan.json",
+    "status": "present",
+    "sha256": "ee3f25276216bd34e6e7002407b6cd9cc8e9fb757e135b4c197a13762d7428ab",
+    "bytes": 10795
+  },
+  "ledger_snapshot_sha256": "c7bc86d59801d324e8310097203758376d7a4ce3183157c219ae21157c7bba8a",
+  "planned_asset_count": 13,
+  "planned_stage_count": 26,
+  "recorded_stage_count": 26,
+  "unplanned_recorded_stages": [],
+  "budget": {
+    "approved_credit_cap": 1250,
+    "prior_generation_credits": 0,
+    "actual_credits": 507,
+    "pending_reservations": 0,
+    "remaining_authorized_credits": 743,
+    "provider_balance": "not queried"
+  },
+  "unfinished_stages": [],
+  "unfinished_preparation": [],
+  "missing_artifacts": [],
+  "stages": {
+    "analysis-console/image": {
+      "status": "complete",
+      "reserved_credits": 9,
+      "task_id": "01a07d1a-12ca-7717-b344-65a155f1371d",
+      "actual_credits": 9,
+      "original_files": [
+        {
+          "path": "meshy_output/20260907_142059_analysis-console_01a07d1a/design-0.png",
+          "status": "present",
+          "sha256": "86f9411757f4cd85ef5cd1e52c6f0ad3282e4aaaf54d90e2eb40974dc229bf6d",
+          "bytes": 1361792
+        },
+        {
+          "path": "meshy_output/20260907_142059_analysis-console_01a07d1a/image-task.json",
+          "status": "present",
+          "sha256": "1c466e7221accc13ce79d3098fd153b07ae7410a5742a1e19fd311625c5d71d6",
+          "bytes": 1743
+        }
+      ]
+    },
+    "analysis-console/mesh": {
+      "status": "complete",
+      "reserved_credits": 30,
+      "task_id": "01a07d1c-38d8-712f-b7b7-30bfade171e0",
+      "actual_credits": 30,
+      "original_files": [
+        {
+          "path": "meshy_output/20260907_142059_analysis-console_01a07d1a/mesh-task.json",
+          "status": "present",
+          "sha256": "67bede38432dc1eaf96eafef3423d50feb63577e08e33d4a577b94a05950ce8e",
+          "bytes": 9864
+        },
+        {
+          "path": "meshy_output/20260907_142059_analysis-console_01a07d1a/mesh.glb",
+          "status": "present",
+          "sha256": "186af0a8a91c622ccfc702504bc8a2153082530285c84b897dacde8976cfc0d2",
+          "bytes": 10672544
+        }
+      ]
+    },
+    "botanical-hull/image": {
+      "status": "complete",
+      "reserved_credits": 9,
+      "task_id": "01a07d21-1a7e-7717-bddc-8362b7e0ea3d",
+      "actual_credits": 9,
+      "original_files": [
+        {
+          "path": "meshy_output/20260907_142837_botanical-hull_01a07d21/design-0.png",
+          "status": "present",
+          "sha256": "9c1e90484c5a93ad1893427bb0a1f946a931bd41ea0e6a16ee3bc44b4537dc57",
+          "bytes": 1268573
+        },
+        {
+          "path": "meshy_output/20260907_142837_botanical-hull_01a07d21/image-task.json",
+          "status": "present",
+          "sha256": "dcd9d6f96b631f9d352d868323b0ed194b88f8913866b5967759759f9328598a",
+          "bytes": 1932
+        }
+      ]
+    },
+    "botanical-hull/mesh": {
+      "status": "complete",
+      "reserved_credits": 30,
+      "task_id": "01a07d32-475e-7270-bf9f-fd2ca56a74c8",
+      "actual_credits": 30,
+      "original_files": [
+        {
+          "path": "meshy_output/20260907_142837_botanical-hull_01a07d21/mesh-task.json",
+          "status": "present",
+          "sha256": "3d80dfa74c32bedc8b7238c08f2db4b635119025c0a2793036a987d2a3aa5ffb",
+          "bytes": 9916
+        },
+        {
+          "path": "meshy_output/20260907_142837_botanical-hull_01a07d21/mesh.glb",
+          "status": "present",
+          "sha256": "3728c53f307c00497f6de9d62feb9d29e41e0fa1c4faa706e1865f2b42d53504",
+          "bytes": 32740648
+        }
+      ]
+    },
+    "botany-lab-bench/image": {
+      "status": "complete",
+      "reserved_credits": 9,
+      "task_id": "01a07d21-3be0-7322-977c-1d4d28cbafd5",
+      "actual_credits": 9,
+      "original_files": [
+        {
+          "path": "meshy_output/20260907_142846_botany-lab-bench_01a07d21/design-0.png",
+          "status": "present",
+          "sha256": "a363fa44f43526068309dc044d3ba856ce6364ca7fbca95102d0d8e0d2d65818",
+          "bytes": 972147
+        },
+        {
+          "path": "meshy_output/20260907_142846_botany-lab-bench_01a07d21/image-task.json",
+          "status": "present",
+          "sha256": "36cb2e02637adb279ca41a48e3aa93ad24c3cd82bafb709d345cbb6515807d9c",
+          "bytes": 1679
+        }
+      ]
+    },
+    "botany-lab-bench/mesh": {
+      "status": "complete",
+      "reserved_credits": 30,
+      "task_id": "01a07d32-5813-7127-88b7-1eb9c436a59d",
+      "actual_credits": 30,
+      "original_files": [
+        {
+          "path": "meshy_output/20260907_142846_botany-lab-bench_01a07d21/mesh-task.json",
+          "status": "present",
+          "sha256": "372d18786c1a3fa32a985c623bff9f367c14db2237514a1bafc9d9bca971ac53",
+          "bytes": 9864
+        },
+        {
+          "path": "meshy_output/20260907_142846_botany-lab-bench_01a07d21/mesh.glb",
+          "status": "present",
+          "sha256": "a1684b88db051370bea025e8654f8d386c81fa855dd56d5e44c17946f239ec22",
+          "bytes": 11473720
+        }
+      ]
+    },
+    "command-hull/image": {
+      "status": "complete",
+      "reserved_credits": 9,
+      "task_id": "01a07d19-fb20-70e6-8987-7754a4c56137",
+      "actual_credits": 9,
+      "original_files": [
+        {
+          "path": "meshy_output/20260907_142052_command-hull_01a07d19/design-0.png",
+          "status": "present",
+          "sha256": "2d860623cf3d436eb2cb4e7a9869bdc8f529d91450341cd82d0641f87f5dd778",
+          "bytes": 1268669
+        },
+        {
+          "path": "meshy_output/20260907_142052_command-hull_01a07d19/image-task.json",
+          "status": "present",
+          "sha256": "b35060c943e6c8c1f2ab5875ea610e2a8950e746c83fb6e1cca1ba742d1c617d",
+          "bytes": 1871
+        }
+      ]
+    },
+    "command-hull/mesh": {
+      "status": "complete",
+      "reserved_credits": 30,
+      "task_id": "01a07d1c-2723-72c9-94ab-4189191b01c5",
+      "actual_credits": 30,
+      "original_files": [
+        {
+          "path": "meshy_output/20260907_142052_command-hull_01a07d19/mesh-task.json",
+          "status": "present",
+          "sha256": "3f9223a09f10d8042dcdebfdd740e958875b598a2693f3750ef2e912a986e944",
+          "bytes": 9916
+        },
+        {
+          "path": "meshy_output/20260907_142052_command-hull_01a07d19/mesh.glb",
+          "status": "present",
+          "sha256": "4fd4b0b1b1dfc7273a8192fae2f3263cc081b35a71fcb8c17b19f2807bfa8497",
+          "bytes": 33864228
+        }
+      ]
+    },
+    "communications-array/image": {
+      "status": "complete",
+      "reserved_credits": 9,
+      "task_id": "01a07d0c-fc04-75f7-8265-14c7e80d8b64",
+      "actual_credits": 9,
+      "original_files": [
+        {
+          "path": "meshy_output/20260907_140638_communications-array_01a07d0c/design-0.png",
+          "status": "present",
+          "sha256": "ef61d8cfee3165798a152b991fbfba9ed7240e760aa47bbfbb408e72490893e3",
+          "bytes": 995773
+        },
+        {
+          "path": "meshy_output/20260907_140638_communications-array_01a07d0c/image-task.json",
+          "status": "present",
+          "sha256": "3185f567b5097e44368ab6f05e191b7e35bbb46f1fe75bff1fc4fbd6a3c38485",
+          "bytes": 1546
+        }
+      ]
+    },
+    "communications-array/mesh": {
+      "status": "complete",
+      "reserved_credits": 30,
+      "task_id": "01a07d0e-b620-7238-bfab-005848dcf326",
+      "actual_credits": 30,
+      "original_files": [
+        {
+          "path": "meshy_output/20260907_140638_communications-array_01a07d0c/mesh-task.json",
+          "status": "present",
+          "sha256": "a2b861fe44258c47f92cb136b74f62ee9e142d7c3bab92cc2bcecc6225f8c2b2",
+          "bytes": 9864
+        },
+        {
+          "path": "meshy_output/20260907_140638_communications-array_01a07d0c/mesh.glb",
+          "status": "present",
+          "sha256": "a653f5e2dbeefd2935026f1bc9f02404ec07ad1b255a2ad6b5ea0b6a0fb6fa0c",
+          "bytes": 10877924
+        }
+      ]
+    },
+    "frontier-galley/image": {
+      "status": "complete",
+      "reserved_credits": 9,
+      "task_id": "01a07d21-266f-76aa-97de-1c10dcbe8598",
+      "actual_credits": 9,
+      "original_files": [
+        {
+          "path": "meshy_output/20260907_142840_frontier-galley_01a07d21/design-0.png",
+          "status": "present",
+          "sha256": "202de474e017bb07c5d33a599edf07a3c7e96a74daa741f6e25ecf4d2cd1996f",
+          "bytes": 1160930
+        },
+        {
+          "path": "meshy_output/20260907_142840_frontier-galley_01a07d21/image-task.json",
+          "status": "present",
+          "sha256": "603b722e4a091dbf95d7f578ad98e46678f1513d87a7d2ae192f55118a539241",
+          "bytes": 1730
+        }
+      ]
+    },
+    "frontier-galley/mesh": {
+      "status": "complete",
+      "reserved_credits": 30,
+      "task_id": "01a07d32-4caf-77cd-aab1-bec6b37ceebe",
+      "actual_credits": 30,
+      "original_files": [
+        {
+          "path": "meshy_output/20260907_142840_frontier-galley_01a07d21/mesh-task.json",
+          "status": "present",
+          "sha256": "68766d0879de006d16ab920d5c8ebf20d2360de0f0f623df00e4bf25fb54c74c",
+          "bytes": 9864
+        },
+        {
+          "path": "meshy_output/20260907_142840_frontier-galley_01a07d21/mesh.glb",
+          "status": "present",
+          "sha256": "e0a6300019ca18bdc2938b08a1850e3a1a2f73b6d30ed1bac83ee4625b0a6a20",
+          "bytes": 9860952
+        }
+      ]
+    },
+    "habitat-hull/image": {
+      "status": "complete",
+      "reserved_credits": 9,
+      "task_id": "01a07d20-c57a-758d-a9bf-e2a7cead14d4",
+      "actual_credits": 9,
+      "original_files": [
+        {
+          "path": "meshy_output/20260907_142836_habitat-hull_01a07d20/design-0.png",
+          "status": "present",
+          "sha256": "9f87df39be460c4000182fda10eb6a9d3d006fa90e2e23a9e2b98805a79f85f7",
+          "bytes": 1151325
+        },
+        {
+          "path": "meshy_output/20260907_142836_habitat-hull_01a07d20/image-task.json",
+          "status": "present",
+          "sha256": "bdb99b4f6aba8662d48cda7ce5dc4c0e2d20b53320fcdc6de69f72de045a85d8",
+          "bytes": 1949
+        }
+      ]
+    },
+    "habitat-hull/mesh": {
+      "status": "complete",
+      "reserved_credits": 30,
+      "task_id": "01a07d32-446f-7251-84a4-ba9d4c6a0496",
+      "actual_credits": 30,
+      "original_files": [
+        {
+          "path": "meshy_output/20260907_142836_habitat-hull_01a07d20/mesh-task.json",
+          "status": "present",
+          "sha256": "28d8cff8d2cf99041390547aeae045839ddce44188c0be1730b8e5f5f0e0fb11",
+          "bytes": 9916
+        },
+        {
+          "path": "meshy_output/20260907_142836_habitat-hull_01a07d20/mesh.glb",
+          "status": "present",
+          "sha256": "74482f965c049b3f54234b655a5829ef599b4e8afc90c6e7a07b5ef6e068a4d2",
+          "bytes": 30851196
+        }
+      ]
+    },
+    "hydroponic-rack/image": {
+      "status": "complete",
+      "reserved_credits": 9,
+      "task_id": "01a07d21-2bee-777f-9e52-e8cfb476139e",
+      "actual_credits": 9,
+      "original_files": [
+        {
+          "path": "meshy_output/20260907_142842_hydroponic-rack_01a07d21/design-0.png",
+          "status": "present",
+          "sha256": "b880ae1adddfe2ba52a71477ee956cd11dbe855dca3cb1d809c36f681bc97c5d",
+          "bytes": 1394681
+        },
+        {
+          "path": "meshy_output/20260907_142842_hydroponic-rack_01a07d21/image-task.json",
+          "status": "present",
+          "sha256": "c610cd1294fd95f521b98e94e328173a0f31d8b1393298d5899da1c379d648e2",
+          "bytes": 1719
+        }
+      ]
+    },
+    "hydroponic-rack/mesh": {
+      "status": "complete",
+      "reserved_credits": 30,
+      "task_id": "01a07d32-4f51-70bd-b37c-0609b1173a60",
+      "actual_credits": 30,
+      "original_files": [
+        {
+          "path": "meshy_output/20260907_142842_hydroponic-rack_01a07d21/mesh-task.json",
+          "status": "present",
+          "sha256": "3ae438670cbfdbcc122fa29ff059f99360da48e0045859d09fbb1f054f20e940",
+          "bytes": 9864
+        },
+        {
+          "path": "meshy_output/20260907_142842_hydroponic-rack_01a07d21/mesh.glb",
+          "status": "present",
+          "sha256": "4b835c20fc6d5800f0cd0ad49ad0bf9866a63614ab5fd7d973624574c811421b",
+          "bytes": 11378952
+        }
+      ]
+    },
+    "mission-table/image": {
+      "status": "complete",
+      "reserved_credits": 9,
+      "task_id": "01a07d0c-dc89-77e3-9974-ad7f03176e47",
+      "actual_credits": 9,
+      "original_files": [
+        {
+          "path": "meshy_output/20260907_140630_mission-table_01a07d0c/design-0.png",
+          "status": "present",
+          "sha256": "c1459e4c702e7d0b63dd98470bc9f68c911424ad10cd2119cb9ec34e604f33c8",
+          "bytes": 1118072
+        },
+        {
+          "path": "meshy_output/20260907_140630_mission-table_01a07d0c/image-task.json",
+          "status": "present",
+          "sha256": "fc91a7d115a4e06387f7d10d766f4b7863469dc7799c2c6bac9280f4604dd154",
+          "bytes": 1568
+        }
+      ]
+    },
+    "mission-table/mesh": {
+      "status": "complete",
+      "reserved_credits": 30,
+      "task_id": "01a07d0d-f005-76b4-9691-8353de91f18e",
+      "actual_credits": 30,
+      "original_files": [
+        {
+          "path": "meshy_output/20260907_140630_mission-table_01a07d0c/mesh-task.json",
+          "status": "present",
+          "sha256": "dedd048ab058f43bb8c04532003676e9b0b85c21a8a192e193fd671fdedcbac7",
+          "bytes": 9864
+        },
+        {
+          "path": "meshy_output/20260907_140630_mission-table_01a07d0c/mesh.glb",
+          "status": "present",
+          "sha256": "d5f87d30155b72ff8394b73112e7eb460f3bf7eefff8f0667f39c0c15fe3d018",
+          "bytes": 9499064
+        }
+      ]
+    },
+    "resistance-bench/image": {
+      "status": "complete",
+      "reserved_credits": 9,
+      "task_id": "01a07d21-36cf-73a5-8929-bf475ea065ae",
+      "actual_credits": 9,
+      "original_files": [
+        {
+          "path": "meshy_output/20260907_142844_resistance-bench_01a07d21/design-0.png",
+          "status": "present",
+          "sha256": "ecc3e289393ff11bbde72862aba74cd95c975914e2be016b666544a982454294",
+          "bytes": 1272544
+        },
+        {
+          "path": "meshy_output/20260907_142844_resistance-bench_01a07d21/image-task.json",
+          "status": "present",
+          "sha256": "0c8b1bc0f9f671417e14c3fc3f11ad41f9e1ef7d704811003600a56ff8989788",
+          "bytes": 1661
+        }
+      ]
+    },
+    "resistance-bench/mesh": {
+      "status": "complete",
+      "reserved_credits": 30,
+      "task_id": "01a07d32-54e0-75a2-b3b3-40bddfc9c6f6",
+      "actual_credits": 30,
+      "original_files": [
+        {
+          "path": "meshy_output/20260907_142844_resistance-bench_01a07d21/mesh-task.json",
+          "status": "present",
+          "sha256": "803632d90339bdd5fcacc547328b90c17420ae20befe6c81f8b964ba50a4f20f",
+          "bytes": 9864
+        },
+        {
+          "path": "meshy_output/20260907_142844_resistance-bench_01a07d21/mesh.glb",
+          "status": "present",
+          "sha256": "dcaf654ea08b95ea1435f74d512d6502ace464545d07ed6e394af6bd84857133",
+          "bytes": 11072940
+        }
+      ]
+    },
+    "simulation-station/image": {
+      "status": "complete",
+      "reserved_credits": 9,
+      "task_id": "01a07d21-1fd6-730c-9daa-46c8b367e722",
+      "actual_credits": 9,
+      "original_files": [
+        {
+          "path": "meshy_output/20260907_142839_simulation-station_01a07d21/design-0.png",
+          "status": "present",
+          "sha256": "67d4b40726b82ed14f3196445c832886b5a840e35dd02061cf02a76aacd9ac24",
+          "bytes": 1242677
+        },
+        {
+          "path": "meshy_output/20260907_142839_simulation-station_01a07d21/image-task.json",
+          "status": "present",
+          "sha256": "0c1c43103ef569492a2c9815382e350b5a2b0a31f7694e5d4095cb6ae9424c3c",
+          "bytes": 1695
+        }
+      ]
+    },
+    "simulation-station/mesh": {
+      "status": "complete",
+      "reserved_credits": 30,
+      "task_id": "01a07d32-4a22-729f-8c0d-8cd837aa33ea",
+      "actual_credits": 30,
+      "original_files": [
+        {
+          "path": "meshy_output/20260907_142839_simulation-station_01a07d21/mesh-task.json",
+          "status": "present",
+          "sha256": "e7a54f170f19abe025e863f94bf8a1e38a556f67b37a6b4b2ed0d5f81a2dc10c",
+          "bytes": 9864
+        },
+        {
+          "path": "meshy_output/20260907_142839_simulation-station_01a07d21/mesh.glb",
+          "status": "present",
+          "sha256": "cc76fbf6065d5c56183fc864d45e1eb3cd88e5f36d3c71c1c4d503e41cb3e158",
+          "bytes": 11434480
+        }
+      ]
+    },
+    "sleep-capsule/image": {
+      "status": "complete",
+      "reserved_credits": 9,
+      "task_id": "01a07d21-3164-7719-952a-c6c58fae7837",
+      "actual_credits": 9,
+      "original_files": [
+        {
+          "path": "meshy_output/20260907_142843_sleep-capsule_01a07d21/design-0.png",
+          "status": "present",
+          "sha256": "a4a9789084e6df15f1ba3d681a60f69cb4eee36fb1ed5bc432157c9d763ccfd9",
+          "bytes": 1232626
+        },
+        {
+          "path": "meshy_output/20260907_142843_sleep-capsule_01a07d21/image-task.json",
+          "status": "present",
+          "sha256": "12b415e71b6c5ae4b0ea06fa95f4eb968984bd1611666214ca10408c32c29307",
+          "bytes": 1655
+        }
+      ]
+    },
+    "sleep-capsule/mesh": {
+      "status": "complete",
+      "reserved_credits": 30,
+      "task_id": "01a07d32-51f9-772e-a69a-69cf2c7a7809",
+      "actual_credits": 30,
+      "original_files": [
+        {
+          "path": "meshy_output/20260907_142843_sleep-capsule_01a07d21/mesh-task.json",
+          "status": "present",
+          "sha256": "f7d6fc315787506f2c69eb1da96ebd06c09ac943a5330979067a084e13349b9d",
+          "bytes": 9864
+        },
+        {
+          "path": "meshy_output/20260907_142843_sleep-capsule_01a07d21/mesh.glb",
+          "status": "present",
+          "sha256": "8bc36e14ac1963b3092e20b2625ab7941a7a854cf0c751887080e8965f3f43a0",
+          "bytes": 9655876
+        }
+      ]
+    },
+    "training-hull/image": {
+      "status": "complete",
+      "reserved_credits": 9,
+      "task_id": "01a07d20-993b-7034-a3cd-35ed29891812",
+      "actual_credits": 9,
+      "original_files": [
+        {
+          "path": "meshy_output/20260907_142806_training-hull_01a07d20/design-0.png",
+          "status": "present",
+          "sha256": "ce446b0ccbb0b314dccdb4c2e57beb991bb00e91264e9d4f8d943dbe8d64f6a0",
+          "bytes": 1624367
+        },
+        {
+          "path": "meshy_output/20260907_142806_training-hull_01a07d20/image-task.json",
+          "status": "present",
+          "sha256": "a719f4d9bdc505e34a50fc5ea38ba2363cee2e680a5251d9ee09d37724ad19eb",
+          "bytes": 1910
+        }
+      ]
+    },
+    "training-hull/mesh": {
+      "status": "complete",
+      "reserved_credits": 30,
+      "task_id": "01a07d32-4209-7163-a58a-25f3ad63bb00",
+      "actual_credits": 30,
+      "original_files": [
+        {
+          "path": "meshy_output/20260907_142806_training-hull_01a07d20/mesh-task.json",
+          "status": "present",
+          "sha256": "40905b0dd2a1eb315eba5eb7419c7befaea02fbcf5debe9b5caadd757b85a80a",
+          "bytes": 9916
+        },
+        {
+          "path": "meshy_output/20260907_142806_training-hull_01a07d20/mesh.glb",
+          "status": "present",
+          "sha256": "baf5d1468e167193ccfd72d9bb4c99c0916f75bcb370e075229ce1668983aee1",
+          "bytes": 28314172
+        }
+      ]
+    }
+  },
+  "production": [
+    {
+      "asset_id": "mission-table",
+      "status": "present",
+      "provenance_records": [
+        {
+          "path": "assets-production/props/mission-table/provenance.json",
+          "status": "present",
+          "sha256": "fe9deb9bec9f816757992902163938cfb1501930ba13858b5b2055462e58ef8e",
+          "bytes": 4881
+        }
+      ]
+    },
+    {
+      "asset_id": "communications-array",
+      "status": "present",
+      "provenance_records": [
+        {
+          "path": "assets-production/props/communications-array/provenance.json",
+          "status": "present",
+          "sha256": "de492c16f14485a7eedaeceda9915e78f939361de7cd3e83aae1e7c6339f8488",
+          "bytes": 4923
+        }
+      ]
+    },
+    {
+      "asset_id": "simulation-station",
+      "status": "present",
+      "provenance_records": [
+        {
+          "path": "assets-production/props/simulation-station/provenance.json",
+          "status": "present",
+          "sha256": "f16aea967acada2a2614fa0ac898934d1f239202bb2829efbf29d2272bb6c299",
+          "bytes": 4907
+        }
+      ]
+    },
+    {
+      "asset_id": "frontier-galley",
+      "status": "present",
+      "provenance_records": [
+        {
+          "path": "assets-production/props/frontier-galley/provenance.json",
+          "status": "present",
+          "sha256": "2d1fbb1ca30e131b51ec7118f96e2b13155bec1cb34309feff2813b0f1944531",
+          "bytes": 4898
+        }
+      ]
+    },
+    {
+      "asset_id": "hydroponic-rack",
+      "status": "present",
+      "provenance_records": [
+        {
+          "path": "assets-production/props/hydroponic-rack/provenance.json",
+          "status": "present",
+          "sha256": "4389cf4b83215c06a95fa5450c06e9b9a7aba2da9b087e14879cffe14b9e4bc3",
+          "bytes": 4897
+        }
+      ]
+    },
+    {
+      "asset_id": "command-hull",
+      "status": "present",
+      "provenance_records": [
+        {
+          "path": "assets-production/structures/command/provenance.json",
+          "status": "present",
+          "sha256": "aed00a8c52a2edd916d835c77c90cf004613865113424828616165248e1f48e5",
+          "bytes": 1385
+        },
+        {
+          "path": "assets-production/structures/command/hull-provenance.json",
+          "status": "present",
+          "sha256": "109219ee39cd69bc3df8997291327fe684230f914522e9c8a75cb67ce91ffa44",
+          "bytes": 1305
+        }
+      ]
+    },
+    {
+      "asset_id": "analysis-console",
+      "status": "present",
+      "provenance_records": [
+        {
+          "path": "assets-production/props/analysis-console/provenance.json",
+          "status": "present",
+          "sha256": "081af7a393536e70ff1521a96532087d766a44d7369f495232e478b3c313e603",
+          "bytes": 4902
+        }
+      ]
+    },
+    {
+      "asset_id": "training-hull",
+      "status": "present",
+      "provenance_records": [
+        {
+          "path": "assets-production/structures/training/provenance.json",
+          "status": "present",
+          "sha256": "84f4014cb7ed7f854b84bcc0a3d83bad0f6324306f4749a9ea846bd738881747",
+          "bytes": 1381
+        },
+        {
+          "path": "assets-production/structures/training/hull-provenance.json",
+          "status": "present",
+          "sha256": "d1fc44c983a06b82e5a784a40e26a61d5f82316eb2865f66e99e19710bdc0028",
+          "bytes": 1306
+        }
+      ]
+    },
+    {
+      "asset_id": "habitat-hull",
+      "status": "present",
+      "provenance_records": [
+        {
+          "path": "assets-production/structures/habitat/provenance.json",
+          "status": "present",
+          "sha256": "17e6ec6f30219b33ac6086e2cbafb2f545d0e073a24ce53962d074c18998cefe",
+          "bytes": 1387
+        },
+        {
+          "path": "assets-production/structures/habitat/hull-provenance.json",
+          "status": "present",
+          "sha256": "0e9f0ca3d208c1520068c8446aa167122463bf61156db2e21bc128bbce6e061e",
+          "bytes": 1304
+        }
+      ]
+    },
+    {
+      "asset_id": "botanical-hull",
+      "status": "present",
+      "provenance_records": [
+        {
+          "path": "assets-production/structures/botanical/provenance.json",
+          "status": "present",
+          "sha256": "1755e14c2e925b9d96351ae85a11f2e30d9ecb4edffcdd524b3afd5c24e723ea",
+          "bytes": 1406
+        },
+        {
+          "path": "assets-production/structures/botanical/hull-provenance.json",
+          "status": "present",
+          "sha256": "d4a8e37dd585c364af68d8422f543b459644f41412d6dfc780af752201a38252",
+          "bytes": 1313
+        }
+      ]
+    },
+    {
+      "asset_id": "sleep-capsule",
+      "status": "present",
+      "provenance_records": [
+        {
+          "path": "assets-production/props/sleep-capsule/provenance.json",
+          "status": "present",
+          "sha256": "72351abe719c38ffd602a0b7e8c5b7e69262afcc565566f9090b3413de353013",
+          "bytes": 4823
+        }
+      ]
+    },
+    {
+      "asset_id": "resistance-bench",
+      "status": "present",
+      "provenance_records": [
+        {
+          "path": "assets-production/props/resistance-bench/provenance.json",
+          "status": "present",
+          "sha256": "788d2983725c1b28e916a6f704297656c493ce075feb55576532fbcbd9e9fc91",
+          "bytes": 4906
+        }
+      ]
+    },
+    {
+      "asset_id": "botany-lab-bench",
+      "status": "present",
+      "provenance_records": [
+        {
+          "path": "assets-production/props/botany-lab-bench/provenance.json",
+          "status": "present",
+          "sha256": "b65b2e1a1c95b2eb81650c9ed6990035d831f45c6f4ca0d2cc8c6eef7c1e5425",
+          "bytes": 4902
+        }
+      ]
+    }
+  ],
+  "artifact_snapshot": {
+    "assets-production/props/mission-table/blender/mission-table.blend": {
+      "path": "assets-production/props/mission-table/blender/mission-table.blend",
+      "status": "present",
+      "sha256": "87259a763840b088718b0dd739ac44c952f2eead676f901cf18f4fd19c4f956c",
+      "bytes": 9500967
+    },
+    "apps/world/assets/props/mission-table/mission-table_Image_3.jpg.import": {
+      "path": "apps/world/assets/props/mission-table/mission-table_Image_3.jpg.import",
+      "status": "present",
+      "sha256": "852ea3f57540e467fb6047d9d147cc72bccbb4853e2134b7230f17cd7de8ffd9",
+      "bytes": 1059
+    },
+    "apps/world/assets/props/mission-table/mission-table_Image_1.jpg.import": {
+      "path": "apps/world/assets/props/mission-table/mission-table_Image_1.jpg.import",
+      "status": "present",
+      "sha256": "022e441c62f020844fc86ccc3bfd1352c612b9f42f08b2bac838be174d6e9caf",
+      "bytes": 1060
+    },
+    "apps/world/assets/props/mission-table/mission-table.glb.import": {
+      "path": "apps/world/assets/props/mission-table/mission-table.glb.import",
+      "status": "present",
+      "sha256": "34b340d784a43546d401282f340e79a6bade23b89d33611b78ac39b4c60106b3",
+      "bytes": 1181
+    },
+    "apps/world/assets/props/mission-table/mission-table_Image_2.jpg.import": {
+      "path": "apps/world/assets/props/mission-table/mission-table_Image_2.jpg.import",
+      "status": "present",
+      "sha256": "a870b52260a7642a066ce308d729521442d56ec5c18c843d12110b8118dc824a",
+      "bytes": 1059
+    },
+    "apps/world/assets/props/mission-table/mission-table_Image_1.jpg": {
+      "path": "apps/world/assets/props/mission-table/mission-table_Image_1.jpg",
+      "status": "present",
+      "sha256": "b8ec533523184aaf7bec6d8530fe401a00341105dae4aa6621afede8a6109cd3",
+      "bytes": 2497769
+    },
+    "apps/world/assets/props/mission-table/mission-table.glb": {
+      "path": "apps/world/assets/props/mission-table/mission-table.glb",
+      "status": "present",
+      "sha256": "1d656834e7f300cc9cd7119bd08d146cbe9f12ad31ad2eaf9fcf495374d8ce5e",
+      "bytes": 9407784
+    },
+    "apps/world/assets/props/mission-table/mission-table_Image_0.jpg": {
+      "path": "apps/world/assets/props/mission-table/mission-table_Image_0.jpg",
+      "status": "present",
+      "sha256": "b82f077cd354f77fed9b939a6c9b5f3901c568709c38eb2834df5e42212ddf57",
+      "bytes": 3540256
+    },
+    "apps/world/assets/props/mission-table/mission-table_Image_2.jpg": {
+      "path": "apps/world/assets/props/mission-table/mission-table_Image_2.jpg",
+      "status": "present",
+      "sha256": "044120dddd867cb072dbecf7a13274695f5cc7550b4a90e745d5907c2fb5a56c",
+      "bytes": 2467978
+    },
+    "apps/world/assets/props/mission-table/mission-table_Image_3.jpg": {
+      "path": "apps/world/assets/props/mission-table/mission-table_Image_3.jpg",
+      "status": "present",
+      "sha256": "8cc7a9568971e20a8c10bf7106b435c0681dbb3a6e91300075613f599c96e4a6",
+      "bytes": 165159
+    },
+    "apps/world/assets/props/mission-table/mission-table_Image_0.jpg.import": {
+      "path": "apps/world/assets/props/mission-table/mission-table_Image_0.jpg.import",
+      "status": "present",
+      "sha256": "88f639e8951b5deb17632d3d411fff3f30df277c546372809e0ed27619d3c48d",
+      "bytes": 1059
+    },
+    "assets-production/props/communications-array/blender/communications-array.blend": {
+      "path": "assets-production/props/communications-array/blender/communications-array.blend",
+      "status": "present",
+      "sha256": "62b4da182fb509aec13479423389fa7bf1614649508cc2800a222aa7a56f1092",
+      "bytes": 10853820
+    },
+    "apps/world/assets/props/communications-array/communications-array_Image_1.jpg.import": {
+      "path": "apps/world/assets/props/communications-array/communications-array_Image_1.jpg.import",
+      "status": "present",
+      "sha256": "43e2ed4c92236572eabb0010618b62735d3cbad7a014c86c105f993643a2daad",
+      "bytes": 1088
+    },
+    "apps/world/assets/props/communications-array/communications-array.glb.import": {
+      "path": "apps/world/assets/props/communications-array/communications-array.glb.import",
+      "status": "present",
+      "sha256": "9c3c16293f5b6db498ea1eebc27b0534a545eeda0b6a650449f1bbd7d8a33cd0",
+      "bytes": 1209
+    },
+    "apps/world/assets/props/communications-array/communications-array_Image_3.jpg.import": {
+      "path": "apps/world/assets/props/communications-array/communications-array_Image_3.jpg.import",
+      "status": "present",
+      "sha256": "5aecb222fa04a4def246297306d54cade0657dd14dee2842ec93d0d377d8b56d",
+      "bytes": 1088
+    },
+    "apps/world/assets/props/communications-array/communications-array_Image_0.jpg.import": {
+      "path": "apps/world/assets/props/communications-array/communications-array_Image_0.jpg.import",
+      "status": "present",
+      "sha256": "544a332e80e6f2a1435a18551902ece4149b33110c7a2e35fcd9f2f117e8ed07",
+      "bytes": 1088
+    },
+    "apps/world/assets/props/communications-array/communications-array.glb": {
+      "path": "apps/world/assets/props/communications-array/communications-array.glb",
+      "status": "present",
+      "sha256": "75b0a84ea1077844a216d0e37925d0877964c466d779cdae43af04ca03e5baee",
+      "bytes": 10757088
+    },
+    "apps/world/assets/props/communications-array/communications-array_Image_2.jpg": {
+      "path": "apps/world/assets/props/communications-array/communications-array_Image_2.jpg",
+      "status": "present",
+      "sha256": "adb36819cb9100f4425f6237a7f481303cb0776e280c8da55863dd3aa2594f39",
+      "bytes": 2864266
+    },
+    "apps/world/assets/props/communications-array/communications-array_Image_3.jpg": {
+      "path": "apps/world/assets/props/communications-array/communications-array_Image_3.jpg",
+      "status": "present",
+      "sha256": "8620a543605716ece4225aac135de454bd1680e0991245544f08f9e8f9abab57",
+      "bytes": 107224
+    },
+    "apps/world/assets/props/communications-array/communications-array_Image_1.jpg": {
+      "path": "apps/world/assets/props/communications-array/communications-array_Image_1.jpg",
+      "status": "present",
+      "sha256": "95971c0949778d7a04dd5450ddaec7919f71a8955b45b61b1c11b56c184cf56d",
+      "bytes": 2795989
+    },
+    "apps/world/assets/props/communications-array/communications-array_Image_0.jpg": {
+      "path": "apps/world/assets/props/communications-array/communications-array_Image_0.jpg",
+      "status": "present",
+      "sha256": "6834e90105576aa47d198ac26bd4a4916d35ba48a47a4e30c0d8aab809cad83b",
+      "bytes": 3955961
+    },
+    "apps/world/assets/props/communications-array/communications-array_Image_2.jpg.import": {
+      "path": "apps/world/assets/props/communications-array/communications-array_Image_2.jpg.import",
+      "status": "present",
+      "sha256": "f528cf5c232371f45c93353ff61df63b4a6cd8eba42a75e572508da6ab579d02",
+      "bytes": 1088
+    },
+    "assets-production/props/simulation-station/blender/simulation-station.blend": {
+      "path": "assets-production/props/simulation-station/blender/simulation-station.blend",
+      "status": "present",
+      "sha256": "88e45e388239eb8f41a1adc1756bca1beefc0940d270fad9f9f8178f2b8e7ede",
+      "bytes": 11356119
+    },
+    "apps/world/assets/props/simulation-station/simulation-station_Image_3.jpg.import": {
+      "path": "apps/world/assets/props/simulation-station/simulation-station_Image_3.jpg.import",
+      "status": "present",
+      "sha256": "67734e94d38cfb4b98f6371c2fa8f97c59009ccd08df748e31a5276dbd70bd0f",
+      "bytes": 1079
+    },
+    "apps/world/assets/props/simulation-station/simulation-station.glb": {
+      "path": "apps/world/assets/props/simulation-station/simulation-station.glb",
+      "status": "present",
+      "sha256": "29d2c144e395f25678570ce1a7e1f41f5265fa3bb147ecef87deca7c5d609985",
+      "bytes": 11313144
+    },
+    "apps/world/assets/props/simulation-station/simulation-station_Image_1.jpg.import": {
+      "path": "apps/world/assets/props/simulation-station/simulation-station_Image_1.jpg.import",
+      "status": "present",
+      "sha256": "ac52214dc407d3db40383a799343ae0effcb790d2ff96abfb15169d6f694bdc4",
+      "bytes": 1080
+    },
+    "apps/world/assets/props/simulation-station/simulation-station.glb.import": {
+      "path": "apps/world/assets/props/simulation-station/simulation-station.glb.import",
+      "status": "present",
+      "sha256": "dcc39ecbc01bb10f4c4e182ad4156b9c7f9bc1d1318d154234ef16105c9746b6",
+      "bytes": 1201
+    },
+    "apps/world/assets/props/simulation-station/simulation-station_Image_2.jpg": {
+      "path": "apps/world/assets/props/simulation-station/simulation-station_Image_2.jpg",
+      "status": "present",
+      "sha256": "aa6b67134742d2d4c1dd0d9889a4d19dd41355934c2232cbeeb57c6b1fc1817b",
+      "bytes": 2913695
+    },
+    "apps/world/assets/props/simulation-station/simulation-station_Image_3.jpg": {
+      "path": "apps/world/assets/props/simulation-station/simulation-station_Image_3.jpg",
+      "status": "present",
+      "sha256": "db6c303e0fd075b12df4f72b0367c1b45a9df5e5c910523f6b622bdddcb7a996",
+      "bytes": 103069
+    },
+    "apps/world/assets/props/simulation-station/simulation-station_Image_1.jpg": {
+      "path": "apps/world/assets/props/simulation-station/simulation-station_Image_1.jpg",
+      "status": "present",
+      "sha256": "484dd4b6911fd659fa1d723b77a852100ecadc663375d5d2389f95c55dbfc020",
+      "bytes": 3048478
+    },
+    "apps/world/assets/props/simulation-station/simulation-station_Image_0.jpg": {
+      "path": "apps/world/assets/props/simulation-station/simulation-station_Image_0.jpg",
+      "status": "present",
+      "sha256": "ed027d260bc1da15c49468f4fd83d02c66a778e313601aeed7b9bd2eaff6c551",
+      "bytes": 4148100
+    },
+    "apps/world/assets/props/simulation-station/simulation-station_Image_2.jpg.import": {
+      "path": "apps/world/assets/props/simulation-station/simulation-station_Image_2.jpg.import",
+      "status": "present",
+      "sha256": "6ca933fd35a6d7af01226078d5b1cc302611018bb24a0fa353907faeb6fc420b",
+      "bytes": 1080
+    },
+    "apps/world/assets/props/simulation-station/simulation-station_Image_0.jpg.import": {
+      "path": "apps/world/assets/props/simulation-station/simulation-station_Image_0.jpg.import",
+      "status": "present",
+      "sha256": "d97c944c3900372a1128008ae8ebf5115d1416874e40cc6aa78bd2c6662144a7",
+      "bytes": 1080
+    },
+    "assets-production/props/frontier-galley/blender/frontier-galley.blend": {
+      "path": "assets-production/props/frontier-galley/blender/frontier-galley.blend",
+      "status": "present",
+      "sha256": "9cac5f42ecc7ce4133b65797bff8c8d2dc1a2dd8b17e49dd85c093c2dcd8e0f4",
+      "bytes": 9900799
+    },
+    "apps/world/assets/props/frontier-galley/frontier-galley_Image_3.jpg": {
+      "path": "apps/world/assets/props/frontier-galley/frontier-galley_Image_3.jpg",
+      "status": "present",
+      "sha256": "f5ed88b3b5ab1e2de2fd76fe9a4f90399c6ff8dbe696539c08e4337aa3d5bb10",
+      "bytes": 944261
+    },
+    "apps/world/assets/props/frontier-galley/frontier-galley_Image_2.jpg": {
+      "path": "apps/world/assets/props/frontier-galley/frontier-galley_Image_2.jpg",
+      "status": "present",
+      "sha256": "1c3b4a541acdeb0807f74ea31203d5bdb2c4f7237bf24caf41b3abfc290986f8",
+      "bytes": 2343568
+    },
+    "apps/world/assets/props/frontier-galley/frontier-galley_Image_0.jpg": {
+      "path": "apps/world/assets/props/frontier-galley/frontier-galley_Image_0.jpg",
+      "status": "present",
+      "sha256": "31a4cc18e6e14ff34c19290d647956ca0872657612db1ea357a1159cd86e8f28",
+      "bytes": 3315087
+    },
+    "apps/world/assets/props/frontier-galley/frontier-galley_Image_1.jpg": {
+      "path": "apps/world/assets/props/frontier-galley/frontier-galley_Image_1.jpg",
+      "status": "present",
+      "sha256": "a411cc634ee738cec2f2ad84f7c2e6e03333a4b4bda7d10e872433fee127a564",
+      "bytes": 2370142
+    },
+    "apps/world/assets/props/frontier-galley/frontier-galley_Image_1.jpg.import": {
+      "path": "apps/world/assets/props/frontier-galley/frontier-galley_Image_1.jpg.import",
+      "status": "present",
+      "sha256": "de36392aebdba7c99070fdfc7fe2ac25a2f01f5cfb4b19dec368af1b3bc60136",
+      "bytes": 1068
+    },
+    "apps/world/assets/props/frontier-galley/frontier-galley_Image_3.jpg.import": {
+      "path": "apps/world/assets/props/frontier-galley/frontier-galley_Image_3.jpg.import",
+      "status": "present",
+      "sha256": "3b8a141d100d720f2dc722fb895a4c8a900489eaf7168a3eea32d5e83041536b",
+      "bytes": 1068
+    },
+    "apps/world/assets/props/frontier-galley/frontier-galley_Image_0.jpg.import": {
+      "path": "apps/world/assets/props/frontier-galley/frontier-galley_Image_0.jpg.import",
+      "status": "present",
+      "sha256": "fa7b2f8f4c38dbc5101e3e28b58b463459e52f58b30827dc42096d74c0a552d2",
+      "bytes": 1068
+    },
+    "apps/world/assets/props/frontier-galley/frontier-galley.glb.import": {
+      "path": "apps/world/assets/props/frontier-galley/frontier-galley.glb.import",
+      "status": "present",
+      "sha256": "7d0d12e5956be114e12b617c2b90d1081b8c2ad911edd3d44e82f1bb13a18cbf",
+      "bytes": 1189
+    },
+    "apps/world/assets/props/frontier-galley/frontier-galley_Image_2.jpg.import": {
+      "path": "apps/world/assets/props/frontier-galley/frontier-galley_Image_2.jpg.import",
+      "status": "present",
+      "sha256": "2dc0a27f7833acc969269f6aa8ded907e1a7f2598c049cf63105dcc821e2bd65",
+      "bytes": 1068
+    },
+    "apps/world/assets/props/frontier-galley/frontier-galley.glb": {
+      "path": "apps/world/assets/props/frontier-galley/frontier-galley.glb",
+      "status": "present",
+      "sha256": "fe63ad07f1f2b09571d94bb3c9798375bc0853595637ebcf0687a7ae4398c660",
+      "bytes": 9764200
+    },
+    "assets-production/props/hydroponic-rack/blender/hydroponic-rack.blend": {
+      "path": "assets-production/props/hydroponic-rack/blender/hydroponic-rack.blend",
+      "status": "present",
+      "sha256": "27f501718ff052876184b46f05a707d7bdee54ae2b9f4977cbf1da8dcdf1488b",
+      "bytes": 11032380
+    },
+    "apps/world/assets/props/hydroponic-rack/hydroponic-rack_Image_2.jpg.import": {
+      "path": "apps/world/assets/props/hydroponic-rack/hydroponic-rack_Image_2.jpg.import",
+      "status": "present",
+      "sha256": "2fc3c8df05d7364a707d70d04f0078973cc30d29eb6f77a9be35c5068e7155de",
+      "bytes": 1067
+    },
+    "apps/world/assets/props/hydroponic-rack/hydroponic-rack.glb": {
+      "path": "apps/world/assets/props/hydroponic-rack/hydroponic-rack.glb",
+      "status": "present",
+      "sha256": "92f23b1c9bf812a05b22a053730d2d0b55acc0d7959923c630ee451da80bc0e3",
+      "bytes": 11266984
+    },
+    "apps/world/assets/props/hydroponic-rack/hydroponic-rack_Image_0.jpg.import": {
+      "path": "apps/world/assets/props/hydroponic-rack/hydroponic-rack_Image_0.jpg.import",
+      "status": "present",
+      "sha256": "04fefc7af6b792e55fc34facaf51b4be7d9ca938a7c5117f3a1a11281926ab83",
+      "bytes": 1068
+    },
+    "apps/world/assets/props/hydroponic-rack/hydroponic-rack.glb.import": {
+      "path": "apps/world/assets/props/hydroponic-rack/hydroponic-rack.glb.import",
+      "status": "present",
+      "sha256": "220af21c05f2973af6ca6cc43756b262611e0e796d1028dfd96e93314ca0bb3a",
+      "bytes": 1189
+    },
+    "apps/world/assets/props/hydroponic-rack/hydroponic-rack_Image_2.jpg": {
+      "path": "apps/world/assets/props/hydroponic-rack/hydroponic-rack_Image_2.jpg",
+      "status": "present",
+      "sha256": "64e89975b5e23c12a2225abf21f58616181038705682c16768ef71d764143e50",
+      "bytes": 2840116
+    },
+    "apps/world/assets/props/hydroponic-rack/hydroponic-rack_Image_3.jpg": {
+      "path": "apps/world/assets/props/hydroponic-rack/hydroponic-rack_Image_3.jpg",
+      "status": "present",
+      "sha256": "dceac820cea61d1bed46bcbe740224c586dc8e15983c7c433f2e8db6caa3dd9b",
+      "bytes": 246095
+    },
+    "apps/world/assets/props/hydroponic-rack/hydroponic-rack_Image_1.jpg": {
+      "path": "apps/world/assets/props/hydroponic-rack/hydroponic-rack_Image_1.jpg",
+      "status": "present",
+      "sha256": "297b069cd56bc4c06dd171abdaf102379a2223ffa65484abfcb222d1af83a44b",
+      "bytes": 2579788
+    },
+    "apps/world/assets/props/hydroponic-rack/hydroponic-rack_Image_0.jpg": {
+      "path": "apps/world/assets/props/hydroponic-rack/hydroponic-rack_Image_0.jpg",
+      "status": "present",
+      "sha256": "6ca532d8b377a436865aef613edd87d7360d6dc4f33651be2998f034785ba893",
+      "bytes": 4238383
+    },
+    "apps/world/assets/props/hydroponic-rack/hydroponic-rack_Image_3.jpg.import": {
+      "path": "apps/world/assets/props/hydroponic-rack/hydroponic-rack_Image_3.jpg.import",
+      "status": "present",
+      "sha256": "49e8e6452acf51acbeba6cc7ddfd646559ab134d09aebab3d2ca129f627d35df",
+      "bytes": 1068
+    },
+    "apps/world/assets/props/hydroponic-rack/hydroponic-rack_Image_1.jpg.import": {
+      "path": "apps/world/assets/props/hydroponic-rack/hydroponic-rack_Image_1.jpg.import",
+      "status": "present",
+      "sha256": "95da6446382c25aea247996be106242cb1ae02e4230d8adada28dd89c41f15d1",
+      "bytes": 1068
+    },
+    "assets-production/structures/command/blender/command-polished.blend": {
+      "path": "assets-production/structures/command/blender/command-polished.blend",
+      "status": "present",
+      "sha256": "d8b4016a90baded8ce2124002b441e0ace927ee4f58cfc0ad4db8b49622641e9",
+      "bytes": 382834
+    },
+    "assets-production/structures/command/blender/review-building.blend": {
+      "path": "assets-production/structures/command/blender/review-building.blend",
+      "status": "present",
+      "sha256": "1b880405184863562aa6d29a0e8f099d4ad8364f4401f9a0eb190a5b9d73f3bc",
+      "bytes": 234973
+    },
+    "assets-production/structures/command/blender/command-hull.blend": {
+      "path": "assets-production/structures/command/blender/command-hull.blend",
+      "status": "present",
+      "sha256": "f5660d131ff6855cc2acba0295dcd980862cc6f7ddf0070a1e0752d2598be4f5",
+      "bytes": 33805426
+    },
+    "apps/world/assets/structures/command/hull_Image_3.jpg.import": {
+      "path": "apps/world/assets/structures/command/hull_Image_3.jpg.import",
+      "status": "present",
+      "sha256": "076141849b6899268106d710e3a87743c345f983c09da44f938a004f08c952e0",
+      "bytes": 1032
+    },
+    "apps/world/assets/structures/command/hull_Image_2.jpg": {
+      "path": "apps/world/assets/structures/command/hull_Image_2.jpg",
+      "status": "present",
+      "sha256": "f6c7f274f484e67cea38a98a32baa72b0f550a777d5afba3f0d77aa5e4587382",
+      "bytes": 11660249
+    },
+    "apps/world/assets/structures/command/review-interior.glb": {
+      "path": "apps/world/assets/structures/command/review-interior.glb",
+      "status": "present",
+      "sha256": "c4934dacb9482f20629d4a4acb96744861c35a6892d7b610f1d950757b34e13d",
+      "bytes": 278756
+    },
+    "apps/world/assets/structures/command/hull_Image_3.jpg": {
+      "path": "apps/world/assets/structures/command/hull_Image_3.jpg",
+      "status": "present",
+      "sha256": "4c2fda8d975a816f9d320b6181034ca358688c02bf6f819cfdf8978db81fb8a2",
+      "bytes": 394928
+    },
+    "apps/world/assets/structures/command/hull_Image_1.jpg": {
+      "path": "apps/world/assets/structures/command/hull_Image_1.jpg",
+      "status": "present",
+      "sha256": "9a62896f28d4231c214e8bab34394c18bee62b4a843208cefa269aee3dc0ee55",
+      "bytes": 2993847
+    },
+    "apps/world/assets/structures/command/hull_Image_0.jpg": {
+      "path": "apps/world/assets/structures/command/hull_Image_0.jpg",
+      "status": "present",
+      "sha256": "e105628d8e3ebb0eda60934fc22a2eb47e1988f927a9294f598105947a8202ac",
+      "bytes": 15843269
+    },
+    "apps/world/assets/structures/command/hull.glb": {
+      "path": "apps/world/assets/structures/command/hull.glb",
+      "status": "present",
+      "sha256": "c09b6c9ba00ba176845c80fca671f7a86a88a25d29b6dd028e5912c83aeb2fe2",
+      "bytes": 33788680
+    },
+    "apps/world/assets/structures/command/hull_Image_1.jpg.import": {
+      "path": "apps/world/assets/structures/command/hull_Image_1.jpg.import",
+      "status": "present",
+      "sha256": "142f2c08e52fbdd194a63c5a503616a5a54c6cbfaa9f00e79481934f4f2597e3",
+      "bytes": 1032
+    },
+    "apps/world/assets/structures/command/review-shell.glb.import": {
+      "path": "apps/world/assets/structures/command/review-shell.glb.import",
+      "status": "present",
+      "sha256": "77cb3afd122a9db396360147106ef355db74ea687128124dcfe3494dfc5808f5",
+      "bytes": 1177
+    },
+    "apps/world/assets/structures/command/survey-command.png": {
+      "path": "apps/world/assets/structures/command/survey-command.png",
+      "status": "present",
+      "sha256": "7445448427834fd8060939f7f3073a0e1185e4e3843e5fc5fb0563a664739eb6",
+      "bytes": 2561857
+    },
+    "apps/world/assets/structures/command/hull_Image_2.jpg.import": {
+      "path": "apps/world/assets/structures/command/hull_Image_2.jpg.import",
+      "status": "present",
+      "sha256": "16e98ba7c82af8d06ed1bb2753edd0c64a3ca637bac9fb1a749cc58b810a0122",
+      "bytes": 1032
+    },
+    "apps/world/assets/structures/command/hull.glb.import": {
+      "path": "apps/world/assets/structures/command/hull.glb.import",
+      "status": "present",
+      "sha256": "f39127cd2963cbeb13caf55a4d06911a83d5b98e0d5bb567dbc094a8063e276a",
+      "bytes": 1153
+    },
+    "apps/world/assets/structures/command/survey-command.png.import": {
+      "path": "apps/world/assets/structures/command/survey-command.png.import",
+      "status": "present",
+      "sha256": "18e77c77e21793ba70acb9b260abcc2b61f13be7b5ae24dd357dcdb86fa3136e",
+      "bytes": 971
+    },
+    "apps/world/assets/structures/command/review-interior.glb.import": {
+      "path": "apps/world/assets/structures/command/review-interior.glb.import",
+      "status": "present",
+      "sha256": "202502fc0b36159543b36f11351f61b91d7e76e6e10af3208513356805a68355",
+      "bytes": 1186
+    },
+    "apps/world/assets/structures/command/review-shell.glb": {
+      "path": "apps/world/assets/structures/command/review-shell.glb",
+      "status": "present",
+      "sha256": "8ccec05a286865384502ce94672de09f0365bd8394e9fdb072ec9e9c5f80085f",
+      "bytes": 3758072
+    },
+    "apps/world/assets/structures/command/hull_Image_0.jpg.import": {
+      "path": "apps/world/assets/structures/command/hull_Image_0.jpg.import",
+      "status": "present",
+      "sha256": "f801eedaff43f088a67d4ff879f43fe150e676174d9df1ef494f89483e639ca4",
+      "bytes": 1032
+    },
+    "assets-production/structures/command/layout.json": {
+      "path": "assets-production/structures/command/layout.json",
+      "status": "present",
+      "sha256": "25dce96ef2481eb04c9d6b2344d891684a4e670d58b15d68a5539b11180767a7",
+      "bytes": 2279
+    },
+    "apps/world/structures/exteriors/review-continuous.tscn": {
+      "path": "apps/world/structures/exteriors/review-continuous.tscn",
+      "status": "present",
+      "sha256": "97fc84f95d5924a047c9c83a480d756ef080da922955273909d6c28effa11e0d",
+      "bytes": 650
+    },
+    "apps/world/structures/interiors/review-continuous.tscn": {
+      "path": "apps/world/structures/interiors/review-continuous.tscn",
+      "status": "present",
+      "sha256": "9e33cd523c5e22ba3cc7c28a8f3b6f2d017309ed88e5f1a43d5a6958a10fe945",
+      "bytes": 4842
+    },
+    "apps/world/structures/definitions/review.tres": {
+      "path": "apps/world/structures/definitions/review.tres",
+      "status": "present",
+      "sha256": "c32834e510c0486d13d267dd9ccf459f2a39c5c1df78cc8091fb422f6be13083",
+      "bytes": 1073
+    },
+    "assets-production/props/analysis-console/blender/analysis-console.blend": {
+      "path": "assets-production/props/analysis-console/blender/analysis-console.blend",
+      "status": "present",
+      "sha256": "6a0ba14b8269719185c1c46eacb1c80488c7c5f3e5c78856a8fd5ec10ee1d6ab",
+      "bytes": 10609272
+    },
+    "apps/world/assets/props/analysis-console/analysis-console_Image_3.jpg": {
+      "path": "apps/world/assets/props/analysis-console/analysis-console_Image_3.jpg",
+      "status": "present",
+      "sha256": "5d56708d604cef444a93864a44e4d741b21c21bf3cd33649becc00de4317e068",
+      "bytes": 100516
+    },
+    "apps/world/assets/props/analysis-console/analysis-console_Image_2.jpg": {
+      "path": "apps/world/assets/props/analysis-console/analysis-console_Image_2.jpg",
+      "status": "present",
+      "sha256": "520d7961fc93da52c98fe4da6a43a645f1e4afa6c9a457db5546d0b7e0869e01",
+      "bytes": 2829410
+    },
+    "apps/world/assets/props/analysis-console/analysis-console_Image_0.jpg": {
+      "path": "apps/world/assets/props/analysis-console/analysis-console_Image_0.jpg",
+      "status": "present",
+      "sha256": "2c511ab02fa30157a8c8541b2ff237ba7655617e3571299f62796c8e5cec52be",
+      "bytes": 3939134
+    },
+    "apps/world/assets/props/analysis-console/analysis-console_Image_1.jpg.import": {
+      "path": "apps/world/assets/props/analysis-console/analysis-console_Image_1.jpg.import",
+      "status": "present",
+      "sha256": "df1486a4eda8f7a0744d210ae9f9c6c115454b1f8783eeb456ec40e96ae808c5",
+      "bytes": 1072
+    },
+    "apps/world/assets/props/analysis-console/analysis-console_Image_1.jpg": {
+      "path": "apps/world/assets/props/analysis-console/analysis-console_Image_1.jpg",
+      "status": "present",
+      "sha256": "2351b690ee6274cf21645cf836c595f5442764825dfe47ad98990b21576796e8",
+      "bytes": 2614570
+    },
+    "apps/world/assets/props/analysis-console/analysis-console.glb.import": {
+      "path": "apps/world/assets/props/analysis-console/analysis-console.glb.import",
+      "status": "present",
+      "sha256": "6daf791570084e3c9fba46026f7798a41aea4d71a61d77d6c3aa451e1f82a1c1",
+      "bytes": 1193
+    },
+    "apps/world/assets/props/analysis-console/analysis-console_Image_3.jpg.import": {
+      "path": "apps/world/assets/props/analysis-console/analysis-console_Image_3.jpg.import",
+      "status": "present",
+      "sha256": "8f8e4a2dac8696b7d35bfb9b64f5792dffc7c8d1fa1cd756fd938f05a538a255",
+      "bytes": 1072
+    },
+    "apps/world/assets/props/analysis-console/analysis-console.glb": {
+      "path": "apps/world/assets/props/analysis-console/analysis-console.glb",
+      "status": "present",
+      "sha256": "5b701feed7a313524f828e9bd8eae6e94037a05df3e880122380d4d27a711484",
+      "bytes": 10551492
+    },
+    "apps/world/assets/props/analysis-console/analysis-console_Image_0.jpg.import": {
+      "path": "apps/world/assets/props/analysis-console/analysis-console_Image_0.jpg.import",
+      "status": "present",
+      "sha256": "1d815ab39090d8d0af266d0853d4002ce9f04d69dd7b1a1c084d721658bdd53f",
+      "bytes": 1072
+    },
+    "apps/world/assets/props/analysis-console/analysis-console_Image_2.jpg.import": {
+      "path": "apps/world/assets/props/analysis-console/analysis-console_Image_2.jpg.import",
+      "status": "present",
+      "sha256": "177015fc106781809275183eeeb28a71acc3a9802ab16312477c5210be3f3265",
+      "bytes": 1071
+    },
+    "assets-production/structures/training/blender/gym-building.blend": {
+      "path": "assets-production/structures/training/blender/gym-building.blend",
+      "status": "present",
+      "sha256": "87146f87a1acdbf483342479d7f55d3ccedafc423cefe844b6b0ff5a34e5462d",
+      "bytes": 246236
+    },
+    "assets-production/structures/training/blender/training-polished.blend": {
+      "path": "assets-production/structures/training/blender/training-polished.blend",
+      "status": "present",
+      "sha256": "f6d7b09819a835974d967d4c23895341927421c4118c4fdb6bc71a35a1ac7aa4",
+      "bytes": 374481
+    },
+    "assets-production/structures/training/blender/training-hull.blend": {
+      "path": "assets-production/structures/training/blender/training-hull.blend",
+      "status": "present",
+      "sha256": "db071df820e85b90e4f1e4fb30911d8f67bae23166d2cc19f766856be4e2229f",
+      "bytes": 28086447
+    },
+    "apps/world/assets/structures/training/hull_Image_3.jpg.import": {
+      "path": "apps/world/assets/structures/training/hull_Image_3.jpg.import",
+      "status": "present",
+      "sha256": "eb493225c91b42753fa2330224bfee3e2b5c9ae191c1d82ad54ce710d487f6bc",
+      "bytes": 1032
+    },
+    "apps/world/assets/structures/training/hull_Image_2.jpg": {
+      "path": "apps/world/assets/structures/training/hull_Image_2.jpg",
+      "status": "present",
+      "sha256": "90601a754364045f2fd7eb544f4fe5e29f455ca5ed793a0bad2392c093583c63",
+      "bytes": 9140891
+    },
+    "apps/world/assets/structures/training/hull_Image_3.jpg": {
+      "path": "apps/world/assets/structures/training/hull_Image_3.jpg",
+      "status": "present",
+      "sha256": "beb71c7925eb3148fd2539410810b147717585b0912eee7bd2e96422e11b80e7",
+      "bytes": 98452
+    },
+    "apps/world/assets/structures/training/hull_Image_1.jpg": {
+      "path": "apps/world/assets/structures/training/hull_Image_1.jpg",
+      "status": "present",
+      "sha256": "500bfc9c9a9c07901dffa953d6b2d592d8f1b6b8b90ed43881349ad81ee23a01",
+      "bytes": 3068022
+    },
+    "apps/world/assets/structures/training/hull_Image_0.jpg": {
+      "path": "apps/world/assets/structures/training/hull_Image_0.jpg",
+      "status": "present",
+      "sha256": "f0972a5a463cc22305c5eba4c2807a710ad5fe3f8947bb0546bf48c56e71cbc7",
+      "bytes": 12779837
+    },
+    "apps/world/assets/structures/training/hull.glb": {
+      "path": "apps/world/assets/structures/training/hull.glb",
+      "status": "present",
+      "sha256": "aa1ec66c4651df0cb0c1a2beff06abd4b6dc8390d832517c57ed3a089dd48bed",
+      "bytes": 28256316
+    },
+    "apps/world/assets/structures/training/gym-interior.glb.import": {
+      "path": "apps/world/assets/structures/training/gym-interior.glb.import",
+      "status": "present",
+      "sha256": "c06d4e111400c06dd5c47c6916b0642c0c277ba32624dd57ab3f04a6682930cd",
+      "bytes": 1178
+    },
+    "apps/world/assets/structures/training/hull_Image_1.jpg.import": {
+      "path": "apps/world/assets/structures/training/hull_Image_1.jpg.import",
+      "status": "present",
+      "sha256": "f91e74d82658f6980af99c46d6ffa316cbba183d6a4b754d08468881bc9831c2",
+      "bytes": 1032
+    },
+    "apps/world/assets/structures/training/gym-shell.glb": {
+      "path": "apps/world/assets/structures/training/gym-shell.glb",
+      "status": "present",
+      "sha256": "804a2932f381d79c08f92cd5cb29296794ffabcdba4a506792b5fc05f82bfb85",
+      "bytes": 3726436
+    },
+    "apps/world/assets/structures/training/evaluation-lab.png.import": {
+      "path": "apps/world/assets/structures/training/evaluation-lab.png.import",
+      "status": "present",
+      "sha256": "70ee774c8e0cf8f8af5dbab99cca96bda13720c6eb9df9d6c75e47b8721bbde7",
+      "bytes": 971
+    },
+    "apps/world/assets/structures/training/hull_Image_2.jpg.import": {
+      "path": "apps/world/assets/structures/training/hull_Image_2.jpg.import",
+      "status": "present",
+      "sha256": "f98f2a3ade69ba68cbf552c9fb1404108aae20e8dc3b6cb629417806a580a9a3",
+      "bytes": 1033
+    },
+    "apps/world/assets/structures/training/hull.glb.import": {
+      "path": "apps/world/assets/structures/training/hull.glb.import",
+      "status": "present",
+      "sha256": "d544fe64bf4671993029091ee84ac9459ba8f6eb2b081315f8895cd11788adbf",
+      "bytes": 1154
+    },
+    "apps/world/assets/structures/training/gym-interior.glb": {
+      "path": "apps/world/assets/structures/training/gym-interior.glb",
+      "status": "present",
+      "sha256": "50e0c565d9c4da67a04c2f632d855879aedf397b824a56973664d0177c562d68",
+      "bytes": 221968
+    },
+    "apps/world/assets/structures/training/gym-shell.glb.import": {
+      "path": "apps/world/assets/structures/training/gym-shell.glb.import",
+      "status": "present",
+      "sha256": "9ab476af62386c3481ba954bfa12bf18ee6fd2c4aa873ca8618370352b3119b5",
+      "bytes": 1168
+    },
+    "apps/world/assets/structures/training/hull_Image_0.jpg.import": {
+      "path": "apps/world/assets/structures/training/hull_Image_0.jpg.import",
+      "status": "present",
+      "sha256": "66a57f1ec39e8252fc3fe7a9fdd427cd883a0004d831185b79b9bf852cfb9366",
+      "bytes": 1033
+    },
+    "apps/world/assets/structures/training/evaluation-lab.png": {
+      "path": "apps/world/assets/structures/training/evaluation-lab.png",
+      "status": "present",
+      "sha256": "c6325f432e8e5f10b6cdfef11bee326d2417e3e06219f7587b80b98c72e5f89d",
+      "bytes": 2681336
+    },
+    "assets-production/structures/training/layout.json": {
+      "path": "assets-production/structures/training/layout.json",
+      "status": "present",
+      "sha256": "a89b4770d9451c9e0a93bd25bf0b1e100b16b02b9cd6eec5851a6a59cbd45cc2",
+      "bytes": 2131
+    },
+    "apps/world/structures/exteriors/gym-continuous.tscn": {
+      "path": "apps/world/structures/exteriors/gym-continuous.tscn",
+      "status": "present",
+      "sha256": "dec6be938492093df70d1a38857c83ff65c35ff1c5062df0386138c37a663b17",
+      "bytes": 422
+    },
+    "apps/world/structures/interiors/gym-continuous.tscn": {
+      "path": "apps/world/structures/interiors/gym-continuous.tscn",
+      "status": "present",
+      "sha256": "f8d51fede0394c36c5fdfd4cb79b3d72b42cb165728c6e9e6aa5bb0aea99a098",
+      "bytes": 4394
+    },
+    "apps/world/structures/definitions/gym.tres": {
+      "path": "apps/world/structures/definitions/gym.tres",
+      "status": "present",
+      "sha256": "e913582c930de81519e4a84989becab1e3ecdc113974b61dd3264b149ceb1d37",
+      "bytes": 1062
+    },
+    "assets-production/structures/habitat/blender/habitat-polished.blend": {
+      "path": "assets-production/structures/habitat/blender/habitat-polished.blend",
+      "status": "present",
+      "sha256": "bf9db6da66eaa6d4db69c5aa2625a51a8f02714433429449abea8d964878940c",
+      "bytes": 389288
+    },
+    "assets-production/structures/habitat/blender/habitat-hull.blend": {
+      "path": "assets-production/structures/habitat/blender/habitat-hull.blend",
+      "status": "present",
+      "sha256": "7824359cfc3816ea502123046c209161ccf5c4869ad8008ee18b410e6fc2c38f",
+      "bytes": 30892171
+    },
+    "assets-production/structures/habitat/blender/habitat-building.blend": {
+      "path": "assets-production/structures/habitat/blender/habitat-building.blend",
+      "status": "present",
+      "sha256": "d68224eced8a98a853c77f9b3b4f80472a08b79760f795a602384a45ef424cdf",
+      "bytes": 269993
+    },
+    "apps/world/assets/structures/habitat/habitat-interior.glb.import": {
+      "path": "apps/world/assets/structures/habitat/habitat-interior.glb.import",
+      "status": "present",
+      "sha256": "9e29bf85c41ae8180b605af7a7ee51f4bff4ce19b10f539e1f1314ca092edc56",
+      "bytes": 1189
+    },
+    "apps/world/assets/structures/habitat/hull_Image_3.jpg.import": {
+      "path": "apps/world/assets/structures/habitat/hull_Image_3.jpg.import",
+      "status": "present",
+      "sha256": "36f1a53d1d4df21cc81dbb172578ab11a47082b48773f987d62c080104b13a8c",
+      "bytes": 1032
+    },
+    "apps/world/assets/structures/habitat/hull_Image_2.jpg": {
+      "path": "apps/world/assets/structures/habitat/hull_Image_2.jpg",
+      "status": "present",
+      "sha256": "d4535a0d2b1688cc795d5984133ce911e74365cb16906d9306ba0d46c750f002",
+      "bytes": 10282749
+    },
+    "apps/world/assets/structures/habitat/habitat-interior.glb": {
+      "path": "apps/world/assets/structures/habitat/habitat-interior.glb",
+      "status": "present",
+      "sha256": "78fa0ddfbd724fb5bfb7efe252c6e2d7675df9d065a9fc87ccc3ef6f733fd83c",
+      "bytes": 204932
+    },
+    "apps/world/assets/structures/habitat/hull_Image_3.jpg": {
+      "path": "apps/world/assets/structures/habitat/hull_Image_3.jpg",
+      "status": "present",
+      "sha256": "88dc18226c7d62e59805ca678737bd590a9ba73ef3096f0b8551518128fa8d5b",
+      "bytes": 90840
+    },
+    "apps/world/assets/structures/habitat/hull_Image_1.jpg": {
+      "path": "apps/world/assets/structures/habitat/hull_Image_1.jpg",
+      "status": "present",
+      "sha256": "bafe251f6164eb41d2a24336c9864ffc4fb7aa4ea187d5b3f4b58928684c4f1c",
+      "bytes": 3246506
+    },
+    "apps/world/assets/structures/habitat/habitat.png.import": {
+      "path": "apps/world/assets/structures/habitat/habitat.png.import",
+      "status": "present",
+      "sha256": "b4fa3d814fab80a341bdb2ebcee73b5986328995d16e4563c450cbe3a4809b6c",
+      "bytes": 950
+    },
+    "apps/world/assets/structures/habitat/hull_Image_0.jpg": {
+      "path": "apps/world/assets/structures/habitat/hull_Image_0.jpg",
+      "status": "present",
+      "sha256": "4a64b1588097371d5c3dca83df18cad4c10d18bb76d74d8eefae2eae7b0e758f",
+      "bytes": 14292667
+    },
+    "apps/world/assets/structures/habitat/hull.glb": {
+      "path": "apps/world/assets/structures/habitat/hull.glb",
+      "status": "present",
+      "sha256": "3f621c0dbbac8aff018616d3094821969996c75014c56cd1cf53528ff495c168",
+      "bytes": 30849308
+    },
+    "apps/world/assets/structures/habitat/hull_Image_1.jpg.import": {
+      "path": "apps/world/assets/structures/habitat/hull_Image_1.jpg.import",
+      "status": "present",
+      "sha256": "b36d34015d17228b1f65ab4184526a8e6c2894a82daf33b9b0c384e5b2fc5bfc",
+      "bytes": 1032
+    },
+    "apps/world/assets/structures/habitat/hull_Image_2.jpg.import": {
+      "path": "apps/world/assets/structures/habitat/hull_Image_2.jpg.import",
+      "status": "present",
+      "sha256": "9663b1072411dadcac47ee8d0a3282731c7b125a6a03b932e5623c3038bb09bd",
+      "bytes": 1032
+    },
+    "apps/world/assets/structures/habitat/habitat.png": {
+      "path": "apps/world/assets/structures/habitat/habitat.png",
+      "status": "present",
+      "sha256": "7ac4ff26e41273f2cd3314f7fc044d89abb83202f38e7d62fc558caf38b0301d",
+      "bytes": 2441141
+    },
+    "apps/world/assets/structures/habitat/hull.glb.import": {
+      "path": "apps/world/assets/structures/habitat/hull.glb.import",
+      "status": "present",
+      "sha256": "d14026691f19fb39180345098ec31e565a0c4200f3646fe4f87ac70de446bf56",
+      "bytes": 1152
+    },
+    "apps/world/assets/structures/habitat/habitat-shell.glb": {
+      "path": "apps/world/assets/structures/habitat/habitat-shell.glb",
+      "status": "present",
+      "sha256": "392f06a5cecdf55dba8c3666b1b3f005690986ee1ceae81f95cf25acd6257d51",
+      "bytes": 4404260
+    },
+    "apps/world/assets/structures/habitat/habitat-shell.glb.import": {
+      "path": "apps/world/assets/structures/habitat/habitat-shell.glb.import",
+      "status": "present",
+      "sha256": "2c8a87b96adf5986e2e0da760ff633356b428d55429941d463f312afb6984327",
+      "bytes": 1180
+    },
+    "apps/world/assets/structures/habitat/hull_Image_0.jpg.import": {
+      "path": "apps/world/assets/structures/habitat/hull_Image_0.jpg.import",
+      "status": "present",
+      "sha256": "a4a7ccd530aaeffad2354f161a5789789ce2c7bfb06b80b04b3426a273e1dd69",
+      "bytes": 1032
+    },
+    "assets-production/structures/habitat/layout.json": {
+      "path": "assets-production/structures/habitat/layout.json",
+      "status": "present",
+      "sha256": "20a360369f6d7d4dbea64894edba30b6d30c1656bf8b2e93135464528229a053",
+      "bytes": 1895
+    },
+    "apps/world/structures/exteriors/habitat-continuous.tscn": {
+      "path": "apps/world/structures/exteriors/habitat-continuous.tscn",
+      "status": "present",
+      "sha256": "f238374fe391b0f636cd8fb3c725f4bd16b66d6e1c95af36e9ddb53f266aa811",
+      "bytes": 424
+    },
+    "apps/world/structures/interiors/habitat-continuous.tscn": {
+      "path": "apps/world/structures/interiors/habitat-continuous.tscn",
+      "status": "present",
+      "sha256": "0963b66f89279d219a189517235537486cbcf401944b9dcc806a3598c4511edb",
+      "bytes": 4144
+    },
+    "apps/world/structures/definitions/habitat.tres": {
+      "path": "apps/world/structures/definitions/habitat.tres",
+      "status": "present",
+      "sha256": "6f3e264c764ac5785d656bf7dce18a7b60f4ffde6000a3a1fdc1bc9e27565084",
+      "bytes": 1007
+    },
+    "assets-production/structures/botanical/blender/greenhouse-building.blend": {
+      "path": "assets-production/structures/botanical/blender/greenhouse-building.blend",
+      "status": "present",
+      "sha256": "11674696563202cb66922d4f2e74a83b1efd347b46eb7d9c6c094437b3813050",
+      "bytes": 257267
+    },
+    "assets-production/structures/botanical/blender/botanical-polished.blend": {
+      "path": "assets-production/structures/botanical/blender/botanical-polished.blend",
+      "status": "present",
+      "sha256": "38388f11cc2f6e0dff103ac4abe59842f1087b1e5b2fe659a2746b6b12158d03",
+      "bytes": 343183
+    },
+    "assets-production/structures/botanical/blender/botanical-hull.blend": {
+      "path": "assets-production/structures/botanical/blender/botanical-hull.blend",
+      "status": "present",
+      "sha256": "441915b9ea07706f0306b870647f049ddbaf33385fc925ecbce2cbc89b1b1a1c",
+      "bytes": 32566126
+    },
+    "apps/world/assets/structures/botanical/greenhouse.png.import": {
+      "path": "apps/world/assets/structures/botanical/greenhouse.png.import",
+      "status": "present",
+      "sha256": "8d5518b90e204f0e450c1b88dd56c725ce5b1bfde7b2dd487ac6a520f9fdfa2c",
+      "bytes": 961
+    },
+    "apps/world/assets/structures/botanical/hull_Image_3.jpg.import": {
+      "path": "apps/world/assets/structures/botanical/hull_Image_3.jpg.import",
+      "status": "present",
+      "sha256": "c46d9b65026c12a323819a051900b0ac086c4eaad7dcefa3cf92b1ff29b512a4",
+      "bytes": 1034
+    },
+    "apps/world/assets/structures/botanical/hull_Image_2.jpg": {
+      "path": "apps/world/assets/structures/botanical/hull_Image_2.jpg",
+      "status": "present",
+      "sha256": "f7dbf7cd79e69c9545d9f48cebc694e5207519ecfbb1193dbc4d2ba37d918020",
+      "bytes": 10861527
+    },
+    "apps/world/assets/structures/botanical/greenhouse.png": {
+      "path": "apps/world/assets/structures/botanical/greenhouse.png",
+      "status": "present",
+      "sha256": "952dd46fac7494f61b987e5fe0ca9b0fd2fa4a75bba268095d9e7a3c0ad2b59b",
+      "bytes": 2688473
+    },
+    "apps/world/assets/structures/botanical/hull_Image_3.jpg": {
+      "path": "apps/world/assets/structures/botanical/hull_Image_3.jpg",
+      "status": "present",
+      "sha256": "7732a139bbba40731fe110ebec67c4a191c72a5d4ba81a9dd5c4345ebd2f38f9",
+      "bytes": 86334
+    },
+    "apps/world/assets/structures/botanical/hull_Image_1.jpg": {
+      "path": "apps/world/assets/structures/botanical/hull_Image_1.jpg",
+      "status": "present",
+      "sha256": "e171b6ce192e4e25d12a713d81c86be308e0111d26bfc39d139b7cf746144e8c",
+      "bytes": 3255191
+    },
+    "apps/world/assets/structures/botanical/hull_Image_0.jpg": {
+      "path": "apps/world/assets/structures/botanical/hull_Image_0.jpg",
+      "status": "present",
+      "sha256": "033476db033fad3e8ac2f7a59f57ba61175a81db7e4714995c3bc2708d5fb89f",
+      "bytes": 15223750
+    },
+    "apps/world/assets/structures/botanical/hull.glb": {
+      "path": "apps/world/assets/structures/botanical/hull.glb",
+      "status": "present",
+      "sha256": "d971677583eb39d0f680ce4c41db636b45029d0cf0a3235bac45dfa3609b2e07",
+      "bytes": 32734192
+    },
+    "apps/world/assets/structures/botanical/greenhouse-shell.glb": {
+      "path": "apps/world/assets/structures/botanical/greenhouse-shell.glb",
+      "status": "present",
+      "sha256": "abfca1bcbfca00999859949fad054a42aef791e4a2299a69da4f275a1b52af9e",
+      "bytes": 3921244
+    },
+    "apps/world/assets/structures/botanical/hull_Image_1.jpg.import": {
+      "path": "apps/world/assets/structures/botanical/hull_Image_1.jpg.import",
+      "status": "present",
+      "sha256": "747a2c0e4085efbab883808f81f3eb6493c96875caff20390f117796b6bb8238",
+      "bytes": 1034
+    },
+    "apps/world/assets/structures/botanical/greenhouse-interior.glb.import": {
+      "path": "apps/world/assets/structures/botanical/greenhouse-interior.glb.import",
+      "status": "present",
+      "sha256": "a040dbfcfb0ed64cf68bea550692201561a6ddb397cc88c1003298926da8a4e8",
+      "bytes": 1200
+    },
+    "apps/world/assets/structures/botanical/hull_Image_2.jpg.import": {
+      "path": "apps/world/assets/structures/botanical/hull_Image_2.jpg.import",
+      "status": "present",
+      "sha256": "40b5c21fafff45a1a21ee903f6920dcbb667aa8ec1f7b810322a9b2b5a71b000",
+      "bytes": 1034
+    },
+    "apps/world/assets/structures/botanical/hull.glb.import": {
+      "path": "apps/world/assets/structures/botanical/hull.glb.import",
+      "status": "present",
+      "sha256": "292b0c34e195513f30649c36b72f755bb9955e8472726dafcc38744ec74837a5",
+      "bytes": 1154
+    },
+    "apps/world/assets/structures/botanical/greenhouse-interior.glb": {
+      "path": "apps/world/assets/structures/botanical/greenhouse-interior.glb",
+      "status": "present",
+      "sha256": "9e01871d1c418ee72e14d1d727740210f3bd8f900f4932ca4fcabf516d19e6f9",
+      "bytes": 130048
+    },
+    "apps/world/assets/structures/botanical/greenhouse-shell.glb.import": {
+      "path": "apps/world/assets/structures/botanical/greenhouse-shell.glb.import",
+      "status": "present",
+      "sha256": "a688ccc2b3d5afe6b14d2a3d5be4d899d91a1d59ce18c73ce64260753412c04c",
+      "bytes": 1191
+    },
+    "apps/world/assets/structures/botanical/hull_Image_0.jpg.import": {
+      "path": "apps/world/assets/structures/botanical/hull_Image_0.jpg.import",
+      "status": "present",
+      "sha256": "8f9ef9cf852926fc36822815b8a775014fda739579d0abc0a3f4e11eb78009bc",
+      "bytes": 1034
+    },
+    "assets-production/structures/botanical/layout.json": {
+      "path": "assets-production/structures/botanical/layout.json",
+      "status": "present",
+      "sha256": "9e4c7a9258a7ad6187c4ac1adb16a1c142c0c1ed75297fd1b8ee5a7e39190ca3",
+      "bytes": 1300
+    },
+    "apps/world/structures/exteriors/greenhouse-continuous.tscn": {
+      "path": "apps/world/structures/exteriors/greenhouse-continuous.tscn",
+      "status": "present",
+      "sha256": "0c7886f141ef5f551fac706eafa4cb7b547f45106a856a1214d52c5f50092d8e",
+      "bytes": 431
+    },
+    "apps/world/structures/interiors/greenhouse-continuous.tscn": {
+      "path": "apps/world/structures/interiors/greenhouse-continuous.tscn",
+      "status": "present",
+      "sha256": "fa6712ff39d9be8992c5e9cbfa016841ca29c983e903148fcd5ce234f3d9127e",
+      "bytes": 3336
+    },
+    "apps/world/structures/definitions/greenhouse.tres": {
+      "path": "apps/world/structures/definitions/greenhouse.tres",
+      "status": "present",
+      "sha256": "44a615530fe5fada46aab487dbf97852815d7d1922614baf6e42a2e2f8612800",
+      "bytes": 868
+    },
+    "assets-production/props/sleep-capsule/blender/sleep-capsule.blend": {
+      "path": "assets-production/props/sleep-capsule/blender/sleep-capsule.blend",
+      "status": "present",
+      "sha256": "3ec25017372186c7aa77979de551713ee73e65c2c71c469bd221364f85a9c7ad",
+      "bytes": 9591866
+    },
+    "apps/world/assets/props/sleep-capsule/sleep-capsule_Image_0.jpg.import": {
+      "path": "apps/world/assets/props/sleep-capsule/sleep-capsule_Image_0.jpg.import",
+      "status": "present",
+      "sha256": "506ff78cf5e450dcaa3fac2baaf459494ca2de6c1fbe398c7f985e4e372170d5",
+      "bytes": 1059
+    },
+    "apps/world/assets/props/sleep-capsule/sleep-capsule_Image_1.jpg": {
+      "path": "apps/world/assets/props/sleep-capsule/sleep-capsule_Image_1.jpg",
+      "status": "present",
+      "sha256": "a9e731134ff78eeb30cef8b3b1f8ea255232c958160873aa59255ed6e82e0712",
+      "bytes": 2311944
+    },
+    "apps/world/assets/props/sleep-capsule/sleep-capsule_Image_0.jpg": {
+      "path": "apps/world/assets/props/sleep-capsule/sleep-capsule_Image_0.jpg",
+      "status": "present",
+      "sha256": "1f7c6990b60c90e410713add96db0d538b264eb033822e96664d60890ab0820c",
+      "bytes": 3522528
+    },
+    "apps/world/assets/props/sleep-capsule/sleep-capsule_Image_2.jpg": {
+      "path": "apps/world/assets/props/sleep-capsule/sleep-capsule_Image_2.jpg",
+      "status": "present",
+      "sha256": "57311c2803a8d6993d167c851028bafed63a7b70b600dbc85833258f4880e827",
+      "bytes": 2561153
+    },
+    "apps/world/assets/props/sleep-capsule/sleep-capsule_Image_3.jpg": {
+      "path": "apps/world/assets/props/sleep-capsule/sleep-capsule_Image_3.jpg",
+      "status": "present",
+      "sha256": "acab9b867950ebc32e3c41c66e599c18edd6ba167d853f032e1fe1159c1e067e",
+      "bytes": 68925
+    },
+    "apps/world/assets/props/sleep-capsule/sleep-capsule_Image_2.jpg.import": {
+      "path": "apps/world/assets/props/sleep-capsule/sleep-capsule_Image_2.jpg.import",
+      "status": "present",
+      "sha256": "bd32e7e504bd10309f68beaae99fdf9c398fc323e1cfed6b4eb98a109b6b2af6",
+      "bytes": 1060
+    },
+    "apps/world/assets/props/sleep-capsule/sleep-capsule.glb.import": {
+      "path": "apps/world/assets/props/sleep-capsule/sleep-capsule.glb.import",
+      "status": "present",
+      "sha256": "de4ca7fffc4381da2b3645f0e3dec47c56f2b63e255d72b05e99d9ef6054d0f2",
+      "bytes": 1180
+    },
+    "apps/world/assets/props/sleep-capsule/sleep-capsule_Image_1.jpg.import": {
+      "path": "apps/world/assets/props/sleep-capsule/sleep-capsule_Image_1.jpg.import",
+      "status": "present",
+      "sha256": "3f7dc0a238a3528d93730cfc1874b46171721aa13f4ffd95420b6aa5243d8ab6",
+      "bytes": 1060
+    },
+    "apps/world/assets/props/sleep-capsule/sleep-capsule.glb": {
+      "path": "apps/world/assets/props/sleep-capsule/sleep-capsule.glb",
+      "status": "present",
+      "sha256": "442edf342528fda6a4dbb64daa32dbc04fbe6739b04ebed003b9bf0bd114c13d",
+      "bytes": 9534748
+    },
+    "apps/world/assets/props/sleep-capsule/sleep-capsule_Image_3.jpg.import": {
+      "path": "apps/world/assets/props/sleep-capsule/sleep-capsule_Image_3.jpg.import",
+      "status": "present",
+      "sha256": "2c1c58c1b1a95332e28ab199c034fca4d765a17af5d7e020a1dc579e56c2babe",
+      "bytes": 1060
+    },
+    "assets-production/props/resistance-bench/blender/resistance-bench.blend": {
+      "path": "assets-production/props/resistance-bench/blender/resistance-bench.blend",
+      "status": "present",
+      "sha256": "4d375e09e3acb711c5cdcbb5ddf047e1e2e302863af3f613b614c5c7a2dccc27",
+      "bytes": 10946422
+    },
+    "apps/world/assets/props/resistance-bench/resistance-bench_Image_3.jpg.import": {
+      "path": "apps/world/assets/props/resistance-bench/resistance-bench_Image_3.jpg.import",
+      "status": "present",
+      "sha256": "48eed876d93d1e6801f3c2920046bce39a61db73a9445a821a0c89c0d6cfb648",
+      "bytes": 1071
+    },
+    "apps/world/assets/props/resistance-bench/resistance-bench.glb": {
+      "path": "apps/world/assets/props/resistance-bench/resistance-bench.glb",
+      "status": "present",
+      "sha256": "b83bc7e327360c718ce2883a6f59dc1ae620446b4a11f67f8f8e8adebd771f42",
+      "bytes": 10950596
+    },
+    "apps/world/assets/props/resistance-bench/resistance-bench.glb.import": {
+      "path": "apps/world/assets/props/resistance-bench/resistance-bench.glb.import",
+      "status": "present",
+      "sha256": "dc573aee678e5b37b6a4d01b1fa426615c73d8001cefc3525e4a7cf02f357589",
+      "bytes": 1192
+    },
+    "apps/world/assets/props/resistance-bench/resistance-bench_Image_1.jpg.import": {
+      "path": "apps/world/assets/props/resistance-bench/resistance-bench_Image_1.jpg.import",
+      "status": "present",
+      "sha256": "82470d3473df726ce622b66016156e264d5b92f07f31f52b5fa0bc091569c009",
+      "bytes": 1072
+    },
+    "apps/world/assets/props/resistance-bench/resistance-bench_Image_2.jpg.import": {
+      "path": "apps/world/assets/props/resistance-bench/resistance-bench_Image_2.jpg.import",
+      "status": "present",
+      "sha256": "929e9a57a5163a457f0dc53dc87111cbc53c910c1b4e2bba7ca338f5a2bf2104",
+      "bytes": 1071
+    },
+    "apps/world/assets/props/resistance-bench/resistance-bench_Image_3.jpg": {
+      "path": "apps/world/assets/props/resistance-bench/resistance-bench_Image_3.jpg",
+      "status": "present",
+      "sha256": "4eb5945c29f0003a94ab60b7cb144e91f5fa2252965b80c1a05f92ca194b37b7",
+      "bytes": 132909
+    },
+    "apps/world/assets/props/resistance-bench/resistance-bench_Image_2.jpg": {
+      "path": "apps/world/assets/props/resistance-bench/resistance-bench_Image_2.jpg",
+      "status": "present",
+      "sha256": "322fe6478f384a9380f4981ce0ab573405bfd7c7ada90fb2e871b2306c4ba6d6",
+      "bytes": 2889566
+    },
+    "apps/world/assets/props/resistance-bench/resistance-bench_Image_0.jpg": {
+      "path": "apps/world/assets/props/resistance-bench/resistance-bench_Image_0.jpg",
+      "status": "present",
+      "sha256": "daf5e8fa7e65f9f31970b005fbb617bfbe2e971b47778bd1624f3ee0983dfe45",
+      "bytes": 4059027
+    },
+    "apps/world/assets/props/resistance-bench/resistance-bench_Image_1.jpg": {
+      "path": "apps/world/assets/props/resistance-bench/resistance-bench_Image_1.jpg",
+      "status": "present",
+      "sha256": "92c15e882fcbda233c884f0f762fd1b8d265be8f7ed2b3df59e77409226d1271",
+      "bytes": 2695342
+    },
+    "apps/world/assets/props/resistance-bench/resistance-bench_Image_0.jpg.import": {
+      "path": "apps/world/assets/props/resistance-bench/resistance-bench_Image_0.jpg.import",
+      "status": "present",
+      "sha256": "526ea9adf74c1b2fc2a8cc2e48b10c9e6117cb10901b0efeb2790bdd2c6f1ff8",
+      "bytes": 1072
+    },
+    "assets-production/props/botany-lab-bench/blender/botany-lab-bench.blend": {
+      "path": "assets-production/props/botany-lab-bench/blender/botany-lab-bench.blend",
+      "status": "present",
+      "sha256": "54ea099afb83a6b5bfc1b6cdb632bd3ce52fcdf2cdfcf4dbb95c3e41f3922c06",
+      "bytes": 11362325
+    },
+    "apps/world/assets/props/botany-lab-bench/botany-lab-bench_Image_0.jpg": {
+      "path": "apps/world/assets/props/botany-lab-bench/botany-lab-bench_Image_0.jpg",
+      "status": "present",
+      "sha256": "e57364385409685ccbb00889dbb45cf8ad963fca114999a25f7e65094359410c",
+      "bytes": 4035137
+    },
+    "apps/world/assets/props/botany-lab-bench/botany-lab-bench.glb": {
+      "path": "apps/world/assets/props/botany-lab-bench/botany-lab-bench.glb",
+      "status": "present",
+      "sha256": "ec09e93dc762cebe58a6d9fb87e645a37cc6e7889ac5ea6ce64e28eec9b2a36e",
+      "bytes": 11350516
+    },
+    "apps/world/assets/props/botany-lab-bench/botany-lab-bench_Image_1.jpg": {
+      "path": "apps/world/assets/props/botany-lab-bench/botany-lab-bench_Image_1.jpg",
+      "status": "present",
+      "sha256": "f2e7345ad0a44c3c2b9a79f5eeba4a7f69090a331a872067761608a91753d3d9",
+      "bytes": 2988066
+    },
+    "apps/world/assets/props/botany-lab-bench/botany-lab-bench_Image_3.jpg": {
+      "path": "apps/world/assets/props/botany-lab-bench/botany-lab-bench_Image_3.jpg",
+      "status": "present",
+      "sha256": "68c72492f0769c8ae646d12b64588db5dae364ceefdff4d7c292e361097f5d66",
+      "bytes": 338876
+    },
+    "apps/world/assets/props/botany-lab-bench/botany-lab-bench_Image_1.jpg.import": {
+      "path": "apps/world/assets/props/botany-lab-bench/botany-lab-bench_Image_1.jpg.import",
+      "status": "present",
+      "sha256": "b26ae5483c1f23a1164c3209b20b1d3987f7f47862c20ef1d84e14a4f00c38fc",
+      "bytes": 1071
+    },
+    "apps/world/assets/props/botany-lab-bench/botany-lab-bench_Image_2.jpg": {
+      "path": "apps/world/assets/props/botany-lab-bench/botany-lab-bench_Image_2.jpg",
+      "status": "present",
+      "sha256": "2f1d528dd6430990f44997246cc1ec911046eb42d1b0bc12681456abf2d45673",
+      "bytes": 2824610
+    },
+    "apps/world/assets/props/botany-lab-bench/botany-lab-bench_Image_3.jpg.import": {
+      "path": "apps/world/assets/props/botany-lab-bench/botany-lab-bench_Image_3.jpg.import",
+      "status": "present",
+      "sha256": "7fa3d4fdc0f12b09be53916423c4d089143f4be49ad2b8d3c079c400b57b2296",
+      "bytes": 1072
+    },
+    "apps/world/assets/props/botany-lab-bench/botany-lab-bench.glb.import": {
+      "path": "apps/world/assets/props/botany-lab-bench/botany-lab-bench.glb.import",
+      "status": "present",
+      "sha256": "c0753685a994ef3c31b4276ff324705ec6128766da0f20886650767e750efd80",
+      "bytes": 1193
+    },
+    "apps/world/assets/props/botany-lab-bench/botany-lab-bench_Image_0.jpg.import": {
+      "path": "apps/world/assets/props/botany-lab-bench/botany-lab-bench_Image_0.jpg.import",
+      "status": "present",
+      "sha256": "2265f5de060bb1897a747e900f51babf6e9c16b54e84832318776ab8fdcde204",
+      "bytes": 1072
+    },
+    "apps/world/assets/props/botany-lab-bench/botany-lab-bench_Image_2.jpg.import": {
+      "path": "apps/world/assets/props/botany-lab-bench/botany-lab-bench_Image_2.jpg.import",
+      "status": "present",
+      "sha256": "238848cc7c4312a9e2235e64c97fdb63a8e60bd7dc6f31d359b8634c53fb7a7f",
+      "bytes": 1072
+    },
+    "assets-production/structures/training/concepts/architecture-v2.png": {
+      "path": "assets-production/structures/training/concepts/architecture-v2.png",
+      "status": "present",
+      "sha256": "46f64d126d90b07a9c9ba554afa05460ef27fd394922aabacab32b46905ba8bc",
+      "bytes": 3017203
+    },
+    "assets-production/structures/habitat/concepts/architecture-v2.png": {
+      "path": "assets-production/structures/habitat/concepts/architecture-v2.png",
+      "status": "present",
+      "sha256": "bbadeafa4ad53ca7e3d5d3335e436734f370459271e5d1f0451558b5b3ebfbbf",
+      "bytes": 3025061
+    },
+    "assets-production/structures/botanical/concepts/architecture-v2.png": {
+      "path": "assets-production/structures/botanical/concepts/architecture-v2.png",
+      "status": "present",
+      "sha256": "ad2296ca91673fe0ec8e598cfd6108c432175ade29fc0c6173961f3dc71d2842",
+      "bytes": 3104208
+    },
+    "assets-production/structures/command/concepts/architecture-v2.png": {
+      "path": "assets-production/structures/command/concepts/architecture-v2.png",
+      "status": "present",
+      "sha256": "12af9e2e839895215fd21b7d599010a4f3f899cad1e7163eaa6acd55655ee2cd",
+      "bytes": 3128149
+    }
+  },
+  "limitations": "Hashes record local files at invocation. Referenced provider metadata stays local. Native QA and owner visual acceptance are separate evidence. Unsubmitted stages reserve no credits."
+}

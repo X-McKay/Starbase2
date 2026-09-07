@@ -1,0 +1,48 @@
+{
+  "asset_id": "command",
+  "room_id": "review",
+  "blender_version": "5.2.1 LTS",
+  "units": "metres; Godot Y-up exported from Blender Z-up",
+  "footprint": [
+    -8.0,
+    -10.45,
+    16.0,
+    12.0
+  ],
+  "palette": [
+    0.08,
+    0.57,
+    0.78
+  ],
+  "source_kind": "authored architecture; generated equipment remains separate props",
+  "files": {
+    "assets-production/structures/command/blender/command-polished.blend": {
+      "sha256": "d8b4016a90baded8ce2124002b441e0ace927ee4f58cfc0ad4db8b49622641e9",
+      "bytes": 382834
+    },
+    "apps/world/assets/structures/command/review-shell.glb": {
+      "sha256": "8ccec05a286865384502ce94672de09f0365bd8394e9fdb072ec9e9c5f80085f",
+      "bytes": 3758072
+    },
+    "apps/world/assets/structures/command/review-interior.glb": {
+      "sha256": "c4934dacb9482f20629d4a4acb96744861c35a6892d7b610f1d950757b34e13d",
+      "bytes": 278756
+    },
+    "assets-production/scripts/build_remaining_structures.py": {
+      "sha256": "852aaf360ae6081ec96be5f0f3bcbf5da906091bac0e2417b5bce11318ddba13",
+      "bytes": 20538
+    }
+  },
+  "semantic_groups": [
+    "CutawayEntrance",
+    "DoorLeft",
+    "DoorRight",
+    "Floor",
+    "Furniture",
+    "InteriorRevealBack",
+    "InteriorRevealRail"
+  ],
+  "mesh_objects": 29,
+  "triangles": 55460,
+  "review_status": "Requires native and package qualification; owner art judgment separate"
+}

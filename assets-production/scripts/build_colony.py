@@ -93,8 +93,14 @@ def console(x, z, blocks, name, width=1.5):
         box("Furniture", (x - 0.5 + key * 0.25, 1.035, z + 0.22), (0.08, 0.015, 0.1), "Accent", 0)
 
 
-manifest = {}
+layout_path = ROOT / "assets-production/structures/colony-layout.json"
+manifest = json.loads(layout_path.read_text()) if layout_path.exists() else {}
 for kind, (left, back, width, depth, accent) in BUILDINGS.items():
+    selected_layout = ROOT / "assets-production/structures" / FAMILIES[kind] / "layout.json"
+    if kind != "repair" and selected_layout.exists():
+        manifest[kind] = json.loads(selected_layout.read_text())
+        print("PRESERVE_SELECTED_STRUCTURE", FAMILIES[kind])
+        continue
     bpy.ops.object.select_all(action="SELECT")
     bpy.ops.object.delete(use_global=False)
     GROUPS.clear()

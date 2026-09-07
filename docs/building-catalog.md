@@ -329,3 +329,27 @@ samples a real lens through its pulse and steady reduced-motion state.
 [Arrival view](../evidence/colony-edge-lights/arrival.png) and
 [overview](../evidence/colony-edge-lights/overview.png) show the actual disconnected
 scene. No operational or deployment behavior changed.
+
+## Remaining structures production · 2026-09-07
+
+Command (`review`), Training (`gym`), Habitat (`habitat`) and Botanical
+(`greenhouse`) now have a dedicated selected production path alongside
+Engineering. The [concept and assembly plan](../assets-production/batches/remaining-structures/DESIGN.md)
+defines enlarged authored architecture and generated hulls and equipment. Room IDs,
+direct visits and scenery-only Habitat/Botanical bindings are retained. Command
+and Training now measure 16 × 12 m, Habitat 18 × 13 m and Botanical 17 × 12 m.
+Habitat and Botanical move farther apart on the expanded eastern/southern plateau;
+paving and landmarks follow the new footprints. Decorative screens and equipment
+do not report work.
+
+`just world-remaining-build` rebuilds the four authored sources and prepared
+props from retained local inputs, then reconnects their scenes. It performs no
+paid calls. The older `world-colony-build` preserves selected per-structure
+layouts and runtime connections. The selected editable files are
+`assets-production/structures/<asset>/blender/<asset>-polished.blend`; generated
+props have their own matching production/runtime category IDs. See the
+[production index](../assets-production/README.md) for sources and recipes.
+
+Native and package qualification is recorded in the new remaining-structures
+evidence directory as it completes. Technical checks do not establish owner art
+approval; historical PNG-only guidance above describes superseded approaches.

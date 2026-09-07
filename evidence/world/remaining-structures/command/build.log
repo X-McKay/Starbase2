@@ -1,0 +1,89 @@
+/Users/al/git/Starbase2/assets-production/scripts/build_remaining_structures.py:158: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  mat.use_nodes = True
+Info: Saved as "command-polished.blend"
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+14:11:47 | INFO: Starting glTF 2.0 export
+14:11:47 | INFO: Extracting primitive: Cube.260
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Text
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.259
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Text.001
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.130
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.133
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.134
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.135
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.247
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.214
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.131
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.213
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.215
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.267
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.266
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.265
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.264
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.271
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.270
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.269
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.268
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.128
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.002
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.001
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.274
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.273
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.299
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.272
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.295
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.297
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Finished glTF 2.0 export in 0.04062604904174805 s
+
+14:11:47 | INFO: Starting glTF 2.0 export
+14:11:47 | INFO: Extracting primitive: Cube.284
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.289
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.361
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.283
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.281
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.282
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Extracting primitive: Cube.288
+14:11:47 | INFO: Primitives created: 1
+14:11:47 | INFO: Finished glTF 2.0 export in 0.008296012878417969 s
+
+STRUCTURE_AUTHORED command
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit

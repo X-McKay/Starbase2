@@ -1,0 +1,241 @@
+{
+  "asset_id": "frontier-galley",
+  "blender_version": "5.2.1 LTS",
+  "source": "meshy_output/20260907_142840_frontier-galley_01a07d21/mesh.glb",
+  "source_sha256": "e0a6300019ca18bdc2938b08a1850e3a1a2f73b6d30ed1bac83ee4625b0a6a20",
+  "task_id": "01a07d32-4caf-77cd-aab1-bec6b37ceebe",
+  "consumed_credits": 30,
+  "orientation": "Preserved imported Blender Z-up; GLB exports Y-up; no axis guessing",
+  "source_object_world_matrices": {
+    "Mesh_0": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ]
+  },
+  "raw_bounds_blender_xyz": {
+    "min": [
+      -0.9507330060005188,
+      -0.3884809613227844,
+      -0.9062200784683228
+    ],
+    "max": [
+      0.9488340020179749,
+      0.3909071087837219,
+      0.908092200756073
+    ],
+    "size": [
+      1.8995670080184937,
+      0.7793880701065063,
+      1.814312219619751
+    ]
+  },
+  "fit_target_width_depth_height_m": [
+    2.6,
+    0.8,
+    2.1
+  ],
+  "applied_uniform_scale": 1.0264462989415235,
+  "source_center_floor": [
+    -0.0009495019912719727,
+    0.00121307373046875,
+    -0.9062200784683228
+  ],
+  "applied_normalization_matrix": [
+    [
+      1.0264463424682617,
+      0.0,
+      0.0,
+      0.0009746128343977034
+    ],
+    [
+      0.0,
+      1.0264463424682617,
+      0.0,
+      -0.0012451551156118512
+    ],
+    [
+      0.0,
+      0.0,
+      1.0264463424682617,
+      0.9301862716674805
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "final_bounds_blender_xyz": {
+    "min": [
+      -0.9749017953872681,
+      -0.4000000059604645,
+      0.0
+    ],
+    "max": [
+      0.9749017953872681,
+      0.40000003576278687,
+      1.8622941970825195
+    ],
+    "size": [
+      1.9498035907745361,
+      0.8000000715255737,
+      1.8622941970825195
+    ]
+  },
+  "final_size_godot_xyz": [
+    1.9498035907745361,
+    1.8622941970825195,
+    0.8000000715255737
+  ],
+  "geometry": {
+    "objects": 1,
+    "vertices": 21638,
+    "polygons": 16078,
+    "triangles": 16078
+  },
+  "materials": [
+    {
+      "name": "Material_0",
+      "use_nodes": true,
+      "principled": [
+        {
+          "Base Color": {
+            "linked": true,
+            "value": [
+              0.800000011920929,
+              0.800000011920929,
+              0.800000011920929,
+              1.0
+            ]
+          },
+          "Metallic": {
+            "linked": true,
+            "value": 0.0
+          },
+          "Roughness": {
+            "linked": true,
+            "value": 0.5
+          },
+          "Normal": {
+            "linked": true,
+            "value": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "Emission Color": {
+            "linked": true,
+            "value": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "Emission Strength": {
+            "linked": false,
+            "value": 1.0
+          },
+          "Alpha": {
+            "linked": false,
+            "value": 1.0
+          }
+        }
+      ],
+      "textures": [
+        {
+          "name": "Image_3",
+          "size": [
+            2048,
+            2048
+          ],
+          "colorspace": "sRGB",
+          "channels": 4
+        },
+        {
+          "name": "Image_0",
+          "size": [
+            2048,
+            2048
+          ],
+          "colorspace": "sRGB",
+          "channels": 4
+        },
+        {
+          "name": "Image_1",
+          "size": [
+            2048,
+            2048
+          ],
+          "colorspace": "Non-Color",
+          "channels": 4
+        },
+        {
+          "name": "Image_2",
+          "size": [
+            2048,
+            2048
+          ],
+          "colorspace": "Non-Color",
+          "channels": 4
+        }
+      ]
+    }
+  ],
+  "exported_materials": [
+    {
+      "doubleSided": true,
+      "emissiveFactor": [
+        1,
+        1,
+        1
+      ],
+      "emissiveTexture": {
+        "index": 0
+      },
+      "name": "Material_0",
+      "normalTexture": {
+        "index": 1
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 2
+        },
+        "metallicRoughnessTexture": {
+          "index": 3
+        }
+      }
+    }
+  ],
+  "exported_image_count": 4,
+  "blend": "assets-production/props/frontier-galley/blender/frontier-galley.blend",
+  "blend_sha256": "9cac5f42ecc7ce4133b65797bff8c8d2dc1a2dd8b17e49dd85c093c2dcd8e0f4",
+  "runtime": "apps/world/assets/props/frontier-galley/frontier-galley.glb",
+  "runtime_sha256": "fe63ad07f1f2b09571d94bb3c9798375bc0853595637ebcf0687a7ae4398c660",
+  "runtime_bytes": 9764200,
+  "review_status": "Prepared; requires native orientation, PBR and placement review"
+}

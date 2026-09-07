@@ -7,9 +7,9 @@ const LINES := [
 	[Vector2(-24,6),Vector2(-24,19.5)],
 	[Vector2(-13.5,10.5),Vector2(-13.5,-22.5),Vector2(-16.5,-22.5),Vector2(-16.5,-25.5)],
 	[Vector2(-13.5,-9),Vector2(-24,-9)],
-	[Vector2(-13.5,-7.5),Vector2(-3,-7.5),Vector2(-3,-12)],
-	[Vector2(15,10.5),Vector2(15,0),Vector2(27,0),Vector2(27,-4.5)],
-	[Vector2(0,10.5),Vector2(0,28.5),Vector2(18,28.5),Vector2(18,24)],
+	[Vector2(-13.5,-12),Vector2(-3,-12),Vector2(-3,-16.5)],
+	[Vector2(15,10.5),Vector2(15,-4.5),Vector2(36,-4.5),Vector2(36,-10.5)],
+	[Vector2(0,10.5),Vector2(0,28.5),Vector2(15,28.5),Vector2(15,39),Vector2(30,39),Vector2(30,33)],
 	[Vector2(-24,19.5),Vector2(-24,28.5),Vector2(0,28.5)],
 	[Vector2(0,18),Vector2(-7.5,18)]
 ]

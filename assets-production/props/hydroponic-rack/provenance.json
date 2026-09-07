@@ -1,0 +1,241 @@
+{
+  "asset_id": "hydroponic-rack",
+  "blender_version": "5.2.1 LTS",
+  "source": "meshy_output/20260907_142842_hydroponic-rack_01a07d21/mesh.glb",
+  "source_sha256": "4b835c20fc6d5800f0cd0ad49ad0bf9866a63614ab5fd7d973624574c811421b",
+  "task_id": "01a07d32-4f51-70bd-b37c-0609b1173a60",
+  "consumed_credits": 30,
+  "orientation": "Preserved imported Blender Z-up; GLB exports Y-up; no axis guessing",
+  "source_object_world_matrices": {
+    "Mesh_0": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ]
+  },
+  "raw_bounds_blender_xyz": {
+    "min": [
+      -0.8684620261192322,
+      -0.42209503054618835,
+      -0.95051109790802
+    ],
+    "max": [
+      0.8687700033187866,
+      0.42684298753738403,
+      0.9488061666488647
+    ],
+    "size": [
+      1.737231969833374,
+      0.84893798828125,
+      1.8993172645568848
+    ]
+  },
+  "fit_target_width_depth_height_m": [
+    2.2,
+    1.25,
+    2.2
+  ],
+  "applied_uniform_scale": 1.1583109578658337,
+  "source_center_floor": [
+    0.00015398859977722168,
+    0.0023739784955978394,
+    -0.95051109790802
+  ],
+  "applied_normalization_matrix": [
+    [
+      1.1583110094070435,
+      0.0,
+      0.0,
+      -0.00017836669576354325
+    ],
+    [
+      0.0,
+      1.1583110094070435,
+      0.0,
+      -0.002749805338680744
+    ],
+    [
+      0.0,
+      0.0,
+      1.1583110094070435,
+      1.100987434387207
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "final_bounds_blender_xyz": {
+    "min": [
+      -1.0061274766921997,
+      -0.49166712164878845,
+      0.0
+    ],
+    "max": [
+      1.0061274766921997,
+      0.49166712164878845,
+      2.200000047683716
+    ],
+    "size": [
+      2.0122549533843994,
+      0.9833342432975769,
+      2.200000047683716
+    ]
+  },
+  "final_size_godot_xyz": [
+    2.0122549533843994,
+    2.200000047683716,
+    0.9833342432975769
+  ],
+  "geometry": {
+    "objects": 1,
+    "vertices": 39008,
+    "polygons": 18649,
+    "triangles": 18649
+  },
+  "materials": [
+    {
+      "name": "Material_0",
+      "use_nodes": true,
+      "principled": [
+        {
+          "Base Color": {
+            "linked": true,
+            "value": [
+              0.800000011920929,
+              0.800000011920929,
+              0.800000011920929,
+              1.0
+            ]
+          },
+          "Metallic": {
+            "linked": true,
+            "value": 0.0
+          },
+          "Roughness": {
+            "linked": true,
+            "value": 0.5
+          },
+          "Normal": {
+            "linked": true,
+            "value": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "Emission Color": {
+            "linked": true,
+            "value": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "Emission Strength": {
+            "linked": false,
+            "value": 1.0
+          },
+          "Alpha": {
+            "linked": false,
+            "value": 1.0
+          }
+        }
+      ],
+      "textures": [
+        {
+          "name": "Image_3",
+          "size": [
+            2048,
+            2048
+          ],
+          "colorspace": "sRGB",
+          "channels": 4
+        },
+        {
+          "name": "Image_0",
+          "size": [
+            2048,
+            2048
+          ],
+          "colorspace": "sRGB",
+          "channels": 4
+        },
+        {
+          "name": "Image_1",
+          "size": [
+            2048,
+            2048
+          ],
+          "colorspace": "Non-Color",
+          "channels": 4
+        },
+        {
+          "name": "Image_2",
+          "size": [
+            2048,
+            2048
+          ],
+          "colorspace": "Non-Color",
+          "channels": 4
+        }
+      ]
+    }
+  ],
+  "exported_materials": [
+    {
+      "doubleSided": true,
+      "emissiveFactor": [
+        1,
+        1,
+        1
+      ],
+      "emissiveTexture": {
+        "index": 0
+      },
+      "name": "Material_0",
+      "normalTexture": {
+        "index": 1
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 2
+        },
+        "metallicRoughnessTexture": {
+          "index": 3
+        }
+      }
+    }
+  ],
+  "exported_image_count": 4,
+  "blend": "assets-production/props/hydroponic-rack/blender/hydroponic-rack.blend",
+  "blend_sha256": "27f501718ff052876184b46f05a707d7bdee54ae2b9f4977cbf1da8dcdf1488b",
+  "runtime": "apps/world/assets/props/hydroponic-rack/hydroponic-rack.glb",
+  "runtime_sha256": "92f23b1c9bf812a05b22a053730d2d0b55acc0d7959923c630ee451da80bc0e3",
+  "runtime_bytes": 11266984,
+  "review_status": "Prepared; requires native orientation, PBR and placement review"
+}

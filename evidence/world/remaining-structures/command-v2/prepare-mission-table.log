@@ -1,0 +1,20 @@
+14:48:53 | INFO: Data are loaded, start creating Blender stuff
+14:48:53 | INFO: Blender create Mesh node 0
+14:48:53 | INFO: glTF import finished in 0.02s
+/Users/al/git/Starbase2/assets-production/scripts/prepare_remaining_props.py:66: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  entry = {"name": name, "use_nodes": material.use_nodes, "principled": [], "textures": []}
+/Users/al/git/Starbase2/assets-production/scripts/prepare_remaining_props.py:67: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  if material.use_nodes:
+Info: Saved as "mission-table.blend"
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+14:48:53 | INFO: Starting glTF 2.0 export
+14:48:53 | INFO: Extracting primitive: Mesh_0.001
+14:48:53 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+14:48:53 | INFO: Primitives created: 1
+14:48:53 | INFO: Finished glTF 2.0 export in 0.01566910743713379 s
+
+{"asset": "mission-table", "runtime": "/Users/al/git/Starbase2/apps/world/assets/props/mission-table/mission-table.glb", "scale": 1.7899324663131728, "geometry": {"objects": 1, "vertices": 20080, "polygons": 15232, "triangles": 15232}}
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit

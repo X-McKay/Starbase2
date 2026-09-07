@@ -139,7 +139,7 @@ func _ready() -> void:
 			var offset := Vector3(rng.randf_range(-0.5,0.5),0.16,rng.randf_range(-0.5,0.5))
 			grass(p+Vector3(offset.x,0.03,offset.z),rng.randf_range(0.6,1.2))
 	for i in range(7):
-		var p := Vector3(rng.randf_range(31.4,34.5),0.6,rng.randf_range(19.4,22.5))
+		var p := Vector3(rng.randf_range(46.4,49.5),0.6,rng.randf_range(26.4,29.5))
 		rock(p,Vector3(0.8,rng.randf_range(1.4,2.8),0.9),"76bebc")
 	planet_landmarks()
 	surface_scatter()
@@ -149,11 +149,11 @@ func planet_landmarks() -> void:
 	# A turquoise mineral spring occupies a conservative shared blocked footprint.
 	var spring := preload("res://mineral_basin.gd").new()
 	spring.name="MineralBasin"
-	spring.position=Vector3(30,0,-27)
+	spring.position=Vector3(54,0,-34)
 	add_child(spring)
 	for i in range(11):
 		var angle := TAU*i/11.0
-		rock(Vector3(30+cos(angle)*5.45,0.17,-27+sin(angle)*4.40),Vector3(0.6,0.26,0.5),"a89775")
+		rock(Vector3(54+cos(angle)*5.45,0.17,-34+sin(angle)*4.40),Vector3(0.6,0.26,0.5),"a89775")
 	# Original weathered standing stones: visual history, no portal or mission.
 	for pos in [Vector3(8.8,2.6,-23),Vector3(11.1,1.8,-23)]:
 		var height: float = pos.y*2.0

@@ -156,12 +156,16 @@ def main() -> None:
             isolated,
             expected_refusal="Package verification requires an offline fixture",
         )
+        run(
+            [*common, "--headless", "--", "--capture-package=" + str(output)],
+            output / "capture-fixture-refusal.log",
+            isolated,
+            expected_refusal="Package verification requires an offline fixture",
+        )
         log = run(
             [
                 *common,
                 "--headless",
-                "--quit-after",
-                "900",
                 "--",
                 "--verify-package",
                 "--fixture=" + str(fixture),
@@ -171,6 +175,9 @@ def main() -> None:
         )
         if "EXPORTED WORLD PASSED" not in log:
             raise RuntimeError("Export smoke test did not finish; inspect smoke.log")
+        for identity in ("repair", "review", "gym", "habitat", "greenhouse"):
+            if f"EXPORTED_JOURNEY {identity}" not in log:
+                raise RuntimeError(f"Missing actual exported physical journey: {identity}")
         for name, options in [
             ("colony", ["--walk-test"]),
             ("interior", ["--room=review", "--compact", "--reduced-motion"]),
@@ -190,6 +197,28 @@ def main() -> None:
             )
             if not capture.exists() or not capture.with_suffix(".png.json").exists():
                 raise RuntimeError(f"Missing actual exported capture: {name}")
+        native_capture(
+            executable,
+            ["--fixture=" + str(fixture), "--capture-package=" + str(output)],
+            output,
+            "structures",
+            isolated,
+        )
+        structure_log = (output / "structures.log").read_text()
+        if "EXPORTED_STRUCTURES_CAPTURE_PASSED" not in structure_log:
+            raise RuntimeError("Native structure review did not finish; inspect structures.log")
+        for identity in ("review", "gym", "habitat", "greenhouse"):
+            if f"NATIVE_EXPORTED_JOURNEY {identity}" not in structure_log:
+                raise RuntimeError(f"Missing native physical journey: {identity}")
+            for view in ("exterior", "interior"):
+                if not (output / f"{identity}-{view}.png").exists():
+                    raise RuntimeError(f"Missing actual exported capture: {identity}-{view}")
+        capture_report = output / "structure-captures.json"
+        capture_data = json.loads(capture_report.read_text())
+        if capture_data["failures"] or capture_data["motion_frames"] < 4:
+            raise RuntimeError("Native physical motion evidence failed")
+        if not (output / "review-motion.png").exists():
+            raise RuntimeError("Missing native physical motion strip")
         report = {
             "status": "local macOS export qualified; unsigned, not a Kubani release",
             "godot": version,
@@ -199,6 +228,7 @@ def main() -> None:
             "executable_sha256": digest(executable),
             "fixture_sha256": digest(fixture),
             "qualification_script_sha256": runner_hash,
+            "structure_capture_report_sha256": digest(capture_report),
             "source_files": sources,
             "source_tree_sha256": hashlib.sha256(
                 json.dumps(sources, sort_keys=True).encode()

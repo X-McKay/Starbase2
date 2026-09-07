@@ -1,3 +1,10 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=4 format=3]
 [ext_resource type="PackedScene" path="res://assets/structures/command/review-shell.glb" id="1"]
-[node name="Shell" instance=ExtResource("1")]
+[ext_resource type="PackedScene" path="res://assets/structures/command/hull.glb" id="2"]
+[ext_resource type="PackedScene" path="res://assets/props/communications-array/communications-array.glb" id="3"]
+[node name="Shell" type="Node3D"]
+[node name="Architecture" parent="." instance=ExtResource("1")]
+[node name="GeneratedHull" parent="." instance=ExtResource("2")]
+position = Vector3(0.0000,0.0000,0.0000)
+[node name="CommunicationsArray" parent="." instance=ExtResource("3")]
+position = Vector3(-4.2000,4.0500,-7.6500)

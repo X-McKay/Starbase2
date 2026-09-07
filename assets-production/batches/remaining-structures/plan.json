@@ -1,0 +1,106 @@
+{
+  "status": "approved",
+  "scope": "Remaining Starbase2 structures; task-specific generation budget",
+  "approved_credit_cap": 1250,
+  "prior_generation_credits": 0,
+  "material_direction": "Frontier science fiction, realistic manufactured ivory ceramic panels and graphite frames, lightly weathered copper service fittings, restrained luminous accents, crisp functional details, PBR surfaces. One isolated complete object on plain light gray studio background, three-quarter view, no people, no text, no collage, no floor slab, no surrounding room.",
+  "assets": [
+    {
+      "id": "mission-table",
+      "description": "Low freestanding rectangular mission planning table, 2.4 metres wide 1.4 metres deep and 1.1 metres high. Angled inset horizontal cyan glass map display, thick chamfered ivory rim, graphite recessed pedestal, small physical controls, copper cooling vents. No floating holograms. Screen displays abstract topographic contour lines, not words.",
+      "polycount": 18000,
+      "reviewed_image_task_id": "01a07d0c-dc89-77e3-9974-ad7f03176e47"
+    },
+    {
+      "id": "communications-array",
+      "description": "Compact rooftop deep space communications assembly. One large tilted parabolic segmented ivory satellite dish on a graphite gimbal pedestal with a small secondary antenna and cable service box attached to the same base. Overall 3 metres wide 2.4 metres deep 2.8 metres tall. Cyan tiny accents. All components connected.",
+      "polycount": 20000,
+      "reviewed_image_task_id": "01a07d0c-fc04-75f7-8265-14c7e80d8b64"
+    },
+    {
+      "id": "simulation-station",
+      "description": "Create one isolated detailed piece of equipment matching the material realism and exquisite craftsmanship of the RIGHT interior panel of the reference. Single open-front standing immersive training simulator bay. Two curved ivory side pillars and graphite overhead arch surrounding a dark floor disc, a small violet glass control panel on one side, exposed cables and precise machinery. Human sized, 2 metres wide, 2 metres deep, 2.6 metres tall. No person, no chair.",
+      "polycount": 20000,
+      "reference_image_path": "assets-production/structures/training/concepts/architecture-v2.png",
+      "reviewed_image_task_id": "01a07d21-1fd6-730c-9daa-46c8b367e722"
+    },
+    {
+      "id": "frontier-galley",
+      "description": "Create one isolated detailed piece of equipment matching the material realism and exquisite craftsmanship of the RIGHT interior panel of the reference. Compact freestanding frontier habitat kitchenette against one backing panel. Ivory cabinets, a small sink and induction hob, food dispenser, recessed warm-lit shelves with a few cups and storage tins, graphite lower drawers, warm copper details. 2.6 metres wide, .8 metres deep, 2.1 metres high. Flat back, no room or walls beyond the cabinet itself.",
+      "polycount": 18000,
+      "reference_image_path": "assets-production/structures/habitat/concepts/architecture-v2.png",
+      "reviewed_image_task_id": "01a07d21-266f-76aa-97de-1c10dcbe8598"
+    },
+    {
+      "id": "hydroponic-rack",
+      "description": "Create one isolated detailed piece of equipment matching the material realism and exquisite craftsmanship of the RIGHT interior panel of the reference. Freestanding hydroponic growing apparatus with two long cultivation trays stacked in an ivory and graphite open frame, lush varied leafy green vegetables, thin irrigation pipes, small water reservoir and white grow light bars. 1.8 metres wide, 1.1 metres deep, 2 metres tall. Connected equipment, no surrounding greenhouse, no extra floor.",
+      "polycount": 22000,
+      "reference_image_path": "assets-production/structures/botanical/concepts/architecture-v2.png",
+      "reviewed_image_task_id": "01a07d21-2bee-777f-9e52-e8cfb476139e"
+    },
+    {
+      "id": "command-hull",
+      "description": "Recreate only the complete exterior architecture from the LEFT panel of the attached Command concept. Preserve its broad layered chamfered ivory hull, huge faceted blue observation windows, offset rear sensor tower and beautiful dense service details. One isolated whole building, front three-quarter view showing ground-level central airlock, fully intact roof. Width14m depth8.5m height6m. No people, terrain, surrounding floor slab, separate props, comparison panel, cutaway or interior. Keep footprint broad and sides nearly vertical with enough inner volume for a single open room. Neutral background. The building itself fills the image.",
+      "reference_image_path": "assets-production/structures/command/concepts/architecture-v2.png",
+      "polycount": 55000,
+      "texture_resolution": "4k",
+      "reviewed_image_task_id": "01a07d19-fb20-70e6-8987-7754a4c56137"
+    },
+    {
+      "id": "analysis-console",
+      "description": "Extract and develop ONE detailed freestanding analyst workstation from the RIGHT interior of the attached concept. A wide angled wraparound cyan screen bank over graphite desk with ivory chamfered edges, physical controls, copper cooling conduits and attached tall server cabinet at one end. Overall 2.5m wide .85m deep 2.1m tall. Single connected complete object. No room, chairs, people or surrounding floor. Flat backing and front access, realistic dense premium game sci-fi equipment. Neutral studio background.",
+      "reference_image_path": "assets-production/structures/command/concepts/architecture-v2.png",
+      "polycount": 22000,
+      "texture_resolution": "2k",
+      "reviewed_image_task_id": "01a07d1a-12ca-7717-b344-65a155f1371d"
+    },
+    {
+      "id": "training-hull",
+      "description": "Recreate the complete exterior structure from the LEFT panel of the attached architectural concept. Twin barrel-vault simulation halls with an integrated central ground-level airlock spine, violet skylight strips, chunky manufactured ribs and copper services; broad footprint16m wide12m deep, 5.5m high. Preserve the sophisticated realistic PBR material finish and dense functional detail. One intact complete building centered alone on neutral studio background, front three-quarter perspective. No cutaway, interiors panel, people, surrounding floor, stairs, terrain or text. Structure fills the image. Clearly ground-level central entrance; allow spacious continuous room within.",
+      "reference_image_path": "assets-production/structures/training/concepts/architecture-v2.png",
+      "polycount": 55000,
+      "texture_resolution": "4k",
+      "reviewed_image_task_id": "01a07d20-993b-7034-a3cd-35ed29891812"
+    },
+    {
+      "id": "habitat-hull",
+      "description": "Recreate the complete exterior structure from the LEFT panel of the attached architectural concept. Three rounded connected living capsules with a welcoming central airlock and amber panoramic window bands, rooftop circulation fans and warm copper services. Single-storey ground level residential structure, footprint18m wide13m deep,5m high. Preserve the sophisticated realistic PBR material finish and dense functional detail. One intact complete building centered alone on neutral studio background, front three-quarter perspective. No cutaway, interiors panel, people, surrounding floor, stairs, terrain or text. Structure fills the image. Clearly ground-level central entrance; allow spacious continuous room within.",
+      "reference_image_path": "assets-production/structures/habitat/concepts/architecture-v2.png",
+      "polycount": 55000,
+      "texture_resolution": "4k",
+      "reviewed_image_task_id": "01a07d20-c57a-758d-a9bf-e2a7cead14d4"
+    },
+    {
+      "id": "botanical-hull",
+      "description": "Recreate the complete exterior structure from the LEFT panel of the attached architectural concept. Ribbed arched glass conservatory with lush cultivation glimpsed through sage-green glazing, central ground-level airlock and offset cylindrical water-service spine with copper pipes. Broad footprint17m wide12m deep,5.5m tall. Preserve the sophisticated realistic PBR material finish and dense functional detail. One intact complete building centered alone on neutral studio background, front three-quarter perspective. No cutaway, interiors panel, people, surrounding floor, stairs, terrain or text. Structure fills the image. Clearly ground-level central entrance; allow spacious continuous room within.",
+      "reference_image_path": "assets-production/structures/botanical/concepts/architecture-v2.png",
+      "polycount": 55000,
+      "texture_resolution": "4k",
+      "reviewed_image_task_id": "01a07d21-1a7e-7717-bddc-8362b7e0ea3d"
+    },
+    {
+      "id": "sleep-capsule",
+      "description": "Create an isolated premium realistic sci-fi game asset matching the RIGHT interior panel of the attached concept. One comfortable futuristic sleeping alcove, a double bed with warm ochre blanket, pillows and mattress enclosed by a curved ivory and graphite overhead hood, warm reading lights, inset storage and a small bedside cabinet. Open front, connected single object.3m wide2m deep2.5m tall. No surrounding room or people.",
+      "reference_image_path": "assets-production/structures/habitat/concepts/architecture-v2.png",
+      "polycount": 22000,
+      "texture_resolution": "2k",
+      "reviewed_image_task_id": "01a07d21-3164-7719-952a-c6c58fae7837"
+    },
+    {
+      "id": "resistance-bench",
+      "description": "Create an isolated premium realistic sci-fi game asset matching the RIGHT interior panel of the attached concept. One futuristic multi-function exercise bench and resistance frame, padded dark bench, two tall weight cable towers, copper pulleys, handles, violet accents and neatly stored weight plates. Crisp manufactured details. Connected equipment2.4m wide1.2m deep2.6m high. No room, surrounding floor, people or extra equipment.",
+      "reference_image_path": "assets-production/structures/training/concepts/architecture-v2.png",
+      "polycount": 22000,
+      "texture_resolution": "2k",
+      "reviewed_image_task_id": "01a07d21-36cf-73a5-8929-bf475ea065ae"
+    },
+    {
+      "id": "botany-lab-bench",
+      "description": "Create an isolated premium realistic sci-fi game asset matching the RIGHT interior panel of the attached concept. One hydroponic research workbench with ivory cabinet base, stainless worktop, a small microscope, specimen jars, a compact cyan laboratory screen and rack of seed trays and irrigation meters. Functional exquisite detail, graphite frame copper pipes and sage accents. Overall2.7m wide1m deep1.8m high. No surrounding room floor or people.",
+      "reference_image_path": "assets-production/structures/botanical/concepts/architecture-v2.png",
+      "polycount": 22000,
+      "texture_resolution": "2k",
+      "reviewed_image_task_id": "01a07d21-3be0-7322-977c-1d4d28cbafd5"
+    }
+  ]
+}

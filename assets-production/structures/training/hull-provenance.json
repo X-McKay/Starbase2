@@ -1,0 +1,41 @@
+{
+  "asset_id": "training",
+  "task_id": "01a07d32-4209-7163-a58a-25f3ad63bb00",
+  "consumed_credits": 30,
+  "source": "meshy_output/20260907_142806_training-hull_01a07d20/mesh.glb",
+  "source_sha256": "baf5d1468e167193ccfd72d9bb4c99c0916f75bcb370e075229ce1668983aee1",
+  "raw_bounds_blender_xyz": {
+    "min": [
+      -0.9049670100212097,
+      -0.9486210346221924,
+      -0.3576969504356384
+    ],
+    "max": [
+      0.9063839912414551,
+      0.950262188911438,
+      0.347878098487854
+    ]
+  },
+  "nonuniform_fit_scale": [
+    8.965682983398438,
+    6.44589376449585,
+    7.228146553039551
+  ],
+  "fit_size_width_depth_height_m": [
+    16.239999771118164,
+    12.239999771118164,
+    5.099999904632568
+  ],
+  "removed_door_faces": 1131,
+  "clearance": {
+    "width_m": 2.68,
+    "height_m": 3.12,
+    "front_depth_m": 1.2
+  },
+  "blender_version": "5.2.1 LTS",
+  "files": {
+    "assets-production/structures/training/blender/training-hull.blend": "db071df820e85b90e4f1e4fb30911d8f67bae23166d2cc19f766856be4e2229f",
+    "apps/world/assets/structures/training/hull.glb": "aa1ec66c4651df0cb0c1a2beff06abd4b6dc8390d832517c57ed3a089dd48bed"
+  },
+  "limitations": "Generated hull has an explicit visual opening; authored collision and floor remain authoritative. Native exterior/interior review required."
+}

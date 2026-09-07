@@ -78,3 +78,63 @@ macOS GUI launch stalled before engine output; Launch Services rendered the same
 archive and the fresh qualification passed. Use the current export harness,
 including its native error checks and narrowly scoped timeout cleanup. The exact
 OS cause was not isolated, so do not generalize this to all launch failures.
+
+## Remaining structures — 2026-09-07
+
+The first authored template pass remained too plain for the owner's requested
+standard. Increasing object count alone did not solve the shared box silhouette.
+The correction used built-in imagegen for ambitious matching exterior/cutaway
+plates, Meshy for four distinct whole hulls and nine useful furniture assets,
+and Blender to fit them around exact larger rooms. Command's initial table and
+analysis consoles also appeared too small; their preparation fit limits and
+room composition were enlarged before continuing. Review the actual native
+camera scale early, not only an isolated provider thumbnail or fit target.
+See the [selected production design](../assets-production/batches/remaining-structures/DESIGN.md)
+and [final native captures](../evidence/world/remaining-structures/final/native/).
+
+Generated doors and shell interiors are visual suggestions. The playable
+opening, moving leaves, floor and collision stayed authored separately; hull
+preparation cut a real clearance, and named groups controlled exterior fade and
+rear-wall reveal. Retiring the superseded authored roof and side-wall preview
+prevented it from competing with the selected hull. Native exterior and cutaway
+views remain required because an imported hull alone does not establish usable
+clearance or concealed interior geometry.
+
+Larger rooms also required moved pads and an eastern/southern plateau extension.
+The first protected-spring collision check failed before correction. Reconcile
+paving, structure footprints and protected landscape obstacles together, and
+retain the initial failure alongside the corrected check. Enlarging a terrain
+outline is not by itself proof that relocated rooms and paved approaches fit.
+
+Independent review of the eight final native exterior/interior images found
+clear room identities and no obvious major hull/furniture clipping in those
+views. The Botanical exterior uses opaque textured glazing with foliage imagery;
+it does not show the actual interior through glass. All rooms share the exact
+paneled rear-wall construction and keep generous floor space, most noticeable
+in Training and Habitat. Those art judgments remain for owner review, separate
+from physical traversal and export qualification.
+
+Concrete optional art follow-ups: evaluate a warmer, more furnished Habitat
+commons and Training practice-floor detail at the actual camera scale; soften
+the shared back-wall treatment per room; and consider true conservatory glazing
+only with verified Compatibility/cutaway behavior. The first captured Botanical water pipe ended unsupported in the room; the
+builder now connects it horizontally toward the bench and adds a vertical
+downleg to 1.4 m. A later full-world route check also found a scattered outcrop
+near the Botanical approach; its authored position moved from (12, 35) to
+(10, 42), and the corrected full world suite passed. These are review follow-ups, not a claim that more generation
+is required or that technical checks establish owner art approval.
+
+The first standalone remaining-structures export exercised native journeys but
+was correctly rejected when motion-contact-sheet blitting reported an image
+format error. Explicit RGB8 conversion corrected the capture code; qualify a
+fresh build after that source change rather than inheriting the failed package's
+status. Full world and repository checks subsequently passed. Standalone export
+qualification subsequently passed in `20260907-final-02`. The pipe correction is visible in the first
+export's Botanical interior capture; visual confirmation does not override its
+unrelated capture-format qualification failure.
+
+Final qualification: the unsigned macOS `20260907-final-02` review passed, with
+exact source/artifact hashes in its manifest and an inspected nonblank 12-frame
+motion contact sheet. Full world checks preceded the capture-only RGB8 fix;
+the fresh standalone run covers that final capture change. This establishes
+local technical qualification, not owner art approval or deployment readiness.

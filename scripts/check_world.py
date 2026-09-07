@@ -25,6 +25,7 @@ for args in [
     ["--script", "test_meshy_character.gd"],
     ["--fixed-fps", "60", "--script", "test_run_cadence.gd"],
     ["--script", "test_engineering_polish.gd"],
+    ["--fixed-fps", "60", "--script", "test_remaining_structures.gd"],
     ["--fixed-fps", "60", "--script", "test_seamless_colony.gd"],
     ["--script", "test_character_lab.gd"],
     ["--script", "test_field_crew.gd", "--", "--api=http://127.0.0.1:1"],

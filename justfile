@@ -199,6 +199,14 @@ world-colony-build blender="/Applications/Blender.app/Contents/MacOS/Blender":
     python3 assets-production/scripts/connect_engineering.py
     godot --headless --path apps/world --editor --import --quit
 
+# Rebuild selected remaining structures from retained local inputs; no paid calls.
+world-remaining-build blender="/Applications/Blender.app/Contents/MacOS/Blender":
+    "{{blender}}" --background --factory-startup --python assets-production/scripts/build_remaining_structures.py
+    "{{blender}}" --background --factory-startup --python assets-production/scripts/prepare_remaining_props.py
+    for asset in command training habitat botanical; do "{{blender}}" --background --factory-startup --python assets-production/scripts/prepare_remaining_hulls.py -- --asset "$asset"; done
+    python3 assets-production/scripts/connect_remaining_structures.py
+    godot --headless --path apps/world --editor --import --quit
+
 # Review continuous Engineering entry and the rest of the colony.
 world-seamless:
     godot --path apps/world -- --room=repair

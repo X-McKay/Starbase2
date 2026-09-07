@@ -1,0 +1,241 @@
+{
+  "asset_id": "analysis-console",
+  "blender_version": "5.2.1 LTS",
+  "source": "meshy_output/20260907_142059_analysis-console_01a07d1a/mesh.glb",
+  "source_sha256": "186af0a8a91c622ccfc702504bc8a2153082530285c84b897dacde8976cfc0d2",
+  "task_id": "01a07d1c-38d8-712f-b7b7-30bfade171e0",
+  "consumed_credits": 30,
+  "orientation": "Preserved imported Blender Z-up; GLB exports Y-up; no axis guessing",
+  "source_object_world_matrices": {
+    "Mesh_0": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ]
+  },
+  "raw_bounds_blender_xyz": {
+    "min": [
+      -0.9501389861106873,
+      -0.2841709852218628,
+      -0.5794760584831238
+    ],
+    "max": [
+      0.948822021484375,
+      0.28660309314727783,
+      0.5779470801353455
+    ],
+    "size": [
+      1.898961067199707,
+      0.5707740783691406,
+      1.1574231386184692
+    ]
+  },
+  "fit_target_width_depth_height_m": [
+    3.6,
+    1.1,
+    2.3
+  ],
+  "applied_uniform_scale": 1.8957734638070918,
+  "source_center_floor": [
+    -0.0006584823131561279,
+    0.0012160539627075195,
+    -0.5794760584831238
+  ],
+  "applied_normalization_matrix": [
+    [
+      1.8957734107971191,
+      0.0,
+      0.0,
+      0.0012483332538977265
+    ],
+    [
+      0.0,
+      1.8957734107971191,
+      0.0,
+      -0.0023053628392517567
+    ],
+    [
+      0.0,
+      0.0,
+      1.8957734107971191,
+      1.098555326461792
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "final_bounds_blender_xyz": {
+    "min": [
+      -1.7999998331069946,
+      -0.5410292148590088,
+      0.0
+    ],
+    "max": [
+      1.7999999523162842,
+      0.541029155254364,
+      2.194211959838867
+    ],
+    "size": [
+      3.5999999046325684,
+      1.0820584297180176,
+      2.194211959838867
+    ]
+  },
+  "final_size_godot_xyz": [
+    3.5999999046325684,
+    2.194211959838867,
+    1.0820584297180176
+  ],
+  "geometry": {
+    "objects": 1,
+    "vertices": 29527,
+    "polygons": 20128,
+    "triangles": 20128
+  },
+  "materials": [
+    {
+      "name": "Material_0",
+      "use_nodes": true,
+      "principled": [
+        {
+          "Base Color": {
+            "linked": true,
+            "value": [
+              0.800000011920929,
+              0.800000011920929,
+              0.800000011920929,
+              1.0
+            ]
+          },
+          "Metallic": {
+            "linked": true,
+            "value": 0.0
+          },
+          "Roughness": {
+            "linked": true,
+            "value": 0.5
+          },
+          "Normal": {
+            "linked": true,
+            "value": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "Emission Color": {
+            "linked": true,
+            "value": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "Emission Strength": {
+            "linked": false,
+            "value": 1.0
+          },
+          "Alpha": {
+            "linked": false,
+            "value": 1.0
+          }
+        }
+      ],
+      "textures": [
+        {
+          "name": "Image_3",
+          "size": [
+            2048,
+            2048
+          ],
+          "colorspace": "sRGB",
+          "channels": 4
+        },
+        {
+          "name": "Image_0",
+          "size": [
+            2048,
+            2048
+          ],
+          "colorspace": "sRGB",
+          "channels": 4
+        },
+        {
+          "name": "Image_1",
+          "size": [
+            2048,
+            2048
+          ],
+          "colorspace": "Non-Color",
+          "channels": 4
+        },
+        {
+          "name": "Image_2",
+          "size": [
+            2048,
+            2048
+          ],
+          "colorspace": "Non-Color",
+          "channels": 4
+        }
+      ]
+    }
+  ],
+  "exported_materials": [
+    {
+      "doubleSided": true,
+      "emissiveFactor": [
+        1,
+        1,
+        1
+      ],
+      "emissiveTexture": {
+        "index": 0
+      },
+      "name": "Material_0",
+      "normalTexture": {
+        "index": 1
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 2
+        },
+        "metallicRoughnessTexture": {
+          "index": 3
+        }
+      }
+    }
+  ],
+  "exported_image_count": 4,
+  "blend": "assets-production/props/analysis-console/blender/analysis-console.blend",
+  "blend_sha256": "6a0ba14b8269719185c1c46eacb1c80488c7c5f3e5c78856a8fd5ec10ee1d6ab",
+  "runtime": "apps/world/assets/props/analysis-console/analysis-console.glb",
+  "runtime_sha256": "5b701feed7a313524f828e9bd8eae6e94037a05df3e880122380d4d27a711484",
+  "runtime_bytes": 10551492,
+  "review_status": "Prepared; requires native orientation, PBR and placement review"
+}

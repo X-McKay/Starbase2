@@ -1,0 +1,646 @@
+"/Applications/Blender.app/Contents/MacOS/Blender" --background --factory-startup --python assets-production/scripts/build_remaining_structures.py
+/Users/al/git/Starbase2/assets-production/scripts/build_remaining_structures.py:159: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  mat.use_nodes = True
+Info: Saved as "command-polished.blend"
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+15:03:27 | INFO: Starting glTF 2.0 export
+15:03:27 | INFO: Extracting primitive: Cube.354
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Extracting primitive: Text
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Extracting primitive: Cube.353
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Extracting primitive: Cube.362
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Extracting primitive: Cube.361
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Extracting primitive: Cube.360
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Extracting primitive: Cube.359
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Extracting primitive: Cube.366
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Extracting primitive: Cube.365
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Extracting primitive: Cube.364
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Extracting primitive: Cube.363
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Extracting primitive: Cube.194
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Extracting primitive: Cube.002
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Extracting primitive: Cube.001
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Extracting primitive: Cube.444
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Extracting primitive: Cylinder.004
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Extracting primitive: Text.001
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Extracting primitive: Cube.196
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Extracting primitive: Cube.199
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Extracting primitive: Cube.201
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Extracting primitive: Cube.439
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Extracting primitive: Cube.438
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Finished glTF 2.0 export in 0.03673124313354492 s
+
+15:03:27 | INFO: Starting glTF 2.0 export
+15:03:27 | INFO: Extracting primitive: Cube.379
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Extracting primitive: Cube.384
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Extracting primitive: Cube.414
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Extracting primitive: Cube.378
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Extracting primitive: Cube.376
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Extracting primitive: Cube.377
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Extracting primitive: Cube.383
+15:03:27 | INFO: Primitives created: 1
+15:03:27 | INFO: Finished glTF 2.0 export in 0.007327079772949219 s
+/Users/al/git/Starbase2/assets-production/scripts/build_remaining_structures.py:159: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  mat.use_nodes = True
+
+STRUCTURE_AUTHORED command
+Info: Saved as "training-polished.blend"
+15:03:30 | INFO: Starting glTF 2.0 export
+15:03:30 | INFO: Extracting primitive: Cube.799
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Extracting primitive: Text.002
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Extracting primitive: Cube.798
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Extracting primitive: Cube.807
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Extracting primitive: Cube.806
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Extracting primitive: Cube.805
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Extracting primitive: Cube.804
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Extracting primitive: Cube.811
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Extracting primitive: Cube.810
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Extracting primitive: Cube.809
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Extracting primitive: Cube.808
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Extracting primitive: Cube.639
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Extracting primitive: Cube.447
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Extracting primitive: Cube.446
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Extracting primitive: Cube.869
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Extracting primitive: Cylinder.015
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Extracting primitive: Text.003
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Extracting primitive: Cube.641
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Extracting primitive: Cube.644
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Extracting primitive: Cube.646
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Extracting primitive: Cube.864
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Extracting primitive: Cube.863
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Finished glTF 2.0 export in 0.03234601020812988 s
+
+15:03:30 | INFO: Starting glTF 2.0 export
+15:03:30 | INFO: Extracting primitive: Cube.824
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Extracting primitive: Cylinder.011
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Extracting primitive: Cube.829
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Extracting primitive: Cube.823
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Extracting primitive: Cube.821
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Extracting primitive: Cube.822
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Extracting primitive: Cube.828
+15:03:30 | INFO: Primitives created: 1
+15:03:30 | INFO: Finished glTF 2.0 export in 0.007098197937011719 s
+
+STRUCTURE_AUTHORED training
+Info: Saved as "habitat-polished.blend"
+15:03:34 | INFO: Starting glTF 2.0 export
+15:03:34 | INFO: Extracting primitive: Cube.1284
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Extracting primitive: Text.004
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Extracting primitive: Cube.1283
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Extracting primitive: Cube.1292
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Extracting primitive: Cube.1291
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Extracting primitive: Cube.1290
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Extracting primitive: Cube.1289
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Extracting primitive: Cube.1296
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Extracting primitive: Cube.1295
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Extracting primitive: Cube.1294
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Extracting primitive: Cube.1293
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Extracting primitive: Cube.1106
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Extracting primitive: Cube.872
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Extracting primitive: Cube.871
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Extracting primitive: Cube.1346
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Extracting primitive: Cylinder.021
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Extracting primitive: Text.005
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Extracting primitive: Cube.1108
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Extracting primitive: Cube.1111
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Extracting primitive: Cube.1113
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Extracting primitive: Cube.1341
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Extracting primitive: Cube.1340
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Finished glTF 2.0 export in 0.03554797172546387 s
+
+15:03:34 | INFO: Starting glTF 2.0 export
+15:03:34 | INFO: Extracting primitive: Cube.1309
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Extracting primitive: Cube.1314
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Extracting primitive: Cube.1333
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Extracting primitive: Cube.1308
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Extracting primitive: Cube.1306
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Extracting primitive: Cube.1307
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Extracting primitive: Cube.1313
+15:03:34 | INFO: Primitives created: 1
+15:03:34 | INFO: Finished glTF 2.0 export in 0.00763392448425293 s
+
+STRUCTURE_AUTHORED habitat
+Info: Saved as "botanical-polished.blend"
+15:03:37 | INFO: Starting glTF 2.0 export
+15:03:37 | INFO: Extracting primitive: Cube.1721
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Extracting primitive: Text.006
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Extracting primitive: Cube.1720
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Extracting primitive: Cube.1729
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Extracting primitive: Cube.1728
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Extracting primitive: Cube.1727
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Extracting primitive: Cube.1726
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Extracting primitive: Cube.1733
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Extracting primitive: Cube.1732
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Extracting primitive: Cube.1731
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Extracting primitive: Cube.1730
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Extracting primitive: Cube.1553
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Extracting primitive: Cube.1349
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Extracting primitive: Cube.1348
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Extracting primitive: Cube.1768
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Extracting primitive: Cylinder.046
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Extracting primitive: Text.007
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Extracting primitive: Cube.1555
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Extracting primitive: Cube.1558
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Extracting primitive: Cube.1560
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Extracting primitive: Cube.1763
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Extracting primitive: Cube.1762
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Finished glTF 2.0 export in 0.0343019962310791 s
+
+15:03:37 | INFO: Starting glTF 2.0 export
+15:03:37 | INFO: Extracting primitive: Cube.1746
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Extracting primitive: Cylinder.042
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Extracting primitive: Cube.1751
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Extracting primitive: Cube.1745
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Extracting primitive: Cube.1743
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Extracting primitive: Cube.1744
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Extracting primitive: Cube.1750
+15:03:37 | INFO: Primitives created: 1
+15:03:37 | INFO: Finished glTF 2.0 export in 0.007116079330444336 s
+
+STRUCTURE_AUTHORED botanical
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit
+"/Applications/Blender.app/Contents/MacOS/Blender" --background --factory-startup --python assets-production/scripts/prepare_remaining_props.py
+15:03:38 | INFO: Data are loaded, start creating Blender stuff
+15:03:38 | INFO: Blender create Mesh node 0
+15:03:38 | INFO: glTF import finished in 0.02s
+/Users/al/git/Starbase2/assets-production/scripts/prepare_remaining_props.py:66: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  entry = {"name": name, "use_nodes": material.use_nodes, "principled": [], "textures": []}
+/Users/al/git/Starbase2/assets-production/scripts/prepare_remaining_props.py:67: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  if material.use_nodes:
+Info: Saved as "mission-table.blend"
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+15:03:38 | INFO: Starting glTF 2.0 export
+15:03:38 | INFO: Extracting primitive: Mesh_0.001
+15:03:38 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+15:03:38 | INFO: Primitives created: 1
+15:03:38 | INFO: Finished glTF 2.0 export in 0.015300750732421875 s
+
+{"asset": "mission-table", "runtime": "/Users/al/git/Starbase2/apps/world/assets/props/mission-table/mission-table.glb", "scale": 1.7899324663131728, "geometry": {"objects": 1, "vertices": 20080, "polygons": 15232, "triangles": 15232}}
+15:03:38 | INFO: Data are loaded, start creating Blender stuff
+15:03:38 | INFO: Blender create Mesh node 0
+15:03:38 | INFO: glTF import finished in 0.03s
+Info: Saved as "analysis-console.blend"
+15:03:38 | INFO: Starting glTF 2.0 export
+15:03:38 | INFO: Extracting primitive: Mesh_0.001
+15:03:38 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+15:03:38 | INFO: Primitives created: 1
+15:03:38 | INFO: Finished glTF 2.0 export in 0.015744924545288086 s
+
+{"asset": "analysis-console", "runtime": "/Users/al/git/Starbase2/apps/world/assets/props/analysis-console/analysis-console.glb", "scale": 1.8957734638070918, "geometry": {"objects": 1, "vertices": 29527, "polygons": 20128, "triangles": 20128}}
+15:03:39 | INFO: Data are loaded, start creating Blender stuff
+15:03:39 | INFO: Blender create Mesh node 0
+15:03:39 | INFO: glTF import finished in 0.03s
+Info: Saved as "communications-array.blend"
+15:03:39 | INFO: Starting glTF 2.0 export
+15:03:39 | INFO: Extracting primitive: Mesh_0.001
+15:03:39 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+15:03:39 | INFO: Primitives created: 1
+15:03:39 | INFO: Finished glTF 2.0 export in 0.016088008880615234 s
+
+{"asset": "communications-array", "runtime": "/Users/al/git/Starbase2/apps/world/assets/props/communications-array/communications-array.glb", "scale": 1.4002805198924158, "geometry": {"objects": 1, "vertices": 28478, "polygons": 20051, "triangles": 20051}}
+15:03:39 | INFO: Data are loaded, start creating Blender stuff
+15:03:39 | INFO: Blender create Mesh node 0
+15:03:39 | INFO: glTF import finished in 0.03s
+Info: Saved as "simulation-station.blend"
+15:03:39 | INFO: Starting glTF 2.0 export
+15:03:39 | INFO: Extracting primitive: Mesh_0.001
+15:03:39 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+15:03:39 | INFO: Primitives created: 1
+15:03:39 | INFO: Finished glTF 2.0 export in 0.016381025314331055 s
+
+{"asset": "simulation-station", "runtime": "/Users/al/git/Starbase2/apps/world/assets/props/simulation-station/simulation-station.glb", "scale": 1.158151329440476, "geometry": {"objects": 1, "vertices": 30522, "polygons": 20155, "triangles": 20155}}
+15:03:39 | INFO: Data are loaded, start creating Blender stuff
+15:03:39 | INFO: Blender create Mesh node 0
+15:03:39 | INFO: glTF import finished in 0.02s
+Info: Saved as "frontier-galley.blend"
+15:03:39 | INFO: Starting glTF 2.0 export
+15:03:39 | INFO: Extracting primitive: Mesh_0.001
+15:03:39 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+15:03:39 | INFO: Primitives created: 1
+15:03:40 | INFO: Finished glTF 2.0 export in 0.014494895935058594 s
+
+{"asset": "frontier-galley", "runtime": "/Users/al/git/Starbase2/apps/world/assets/props/frontier-galley/frontier-galley.glb", "scale": 1.0264462989415235, "geometry": {"objects": 1, "vertices": 21638, "polygons": 16078, "triangles": 16078}}
+15:03:40 | INFO: Data are loaded, start creating Blender stuff
+15:03:40 | INFO: Blender create Mesh node 0
+15:03:40 | INFO: glTF import finished in 0.04s
+Info: Saved as "hydroponic-rack.blend"
+15:03:40 | INFO: Starting glTF 2.0 export
+15:03:40 | INFO: Extracting primitive: Mesh_0.001
+15:03:40 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+15:03:40 | INFO: Primitives created: 1
+15:03:40 | INFO: Finished glTF 2.0 export in 0.016261816024780273 s
+
+{"asset": "hydroponic-rack", "runtime": "/Users/al/git/Starbase2/apps/world/assets/props/hydroponic-rack/hydroponic-rack.glb", "scale": 1.1583109578658337, "geometry": {"objects": 1, "vertices": 39008, "polygons": 18649, "triangles": 18649}}
+15:03:40 | INFO: Data are loaded, start creating Blender stuff
+15:03:40 | INFO: Blender create Mesh node 0
+15:03:40 | INFO: glTF import finished in 0.03s
+Info: Saved as "sleep-capsule.blend"
+15:03:40 | INFO: Starting glTF 2.0 export
+15:03:40 | INFO: Extracting primitive: Mesh_0.001
+15:03:40 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+15:03:40 | INFO: Primitives created: 1
+15:03:40 | INFO: Finished glTF 2.0 export in 0.015841007232666016 s
+
+{"asset": "sleep-capsule", "runtime": "/Users/al/git/Starbase2/apps/world/assets/props/sleep-capsule/sleep-capsule.glb", "scale": 1.0531314517359152, "geometry": {"objects": 1, "vertices": 29609, "polygons": 20108, "triangles": 20108}}
+15:03:40 | INFO: Data are loaded, start creating Blender stuff
+15:03:40 | INFO: Blender create Mesh node 0
+15:03:40 | INFO: glTF import finished in 0.03s
+Info: Saved as "resistance-bench.blend"
+15:03:41 | INFO: Starting glTF 2.0 export
+15:03:41 | INFO: Extracting primitive: Mesh_0.001
+15:03:41 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+15:03:41 | INFO: Primitives created: 1
+15:03:41 | INFO: Finished glTF 2.0 export in 0.01614999771118164 s
+
+{"asset": "resistance-bench", "runtime": "/Users/al/git/Starbase2/apps/world/assets/props/resistance-bench/resistance-bench.glb", "scale": 0.9300197897592153, "geometry": {"objects": 1, "vertices": 32786, "polygons": 20368, "triangles": 20368}}
+15:03:41 | INFO: Data are loaded, start creating Blender stuff
+15:03:41 | INFO: Blender create Mesh node 0
+15:03:41 | INFO: glTF import finished in 0.03s
+Info: Saved as "botany-lab-bench.blend"
+15:03:41 | INFO: Starting glTF 2.0 export
+15:03:41 | INFO: Extracting primitive: Mesh_0.001
+15:03:41 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+15:03:41 | INFO: Primitives created: 1
+15:03:41 | INFO: Finished glTF 2.0 export in 0.01708507537841797 s
+
+{"asset": "botany-lab-bench", "runtime": "/Users/al/git/Starbase2/apps/world/assets/props/botany-lab-bench/botany-lab-bench.glb", "scale": 1.2345855120545368, "geometry": {"objects": 1, "vertices": 32461, "polygons": 20474, "triangles": 20474}}
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit
+for asset in command training habitat botanical; do "/Applications/Blender.app/Contents/MacOS/Blender" --background --factory-startup --python assets-production/scripts/prepare_remaining_hulls.py -- --asset "$asset"; done
+15:03:42 | INFO: Data are loaded, start creating Blender stuff
+15:03:42 | INFO: Blender create Mesh node 0
+15:03:42 | INFO: glTF import finished in 0.08s
+Info: Saved as "command-hull.blend"
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+15:03:42 | INFO: Starting glTF 2.0 export
+15:03:42 | INFO: Extracting primitive: Mesh_0
+15:03:42 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+15:03:42 | INFO: Primitives created: 1
+15:03:42 | INFO: Finished glTF 2.0 export in 0.23032069206237793 s
+
+HULL_PREPARED command removed_faces 1386
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit
+15:03:43 | INFO: Data are loaded, start creating Blender stuff
+15:03:43 | INFO: Blender create Mesh node 0
+15:03:43 | INFO: glTF import finished in 0.09s
+Info: Saved as "training-hull.blend"
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+15:03:44 | INFO: Starting glTF 2.0 export
+15:03:44 | INFO: Extracting primitive: Mesh_0
+15:03:44 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+15:03:44 | INFO: Primitives created: 1
+15:03:44 | INFO: Finished glTF 2.0 export in 0.20168185234069824 s
+
+HULL_PREPARED training removed_faces 1131
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit
+15:03:45 | INFO: Data are loaded, start creating Blender stuff
+15:03:45 | INFO: Blender create Mesh node 0
+15:03:45 | INFO: glTF import finished in 0.08s
+Info: Saved as "habitat-hull.blend"
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+15:03:45 | INFO: Starting glTF 2.0 export
+15:03:45 | INFO: Extracting primitive: Mesh_0
+15:03:45 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+15:03:45 | INFO: Primitives created: 1
+15:03:45 | INFO: Finished glTF 2.0 export in 0.21687102317810059 s
+
+HULL_PREPARED habitat removed_faces 70
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit
+15:03:46 | INFO: Data are loaded, start creating Blender stuff
+15:03:46 | INFO: Blender create Mesh node 0
+15:03:46 | INFO: glTF import finished in 0.09s
+Info: Saved as "botanical-hull.blend"
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+15:03:47 | INFO: Starting glTF 2.0 export
+15:03:47 | INFO: Extracting primitive: Mesh_0
+15:03:47 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+15:03:47 | INFO: Primitives created: 1
+15:03:47 | INFO: Finished glTF 2.0 export in 0.22156977653503418 s
+
+HULL_PREPARED botanical removed_faces 118
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit
+python3 assets-production/scripts/connect_remaining_structures.py
+STRUCTURES_CONNECTED command, training, habitat, botanical
+godot --headless --path apps/world --editor --import --quit
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Scanning file structure...[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Loading global class names...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifying GDExtensions...[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Creating autoload scripts...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Initializing plugins...[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Starting file scan...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | Started Registering global classes... (2 steps)[39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  33% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[92m[ DONE ][39m [1mupdate_scripts_classes[22m
+[0m
+[   0% ] [90m[1m_update_scan_actions[22m | Started Scanning actions... (21 steps)[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | analysis-console.glb[39m[0m
+[   4% ] [90m[1m_update_scan_actions[22m | botany-lab-bench.glb[39m[0m
+[   9% ] [90m[1m_update_scan_actions[22m | communications-array.glb[39m[0m
+[  13% ] [90m[1m_update_scan_actions[22m | frontier-galley.glb[39m[0m
+[  18% ] [90m[1m_update_scan_actions[22m | hydroponic-rack.glb[39m[0m
+[  22% ] [90m[1m_update_scan_actions[22m | mission-table.glb[39m[0m
+[  27% ] [90m[1m_update_scan_actions[22m | resistance-bench.glb[39m[0m
+[  31% ] [90m[1m_update_scan_actions[22m | simulation-station.glb[39m[0m
+[  36% ] [90m[1m_update_scan_actions[22m | sleep-capsule.glb[39m[0m
+[  40% ] [90m[1m_update_scan_actions[22m | greenhouse-interior.glb[39m[0m
+[  45% ] [90m[1m_update_scan_actions[22m | greenhouse-shell.glb[39m[0m
+[  50% ] [90m[1m_update_scan_actions[22m | hull.glb[39m[0m
+[  54% ] [90m[1m_update_scan_actions[22m | hull.glb[39m[0m
+[  59% ] [90m[1m_update_scan_actions[22m | review-interior.glb[39m[0m
+[  63% ] [90m[1m_update_scan_actions[22m | review-shell.glb[39m[0m
+[  68% ] [90m[1m_update_scan_actions[22m | habitat-interior.glb[39m[0m
+[  72% ] [90m[1m_update_scan_actions[22m | habitat-shell.glb[39m[0m
+[  77% ] [90m[1m_update_scan_actions[22m | hull.glb[39m[0m
+[  81% ] [90m[1m_update_scan_actions[22m | gym-interior.glb[39m[0m
+[  86% ] [90m[1m_update_scan_actions[22m | gym-shell.glb[39m[0m
+[  90% ] [90m[1m_update_scan_actions[22m | hull.glb[39m[0m
+[92m[ DONE ][39m [1m_update_scan_actions[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (17 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   5% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  11% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  16% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  22% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  27% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  33% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  38% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  44% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  50% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  55% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  61% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  66% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  72% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  77% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  83% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  88% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing pre-reimport operations...[39m[0m
+[   0% ] [90m[1mpreload_reimporting_scene[22m | Started Preparing scenes for reload (1 steps)[39m[0m
+[   0% ] [90m[1mpreload_reimporting_scene[22m | Analyzing scene [empty][39m[0m
+[  50% ] [90m[1mpreload_reimporting_scene[22m | Preparation done.[39m[0m
+[92m[ DONE ][39m [1mpreload_reimporting_scene[22m
+[0m
+[   0% ] [90m[1mreimport[22m | hull.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[   5% ] [90m[1mreimport[22m | gym-shell.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  11% ] [90m[1mreimport[22m | gym-interior.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  16% ] [90m[1mreimport[22m | hull.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  22% ] [90m[1mreimport[22m | habitat-shell.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  27% ] [90m[1mreimport[22m | habitat-interior.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  33% ] [90m[1mreimport[22m | review-shell.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  38% ] [90m[1mreimport[22m | review-interior.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  44% ] [90m[1mreimport[22m | hull.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  50% ] [90m[1mreimport[22m | greenhouse-shell.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  55% ] [90m[1mreimport[22m | greenhouse-interior.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  61% ] [90m[1mreimport[22m | sleep-capsule.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  66% ] [90m[1mreimport[22m | simulation-station.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  72% ] [90m[1mreimport[22m | resistance-bench.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  77% ] [90m[1mreimport[22m | hydroponic-rack.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  83% ] [90m[1mreimport[22m | frontier-galley.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  88% ] [90m[1mreimport[22m | botany-lab-bench.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  94% ] [90m[1mreimport[22m | Finalizing Asset Import...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (17 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing post-reimport operations...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Loading editor (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Loading editor layout...[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Loading docks...[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m

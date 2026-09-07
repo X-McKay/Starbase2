@@ -99,7 +99,10 @@ func _ready() -> void:
 		if arg == "--large-text": large_on_start = true
 		if arg == "--reduced-motion": reduced_on_start = true
 		if arg == "--directory": directory_on_start = true
-	if "--verify-package" in OS.get_cmdline_user_args() and fixture_path.is_empty():
+	var package_capture_directory := ""
+	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--capture-package="): package_capture_directory=arg.trim_prefix("--capture-package=")
+	if ("--verify-package" in OS.get_cmdline_user_args() or not package_capture_directory.is_empty()) and fixture_path.is_empty():
 		push_error("Package verification requires an offline fixture")
 		# These nodes are normally parented later in _ready; release on refusal.
 		http.free(); camera.free()
@@ -144,9 +147,9 @@ func _ready() -> void:
 	marker = Art.cylinder(self,Vector3(0,0.07,0),0.24,0.025,"f5d295")
 	marker.hide()
 	# Cosmetic cabinet slots light only from the core's retained achievement list.
-	Art.box(self,Vector3(-4.3,0.65,-1.1),Vector3(0.9,1.3,0.45),"3a5263")
+	Art.box(self,Vector3(-11,0.65,3),Vector3(0.9,1.3,0.45),"3a5263")
 	for i in range(2):
-		var trophy := Art.cylinder(self,Vector3(-4.5+i*0.4,1.40,-1.1),0.12,0.24,"eac58d")
+		var trophy := Art.cylinder(self,Vector3(-11.2+i*0.4,1.40,3),0.12,0.24,"eac58d")
 		trophy.hide()
 		trophies.append(trophy)
 	foley=preload("res://footfall.gd").new(); foley.actor=$Operator; add_child(foley)
@@ -222,6 +225,12 @@ func _ready() -> void:
 	show_mission()
 	if "--verify-package" in OS.get_cmdline_user_args():
 		call_deferred("_verify_package")
+	elif not package_capture_directory.is_empty():
+		call_deferred("_capture_package",package_capture_directory)
+
+func _capture_package(directory:String) -> void:
+	var capture=load("res://package_capture.gd").new()
+	await capture.run(get_tree(),self,directory)
 
 func _verify_package() -> void:
 	var check=load("res://package_check.gd").new()

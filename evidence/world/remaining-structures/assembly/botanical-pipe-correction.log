@@ -1,0 +1,124 @@
+/Users/al/git/Starbase2/assets-production/scripts/build_remaining_structures.py:159: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  mat.use_nodes = True
+Info: Saved as "botanical-polished.blend"
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+15:16:32 | INFO: Starting glTF 2.0 export
+15:16:32 | INFO: Extracting primitive: Cube.374
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Extracting primitive: Text
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Extracting primitive: Cube.373
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Extracting primitive: Cube.382
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Extracting primitive: Cube.381
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Extracting primitive: Cube.380
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Extracting primitive: Cube.379
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Extracting primitive: Cube.386
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Extracting primitive: Cube.385
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Extracting primitive: Cube.384
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Extracting primitive: Cube.383
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Extracting primitive: Cube.206
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Extracting primitive: Cube.002
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Extracting primitive: Cube.001
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Extracting primitive: Cube.421
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Extracting primitive: Cylinder.024
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Extracting primitive: Text.001
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Extracting primitive: Cube.208
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Extracting primitive: Cube.211
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Extracting primitive: Cube.213
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Extracting primitive: Cube.416
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Extracting primitive: Cube.415
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Finished glTF 2.0 export in 0.03871321678161621 s
+
+15:16:32 | INFO: Starting glTF 2.0 export
+15:16:32 | INFO: Extracting primitive: Cube.399
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Extracting primitive: Cylinder.019
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Extracting primitive: Cube.404
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Extracting primitive: Cube.398
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Extracting primitive: Cube.396
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Extracting primitive: Cube.397
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Extracting primitive: Cube.403
+15:16:32 | INFO: Primitives created: 1
+15:16:32 | INFO: Finished glTF 2.0 export in 0.006485939025878906 s
+
+STRUCTURE_AUTHORED botanical
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Scanning file structure...[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Loading global class names...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifying GDExtensions...[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Creating autoload scripts...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Initializing plugins...[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Starting file scan...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1m_update_scan_actions[22m | Started Scanning actions... (2 steps)[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | greenhouse-interior.glb[39m[0m
+[  33% ] [90m[1m_update_scan_actions[22m | greenhouse-shell.glb[39m[0m
+[92m[ DONE ][39m [1m_update_scan_actions[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (2 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  33% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing pre-reimport operations...[39m[0m
+[   0% ] [90m[1mpreload_reimporting_scene[22m | Started Preparing scenes for reload (1 steps)[39m[0m
+[   0% ] [90m[1mpreload_reimporting_scene[22m | Analyzing scene [empty][39m[0m
+[  50% ] [90m[1mpreload_reimporting_scene[22m | Preparation done.[39m[0m
+[92m[ DONE ][39m [1mpreload_reimporting_scene[22m
+[0m
+[   0% ] [90m[1mreimport[22m | greenhouse-interior.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  33% ] [90m[1mreimport[22m | greenhouse-shell.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Import Scene (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importing Scene...[39m[0m
+[   1% ] [90m[1mimport[22m | Running Custom Script...[39m[0m
+[  99% ] [90m[1mimport[22m | Saving...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  66% ] [90m[1mreimport[22m | Finalizing Asset Import...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (2 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing post-reimport operations...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Loading editor (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Loading editor layout...[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Loading docks...[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m

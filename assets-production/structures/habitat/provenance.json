@@ -1,0 +1,48 @@
+{
+  "asset_id": "habitat",
+  "room_id": "habitat",
+  "blender_version": "5.2.1 LTS",
+  "units": "metres; Godot Y-up exported from Blender Z-up",
+  "footprint": [
+    -9.0,
+    -11.45,
+    18.0,
+    13.0
+  ],
+  "palette": [
+    0.85,
+    0.4,
+    0.12
+  ],
+  "source_kind": "authored architecture; generated equipment remains separate props",
+  "files": {
+    "assets-production/structures/habitat/blender/habitat-polished.blend": {
+      "sha256": "bf9db6da66eaa6d4db69c5aa2625a51a8f02714433429449abea8d964878940c",
+      "bytes": 389288
+    },
+    "apps/world/assets/structures/habitat/habitat-shell.glb": {
+      "sha256": "392f06a5cecdf55dba8c3666b1b3f005690986ee1ceae81f95cf25acd6257d51",
+      "bytes": 4404260
+    },
+    "apps/world/assets/structures/habitat/habitat-interior.glb": {
+      "sha256": "78fa0ddfbd724fb5bfb7efe252c6e2d7675df9d065a9fc87ccc3ef6f733fd83c",
+      "bytes": 204932
+    },
+    "assets-production/scripts/build_remaining_structures.py": {
+      "sha256": "852aaf360ae6081ec96be5f0f3bcbf5da906091bac0e2417b5bce11318ddba13",
+      "bytes": 20538
+    }
+  },
+  "semantic_groups": [
+    "CutawayEntrance",
+    "DoorLeft",
+    "DoorRight",
+    "Floor",
+    "Furniture",
+    "InteriorRevealBack",
+    "InteriorRevealRail"
+  ],
+  "mesh_objects": 29,
+  "triangles": 62216,
+  "review_status": "Requires native and package qualification; owner art judgment separate"
+}
