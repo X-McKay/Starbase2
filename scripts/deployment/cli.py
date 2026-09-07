@@ -379,25 +379,33 @@ def purge_kubernetes(c: dict) -> None:
             # ReplicaSets/Pods inherit installation labels from the deployment.
             if meta.get("labels", {}).get(render.LABEL) != c["installation"]:
                 raise ValueError(f"Unowned {kind}/{meta['name']} remains; namespace not deleted")
-    policy = c["installation"] + "-postgres"
-    existing = kubectl(
-        c,
-        "get",
-        "networkpolicy",
-        policy,
-        "-n",
-        c["postgres_namespace"],
-        "--ignore-not-found",
-        "-o",
-        "json",
-    )
-    if existing:
-        if (
-            json.loads(existing)["metadata"].get("labels", {}).get(render.LABEL)
-            != c["installation"]
-        ):
-            raise ValueError("Platform access policy is unowned")
-        kubectl(c, "delete", "networkpolicy", policy, "-n", c["postgres_namespace"])
+    owned_policies = []
+    for suffix, namespace in (
+        ("postgres", c["postgres_namespace"]),
+        ("temporal", c["temporal_kubernetes_namespace"]),
+    ):
+        policy = c["installation"] + "-" + suffix
+        existing = kubectl(
+            c,
+            "get",
+            "networkpolicy",
+            policy,
+            "-n",
+            namespace,
+            "--ignore-not-found",
+            "-o",
+            "json",
+        )
+        if existing:
+            if (
+                json.loads(existing)["metadata"].get("labels", {}).get(render.LABEL)
+                != c["installation"]
+            ):
+                raise ValueError("Platform access policy is unowned")
+            owned_policies.append((policy, namespace))
+    # Check both dependency policies before deleting either of them.
+    for policy, namespace in owned_policies:
+        kubectl(c, "delete", "networkpolicy", policy, "-n", namespace)
     kubectl(c, "delete", "namespace", c["namespace"], "--wait=false")
     print("Namespace deletion requested; PostgreSQL and Temporal require separate purge commands")
 

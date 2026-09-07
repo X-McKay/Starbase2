@@ -66,7 +66,7 @@ def load(path: Path) -> dict:
 
 def objects(c: dict) -> list[dict]:
     ns = c["namespace"]
-    labels = {LABEL: c["installation"]}
+    labels = {LABEL: c["installation"], "app.kubernetes.io/name": "starbase2"}
 
     def obj(kind, name, spec=None, api="v1", namespace=True, **extra):
         value = {
@@ -272,6 +272,36 @@ def objects(c: dict) -> list[dict]:
     )
     database_access["metadata"]["namespace"] = c["postgres_namespace"]
     result.append(database_access)
+    temporal_access = obj(
+        "NetworkPolicy",
+        c["installation"] + "-temporal",
+        {
+            "podSelector": {
+                "matchLabels": {
+                    "app.kubernetes.io/name": "temporal",
+                    "app.kubernetes.io/instance": "temporal",
+                    "app.kubernetes.io/component": "frontend",
+                }
+            },
+            "policyTypes": ["Ingress"],
+            "ingress": [
+                {
+                    "from": [
+                        {
+                            "namespaceSelector": {
+                                "matchLabels": {"kubernetes.io/metadata.name": ns}
+                            },
+                            "podSelector": {"matchLabels": labels},
+                        }
+                    ],
+                    "ports": [{"protocol": "TCP", "port": 7233}],
+                }
+            ],
+        },
+        "networking.k8s.io/v1",
+    )
+    temporal_access["metadata"]["namespace"] = c["temporal_kubernetes_namespace"]
+    result.append(temporal_access)
     # The one-shot migrator is deliberately outside the Flux application bundle.
     # It requires a separately supplied owner credential and cannot overlap a running core.
     migration = obj(

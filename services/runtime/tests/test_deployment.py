@@ -72,7 +72,8 @@ def test_render_reproducible_private_and_separated_credentials(config, tmp_path)
     assert "migration.json" not in (tmp_path / "kustomization.yaml").read_text()
     db_access = next(o for o in items if o["metadata"].get("namespace") == "database")
     assert db_access["spec"]["ingress"][0]["from"][0]["podSelector"]["matchLabels"] == {
-        render.LABEL: config["installation"]
+        render.LABEL: config["installation"],
+        "app.kubernetes.io/name": "starbase2",
     }
     (tmp_path / "application.json").write_text("tampered")
     with pytest.raises(ValueError, match="edited"):
@@ -332,3 +333,77 @@ def test_image_driver_does_not_forward_ambient_secrets_or_worker_db(tmp_path, mo
     assert "STARBASE_API_KEY" not in content
     assert "STARBASE_REPAIRS_ENABLED=false" in content
     assert sum(arg == "--secret" for arg in command) == 1
+
+
+def test_temporal_frontend_ingress_is_scoped_to_this_installation(config):
+    policies = [
+        o
+        for o in render.objects(config)
+        if o["kind"] == "NetworkPolicy"
+        and o["metadata"].get("namespace") == config["temporal_kubernetes_namespace"]
+    ]
+    assert len(policies) == 1, "The worker needs explicit ingress through Temporal default deny"
+    spec = policies[0]["spec"]
+    assert spec["podSelector"]["matchLabels"] == {
+        "app.kubernetes.io/name": "temporal",
+        "app.kubernetes.io/instance": "temporal",
+        "app.kubernetes.io/component": "frontend",
+    }
+    assert spec["ingress"] == [
+        {
+            "from": [
+                {
+                    "namespaceSelector": {
+                        "matchLabels": {"kubernetes.io/metadata.name": config["namespace"]}
+                    },
+                    "podSelector": {
+                        "matchLabels": {
+                            render.LABEL: config["installation"],
+                            "app.kubernetes.io/name": "starbase2",
+                        }
+                    },
+                }
+            ],
+            "ports": [{"protocol": "TCP", "port": 7233}],
+        }
+    ]
+
+
+@pytest.mark.parametrize("foreign", [False, True])
+def test_teardown_prechecks_and_removes_both_dependency_policies(config, monkeypatch, foreign):
+    calls = []
+
+    def fake(c, *args, **kwargs):
+        calls.append(args)
+        if args[0] == "api-resources":
+            return ""
+        if args[0] == "get":
+            owner = "other" if foreign and args[2].endswith("-temporal") else c["installation"]
+            return json.dumps({"metadata": {"labels": {render.LABEL: owner}}})
+        return ""
+
+    monkeypatch.setattr(cli, "kubectl", fake)
+    if foreign:
+        with pytest.raises(ValueError, match="unowned"):
+            cli.purge_kubernetes(config)
+        assert not any(c[0] == "delete" for c in calls)
+    else:
+        cli.purge_kubernetes(config)
+        deletes = [c for c in calls if c[0] == "delete"]
+        assert deletes == [
+            (
+                "delete",
+                "networkpolicy",
+                config["installation"] + "-postgres",
+                "-n",
+                config["postgres_namespace"],
+            ),
+            (
+                "delete",
+                "networkpolicy",
+                config["installation"] + "-temporal",
+                "-n",
+                config["temporal_kubernetes_namespace"],
+            ),
+            ("delete", "namespace", config["namespace"], "--wait=false"),
+        ]

@@ -354,7 +354,7 @@ checks exact ownership, retention, zero running histories and a checksum-verifie
 history export before requesting permanent namespace deletion. Its service may
 finish deletion asynchronously. Kubernetes purge inventories discoverable
 namespaced objects and refuses unowned resources, removes only the owned
-cross-namespace DB policy, then requests namespace deletion. Run it **last**;
+cross-namespace PostgreSQL and Temporal policies, then requests namespace deletion. Run it **last**;
 the earlier purge commands need the namespace ownership marker. API errors and
 stuck finalizers require inspection, not force deletion. Remove the detached
 Kubani reference and any encrypted credentials through its reviewed GitOps
@@ -466,3 +466,28 @@ Production images exclude development-only dependencies and include contract
 schemas; image construction now verifies worker import. Core handles SIGTERM
 and SIGINT with graceful HTTP shutdown. The test-only loopback relay models
 port-forward access; it is not part of the production deployment.
+
+## Live Kubani preflight · 2026-09-06
+
+The [preflight record](../evidence/kubani-preflight/README.md) verifies the live
+cluster and current Kubani main branch without activation. PostgreSQL and Temporal
+are healthy, the new database/roles/namespace are absent, SOPS access works, and
+the required Kubernetes operator permissions are available.
+
+The generated bundle now includes **both** database-side and Temporal-side
+installation-scoped ingress allowances. Temporal's default-deny policy otherwise
+blocks the new worker even when its own egress is allowed. Both rules passed
+server-side dry-run. Permanent purge prechecks ownership of both rules before
+removing either. Ordinary teardown continues to retain them.
+
+Placement remains an explicit gate: the only current arm64 node is tainted
+`nvidia.com/gpu=true:NoSchedule`. The arm64 selector alone does not qualify
+scheduling. Choose qualified amd64 images on general nodes or explicitly approve
+an arm64 scheduling exception; do not silently tolerate reserved-node taints.
+Registry authentication works and image publication is authorized. The first
+upload failed because the registry's non-root process cannot write its existing
+root-owned storage directories; no release manifest was published. A scoped
+ownership repair is prepared in [Kubani PR #127](https://github.com/X-McKay/kubani/pull/127)
+and awaits approval to modify shared storage. The platform backup production
+boundary also remains unresolved. Kubani preparation is inactive and all further
+deployment changes belong in that same draft PR.

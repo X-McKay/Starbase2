@@ -1,0 +1,18 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________ test_temporal_frontend_ingress_is_scoped_to_this_installation _________
+
+config = {'installation': 'starbase2-prod', 'context': 'test-kubani', 'namespace': 'starbase2-prod', 'database': 'starbase2_prod', ...}
+
+    def test_temporal_frontend_ingress_is_scoped_to_this_installation(config):
+        policies = [o for o in render.objects(config) if o['kind'] == 'NetworkPolicy'
+                    and o['metadata'].get('namespace') == config['temporal_kubernetes_namespace']]
+>       assert len(policies) == 1, 'The worker needs explicit ingress through Temporal default deny'
+E       AssertionError: The worker needs explicit ingress through Temporal default deny
+E       assert 0 == 1
+E        +  where 0 = len([])
+
+services/runtime/tests/test_deployment.py:340: AssertionError
+=========================== short test summary info ============================
+FAILED services/runtime/tests/test_deployment.py::test_temporal_frontend_ingress_is_scoped_to_this_installation
+1 failed, 26 deselected in 0.39s

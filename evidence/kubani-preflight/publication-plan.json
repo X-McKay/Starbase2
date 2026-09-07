@@ -1,0 +1,29 @@
+{
+  "status": "authorized_blocked_by_registry_storage_permissions",
+  "registry": "registry.almckay.io",
+  "source_revision": "e7a51acf4c4d465287b913379876d7beda7f0d3c",
+  "platform": "linux/arm64",
+  "payload": "Qualified Starbase2 application source, fixtures and runtime dependencies; no production credentials",
+  "images": [
+    {
+      "component": "core",
+      "local_image_id": "sha256:665baa0154e416573c07f3d3e12c956494fdec19543a46c6c5ac8b7417ab02e6",
+      "destination": "registry.almckay.io/starbase2/core:e7a51acf4c4d465287b913379876d7beda7f0d3c-arm64"
+    },
+    {
+      "component": "runtime",
+      "local_image_id": "sha256:65833c328b634e384336e834f969e15a36f989d967ef58f313c8b1027c9d241b",
+      "destination": "registry.almckay.io/starbase2/runtime:e7a51acf4c4d465287b913379876d7beda7f0d3c-arm64"
+    }
+  ],
+  "verification": "Record pushed manifest digests, fetch by digest and verify image configuration identities against qualified images",
+  "cluster_mutation": false,
+  "authorization": "User explicitly authorized image publication in the current conversation.",
+  "attempt": {
+    "component": "core",
+    "result": "HTTP 500 during blob upload initialization",
+    "registry_error": "filesystem: mkdir /var/lib/registry/docker/registry/v2/repositories/starbase2: permission denied",
+    "manifest_after_attempt": "absent",
+    "runtime_attempted": false
+  }
+}
