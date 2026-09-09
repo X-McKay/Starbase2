@@ -142,11 +142,28 @@ socketserver.ThreadingTCPServer(('0.0.0.0', 18887), Forward).serve_forever()
             "/var/lib/postgresql",
             self.data["postgres"],
         )
-        deadline = time.monotonic() + 30
+        self.wait_for_database()
+
+    def ready_command(self) -> list[str]:
+        # The official image serves a temporary socket-only server during initdb and
+        # stops it before the final server starts; only the final server listens on TCP.
+        return [
+            self.engine,
+            "exec",
+            self.database,
+            "pg_isready",
+            "-h",
+            "127.0.0.1",
+            "-p",
+            "5432",
+            "-U",
+            "postgres",
+        ]
+
+    def wait_for_database(self) -> None:
+        deadline = time.monotonic() + 60
         while time.monotonic() < deadline:
-            result = subprocess.run(
-                [self.engine, "exec", self.database, "pg_isready"], capture_output=True, timeout=5
-            )
+            result = subprocess.run(self.ready_command(), capture_output=True, timeout=5)
             if result.returncode == 0:
                 return
             time.sleep(0.2)

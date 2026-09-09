@@ -36,3 +36,21 @@ def test_qualification_probes_are_retained():
     data = json.loads(evidence.read_text())
     assert set(data) == {"isolation", "memory", "disk", "timeout", "background", "cancellation"}
     assert all(v["passed"] for v in data.values())
+
+
+def test_sandbox_image_is_pinned_per_architecture():
+    import platform
+    import re
+
+    from starbase_runtime.sandbox import IMAGE, IMAGES, image_for
+
+    # One immutable manifest digest per supported CPU architecture; an index digest
+    # would let the runtime silently resolve a different image per host.
+    assert set(IMAGES) == {"aarch64", "x86_64"}
+    assert all(re.fullmatch(r"python@sha256:[0-9a-f]{64}", value) for value in IMAGES.values())
+    assert len(set(IMAGES.values())) == 2
+    assert image_for("arm64") == image_for("aarch64") == IMAGES["aarch64"]
+    assert image_for("x86_64") == image_for("amd64") == IMAGES["x86_64"]
+    with pytest.raises(RuntimeError, match="architecture"):
+        image_for("riscv64")
+    assert POLICY["image"] == IMAGE == image_for(platform.machine())

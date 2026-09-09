@@ -1,0 +1,2 @@
+.venv/bin/python scripts/memory_check.py
+['Graphiti episode survives FalkorDB server restart', 'Tampered graph content rejected; no silent overwrite', 'Cross-agent memory rejected']

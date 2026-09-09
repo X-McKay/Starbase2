@@ -11,6 +11,7 @@ cosmetic progression. Kubernetes deployment is deferred by owner instruction.
 Use the existing bootstrap and dev commands. Install **microsandbox 0.6.14** from
 its [upstream release](https://github.com/superradcompany/microsandbox/releases/tag/v0.6.14)
 if absent; Starbase does not run an installer or change your global sandbox setup.
+The pinned guest image is a per-architecture manifest digest (arm64 and x86_64).
 Then:
 
 ```sh

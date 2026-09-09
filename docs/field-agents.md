@@ -130,21 +130,23 @@ credentials, execution or inference. It found no configured-rule warnings; that
 is not a correctness or security certification of the PR. These are functional checks, not a comparative quality
 benchmark or production readiness claim.
 
-Linux qualification is not yet established: the available Linux host has KVM and
-the pinned microsandbox archive checksum passed, but transferring the private
-adapter/probes requires the pending explicit authorization. A Docker Hub pull on
-that host also failed a TLS hostname check; verification was not disabled.
+Linux host qualification was recorded on 2026-09-07: the x86_64 host with KVM
+passed the same six probes and both crash probes (process-group loss 0.31 s,
+coordinator-only loss 12.3 s) under [the Linux-host evidence](../evidence/sandbox-qualification/linux),
+after the sandbox image pin was corrected to the x86_64 manifest digest; the
+first run's `Exec format error` is retained in [the onboarding record](../evidence/linux-onboarding/README.md).
+This qualifies that host and image, not Kubernetes.
 The qualification probes use a real host-only canary on either OS. All six local
 Linux-guest probes passed on this Mac: file/credential/network isolation,
 memory/file limits, timeout, background cleanup and cancellation. Crash probes
 confirmed termination after process-group loss and after coordinator-only loss
 (10.533 seconds in this run). Results are under
 [the Darwin-host evidence](../evidence/sandbox-qualification/darwin). This verifies
-the local Linux guest boundary, not the still-unqualified Linux host.
+the local Linux guest boundary on that Mac.
 
 Before activation, the runtime owner must qualify real selected provider targets,
-restricted credentials, outages and overnight duty behavior; qualify Linux
-sandbox execution and cleanup on the intended host/image; and prepare a Kubani
+restricted credentials, outages and overnight duty behavior; qualify sandbox
+execution and cleanup on the intended deployment host/image; and prepare a Kubani
 FalkorDB/identity/network-policy overlay. The generated deployment still disables
 field/memory features and sandbox repairs. Before claiming improved agent quality,
 the evaluation owner must compare approved-memory and memory-off builds on paired,

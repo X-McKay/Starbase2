@@ -1,0 +1,204 @@
+{
+  "scope": "First run of the existing local stack on a clean x86_64 Linux host; no new product behavior; then the optional subsystems (FalkorDB memory, microsandbox, PostgreSQL rehearsal, explicit model pilots)",
+  "date": "2026-09-07",
+  "host": {
+    "os": "Ubuntu (Linux 6.14.0-37-generic)",
+    "arch": "x86_64",
+    "logical_cpus": 32,
+    "memory_gib": 59,
+    "display": "X11",
+    "note": "This host is also Kubani node rig0; every listener stayed on loopback"
+  },
+  "toolchain": {
+    "python": "3.12.13",
+    "rust": "1.97.1",
+    "uv": "0.12.7",
+    "just": "1.58.0",
+    "godot": "4.7.2",
+    "git-lfs": "3.8.0",
+    "temporal_cli": "1.8.3 linux_amd64",
+    "podman": "4.9.3",
+    "microsandbox": "0.6.14",
+    "ollama_model": "qwen2.5-coder:7b"
+  },
+  "steps": [
+    {
+      "command": "mise install",
+      "exit_code": 0,
+      "attempts": 7,
+      "note": "systemd-resolved stub failed ~2 of 5 lookups; upstream resolvers answered; rustup resumed partial downloads"
+    },
+    {
+      "command": "just doctor",
+      "exit_code": 0
+    },
+    {
+      "command": "just bootstrap",
+      "exit_code": 0,
+      "seconds": 114,
+      "attempts": 1
+    },
+    {
+      "command": "just check",
+      "exit_code": 0,
+      "seconds": 11,
+      "rust_tests": 34,
+      "python_tests": 61
+    },
+    {
+      "command": "just dev",
+      "exit_code": 0,
+      "note": "core 127.0.0.1:8787, Temporal 127.0.0.1:7233, worker heartbeat available"
+    },
+    {
+      "command": "operator loop (review + evaluation via /v2/runs)",
+      "exit_code": 0,
+      "seconds": 1.01,
+      "note": "duplicate id returned 200 unchanged; changed input under same id returned 409"
+    },
+    {
+      "command": "just check-world",
+      "exit_code": 1,
+      "seconds": 95,
+      "note": "test_character_pipeline.gd idled after 'Source changed; render again': .blend sources were unfetched Git LFS pointers"
+    },
+    {
+      "command": "git lfs pull",
+      "exit_code": 0,
+      "seconds": 635,
+      "objects": 20,
+      "megabytes": 539
+    },
+    {
+      "command": "godot --headless --script test_character_pipeline.gd",
+      "exit_code": 0,
+      "seconds": 1
+    },
+    {
+      "command": "just check-world",
+      "exit_code": 0,
+      "seconds": 64,
+      "godot_runs": 30
+    },
+    {
+      "command": "just test-integration",
+      "exit_code": 0,
+      "seconds": 44.3
+    },
+    {
+      "command": "just test-operations",
+      "exit_code": 0,
+      "seconds": 53.6
+    },
+    {
+      "command": "godot --path apps/world -- --capture (live core)",
+      "exit_code": 0,
+      "startup_to_first_frame_ms": [
+        3640,
+        3260
+      ],
+      "median_frame_ms": 16.7,
+      "p95_frame_ms": 22.5,
+      "viewport": "1280x800",
+      "fps_cap": 60
+    },
+    {
+      "command": "git-lfs system install",
+      "exit_code": 0,
+      "note": "pinned 3.8.0 binary copied to /usr/local/bin so plain git resolves the LFS filter"
+    },
+    {
+      "command": "just test-memory",
+      "exit_code": 0,
+      "seconds": 8
+    },
+    {
+      "command": "just test-field",
+      "exit_code": 0,
+      "seconds": 49
+    },
+    {
+      "command": "just test-repositories",
+      "exit_code": 0,
+      "seconds": 91
+    },
+    {
+      "command": "just check-deployment",
+      "exit_code": 0,
+      "tests": 29
+    },
+    {
+      "command": "just test-postgres",
+      "exit_code": 101,
+      "note": "ran before the fresh container accepted connections; 25 connection panics retained"
+    },
+    {
+      "command": "just test-postgres (after pg_isready)",
+      "exit_code": 0,
+      "tests": 34
+    },
+    {
+      "command": "just deployment-rehearse (podman)",
+      "exit_code": 0,
+      "seconds": 19,
+      "checks": 15
+    },
+    {
+      "command": "live field observations + memory approval via /v4",
+      "exit_code": 0,
+      "note": "watchkeeper 2 findings, reviewer 1 finding, 3 proposals, approval revision 0->1, stale repeat 409"
+    },
+    {
+      "command": "just inference-pilot",
+      "exit_code": 0,
+      "seconds": 44,
+      "calls": 12,
+      "note": "hosted and Ollama each 2/3 without rule context, 3/3 with it"
+    },
+    {
+      "command": "just field-pilot",
+      "exit_code": 0,
+      "seconds": 82,
+      "calls": 1
+    },
+    {
+      "command": "microsandbox 0.6.14 install",
+      "exit_code": 0,
+      "note": "archive verified against upstream checksums.sha256; placed under ~/.microsandbox"
+    },
+    {
+      "command": "just test-sandbox / just test-repairs (arm64 image pin)",
+      "exit_code": 1,
+      "note": "guest python3 failed with Exec format error: pinned digest was the arm64 manifest"
+    },
+    {
+      "command": "just test-sandbox (x86_64 image pin)",
+      "exit_code": 0,
+      "seconds": 30,
+      "note": "five probes and both crash probes passed; coordinator-only loss 12.3 s"
+    },
+    {
+      "command": "just test-repairs",
+      "exit_code": 0,
+      "seconds": 30
+    },
+    {
+      "command": "just repair-pilot",
+      "exit_code": 0,
+      "seconds": 53,
+      "calls": 3,
+      "xp_awarded": 50
+    },
+    {
+      "command": "just check (after phase 1b edits)",
+      "exit_code": 101,
+      "note": "field test failed on a one-ULP float parse of a stored timestamp; serde_json float_roundtrip enabled, deterministic regression test added"
+    }
+  ],
+  "not_performed": [
+    "web export",
+    "cold-cache timing",
+    "Kubani changes",
+    "native amd64 image build/qualification (separate step)"
+  ]
+}

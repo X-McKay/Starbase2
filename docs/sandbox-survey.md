@@ -67,7 +67,10 @@ the Linux guest probes with a real temporary host-only canary and explicit
 credential-variable exclusion. Isolation, resource bounds, timeout, background
 cleanup, cancellation and both coordinator-loss cases passed. The separate
 Linux host has usable KVM and the pinned archive passed its upstream checksum,
-but private adapter/probe transfer is awaiting explicit authorization. A Docker
-Hub pull there failed TLS hostname verification; no verification was bypassed.
-Linux-host or Kubernetes qualification must not be inferred from local guest
-results. Read-only field agents do not execute candidate code in either case.
+and on 2026-09-07 the [Linux-host run](../evidence/sandbox-qualification/linux)
+passed the same probes and crash cases on x86_64 KVM once the image pin named the
+x86_64 manifest digest; the pinned digest recorded on the Mac was the arm64
+manifest of `python:3.12.13-alpine`, so the adapter now pins one digest per
+architecture and refuses unknown architectures. Kubernetes qualification must not
+be inferred from either host. Read-only field agents do not execute candidate
+code in either case.
