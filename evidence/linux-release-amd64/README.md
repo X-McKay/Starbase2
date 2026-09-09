@@ -49,11 +49,29 @@ local output directory.
   the user's `containers.conf`.
 - The image build itself succeeded on the first attempt (67 s with warm caches).
 
+## Publication · 2026-09-08
+
+With explicit authorization, both images were pushed from this host and
+verified; see [the publication record](publication-plan.json):
+
+| Component | Immutable registry reference |
+|---|---|
+| Core | `registry.almckay.io/starbase2/core@sha256:955d9e4989340ea3a55607e8f2ece49ce6796c13985b0d4165a9d3aab9f51bd3` |
+| Worker | `registry.almckay.io/starbase2/runtime@sha256:c9cedb3ff576138420e11bc952e21ec002d5ba766bfb8579028b9ad53d93f05d` |
+
+Each digest was pulled back and its configuration identity, root filesystem
+layers, labels and history matched the qualified local image exactly (the
+first verification pass mis-compared a prefixed and a bare digest and was
+corrected). Kubani node `rig0` also pulled both digests through its own
+containerd registry configuration and resolved them to the qualified image IDs.
+Tags `71ca83dd…-amd64` are movable conveniences; the digests above are the
+release identity. No Kubernetes resource was created.
+
 ## Remaining deployment gates
 
-Publish these exact artifacts through an authorized registry workflow and
-record registry digests; verify the amd64 general-node placement in Kubani;
-resolve the platform backup-key recovery item; then follow the activation steps
-in the playbook. This disposable pod used trust-based PostgreSQL and a Temporal
+Regenerate and review the exact stopped bundle with these digests and
+`platform: linux/amd64` on general nodes; the platform backup-key item is in
+the roadmap backlog by owner decision; then follow the activation steps in the
+playbook. This disposable pod used trust-based PostgreSQL and a Temporal
 development server; it establishes nothing about production authentication,
 availability, or disaster recovery.

@@ -480,8 +480,13 @@ requires TCP readiness), and the recorded Temporal digest was the arm64 manifest
 of `temporalio/temporal:1.8.2`, so amd64 inputs pin its amd64 manifest. On Linux,
 podman must use **crun**: runc 1.3 cannot create secret mountpoints on the
 read-only rootfs the pod requires (`~/.config/containers/containers.conf`,
-`[engine] runtime = "crun"`). These are local image candidates; registry digests,
-node placement, and platform backup readiness remain the activation gates.
+`[engine] runtime = "crun"`). On 2026-09-08 both images were published and
+verified by immutable digest, and node `rig0` pulled them through its own
+containerd configuration; the [publication record](../evidence/linux-release-amd64/publication-plan.json)
+holds the exact references for `.local/deploy/production.json`. amd64 images on
+general nodes resolve the placement gate without an arm64 taint exception. The
+platform backup-key item is deferred in the roadmap backlog; activation remains
+a separate reviewed Kubani change.
 
 ## Live Kubani preflight · 2026-09-06
 
