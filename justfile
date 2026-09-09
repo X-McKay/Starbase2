@@ -61,6 +61,7 @@ check: lint test
 check-world:
     python3 scripts/check_world.py
     .venv/bin/python scripts/check_world_commands.py
+    .venv/bin/python scripts/check_world_operations.py
 
 world-map:
     godot --path apps/world -- --colony-overview

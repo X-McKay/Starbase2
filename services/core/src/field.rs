@@ -130,7 +130,7 @@ impl Store {
                 "finding_count":count,"simulation":r["snapshot"]["data"]["simulation"],
                 "memory_status":report["memory"]["status"],"source_kind":"field"
             })};
-            json!({"input":r["input"],"state":r["state"],"detail":r["detail"],"created_at":r["created_at"],"updated_at":r["updated_at"],"summary":summary})
+            json!({"input":r["input"],"state":r["state"],"detail":r["detail"],"created_at":r["created_at"],"updated_at":r["updated_at"],"source_observed_at":r["snapshot"]["observed_at"],"summary":summary})
         }).collect();
         let builds = read(
             "SELECT body FROM (SELECT body,at,ROW_NUMBER() OVER (PARTITION BY agent,target ORDER BY at DESC) AS rank FROM field_builds) AS latest WHERE rank=1 ORDER BY at DESC LIMIT 100",
@@ -422,6 +422,7 @@ mod tests {
         complete(&mut store, "one");
         let list = store.field_snapshot().unwrap();
         assert!(list["runs"][0].get("snapshot").is_none());
+        assert_eq!(list["runs"][0]["source_observed_at"], 1000.0);
         assert_eq!(list["runs"][0]["summary"]["finding_count"], 1);
         assert!(!store.field_run("one").unwrap()["snapshot"].is_null());
         assert!(store.field_update("one", "snapshot", json!({})).is_err());

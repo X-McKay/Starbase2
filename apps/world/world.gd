@@ -4,6 +4,13 @@ const HUD = preload("res://hud.gd")
 const Navigation = preload("res://navigation.gd")
 const Commands = preload("res://commands.gd")
 const Art = preload("res://art.gd")
+const ConnectionStatus = preload("res://connection_status.gd")
+const CrewPresentation = preload("res://crew_presentation.gd")
+const CrewMotion = preload("res://crew_motion.gd")
+var crew_presentations:Dictionary={}
+var crew_motions:Dictionary={}
+var connection_message:="Waiting for the Core snapshot"
+var poll_timer:Timer
 const LivingCommons = preload("res://living_commons.gd")
 var http := HTTPRequest.new()
 var api := "http://127.0.0.1:8787"
@@ -17,6 +24,8 @@ var missions: Array = []
 var disconnected := true
 var last_received := 0
 var snapshot: Dictionary = {}
+var live_reviewer:RefCounted
+var live_capture_directory := ""
 var capture_path := ""
 var capture_frames := 180
 var frame_times: Array[float] = []
@@ -71,8 +80,59 @@ const MEMBERS := {"repair":"Mender", "review":"Surveyor", "gym":"Trainer", "watc
 func crew_pairs() -> Array:
 	return MEMBERS.keys().map(func(kind): return [kind,get_node(MEMBERS[kind])])
 
+func setup_crew_presentation() -> void:
+	for pair in crew_pairs():
+		var kind:String=pair[0]
+		var station=get_node(STATIONS.get(kind,STATIONS["review"]))
+		var point:Vector3=station.room.to_global(station.room.crew_point)
+		if kind=="reviewer": point=station.room.to_global(Vector3(-3.0,0,-6.5))
+		if kind=="watchkeeper": point=station.room.to_global(Vector3(3.0,0,-6.5))
+		var controller:=CrewPresentation.new()
+		var motion:=CrewMotion.new()
+		motion.configure(pair[1],navigator,station,point)
+		crew_presentations[kind]=controller
+		crew_motions[kind]=motion
+
+func update_crew_presentation() -> void:
+	for kind in crew_presentations:
+		var intent:Dictionary=crew_presentations[kind].update(missions,kind,disconnected,hud.reduced,float(snapshot.get("observed_at",0)))
+		crew_motions[kind].project(intent)
+		get_node(MEMBERS[kind]).project_assignment(intent,hud.large_text)
+
+func command_unresolved() -> bool:
+	return commands.phase!="" or commands.uncertain or hud.board.commands.phase!="" or hud.board.commands.uncertain or hud.operations.unresolved()
+
+func refresh_connection_panel() -> void:
+	if hud.connection_panel==null or commands==null: return
+	hud.connection_panel.refresh(api,snapshot,disconnected,not fixture_path.is_empty(),last_received,connection_message,command_unresolved())
+
+
+func connect_to_core(endpoint:String) -> void:
+	if not Commands.local_origin(endpoint) or command_unresolved():
+		hud.connection_panel.feedback.text="Resolve pending commands before changing the local Core address."
+		return
+	http.cancel_request()
+	api=endpoint; fixture_path=""; board_fixture=""
+	snapshot={}; missions=[]; disconnected=true; last_received=0
+	initial_xp=-1; pending_selection_id=""; hud.selected_id=""
+	commands.api=api; hud.api=api
+	hud.operations.configure(api,"")
+	if hud.board.has_method("set_api"): hud.board.set_api(api)
+	else:
+		hud.board.get_http.cancel_request(); hud.board.detail_http.cancel_request()
+		hud.board.api=api; hud.board.commands.api=api; hud.board.fixture=""
+		hud.board.snapshot={}; hud.board.online=false; hud.board.signature=""
+	for kind in crew_presentations: crew_presentations[kind]=CrewPresentation.new()
+	connection_message="Connecting to "+api
+	hud.connection_panel.feedback.text=connection_message
+	hud.connection.text=connection_message
+	show_mission()
+	poll_timer.start()
+	poll()
+
 func _ready() -> void:
 	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--live-capture="): live_capture_directory=arg.trim_prefix("--live-capture=")
 		if arg.begins_with("--capture="): capture_path = arg.trim_prefix("--capture=")
 		if arg.begins_with("--api="): api = arg.trim_prefix("--api=").trim_suffix("/")
 		if arg.begins_with("--frames="): capture_frames = maxi(60,int(arg.trim_prefix("--frames=")))
@@ -170,6 +230,7 @@ func _ready() -> void:
 	hud.place_selected.connect(func(_kind): show_mission())
 	hud.selection_changed.connect(func(_id): show_mission())
 	hud.journal_requested.connect(func(): OS.shell_open(api))
+	hud.connect_requested.connect(connect_to_core)
 	hud.settings_changed.connect(apply_settings)
 	hud.map_requested.connect(toggle_map)
 	hud.zoom_requested.connect(adjust_zoom)
@@ -191,9 +252,11 @@ func _ready() -> void:
 	commands.accepted.connect(func(id: String): pending_selection_id=id; poll())
 	add_child(http)
 	http.timeout = 2.0
+	http.max_redirects = 0
 	http.body_size_limit = 4194304
 	http.request_completed.connect(on_response)
 	var timer := Timer.new()
+	poll_timer=timer
 	timer.wait_time = 1.0
 	timer.timeout.connect(poll)
 	add_child(timer)
@@ -211,6 +274,7 @@ func _ready() -> void:
 			var member=get_node(MEMBERS[kind])
 			member.position=station.room.to_global(station.room.crew_point)
 			member.home=member.position
+	setup_crew_presentation()
 	if inspect_on_start:
 		hud.open_place(initial_crew)
 		hud.evidence.visible = true
@@ -235,10 +299,16 @@ func _ready() -> void:
 		hud.board.tabs.current_tab=clampi(board_tab,0,3)
 		if not board_evidence.is_empty(): hud.board.inspect(board_evidence)
 	show_mission()
-	if "--verify-package" in OS.get_cmdline_user_args():
+	if not live_capture_directory.is_empty():
+		call_deferred("_capture_live",live_capture_directory)
+	elif "--verify-package" in OS.get_cmdline_user_args():
 		call_deferred("_verify_package")
 	elif not package_capture_directory.is_empty():
 		call_deferred("_capture_package",package_capture_directory)
+
+func _capture_live(directory:String) -> void:
+	live_reviewer=preload("res://live_capture.gd").new()
+	await live_reviewer.run(self,directory)
 
 func _capture_package(directory:String) -> void:
 	var capture=load("res://package_capture.gd").new()
@@ -353,8 +423,12 @@ func apply_settings() -> void:
 	for member in [$Operator]+MEMBERS.values().map(func(label): return get_node(label)):
 		member.reduced_motion = hud.reduced
 	if hud.reduced: hud.follow = false
+	update_crew_presentation()
 
 func launch_repair(scenario: String, mode: String) -> void:
+	if disconnected or not fixture_path.is_empty() or not ConnectionStatus.enabled(snapshot,"repair") or (mode=="inference" and not ConnectionStatus.enabled(snapshot,"inference")):
+		hud.command_status.text="Practice unavailable · "+ConnectionStatus.reason(snapshot,"repair")
+		return
 	var id := "world-" + Crypto.new().generate_random_bytes(12).hex_encode()
 	commands.submit("/v3/repairs",{"id":id,"scenario":scenario,"mode":mode},id)
 
@@ -363,6 +437,7 @@ func update_ambience() -> void:
 	$RoomAmbience.configure(str(active_building.definition.id) if active_building!=null else "",in_garden,hud.sound_enabled)
 
 func cancel_selected() -> void:
+	if disconnected or not fixture_path.is_empty(): return
 	var m := selected_mission()
 	if m.is_empty(): return
 	var prefix := "/v3/repairs/" if m["input"].get("kind") == "repair" else "/v2/runs/"
@@ -373,19 +448,22 @@ func poll() -> void:
 	if fixture_path != "" or http.get_http_client_status() != HTTPClient.STATUS_DISCONNECTED: return
 	if http.request(api+"/v2/snapshot") != OK:
 		disconnected = true
+		connection_message="Core unavailable at "+api+". Open Connection [O] for setup."
 		hud.connection.text = "DISCONNECTED · last-known records only"
 		show_mission()
 
 func on_response(result: int, response: int, _headers: PackedStringArray, body: PackedByteArray) -> void:
 	if result != HTTPRequest.RESULT_SUCCESS or response != 200:
 		disconnected = true
+		connection_message="Core unavailable at "+api+". Open Connection [O] for setup."
 		hud.connection.text = "DISCONNECTED · last-known records only"
 		show_mission()
 		return
 	var data = JSON.parse_string(body.get_string_from_utf8())
-	if not data is Dictionary or data.get("schema_version") != 2 or not data.get("recent") is Array:
+	if not ConnectionStatus.valid(data):
 		disconnected = true
-		hud.connection.text = "UNKNOWN · unsupported snapshot"
+		connection_message="UNKNOWN · unsupported snapshot"
+		hud.connection.text = connection_message
 		show_mission()
 		return
 	receive_snapshot(data)
@@ -394,11 +472,12 @@ func receive_snapshot(data: Dictionary) -> void:
 	disconnected = false
 	last_received = Time.get_ticks_msec()
 	snapshot = data
+	connection_message="Observed "+Time.get_datetime_string_from_unix_time(int(data.get("observed_at",0))).replace("T"," ")+" UTC"
 	missions = StateView.project(data)
 	if pending_selection_id != "" and missions.any(func(m): return m["input"]["id"] == pending_selection_id):
 		hud.selected_id = pending_selection_id
 		pending_selection_id = ""
-	hud.connection.text = "LIVE CORE · observed " + Time.get_datetime_string_from_unix_time(int(data.get("observed_at",0))).replace("T"," ") + " UTC"
+	hud.connection.text = ConnectionStatus.headline(snapshot,disconnected,not fixture_path.is_empty())
 	show_mission()
 
 func selected_mission() -> Dictionary:
@@ -409,9 +488,14 @@ func selected_mission() -> Dictionary:
 func show_mission() -> void:
 	if hud == null: return
 	hud.update_list(missions)
+	hud.operations.update_snapshot(snapshot,disconnected,commands.phase!="" or commands.uncertain or hud.board.commands.phase!="" or hud.board.commands.uncertain)
+	refresh_connection_panel()
+	if hud.board.has_method("set_installation"): hud.board.set_installation(snapshot,disconnected)
+	update_crew_presentation()
 	var mission := selected_mission()
 	hud.status.text = StateView.describe(mission,disconnected)
 	hud.details.text = str(mission.get("detail","No snapshot available; work is unknown." if disconnected else "No run recorded here. Open the journal for reviews and gym campaigns."))
+	if mission.get("state")=="cancelled": hud.details.text="Cancellation acknowledged.\nLast recorded message: "+hud.details.text
 	var evidence = mission.get("evidence")
 	if evidence != null:
 		var summary: Dictionary = evidence.get("summary",{})
@@ -438,12 +522,12 @@ func show_mission() -> void:
 	else:
 		hud.progression.text = "Progression unknown · no retained ledger"
 		for trophy in trophies: trophy.hide()
-	hud.submit.disabled = disconnected or hud.command_pending or fixture_path != ""
+	hud.submit.disabled = disconnected or hud.command_pending or fixture_path != "" or not ConnectionStatus.enabled(snapshot,"repair") or (hud.mode.selected==1 and not ConnectionStatus.enabled(snapshot,"inference"))
+	hud.submit.tooltip_text=ConnectionStatus.reason(snapshot,"repair")
 	hud.stop.disabled = disconnected or hud.command_pending or mission.is_empty() or mission.get("state") in ["completed","failed","cancelled"] or fixture_path != ""
 	var labels: Array[String] = []
 	for pair in crew_pairs():
 		var activity := StateView.crew_activity(missions,pair[0],disconnected)
-		pair[1].label.text = pair[1].display_name + "\n" + activity
 		labels.append(pair[1].display_name.capitalize()+": "+activity)
 	hud.roster.text = "    /    ".join(labels.slice(0,3))+"\n"+"    /    ".join(labels.slice(3))
 	if active_room != null:
@@ -455,6 +539,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	match event.physical_keycode:
 		KEY_EQUAL, KEY_PLUS, KEY_KP_ADD: adjust_zoom(-1)
 		KEY_MINUS, KEY_KP_SUBTRACT: adjust_zoom(1)
+		KEY_R: hud.open_operations()
+		KEY_O: hud.open_connection()
 		KEY_B: hud.open_board()
 		KEY_4: hud.open_place("watchkeeper")
 		KEY_5: hud.open_place("reviewer")
@@ -528,7 +614,7 @@ func _physics_process(_delta: float) -> void:
 	$LivingCommons.update_presentation($Operator.position,_delta,hud.reduced)
 	var containing: Node3D=null
 	for station in $Structures.get_children():
-		station.update_presentation($Operator.position,_delta,hud.reduced)
+		station.update_presentation($Operator.position,_delta,hud.reduced,crew_pairs().map(func(pair): return pair[1].position))
 		if station.contains($Operator.position): containing=station
 	if active_room==null or active_room.definition.seamless: set_room_context(containing)
 	var move := Vector3.ZERO
@@ -554,20 +640,7 @@ func _physics_process(_delta: float) -> void:
 		if d < distance:
 			nearest = pair[0]
 			distance = d
-		# Tiny ambient strolls remain local and don't invent operational activity.
-		var actor = pair[1]
-		if STATIONS.has(pair[0]):
-			var home_station=get_node(STATIONS[pair[0]])
-			actor.visible=not home_station.contains(actor.position) or home_station.cutaway<0.999
-		actor.presentation_pose="console" if pair[0]=="repair" and room_kind=="repair" and active_room!=null and hud.dock.visible and hud.filter_kind=="repair" else ""
-		if active_room != null or hud.reduced:
-			actor.motion = Vector3.ZERO
-		else:
-			var cycle := fposmod(uptime+float(actor.home.x)*0.2,20.0)
-			var target: Vector3 = actor.home+Vector3(0.85 if cycle>8 and cycle<15 else 0.0,0,0)
-			var displacement: Vector3 = target-actor.position
-			actor.motion = displacement.normalized()*0.65 if displacement.length()>0.08 else Vector3.ZERO
-			if actor.motion == Vector3.ZERO: actor.facing = 0
+		if crew_motions.has(pair[0]): crew_motions[pair[0]].advance(_delta)
 	near_door=""
 	if active_room != null:
 		if MEMBERS.has(room_kind) and $Operator.position.distance_to(active_room.global_position+active_room.console_point)<1.5: nearest=room_kind
@@ -632,8 +705,10 @@ func _process(delta: float) -> void:
 	camera.size=lerpf(camera.size,desired_size,blend)
 	if fixture_path == "" and last_received > 0 and Time.get_ticks_msec()-last_received > 5000 and not disconnected:
 		disconnected = true
-		hud.connection.text = "STALE · no snapshot for five seconds"
+		connection_message="STALE · no snapshot for five seconds"
+		hud.connection.text = connection_message
 		show_mission()
+	if hud.connection_panel.visible: refresh_connection_panel()
 	if capture_path != "" and frame_count == capture_frames:
 		await RenderingServer.frame_post_draw
 		get_viewport().get_texture().get_image().save_png(capture_path)

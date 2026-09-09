@@ -8,6 +8,11 @@ from typing import Annotated, Any
 from pydantic import BaseModel, ConfigDict, Field
 
 
+class CapabilityStatus(BaseModel):
+    enabled: bool
+    reason: str
+
+
 class Crew(BaseModel):
     authority: str
     completed_runs: Annotated[int, Field(ge=0)]
@@ -38,6 +43,22 @@ class Execution(BaseModel):
     policy: Any
     stderr: str
     stdout: str
+
+
+class InstallationCapabilities(BaseModel):
+    accept_work: CapabilityStatus
+    evaluation: CapabilityStatus
+    field: CapabilityStatus
+    inference: CapabilityStatus
+    memory: CapabilityStatus
+    repair: CapabilityStatus
+    review: CapabilityStatus
+
+
+class InstallationMetadata(BaseModel):
+    capabilities: InstallationCapabilities
+    environment: str
+    id: str
 
 
 class Omission(BaseModel):
@@ -215,6 +236,7 @@ class OperationsSnapshot(BaseModel):
     crew: list[Crew]
     duties: list[Duty]
     field_runs: list[Any] | None = []
+    installation: InstallationMetadata | None = None
     observed_at: float
     progression: Any | None = None
     recent: list[RunRecord]

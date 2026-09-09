@@ -78,6 +78,12 @@ func run() -> void:
 	world.apply_settings()
 	check(not world.hud.follow and world.get_node("Mender").reduced_motion,"Reduced motion disables camera follow and crew animation")
 	world.receive_snapshot({"schema_version":2,"recent":[],"worker":{"available":true},"observed_at":0})
+	check(world.hud.submit.disabled,"Missing capability metadata cannot authorize repair dispatch")
+	world.receive_snapshot({"schema_version":2,"recent":[],"worker":{"available":true},"observed_at":0,
+		"installation":{"id":"interaction-test","environment":"development","capabilities":{
+			"accept_work":{"enabled":true,"reason":"Test admission enabled"},
+			"repair":{"enabled":true,"reason":"Explicit synthetic repair fixture"},
+			"inference":{"enabled":false,"reason":"No inference in this keyboard test"}}}})
 	world.hud.open_place("repair")
 	world.hud.repair_requested.disconnect(world.launch_repair)
 	var calls: Array = []

@@ -1,0 +1,18 @@
+python3 scripts/check_world_export.py --output .local/reviews/native-operations/20260909-final-03
+Traceback (most recent call last):
+  File "/Users/al/git/Starbase2/scripts/check_world_export.py", line 343, in <module>
+    main()
+  File "/Users/al/git/Starbase2/scripts/check_world_export.py", line 244, in main
+    native_capture(
+  File "/Users/al/git/Starbase2/scripts/check_world_export.py", line 127, in native_capture
+    log, _ = launcher.communicate(timeout=max(0.1, deadline - time.monotonic()))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/al/.local/share/mise/installs/python/3.12.13/lib/python3.12/subprocess.py", line 1209, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/al/.local/share/mise/installs/python/3.12.13/lib/python3.12/subprocess.py", line 2116, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+  File "/Users/al/.local/share/mise/installs/python/3.12.13/lib/python3.12/subprocess.py", line 1253, in _check_timeout
+    raise TimeoutExpired(
+subprocess.TimeoutExpired: Command '['open', '-n', '-W', '-a', '/var/folders/sl/2t3mlgwj7bq2c4qj1x2csfx00000gn/T/starbase2-export-p5uyp6v3/Starbase2 · Aster Colony.app', '--stdout', '/Users/al/git/Starbase2/.local/reviews/native-operations/20260909-final-03/structures.log', '--stderr', '/Users/al/git/Starbase2/.local/reviews/native-operations/20260909-final-03/structures-stderr.log', '--args', '--max-fps', '60', '--', '--fixture=/Users/al/git/Starbase2/evidence/command-district/world-fixture.json', '--capture-package=/Users/al/git/Starbase2/.local/reviews/native-operations/20260909-final-03']' timed out after 179.1972233329434 seconds
+error: recipe `check-world-export` failed on line 28 with exit code 1

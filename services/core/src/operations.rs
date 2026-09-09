@@ -471,6 +471,9 @@ impl Store {
         let progression = self.progression()?;
         let repairs = self.repair_list()?;
         let snapshot = OperationsSnapshot {
+            installation: Some(InstallationMetadata::from_environment(|key| {
+                std::env::var(key).ok()
+            })),
             progression: Some(progression.clone()),
             repairs: repairs.clone(),
             field_runs: self.field_snapshot()?["runs"].as_array().unwrap().clone(),
@@ -792,6 +795,16 @@ mod tests {
         assert_eq!(s.runs(i64::MAX, true).unwrap().len(), 1);
     }
     #[test]
+    fn snapshot_identifies_installation_without_worker() {
+        let s = store();
+        let snapshot = s.operations_snapshot().unwrap();
+        assert!(
+            snapshot["installation"].is_object(),
+            "Missing installation policy metadata"
+        );
+        assert_eq!(snapshot["worker"]["available"], false);
+    }
+    #[test]
     fn unchanged_snapshot_and_build_are_reported_without_new_qualification() {
         let mut s = store();
         let snap = source();
@@ -807,6 +820,10 @@ mod tests {
         let projection = s.operations_snapshot().unwrap();
         assert_eq!(projection["crew"][0]["completed_runs"], 2);
         assert_eq!(projection["crew"][0]["xp"], 0);
+        let mut legacy = projection.clone();
+        legacy.as_object_mut().unwrap().remove("installation");
+        let old: OperationsSnapshot = serde_json::from_value(legacy).unwrap();
+        assert!(old.installation.is_none());
         let _: OperationsSnapshot = serde_json::from_value(projection).unwrap();
     }
     #[test]
@@ -944,6 +961,8 @@ pub struct Crew {
 #[derive(Clone, Debug, Serialize, Deserialize, JsonSchema)]
 pub struct OperationsSnapshot {
     #[serde(default)]
+    pub installation: Option<InstallationMetadata>,
+    #[serde(default)]
     pub field_runs: Vec<Value>,
     #[serde(default)]
     pub progression: Option<Value>,
@@ -958,4 +977,139 @@ pub struct OperationsSnapshot {
     pub duties: Vec<Duty>,
     pub active: Vec<RunRecord>,
     pub recent: Vec<RunRecord>,
+}
+
+/// Configured capability policy, not proof of worker readiness or target health.
+#[derive(Clone, Debug, Serialize, Deserialize, JsonSchema)]
+pub struct CapabilityStatus {
+    pub enabled: bool,
+    pub reason: String,
+}
+#[derive(Clone, Debug, Serialize, Deserialize, JsonSchema)]
+pub struct InstallationCapabilities {
+    pub accept_work: CapabilityStatus,
+    pub review: CapabilityStatus,
+    pub evaluation: CapabilityStatus,
+    pub repair: CapabilityStatus,
+    pub field: CapabilityStatus,
+    pub memory: CapabilityStatus,
+    pub inference: CapabilityStatus,
+}
+#[derive(Clone, Debug, Serialize, Deserialize, JsonSchema)]
+pub struct InstallationMetadata {
+    pub id: String,
+    pub environment: String,
+    pub capabilities: InstallationCapabilities,
+}
+impl InstallationMetadata {
+    /// Injected lookup keeps policy tests independent of process-global env mutation.
+    pub fn from_environment(get: impl Fn(&str) -> Option<String>) -> Self {
+        let environment = get("STARBASE_ENV").unwrap_or_else(|| "development".into());
+        let accepts = get("STARBASE_ACCEPT_WORK").as_deref() != Some("false");
+        let dispatch = |configured: bool, disabled: &str| CapabilityStatus {
+            enabled: accepts && configured,
+            reason: if !accepts {
+                "Installation is paused for new work".into()
+            } else if !configured {
+                disabled.into()
+            } else {
+                "Enabled by installation policy; worker and target readiness checked separately"
+                    .into()
+            },
+        };
+        let field =
+            get("STARBASE_FIELD_ENABLED").map_or(environment != "production", |v| v == "true");
+        let memory = get("STARBASE_MEMORY_ENABLED").as_deref() == Some("true");
+        Self {
+            id: get("STARBASE_INSTALLATION").unwrap_or_else(|| "development".into()),
+            environment,
+            capabilities: InstallationCapabilities {
+                accept_work: dispatch(true, ""),
+                review: dispatch(true, ""),
+                evaluation: dispatch(true, ""),
+                repair: dispatch(
+                    get("STARBASE_REPAIRS_ENABLED").as_deref() != Some("false"),
+                    "Synthetic repairs are disabled by installation policy",
+                ),
+                field: dispatch(
+                    field,
+                    "Field observations are disabled by installation policy",
+                ),
+                memory: CapabilityStatus {
+                    enabled: memory,
+                    reason: if memory {
+                        "Reviewed recall is configured; graph availability checked separately"
+                    } else {
+                        "Reviewed recall is disabled; basic observations remain available"
+                    }
+                    .into(),
+                },
+                inference: dispatch(
+                    get("STARBASE_INFERENCE_ENABLED").as_deref() != Some("false"),
+                    "Model inference is disabled by installation policy",
+                ),
+            },
+        }
+    }
+}
+
+#[cfg(test)]
+mod installation_tests {
+    use super::*;
+    fn metadata(values: &[(&str, &str)]) -> InstallationMetadata {
+        InstallationMetadata::from_environment(|key| {
+            values
+                .iter()
+                .find(|(k, _)| *k == key)
+                .map(|(_, v)| (*v).into())
+        })
+    }
+    #[test]
+    fn local_defaults_and_production_field_default_match_admission() {
+        let local = metadata(&[]);
+        assert_eq!(local.id, "development");
+        assert!(local.capabilities.review.enabled && local.capabilities.evaluation.enabled);
+        assert!(local.capabilities.field.enabled && local.capabilities.repair.enabled);
+        assert!(local.capabilities.inference.enabled);
+        assert!(!local.capabilities.memory.enabled);
+        assert!(
+            !metadata(&[("STARBASE_ENV", "production")])
+                .capabilities
+                .field
+                .enabled
+        );
+    }
+    #[test]
+    fn explicit_policy_and_quiesce_are_distinct_from_memory_review() {
+        let configured = metadata(&[
+            ("STARBASE_ENV", "production"),
+            ("STARBASE_INSTALLATION", "test-installation"),
+            ("STARBASE_FIELD_ENABLED", "true"),
+            ("STARBASE_MEMORY_ENABLED", "true"),
+            ("STARBASE_REPAIRS_ENABLED", "false"),
+            ("STARBASE_INFERENCE_ENABLED", "false"),
+        ]);
+        assert_eq!(configured.id, "test-installation");
+        assert!(configured.capabilities.field.enabled && configured.capabilities.memory.enabled);
+        assert!(
+            !configured.capabilities.repair.enabled && !configured.capabilities.inference.enabled
+        );
+        let stopped = metadata(&[
+            ("STARBASE_ACCEPT_WORK", "false"),
+            ("STARBASE_MEMORY_ENABLED", "true"),
+        ]);
+        let c = stopped.capabilities;
+        for value in [
+            c.accept_work,
+            c.review,
+            c.evaluation,
+            c.repair,
+            c.field,
+            c.inference,
+        ] {
+            assert!(!value.enabled);
+            assert!(value.reason.contains("paused"));
+        }
+        assert!(c.memory.enabled);
+    }
 }

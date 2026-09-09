@@ -210,3 +210,30 @@ durable manifest. Owner art acceptance and human audio audition remain open;
 prior qualified exports remain evidence of
 their own sources. See the [design and rebuild contract](../assets-production/batches/inhabited-polish/DESIGN.md)
 and [final evidence](../evidence/world/inhabited-polish/final/README.md).
+
+## Live work and physical crew routes
+
+A grid path is not proof of reaching an authored workstation. The first live
+crew test stopped Mender 0.3449 m from the point because the half-metre grid
+endpoint and waypoint tolerance exceeded the 0.3 m pose gate. Validate and append
+the final physical segment; do not widen the pose gate to hide failed arrival.
+Two other crew then exposed a different boundary: navigation led through a door
+that opened only for the operator. NPC proximity now opens the airlock separately
+from operator-controlled room cutaway and camera. Test those concerns separately.
+
+Keep failed native captures alongside passing attempts. A first PNG does not
+prove the rest of an asynchronous journey completed; process sampling that shows
+sleep rather than a busy loop narrows the diagnosis but does not prove an object
+lifetime defect. A passing live capture before a later layout correction cannot
+qualify the correction. The [live-world UI evidence](../evidence/live-world/ui/README.md)
+records these limits and the five-crew physical regression checks.
+
+
+For macOS native evidence, distinguish process progress from a completed draw.
+A `frame_post_draw` wait can remain pending while the process loop continues;
+large capture latency alone does not establish a frame-rate regression. Keep the
+exact review window visible while capturing and retain the total timeout. Match
+both original and canonical executable paths for cleanup (`/var` may appear as
+`/private/var`), and preserve literal Unicode application names in AppleScript.
+Tests must mock the actual launch path so they cannot launch apps accidentally.
+See [native launch evidence](../evidence/native-operations/native-launch-note.md).

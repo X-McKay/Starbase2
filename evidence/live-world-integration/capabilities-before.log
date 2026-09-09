@@ -1,0 +1,25 @@
+   Compiling serde_json v1.0.149
+   Compiling schemars v1.2.1
+   Compiling axum v0.8.8
+   Compiling starbase-core v0.1.0 (/Users/al/git/Starbase2/services/core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.24s
+     Running unittests src/lib.rs (target/debug/deps/starbase_core-9fd93d8b238372d4)
+
+running 1 test
+test operations::tests::snapshot_identifies_installation_without_worker ... FAILED
+
+failures:
+
+---- operations::tests::snapshot_identifies_installation_without_worker stdout ----
+
+thread 'operations::tests::snapshot_identifies_installation_without_worker' (27886960) panicked at services/core/src/operations.rs:798:9:
+Missing installation policy metadata
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    operations::tests::snapshot_identifies_installation_without_worker
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 35 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `-p starbase-core --lib`

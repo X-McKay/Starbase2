@@ -1,0 +1,3 @@
+mise ERROR Failed to install aqua:git-lfs/git-lfs@3.8.0: Operation not permitted (os error 1)
+mise ERROR Version: 2026.8.5 macos-arm64 (2026-08-12)
+mise ERROR Run with --verbose or MISE_VERBOSE=1 for more information

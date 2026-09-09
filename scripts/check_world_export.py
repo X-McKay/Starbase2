@@ -5,9 +5,11 @@ import hashlib
 import json
 import os
 import platform
+import re
 import signal
 import subprocess
 import tempfile
+import time
 import tomllib
 import zipfile
 from datetime import UTC, datetime
@@ -64,44 +66,107 @@ def run(
     return result.stdout
 
 
+def native_pids(executable: Path, listing: str) -> list[int]:
+    # macOS may report /private/var for an executable launched through /var.
+    prefixes = {str(executable) + " ", str(executable.resolve()) + " "}
+    result = []
+    for line in listing.splitlines():
+        fields = line.strip().split(maxsplit=1)
+        if len(fields) == 2 and any(fields[1].startswith(prefix) for prefix in prefixes):
+            result.append(int(fields[0]))
+    return result
+
+
 def native_capture(
     executable: Path, arguments: list[str], output: Path, name: str, cwd: Path
 ) -> None:
-    """Launch a fresh GUI instance through macOS; direct second launches can stall."""
+    """Launch and activate an exact owned GUI instance within a bounded review."""
     stdout = output / f"{name}.log"
     stderr = output / f"{name}-stderr.log"
+    app = str(executable.resolve().parents[2])
+    command = [
+        "open",
+        "-n",
+        "-W",
+        "-a",
+        app,
+        "--stdout",
+        str(stdout),
+        "--stderr",
+        str(stderr),
+        "--args",
+        "--max-fps",
+        "60",
+        "--",
+        *arguments,
+    ]
+    deadline = time.monotonic() + 180
+    launcher = subprocess.Popen(
+        command, cwd=cwd, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+    )
     try:
-        run(
-            [
-                "open",
-                "-n",
-                "-W",
-                "-a",
-                str(executable.parents[2]),
-                "--stdout",
-                str(stdout),
-                "--stderr",
-                str(stderr),
-                "--args",
-                "--max-fps",
-                "60",
-                "--",
-                *arguments,
-            ],
-            output / f"{name}-launch.log",
-            cwd,
-        )
+        # A Launch Services process can exist behind the app on its splash screen.
+        # Activate only after this exact executable exists, avoiding a second launch.
+        while launcher.poll() is None:
+            listing = subprocess.check_output(["ps", "-axo", "pid=,command="], text=True)
+            if native_pids(executable, listing):
+                run(
+                    [
+                        "osascript",
+                        "-e",
+                        "tell application " + json.dumps(app, ensure_ascii=False) + " to activate",
+                    ],
+                    output / f"{name}-activation.log",
+                    cwd,
+                    timeout=15,
+                )
+                break
+            if time.monotonic() >= deadline:
+                raise TimeoutError("Native application did not start within qualification bound")
+            time.sleep(0.1)
+        activation_index = 0
+        while True:
+            try:
+                log, _ = launcher.communicate(timeout=min(2, max(0.1, deadline - time.monotonic())))
+                break
+            except subprocess.TimeoutExpired:
+                if time.monotonic() >= deadline:
+                    raise
+                listing = subprocess.check_output(["ps", "-axo", "pid=,command="], text=True)
+                if native_pids(executable, listing):
+                    activation_index += 1
+                    try:
+                        run(
+                            [
+                                "osascript",
+                                "-e",
+                                "tell application "
+                                + json.dumps(app, ensure_ascii=False)
+                                + " to activate",
+                            ],
+                            output / f"{name}-activation-{activation_index:03}.log",
+                            cwd,
+                            timeout=15,
+                        )
+                    except RuntimeError:
+                        # The last frame may close the exact app between PID lookup
+                        # and activation. Its completion/output checks still apply.
+                        if launcher.poll() is None:
+                            raise
+        (output / f"{name}-launch.log").write_text(log)
+        if launcher.returncode:
+            raise RuntimeError(f"Native launcher failed; inspect {name}-launch.log")
     except Exception:
-        # open -W is not the app process. A timed-out launch must not leave the
-        # isolated review running. Match this exact temporary executable only.
-        processes = subprocess.check_output(["ps", "-axo", "pid=,command="], text=True)
-        for line in processes.splitlines():
-            fields = line.strip().split(maxsplit=1)
-            if len(fields) == 2 and fields[1].startswith(str(executable) + " "):
-                try:
-                    os.kill(int(fields[0]), signal.SIGTERM)
-                except ProcessLookupError:
-                    pass
+        if launcher.poll() is None:
+            launcher.terminate()
+        log, _ = launcher.communicate(timeout=5)
+        (output / f"{name}-launch.log").write_text(log)
+        listing = subprocess.check_output(["ps", "-axo", "pid=,command="], text=True)
+        for pid in native_pids(executable, listing):
+            try:
+                os.kill(pid, signal.SIGTERM)
+            except ProcessLookupError:
+                pass
         raise
     log = stdout.read_text() + stderr.read_text()
     if "Godot Engine" not in log or any(x in log for x in ("ERROR:", "Parse Error")):
@@ -115,7 +180,14 @@ def main() -> None:
         type=Path,
         default=ROOT / ".local/world-release" / datetime.now(UTC).strftime("%Y%m%dT%H%M%S%fZ"),
     )
+    parser.add_argument(
+        "--live-api", help="Optional owned loopback Core for read-only native qualification"
+    )
     args = parser.parse_args()
+    if args.live_api:
+        match = re.fullmatch(r"http://127\.0\.0\.1:([1-9][0-9]{0,4})", args.live_api)
+        if not match or int(match[1]) > 65535:
+            raise SystemExit("Live qualification requires a canonical private loopback origin.")
     if platform.system() != "Darwin":
         raise SystemExit("This qualification runs the actual macOS executable; use a macOS host.")
     output = args.output.resolve()
@@ -228,12 +300,51 @@ def main() -> None:
             "living-colony",
             "inhabited-water",
             "inhabited-water-reduced",
+            "operations-task-markers",
+            "operations-review",
+            "operations-comparison",
+            "operations-duties",
+            "operations-history",
+            "operations-compact",
+            "operations-disconnected",
+            "operations-heartbeat",
         ):
             if not (output / f"{name}.png").exists():
                 raise RuntimeError(f"Missing living-colony review capture: {name}")
         if not (output / "review-motion.png").exists():
             raise RuntimeError("Missing native physical motion strip")
+        live_record = None
+        if args.live_api:
+            native_capture(
+                executable,
+                ["--api=" + args.live_api, "--live-capture=" + str(output)],
+                output,
+                "live",
+                isolated,
+            )
+            live_record = json.loads((output / "live-review.json").read_text())
+            if (
+                live_record["failures"]
+                or live_record["fixture"]
+                or live_record["commands_dispatched"]
+            ):
+                raise RuntimeError("Live native qualification failed")
+            if "LIVE_WORLD_CAPTURE_PASSED" not in (output / "live.log").read_text():
+                raise RuntimeError("Live native qualification did not finish")
+            for name in (
+                "live-colony",
+                "live-connection",
+                "live-command",
+                "live-repositories",
+                "live-evidence",
+                "live-compact",
+                "live-disconnected",
+                "live-reconnected",
+            ):
+                if not (output / (name + ".png")).exists():
+                    raise RuntimeError("Missing live native capture: " + name)
         report = {
+            "live_backend": live_record,
             "status": "local macOS export qualified; unsigned, not a Kubani release",
             "godot": version,
             "platform": platform.platform(),

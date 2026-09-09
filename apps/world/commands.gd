@@ -38,7 +38,8 @@ func submit(endpoint: String, data: Dictionary, id: String, lookup: String = "")
 		return
 	path = endpoint
 	record_path = endpoint.trim_suffix("/cancel") if endpoint.ends_with("/cancel") else endpoint + "/" + id
-	if not lookup.is_empty(): record_path = lookup
+	if endpoint == "/v2/duties": record_path = "/v2/snapshot"
+	if not lookup.is_empty() and endpoint != "/v2/duties": record_path = lookup
 	payload = data.duplicate()
 	run_id = id
 	phase = "session"
@@ -85,6 +86,14 @@ func _response(result: int, code: int, headers: PackedStringArray, body: PackedB
 		phase = ""
 		if success and code == 200:
 			var record = JSON.parse_string(body.get_string_from_utf8())
+			if path == "/v2/duties":
+				if duty_reconciled(record,payload,run_id):
+					uncertain=false
+					accepted.emit(run_id)
+					feedback.emit("Duty record reconciled · exact settings and next generation retained.",false)
+					return
+				feedback.emit("Duty outcome unknown · no retry. Exact settings and next generation were not found. Reconcile this ID or inspect the journal: " + run_id,false)
+				return
 			if record is Dictionary and path in ["/v4/repositories", "/v4/memory/review"]:
 				var items: Array = record.get("repositories",[]) if path=="/v4/repositories" else record.get("memory",[])
 				for item in items:
@@ -103,3 +112,21 @@ func _response(result: int, code: int, headers: PackedStringArray, body: PackedB
 				return
 		# Keep uncertainty even for a temporary 404: a slow handler may still commit.
 		feedback.emit("Outcome unknown · no retry. Repeat the action to reconcile this ID, or open the journal: " + run_id,false)
+
+# A later revision may belong to another operator. It cannot acknowledge this write.
+static func duty_reconciled(snapshot: Variant, request: Dictionary, id: String) -> bool:
+	if not snapshot is Dictionary or not snapshot.get("duties") is Array: return false
+	if request.get("id")!=id or not valid_duty_integer(request.get("generation")): return false
+	for item in snapshot.duties:
+		if not item is Dictionary or item.get("id")!=id: continue
+		if not valid_duty_integer(item.get("generation")): continue
+		if item.generation!=request.generation+1: continue
+		if not item.get("target") is String or not item.get("profile") is String: continue
+		if not item.get("enabled") is bool or not request.get("enabled") is bool: continue
+		if not valid_duty_integer(item.get("interval_seconds")) or not valid_duty_integer(request.get("interval_seconds")): continue
+		if item.target==request.get("target") and item.profile==request.get("profile") and item.interval_seconds==request.interval_seconds and item.enabled==request.enabled:
+			return true
+	return false
+
+static func valid_duty_integer(value: Variant) -> bool:
+	return (value is int or value is float) and is_finite(float(value)) and float(value)>=0 and float(value)==floorf(float(value))

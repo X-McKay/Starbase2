@@ -1,7 +1,12 @@
 extends PanelContainer
 ## A native view of the existing core ledger, not a second source of agent state.
+const ConnectionStatus = preload("res://connection_status.gd")
 const Commands = preload("res://commands.gd")
 var api := "http://127.0.0.1:8787"
+var installation_snapshot: Dictionary = {}
+var installation_offline := false
+var policy: Label
+var briefing: Label
 var fixture := ""
 var snapshot: Dictionary = {}
 var fixture_details: Dictionary = {}
@@ -41,7 +46,8 @@ func label(parent: Node, value: String, size: int = 16) -> Label:
 func button(parent: Node, title: String, action: Callable, mutation: bool = false) -> Button:
 	var b := Button.new()
 	b.text=title
-	b.clip_text=true
+	b.clip_text=false
+	b.add_theme_font_size_override("font_size",19 if large_text else 16)
 	b.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
 	b.tooltip_text=title
 	b.set_meta("focus_key",focus_context+"/"+title)
@@ -50,6 +56,8 @@ func button(parent: Node, title: String, action: Callable, mutation: bool = fals
 		if not mutation or (online and not pending and fixture.is_empty()): action.call())
 	if mutation: b.set_meta("mutation",true)
 	parent.add_child(b)
+	var font:=b.get_theme_font("font")
+	b.custom_minimum_size.x=ceilf(font.get_string_size(title,HORIZONTAL_ALIGNMENT_LEFT,-1,b.get_theme_font_size("font_size")).x)+b.get_theme_stylebox("normal").get_minimum_size().x+8
 	return b
 
 func page(title: String) -> VBoxContainer:
@@ -82,6 +90,8 @@ func _ready() -> void:
 	dismiss.custom_minimum_size.x=110
 	dismiss.size_flags_horizontal=Control.SIZE_SHRINK_END
 	connection=label(col,"Connecting to the core…",13)
+	policy=label(col,"Installation policy not reported",13)
+	briefing=label(col,"No observation window loaded",13)
 	notice=label(col,"Observations and local drafts only. Scenery and travel do not start work.",14)
 	tabs=TabContainer.new()
 	tabs.size_flags_vertical=Control.SIZE_EXPAND_FILL
@@ -141,6 +151,76 @@ func open() -> void:
 	layout_workspace()
 	show(); poll(); tabs.get_tab_bar().grab_focus()
 
+func set_installation(value: Dictionary, offline: bool) -> void:
+	installation_snapshot=value.duplicate(true)
+	installation_offline=offline
+	if policy == null: return
+	policy.text="Field: "+ConnectionStatus.reason(value,"field")+" · Memory: "+ConnectionStatus.reason(value,"memory")
+	if offline: policy.text="Policy last-known · "+policy.text
+	controls()
+
+func set_api(value: String) -> void:
+	if pending or (commands != null and (commands.uncertain or not commands.phase.is_empty())): return
+	get_http.cancel_request(); detail_http.cancel_request()
+	api=value; commands.api=value
+	fixture=""; fixture_details.clear(); snapshot.clear(); selected=""; signature=""
+	online=false; installation_snapshot.clear(); installation_offline=true
+	set_installation({},true)
+	clear(detail); label(detail,"Select evidence from this installation.")
+	connection.text="Connecting to selected Core…"
+	render(); poll()
+
+static func active_run(run: Dictionary) -> bool:
+	return run.get("state","") not in ["completed","failed","cancelled"]
+
+static func ordered_runs(records: Array) -> Array:
+	var active: Array=[]
+	var history: Array=[]
+	var seen := {}
+	for run in records:
+		var id:=str(run.get("input",{}).get("id",""))
+		if seen.has(id): continue
+		seen[id]=true
+		if active_run(run): active.append(run)
+		else: history.append(run)
+	var newest = func(a: Dictionary,b: Dictionary): return float(a.get("updated_at",0))>float(b.get("updated_at",0))
+	active.sort_custom(newest); history.sort_custom(newest)
+	return active+history.slice(0,30)
+
+static func run_message(run: Dictionary) -> String:
+	var message:=str(run.get("detail",""))
+	return "Cancellation acknowledged. Last recorded message: "+message if run.get("state")=="cancelled" else message
+
+static func source_time(run: Dictionary) -> float:
+	var source=run.get("snapshot",{})
+	return float(run.get("source_observed_at",0) if run.get("source_observed_at") != null else 0) if not source is Dictionary or not source.has("observed_at") else float(source.observed_at)
+
+static func watch_status(watch: Dictionary, records: Array, now: float) -> Dictionary:
+	var config: Dictionary=watch.config
+	var latest: Dictionary={}
+	var observed := 0.0
+	var busy := false
+	for run in records:
+		if run.get("input",{}).get("target")!=watch.id: continue
+		busy=busy or active_run(run)
+		observed=maxf(observed,source_time(run))
+		if latest.is_empty() or float(run.get("updated_at",0))>float(latest.get("updated_at",0)): latest=run
+	var overdue: bool=not config.removed and config.enabled and observed>0 and now-observed>float(config.interval_seconds)*2+480
+	var schedule: String="Removed" if config.removed else "Paused" if not config.enabled else "Busy · active observation" if busy else "Awaiting durable timer tick"
+	var stamp: String="Source observation time unavailable" if observed<=0 else "Source observed "+Time.get_datetime_string_from_unix_time(int(observed))+" UTC"
+	return {"latest":latest,"overdue":overdue,"text":("OVERDUE · " if overdue else "")+schedule+" · every "+str(int(config.interval_seconds))+"s · "+stamp}
+
+static func briefing_text(data: Dictionary, now: float) -> String:
+	var active:=0; var failed:=0; var completed:=0; var paused:=0; var overdue:=0
+	for run in data.get("runs",[]):
+		if active_run(run): active+=1
+		elif run.state=="failed": failed+=1
+		elif run.state=="completed": completed+=1
+	for watch in data.get("repositories",[]):
+		if not watch.config.enabled and not watch.config.removed: paused+=1
+		if watch_status(watch,data.get("runs",[]),now).overdue: overdue+=1
+	return "Snapshot window (%d runs): %d active · %d completed · %d failed · %d paused watches · %d overdue. List: all active + up to 30 recent." % [data.get("runs",[]).size(),active,completed,failed,paused,overdue]
+
 func poll() -> void:
 	if not visible or not fixture.is_empty() or get_http.get_http_client_status()!=HTTPClient.STATUS_DISCONNECTED: return
 	if get_http.request(api+"/v4/snapshot")!=OK: received(1,0,[],PackedByteArray())
@@ -160,8 +240,10 @@ func received(result: int, code: int, _headers: PackedStringArray, body: PackedB
 func controls() -> void:
 	for b in find_children("*","Button",true,false):
 		if b.has_meta("mutation"): b.disabled=not online or pending or not fixture.is_empty()
-	launch.disabled=launch.disabled or not snapshot.get("enabled",false) or targets.item_count==0
-	watch_save.disabled=watch_save.disabled or not snapshot.get("enabled",false)
+	var field_policy:=ConnectionStatus.capability(installation_snapshot,"field")
+	var dispatch_disabled: bool=installation_offline or (not field_policy.is_empty() and not field_policy.get("enabled",false))
+	launch.disabled=launch.disabled or dispatch_disabled or not snapshot.get("enabled",false) or targets.item_count==0
+	watch_save.disabled=watch_save.disabled or dispatch_disabled or not snapshot.get("enabled",false)
 
 func clear(parent: Node) -> void:
 	for child in parent.get_children(): parent.remove_child(child); child.queue_free()
@@ -187,12 +269,13 @@ func render() -> void:
 		targets.set_item_metadata(targets.item_count-1,target)
 		if target.id==chosen: targets.select(targets.item_count-1)
 	clear(runs); clear(watches); clear(memories)
-	for run in snapshot.get("runs",[]).slice(0,30):
+	briefing.text=briefing_text(snapshot,Time.get_unix_time_from_system())
+	for run in ordered_runs(snapshot.get("runs",[])):
 		focus_context=str(run.input.id)
 		var summary: Dictionary=run.get("summary") if run.get("summary") is Dictionary else {}
 		label(runs,str(run.input.agent)+" / "+str(run.input.target)+" · "+str(run.state),18)
-		label(runs,str(run.detail)+(" · "+str(summary.get("finding_count",0))+" findings" if not summary.is_empty() else ""),14)
-		var row := HBoxContainer.new(); runs.add_child(row)
+		label(runs,run_message(run)+(" · "+str(int(summary.get("finding_count",0)))+" findings" if not summary.is_empty() else ""),14)
+		var row := HFlowContainer.new(); runs.add_child(row)
 		button(row,"Findings",func(): inspect(str(run.input.id)))
 		if run.state not in ["completed","failed","cancelled"]:
 			button(row,"Stop observation",func(): commands.submit("/v4/runs/"+str(run.input.id)+"/cancel",{},str(run.input.id)),true)
@@ -201,15 +284,10 @@ func render() -> void:
 		focus_context=str(watch.id)
 		var c: Dictionary=watch.config
 		label(watches,str(c.repository)+" · "+("REMOVED" if c.removed else "WATCH ENABLED" if c.enabled else "PAUSED"),18)
-		var latest: Dictionary={}
-		for run in snapshot.get("runs",[]):
-			if run.input.target==watch.id: latest=run; break
-		var last_text := "Not yet observed"
-		if not latest.is_empty():
-			last_text=str(latest.state)+" · "+Time.get_datetime_string_from_unix_time(int(latest.updated_at))+" UTC"
-			if Time.get_unix_time_from_system()-float(latest.updated_at)>float(c.interval_seconds)*2+480: last_text="STALE · "+last_text
-		label(watches,"Every "+str(int(c.interval_seconds))+"s · "+last_text,14)
-		var row := HBoxContainer.new(); watches.add_child(row)
+		var status:=watch_status(watch,snapshot.get("runs",[]),Time.get_unix_time_from_system())
+		var latest: Dictionary=status.latest
+		label(watches,status.text,14)
+		var row := HFlowContainer.new(); watches.add_child(row)
 		button(row,"Restore" if c.removed else "Pause" if c.enabled else "Resume",func(): edit_watch(c,not c.enabled,false),true)
 		if not c.removed: button(row,"Remove",func(): edit_watch(c,false,true),true)
 		if not latest.is_empty(): button(row,"Latest findings",func(): inspect(str(latest.input.id)))
@@ -225,7 +303,7 @@ func render() -> void:
 		focus_context=str(m.id)
 		label(memories,str(m.finding.summary),18)
 		label(memories,str(m.agent)+" · "+str(m.target)+" · "+str(m.decision)+" · revision "+str(m.revision),14)
-		var row := HBoxContainer.new(); memories.add_child(row)
+		var row := HFlowContainer.new(); memories.add_child(row)
 		button(row,"Source",func(): inspect(str(m.source_run)))
 		for decision in (["revoke"] if m.decision=="approve" else ["approve","reject"]):
 			button(row,str(decision).capitalize(),func(): commands.submit("/v4/memory/review",{"id":m.id,"revision":m.revision,"decision":decision},str(m.id),"/v4/snapshot"),true)
@@ -273,9 +351,9 @@ func show_detail(run: Dictionary) -> void:
 	clear(detail)
 	if run.is_empty(): label(detail,"Evidence unavailable. No successful outcome inferred."); return
 	label(detail,str(run.input.agent)+" / "+str(run.state),22)
-	label(detail,str(run.detail))
+	label(detail,run_message(run))
 	var source: Dictionary=run.get("snapshot",{}) if run.get("snapshot") is Dictionary else {}
-	label(detail,("NO SOURCE CAPTURED · " if source.is_empty() else "SYNTHETIC · " if source.get("data",{}).get("simulation",false) else "RETAINED SOURCE · ")+Time.get_datetime_string_from_unix_time(int(run.updated_at))+" UTC",14)
+	label(detail,("NO SOURCE CAPTURED · " if source.is_empty() else "SYNTHETIC · " if source.get("data",{}).get("simulation",false) else "RETAINED SOURCE · ")+(Time.get_datetime_string_from_unix_time(int(source_time(run)))+" UTC" if source_time(run)>0 else "capture time unavailable"),14)
 	var report: Dictionary=run.report if run.get("report") is Dictionary else {}
 	for f in report.get("findings",[]):
 		label(detail,str(f.code)+" · "+str(f.subject)+":"+str(int(f.line)),18)

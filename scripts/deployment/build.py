@@ -23,8 +23,8 @@ def main() -> None:
     for k in ("rust", "base", "python", "uv"):
         if not re.fullmatch(r"[a-zA-Z0-9./:_-]+@sha256:[a-f0-9]{64}", data[k]):
             raise ValueError(f"{k} must be pinned by verified digest")
-    if not re.fullmatch(r"[a-zA-Z0-9./:_-]+", data["registry"]):
-        raise ValueError("Invalid registry/repository")
+    if not re.fullmatch(r"[a-zA-Z0-9.:_-]+(?:/[a-zA-Z0-9._-]+)*/starbase2", data["registry"]):
+        raise ValueError("Registry/repository must end in the starbase2 namespace")
     revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
     if subprocess.check_output(["git", "status", "--porcelain"], cwd=ROOT):
         raise ValueError(

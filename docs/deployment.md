@@ -2,6 +2,34 @@
 
 Status: accepted
 
+
+## Current staged scope · 2026-09-08
+
+The accepted sequence is stopped resource preparation, dependency connectivity,
+and reviewed provisioning/migrations; then an explicitly disposable read-only
+pilot; then durable admission after its backup/recovery gates pass. Keep
+`replicas: 0` and `accept_work: false` during preparation. The independent backup
+key and verified restore/RPO/RTO remain gates for durable work, not a reason to
+block stopped namespace, identity, policy or connectivity preparation. A pilot
+must have bounded scope, duration and cleanup, and its disposable records must
+not become production data.
+
+The [current read-only audit](../evidence/kubani-namespaces/current-readiness.md)
+found that Kubani main `d72107f` has no Starbase2 directory or Flux owner, and
+`starbase2-prod` does not exist. Commit `cd565b6` deliberately removed the inactive
+PR127 draft. References to that preparation below are historical; they do not
+establish a current installation or authorize restoring the old draft. Prepare
+a fresh reviewed GitOps change against current main.
+
+Fresh committed and qualified amd64 images are required to carry the current
+installation/capability/source-time contract into the pilot. Published revision
+`71ca83d` is retained release evidence, not qualification of these later changes.
+Infrastructure preparation can be designed in parallel, but final manifests
+must bind the chosen qualified images by digest. The current renderer disables
+field observations, inference, memory and repairs and permits only dependency
+egress. A real GitHub pilot needs a separately reviewed field-only target,
+credential and network configuration; enabling admission alone is insufficient.
+
 This is the executable preparation package for a **fresh** Starbase2 production
 installation. Nothing in this work activates Kubani or imports local SQLite or
 Temporal data. [ADR 0005](adr/0005-fresh-kubani-installation.md) records the
@@ -37,6 +65,42 @@ worker gRPC. The private PostgreSQL configuration has no verified TLS setup.
 Treat cluster/platform administrators and other authorized service clients as
 trusted for this first private installation. Public ingress, sensitive source
 and operational permissions remain gated on a stronger identity design.
+
+## Starbase2 naming and namespace ownership
+
+All new Kubani application resources belong to `starbase2`, with production
+installation identity `starbase2-prod`. Use the GitOps directory
+`infrastructure/gitops/apps/starbase2/`; do not adopt or rename the predecessor's
+`starbase/` resources. Preserve historical references as history.
+
+| Kubernetes scope | Starbase2 additions |
+|---|---|
+| `starbase2-prod` | Deployment `starbase2`, ServiceAccount `starbase2`, migration Jobs `starbase2-migrate-*`, Secrets `starbase2-worker`, `starbase2-database`, `starbase2-migrator`, and NetworkPolicy `starbase2-boundary` |
+| Existing PostgreSQL namespace (`database` by default) | Only NetworkPolicy `starbase2-prod-postgres`, allowing the selected Starbase2 pods to the existing database |
+| Existing Temporal namespace (`temporal` by default) | Only NetworkPolicy `starbase2-prod-temporal`, allowing the selected Starbase2 pods to the existing frontend |
+| Cluster scope | Namespace `starbase2-prod`; no generated ClusterRoles or ClusterRoleBindings |
+
+The two infrastructure-side policies must live beside the destination pods.
+Their source selector combines the exact Starbase2 namespace and installation
+pod labels. Shared PostgreSQL and Temporal retain their existing names and
+ownership. New Starbase2 workloads, secrets or future application stores belong
+in the installation namespace; any future cluster-scoped permissions require
+an explicit reviewed boundary change.
+
+The renderer rejects legacy application identities, default/system/legacy
+infrastructure namespaces, and application/infrastructure namespace overlap.
+Kubernetes and Temporal namespace identities must match the installation;
+the queue must start with that installation plus `-`. Database names begin
+`starbase2_`. Application image repositories end in `/starbase2/core` and
+`/starbase2/runtime`; the build registry path ends in `/starbase2`.
+All generated resources and installed Secrets carry the `starbase2.io/installation`
+label and `app.kubernetes.io/name: starbase2`.
+
+Existing `STARBASE_*` settings, `starbase-core` executable and `starbase_runtime`
+Python module are versioned runtime interfaces inside the qualified images.
+They are not Kubernetes resource names. Preserve these interfaces until a
+coordinated code/image compatibility migration; independently changing the
+manifest's commands or environment names would break the current release.
 
 ## Commands and safety behavior
 

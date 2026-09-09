@@ -1,0 +1,114 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    app.kubernetes.io/name: starbase2
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/enforce-version: v1.34
+    starbase2.io/installation: starbase2-prod
+  name: starbase2-prod
+---
+apiVersion: v1
+automountServiceAccountToken: false
+kind: ServiceAccount
+metadata:
+  labels:
+    app.kubernetes.io/name: starbase2
+    starbase2.io/installation: starbase2-prod
+  name: starbase2
+  namespace: starbase2-prod
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  labels:
+    app.kubernetes.io/name: starbase2
+    starbase2.io/installation: starbase2-prod
+  name: starbase2-prod-postgres
+  namespace: database
+spec:
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: starbase2-prod
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: starbase2
+          starbase2.io/installation: starbase2-prod
+    ports:
+    - port: 5432
+      protocol: TCP
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: postgresql
+  policyTypes:
+  - Ingress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  labels:
+    app.kubernetes.io/name: starbase2
+    starbase2.io/installation: starbase2-prod
+  name: starbase2-boundary
+  namespace: starbase2-prod
+spec:
+  egress:
+  - ports:
+    - port: 53
+      protocol: UDP
+    - port: 53
+      protocol: TCP
+    to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-system
+  - ports:
+    - port: 5432
+      protocol: TCP
+    to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: database
+  - ports:
+    - port: 7233
+      protocol: TCP
+    to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: temporal
+  ingress: []
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  labels:
+    app.kubernetes.io/name: starbase2
+    starbase2.io/installation: starbase2-prod
+  name: starbase2-prod-temporal
+  namespace: temporal
+spec:
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: starbase2-prod
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: starbase2
+          starbase2.io/installation: starbase2-prod
+    ports:
+    - port: 7233
+      protocol: TCP
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/component: frontend
+      app.kubernetes.io/instance: temporal
+      app.kubernetes.io/name: temporal
+  policyTypes:
+  - Ingress

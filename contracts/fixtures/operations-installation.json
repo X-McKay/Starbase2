@@ -1,0 +1,48 @@
+{
+  "schema_version": 2,
+  "observed_at": 0.0,
+  "worker": {
+    "available": false,
+    "seen_at": null
+  },
+  "targets": [],
+  "crew": [],
+  "builds": [],
+  "duties": [],
+  "active": [],
+  "recent": [],
+  "installation": {
+    "id": "fixture-installation",
+    "environment": "development",
+    "capabilities": {
+      "accept_work": {
+        "enabled": true,
+        "reason": "Configured policy; readiness is separate"
+      },
+      "review": {
+        "enabled": true,
+        "reason": "Configured policy; readiness is separate"
+      },
+      "evaluation": {
+        "enabled": true,
+        "reason": "Configured policy; readiness is separate"
+      },
+      "repair": {
+        "enabled": true,
+        "reason": "Configured policy; readiness is separate"
+      },
+      "field": {
+        "enabled": true,
+        "reason": "Configured policy; readiness is separate"
+      },
+      "memory": {
+        "enabled": false,
+        "reason": "Configured policy; readiness is separate"
+      },
+      "inference": {
+        "enabled": true,
+        "reason": "Configured policy; readiness is separate"
+      }
+    }
+  }
+}

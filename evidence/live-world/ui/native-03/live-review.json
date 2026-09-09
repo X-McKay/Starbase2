@@ -1,0 +1,56 @@
+{
+  "api": "http://127.0.0.1:18801",
+  "captures": [
+    "live-colony",
+    "live-connection",
+    "live-command",
+    "live-repositories",
+    "live-evidence",
+    "live-compact",
+    "live-disconnected",
+    "live-reconnected"
+  ],
+  "client_outage_test": true,
+  "commands_dispatched": false,
+  "failures": [],
+  "fixture": false,
+  "installation": {
+    "capabilities": {
+      "accept_work": {
+        "enabled": true,
+        "reason": "Enabled by installation policy; worker and target readiness checked separately"
+      },
+      "evaluation": {
+        "enabled": true,
+        "reason": "Enabled by installation policy; worker and target readiness checked separately"
+      },
+      "field": {
+        "enabled": true,
+        "reason": "Enabled by installation policy; worker and target readiness checked separately"
+      },
+      "inference": {
+        "enabled": false,
+        "reason": "Model inference is disabled by installation policy"
+      },
+      "memory": {
+        "enabled": false,
+        "reason": "Reviewed recall is disabled; basic observations remain available"
+      },
+      "repair": {
+        "enabled": false,
+        "reason": "Synthetic repairs are disabled by installation policy"
+      },
+      "review": {
+        "enabled": true,
+        "reason": "Enabled by installation policy; worker and target readiness checked separately"
+      }
+    },
+    "environment": "development",
+    "id": "development"
+  },
+  "observed_at": 1788920163.30443,
+  "run_ids": [
+    "live-cancel-before-dispatch",
+    "duty-repo-4b5e27397679c50e698d0bc9-0-1788919705"
+  ]
+}

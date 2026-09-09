@@ -76,7 +76,7 @@ def install_secret(c: dict, name: str, data: dict) -> None:
         "metadata": {
             "name": name,
             "namespace": c["namespace"],
-            "labels": {render.LABEL: c["installation"]},
+            "labels": {render.LABEL: c["installation"], "app.kubernetes.io/name": "starbase2"},
         },
         "type": "Opaque",
         "data": encoded,

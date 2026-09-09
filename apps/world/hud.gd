@@ -1,6 +1,10 @@
 extends CanvasLayer
 ## Contextual controls; all commands have a non-spatial keyboard path.
+const StateView = preload("res://state.gd")
 const CrewArt = preload("res://crew_art.gd")
+var connection_panel: PanelContainer
+signal connect_requested(endpoint:String)
+var operations: PanelContainer
 var board: PanelContainer
 var room_details: PanelContainer
 var room_detail_title: Label
@@ -130,7 +134,11 @@ func _ready() -> void:
 	connection.clip_text=true
 	connection.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
 	connection.mouse_filter=Control.MOUSE_FILTER_PASS
-	connection.mouse_entered.connect(func(): connection.tooltip_text=connection.text)
+	connection.mouse_entered.connect(func(): connection.tooltip_text=connection.text+" · Connection [O]")
+	connection.gui_input.connect(func(event:InputEvent):
+		if event is InputEventMouseButton and event.pressed and event.button_index==MOUSE_BUTTON_LEFT:
+			open_connection()
+			root.get_viewport().set_input_as_handled())
 	var top := HBoxContainer.new()
 	navigation_bar=top
 	top.name="NavigationBar"
@@ -219,6 +227,7 @@ func _ready() -> void:
 	var cosmetic := text(identity_text,"Crew appearance\nEquipment is cosmetic.",12,"a6c9be")
 	cosmetic.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	button(col,"Command board [B]",open_board)
+	button(col,"Operations & history [R]",open_operations)
 	button(col,"Visit this room",func(): room_requested.emit(filter_kind))
 	text(col,"OBSERVED WORK · retained records",12,"a6c9be")
 	list = OptionButton.new()
@@ -264,7 +273,7 @@ func _ready() -> void:
 	command_status = text(col,"",13,"f0cea0")
 	command_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	button(col,"Full journal & independent stop controls ↗",func(): journal_requested.emit())
-	var truth := text(col,"Poses and scenery are decorative.\nLevels grant no operational permissions.",12,"a8babf")
+	var truth := text(col,"Work poses reflect recorded activity. Travel is cosmetic.\nLevels grant no operational permissions.",12,"a8babf")
 	truth.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	dock.hide()
 	directory = panel_at(root,Vector2(330,0))
@@ -284,6 +293,8 @@ func _ready() -> void:
 	text(menu,"STATION DIRECTORY",18,"efd29d")
 	text(menu,"Inspect or act from anywhere.",14)
 	button(menu,"Command board [B]",open_board)
+	button(menu,"Operations & history [R]",open_operations)
+	button(menu,"Connection [O]",open_connection)
 	button(menu,"1   Mender / workshop",func(): open_place("repair"))
 	button(menu,"2   Surveyor / command",func(): open_place("review"))
 	button(menu,"3   Trainer / trial hall",func(): open_place("gym"))
@@ -315,7 +326,8 @@ func _ready() -> void:
 	hc.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	help_scroll.add_child(hc)
 	text(hc,"FIELD GUIDE & COMFORT",18,"efd29d")
-	text(hc,"WASD / arrows: move · Click: choose path\nE: inspect crew or console · F: enter or exit\n1–5: inspect crew · Tab: station directory\nEnter: focused control · Esc: close\nC: follow / room camera · M: colony map\n+ / − or wheel: zoom · B: command board\nJ: independent journal · H: this guide\nHabitat, Botanical and reserved sites are scenery.",15).autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	button(hc,"Colony connection [O]",open_connection)
+	text(hc,"WASD / arrows: move · Click: choose path\nE: inspect crew or console · F: enter or exit\n1–5: inspect crew · Tab: station directory\nEnter: focused control · Esc: close\nC: follow / room camera · M: colony map\n+ / − or wheel: zoom · B: command board\nJ: independent journal · O: connection · H: this guide\nHabitat, Botanical and reserved sites are scenery.",15).autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	add_summary_toggle(hc)
 	var rm := CheckButton.new()
 	rm.text = "Reduced motion (room cuts, still crew)"
@@ -340,6 +352,10 @@ func _ready() -> void:
 	board.api=api; board.fixture=board_fixture
 	board.add_theme_stylebox_override("panel",style("102535fa","759496",18))
 	root.add_child(board)
+	operations=preload("res://operations_panel.gd").new()
+	operations.api=api; operations.fixture=board_fixture
+	operations.add_theme_stylebox_override("panel",style("102535fa","759496",18))
+	root.add_child(operations)
 	room_details=panel_at(root,Vector2(386,0))
 	room_details.set_anchors_and_offsets_preset(Control.PRESET_RIGHT_WIDE)
 	var room_scroll:=ScrollContainer.new()
@@ -356,6 +372,11 @@ func _ready() -> void:
 	room_detail_body.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	button(room_column,"Back to exploring [Esc]",close_panels)
 	room_details.hide()
+	connection_panel=preload("res://connection_panel.gd").new()
+	connection_panel.add_theme_stylebox_override("panel",style())
+	root.add_child(connection_panel)
+	connection_panel.connect_requested.connect(func(value:String): connect_requested.emit(value))
+	connection_panel.journal_requested.connect(func(): journal_requested.emit())
 	root.resized.connect(layout_hud)
 	layout_hud.call_deferred()
 
@@ -388,7 +409,7 @@ func layout_hud() -> void:
 	room_exit.position=Vector2(22,112 if narrow else 70)
 	var top_edge:=154.0 if narrow else 112.0
 	var panel_width:=minf(410 if large_text else 386,viewport_size.x-44)
-	for panel in [dock,directory,help,room_details]:
+	for panel in [dock,directory,help,room_details,connection_panel]:
 		panel.custom_minimum_size.x=panel_width
 		panel.offset_top=top_edge
 		panel.offset_bottom=-80
@@ -396,13 +417,28 @@ func layout_hud() -> void:
 	dock.offset_right=-22
 	room_details.offset_left=-panel_width-22
 	room_details.offset_right=-22
-	for panel in [directory,help]:
+	for panel in [directory,help,connection_panel]:
 		panel.offset_left=22
 		panel.offset_right=22+panel_width
+	if operations!=null:
+		var operations_width:=minf(760,viewport_size.x-44)
+		operations.offset_left=viewport_size.x-operations_width-22
+		operations.offset_right=-22
+		operations.offset_top=top_edge
+		operations.offset_bottom=-80
 	var prompt_width:=minf(820,viewport_size.x-44)
 	prompt_panel.offset_left=(viewport_size.x-prompt_width)*0.5
 	prompt_panel.offset_right=-(viewport_size.x-prompt_width)*0.5
 	prompt_panel.offset_top=-68 if large_text else -62
+
+func open_connection() -> void:
+	close_panels()
+	connection_panel.show()
+	connection_panel.endpoint.grab_focus()
+
+func open_operations() -> void:
+	close_panels()
+	operations.open()
 
 func open_board() -> void:
 	close_panels()
@@ -442,7 +478,9 @@ func scale_text() -> void:
 	layout_hud()
 
 func close_panels() -> void:
+	if operations!=null: operations.hide()
 	if board!=null: board.hide()
+	if connection_panel!=null: connection_panel.hide()
 	dock.hide()
 	directory.hide()
 	help.hide()
@@ -469,10 +507,10 @@ func open_place(kind: String) -> void:
 	list.grab_focus()
 
 func is_open() -> bool:
-	return dock.visible or directory.visible or help.visible or (board!=null and board.visible) or (room_details!=null and room_details.visible)
+	return (operations!=null and operations.visible) or (connection_panel!=null and connection_panel.visible) or dock.visible or directory.visible or help.visible or (board!=null and board.visible) or (room_details!=null and room_details.visible)
 
 func update_list(missions: Array) -> void:
-	var shown: Array = missions.filter(func(m): return m["input"].get("kind", "review") == filter_kind)
+	var shown: Array = missions.filter(func(m): return StateView.context(m) == filter_kind)
 	var ids: Array = shown.map(func(m): return m["input"]["id"])
 	var old_ids: Array = []
 	for i in range(list.item_count):

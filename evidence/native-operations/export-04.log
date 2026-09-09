@@ -1,0 +1,10 @@
+python3 scripts/check_world_export.py --output .local/reviews/native-operations/20260909-final-04
+Traceback (most recent call last):
+  File "/Users/al/git/Starbase2/scripts/check_world_export.py", line 371, in <module>
+    main()
+  File "/Users/al/git/Starbase2/scripts/check_world_export.py", line 272, in main
+    native_capture(
+  File "/Users/al/git/Starbase2/scripts/check_world_export.py", line 173, in native_capture
+    raise RuntimeError(f"Native capture failed; inspect {stdout} and {stderr}")
+RuntimeError: Native capture failed; inspect /Users/al/git/Starbase2/.local/reviews/native-operations/20260909-final-04/structures.log and /Users/al/git/Starbase2/.local/reviews/native-operations/20260909-final-04/structures-stderr.log
+error: recipe `check-world-export` failed on line 28 with exit code 1

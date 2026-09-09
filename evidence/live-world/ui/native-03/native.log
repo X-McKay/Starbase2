@@ -1,0 +1,14 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M5
+
+LIVE_REVIEW_START
+LIVE_CAPTURE live-colony
+OPENING_CONNECTION
+LIVE_CAPTURE live-connection
+LIVE_CAPTURE live-command
+LIVE_CAPTURE live-repositories
+LIVE_CAPTURE live-evidence
+LIVE_CAPTURE live-compact
+LIVE_CAPTURE live-disconnected
+LIVE_CAPTURE live-reconnected
+LIVE_WORLD_CAPTURE_PASSED: live metadata, retained runs, evidence, compact UI, client outage and reconnect; no dispatch

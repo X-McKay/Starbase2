@@ -99,3 +99,22 @@ func _apply_layout() -> void:
 		sprite.pixel_size=layout.pixel_size
 		sprite.offset=Vector2(size.x*.5-anchor.x,anchor.y-size.y*.5)
 		sprite.position.y=0; sprite.shaded=layout.get("shaded",false)
+
+# Static, color-independent assignment cues. Structured inspectors own full run IDs.
+# This changes only the existing label: no timers, movement, or command dispatch.
+func project_assignment(intent: Dictionary, large_text: bool = false) -> void:
+	if label==null: return
+	var lines: Array[String]=[display_name]
+	var markers: Array=intent.get("task_markers",[])
+	for marker in markers:
+		var identity:=str(marker.get("run_id",""))
+		# Newlines/control characters cannot inject a misleading extra status row.
+		identity=identity.replace("\n"," ").replace("\r"," ").replace("\t"," ")
+		var short_id:=identity if identity.length()<=10 else identity.substr(0,8)+".."
+		lines.append("%s %s · %s" % [marker.get("icon","?"),marker.get("text","Unknown"),short_id])
+	if markers.is_empty(): lines.append(str(intent.get("label","No recorded work")))
+	var overflow:=int(intent.get("marker_overflow",0))
+	if overflow>0: lines.append("+%d retained · inspect crew" % overflow)
+	label.text="\n".join(lines)
+	label.font_size=22 if large_text else 18
+	label.modulate=Color(markers[0].get("color","e8e6d4")) if not markers.is_empty() else Color("e8e6d4")

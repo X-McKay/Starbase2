@@ -174,3 +174,24 @@ Native [normal](../evidence/world-operations.png) and
 long-ID overflow found in the first capture was fixed by bounded text layout.
 These are functional/visual smoke checks, not performance or accessibility
 certification, cross-platform coverage, or a Godot web-export result.
+
+## Additive installation policy metadata
+
+The v2 snapshot now includes optional typed `installation` metadata: `id`,
+`environment`, and `capabilities`. The capability keys are `accept_work`,
+`review`, `evaluation`, `repair`, `field`, `memory` and `inference`; each contains
+`enabled` and a human-readable `reason`. Older snapshots without metadata remain
+valid. Missing metadata means unknown policy, not disabled or authorized work.
+
+This describes the Core installation's configured flags, not worker readiness,
+loaded-build compatibility, provider permission or target health. Existing
+worker/build/target records retain those separate meanings. Quiescing disables
+new dispatch; it does not disable cancellation, inspection or memory approval.
+The `memory` capability describes configured reviewed recall and does not promise
+a reachable graph. Deployment must configure Core and worker consistently.
+No credential, remote authentication or additional authority is introduced.
+
+The [shared rollout fixture](../contracts/fixtures/operations-installation.json)
+shows enabled policy with an unavailable worker. Rust policy tests use injected
+configuration rather than mutating process environment; Python wire tests accept
+both old snapshots and additive fields.

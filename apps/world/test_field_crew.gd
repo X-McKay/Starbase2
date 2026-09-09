@@ -9,7 +9,8 @@ func run() -> void:
 	await process_frame
 	var fixture={"schema_version":2,"recent":[],"worker":{"available":true},"field_runs":[{"input":{"id":"cluster-test","agent":"watchkeeper","target":"training"},"state":"completed","snapshot":{"data":{"simulation":true}},"report":{"findings":[{}],"coverage":[],"memory":{"status":"available"}}}]}
 	world.receive_snapshot(fixture)
-	assert(world.get_node("Watchkeeper").label.text.contains("Findings"))
+	assert(world.get_node("Watchkeeper").label.text.contains("[=] Evidence ready"))
+	assert(StateView.crew_activity(world.missions,"watchkeeper",false)=="Findings")
 	assert(world.get_node("Reviewer").label.text.contains("No recorded work"))
 	var key:=InputEventKey.new()
 	key.pressed=true
@@ -18,6 +19,7 @@ func run() -> void:
 	assert(world.hud.heading.text.contains("WATCHKEEPER"))
 	assert(world.hud.selected_id=="cluster-test")
 	assert(world.hud.evidence.text.contains("synthetic fixture"))
+	assert(world.hud.evidence.text.contains("1 observed findings"))
 	key.physical_keycode=KEY_5
 	world._unhandled_key_input(key)
 	assert(world.hud.heading.text.contains("PR REVIEWER"))

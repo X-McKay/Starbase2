@@ -53,6 +53,7 @@ def main(images=None) -> None:
         installation="starbase2-rehearsal",
         namespace="starbase2-rehearsal",
         temporal_namespace="starbase2-rehearsal",
+        temporal_queue="starbase2-rehearsal-v1",
         database=DB,
         retention_days=1,
     )

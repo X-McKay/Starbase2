@@ -39,9 +39,19 @@ def load(path: Path) -> dict:
         raise ValueError("Invalid dedicated database name")
     if c["namespace"] != c["installation"] or c["temporal_namespace"] != c["installation"]:
         raise ValueError("Installation, Kubernetes namespace and Temporal namespace must match")
+    if not c["temporal_queue"].startswith(c["installation"] + "-"):
+        raise ValueError("Temporal queue must belong to the selected installation")
     for key in ("postgres_namespace", "temporal_kubernetes_namespace"):
         if not re.fullmatch(r"[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?", c[key]):
             raise ValueError(f"Invalid dependency namespace: {key}")
+        if (
+            c[key] == c["namespace"]
+            or c[key] == "default"
+            or c[key].startswith("kube-")
+            or c[key] == "starbase"
+            or c[key].startswith("starbase-")
+        ):
+            raise ValueError(f"{key} requires a dedicated existing infrastructure namespace")
     if not re.fullmatch(r"[a-z0-9][a-z0-9.-]{0,250}", c["postgres_host"]):
         raise ValueError("PostgreSQL host must be a DNS name")
     if not re.fullmatch(r"[a-z0-9][a-z0-9.-]{0,250}:7233", c["temporal_address"]):
@@ -49,6 +59,10 @@ def load(path: Path) -> dict:
     for key in ("core_image", "runtime_image"):
         if not re.fullmatch(r"[a-zA-Z0-9./:_-]+@sha256:[a-f0-9]{64}", c[key]):
             raise ValueError(f"{key} requires an immutable published digest")
+        component = key.removesuffix("_image")
+        repository = c[key].split("@", 1)[0]
+        if not repository.endswith("/starbase2/" + component):
+            raise ValueError(f"{key} must use the starbase2/{component} image repository")
     if not re.fullmatch(r"[a-f0-9]{40}", c["source_revision"]):
         raise ValueError("source_revision requires a committed revision")
     if c["platform"] not in {"linux/amd64", "linux/arm64"}:

@@ -14,8 +14,8 @@ def config(tmp_path):
     c = json.loads((render.ROOT / "deploy/production.example.json").read_text())
     c.update(
         context="test-kubani",
-        core_image="registry.test/core@sha256:" + "a" * 64,
-        runtime_image="registry.test/runtime@sha256:" + "b" * 64,
+        core_image="registry.test/starbase2/core@sha256:" + "a" * 64,
+        runtime_image="registry.test/starbase2/runtime@sha256:" + "b" * 64,
         source_revision="c" * 40,
     )
     p = tmp_path / "config.json"
@@ -27,6 +27,16 @@ def config(tmp_path):
     "key,value",
     [
         ("namespace", "default"),
+        ("namespace", "starbase-prod"),
+        ("temporal_queue", "starbase2-other-v1"),
+        ("postgres_namespace", "starbase2-prod"),
+        ("temporal_kubernetes_namespace", "starbase2-prod"),
+        ("postgres_namespace", "default"),
+        ("postgres_namespace", "kube-system"),
+        ("temporal_kubernetes_namespace", "starbase"),
+        ("temporal_kubernetes_namespace", "starbase-prod"),
+        ("core_image", "registry.test/starbase/core@sha256:" + "a" * 64),
+        ("runtime_image", "registry.test/runtime@sha256:" + "b" * 64),
         ("database", "postgres"),
         ("database", "starbase2_x;DROP"),
         ("temporal_namespace", "default"),
@@ -441,3 +451,51 @@ def test_image_driver_waits_for_tcp_database_readiness(tmp_path, monkeypatch):
     monkeypatch.setattr("scripts.deployment.image_rehearsal.time.sleep", lambda _: None)
     driver.wait_for_database()
     assert len(calls) == 3 and all(c == command for c in calls)
+
+
+def test_every_generated_resource_has_starbase2_identity_and_explicit_namespace(config):
+    resources = render.objects(config)
+    exceptions = {
+        config["installation"] + "-postgres": config["postgres_namespace"],
+        config["installation"] + "-temporal": config["temporal_kubernetes_namespace"],
+    }
+    for resource in resources:
+        meta = resource["metadata"]
+        assert meta["name"] == "starbase2" or meta["name"].startswith("starbase2-")
+        assert meta["labels"]["app.kubernetes.io/name"] == "starbase2"
+        assert meta["labels"][render.LABEL] == config["installation"]
+        if resource["kind"] == "Namespace":
+            assert meta["name"] == config["namespace"]
+            assert "namespace" not in meta
+        elif meta["name"] in exceptions:
+            assert resource["kind"] == "NetworkPolicy"
+            assert meta["namespace"] == exceptions[meta["name"]]
+            peer = resource["spec"]["ingress"][0]["from"][0]
+            assert peer["namespaceSelector"]["matchLabels"] == {
+                "kubernetes.io/metadata.name": config["namespace"]
+            }
+            assert peer["podSelector"]["matchLabels"][render.LABEL] == config["installation"]
+        else:
+            assert meta["namespace"] == config["namespace"]
+
+
+def test_created_secrets_use_application_namespace_and_identity(config, monkeypatch):
+    created = []
+
+    def fake(c, *args, body=None):
+        if args[0] == "get":
+            return ""
+        assert args[:3] == ("create", "-f", "-")
+        assert isinstance(body, str)
+        created.append(json.loads(body))
+        return ""
+
+    monkeypatch.setattr(cli, "kubectl", fake)
+    for name in ("starbase2-worker", "starbase2-database", "starbase2-migrator"):
+        cli.install_secret(config, name, {"test": "synthetic"})
+    assert len(created) == 3
+    for secret in created:
+        assert secret["metadata"]["namespace"] == config["namespace"]
+        assert secret["metadata"]["labels"][render.LABEL] == config["installation"]
+        assert secret["metadata"]["name"].startswith("starbase2-")
+        assert secret["metadata"]["labels"]["app.kubernetes.io/name"] == "starbase2"

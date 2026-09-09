@@ -1,0 +1,12 @@
+python3 scripts/check_world_export.py --output .local/reviews/native-operations/20260909-final-02
+Traceback (most recent call last):
+  File "/Users/al/git/Starbase2/scripts/check_world_export.py", line 339, in <module>
+    main()
+  File "/Users/al/git/Starbase2/scripts/check_world_export.py", line 226, in main
+    native_capture(
+  File "/Users/al/git/Starbase2/scripts/check_world_export.py", line 113, in native_capture
+    run(
+  File "/Users/al/git/Starbase2/scripts/check_world_export.py", line 65, in run
+    raise RuntimeError(f"Export check failed; retained {log}")
+RuntimeError: Export check failed; retained /Users/al/git/Starbase2/.local/reviews/native-operations/20260909-final-02/colony-activation.log
+error: recipe `check-world-export` failed on line 28 with exit code 1
