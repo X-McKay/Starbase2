@@ -1,0 +1,60 @@
+{
+  "asset_id": "living-commons",
+  "blender_version": "5.2.1 LTS",
+  "source_kind": "Authored garden architecture and leaf meshes; no paid generation",
+  "version": 2,
+  "world_origin": [
+    -7,
+    0,
+    23
+  ],
+  "world_footprint": [
+    -12,
+    19.6,
+    10,
+    7.1
+  ],
+  "blocks": [
+    [
+      -11.85,
+      19.9,
+      1.0,
+      6.5
+    ],
+    [
+      -3.15,
+      19.9,
+      1.0,
+      6.5
+    ],
+    [
+      -9.4,
+      25.65,
+      4.8,
+      0.85
+    ],
+    [
+      -7.7,
+      22.0,
+      1.4,
+      2.1
+    ]
+  ],
+  "mesh_objects": 25,
+  "triangles": 35564,
+  "files": {
+    "assets-production/environment/living-commons/blender/living-commons.blend": {
+      "sha256": "e1ef219389aa752522a50c0342f1262844baa97b3b1e42325954c0128bb8df76",
+      "bytes": 606732
+    },
+    "apps/world/assets/environment/living-commons/living-commons.glb": {
+      "sha256": "cd3a7ce382813b5424456f25715311db4f696fd59c7470e48e0dcba545bd5c93",
+      "bytes": 2306212
+    },
+    "assets-production/scripts/build_living_commons.py": {
+      "sha256": "5439eb6bcebf3eced38cb1b3d6dbd15e479e2c27fe311353a6a92db027ed84ed",
+      "bytes": 11705
+    }
+  },
+  "review_status": "Requires native visual review and physics/navigation integration"
+}

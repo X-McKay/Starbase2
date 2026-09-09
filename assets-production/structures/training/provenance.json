@@ -17,20 +17,20 @@
   "source_kind": "authored architecture; generated equipment remains separate props",
   "files": {
     "assets-production/structures/training/blender/training-polished.blend": {
-      "sha256": "f6d7b09819a835974d967d4c23895341927421c4118c4fdb6bc71a35a1ac7aa4",
-      "bytes": 374481
+      "sha256": "2d04508a6a7df1dd85646020dac957ee79149448a78c31d1d6dd3db4afdb9090",
+      "bytes": 463307
     },
     "apps/world/assets/structures/training/gym-shell.glb": {
-      "sha256": "804a2932f381d79c08f92cd5cb29296794ffabcdba4a506792b5fc05f82bfb85",
-      "bytes": 3726436
+      "sha256": "7bfee0fa01ad9a0f30071a720cc7a595e34d48673aa8e444f9e4c02ae81d9450",
+      "bytes": 4214540
     },
     "apps/world/assets/structures/training/gym-interior.glb": {
-      "sha256": "50e0c565d9c4da67a04c2f632d855879aedf397b824a56973664d0177c562d68",
-      "bytes": 221968
+      "sha256": "35c0e36acd238447eded3430674487ec03a8b9dac21d876c10367910f411c134",
+      "bytes": 247664
     },
     "assets-production/scripts/build_remaining_structures.py": {
-      "sha256": "852aaf360ae6081ec96be5f0f3bcbf5da906091bac0e2417b5bce11318ddba13",
-      "bytes": 20538
+      "sha256": "0ad4c5724407d7b5e5188a295680fc7b11cf8fea41435a7a00b72228749f13d9",
+      "bytes": 36843
     }
   },
   "semantic_groups": [
@@ -40,9 +40,11 @@
     "Floor",
     "Furniture",
     "InteriorRevealBack",
-    "InteriorRevealRail"
+    "InteriorRevealPractice",
+    "InteriorRevealRail",
+    "InteriorRevealVault"
   ],
-  "mesh_objects": 29,
-  "triangles": 53900,
+  "mesh_objects": 37,
+  "triangles": 62816,
   "review_status": "Requires native and package qualification; owner art judgment separate"
 }

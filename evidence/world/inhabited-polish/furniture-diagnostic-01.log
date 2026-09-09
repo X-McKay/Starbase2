@@ -1,0 +1,25 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+CONTACT block=[P: (-6.77, -10.9), S: (3.1, 2.1)] start=(-5.219999, 0.0, -8.0) final=(-5.219999, 0.0, -8.520031) required_z=-8.54000019073486
+CONTACT block=[P: (-1.55, -10.9), S: (3.1, 2.1)] start=(0.0, 0.0, -8.0) final=(0.0, 0.0, -8.520031) required_z=-8.54000019073486
+CONTACT block=[P: (3.670001, -10.9), S: (3.1, 2.1)] start=(5.220001, 0.0, -8.0) final=(5.220001, 0.0, -8.520031) required_z=-8.54000019073486
+CONTACT block=[P: (-8.6, -5.75), S: (1.7, 2.8)] start=(-7.75, 0.0, -2.15) final=(-7.75, 0.0, -2.669939) required_z=-2.69000028610229
+CONTACT block=[P: (-5.499999, -3.5), S: (3.4, 1.7)] start=(-3.799999, 0.0, -1.0) final=(-3.799999, 0.0, -1.520214) required_z=-1.53999965429306
+CONTACT block=[P: (-5.189999, -4.460001), S: (0.78, 0.72)] start=(-4.799999, 0.0, -2.940001) final=(-4.799999, 0.0, -3.544258) required_z=-3.48000024795532
+CONTACT block=[P: (-5.189999, -1.560001), S: (0.78, 0.72)] start=(-4.799999, 0.0, -0.040001) final=(-4.799999, 0.0, -0.559851) required_z=-0.58000074863434
+CONTACT block=[P: (-3.189999, -4.460001), S: (0.78, 0.72)] start=(-2.799999, 0.0, -2.940001) final=(-2.799999, 0.0, -3.695742) required_z=-3.48000024795532
+CONTACT block=[P: (-3.189999, -1.560001), S: (0.78, 0.72)] start=(-2.799999, 0.0, -0.040001) final=(-2.799999, 0.0, -0.559847) required_z=-0.58000074863434
+CONTACT block=[P: (7.049999, -5.575), S: (1.5, 3.65)] start=(7.799999, 0.0, -1.125) final=(7.799999, 0.0, -1.644844) required_z=-1.66500007152557
+CONTACT block=[P: (4.4, -4.8), S: (1.7, 2.1)] start=(5.25, 0.0, -1.9) final=(5.25, 0.0, -2.419939) required_z=-2.43999992847442
+CONTACT block=[P: (-3.619999, -10.14), S: (0.64, 0.780001)] start=(-3.299999, 0.0, -8.559999) final=(-3.299999, 0.0, -9.079847) required_z=-9.09999965667724
+CONTACT block=[P: (1.599998, -10.14), S: (0.64, 0.780001)] start=(1.919998, 0.0, -8.559999) final=(1.919998, 0.0, -9.079847) required_z=-9.09999965667724
+CONTACT block=[P: (6.819999, -10.14), S: (0.64, 0.780001)] start=(7.139999, 0.0, -8.559999) final=(7.139999, 0.0, -9.079847) required_z=-9.09999965667724
+STRUCTURE_CONTACT habitat
+ERROR: habitat: furniture stops physical movement
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (/private/tmp/starbase-inhabited-contact-diagnostic.gd:52)
+ERROR: habitat: furniture stops physical movement
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (/private/tmp/starbase-inhabited-contact-diagnostic.gd:52)

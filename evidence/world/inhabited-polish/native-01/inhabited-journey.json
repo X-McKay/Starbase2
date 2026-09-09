@@ -1,0 +1,67 @@
+{
+	"failures": [],
+	"live_world_presentation": true,
+	"moving_frames": 1255,
+	"records": [
+		{
+			"actor": "(0.0, 0.0, 15.90003)",
+			"camera": "(10.0, 36.0, 61.90002)",
+			"frame": "movement-0-12",
+			"location": "ASTER COLONY"
+		},
+		{
+			"actor": "(-1.091919, 0.0, 15.99743)",
+			"camera": "(9.60831, 36.0, 61.94782)",
+			"frame": "movement--5-12",
+			"location": "ASTER COLONY"
+		},
+		{
+			"actor": "(-2.091912, 0.0, 15.99992)",
+			"camera": "(8.884743, 36.0, 61.97631)",
+			"frame": "movement--5-24",
+			"location": "ASTER COLONY"
+		},
+		{
+			"actor": "(-3.091911, 0.0, 16.0)",
+			"camera": "(8.008952, 36.0, 61.98935)",
+			"frame": "movement--5-36",
+			"location": "ASTER COLONY"
+		},
+		{
+			"actor": "(-4.89191, 0.0, 16.0)",
+			"camera": "(6.044237, 36.0, 61.99799)",
+			"frame": "plateau-stopped",
+			"location": "ASTER COLONY"
+		},
+		{
+			"actor": "(53.9999, 0.0, -27.11987)",
+			"camera": "(63.9984, 36.0, 18.79662)",
+			"frame": "water-moving",
+			"location": "ASTER COLONY"
+		},
+		{
+			"actor": "(53.9999, 0.0, -27.11987)",
+			"camera": "(63.97444, 36.0, 17.96852)",
+			"frame": "water-reduced-motion",
+			"location": "ASTER COLONY"
+		},
+		{
+			"actor": "(36.13652, 0.0, -12.02451)",
+			"camera": "(54.92453, 36.0, 32.96788)",
+			"frame": "habitat-exterior",
+			"location": "ASTER COLONY"
+		},
+		{
+			"actor": "(35.52509, 0.0, -17.35898)",
+			"camera": "(44.00003, 14.00004, -2.949938)",
+			"frame": "habitat-interior",
+			"location": "PIONEER HABITAT"
+		},
+		{
+			"actor": "(35.52509, 0.0, -17.35898)",
+			"camera": "(44.16343, 14.00004, -3.026833)",
+			"frame": "habitat-guide",
+			"location": "PIONEER HABITAT"
+		}
+	]
+}

@@ -1,0 +1,17 @@
+{
+  "original_sha256": "1be1433ffd420a8dbbd72ee03a99fbb06132fad0bb2bdd2b475b06a1c8a0e998",
+  "identical_vertex_attributes": {
+    "POSITION": true,
+    "NORMAL": true,
+    "TEXCOORD_0": true
+  },
+  "original_joints": 24,
+  "variant_joints": 25,
+  "clip_names": [
+    "walk",
+    "run",
+    "idle",
+    "console"
+  ],
+  "materials_equal": true
+}

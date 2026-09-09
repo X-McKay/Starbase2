@@ -8,6 +8,8 @@ var transition := 0.0
 var idle_time := 0.0
 var start_rotations: Array[Quaternion] = []
 var start_positions: Array[Vector3] = []
+var secondary = preload("res://characters/secondary_motion.gd").new()
+var hair_bone := -1
 
 func configure(scene: PackedScene, scale_factor: float, floor_offset: float = -0.10) -> void:
 	var instance := scene.instantiate()
@@ -15,6 +17,7 @@ func configure(scene: PackedScene, scale_factor: float, floor_offset: float = -0
 	instance.position.y = floor_offset * scale_factor
 	add_child(instance)
 	skeleton = instance.find_children("*", "Skeleton3D", true, false)[0]
+	hair_bone = skeleton.find_bone("HairSwing")
 	animation = instance.find_children("*", "AnimationPlayer", true, false)[0]
 	for name in ["walk", "idle"]:
 		assert(animation.has_animation(name), "Character model requires " + name)
@@ -24,6 +27,7 @@ func configure(scene: PackedScene, scale_factor: float, floor_offset: float = -0
 	animation.speed_scale = 0
 
 func project(displacement: Vector3, moving: bool, phase: float, reduced: bool, delta: float = 1.0/60.0, pose: String = "") -> void:
+	var previous_heading := rotation.y
 	if moving:
 		heading = atan2(displacement.x, displacement.z)
 	if not moving and pose=="console": heading=PI
@@ -57,6 +61,9 @@ func project(displacement: Vector3, moving: bool, phase: float, reduced: bool, d
 		for i in skeleton.get_bone_count():
 			skeleton.set_bone_pose_rotation(i,start_rotations[i].slerp(skeleton.get_bone_pose_rotation(i),blend))
 			skeleton.set_bone_pose_position(i,start_positions[i].lerp(skeleton.get_bone_pose_position(i),blend))
+	if hair_bone>=0:
+		var turn := angle_difference(previous_heading,rotation.y)
+		skeleton.set_bone_pose_rotation(hair_bone,secondary.step(displacement,turn,delta,reduced))
 
 func apply_role(color: Color) -> void:
 	# Per-instance material copies retain the detailed source textures.

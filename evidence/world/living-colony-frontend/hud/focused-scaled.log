@@ -1,0 +1,7 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+HUD_BOUNDS (1280, 800) @PanelContainer@17 [P: (848.0, 112.0), S: (410.0, 608.0)]
+HUD_BOUNDS (1280, 800) @PanelContainer@100 [P: (22.0, 112.0), S: (410.0, 608.0)]
+HUD_BOUNDS (800, 640) @PanelContainer@17 [P: (368.0, 154.0), S: (410.0, 406.0)]
+HUD_BOUNDS (800, 640) @PanelContainer@100 [P: (22.0, 154.0), S: (410.0, 406.0)]
+CONTEXTUAL_HUD_PASSED: compact chrome, truthful optional roster, location, zoom signals, keyboard focus and responsive large text

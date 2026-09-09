@@ -207,6 +207,13 @@ world-remaining-build blender="/Applications/Blender.app/Contents/MacOS/Blender"
     python3 assets-production/scripts/connect_remaining_structures.py
     godot --headless --path apps/world --editor --import --quit
 
+# Rebuild authored living-colony additions around retained Meshy assets; no paid calls.
+world-living-build blender="/Applications/Blender.app/Contents/MacOS/Blender":
+    "{{blender}}" --background --factory-startup --python assets-production/scripts/build_remaining_structures.py
+    "{{blender}}" --background --factory-startup --python assets-production/scripts/build_living_commons.py
+    python3 assets-production/scripts/connect_remaining_structures.py
+    godot --headless --path apps/world --editor --import --quit
+
 # Review continuous Engineering entry and the rest of the colony.
 world-seamless:
     godot --path apps/world -- --room=repair
@@ -224,3 +231,12 @@ world-vanguard-build blender="/Applications/Blender.app/Contents/MacOS/Blender":
     "{{blender}}" --background --factory-startup --python assets-production/scripts/prepare_character.py -- --asset cybercat-vanguard
     "{{blender}}" --background --factory-startup --python assets-production/scripts/audit_character.py -- --vanguard
     godot --headless --path apps/world --editor --import
+
+# Offline authoring/preparation only; selected Meshy originals must already exist.
+world-inhabited-build blender="/Applications/Blender.app/Contents/MacOS/Blender":
+    "{{blender}}" --background --factory-startup --python assets-production/scripts/prepare_vanguard_secondary.py
+    "{{blender}}" --background --factory-startup --python assets-production/scripts/prepare_inhabited_props.py
+    "{{blender}}" --background --factory-startup --python assets-production/scripts/build_remaining_structures.py
+    "{{blender}}" --background --factory-startup --python assets-production/scripts/build_colony_vent.py
+    python3 assets-production/scripts/connect_remaining_structures.py
+    godot --headless --path apps/world --editor --import --quit

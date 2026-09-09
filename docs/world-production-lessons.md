@@ -138,3 +138,75 @@ exact source/artifact hashes in its manifest and an inspected nonblank 12-frame
 motion contact sheet. Full world checks preceded the capture-only RGB8 fix;
 the fresh standalone run covers that final capture change. This establishes
 local technical qualification, not owner art approval or deployment readiness.
+
+## Living colony frontend
+
+The qualified remaining-structures exteriors were distinctive, but native
+cutaways still became similar rectangular rooms with sparse furnishings. The
+next pass reuses all 13 generated models and authors the missing spatial identity
+in Blender: retained bridge/vault/conservatory sections, privacy wings and broad
+material zones. Imagegen supplies a complete arrival storyboard rather than more
+isolated prop pictures. A new commons, quieter HUD and authored cameras support
+the same composition; they do not require new backend capabilities.
+
+The representative Command slice was reviewed and passed physical console/
+cutaway/direct/reduced/no-dispatch checks before the other rooms were expanded.
+Inspection now targets meaningful equipment instead of a generic entrance kiosk.
+Source marker clearance is useful but does not replace the full physical journey.
+The first complete lighting pass was too orange; the native-v2 review uses reduced
+lighting. Corrected world/repository checks passed; the fresh third standalone export
+subsequently qualified for local review. Training's floating section ends gained rear connections and Botanical's
+boxy edge leaves became pointed blades after native review. The first export
+passed journeys but correctly failed source binding after an intentional test
+edit, so a new export is required rather than relabeling the old artifact. See the [current design](../assets-production/batches/living-colony/DESIGN.md)
+and [evidence](../evidence/world/living-colony/README.md); preserve earlier qualified
+artifacts as evidence of their own source rather than extending their claims.
+
+Independent living-colony review found back-face culling on decorative leaves
+after the second export had started. Stop that attempt, retain its supersession
+record, and use a dedicated two-sided foliage shader. Verify the actual three
+material surfaces and the living journey after the correction, then qualify a
+new frozen export. Those focused checks passed; the third export subsequently qualified.
+Do not imply that the earlier full world pass included the subsequent narrow
+shader fix. Reduced motion freezes breeze; it need not mute steady optional
+ambience, whose separate sound setting defaults off.
+
+The final living-colony `20260907-final-03` artifact qualified, with inspected
+four-room views, room guides, wide/compact boards, commons and motion strip.
+Final controls are readable and foliage coverage is restored. Preserve earlier
+failed/superseded attempts. Habitat chair/table occlusion and opaque glazing
+remain explicit art judgments; technical qualification is not owner approval.
+
+## Inhabited polish
+
+Inspect the actual rig before choosing secondary motion. The selected Vanguard
+has loose hair but no hair joint; a new child of Head affects only verified upper
+strands, while retaining the original mesh and clips. The protected-region
+deformation audit and original-versus-variant helmet pose checks complement
+native running/turning/stopping close-ups. Small movement is preferable to
+waving the whole helmet. Reduced motion resets the cosmetic spring; real
+displacement and gait-contact accounting continue independently.
+
+Surface feedback should use actual contact events and the authored floor zones.
+Metal, wood and soil receive distinct optional samples, and only soil receives
+small dust motes. Default mute and immediate mute are tested; generated PCM and
+passing tests do not substitute for human audio audition. Isolated native
+captures expose inherited foot/shadow separation but cannot qualify final room
+contact or lighting.
+
+Treat an explicitly new allowance as its own ledger. The inhabited-polish sofa
+uses 39 of the new 1,000 credits, with historical 507-credit production excluded.
+Retain original downloads and editable Blender sources. A texture-sampler export
+warning requires scoped PBR inspection rather than either silently declaring a
+clean export or assuming texture loss. Native review found the selected green
+sofa facing inward; the room sidewall still partly occludes its rear profile.
+
+Final focused structure, inhabited-journey and living-colony tests passed, then
+`just check-world` and `just check` passed. The live four-room native journey
+completed with all 553 world source hashes unchanged. Standalone qualification
+then passed in `20260908-final-01`, binding the same source files and inspected
+exported Habitat/water images. The extracted executable and PCK match the
+durable manifest. Owner art acceptance and human audio audition remain open;
+prior qualified exports remain evidence of
+their own sources. See the [design and rebuild contract](../assets-production/batches/inhabited-polish/DESIGN.md)
+and [final evidence](../evidence/world/inhabited-polish/final/README.md).

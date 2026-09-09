@@ -17,20 +17,20 @@
   "source_kind": "authored architecture; generated equipment remains separate props",
   "files": {
     "assets-production/structures/botanical/blender/botanical-polished.blend": {
-      "sha256": "38388f11cc2f6e0dff103ac4abe59842f1087b1e5b2fe659a2746b6b12158d03",
-      "bytes": 343183
+      "sha256": "514ee9814349bc363665e1d462468867dda5785a14d7d730482d27c9128492a3",
+      "bytes": 497303
     },
     "apps/world/assets/structures/botanical/greenhouse-shell.glb": {
-      "sha256": "abfca1bcbfca00999859949fad054a42aef791e4a2299a69da4f275a1b52af9e",
-      "bytes": 3921244
+      "sha256": "c17f66726b6a6b4969e144d4d4f9adec1d102a1cdbc56e5afcecd8eca73e700c",
+      "bytes": 4392852
     },
     "apps/world/assets/structures/botanical/greenhouse-interior.glb": {
-      "sha256": "9e01871d1c418ee72e14d1d727740210f3bd8f900f4932ca4fcabf516d19e6f9",
-      "bytes": 130048
+      "sha256": "b56caabcdc4b2e52b22adf911b316fe8b32ef7d6019f6be1fe72ae07de37da08",
+      "bytes": 222340
     },
     "assets-production/scripts/build_remaining_structures.py": {
-      "sha256": "771aa69b0e057f337ad4851e3f53b2752ded5f89db7cc21208793598fd0b41a5",
-      "bytes": 20643
+      "sha256": "0ad4c5724407d7b5e5188a295680fc7b11cf8fea41435a7a00b72228749f13d9",
+      "bytes": 36843
     }
   },
   "semantic_groups": [
@@ -40,9 +40,12 @@
     "Floor",
     "Furniture",
     "InteriorRevealBack",
+    "InteriorRevealConservatory",
+    "InteriorRevealGlazing",
+    "InteriorRevealIrrigation",
     "InteriorRevealRail"
   ],
-  "mesh_objects": 29,
-  "triangles": 54876,
+  "mesh_objects": 37,
+  "triangles": 63004,
   "review_status": "Requires native and package qualification; owner art judgment separate"
 }

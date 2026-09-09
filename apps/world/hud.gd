@@ -2,6 +2,9 @@ extends CanvasLayer
 ## Contextual controls; all commands have a non-spatial keyboard path.
 const CrewArt = preload("res://crew_art.gd")
 var board: PanelContainer
+var room_details: PanelContainer
+var room_detail_title: Label
+var room_detail_body: Label
 var api := "http://127.0.0.1:8787"
 var board_fixture := ""
 var sound_enabled := false
@@ -47,13 +50,19 @@ var selected_id := ""
 var filter_kind := "repair"
 var compact := false
 var command_pending := false
+var location: Label
+var mast: VBoxContainer
+var navigation_bar: HBoxContainer
+var prompt_panel: PanelContainer
+var crew_summary := false
+var summary_toggles: Array[CheckButton] = []
 
 func style(bg: String = "152b3fee", border: String = "526a78", pad: int = 18) -> StyleBoxFlat:
 	var s := StyleBoxFlat.new()
 	s.bg_color = Color(bg)
 	s.border_color = Color(border)
 	s.set_border_width_all(1)
-	s.set_corner_radius_all(8)
+	s.set_corner_radius_all(6)
 	s.content_margin_left = pad
 	s.content_margin_right = pad
 	s.content_margin_top = pad
@@ -102,57 +111,75 @@ func _ready() -> void:
 	theme.set_stylebox("pressed", "Button", style("456570", "e4c58f", 9))
 	theme.set_stylebox("focus", "Button", style("00000000", "ffe0a0", 3))
 	root.theme = theme
-	var mast := VBoxContainer.new()
-	mast.position = Vector2(28,22)
+	mast = VBoxContainer.new()
+	mast.name="ContextHeader"
+	mast.position = Vector2(22,18)
+	mast.add_theme_constant_override("separation",4)
 	mast.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	root.add_child(mast)
-	text(mast,"STARBASE 02     /     ASTER COLONY",14,"b6d7cd")
-	text(mast,"A new world. A first foothold.",26,"f1e5cc")
-	connection = text(mast,"Connecting to local core…",13,"c0cdd0")
+	var brand := HBoxContainer.new()
+	brand.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	brand.add_theme_constant_override("separation",12)
+	mast.add_child(brand)
+	text(brand,"STARBASE 02",13,"d9e6e2")
+	location=text(brand,"ASTER OUTPOST",12,"aac1bd")
+	location.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	location.clip_text=true
+	location.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
+	connection = text(mast,"Connecting to local core…",12,"c0cdd0")
+	connection.clip_text=true
+	connection.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
+	connection.mouse_filter=Control.MOUSE_FILTER_PASS
+	connection.mouse_entered.connect(func(): connection.tooltip_text=connection.text)
 	var top := HBoxContainer.new()
+	navigation_bar=top
+	top.name="NavigationBar"
+	top.add_theme_constant_override("separation",4)
 	root.add_child(top)
 	top.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
 	top.grow_horizontal = Control.GROW_DIRECTION_BEGIN
-	top.offset_left = -408
-	top.offset_right = -26
-	top.offset_top = 24
-	button(top,"Map  [M]",func(): map_requested.emit())
-	button(top,"Crew  [Tab]",toggle_directory)
-	button(top,"Journal  [J]",func(): journal_requested.emit())
-	var zoom_controls := HBoxContainer.new()
-	root.add_child(zoom_controls)
-	zoom_controls.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
-	zoom_controls.grow_horizontal=Control.GROW_DIRECTION_BEGIN
-	zoom_controls.offset_left=-310
-	zoom_controls.offset_right=-26
-	zoom_controls.offset_top=76
-	var zoom_in := button(zoom_controls,"Zoom in  [+]",func(): zoom_requested.emit(-1))
+	top.offset_left = -418
+	top.offset_right = -22
+	top.offset_top = 16
+	button(top,"Map [M]",func(): map_requested.emit())
+	button(top,"Crew [Tab]",toggle_directory)
+	button(top,"Journal [J]",func(): journal_requested.emit())
+	var zoom_in := button(top,"+",func(): zoom_requested.emit(-1))
 	zoom_in.name="ZoomIn"
 	zoom_in.tooltip_text="Zoom in · + or mouse wheel up"
-	var zoom_out := button(zoom_controls,"Zoom out  [−]",func(): zoom_requested.emit(1))
+	var zoom_out := button(top,"−",func(): zoom_requested.emit(1))
 	zoom_out.name="ZoomOut"
 	zoom_out.tooltip_text="Zoom out · - or mouse wheel down"
-	room_exit=button(root,"Return to colony  [F]",func(): exit_requested.emit())
-	room_exit.custom_minimum_size=Vector2(240,40)
-	room_exit.position=Vector2(28,112)
+	var guide := button(top,"H",func():
+		var was:=help.visible
+		close_panels()
+		help.visible=not was)
+	guide.tooltip_text="Field guide & comfort · H"
+	for item in top.get_children():
+		item.custom_minimum_size=Vector2(82 if item.get_index()<3 else 36,36)
+		item.add_theme_font_size_override("font_size",13)
+		item.add_theme_stylebox_override("normal",style("10232cdd","38505b88",6))
+	room_exit=button(root,"Exit room [F]",func(): exit_requested.emit())
+	room_exit.custom_minimum_size=Vector2(146,34)
+	room_exit.add_theme_font_size_override("font_size",13)
+	room_exit.position=Vector2(22,74)
 	room_exit.hide()
 	var bottom_panel := PanelContainer.new()
-	bottom_panel.add_theme_stylebox_override("panel",style("102535e8","294653",10))
+	prompt_panel=bottom_panel
+	bottom_panel.name="ContextPrompt"
+	bottom_panel.add_theme_stylebox_override("panel",style("0d202bdc","4b626b77",10))
 	root.add_child(bottom_panel)
 	bottom_panel.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
 	bottom_panel.offset_left=26; bottom_panel.offset_right=-26
-	bottom_panel.offset_top=-126; bottom_panel.offset_bottom=-18
+	bottom_panel.offset_top=-62; bottom_panel.offset_bottom=-18
 	bottom_panel.grow_vertical=Control.GROW_DIRECTION_BEGIN
 	bottom_panel.mouse_filter=Control.MOUSE_FILTER_IGNORE
 	var bottom := VBoxContainer.new()
 	bottom.mouse_filter=Control.MOUSE_FILTER_IGNORE
 	bottom_panel.add_child(bottom)
-	prompt = text(bottom,"WASD / arrows to walk · Click a path to travel",16,"f5dfb4")
+	prompt = text(bottom,"WASD / arrows to walk · Click a path to travel",14,"eadbc1")
 	prompt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	roster = text(bottom,"Crew activity unknown · waiting for authoritative records",13,"c5d4cc")
-	roster.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	var controls := text(bottom,"E  INTERACT     ·     TAB  CREW     ·     B  COMMAND     ·     J  JOURNAL     ·     M  MAP     ·     H  SETTINGS",12,"a6bbbf")
-	controls.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	prompt.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	dock = panel_at(root, Vector2(388,0))
 	dock.set_anchors_and_offsets_preset(Control.PRESET_RIGHT_WIDE)
 	dock.offset_left = -414
@@ -196,7 +223,7 @@ func _ready() -> void:
 	text(col,"OBSERVED WORK · retained records",12,"a6c9be")
 	list = OptionButton.new()
 	list.fit_to_longest_item = false
-	list.custom_minimum_size = Vector2(325,36)
+	list.custom_minimum_size = Vector2(0,36)
 	list.clip_text = true
 	list.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	list.item_selected.connect(func(index: int):
@@ -209,7 +236,7 @@ func _ready() -> void:
 	details.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	button(col,"Inspect evidence",func(): evidence.visible = not evidence.visible)
 	evidence = RichTextLabel.new()
-	evidence.custom_minimum_size = Vector2(320,160)
+	evidence.custom_minimum_size = Vector2(0,160)
 	evidence.add_theme_font_size_override("normal_font_size",14)
 	evidence.visible = false
 	col.add_child(evidence)
@@ -262,6 +289,11 @@ func _ready() -> void:
 	button(menu,"3   Trainer / trial hall",func(): open_place("gym"))
 	button(menu,"4   Watchkeeper / cluster watch",func(): open_place("watchkeeper"))
 	button(menu,"5   PR Reviewer / command",func(): open_place("reviewer"))
+	add_summary_toggle(menu)
+	roster=text(menu,"Crew activity unknown · waiting for authoritative records",14,"c5d4cc")
+	roster.name="CrewSummary"
+	roster.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	roster.hide()
 	text(menu,"VISIT A PLACE",16,"efd29d")
 	building_search=LineEdit.new()
 	building_search.placeholder_text="Find a building…"
@@ -273,23 +305,33 @@ func _ready() -> void:
 	button(menu,"Return to outpost [Esc]",close_panels)
 	directory.hide()
 	help = panel_at(root,Vector2(410,0))
-	help.position = Vector2(28,120)
+	help.set_anchors_and_offsets_preset(Control.PRESET_LEFT_WIDE)
+	var help_scroll := ScrollContainer.new()
+	help_scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED
+	help_scroll.follow_focus=true
+	help.add_child(help_scroll)
 	var hc := VBoxContainer.new()
 	hc.add_theme_constant_override("separation",12)
-	help.add_child(hc)
+	hc.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	help_scroll.add_child(hc)
 	text(hc,"FIELD GUIDE & COMFORT",18,"efd29d")
-	text(hc,"WASD / arrows: move    Mouse: choose path\nE: crew / console    F: enter nearby room / leave interior\n1–5: inspect crew    Visit this room: travel directly\nTab: directory    Enter: focused control    Esc: close\nC: follow / room camera    M: colony map\n+ / - or wheel: zoom    B: command board    J: journal\nHabitat, shuttle and reserved sites are decorative.",15)
+	text(hc,"WASD / arrows: move · Click: choose path\nE: inspect crew or console · F: enter or exit\n1–5: inspect crew · Tab: station directory\nEnter: focused control · Esc: close\nC: follow / room camera · M: colony map\n+ / − or wheel: zoom · B: command board\nJ: independent journal · H: this guide\nHabitat, Botanical and reserved sites are scenery.",15).autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	add_summary_toggle(hc)
 	var rm := CheckButton.new()
 	rm.text = "Reduced motion (room cuts, still crew)"
+	rm.clip_text=true
+	rm.tooltip_text=rm.text
 	rm.toggled.connect(func(value: bool): reduced=value; settings_changed.emit())
 	hc.add_child(rm)
 	var lt := CheckButton.new()
 	lt.text = "Larger interface text"
 	lt.toggled.connect(func(value: bool): large_text=value; scale_text(); settings_changed.emit())
 	hc.add_child(lt)
-	text(hc,"Ambient poses are decorative. Sound is optional.\nLive work never waits for a character to arrive.\nThe browser journal works independently of Godot.",14,"b3c6c5")
+	text(hc,"Ambient poses are decorative. Sound is optional.\nLive work never waits for a character to arrive.\nThe browser journal works independently of Godot.",14,"b3c6c5").autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	var sound := CheckButton.new()
 	sound.text="Enable quiet footsteps & airlock sounds"
+	sound.clip_text=true
+	sound.tooltip_text=sound.text
 	sound.toggled.connect(func(value: bool): sound_enabled=value; settings_changed.emit())
 	hc.add_child(sound)
 	button(hc,"Back to the outpost",close_panels)
@@ -298,10 +340,80 @@ func _ready() -> void:
 	board.api=api; board.fixture=board_fixture
 	board.add_theme_stylebox_override("panel",style("102535fa","759496",18))
 	root.add_child(board)
+	room_details=panel_at(root,Vector2(386,0))
+	room_details.set_anchors_and_offsets_preset(Control.PRESET_RIGHT_WIDE)
+	var room_scroll:=ScrollContainer.new()
+	room_scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED
+	room_scroll.follow_focus=true
+	room_details.add_child(room_scroll)
+	var room_column:=VBoxContainer.new()
+	room_column.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	room_column.add_theme_constant_override("separation",16)
+	room_scroll.add_child(room_column)
+	room_detail_title=text(room_column,"ROOM GUIDE",19,"efd29d")
+	room_detail_title.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	room_detail_body=text(room_column,"",16)
+	room_detail_body.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	button(room_column,"Back to exploring [Esc]",close_panels)
+	room_details.hide()
+	root.resized.connect(layout_hud)
+	layout_hud.call_deferred()
+
+func set_location(value:String) -> void:
+	location.text=value
+	location.tooltip_text=value
+
+func add_summary_toggle(parent:Node) -> void:
+	var toggle:=CheckButton.new()
+	toggle.text="Crew summary"
+	toggle.tooltip_text="Show authoritative crew activity in the station directory"
+	toggle.toggled.connect(set_crew_summary)
+	parent.add_child(toggle)
+	summary_toggles.append(toggle)
+
+func set_crew_summary(value:bool) -> void:
+	crew_summary=value
+	if roster!=null: roster.visible=value
+	for toggle in summary_toggles: toggle.set_pressed_no_signal(value)
+
+func layout_hud() -> void:
+	if dock==null or help==null or navigation_bar==null: return
+	var viewport_size:Vector2=root.size
+	var narrow:=viewport_size.x<900
+	navigation_bar.get_child(1).text="Crew" if large_text else "Crew [Tab]"
+	navigation_bar.get_child(2).text="Journal" if large_text else "Journal [J]"
+	navigation_bar.offset_top=70 if narrow else 16
+	navigation_bar.offset_left=-minf(530 if large_text else 440,viewport_size.x-44)-22
+	mast.size.x=maxf(180,viewport_size.x-44 if narrow else viewport_size.x-460)
+	room_exit.position=Vector2(22,112 if narrow else 70)
+	var top_edge:=154.0 if narrow else 112.0
+	var panel_width:=minf(410 if large_text else 386,viewport_size.x-44)
+	for panel in [dock,directory,help,room_details]:
+		panel.custom_minimum_size.x=panel_width
+		panel.offset_top=top_edge
+		panel.offset_bottom=-80
+	dock.offset_left=-panel_width-22
+	dock.offset_right=-22
+	room_details.offset_left=-panel_width-22
+	room_details.offset_right=-22
+	for panel in [directory,help]:
+		panel.offset_left=22
+		panel.offset_right=22+panel_width
+	var prompt_width:=minf(820,viewport_size.x-44)
+	prompt_panel.offset_left=(viewport_size.x-prompt_width)*0.5
+	prompt_panel.offset_right=-(viewport_size.x-prompt_width)*0.5
+	prompt_panel.offset_top=-68 if large_text else -62
 
 func open_board() -> void:
 	close_panels()
 	board.open()
+
+func open_room_details(title:String,description:String) -> void:
+	close_panels()
+	room_detail_title.text=title
+	room_detail_body.text=description
+	room_details.show()
+	room_details.find_children("*","Button",true,false)[0].grab_focus()
 
 func set_structures(buildings: Array) -> void:
 	for child in building_list.get_children():
@@ -325,12 +437,16 @@ func scale_text() -> void:
 			node.set_meta("base_font", node.get_theme_font_size("font_size"))
 		node.add_theme_font_size_override("font_size", int(node.get_meta("base_font")) + (3 if large_text else 0))
 	root.theme.default_font_size = 19 if large_text else 16
+	for item in navigation_bar.get_children(): item.add_theme_font_size_override("font_size",16 if large_text else 13)
+	room_exit.add_theme_font_size_override("font_size",16 if large_text else 13)
+	layout_hud()
 
 func close_panels() -> void:
 	if board!=null: board.hide()
 	dock.hide()
 	directory.hide()
 	help.hide()
+	if room_details!=null: room_details.hide()
 	root.get_viewport().gui_release_focus()
 
 func toggle_directory() -> void:
@@ -353,7 +469,7 @@ func open_place(kind: String) -> void:
 	list.grab_focus()
 
 func is_open() -> bool:
-	return dock.visible or directory.visible or help.visible or (board!=null and board.visible)
+	return dock.visible or directory.visible or help.visible or (board!=null and board.visible) or (room_details!=null and room_details.visible)
 
 func update_list(missions: Array) -> void:
 	var shown: Array = missions.filter(func(m): return m["input"].get("kind", "review") == filter_kind)

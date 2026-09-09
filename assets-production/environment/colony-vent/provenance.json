@@ -1,0 +1,25 @@
+{
+  "asset_id": "colony-vent",
+  "blender_version": "5.2.1 LTS",
+  "source_kind": "Authored offline; zero paid generation",
+  "dimensions_m": [
+    1.24,
+    1.24,
+    0.265
+  ],
+  "rotor_axis": "Godot local Z",
+  "files": {
+    "assets-production/environment/colony-vent/blender/colony-vent.blend": {
+      "sha256": "de6835157e9e17f9bf5d519d0f6f9a27a5f7ae69ea6102505e14ef2f3ffc2be1",
+      "bytes": 125266
+    },
+    "apps/world/assets/environment/colony-vent/colony-vent.glb": {
+      "sha256": "3f3a86e58c58dc039ee5d45f425333d8ccc22e5a5a2008d9c86f4cf407a60470",
+      "bytes": 191948
+    },
+    "assets-production/scripts/build_colony_vent.py": {
+      "sha256": "eccae575c707e0a21558c492c368f83161c679a76ca4a7dd11614c8977e1ed7d",
+      "bytes": 4189
+    }
+  }
+}

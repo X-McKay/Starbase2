@@ -50,6 +50,21 @@ func run(tree:SceneTree, scene:Node) -> void:
 	for i in range(5): await tree.process_frame
 	check(scene.fixture_path!="","Export checks require an isolated fixture")
 	check(scene.get_node("Operator").character_definition.id=="operator","Wrong production character")
+	check(scene.get_node("Operator").model_visual.hair_bone>=0,"Packaged secondary-motion rig missing")
+	check(scene.decorative_vents.size()==4,"Packaged four-room ventilation missing")
+	check(not scene.hud.sound_enabled and not scene.foley.enabled,"Packaged review must default muted")
+	var old_reduced:bool=scene.hud.reduced
+	scene.hud.reduced=true
+	scene.apply_settings()
+	var basin=scene.get_node("Terrace/MineralBasin")
+	var river=scene.get_node("Terrace/Landform")
+	var clocks=Vector2(basin.water_time,river.water_time)
+	for tick in range(8): await tree.process_frame
+	check(clocks.is_equal_approx(Vector2(basin.water_time,river.water_time)),"Packaged water reduced-motion clocks drifted")
+	for vent in scene.decorative_vents: check(vent.reduced_motion,"Packaged vent ignored reduced motion")
+	check(scene.get_node("Operator").model_visual.secondary.angles.length()<0.001,"Packaged hair ignored reduced motion")
+	scene.hud.reduced=old_reduced
+	scene.apply_settings()
 	for kind in ["review","repair","gym","watchkeeper","reviewer","Habitat","Greenhouse"]:
 		scene.enter_room(kind)
 		for i in range(3): await tree.process_frame

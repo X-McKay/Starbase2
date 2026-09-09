@@ -17,20 +17,20 @@
   "source_kind": "authored architecture; generated equipment remains separate props",
   "files": {
     "assets-production/structures/command/blender/command-polished.blend": {
-      "sha256": "d8b4016a90baded8ce2124002b441e0ace927ee4f58cfc0ad4db8b49622641e9",
-      "bytes": 382834
+      "sha256": "6325eae1ecf06f7f305e69ec9a210b54f61896172bab4cf5de4a85958cf07ba8",
+      "bytes": 424398
     },
     "apps/world/assets/structures/command/review-shell.glb": {
-      "sha256": "8ccec05a286865384502ce94672de09f0365bd8394e9fdb072ec9e9c5f80085f",
-      "bytes": 3758072
+      "sha256": "c41698a2b48040d0fa0b3f05c606412c16c9409a58aa24e8b42e125af08ca5f7",
+      "bytes": 4484172
     },
     "apps/world/assets/structures/command/review-interior.glb": {
-      "sha256": "c4934dacb9482f20629d4a4acb96744861c35a6892d7b610f1d950757b34e13d",
-      "bytes": 278756
+      "sha256": "bcb76c729da0c9d666f48eb2554320fd59905ab6c92358920c9abe79b161d352",
+      "bytes": 325764
     },
     "assets-production/scripts/build_remaining_structures.py": {
-      "sha256": "852aaf360ae6081ec96be5f0f3bcbf5da906091bac0e2417b5bce11318ddba13",
-      "bytes": 20538
+      "sha256": "0ad4c5724407d7b5e5188a295680fc7b11cf8fea41435a7a00b72228749f13d9",
+      "bytes": 36843
     }
   },
   "semantic_groups": [
@@ -40,9 +40,11 @@
     "Floor",
     "Furniture",
     "InteriorRevealBack",
+    "InteriorRevealBridge",
+    "InteriorRevealObservation",
     "InteriorRevealRail"
   ],
-  "mesh_objects": 29,
-  "triangles": 55460,
+  "mesh_objects": 40,
+  "triangles": 66352,
   "review_status": "Requires native and package qualification; owner art judgment separate"
 }

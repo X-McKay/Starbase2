@@ -1,7 +1,9 @@
 # Training production source
 
-Status: integrated for local review. Full world and repository checks passed; the final unsigned macOS export
-qualified for local review. Owner art approval remains open.
+Status: current living-colony world/repository checks passed; fresh standalone
+qualification passed in `20260907-final-03`.
+The previous remaining-structures artifact passed; its results below are historical
+and do not certify the current authored interior changes.
 
 Paired simulation stations, exercise frame and equipment storage. Operational context remains `gym`; art does not dispatch work or certify status. Engineering and the current characters are preserved.
 Generated equipment is decorative; authoritative state remains in existing UI.
@@ -85,3 +87,13 @@ See `evidence/world/remaining-structures/final/logs/check-world-final.log` and
 was correctly rejected for a motion contact-sheet image-format error. RGB8
 conversion was added; the fresh `20260907-final-02` exact-artifact qualification passed. No owner
 art approval or publishing is claimed.
+
+## Current living-colony pass
+
+See [living-colony design](../../batches/living-colony/DESIGN.md) for retained
+interior architecture, material zones and equipment-based Console points. The
+generic entrance kiosk is removed. Existing generated hulls/props are reused;
+this pass has no new Meshy charges. Command's representative physical/native
+slice passed before expansion; four-room visual review and corrected world/repository checks passed. Fresh
+standalone export passed in `20260907-final-03`; the first attempt correctly failed source
+hash binding after an intentional test edit. Engineering, characters and operational identities are preserved.

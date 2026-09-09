@@ -101,7 +101,8 @@ func update_presentation(point: Vector3, delta: float, reduced: bool) -> void:
 	openness=target if reduced else move_toward(openness,target,delta*3.5)
 	for leaf in door_leaves: leaf.position.x=float(leaf.get_meta("closed_x"))+(-1.3 if str(leaf.name).begins_with("DoorLeft") else 1.3)*smoothstep(0,1,openness)
 	door_collision.set_deferred("disabled",openness>0.8)
-	var visibility := 0.0 if contains(point) or distance<3.4 else 1.0
+	# Open the airlock first; reveal the authored section on the threshold approach.
+	var visibility := 0.0 if contains(point) or (distance<1.65 and absf(local.x-definition.threshold.x)<1.4) else 1.0
 	cutaway=visibility if reduced else move_toward(cutaway,visibility,delta*2.5)
 	if room!=null: room.visible=cutaway<0.999
 	for material in cut_materials: material.set_shader_parameter("visibility",cutaway)

@@ -1,0 +1,241 @@
+{
+  "asset_id": "habitat-lounge-sofa",
+  "blender_version": "5.2.1 LTS",
+  "source": "meshy_output/20260908_191443_habitat-lounge-sofa_01a0834d/mesh.glb",
+  "source_sha256": "6f4a13d80ae8745150923b0527d8ec0cc254433d2ee0f2a0eb0f7304ee91ec14",
+  "task_id": "01a08353-cb46-74a4-89e5-ce118982b894",
+  "consumed_credits": 30,
+  "orientation": "Preserved imported Blender Z-up; GLB exports Y-up; no axis guessing",
+  "source_object_world_matrices": {
+    "Mesh_0": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ]
+  },
+  "raw_bounds_blender_xyz": {
+    "min": [
+      -0.9506070017814636,
+      -0.39146900177001953,
+      -0.2799609899520874
+    ],
+    "max": [
+      0.9488040208816528,
+      0.39379701018333435,
+      0.27863097190856934
+    ],
+    "size": [
+      1.8994109630584717,
+      0.7852660417556763,
+      0.5585919618606567
+    ]
+  },
+  "fit_target_width_depth_height_m": [
+    3.45,
+    1.35,
+    1.35
+  ],
+  "applied_uniform_scale": 1.7191625872191125,
+  "source_center_floor": [
+    -0.0009014904499053955,
+    0.0011640042066574097,
+    -0.2799609899520874
+  ],
+  "applied_normalization_matrix": [
+    [
+      1.7191625833511353,
+      0.0,
+      0.0,
+      0.0015498086577281356
+    ],
+    [
+      0.0,
+      1.7191625833511353,
+      0.0,
+      -0.002001112559810281
+    ],
+    [
+      0.0,
+      0.0,
+      1.7191625833511353,
+      0.48129844665527344
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "final_bounds_blender_xyz": {
+    "min": [
+      -1.6326981782913208,
+      -0.6749999523162842,
+      0.0
+    ],
+    "max": [
+      1.6326981782913208,
+      0.6749999523162842,
+      0.9603103995323181
+    ],
+    "size": [
+      3.2653963565826416,
+      1.3499999046325684,
+      0.9603103995323181
+    ]
+  },
+  "final_size_godot_xyz": [
+    3.2653963565826416,
+    0.9603103995323181,
+    1.3499999046325684
+  ],
+  "geometry": {
+    "objects": 1,
+    "vertices": 14744,
+    "polygons": 13406,
+    "triangles": 13406
+  },
+  "materials": [
+    {
+      "name": "Material_0",
+      "use_nodes": true,
+      "principled": [
+        {
+          "Base Color": {
+            "linked": true,
+            "value": [
+              0.800000011920929,
+              0.800000011920929,
+              0.800000011920929,
+              1.0
+            ]
+          },
+          "Metallic": {
+            "linked": true,
+            "value": 0.0
+          },
+          "Roughness": {
+            "linked": true,
+            "value": 0.5
+          },
+          "Normal": {
+            "linked": true,
+            "value": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "Emission Color": {
+            "linked": true,
+            "value": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "Emission Strength": {
+            "linked": false,
+            "value": 1.0
+          },
+          "Alpha": {
+            "linked": false,
+            "value": 1.0
+          }
+        }
+      ],
+      "textures": [
+        {
+          "name": "Image_3",
+          "size": [
+            2048,
+            2048
+          ],
+          "colorspace": "sRGB",
+          "channels": 4
+        },
+        {
+          "name": "Image_0",
+          "size": [
+            2048,
+            2048
+          ],
+          "colorspace": "sRGB",
+          "channels": 4
+        },
+        {
+          "name": "Image_1",
+          "size": [
+            2048,
+            2048
+          ],
+          "colorspace": "Non-Color",
+          "channels": 4
+        },
+        {
+          "name": "Image_2",
+          "size": [
+            2048,
+            2048
+          ],
+          "colorspace": "Non-Color",
+          "channels": 4
+        }
+      ]
+    }
+  ],
+  "exported_materials": [
+    {
+      "doubleSided": true,
+      "emissiveFactor": [
+        1,
+        1,
+        1
+      ],
+      "emissiveTexture": {
+        "index": 0
+      },
+      "name": "Material_0",
+      "normalTexture": {
+        "index": 1
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 2
+        },
+        "metallicRoughnessTexture": {
+          "index": 3
+        }
+      }
+    }
+  ],
+  "exported_image_count": 4,
+  "blend": "assets-production/props/habitat-lounge-sofa/blender/habitat-lounge-sofa.blend",
+  "blend_sha256": "0ac534e6cf505ad55852b0d0ea876d521dd52daa2b5635aa21e2a56404180be6",
+  "runtime": "apps/world/assets/props/habitat-lounge-sofa/habitat-lounge-sofa.glb",
+  "runtime_sha256": "a40a3b8d589e13aa9ae13e0edb998952e897778a297b9bdf43a7c939f01b215e",
+  "runtime_bytes": 7107324,
+  "review_status": "Prepared; requires native orientation, PBR and placement review"
+}

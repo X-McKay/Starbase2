@@ -4,8 +4,10 @@ const HUD = preload("res://hud.gd")
 const Navigation = preload("res://navigation.gd")
 const Commands = preload("res://commands.gd")
 const Art = preload("res://art.gd")
+const LivingCommons = preload("res://living_commons.gd")
 var http := HTTPRequest.new()
 var api := "http://127.0.0.1:8787"
+var decorative_vents: Array[Node3D] = []
 var hud: CanvasLayer
 var commands: Node
 var camera := Camera3D.new()
@@ -130,9 +132,9 @@ func _ready() -> void:
 	camera.look_at(Vector3.ZERO)
 	camera.current = true
 	var sun := DirectionalLight3D.new()
-	sun.rotation_degrees = Vector3(-52,-32,-8)
-	sun.light_color = Color("e7d7cf")
-	sun.light_energy = 0.65
+	sun.rotation_degrees = Vector3(-34,-38,-8)
+	sun.light_color = Color("f6d8b8")
+	sun.light_energy = 0.48
 	sun.shadow_enabled = true
 	sun.directional_shadow_max_distance = 150
 	add_child(sun)
@@ -142,8 +144,15 @@ func _ready() -> void:
 	env.environment.background_mode = Environment.BG_CANVAS
 	env.environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	env.environment.ambient_light_color = Color("97b3d8")
-	env.environment.ambient_light_energy = 0.40
+	env.environment.ambient_light_energy = 0.28
+	env.environment.tonemap_mode = Environment.TONE_MAPPER_FILMIC
 	add_child(env)
+	var commons := LivingCommons.new()
+	commons.name = "LivingCommons"
+	add_child(commons)
+	var room_sound := preload("res://room_ambience.gd").new()
+	room_sound.name = "RoomAmbience"
+	add_child(room_sound)
 	marker = Art.cylinder(self,Vector3(0,0.07,0),0.24,0.025,"f5d295")
 	marker.hide()
 	# Cosmetic cabinet slots light only from the core's retained achievement list.
@@ -166,6 +175,9 @@ func _ready() -> void:
 	hud.zoom_requested.connect(adjust_zoom)
 	hud.room_requested.connect(enter_room)
 	hud.set_structures($Structures.get_children())
+	for station in $Structures.get_children():
+		var vent = preload("res://colony_vent.gd").attach(station)
+		if vent != null: decorative_vents.append(vent)
 	hud.exit_requested.connect(exit_room)
 	hud.repair_requested.connect(launch_repair)
 	hud.cancel_requested.connect(cancel_selected)
@@ -330,8 +342,11 @@ func travel_route(destination: Vector3) -> PackedVector3Array:
 	return navigator.route($Operator.position,destination)
 
 func apply_settings() -> void:
+	for vent in decorative_vents: vent.reduced_motion = hud.reduced
 	foley.enabled=hud.sound_enabled
 	foley.reduced=hud.reduced
+	$LivingCommons.set_reduced_motion(hud.reduced)
+	update_ambience()
 	$Terrace/PavingLights.reduced_motion = hud.reduced
 	$Terrace/MineralBasin.reduced_motion = hud.reduced
 	$Terrace/Landform.reduced_motion = hud.reduced
@@ -342,6 +357,10 @@ func apply_settings() -> void:
 func launch_repair(scenario: String, mode: String) -> void:
 	var id := "world-" + Crypto.new().generate_random_bytes(12).hex_encode()
 	commands.submit("/v3/repairs",{"id":id,"scenario":scenario,"mode":mode},id)
+
+func update_ambience() -> void:
+	var in_garden := LivingCommons.FOOTPRINT.has_point(Vector2($Operator.position.x,$Operator.position.z))
+	$RoomAmbience.configure(str(active_building.definition.id) if active_building!=null else "",in_garden,hud.sound_enabled)
 
 func cancel_selected() -> void:
 	var m := selected_mission()
@@ -444,6 +463,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		KEY_E:
 			if active_room!=null and room_kind=="review" and nearest=="review": hud.open_board()
 			elif nearest != "": hud.open_place(nearest)
+			elif active_building != null and room_kind == "":
+				show_room_guide()
 		KEY_F:
 			if active_room != null: exit_room()
 			elif near_door != "" and not hud.is_open(): enter_room(near_door)
@@ -477,6 +498,14 @@ func crew_hit_rect(actor: Node3D) -> Rect2:
 	var bottom_right := camera.unproject_position(center+half_right-half_up)
 	return Rect2(top_left,bottom_right-top_left).grow(4)
 
+func show_room_guide() -> void:
+	if active_building==null: return
+	var description := ""
+	match str(active_building.definition.id):
+		"habitat": description="A shared frontier home. Sleeping alcoves frame a communal galley, dining table and quiet lounge.\n\nLinen panels and low partitions shelter the sleeping spaces while keeping the shared room connected.\n\nThis is a descriptive room guide. The furnishings do not report crew needs or operational activity."
+		"greenhouse": description="A working conservatory organized around two cultivation beds and a research bench. Overhead irrigation connects the water reservoir to the planted aisles.\n\nThe greenery and grow lights are environmental art; no live crop or water measurements are connected."
+	if not description.is_empty(): hud.open_room_details(active_building.definition.title,description)
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
@@ -496,6 +525,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _physics_process(_delta: float) -> void:
 	if hud == null: return
+	$LivingCommons.update_presentation($Operator.position,_delta,hud.reduced)
 	var containing: Node3D=null
 	for station in $Structures.get_children():
 		station.update_presentation($Operator.position,_delta,hud.reduced)
@@ -520,6 +550,7 @@ func _physics_process(_delta: float) -> void:
 	var distance := 2.2
 	for pair in crew_pairs():
 		var d: float = $Operator.position.distance_to(pair[1].position)
+		pair[1].label.visible = not colony_overview and (d < 4.5 or (hud.dock.visible and hud.filter_kind == pair[0]))
 		if d < distance:
 			nearest = pair[0]
 			distance = d
@@ -548,10 +579,15 @@ func _physics_process(_delta: float) -> void:
 	else:
 		hud.prompt.text = award_notice if award_notice != "" else "WASD / arrows · Explore the colony · M overview"
 	if active_room != null:
-		hud.prompt.text=("E · Inspect console / crew   ·   " if nearest!="" else "Explore "+active_building.definition.title+"   ·   ")+"F · Return to colony"
+		var destination := "mission table" if room_kind == "review" else "station / crew"
+		hud.prompt.text=("E · Inspect "+destination+"   ·   " if nearest!="" else "Explore "+active_building.definition.title+"   ·   ")+"F · Return to colony"
+		if room_kind == "": hud.prompt.text="E · Room guide   ·   F · Return to colony"
 	elif near_door!="":
 		hud.prompt.text="F · Enter "+get_node("Structures/"+near_door).definition.title+"   ·   E · Inspect nearby crew"
 	if walk_test and $Operator.position.distance_to(walk_destination) < 0.65: walk_reached = true
+	hud.set_location(active_building.definition.title if active_building != null else ("CONSERVATORY COMMONS" if LivingCommons.FOOTPRINT.has_point(Vector2($Operator.position.x,$Operator.position.z)) else "ASTER COLONY"))
+	$Operator.label.visible = false
+	update_ambience()
 
 func _process(delta: float) -> void:
 	if hud == null: return
@@ -569,11 +605,24 @@ func _process(delta: float) -> void:
 	if colony_overview: desired = Vector3(0,-4,0)
 	var desired_offset := Vector3(10,36,46)
 	var desired_size := 142.0 if colony_overview else zoom
+	if active_room == null and not colony_overview and LivingCommons.FOOTPRINT.has_point(Vector2($Operator.position.x,$Operator.position.z)):
+		desired = LivingCommons.ORIGIN+Vector3(0,1,0)
+		desired_offset = Vector3(7,11,15)
+		desired_size = 13.5
 	if active_room != null and not colony_overview:
 		desired=active_room.global_position+Vector3(active_room.definition.interior_bounds.get_center().x,1.0,active_room.definition.interior_bounds.get_center().y)
-		if hud.dock.visible: desired+=Vector3(2.6,0,0)
 		desired_offset=Vector3(5,14,18)
 		desired_size=22.0 if compact and hud.dock.visible else 18.0
+		var focus: Node3D = active_room.content.get_node_or_null("CameraFocus")
+		var view: Node3D = active_room.content.get_node_or_null("CameraPosition")
+		if focus != null and view != null:
+			desired = focus.global_position
+			desired_offset = view.global_position-focus.global_position
+			desired_size = float(focus.get_meta("view_size",18.0))
+		if hud.dock.visible or hud.board.visible or hud.room_details.visible:
+			# Keep the interaction destination in the unobscured left workspace.
+			desired += camera.global_basis.x * (4.8 if hud.board.visible else 2.8)
+			if room_kind == "review" and hud.board.visible: desired_size = 15.5
 	desired_size*=zoom_factor
 	var blend := 1.0 if hud.reduced else 1-exp(-delta*4)
 	camera_focus=camera_focus.lerp(desired,blend)

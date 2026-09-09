@@ -1,0 +1,18 @@
+{
+  "status": "approved",
+  "scope": "Inhabited-polish milestone: user authorized1000 Meshy credits on2026-09-08, following specific Habitatconcept upload and sofa-generation approval request.",
+  "approved_credit_cap": 1000,
+  "prior_generation_credits": 0,
+  "material_direction": "One isolated complete object on neutral light gray studio background, front three-quarter view, no people, no text, no room, no floor slab. Crisp detailed PBR game asset.",
+  "assets": [
+    {
+      "id": "habitat-lounge-sofa",
+      "description": "Single comfortable frontier spaceship three-seat sofa inspired by the sage green upholstery of the reference. Straight sofa, NOT L-shaped: three broad sage linen seat cushions, three low back cushions, warm ivory manufactured base with graphite recessed feet, two soft curved armrests, one small amber pillow and one cream pillow. Precise stitched seams, realistic fabric weave and soft rounded corners. Overall 3.4metres wide,1.1metres deep,1.05metres tall. Keep comfortable human proportions. Only the sofa, no table or other furniture.",
+      "reference_image_path": "assets-production/batches/inhabited-polish/concepts/habitat-living.png",
+      "polycount": 14000,
+      "texture_resolution": "2k",
+      "reviewed_image_task_id": "01a0834d-61b8-7786-94de-655043fcd54e"
+    }
+  ],
+  "historical_spending_excluded": 507
+}

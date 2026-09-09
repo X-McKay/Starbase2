@@ -3,15 +3,15 @@
 [ext_resource type="PackedScene" path="res://assets/props/botany-lab-bench/botany-lab-bench.glb" id="2"]
 [ext_resource type="PackedScene" path="res://assets/props/hydroponic-rack/hydroponic-rack.glb" id="3"]
 [sub_resource type="BoxShape3D" id="Shape0"]
-size = Vector3(1.5000,1.6500,0.9000)
+size = Vector3(2.0000,2.8000,5.2000)
 [sub_resource type="BoxShape3D" id="Shape1"]
 size = Vector3(2.0000,2.8000,5.2000)
 [sub_resource type="BoxShape3D" id="Shape2"]
-size = Vector3(2.0000,2.8000,5.2000)
-[sub_resource type="BoxShape3D" id="Shape3"]
 size = Vector3(2.8000,2.0000,1.1000)
-[sub_resource type="BoxShape3D" id="Shape4"]
+[sub_resource type="BoxShape3D" id="Shape3"]
 size = Vector3(1.3500,2.9000,1.5500)
+[sub_resource type="BoxShape3D" id="Shape4"]
+size = Vector3(1.3000,1.5000,2.5000)
 [node name="Interior" type="Node3D"]
 [node name="Furniture" parent="." instance=ExtResource("1")]
 [node name="ResearchBench" parent="." instance=ExtResource("2")]
@@ -29,41 +29,51 @@ rotation = Vector3(0.0000,1.5708,0.0000)
 position = Vector3(3.3000,0.5000,-4.0000)
 rotation = Vector3(0.0000,1.5708,0.0000)
 [node name="Prop0" type="StaticBody3D" parent="."]
-position = Vector3(2.6000,0.8250,-0.5000)
+position = Vector3(-3.3000,1.4000,-5.3000)
 [node name="Collision" type="CollisionShape3D" parent="Prop0"]
 shape = SubResource("Shape0")
 [node name="Prop1" type="StaticBody3D" parent="."]
-position = Vector3(-3.3000,1.4000,-5.3000)
+position = Vector3(3.3000,1.4000,-5.3000)
 [node name="Collision" type="CollisionShape3D" parent="Prop1"]
 shape = SubResource("Shape1")
 [node name="Prop2" type="StaticBody3D" parent="."]
-position = Vector3(3.3000,1.4000,-5.3000)
+position = Vector3(0.0000,1.0000,-9.4500)
 [node name="Collision" type="CollisionShape3D" parent="Prop2"]
 shape = SubResource("Shape2")
 [node name="Prop3" type="StaticBody3D" parent="."]
-position = Vector3(0.0000,1.0000,-9.4500)
+position = Vector3(7.4500,1.4500,-9.3500)
 [node name="Collision" type="CollisionShape3D" parent="Prop3"]
 shape = SubResource("Shape3")
 [node name="Prop4" type="StaticBody3D" parent="."]
-position = Vector3(7.4500,1.4500,-9.3500)
+position = Vector3(-7.3500,0.7500,-2.4500)
 [node name="Collision" type="CollisionShape3D" parent="Prop4"]
 shape = SubResource("Shape4")
+[node name="CameraFocus" type="Marker3D" parent="."]
+position = Vector3(0.0000,1.0000,-4.4500)
+metadata/view_size = 19.0
+[node name="CameraPosition" type="Marker3D" parent="."]
+position = Vector3(8.0000,16.0000,13.5500)
 [node name="TaskLight0" type="OmniLight3D" parent="."]
 position = Vector3(-3.9100,2.8000,-7.9500)
-light_color = Color(1,0.72,0.42,1)
-light_energy = 0.65
+light_color = Color(0.75,1.0,0.75,1)
+light_energy = 1.35
 omni_range = 7.0
-shadow_enabled = false
+shadow_enabled = true
 [node name="TaskLight1" type="OmniLight3D" parent="."]
 position = Vector3(3.9100,2.8000,-7.9500)
-light_color = Color(1,0.72,0.42,1)
-light_energy = 0.65
+light_color = Color(0.75,1.0,0.75,1)
+light_energy = 1.35
 omni_range = 7.0
-shadow_enabled = false
+shadow_enabled = true
+[node name="EntranceLight" type="OmniLight3D" parent="."]
+position = Vector3(0.0000,2.2000,0.2500)
+light_color = Color(1,0.68,0.34,1)
+light_energy = 0.85
+omni_range = 4.5
 [node name="Spawn" type="Marker3D" parent="."]
 position = Vector3(0.0000,0.0000,0.7000)
 [node name="Console" type="Marker3D" parent="."]
-position = Vector3(2.6000,0.0000,0.5000)
+position = Vector3(0.0000,0.0000,-8.0500)
 [node name="Crew" type="Marker3D" parent="."]
 position = Vector3(0.0000,0.0000,-4.4500)
 [node name="Activity" type="Marker3D" parent="."]

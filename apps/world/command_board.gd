@@ -8,6 +8,7 @@ var fixture_details: Dictionary = {}
 var online := false
 var pending := false
 var large_text := false
+var is_docked := false
 var signature := ""
 var focus_context := ""
 var selected := ""
@@ -40,6 +41,9 @@ func label(parent: Node, value: String, size: int = 16) -> Label:
 func button(parent: Node, title: String, action: Callable, mutation: bool = false) -> Button:
 	var b := Button.new()
 	b.text=title
+	b.clip_text=true
+	b.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
+	b.tooltip_text=title
 	b.set_meta("focus_key",focus_context+"/"+title)
 	b.custom_minimum_size.y=38
 	b.pressed.connect(func():
@@ -62,7 +66,8 @@ func page(title: String) -> VBoxContainer:
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	offset_left=28; offset_right=-28; offset_top=112; offset_bottom=-135
+	layout_workspace()
+	get_viewport().size_changed.connect(layout_workspace)
 	var col := VBoxContainer.new()
 	col.add_theme_constant_override("separation",8)
 	add_child(col)
@@ -70,7 +75,12 @@ func _ready() -> void:
 	col.add_child(heading)
 	var title := label(heading,"COMMAND / FIELD OPERATIONS",22)
 	title.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-	button(heading,"Close [Esc]",func(): hide(); closed.emit())
+	title.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	var dismiss := button(heading,"Close [Esc]",func(): hide(); closed.emit())
+	dismiss.text="Close"
+	dismiss.tooltip_text="Close Command · Esc"
+	dismiss.custom_minimum_size.x=110
+	dismiss.size_flags_horizontal=Control.SIZE_SHRINK_END
 	connection=label(col,"Connecting to the core…",13)
 	notice=label(col,"Observations and local drafts only. Scenery and travel do not start work.",14)
 	tabs=TabContainer.new()
@@ -116,7 +126,19 @@ func _ready() -> void:
 		render()
 	hide()
 
+func layout_workspace() -> void:
+	var canvas:Vector2=get_viewport_rect().size
+	is_docked=canvas.x>=1100
+	offset_left=canvas.x-672 if is_docked else 22
+	offset_right=-22
+	offset_top=80 if canvas.x>=900 else 124
+	offset_bottom=-80
+
+func workspace_rect() -> Rect2:
+	return get_global_rect()
+
 func open() -> void:
+	layout_workspace()
 	show(); poll(); tabs.get_tab_bar().grab_focus()
 
 func poll() -> void:

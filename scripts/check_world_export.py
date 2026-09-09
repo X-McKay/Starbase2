@@ -217,6 +217,20 @@ def main() -> None:
         capture_data = json.loads(capture_report.read_text())
         if capture_data["failures"] or capture_data["motion_frames"] < 4:
             raise RuntimeError("Native physical motion evidence failed")
+        if not capture_data.get("live_world_presentation", False):
+            raise RuntimeError("Native review must exercise the live camera and HUD")
+        for name in (
+            "command-workspace",
+            "command-workspace-compact",
+            "habitat-guide",
+            "greenhouse-guide",
+            "living-commons",
+            "living-colony",
+            "inhabited-water",
+            "inhabited-water-reduced",
+        ):
+            if not (output / f"{name}.png").exists():
+                raise RuntimeError(f"Missing living-colony review capture: {name}")
         if not (output / "review-motion.png").exists():
             raise RuntimeError("Missing native physical motion strip")
         report = {

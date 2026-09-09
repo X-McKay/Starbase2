@@ -1,0 +1,2 @@
+python3 scripts/check_world_export.py --output .local/reviews/inhabited-polish/20260908-final-01
+Export qualified. Artifact, captures, logs and provenance: /Users/al/git/Starbase2/.local/reviews/inhabited-polish/20260908-final-01
