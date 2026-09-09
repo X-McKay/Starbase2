@@ -1,0 +1,15 @@
+cargo build --locked
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.04s
+.venv/bin/python scripts/integration.py
+{"event": "cancel_before_dispatch_passed", "elapsed_seconds": 1.227}
+{"event": "worker_sigkill", "elapsed_seconds": 2.259, "mode": "direct", "workflow_run_id": "01a07d31-ef36-7cd8-80ad-57d9d9620875"}
+{"event": "restart_duplicate_submission_replay_passed", "elapsed_seconds": 17.632, "mode": "direct", "history_events": 53, "baseline": 3, "candidate": 1}
+{"event": "cancellation_passed", "elapsed_seconds": 21.483, "mode": "direct", "detail": "Temporal CANCELED after stop request"}
+{"event": "worker_sigkill", "elapsed_seconds": 22.525, "mode": "integration", "workflow_run_id": "01a07d32-3e6c-71b7-9ce4-4f426517dac8"}
+/home/al/git/Starbase2/.venv/lib/python3.12/site-packages/temporalio/worker/workflow_sandbox/_importer.py:238: UserWarning: Module annotated_types was imported after initial workflow load.
+  warnings.warn(
+{"event": "restart_duplicate_submission_replay_passed", "elapsed_seconds": 37.936, "mode": "integration", "history_events": 53, "baseline": 3, "candidate": 1}
+{"event": "cancellation_passed", "elapsed_seconds": 41.791, "mode": "integration", "detail": "Temporal CANCELED after stop request"}
+{"event": "unloaded_build_rejected", "elapsed_seconds": 43.826}
+{"event": "core_restart_preserved_all_missions_and_evidence", "elapsed_seconds": 44.306}
+{"event": "passed", "elapsed_seconds": 44.307, "duration_seconds": 44.307}

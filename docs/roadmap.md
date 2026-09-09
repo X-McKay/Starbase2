@@ -1,5 +1,18 @@
 # Delivery plan
 
+## Linux onboarding · 2026-09-07
+
+The local stack, repository checks, world checks, recovery harnesses and a live
+operator loop now pass on a clean x86_64 Linux host; see
+[developer experience](development.md) and [the record](../evidence/linux-onboarding/README.md).
+Git LFS is now a pinned, diagnosed prerequisite. FalkorDB memory, field agents,
+microsandbox repairs (with a per-architecture image pin), the PostgreSQL
+deployment rehearsal and the explicit model pilots also passed on that host,
+closing the Linux-host sandbox gate. Native amd64 Core/worker images were then
+built and qualified on the same host, then published and pulled by immutable
+digest on node `rig0` (see [deployment](deployment.md)); rendering the exact
+stopped bundle and Kubani activation remain separate reviewed steps.
+
 ## Meshy/Blender continuation · 2026-09-07
 
 The [continuous colony pass](meshy-blender.md) covers all five buildings and six
@@ -170,6 +183,8 @@ build and per-duty rollback until observation confirms the replacement.
 | FalkorDB / Graphiti | Runtime/evaluation owner | Structured persistence and review implemented; paired evidence must justify richer retrieval over SQL |
 | agentgateway | Al | Repeated routing/identity need and measured operational benefit |
 | First external-action policy | Al | Named action, target, identity, verifier, recovery, and limits |
+| Godot web export (backlog, 2026-09-08) | World implementation | Matching 4.7.2 web templates, a reviewed same-origin serving/origin policy in the core, and a measured native/web comparison; deliberately deferred behind journal parity |
+| Independent PostgreSQL backup key (backlog, 2026-09-08) | Kubani platform owner | Kubani's backup CronJob encrypts with the administrator password; replace it with an independently recoverable key (SOPS plus offline copy), re-run the isolated restore, and record RPO/RTO before Starbase2 accepts production work; deferred by owner decision |
 
 Do not implement every row speculatively. Each resolved decision removes an
 uncertainty from a concrete delivery stage.

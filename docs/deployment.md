@@ -454,7 +454,8 @@ migration pod select that Linux architecture explicitly. Qualifying one
 architecture does not qualify another, and local image IDs are not published
 registry digests. The first amd64 attempt on the local arm64 VM failed when QEMU
 crashed running `rustc -vV`; retain that failure and use a native amd64 builder
-before claiming amd64 readiness. The native arm64 build also exposed uv's valid
+before claiming amd64 readiness. The native amd64 build and qualification were
+completed on 2026-09-07 (below). The native arm64 build also exposed uv's valid
 platform suffix in `--version`; the release check accepts that suffix while
 still requiring exactly version 0.12.7.
 
@@ -466,6 +467,26 @@ Production images exclude development-only dependencies and include contract
 schemas; image construction now verifies worker import. Core handles SIGTERM
 and SIGINT with graceful HTTP shutdown. The test-only loopback relay models
 port-forward access; it is not part of the production deployment.
+
+### Native amd64 qualification · 2026-09-07
+
+Kubani node `rig0` (x86_64, Docker and podman) built both images natively with
+podman from committed revision `71ca83dd7e5a9d763760a81f900e72aaaae2ea15` and
+passed the 16-check disposable-pod rehearsal; see
+[the amd64 release record](../evidence/linux-release-amd64/README.md). Two
+harness defects surfaced and were fixed with retained failures: the readiness
+wait accepted the PostgreSQL image's temporary socket-only initdb server (it now
+requires TCP readiness), and the recorded Temporal digest was the arm64 manifest
+of `temporalio/temporal:1.8.2`, so amd64 inputs pin its amd64 manifest. On Linux,
+podman must use **crun**: runc 1.3 cannot create secret mountpoints on the
+read-only rootfs the pod requires (`~/.config/containers/containers.conf`,
+`[engine] runtime = "crun"`). On 2026-09-08 both images were published and
+verified by immutable digest, and node `rig0` pulled them through its own
+containerd configuration; the [publication record](../evidence/linux-release-amd64/publication-plan.json)
+holds the exact references for `.local/deploy/production.json`. amd64 images on
+general nodes resolve the placement gate without an arm64 taint exception. The
+platform backup-key item is deferred in the roadmap backlog; activation remains
+a separate reviewed Kubani change.
 
 ## Live Kubani preflight · 2026-09-06
 

@@ -9,7 +9,7 @@
           "code": "CrashLoopBackOff",
           "key": "4b3176caaa8818328a5ca4618da141869f0af21f3d279e4cf32eb7e98c1f7041",
           "line": 0,
-          "recommendation": "Inspect image availability, startup configuration and restart history.",
+          "recommendation": "Inspect the image, startup configuration and restart history.",
           "subject": "training/pods/api/api",
           "summary": "Container cannot enter a stable running state."
         },
@@ -30,7 +30,7 @@
           "graphiti": "0.30.1",
           "limit": 30,
           "rollback": "revoke-and-reapprove",
-          "scope": "agent-and-target",
+          "scope": "installation-agent-and-target",
           "version": 1
         },
         "records": [],
@@ -60,7 +60,7 @@
           "graphiti": "0.30.1",
           "limit": 30,
           "rollback": "revoke-and-reapprove",
-          "scope": "agent-and-target",
+          "scope": "installation-agent-and-target",
           "version": 1
         },
         "records": [],
@@ -80,7 +80,7 @@
         "graphiti": "0.30.1",
         "limit": 30,
         "rollback": "revoke-and-reapprove",
-        "scope": "agent-and-target",
+        "scope": "installation-agent-and-target",
         "version": 1
       },
       "records": [
@@ -91,12 +91,12 @@
             "code": "CrashLoopBackOff",
             "key": "4b3176caaa8818328a5ca4618da141869f0af21f3d279e4cf32eb7e98c1f7041",
             "line": 0,
-            "recommendation": "Inspect image availability, startup configuration and restart history.",
+            "recommendation": "Inspect the image, startup configuration and restart history.",
             "subject": "training/pods/api/api",
             "summary": "Container cannot enter a stable running state."
           },
           "id": "c2a416ab76ec3601580f6b71082a8ff67025fa7b86c01edfe03b2703e3b4a7e4",
-          "observed_at": 1788720838.730008,
+          "observed_at": 1788821590.8227966,
           "revision": 1,
           "source_digest": "96229b8d631064782e9d403ca29df4d8c3fe61ed8afbf1dcc2382bcf771dd0fe",
           "source_run": "cluster-first",
@@ -120,18 +120,18 @@
     "event": "optional_model_advice",
     "advisory": {
       "advice": {
-        "recommendation": "Reject the PR in its current state. Require the developer to replace `eval(value)` with `ast.literal_eval(value)` if the input is expected to be a Python literal (e.g., dict, list, string). If the input is JSON, use `json.loads()`. If arbitrary code execution is genuinely required, justify the risk and implement strict allow-listing or sandboxing, though this is generally discouraged. Do not merge until the insecure function is removed or replaced with a safe alternative.",
-        "summary": "The PR introduces `eval()` in `handler.py` (line 2), which is flagged by security rule S307 as a high-risk insecure function usage. `eval()` executes arbitrary code, posing a severe injection risk if `value` originates from user input. The current implementation lacks any sanitization or safe parsing logic."
+        "recommendation": "1. Reject the current change due to the use of `eval()`.\n2. Request the developer to replace `eval(value)` with `ast.literal_eval(value)` if the input is a safe literal (string, number, list, dict, etc.).\n3. If `ast.literal_eval` is insufficient, require a detailed justification for why `eval` is necessary and implement a strict allowlist or sandboxing mechanism.\n4. Do not merge until the security risk is mitigated and the code is reviewed by an operator.",
+        "summary": "The PR introduces `eval()` in `handler.py` at line 2, triggering security finding S307. This is a critical vulnerability as `eval()` executes arbitrary code. The recommendation to use `ast.literal_eval` is appropriate if the input is expected to be a literal structure (e.g., JSON-like data). If arbitrary expression evaluation is truly required, this must be strictly justified and sandboxed, but generally `eval()` should be avoided."
       },
       "calls": 1,
       "cost_usd": null,
-      "elapsed_ms": 28551,
+      "elapsed_ms": 29753,
       "model": "Qwen3.6-35B-A3B-NVFP4",
       "status": "unverified",
       "usage": {
         "details": {},
-        "input_tokens": 741,
-        "output_tokens": 204,
+        "input_tokens": 742,
+        "output_tokens": 238,
         "requests": 1
       }
     }

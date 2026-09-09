@@ -1,0 +1,9 @@
+.venv/bin/python scripts/sandbox_qualification.py
+isolation True
+memory True
+disk True
+timeout True
+background True
+.venv/bin/python scripts/sandbox_crash_probe.py
+process_group 0.31
+coordinator_only 12.277

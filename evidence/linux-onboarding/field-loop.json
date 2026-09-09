@@ -1,0 +1,119 @@
+{
+ "runs": {
+  "field-linux-watchkeeper-20260907T185159": {
+   "state": "completed",
+   "summary": null,
+   "findings": 2,
+   "coverage": [],
+   "memory": {
+    "policy": {
+     "acceptance": "operator-reviewed",
+     "comparison": "frozen-revisions",
+     "extraction": "structured-episodes-no-llm",
+     "graphiti": "0.30.1",
+     "limit": 30,
+     "rollback": "revoke-and-reapprove",
+     "scope": "installation-agent-and-target",
+     "version": 1
+    },
+    "records": [],
+    "recurring_keys": [],
+    "status": "empty"
+   },
+   "events": [
+    [
+     "queued",
+     null
+    ],
+    [
+     "running",
+     null
+    ],
+    [
+     "running",
+     null
+    ],
+    [
+     "completed",
+     null
+    ]
+   ]
+  },
+  "field-linux-reviewer-20260907T185159": {
+   "state": "completed",
+   "summary": null,
+   "findings": 1,
+   "coverage": [],
+   "memory": {
+    "policy": {
+     "acceptance": "operator-reviewed",
+     "comparison": "frozen-revisions",
+     "extraction": "structured-episodes-no-llm",
+     "graphiti": "0.30.1",
+     "limit": 30,
+     "rollback": "revoke-and-reapprove",
+     "scope": "installation-agent-and-target",
+     "version": 1
+    },
+    "records": [],
+    "recurring_keys": [],
+    "status": "empty"
+   },
+   "events": [
+    [
+     "queued",
+     null
+    ],
+    [
+     "running",
+     null
+    ],
+    [
+     "running",
+     null
+    ],
+    [
+     "completed",
+     null
+    ]
+   ]
+  }
+ },
+ "memory_before": [
+  [
+   "5a4dba550061eed3cbb5bd4a8aeb98fc01d068c0ad6d1ab0725d2b5e87fc19c2",
+   "reviewer",
+   "pending",
+   0
+  ],
+  [
+   "9e0d1db055d45f6cdc51091161b44514a62b383af7b01a37e9edeb2036752b86",
+   "watchkeeper",
+   "pending",
+   0
+  ],
+  [
+   "b3a0830c0db0d49e4123833f7f4096f5844902e872fc32dfe6c79e231ff56f43",
+   "watchkeeper",
+   "pending",
+   0
+  ]
+ ],
+ "memory_after": [
+  [
+   "5a4dba550061eed3cbb5bd4a8aeb98fc01d068c0ad6d1ab0725d2b5e87fc19c2",
+   "approve",
+   1
+  ],
+  [
+   "9e0d1db055d45f6cdc51091161b44514a62b383af7b01a37e9edeb2036752b86",
+   "pending",
+   0
+  ],
+  [
+   "b3a0830c0db0d49e4123833f7f4096f5844902e872fc32dfe6c79e231ff56f43",
+   "pending",
+   0
+  ]
+ ]
+}

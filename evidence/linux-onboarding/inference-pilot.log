@@ -1,0 +1,14 @@
+.venv/bin/python scripts/inference_pilot.py
+{"model": "Qwen3.6-35B-A3B-NVFP4", "case": "eval", "context": false, "grade": {"valid": true, "passed": false, "reason": "predeclared keyword factual smoke gate"}, "ms": 3303}
+{"model": "Qwen3.6-35B-A3B-NVFP4", "case": "eval", "context": true, "grade": {"valid": true, "passed": true, "reason": "predeclared keyword factual smoke gate"}, "ms": 1532}
+{"model": "Qwen3.6-35B-A3B-NVFP4", "case": "timeout", "context": true, "grade": {"valid": true, "passed": true, "reason": "predeclared keyword factual smoke gate"}, "ms": 1025}
+{"model": "Qwen3.6-35B-A3B-NVFP4", "case": "timeout", "context": false, "grade": {"valid": true, "passed": false, "reason": "predeclared keyword factual smoke gate"}, "ms": 1478}
+{"model": "Qwen3.6-35B-A3B-NVFP4", "case": "clean", "context": false, "grade": {"valid": true, "passed": true, "reason": "predeclared keyword factual smoke gate"}, "ms": 681}
+{"model": "Qwen3.6-35B-A3B-NVFP4", "case": "clean", "context": true, "grade": {"valid": true, "passed": true, "reason": "predeclared keyword factual smoke gate"}, "ms": 611}
+{"model": "qwen2.5-coder:7b", "case": "eval", "context": false, "grade": {"valid": true, "passed": false, "reason": "predeclared keyword factual smoke gate"}, "ms": 28162}
+{"model": "qwen2.5-coder:7b", "case": "eval", "context": true, "grade": {"valid": true, "passed": true, "reason": "predeclared keyword factual smoke gate"}, "ms": 1100}
+{"model": "qwen2.5-coder:7b", "case": "timeout", "context": true, "grade": {"valid": true, "passed": true, "reason": "predeclared keyword factual smoke gate"}, "ms": 861}
+{"model": "qwen2.5-coder:7b", "case": "timeout", "context": false, "grade": {"valid": true, "passed": false, "reason": "predeclared keyword factual smoke gate"}, "ms": 760}
+{"model": "qwen2.5-coder:7b", "case": "clean", "context": false, "grade": {"valid": true, "passed": true, "reason": "predeclared keyword factual smoke gate"}, "ms": 4149}
+{"model": "qwen2.5-coder:7b", "case": "clean", "context": true, "grade": {"valid": true, "passed": true, "reason": "predeclared keyword factual smoke gate"}, "ms": 593}
+evidence/inference-pilot-1788821473450419838

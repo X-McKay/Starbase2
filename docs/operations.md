@@ -129,6 +129,12 @@ files. Rollback requires the previous binary and a pre-migration backup; do not
 force an older core to open the new schema. No destructive automatic retention
 or cloud backup is configured.
 
+Retained JSON bodies are parsed with correctly rounded float decoding
+(`serde_json` `float_roundtrip`). Before 2026-09-07 a stored `f64` timestamp
+could read back one ULP away from the value just written, so an exact repeated
+transition or resubmission could be misjudged as a change; the Linux onboarding
+record retains the failing check and the deterministic regression test.
+
 A launcher-created 0600 token file authenticates internal v2 writes. Operator
 commands require an HttpOnly, SameSite=Strict session cookie; cross-origin
 browser writes are rejected. Loopback read APIs are accessible to the local user.
