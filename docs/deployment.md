@@ -211,6 +211,16 @@ the loopback forward. Never confuse them.
 
 ## 3. Provision and migrate, with the application stopped
 
+The deployment renderer adds a credential-free TCP readiness init container before
+the one-shot migration (PostgreSQL) and application (PostgreSQL and Temporal).
+It uses the selected, digest-pinned runtime image, with no Secret mounts or API
+token, a 60-second deadline including DNS, and connection attempts of at most two
+seconds. This handles the observed initial pod-network convergence race; it does
+not retry migration SQL or certify dependency authentication. Migration retains
+`backoffLimit: 0` and its 180-second total deadline. The September 2026 pilot uses
+the qualified `ef60c6a` Core/runtime images with this separately reviewed renderer
+change; image source provenance must not be relabeled as a newer runtime build.
+
 Prepare a reviewed Kubani change adding the generated application directory
 under `infrastructure/gitops/apps/starbase2/` and its reference in the apps
 aggregate. The currently checked-in `starbase/` directory belongs to the older

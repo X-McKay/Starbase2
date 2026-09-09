@@ -1,7 +1,12 @@
 """Lifecycle failure cases. All cluster/database calls are replaced by explicit fakes."""
 
 import json
+import signal
+import socket
 import subprocess
+import sys
+import time
+from contextlib import nullcontext
 
 import pytest
 from starbase_runtime.connection import settings
@@ -89,6 +94,84 @@ def test_render_reproducible_private_and_separated_credentials(config, tmp_path)
     (tmp_path / "application.json").write_text("tampered")
     with pytest.raises(ValueError, match="edited"):
         cli.verify_bundle(config, tmp_path)
+
+
+def test_dependency_init_is_scoped_unprivileged_and_has_no_credentials(config):
+    resources = render.objects(config)
+    deployment = next(o for o in resources if o["kind"] == "Deployment")
+    migration = next(o for o in resources if o["kind"] == "Job")
+    assert migration["spec"]["backoffLimit"] == 0
+    assert migration["spec"]["activeDeadlineSeconds"] == 180
+    for resource, expected in (
+        (deployment, [config["postgres_host"] + ":5432", config["temporal_address"]]),
+        (migration, [config["postgres_host"] + ":5432"]),
+    ):
+        pod = resource["spec"]["template"]["spec"]
+        assert pod["automountServiceAccountToken"] is False
+        assert len(pod["initContainers"]) == 1
+        init = pod["initContainers"][0]
+        assert init["image"] == config["runtime_image"]
+        assert init["command"][4:] == expected
+        assert init["command"][:3] == ["/app/.venv/bin/python", "-u", "-c"]
+        assert not init.get("volumeMounts")
+        assert not init.get("env") and not init.get("envFrom")
+        assert init["securityContext"] == pod["containers"][0]["securityContext"]
+        assert init["resources"]["requests"] and init["resources"]["limits"]
+
+
+@pytest.mark.parametrize("ready_after", [5, None])
+def test_dependency_wait_delayed_success_or_bounded_failure(monkeypatch, ready_after):
+    clock = [0.0]
+    attempts = []
+    alarms = []
+
+    def connect(address, timeout):
+        assert 0 < timeout <= 2
+        attempts.append((address, clock[0]))
+        if ready_after is None:
+            clock[0] += timeout
+            raise TimeoutError("synthetic dependency unavailable")
+        if clock[0] < ready_after:
+            raise ConnectionRefusedError("synthetic policy convergence")
+        return nullcontext()
+
+    monkeypatch.setattr(socket, "create_connection", connect)
+    monkeypatch.setattr(time, "monotonic", lambda: clock[0])
+    monkeypatch.setattr(time, "sleep", lambda seconds: clock.__setitem__(0, clock[0] + seconds))
+    monkeypatch.setattr(signal, "signal", lambda *_: None)
+    monkeypatch.setattr(signal, "alarm", alarms.append)
+    monkeypatch.setattr(sys, "argv", ["-c", "postgresql.database:5432", "temporal.temporal:7233"])
+    if ready_after is None:
+        with pytest.raises(SystemExit) as failure:
+            exec(render.DEPENDENCY_WAIT, {})
+        assert failure.value.code == 1
+        assert clock[0] == 60
+    else:
+        exec(render.DEPENDENCY_WAIT, {})
+        assert clock[0] == 5
+        assert {address for address, at in attempts if at >= 5} == {
+            ("postgresql.database", 5432),
+            ("temporal.temporal", 7233),
+        }
+    assert alarms == [60, 0]
+    assert len(attempts) <= 60
+
+
+def test_dependency_wait_alarm_stops_blocked_dns(monkeypatch):
+    handlers = []
+    alarms = []
+    monkeypatch.setattr(signal, "signal", lambda number, handler: handlers.append(handler))
+    monkeypatch.setattr(signal, "alarm", alarms.append)
+    monkeypatch.setattr(sys, "argv", ["-c", "blocked-dns.database:5432"])
+
+    def blocked_dns(*args, **kwargs):
+        handlers[0](signal.SIGALRM, None)
+
+    monkeypatch.setattr(socket, "create_connection", blocked_dns)
+    with pytest.raises(SystemExit) as failure:
+        exec(render.DEPENDENCY_WAIT, {})
+    assert failure.value.code == 1
+    assert alarms == [60, 0]
 
 
 def test_credentials_are_private_stable_and_cannot_be_adopted(config, tmp_path):

@@ -8,6 +8,43 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 LABEL = "starbase2.io/installation"
 
+# Runs from the qualified runtime image without mounting application credentials.
+# SIGALRM also bounds DNS resolution, which socket's connect timeout does not cover.
+DEPENDENCY_WAIT = """import signal
+import socket
+import sys
+import time
+
+def expired(*_):
+    print("Dependency TCP readiness timed out after 60 seconds", flush=True)
+    raise SystemExit(1)
+
+signal.signal(signal.SIGALRM, expired)
+signal.alarm(60)
+deadline = time.monotonic() + 60
+pending = [address.rsplit(":", 1) for address in sys.argv[1:]]
+try:
+    while pending:
+        for host, port in list(pending):
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                expired()
+            try:
+                with socket.create_connection((host, int(port)), timeout=min(2, remaining)):
+                    pass
+            except OSError:
+                continue
+            print("Dependency TCP ready: " + host + ":" + port, flush=True)
+            pending.remove([host, port])
+        if pending:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                expired()
+            time.sleep(min(1, remaining))
+finally:
+    signal.alarm(0)
+"""
+
 
 def load(path: Path) -> dict:
     c = json.loads(path.read_text())
@@ -109,6 +146,18 @@ def objects(c: dict) -> list[dict]:
         "readOnlyRootFilesystem": True,
         "capabilities": {"drop": ["ALL"]},
     }
+
+    def dependency_wait(addresses):
+        return {
+            "name": "starbase2-wait-dependencies",
+            "image": c["runtime_image"],
+            "command": ["/app/.venv/bin/python", "-u", "-c", DEPENDENCY_WAIT, *addresses],
+            "securityContext": security,
+            "resources": {
+                "requests": {"cpu": "10m", "memory": "32Mi"},
+                "limits": {"cpu": "100m", "memory": "64Mi"},
+            },
+        }
     common = {
         "STARBASE_ENV": "production",
         "STARBASE_INSTALLATION": c["installation"],
@@ -195,6 +244,9 @@ def objects(c: dict) -> list[dict]:
             "seccompProfile": {"type": "RuntimeDefault"},
         },
         "terminationGracePeriodSeconds": 90,
+        "initContainers": [
+            dependency_wait([c["postgres_host"] + ":5432", c["temporal_address"]])
+        ],
         "containers": [core, runtime],
         "volumes": [
             secret_volume("starbase2-worker"),
@@ -326,9 +378,14 @@ def objects(c: dict) -> list[dict]:
             "activeDeadlineSeconds": 180,
             "template": {
                 "metadata": {"labels": labels},
-                "spec": {k: v for k, v in pod.items() if k not in {"containers", "volumes"}}
+                "spec": {
+                    k: v
+                    for k, v in pod.items()
+                    if k not in {"containers", "initContainers", "volumes"}
+                }
                 | {
                     "restartPolicy": "Never",
+                    "initContainers": [dependency_wait([c["postgres_host"] + ":5432"])],
                     "containers": [
                         {
                             "name": "migrate",
