@@ -244,6 +244,8 @@ func controls() -> void:
 	var dispatch_disabled: bool=installation_offline or (not field_policy.is_empty() and not field_policy.get("enabled",false))
 	launch.disabled=launch.disabled or dispatch_disabled or not snapshot.get("enabled",false) or targets.item_count==0
 	watch_save.disabled=watch_save.disabled or dispatch_disabled or not snapshot.get("enabled",false)
+	for action in find_children("*","Button",true,false):
+		if action.has_meta("field_resume"): action.disabled=action.disabled or dispatch_disabled or not ConnectionStatus.enabled(installation_snapshot,"field") or not snapshot.get("enabled",false)
 
 func clear(parent: Node) -> void:
 	for child in parent.get_children(): parent.remove_child(child); child.queue_free()
@@ -274,6 +276,7 @@ func render() -> void:
 		focus_context=str(run.input.id)
 		var summary: Dictionary=run.get("summary") if run.get("summary") is Dictionary else {}
 		label(runs,str(run.input.agent)+" / "+str(run.input.target)+" · "+str(run.state),18)
+		label(runs,advisory_description(run,false),14)
 		label(runs,run_message(run)+(" · "+str(int(summary.get("finding_count",0)))+" findings" if not summary.is_empty() else ""),14)
 		var row := HFlowContainer.new(); runs.add_child(row)
 		button(row,"Findings",func(): inspect(str(run.input.id)))
@@ -293,11 +296,15 @@ func render() -> void:
 		if not latest.is_empty(): button(row,"Latest findings",func(): inspect(str(latest.input.id)))
 	for duty in snapshot.get("duties",[]):
 		if str(duty.id).begins_with("repo-"): continue
-		for b in snapshot.get("builds",[]):
-			var t: Dictionary=b.manifest.target
-			if t.id==duty.target and t.kind=="github":
-				label(watches,"Individual PR duty · "+str(t.repository)+" #"+str(int(t.pull)),18)
-				label(watches,str(duty.id)+" · "+("enabled" if duty.enabled else "paused")+" · Manage this separate configured duty in the browser journal.",14)
+		var target: Dictionary={}
+		for build in snapshot.get("builds",[]):
+			if build.manifest.target.id==duty.target: target=build.manifest.target
+		label(watches,str(duty.get("agent","Field"))+" duty · "+str(target.get("repository",duty.target)),18)
+		label(watches,str(duty.id)+" · "+("enabled" if duty.enabled else "paused")+" · AI advice "+("requested" if duty.get("inference",false) else "off")+" · Observation interval "+str(int(duty.get("interval_seconds",0)))+" s",14)
+		label(watches,"Target build unavailable · inference policy unknown" if target.is_empty() else "AI cooldown "+str(int(target.get("inference_min_interval_seconds",0)))+" s · Daily admission limit "+str(target.get("daily_inference_limit",24)),14)
+		focus_context=str(duty.id)
+		var toggle:=button(watches,"Pause duty" if duty.enabled else "Resume duty",func(): edit_duty(duty,not duty.enabled),true)
+		if not duty.enabled: toggle.set_meta("field_resume",true)
 	if watches.get_child_count()==0: label(watches,"No repositories watched. Add one above.")
 	for m in snapshot.get("memory",[]).slice(0,100):
 		focus_context=str(m.id)
@@ -360,8 +367,46 @@ func show_detail(run: Dictionary) -> void:
 		label(detail,str(f.summary)+"\n"+str(f.recommendation))
 	for c in report.get("coverage",[]): label(detail,"Coverage limit: "+str(c),14)
 	label(detail,"Memory: "+str(report.get("memory",{}).get("status","not recorded")),14)
-	if report.get("advisory") is Dictionary: label(detail,"AI advice · UNVERIFIED\n"+JSON.stringify(report.advisory),14)
+	label(detail,advisory_description(run),14)
 	var raw := TextEdit.new()
 	raw.text=JSON.stringify(run,"  "); raw.editable=false; raw.custom_minimum_size.y=260; raw.hide()
 	button(detail,"Source, revisions & full record",func(): raw.visible=not raw.visible)
 	detail.add_child(raw)
+
+static func advisory_description(run: Dictionary, full: bool = true) -> String:
+	var report: Dictionary=run.get("report",{}) if run.get("report") is Dictionary else {}
+	var advisory=report.get("advisory")
+	var summary: Dictionary=run.get("summary",{}) if run.get("summary") is Dictionary else {}
+	if advisory==null and summary.get("advisory_status") is String:
+		advisory={"status":summary.advisory_status,"reason":summary.get("advisory_reason","")}
+	var budget: Dictionary=run.get("inference_budget",{}) if run.get("inference_budget") is Dictionary else {}
+	var result: String=""
+	if advisory is Dictionary:
+		result="AI advice · "+str(advisory.get("status","unverified")).to_upper()+"\n"+str(advisory.get("reason",""))
+		if full:
+			for key in ["summary","recommendation","model","provider","usage","calls"]:
+				if advisory.has(key): result+="\n"+key.capitalize()+": "+str(advisory[key])
+			if advisory.get("advice") is Dictionary:
+				for key in ["summary","recommendation"]:
+					if advisory.advice.has(key): result+="\n"+str(advisory.advice[key])
+	elif budget.get("status")=="skipped":
+		result="AI advice · SKIPPED\n"+str(budget.get("reason","Admission limit reached"))
+	elif not run.get("input",{}).get("inference",false):
+		result="AI advice · NOT REQUESTED"
+	elif run.get("state")=="failed":
+		result="AI advice · NOT RETAINED · observation failed"
+	else:
+		result="AI advice · NOT RECORDED · no successful model result inferred"
+	if full and not budget.is_empty():
+		result+="\nAdmission: "+str(budget.get("status","unknown"))+" · "+str(budget.get("used","?"))+" / "+str(budget.get("limit","?"))+" · "+str(budget.get("reason",""))
+	if full and float(budget.get("next_eligible_at",0))>0:
+		result+="\nNext eligible: "+Time.get_datetime_string_from_unix_time(int(budget.next_eligible_at))+" UTC · subject to admission policy"
+	return result
+
+static func duty_change(duty: Dictionary, enabled: bool) -> Dictionary:
+	return {"id":duty.id,"agent":duty.agent,"target":duty.target,"interval_seconds":int(duty.interval_seconds),"generation":int(duty.generation)+1,"enabled":enabled,"inference":duty.get("inference",false)}
+
+func edit_duty(duty: Dictionary, enabled: bool) -> void:
+	if not online or pending or not fixture.is_empty(): return
+	if enabled and (installation_offline or not ConnectionStatus.enabled(installation_snapshot,"field") or not snapshot.get("enabled",false)): return
+	commands.submit("/v4/duties",duty_change(duty,enabled),str(duty.id),"/v4/snapshot")

@@ -25,6 +25,7 @@ var panes: BoxContainer
 var older: Button
 var back: Button
 var latest: Button
+var refresh_selected: Button
 var stop: Button
 var row_ids: Array[String] = []
 var rendered_rows := ""
@@ -40,6 +41,8 @@ func _ready() -> void:
 	latest=button(controls,"Latest",load_latest)
 	back=button(controls,"Newer page",go_back)
 	older=button(controls,"Older page",load_older)
+	refresh_selected=button(controls,"Refresh selected",func():
+		if not offline and fixture.is_empty() and not selected.is_empty(): inspect_run(selected))
 	stop=button(controls,"Stop selected run",func():
 		if not offline and fixture.is_empty() and cancellable(current_selected()): cancel_requested.emit(selected))
 	notice=Label.new(); notice.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; add_child(notice)
@@ -47,7 +50,8 @@ func _ready() -> void:
 	panes.size_flags_vertical=Control.SIZE_EXPAND_FILL; add_child(panes)
 	list=ItemList.new(); list.custom_minimum_size=Vector2(0,140); list.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	list.size_flags_vertical=Control.SIZE_EXPAND_FILL
-	list.item_selected.connect(func(index): inspect_run(row_ids[index])); panes.add_child(list)
+	list.item_selected.connect(func(index): inspect_run(row_ids[index]))
+	list.item_activated.connect(func(index): inspect_run(row_ids[index])); panes.add_child(list)
 	detail=RichTextLabel.new(); detail.custom_minimum_size=Vector2(0,140); detail.size_flags_vertical=Control.SIZE_EXPAND_FILL
 	detail.size_flags_horizontal=Control.SIZE_EXPAND_FILL; detail.size_flags_stretch_ratio=1.4
 	detail.selection_enabled=true; detail.bbcode_enabled=false; panes.add_child(detail)
@@ -201,13 +205,14 @@ func refresh() -> void:
 	latest.disabled=offline or not fixture.is_empty() or page_pending
 	back.disabled=page_index<=0 or page_pending
 	older.disabled=page_pending or (page_index+1>=pages.size() and (offline or not fixture.is_empty() or cursor()<1 or pages[page_index].size()<20))
+	refresh_selected.disabled=offline or not fixture.is_empty() or selected.is_empty()
 	stop.disabled=offline or not fixture.is_empty() or not cancellable(current_selected())
 	notice.text=("Fixture · " if not fixture.is_empty() else ("Disconnected · retained records · " if offline else ""))+"Review/comparison history · Page "+str(page_index+1)+" · "+str(active.size())+" active"+(" · loading" if page_pending else "")
 	if selected_run.is_empty(): detail.text="Select a run to inspect its retained details. Field observations remain in Command."; return
 	var report=selected_run.get("report")
 	var evidence:="No completion evidence recorded."
 	if report is Dictionary: evidence="Retained report. Inspect summary and coverage below; partial coverage is not certification."
-	var rendered_detail:="Run "+selected+"\nLatest known state: "+str(current_selected().get("state","unknown"))+"\nRetained detail state: "+str(selected_run.get("state","unknown"))+"\nEvidence summary: "+(JSON.stringify(report.get("summary",{})) if report is Dictionary else "Not recorded")+"\nUpdated: "+str(selected_run.get("updated_at","unknown"))+"\n"+str(selected_run.get("detail",""))+"\n"+evidence+"\n"+("Full detail fetched; polling does not replace this retained record. Select again to refresh.\n" if details.has(selected) else "Summary only; source and events may not be loaded.\n")+"\n"+JSON.stringify(selected_run,"  ")
+	var rendered_detail:="Run "+selected+"\nLatest known state: "+str(current_selected().get("state","unknown"))+"\nRetained detail state: "+str(selected_run.get("state","unknown"))+"\nEvidence summary: "+(JSON.stringify(report.get("summary",{})) if report is Dictionary else "Not recorded")+"\nUpdated: "+str(selected_run.get("updated_at","unknown"))+"\n"+str(selected_run.get("detail",""))+"\n"+evidence+"\n"+("Full detail fetched; polling does not replace this retained record. Use Refresh selected to fetch the latest detail.\n" if details.has(selected) else "Summary only; source and events may not be loaded.\n")+"\n"+JSON.stringify(selected_run,"  ")
 
 	if detail.text!=rendered_detail: detail.text=rendered_detail
 

@@ -158,6 +158,7 @@ def objects(c: dict) -> list[dict]:
                 "limits": {"cpu": "100m", "memory": "64Mi"},
             },
         }
+
     common = {
         "STARBASE_ENV": "production",
         "STARBASE_INSTALLATION": c["installation"],
@@ -244,9 +245,7 @@ def objects(c: dict) -> list[dict]:
             "seccompProfile": {"type": "RuntimeDefault"},
         },
         "terminationGracePeriodSeconds": 90,
-        "initContainers": [
-            dependency_wait([c["postgres_host"] + ":5432", c["temporal_address"]])
-        ],
+        "initContainers": [dependency_wait([c["postgres_host"] + ":5432", c["temporal_address"]])],
         "containers": [core, runtime],
         "volumes": [
             secret_volume("starbase2-worker"),

@@ -15,9 +15,10 @@
     <button id="watch-save">Watch repository</button></form><div id="repository-watches"></div>
     <details><summary>Removed watches (history retained)</summary><div id="removed-watches"></div></details>
     <h3>Recurring observation</h3>
-    <p>Uses the selected target, with AI advice off. Pausing stops future dispatch; stop an active run separately.</p>
+    <p>Uses the selected target. Optional AI reasoning shares its daily limit and minimum interval with manual observations. Skipped reasoning never stops observation. Pausing stops future dispatch; stop an active run separately.</p>
     <form id="field-duty-form"><label>Duty ID <input id="field-duty-id" pattern="[a-zA-Z0-9-]{1,40}" maxlength="40" required></label>
     <label>Interval in seconds <input id="field-duty-interval" type="number" min="30" max="86400" value="300" required></label>
+    <label class="check"><input id="field-duty-inference" type="checkbox"> Request recurring AI reasoning within target limits</label>
     <button id="field-duty-submit">Enable or update duty</button></form><div id="field-duties"></div>
     <h3>Reviewed agent memory</h3><p>Approve a sourced observation for future recall, or revoke it. Memory never grants permission.</p>
     <div id="field-memory"></div><pre id="field-evidence" style="white-space:pre-wrap;overflow-wrap:anywhere"></pre>`;
@@ -59,10 +60,15 @@
     try {
       await post("/v4/duties",{id,agent:build.manifest.agent,target:build.manifest.target.id,
         interval_seconds:Number(section.querySelector("#field-duty-interval").value),enabled:true,
+        inference:section.querySelector("#field-duty-inference").checked,
         generation:previous ? previous.generation+1 : 0});
       notice.textContent="Duty saved. First observation follows its interval."; await refresh();
     } catch(e) { notice.textContent=e.message+" Check the duty list before retrying."; }
     finally { busy=false; }
+  };
+  section.querySelector("#field-duty-id").oninput = () => {
+    const old=snapshot?.duties.find(d=>d.id===section.querySelector("#field-duty-id").value);
+    if(old) section.querySelector("#field-duty-inference").checked=old.inference===true;
   };
   section.querySelector("#watch-form").onsubmit = async e => {
     e.preventDefault(); if (!snapshot?.enabled || busy) return;
@@ -82,6 +88,10 @@
     const summary=document.createElement("p"); summary.textContent=run.detail+" · "+(!run.snapshot?"No source captured":run.snapshot.data?.simulation?"SYNTHETIC":"Retained source")+" · "+new Date(run.updated_at*1000).toLocaleString(); evidence.append(summary);
     for(const f of run.report?.findings || []) {const p=document.createElement("p");p.textContent=f.code+" · "+f.subject+":"+f.line+" — "+f.summary+" "+f.recommendation;evidence.append(p);}
     for(const c of run.report?.coverage || []) {const p=document.createElement("p");p.textContent="Coverage limit: "+c;evidence.append(p);}
+    const budget=run.inference_budget;
+    if(budget) {const p=document.createElement("p");p.textContent="AI admission: "+budget.status+" · "+budget.reason+" · "+budget.used+"/"+budget.limit+" reserved this UTC day";evidence.append(p);}
+    const advice=run.report?.advisory;
+    if(advice) {const p=document.createElement("p");p.textContent="AI advice: "+advice.status+" · "+(advice.reason || advice.advice?.summary || "No explanation retained")+(advice.advice?.recommendation?" · "+advice.advice.recommendation:"");evidence.append(p);}
     const raw=document.createElement("details"), label=document.createElement("summary"), pre=document.createElement("pre");label.textContent="Source, revisions and full evidence";pre.textContent=JSON.stringify(run,null,2);raw.append(label,pre);evidence.append(raw);
   }
   async function refresh() {
@@ -98,7 +108,7 @@
       const seen=new Set();
       for (const b of snapshot.builds) {
         const m=b.manifest, key=m.agent+"/"+m.target.id;
-        if (m.target.kind==="github_repository") continue;
+        if (m.target.id.startsWith("repo-")) continue;
         if (seen.has(key)) continue; seen.add(key);
         const option=document.createElement("option"); option.value=b.digest;
         option.textContent=m.agent+" · "+m.target.id+(m.target.kind==="fixture"?" · SYNTHETIC":" · LIVE SOURCE");
@@ -134,6 +144,14 @@
         if(d.id.startsWith("repo-")) continue;
         const row=document.createElement("p");
         row.textContent=d.id+" · "+d.agent+" / "+d.target+" · every "+d.interval_seconds+"s · "+(d.enabled?"enabled":"paused")+" ";
+        row.append(document.createTextNode(d.inference?"AI requested within target limits ":"AI off "));
+        button(row,"Edit",async()=>{
+          section.querySelector("#field-duty-id").value=d.id;
+          section.querySelector("#field-duty-interval").value=d.interval_seconds;
+          section.querySelector("#field-duty-inference").checked=d.inference===true;
+          const build=snapshot.builds.find(b=>b.manifest.target.id===d.target&&b.manifest.agent===d.agent);
+          if(build) target.value=build.digest;
+        });
         const toggle=button(row,d.enabled?"Pause":"Resume",async()=>{
           await post("/v4/duties",{...d,enabled:!d.enabled,generation:d.generation+1}); await refresh();
         }); toggle.disabled=!snapshot.enabled && !d.enabled; duties.append(row);

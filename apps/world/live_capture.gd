@@ -45,6 +45,21 @@ func run(scene:Node,directory:String) -> void:
 		deadline=Time.get_ticks_msec()+10000
 		while scene.hud.board.detail_http.get_http_client_status()!=HTTPClient.STATUS_DISCONNECTED and Time.get_ticks_msec()<deadline: await tree.process_frame
 		await shot(tree,"live-evidence")
+	# Real reasoning acceptance uses retained records only; this harness never starts a run.
+	var require_reasoning:bool="--require-reasoning-evidence" in OS.get_cmdline_user_args()
+	for agent in ["watchkeeper","reviewer"]:
+		var candidates:Array=fields.filter(func(run): return run.input.get("agent")==agent and run.get("summary",{}).get("advisory_status")=="unverified")
+		if require_reasoning: check(not candidates.is_empty(),"Retained real reasoning missing for "+agent)
+		if candidates.is_empty(): continue
+		var selected:Dictionary=candidates[0]
+		scene.hud.board.inspect(str(selected.input.id))
+		deadline=Time.get_ticks_msec()+10000
+		while scene.hud.board.detail_http.get_http_client_status()!=HTTPClient.STATUS_DISCONNECTED and Time.get_ticks_msec()<deadline: await tree.process_frame
+		await shot(tree,"live-reasoning-"+agent)
+		var evidence_text:=""
+		for line in scene.hud.board.detail.find_children("*","Label",true,false): evidence_text+=line.text
+		check(evidence_text.contains("UNVERIFIED") and evidence_text.contains("RETAINED SOURCE"),"Reasoning detail must show real source and unverified model advice: "+agent)
+		check(not evidence_text.contains("NO SOURCE CAPTURED"),"Reasoning detail lacks source: "+agent)
 	var saved_size:Vector2i=tree.root.size
 	tree.root.size=Vector2i(800,640)
 	scene.hud.large_text=true; scene.hud.scale_text()

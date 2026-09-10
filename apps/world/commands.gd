@@ -38,8 +38,8 @@ func submit(endpoint: String, data: Dictionary, id: String, lookup: String = "")
 		return
 	path = endpoint
 	record_path = endpoint.trim_suffix("/cancel") if endpoint.ends_with("/cancel") else endpoint + "/" + id
-	if endpoint == "/v2/duties": record_path = "/v2/snapshot"
-	if not lookup.is_empty() and endpoint != "/v2/duties": record_path = lookup
+	if endpoint in ["/v2/duties","/v4/duties"]: record_path = "/v2/snapshot" if endpoint=="/v2/duties" else "/v4/snapshot"
+	if not lookup.is_empty() and endpoint not in ["/v2/duties","/v4/duties"]: record_path = lookup
 	payload = data.duplicate()
 	run_id = id
 	phase = "session"
@@ -86,8 +86,8 @@ func _response(result: int, code: int, headers: PackedStringArray, body: PackedB
 		phase = ""
 		if success and code == 200:
 			var record = JSON.parse_string(body.get_string_from_utf8())
-			if path == "/v2/duties":
-				if duty_reconciled(record,payload,run_id):
+			if path in ["/v2/duties","/v4/duties"]:
+				if duty_reconciled(record,payload,run_id) if path=="/v2/duties" else field_duty_reconciled(record,payload,run_id):
 					uncertain=false
 					accepted.emit(run_id)
 					feedback.emit("Duty record reconciled · exact settings and next generation retained.",false)
@@ -130,3 +130,14 @@ static func duty_reconciled(snapshot: Variant, request: Dictionary, id: String) 
 
 static func valid_duty_integer(value: Variant) -> bool:
 	return (value is int or value is float) and is_finite(float(value)) and float(value)>=0 and float(value)==floorf(float(value))
+
+static func field_duty_reconciled(snapshot: Variant, request: Dictionary, id: String) -> bool:
+	if not snapshot is Dictionary or not snapshot.get("duties") is Array: return false
+	if request.get("id")!=id or not valid_duty_integer(request.get("generation")): return false
+	for item in snapshot.duties:
+		if not item is Dictionary or item.get("id")!=id: continue
+		for key in ["id","agent","target","generation","interval_seconds","enabled","inference"]:
+			if not item.has(key) or typeof(item[key])!=typeof(request.get(key)) and not (key in ["generation","interval_seconds"] and valid_duty_integer(item[key]) and valid_duty_integer(request.get(key))): return false
+			if item[key]!=request.get(key): return false
+		return true
+	return false

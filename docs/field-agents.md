@@ -153,3 +153,47 @@ field/memory features and sandbox repairs. Before claiming improved agent qualit
 the evaluation owner must compare approved-memory and memory-off builds on paired,
 held-out cases, including misleading/revoked memories and cost. Semantic Graphiti
 extraction/search remains a later experiment, not implemented behavior.
+
+## Opt-in recurring reasoning and persisted limits
+
+A V4 duty now accepts optional `inference`, defaulting to false for existing
+payloads and stored duties. Manual and recurring requests share the same Core
+admission path. Operator-owned targets accept `daily_inference_limit` (1–24,
+default 24) and `inference_min_interval_seconds` (0–86400, default 0); both are
+frozen into the immutable target/build. Changing builds does not reset usage for
+the same target. A practical configuration observes Watchkeeper every 300 seconds
+and GitHub every 900 seconds while requesting reasoning at most once per 3600 seconds
+and admitting no more than 24 reasoning runs per target per UTC day.
+
+Core atomically counts retained inference-admitted runs and inserts a new run
+with a typed `inference_budget` decision: `admitted`, `skipped`, or
+`not_requested`, reason, UTC day, limit, used reservations and next eligibility
+time. Legacy inference requests without a decision count conservatively.
+Failed, cancelled and uncertain work does not refund a reservation. Cooldown
+uses the last admission even across midnight; skipped observations consume no
+reservation. This bounds admitted reasoning runs, not measured dollars or the
+wall-clock day in which a delayed provider call eventually occurs.
+
+The original requested inference flag remains in the run. Exhausting a limit
+keeps deterministic observation running; retained advice says `skipped` with
+zero provider calls and the explicit reason. Runtime checks the authoritative
+budget before SDK setup. A failed provider attempt remains `unavailable`, with
+no automatic retry; successful advice remains `unverified`. Worker completion
+cannot claim a model call against a retained budget-skipped run. Duty editing
+and pause/resume preserve inference intent; budget fields are not user-supplied
+request overrides.
+
+No new SQL schema or datastore is required: the existing run/duty JSON records
+hold the additive fields, with the single authoritative Core and a transaction
+serializing count and reservation. The exact-image PostgreSQL rehearsal now
+checks manual/duty sharing, conservative failure accounting and cooldown after
+Core restart with the worker stopped and no provider calls. Existing Temporal
+workflow ordering and the one-attempt model activity are unchanged. Drain work
+before changing builds as usual; new source/config produces a new build identity.
+
+Functional synthetic-model tests exercise the pinned PydanticAI result/usage
+API, structured advice and failed-provider no-retry behavior. A single real
+synthetic field-advice pilot returned structured advice and usage (one request,
+816 input/223 output tokens). This proves the functional path, not correctness
+of suggested commands or useful real-work reasoning. Advice must remain
+unverified; private-source opt-in and live target acceptance are separate.

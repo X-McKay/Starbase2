@@ -10,6 +10,8 @@ for args in [
     ["--script", "test_task_markers.gd"],
     ["--script", "test_duty_commands.gd"],
     ["--script", "test_run_history.gd"],
+    ["--script", "test_history_refresh.gd"],
+    ["--script", "test_advisory_states.gd"],
     ["--script", "test_operations_panel.gd"],
     ["--fixed-fps", "60", "--script", "test_live_crew.gd"],
     ["--script", "test_board_overview.gd"],

@@ -35,7 +35,14 @@ def validate_target(target: dict) -> None:
     if not re.fullmatch(r"[a-zA-Z0-9-]{1,100}", target["id"]):
         raise ValueError("Invalid target identity")
     kind = target["kind"]
-    allowed = {"id", "agent", "kind", "allow_inference"} | {
+    allowed = {
+        "id",
+        "agent",
+        "kind",
+        "allow_inference",
+        "daily_inference_limit",
+        "inference_min_interval_seconds",
+    } | {
         "fixture": {"fixture"},
         "github": {"repository", "pull", "token_file"},
         "github_repository": {"repository", "token_file"},
@@ -43,6 +50,12 @@ def validate_target(target: dict) -> None:
     }.get(kind, set())
     if set(target) - allowed or type(target.get("allow_inference", False)) is not bool:
         raise ValueError("Unknown target fields; credentials must use credential files")
+    limit = target.get("daily_inference_limit", 24)
+    if type(limit) is not int or not 1 <= limit <= 24:
+        raise ValueError("Daily inference limit must be between 1 and 24")
+    interval = target.get("inference_min_interval_seconds", 0)
+    if type(interval) is not int or not 0 <= interval <= 86400:
+        raise ValueError("Inference minimum interval must be between 0 and 86400 seconds")
     if target["agent"] not in {"watchkeeper", "reviewer"}:
         raise ValueError("Unknown agent")
     if kind in {"github", "github_repository"}:
