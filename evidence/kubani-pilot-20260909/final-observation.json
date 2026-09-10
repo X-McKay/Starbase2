@@ -1,0 +1,54 @@
+{
+  "installation": {
+    "capabilities": {
+      "accept_work": {
+        "enabled": false,
+        "reason": "Installation is paused for new work"
+      },
+      "evaluation": {
+        "enabled": false,
+        "reason": "Installation is paused for new work"
+      },
+      "field": {
+        "enabled": false,
+        "reason": "Installation is paused for new work"
+      },
+      "inference": {
+        "enabled": false,
+        "reason": "Installation is paused for new work"
+      },
+      "memory": {
+        "enabled": false,
+        "reason": "Reviewed recall is disabled; basic observations remain available"
+      },
+      "repair": {
+        "enabled": false,
+        "reason": "Installation is paused for new work"
+      },
+      "review": {
+        "enabled": false,
+        "reason": "Installation is paused for new work"
+      }
+    },
+    "environment": "production",
+    "id": "starbase2-prod"
+  },
+  "worker": {
+    "available": true,
+    "seen_at": 1788999150.3112288
+  },
+  "active_count": 0,
+  "duties": [
+    {
+      "enabled": false,
+      "generation": 4,
+      "id": "accept-4be6d44e00c6-watch",
+      "interval_seconds": 30,
+      "profile": "surveyor-v2",
+      "target": "sample"
+    }
+  ],
+  "recent_count": 6,
+  "observed_at": 1788999150.953592,
+  "local_api": "http://127.0.0.1:18787"
+}

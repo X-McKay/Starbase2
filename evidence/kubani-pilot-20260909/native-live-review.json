@@ -1,0 +1,18 @@
+{
+  "run_id": "starbase2-review-33583b1fe15f010d13e5dce0",
+  "state": "completed",
+  "detail": "Evidence retained",
+  "sequence": 6,
+  "summary": {
+    "files_reviewed": 38,
+    "finding_count": 0,
+    "outcome": "incomplete",
+    "qualification": "Advisory static analysis; not proof of repository safety",
+    "simulation": false
+  },
+  "target": "workspace",
+  "profile": "surveyor-regressed",
+  "model_calls": 0,
+  "interaction": "Native Godot Operations Start review; selected another history row then returned to refresh retained report",
+  "visual_observation": "Live Core starbase2-prod; completed retained report; files reviewed 38; outcome incomplete, advisory coverage not repository safety"
+}

@@ -1,0 +1,2 @@
+Dependency TCP ready: postgresql.database.svc.cluster.local:5432
+Dependency TCP ready: temporal-frontend.temporal.svc.cluster.local:7233

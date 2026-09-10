@@ -1,0 +1,24 @@
+[
+  {
+    "name": "starbase2-7b889c6fc4-d5s22",
+    "uid": "d6438496-cb77-41bf-86eb-4141d4773ce0",
+    "node": "rig0",
+    "phase": "Running",
+    "containers": [
+      {
+        "name": "core",
+        "ready": true,
+        "restartCount": 0
+      },
+      {
+        "name": "runtime",
+        "ready": true,
+        "restartCount": 0
+      }
+    ],
+    "admission": {
+      "core": "false",
+      "runtime": "false"
+    }
+  }
+]

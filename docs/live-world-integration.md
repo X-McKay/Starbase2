@@ -5,8 +5,9 @@ Status: accepted
 Delivered first integration slice from the approved steps 1–4; local evidence
 recorded. Not every original completion criterion is met.
 The subsequent native-operator slice implements step 5 workflows; final qualification
-is recorded below. Step 6 remains staged deployment work, with disposable-pilot
-acceptance separate from durable production recovery.
+is recorded below. Step 6 now has a [deployed disposable pilot](../evidence/kubani-pilot-20260909/README.md)
+with backend acceptance, actual pod replacement recovery and native Godot
+workspace review verification. Admission is now closed; durable production recovery qualification is separate.
 
 Owner: Al; implementation assistant owns the approved local delivery and verification.
 

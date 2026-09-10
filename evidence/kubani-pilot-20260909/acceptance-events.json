@@ -1,0 +1,284 @@
+{
+  "installation": "starbase2-prod",
+  "target": "sample",
+  "standard_passed": true,
+  "events": [
+    {
+      "event": "installation_and_capability_metadata",
+      "at": 1788998270.183111,
+      "installation": {
+        "capabilities": {
+          "accept_work": {
+            "enabled": true,
+            "reason": "Enabled by installation policy; worker and target readiness checked separately"
+          },
+          "evaluation": {
+            "enabled": true,
+            "reason": "Enabled by installation policy; worker and target readiness checked separately"
+          },
+          "field": {
+            "enabled": false,
+            "reason": "Field observations are disabled by installation policy"
+          },
+          "inference": {
+            "enabled": false,
+            "reason": "Model inference is disabled by installation policy"
+          },
+          "memory": {
+            "enabled": false,
+            "reason": "Reviewed recall is disabled; basic observations remain available"
+          },
+          "repair": {
+            "enabled": false,
+            "reason": "Synthetic repairs are disabled by installation policy"
+          },
+          "review": {
+            "enabled": true,
+            "reason": "Enabled by installation policy; worker and target readiness checked separately"
+          }
+        },
+        "environment": "production",
+        "id": "starbase2-prod"
+      }
+    },
+    {
+      "event": "denied",
+      "at": 1788998270.234304,
+      "path": "/v3/repairs",
+      "status": 503,
+      "response": {
+        "error": "This installation is not accepting this work"
+      }
+    },
+    {
+      "event": "denied",
+      "at": 1788998270.310292,
+      "path": "/v4/runs",
+      "status": 409,
+      "response": {
+        "error": "Field work is disabled"
+      }
+    },
+    {
+      "event": "denied",
+      "at": 1788998270.359644,
+      "path": "/v2/runs",
+      "status": 409,
+      "response": {
+        "error": "Inference is disabled for this installation"
+      }
+    },
+    {
+      "event": "memory_recall_disabled",
+      "at": 1788998270.428437,
+      "limitation": "Metadata and empty records verified. Memory review endpoint has no configuration denial guard; missing-id denial would not prove policy."
+    },
+    {
+      "event": "sample_review_completed",
+      "at": 1788998271.674461,
+      "sequence": 1,
+      "summary": {
+        "files_reviewed": 1,
+        "finding_count": 1,
+        "outcome": "findings",
+        "qualification": "Advisory static analysis; not proof of repository safety",
+        "simulation": true
+      }
+    },
+    {
+      "event": "paired_evaluation_completed",
+      "at": 1788998273.444288,
+      "summary": {
+        "baseline_passed": 5,
+        "candidate_passed": 6,
+        "cases": 6,
+        "cost_usd": 0,
+        "hard_gate_failures": [],
+        "outcome": "improved",
+        "qualification": "No promotion, XP, or permission change",
+        "simulation": true,
+        "trials": 12,
+        "uncertainty": "Deterministic public conformance suite only. Equal scores do not establish equivalence; no generalization claim."
+      },
+      "trials": 12
+    },
+    {
+      "event": "duty_pause_no_new_runs",
+      "at": 1788998343.998765,
+      "observed_seconds": 36,
+      "run_ids": [
+        "duty-accept-4be6d44e00c6-watch-1788998303"
+      ]
+    },
+    {
+      "event": "cancellation_acknowledged",
+      "at": 1788998345.208688,
+      "run_id": "accept-4be6d44e00c6-cancel",
+      "state": "cancelled"
+    },
+    {
+      "event": "standard_passed",
+      "at": 1788998345.212214
+    },
+    {
+      "event": "installation_and_capability_metadata",
+      "at": 1788998386.933214,
+      "installation": {
+        "capabilities": {
+          "accept_work": {
+            "enabled": true,
+            "reason": "Enabled by installation policy; worker and target readiness checked separately"
+          },
+          "evaluation": {
+            "enabled": true,
+            "reason": "Enabled by installation policy; worker and target readiness checked separately"
+          },
+          "field": {
+            "enabled": false,
+            "reason": "Field observations are disabled by installation policy"
+          },
+          "inference": {
+            "enabled": false,
+            "reason": "Model inference is disabled by installation policy"
+          },
+          "memory": {
+            "enabled": false,
+            "reason": "Reviewed recall is disabled; basic observations remain available"
+          },
+          "repair": {
+            "enabled": false,
+            "reason": "Synthetic repairs are disabled by installation policy"
+          },
+          "review": {
+            "enabled": true,
+            "reason": "Enabled by installation policy; worker and target readiness checked separately"
+          }
+        },
+        "environment": "production",
+        "id": "starbase2-prod"
+      }
+    },
+    {
+      "event": "denied",
+      "at": 1788998386.9572759,
+      "path": "/v3/repairs",
+      "status": 503,
+      "response": {
+        "error": "This installation is not accepting this work"
+      }
+    },
+    {
+      "event": "denied",
+      "at": 1788998386.9840808,
+      "path": "/v4/runs",
+      "status": 409,
+      "response": {
+        "error": "Field work is disabled"
+      }
+    },
+    {
+      "event": "denied",
+      "at": 1788998387.008418,
+      "path": "/v2/runs",
+      "status": 409,
+      "response": {
+        "error": "Inference is disabled for this installation"
+      }
+    },
+    {
+      "event": "memory_recall_disabled",
+      "at": 1788998387.036552,
+      "limitation": "Metadata and empty records verified. Memory review endpoint has no configuration denial guard; missing-id denial would not prove policy."
+    },
+    {
+      "event": "installation_and_capability_metadata",
+      "at": 1788998395.246346,
+      "installation": {
+        "capabilities": {
+          "accept_work": {
+            "enabled": true,
+            "reason": "Enabled by installation policy; worker and target readiness checked separately"
+          },
+          "evaluation": {
+            "enabled": true,
+            "reason": "Enabled by installation policy; worker and target readiness checked separately"
+          },
+          "field": {
+            "enabled": false,
+            "reason": "Field observations are disabled by installation policy"
+          },
+          "inference": {
+            "enabled": false,
+            "reason": "Model inference is disabled by installation policy"
+          },
+          "memory": {
+            "enabled": false,
+            "reason": "Reviewed recall is disabled; basic observations remain available"
+          },
+          "repair": {
+            "enabled": false,
+            "reason": "Synthetic repairs are disabled by installation policy"
+          },
+          "review": {
+            "enabled": true,
+            "reason": "Enabled by installation policy; worker and target readiness checked separately"
+          }
+        },
+        "environment": "production",
+        "id": "starbase2-prod"
+      }
+    },
+    {
+      "event": "denied",
+      "at": 1788998395.2718039,
+      "path": "/v3/repairs",
+      "status": 503,
+      "response": {
+        "error": "This installation is not accepting this work"
+      }
+    },
+    {
+      "event": "denied",
+      "at": 1788998395.300583,
+      "path": "/v4/runs",
+      "status": 409,
+      "response": {
+        "error": "Field work is disabled"
+      }
+    },
+    {
+      "event": "denied",
+      "at": 1788998395.3291788,
+      "path": "/v2/runs",
+      "status": 409,
+      "response": {
+        "error": "Inference is disabled for this installation"
+      }
+    },
+    {
+      "event": "memory_recall_disabled",
+      "at": 1788998395.364418,
+      "limitation": "Metadata and empty records verified. Memory review endpoint has no configuration denial guard; missing-id denial would not prove policy."
+    },
+    {
+      "event": "pod_restart_preserves_evidence_and_recurring_work",
+      "at": 1788998425.272927,
+      "restart_at": 1788998387.319629,
+      "recovered_run": "duty-accept-4be6d44e00c6-watch-1788998423",
+      "limitation": "Proves persisted report and recurring-work recovery after actual operator-recorded restart; does not prove interruption mid-activity or Temporal restart."
+    },
+    {
+      "event": "duty_pause_no_new_runs",
+      "at": 1788998462.5193222,
+      "observed_seconds": 36,
+      "run_ids": [
+        "duty-accept-4be6d44e00c6-watch-1788998303",
+        "duty-accept-4be6d44e00c6-watch-1788998423"
+      ]
+    },
+    {
+      "event": "restart_verification_passed",
+      "at": 1788998462.522721
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "platform": "linux/amd64",
+  "registry": "registry.almckay.io/starbase2",
+  "rust": "docker.io/library/rust@sha256:408fe88047cef61a2087653b0c5255fa51c0f2d6d94ddedd7a2562a9b91a46f6",
+  "base": "docker.io/library/debian@sha256:5ae3c39ebd15e229dcedd5cee596b2497182493d41ff162e824ba13fc1b2b867",
+  "python": "docker.io/library/python@sha256:6e13e65c55e33adf203d77ee371cf8bf5d81bd4902ef07565721f46bf44917af",
+  "uv": "ghcr.io/astral-sh/uv@sha256:ef1726226744409e420a0b4903a915602186c356ae626be0a673b11ac87b3860"
+}

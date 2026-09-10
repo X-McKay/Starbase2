@@ -1,0 +1,6 @@
+{
+  "admission_closure": "passed: PR144 merged5def3cad4808724ea998209a610a53219006b254, Flux applied, actual two containers false, worker healthy, active0 and all duties paused",
+  "native_cluster_verification": "passed: actual native Godot workspace review retained on live starbase2-prod; see native-live-review.json and PNG",
+  "durable_admission": "not qualified or approved; pilot records remain disposable",
+  "native_reconnection": "passed: running client received final capabilities and disabled Start review"
+}

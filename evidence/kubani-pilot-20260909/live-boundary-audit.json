@@ -1,0 +1,114 @@
+{
+  "source": ".local/deploy/before-restart-pods.json",
+  "result": "image and credential boundaries match qualified deployment",
+  "pods": [
+    {
+      "name": "starbase2-86d5f797fb-flgwt",
+      "automountServiceAccountToken": false,
+      "serviceAccountName": "starbase2",
+      "secretVolumeNames": [
+        "starbase2-worker",
+        "starbase2-database"
+      ],
+      "containers": [
+        {
+          "name": "core",
+          "image": "registry.almckay.io/starbase2/core@sha256:be60700aee18d583d6adde0547332456d5187e4365c32086504a4b6937ffa514",
+          "mounts": [
+            {
+              "mountPath": "/secrets/starbase2-worker",
+              "name": "starbase2-worker",
+              "readOnly": true
+            },
+            {
+              "mountPath": "/secrets/starbase2-database",
+              "name": "starbase2-database",
+              "readOnly": true
+            },
+            {
+              "mountPath": "/tmp",
+              "name": "core-tmp"
+            }
+          ],
+          "envNames": [
+            "STARBASE_PORT",
+            "STARBASE_ACCEPT_WORK",
+            "STARBASE_DATABASE_URL_FILE",
+            "STARBASE_ENV",
+            "STARBASE_FIELD_ENABLED",
+            "STARBASE_INFERENCE_ENABLED",
+            "STARBASE_INSTALLATION",
+            "STARBASE_LEGACY_ENABLED",
+            "STARBASE_MEMORY_ENABLED",
+            "STARBASE_REPAIRS_ENABLED",
+            "STARBASE_TOKEN_FILE"
+          ],
+          "securityContext": {
+            "allowPrivilegeEscalation": false,
+            "capabilities": {
+              "drop": [
+                "ALL"
+              ]
+            },
+            "readOnlyRootFilesystem": true
+          }
+        },
+        {
+          "name": "runtime",
+          "image": "registry.almckay.io/starbase2/runtime@sha256:270548d9715f87f1c75545941594efc5061be592f713a6620bed590dbb4e01a3",
+          "mounts": [
+            {
+              "mountPath": "/secrets/starbase2-worker",
+              "name": "starbase2-worker",
+              "readOnly": true
+            },
+            {
+              "mountPath": "/tmp",
+              "name": "runtime-tmp"
+            }
+          ],
+          "envNames": [
+            "STARBASE_CORE",
+            "STARBASE_ACCEPT_WORK",
+            "STARBASE_ENV",
+            "STARBASE_FIELD_ENABLED",
+            "STARBASE_INFERENCE_ENABLED",
+            "STARBASE_INSTALLATION",
+            "STARBASE_LEGACY_ENABLED",
+            "STARBASE_MEMORY_ENABLED",
+            "STARBASE_REPAIRS_ENABLED",
+            "STARBASE_TEMPORAL",
+            "STARBASE_TEMPORAL_NAMESPACE",
+            "STARBASE_TEMPORAL_QUEUE",
+            "STARBASE_TOKEN_FILE",
+            "STARBASE_WORKSPACE"
+          ],
+          "securityContext": {
+            "allowPrivilegeEscalation": false,
+            "capabilities": {
+              "drop": [
+                "ALL"
+              ]
+            },
+            "readOnlyRootFilesystem": true
+          }
+        }
+      ],
+      "imageIDs": [
+        {
+          "name": "core",
+          "imageID": "registry.almckay.io/starbase2/core@sha256:be60700aee18d583d6adde0547332456d5187e4365c32086504a4b6937ffa514",
+          "restartCount": 0
+        },
+        {
+          "name": "runtime",
+          "imageID": "registry.almckay.io/starbase2/runtime@sha256:270548d9715f87f1c75545941594efc5061be592f713a6620bed590dbb4e01a3",
+          "restartCount": 0
+        }
+      ],
+      "initExitCodes": [
+        0
+      ]
+    }
+  ]
+}

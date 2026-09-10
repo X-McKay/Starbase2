@@ -3,7 +3,12 @@
 Status: accepted
 
 
-## Current staged scope · 2026-09-08
+## Current staged scope · 2026-09-09
+
+The [disposable cluster pilot](../evidence/kubani-pilot-20260909/README.md) is
+deployed with qualified source `ef60c6a` images. Backend acceptance includes
+sample review, comparison, pause, cancellation and actual pod replacement
+recovery, plus a native Godot workspace review. Admission is now closed, with retained results available for inspection. This does not qualify durable production admission.
 
 The accepted sequence is stopped resource preparation, dependency connectivity,
 and reviewed provisioning/migrations; then an explicitly disposable read-only
@@ -14,14 +19,14 @@ block stopped namespace, identity, policy or connectivity preparation. A pilot
 must have bounded scope, duration and cleanup, and its disposable records must
 not become production data.
 
-The [current read-only audit](../evidence/kubani-namespaces/current-readiness.md)
-found that Kubani main `d72107f` has no Starbase2 directory or Flux owner, and
-`starbase2-prod` does not exist. Commit `cd565b6` deliberately removed the inactive
+The earlier [read-only audit](../evidence/kubani-namespaces/current-readiness.md)
+found that Kubani main `d72107f` had no Starbase2 directory or Flux owner, and
+`starbase2-prod` did not exist. Commit `cd565b6` deliberately removed the inactive
 PR127 draft. References to that preparation below are historical; they do not
-establish a current installation or authorize restoring the old draft. Prepare
-a fresh reviewed GitOps change against current main.
+establish a current installation or authorize restoring the old draft. The pilot
+was subsequently prepared through fresh reviewed GitOps changes.
 
-Fresh committed and qualified amd64 images are required to carry the current
+Fresh committed and qualified amd64 images now carry the current
 installation/capability/source-time contract into the pilot. Published revision
 `71ca83d` is retained release evidence, not qualification of these later changes.
 Infrastructure preparation can be designed in parallel, but final manifests
@@ -31,8 +36,8 @@ egress. A real GitHub pilot needs a separately reviewed field-only target,
 credential and network configuration; enabling admission alone is insufficient.
 
 This is the executable preparation package for a **fresh** Starbase2 production
-installation. Nothing in this work activates Kubani or imports local SQLite or
-Temporal data. [ADR 0005](adr/0005-fresh-kubani-installation.md) records the
+installation. The authorized pilot uses fresh cluster stores; no local SQLite
+or Temporal data was imported. [ADR 0005](adr/0005-fresh-kubani-installation.md) records the
 storage and private access decisions. The existing SQLite launcher remains for
 development/testing.
 

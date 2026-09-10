@@ -1,0 +1,46 @@
+{
+  "at": 1788998045.0391839,
+  "installation": {
+    "capabilities": {
+      "accept_work": {
+        "enabled": false,
+        "reason": "Installation is paused for new work"
+      },
+      "evaluation": {
+        "enabled": false,
+        "reason": "Installation is paused for new work"
+      },
+      "field": {
+        "enabled": false,
+        "reason": "Installation is paused for new work"
+      },
+      "inference": {
+        "enabled": false,
+        "reason": "Installation is paused for new work"
+      },
+      "memory": {
+        "enabled": false,
+        "reason": "Reviewed recall is disabled; basic observations remain available"
+      },
+      "repair": {
+        "enabled": false,
+        "reason": "Installation is paused for new work"
+      },
+      "review": {
+        "enabled": false,
+        "reason": "Installation is paused for new work"
+      }
+    },
+    "environment": "production",
+    "id": "starbase2-prod"
+  },
+  "worker": {
+    "available": true,
+    "seen_at": 1788998043.8949618
+  },
+  "admission_denial": {
+    "error": "This installation is not accepting this work"
+  },
+  "active_count": 0,
+  "recent_count": 0
+}

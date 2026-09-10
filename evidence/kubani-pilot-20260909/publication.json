@@ -1,0 +1,25 @@
+{
+  "status": "published_and_verified",
+  "revision": "ef60c6acc7afdc238c44af4f01fefb75cff03aaf",
+  "platform": "linux/amd64",
+  "images": [
+    {
+      "component": "core",
+      "local_image_id": "sha256:8d799b0350530f7a5b839d00d0277e60a406928b6bf1fc907b4c74b8f2d009de",
+      "destination": "registry.almckay.io/starbase2/core:ef60c6acc7afdc238c44af4f01fefb75cff03aaf-amd64",
+      "status": "published_and_verified",
+      "registry_reference": "registry.almckay.io/starbase2/core@sha256:be60700aee18d583d6adde0547332456d5187e4365c32086504a4b6937ffa514",
+      "manifest_digest": "sha256:be60700aee18d583d6adde0547332456d5187e4365c32086504a4b6937ffa514",
+      "qualified_identity_matches": true
+    },
+    {
+      "component": "runtime",
+      "local_image_id": "sha256:ac14ce6c2aa3cc02a7d587beb1dec240e8e718c3f01b6aa4d844bbd30733ebfe",
+      "destination": "registry.almckay.io/starbase2/runtime:ef60c6acc7afdc238c44af4f01fefb75cff03aaf-amd64",
+      "status": "published_and_verified",
+      "registry_reference": "registry.almckay.io/starbase2/runtime@sha256:270548d9715f87f1c75545941594efc5061be592f713a6620bed590dbb4e01a3",
+      "manifest_digest": "sha256:270548d9715f87f1c75545941594efc5061be592f713a6620bed590dbb4e01a3",
+      "qualified_identity_matches": true
+    }
+  ]
+}

@@ -1,0 +1,149 @@
+{
+  "status": "passed",
+  "postgres_version": "18.3 (Debian 18.3-1.pgdg13+1)",
+  "temporal_cli": "pinned image",
+  "scope": "local Linux images; no registry publish or Kubernetes deployment",
+  "images": {
+    "core": {
+      "id": "8d799b0350530f7a5b839d00d0277e60a406928b6bf1fc907b4c74b8f2d009de",
+      "reference": "sha256:8d799b0350530f7a5b839d00d0277e60a406928b6bf1fc907b4c74b8f2d009de",
+      "architecture": "amd64",
+      "revision": "ef60c6acc7afdc238c44af4f01fefb75cff03aaf"
+    },
+    "runtime": {
+      "id": "ac14ce6c2aa3cc02a7d587beb1dec240e8e718c3f01b6aa4d844bbd30733ebfe",
+      "reference": "sha256:ac14ce6c2aa3cc02a7d587beb1dec240e8e718c3f01b6aa4d844bbd30733ebfe",
+      "architecture": "amd64",
+      "revision": "ef60c6acc7afdc238c44af4f01fefb75cff03aaf"
+    },
+    "postgres": {
+      "id": "fbaa243599038521bbda8f6fa286d2a8fc1236509606f22de81d0739b0610ba7",
+      "reference": "docker.io/library/postgres@sha256:a145910d7079e9fbf73e6df19d5fcca0ce59d747cf7d97ac772bff28c3759c32",
+      "architecture": "amd64",
+      "revision": null
+    },
+    "temporal": {
+      "id": "4ee902e894c418f42140553873da95247771b562e42ae71b5ac908a2d7fa16b0",
+      "reference": "docker.io/temporalio/temporal@sha256:2aeb97183876db2d80abc2e8b30c2157b5b7da00d53576e3eb40b972311db801",
+      "architecture": "amd64",
+      "revision": "release/1.8.x"
+    }
+  },
+  "source_revision": "ef60c6acc7afdc238c44af4f01fefb75cff03aaf",
+  "platform": "linux/amd64",
+  "provenance": {
+    "inputs_sha256": "ef92484c0f422c7d06caabcd176d401ad8bcc4a820dc6019d5e36c3975773c92",
+    "harness_sources": {
+      "scripts/deployment/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scripts/deployment/build.py": "432da08fa346c8da95b9b164c6373c4bbe0b2248e77b775ec4baac5e1ed11dec",
+      "scripts/deployment/cli.py": "28bc98c969c7230be283b4904df94bb39de89a26eb48997f8774bbcf8dfd25b6",
+      "scripts/deployment/database.py": "2332988899c581f1e61190782107608e1276d2d3ad55d9a9a8a5feecf8e166ca",
+      "scripts/deployment/image_rehearsal.py": "6f6ac461966b7b1a77e62e5adafc669a0ae65358322cd38c69f65bbef259dcb3",
+      "scripts/deployment/journal.py": "6cff83493eddbeb4a06f3d094f668b61a6e75cd84296719b017608f1a1508449",
+      "scripts/deployment/local_db.py": "bcf70eda33676fd3404e87d049e9425afb559a8dfdfc77eaf93e14469c988c43",
+      "scripts/deployment/rehearse.py": "c7d45b65f5649ec46fdd6ceb2f6dfdf0af8bc55e54b4c7cc9bfff4782a8df09b",
+      "scripts/deployment/render.py": "1deff75d7c336a30663825752ca588ae243aa6736dbe995535d93585608857e0",
+      "scripts/deployment/temporal.py": "b83b0196e25c8b5fd23ca2eedf311d3baeb1d6cc0a2897331b891cc7db683adb"
+    }
+  },
+  "container_stops": [
+    {
+      "kind": "runtime",
+      "exit_code": 0,
+      "seconds": 0.268
+    },
+    {
+      "kind": "runtime",
+      "exit_code": 0,
+      "seconds": 0.264
+    },
+    {
+      "kind": "core",
+      "exit_code": 0,
+      "seconds": 0.063
+    },
+    {
+      "kind": "core",
+      "exit_code": 0,
+      "seconds": 0.06
+    },
+    {
+      "kind": "core",
+      "exit_code": 0,
+      "seconds": 0.064
+    },
+    {
+      "kind": "temporal",
+      "exit_code": 0,
+      "seconds": 1.086
+    }
+  ],
+  "dump_sha256": "599cae4f8cbb9f9da281691286d7c4c80fcd68c5ad1e827795a1e0a1dcdf195d",
+  "checks": [
+    {
+      "check": "fresh database/roles provisioned; identical provisioning is idempotent",
+      "passed": true
+    },
+    {
+      "check": "fresh schema migration, repeat migration and least-privilege grants",
+      "passed": true
+    },
+    {
+      "check": "runtime role denied DDL, evidence deletion and schema-version mutation",
+      "passed": true
+    },
+    {
+      "check": "dedicated Temporal namespace create, ownership and retention verification",
+      "passed": true
+    },
+    {
+      "check": "competing authoritative core refused by database advisory lock",
+      "passed": true
+    },
+    {
+      "check": "real Temporal review retained in PostgreSQL through runtime role",
+      "passed": true
+    },
+    {
+      "check": "image probes, non-root/read-only execution and worker database isolation",
+      "passed": true
+    },
+    {
+      "check": "paired evaluation distinguishes improvement and regression with 12 trials each",
+      "passed": true
+    },
+    {
+      "check": "completed Temporal histories replay with the exact release worker image",
+      "passed": true
+    },
+    {
+      "check": "worker loss becomes stale; restart reconciles cancellation without executing work",
+      "passed": true
+    },
+    {
+      "check": "duplicate queued intent completes after worker restart",
+      "passed": true
+    },
+    {
+      "check": "legacy and unqualified repair entry points disabled",
+      "passed": true
+    },
+    {
+      "check": "core restart preserves retained result",
+      "passed": true
+    },
+    {
+      "check": "pg_dump, owned purge/reprovision, transactional restore preserve evidence",
+      "passed": true
+    },
+    {
+      "check": "closed Temporal histories exported and checksums verified",
+      "passed": true
+    },
+    {
+      "check": "dedicated Temporal namespace and owned database/roles removed",
+      "passed": true
+    }
+  ],
+  "cleanup": "owned pod and secrets removed"
+}

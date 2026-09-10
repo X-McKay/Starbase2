@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "node": "rig0",
+  "registry_policy": "registry/allow-node-image-pulls",
+  "policy_creation_timestamp": "2026-09-09T23:32:31Z",
+  "mirror_read_probe": {"url": "http://10.43.150.95:5000/v2/", "http_status": 200},
+  "method": "sudo k3s crictl pull exact immutable registry references",
+  "exit_code": 0,
+  "images": [
+    {"component": "core", "registry_reference": "registry.almckay.io/starbase2/core@sha256:be60700aee18d583d6adde0547332456d5187e4365c32086504a4b6937ffa514", "resolved_image_id": "sha256:8d799b0350530f7a5b839d00d0277e60a406928b6bf1fc907b4c74b8f2d009de", "qualified_identity_matches": true},
+    {"component": "runtime", "registry_reference": "registry.almckay.io/starbase2/runtime@sha256:270548d9715f87f1c75545941594efc5061be592f713a6620bed590dbb4e01a3", "resolved_image_id": "sha256:ac14ce6c2aa3cc02a7d587beb1dec240e8e718c3f01b6aa4d844bbd30733ebfe", "qualified_identity_matches": true}
+  ],
+  "policy_mutation_performed": false
+}
