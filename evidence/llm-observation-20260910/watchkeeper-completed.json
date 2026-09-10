@@ -1,0 +1,100 @@
+{
+  "input": {
+    "agent": "watchkeeper",
+    "id": "watchkeeper-pilot-a43a45a148e5",
+    "inference": false,
+    "target": "starbase2-watchkeeper"
+  },
+  "state": "completed",
+  "detail": "No findings within declared checks",
+  "snapshot": {
+    "data": {
+      "coverage": [],
+      "kind": "cluster",
+      "resources": [
+        {
+          "containers": [
+            {
+              "name": "core",
+              "ready": true,
+              "restarts": 0,
+              "waiting": null
+            },
+            {
+              "name": "runtime",
+              "ready": true,
+              "restarts": 0,
+              "waiting": null
+            }
+          ],
+          "kind": "pods",
+          "name": "starbase2-679f8c4b4c-ttxtf",
+          "namespace": "starbase2-prod",
+          "phase": "Running",
+          "uid": "85742754-cfc9-49d3-ab93-395b95120400",
+          "version": "14650041"
+        },
+        {
+          "available": 1,
+          "desired": 1,
+          "generation": 6,
+          "kind": "deployments",
+          "name": "starbase2",
+          "namespace": "starbase2-prod",
+          "observed_generation": 6,
+          "uid": "6fbca68a-be7f-40af-899f-4fab9be9224d",
+          "version": "14650043"
+        }
+      ],
+      "scope": [
+        "starbase2-prod"
+      ],
+      "simulation": false
+    },
+    "digest": "01a821b12cc8d17e2e1c3067d80534841272b187e2caa5d592d1f7e6744b1731",
+    "observed_at": 1789047202.0218775,
+    "target": "starbase2-watchkeeper"
+  },
+  "report": {
+    "advisory": null,
+    "coverage": [],
+    "findings": [],
+    "memory": {
+      "policy": {
+        "acceptance": "operator-reviewed",
+        "comparison": "frozen-revisions",
+        "extraction": "structured-episodes-no-llm",
+        "graphiti": "0.30.1",
+        "limit": 30,
+        "rollback": "revoke-and-reapprove",
+        "scope": "installation-agent-and-target",
+        "version": 1
+      },
+      "records": [],
+      "recurring_keys": [],
+      "status": "empty"
+    },
+    "snapshot_digest": "01a821b12cc8d17e2e1c3067d80534841272b187e2caa5d592d1f7e6744b1731"
+  },
+  "events": [
+    {
+      "at": 1789047201.8281581,
+      "state": "queued"
+    },
+    {
+      "action": "running",
+      "at": 1789047201.9895246,
+      "state": "running"
+    },
+    {
+      "action": "snapshot",
+      "at": 1789047202.0345893,
+      "state": "running"
+    },
+    {
+      "action": "finish",
+      "at": 1789047202.24727,
+      "state": "completed"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "input": {
+    "agent": "watchkeeper",
+    "id": "watchkeeper-pilot-cc82b9942f99",
+    "inference": false,
+    "target": "starbase2-watchkeeper"
+  },
+  "state": "failed",
+  "detail": "Provider/workflow failed; no completion inferred",
+  "events": [
+    {
+      "at": 1789046608.4502158,
+      "state": "queued"
+    },
+    {
+      "action": "running",
+      "at": 1789046609.0430777,
+      "state": "running"
+    },
+    {
+      "action": "failed",
+      "at": 1789046611.253751,
+      "state": "failed"
+    }
+  ],
+  "created_at": 1789046608.4502158,
+  "updated_at": 1789046611.253751,
+  "failure": "HTTP406 from Kubernetes API: shared connector used GitHub Accept media type"
+}

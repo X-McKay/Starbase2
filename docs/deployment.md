@@ -3,12 +3,15 @@
 Status: accepted
 
 
-## Current staged scope · 2026-09-09
+## Current staged scope · 2026-09-10
 
 The [disposable cluster pilot](../evidence/kubani-pilot-20260909/README.md) is
 deployed with qualified source `ef60c6a` images. Backend acceptance includes
 sample review, comparison, pause, cancellation and actual pod replacement
-recovery, plus a native Godot workspace review. Admission is now closed, with retained results available for inspection. This does not qualify durable production admission.
+recovery, plus a native Godot workspace review. The subsequent
+[LLM and observation rollout](../evidence/llm-observation-20260910/README.md)
+reopens manual admission and enables synthetic LLM advice plus scoped
+Watchkeeper reads of starbase2-prod; existing duties stay paused. This does not qualify durable production admission.
 
 The accepted sequence is stopped resource preparation, dependency connectivity,
 and reviewed provisioning/migrations; then an explicitly disposable read-only
@@ -30,9 +33,9 @@ Fresh committed and qualified amd64 images now carry the current
 installation/capability/source-time contract into the pilot. Published revision
 `71ca83d` is retained release evidence, not qualification of these later changes.
 Infrastructure preparation can be designed in parallel, but final manifests
-must bind the chosen qualified images by digest. The current renderer disables
-field observations, inference, memory and repairs and permits only dependency
-egress. A real GitHub pilot needs a separately reviewed field-only target,
+must bind the chosen qualified images by digest. The base preparation renderer disables field observations, inference, memory
+and repairs and permits only dependency egress. Kubani owns the explicit
+activation overlays described in the current rollout record. A real GitHub pilot needs a separately reviewed field-only target,
 credential and network configuration; enabling admission alone is insufficient.
 
 This is the executable preparation package for a **fresh** Starbase2 production

@@ -1,0 +1,26 @@
+[
+  {
+    "method": "GET",
+    "resource": "pods",
+    "namespace": "starbase2-prod",
+    "status": 200
+  },
+  {
+    "method": "GET",
+    "resource": "deployments",
+    "namespace": "starbase2-prod",
+    "status": 200
+  },
+  {
+    "method": "GET",
+    "resource": "secrets",
+    "namespace": "starbase2-prod",
+    "status": 403
+  },
+  {
+    "method": "GET",
+    "resource": "pods",
+    "namespace": "default",
+    "status": 403
+  }
+]
