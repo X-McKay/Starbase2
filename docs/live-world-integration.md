@@ -15,6 +15,14 @@ authenticated and verified for the selected Starbase2 repository; the first
 observation had no open PRs. Durable production
 recovery qualification is separate.
 
+The [current autonomous Godot slice](../evidence/autonomous-godot-20260910/README.md)
+adds real-target reasoning and enables scoped Watchkeeper/GitHub duties. The
+owner selected Godot for all normal interactions and observability: native
+Journal navigation, reasoning opt-in and configured duty editing replace browser
+handoffs. The deployed Core serves a noninteractive service page and API; its
+former dashboard assets are unavailable. Final native and actual timer evidence
+remain tracked in the current record until qualification completes.
+
 Owner: Al; implementation assistant owns the approved local delivery and verification.
 
 ## Outcome and review baseline

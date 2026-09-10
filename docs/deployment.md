@@ -14,7 +14,14 @@ reopens manual admission and enables synthetic LLM advice plus scoped
 Watchkeeper reads of starbase2-prod; existing duties stay paused. The subsequent
 [GitHub activation](../evidence/github-observation-20260910/README.md) adds a
 dedicated read-only Starbase2 credential and verified manual repository
-observation, with GitHub inference and recurrence disabled. This does not qualify durable production admission.
+observation, with GitHub inference and recurrence disabled at that stage.
+The [autonomous Godot rollout](../evidence/autonomous-godot-20260910/README.md)
+now deploys source `2b64a73` through Kubani PR149: both scoped targets allow
+bounded advice, and their 300/900-second observation duties are enabled.
+Reasoning is limited to 24 admissions per target per UTC day, at least 3600
+seconds apart. Browser dashboard routes are retired; Godot owns normal operator
+interaction. Actual timer and final native acceptance are tracked in that record.
+Memory remains disabled. This does not qualify durable production admission.
 
 The accepted sequence is stopped resource preparation, dependency connectivity,
 and reviewed provisioning/migrations; then an explicitly disposable read-only
@@ -60,7 +67,7 @@ development/testing.
 | Network policies | No incoming pod traffic; DNS, PostgreSQL and Temporal only; specific database-side allowance |
 | Private secrets | Worker token, application URL, temporary migration URL; no secrets in rendered bundle |
 
-The journal and native Godot client use a local port-forward. No public ingress,
+The native Godot client uses a local port-forward. No public ingress,
 TLS certificate, FalkorDB, dedicated Temporal server, persistent volume, or
 Kubernetes workload credential is needed by this application. Images contain
 the read-only application source and the explicit sample repository. Selecting
@@ -294,11 +301,14 @@ kubectl --context YOUR_KUBANI_CONTEXT -n starbase2-prod port-forward deployment/
 mise exec -- just deploy temporal-check --config .local/deploy/production.json --temporal-address 127.0.0.1:17239
 ```
 
-Open `http://127.0.0.1:8787` and optionally `mise exec -- just world`. Keep the
+Launch `mise exec -- just world` and select the forwarded address in Godot's
+Connection panel. The service URL itself contains no dashboard. Keep the
 forward bound to localhost; do not add `--address 0.0.0.0`. Kubernetes RBAC for
-pods/port-forward grants operational journal access, not a view-only role. Never
-give it to an untrusted viewer. The port must be 8787 to match native-client and
-operator-origin checks. Neither core nor worker gets a Kubernetes API token.
+pods/port-forward grants operational API access, not a view-only role. Never
+give it to an untrusted viewer. Match the installation's configured Core port
+and operator origin. The current pilot uses local/remote port 18787, overriding
+the base renderer's 8787. Provider identities, including Watchkeeper's scoped
+runtime token, require their separate explicit target configuration.
 
 Core readiness performs a real store-backed request. Worker readiness checks a
 heartbeat written only after successful reconciliation. A live process with a
@@ -315,15 +325,22 @@ by the local rehearsal. No model calls happen merely by starting this bundle.
 
 ## 5. Quiesce, stop and back up
 
-Stop operator submissions and close other journal clients. With the port-forward
+Stop operator submissions and close other Godot clients. With the port-forward
 and worker still running, pause duties and drain bounded work:
 
 ```sh
 mise exec -- just deploy drain --config .local/deploy/production.json --execute --confirm starbase2-prod
 ```
 
+For the current pilot, append `--core-address http://127.0.0.1:18787`.
+Drain verifies the configured installation identity before any mutation, pauses
+V2 and configured V4 duties plus repository watches, and checks V2/V3/V4 active
+work and retained schedules before reporting success. It preserves inference
+settings and increments field generations. An uncertain write stops the command
+without retry; reconcile its retained state in Godot before proceeding.
+
 This waits at most three minutes. A timeout leaves active records intact: inspect
-or explicitly cancel them in the journal and wait for acknowledgement. It never
+or explicitly cancel them in Godot and wait for acknowledgement. It never
 labels uncertain work completed. Drain requires an operational core/worker and
 is not the emergency stop path. Prevent competing operator submissions during
 this maintenance window. Promote `accept_work: false`; repeat the active-work

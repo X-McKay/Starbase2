@@ -35,7 +35,7 @@ func walk(tree:SceneTree,scene:Node,target:Vector3,context:Node3D,record_motion:
 			frames.append(frame)
 			motion_samples.append({"physics_frame":Engine.get_physics_frames(),"position":[actor.position.x,actor.position.y,actor.position.z]})
 		if scene.route.is_empty(): break
-	var arrival := {"start":str(start),"target":str(target),"actual":str(actor.position),"remaining_route":str(scene.route),"manual_input_seen":manual_input_seen,"panel_open":scene.hud.is_open(),"context":str(context),"distance":actor.position.distance_to(target)}
+	var arrival := {"start":str(start),"target":str(target),"actual":str(actor.position),"remaining_route":str(scene.route),"manual_input_seen":manual_input_seen,"capture_input_isolated":scene.capture_input_isolated,"panel_open":scene.hud.is_open(),"context":str(context),"distance":actor.position.distance_to(target)}
 	var collisions:Array=[]
 	for index in actor.get_slide_collision_count():
 		var collision=actor.get_slide_collision(index)
@@ -72,6 +72,9 @@ func run(tree:SceneTree,scene:Node,directory:String) -> void:
 			check(scene.hud.board.visible,"Native primary table interaction opens Command")
 			for tick in range(90): await tree.physics_frame
 			await capture(tree,"command-workspace",actor)
+			scene.hud.board.tabs.current_tab=4
+			await capture(tree,"field-duty-editor",actor)
+			scene.hud.board.tabs.current_tab=0
 			var original_size:Vector2i=tree.root.size
 			var original_scale:Vector2i=tree.root.content_scale_size
 			tree.root.content_scale_size=Vector2i(800,640)
@@ -132,7 +135,7 @@ func run(tree:SceneTree,scene:Node,directory:String) -> void:
 		check(sheet.save_png(output.path_join("review-motion.png"))==OK,"Cannot save motion evidence")
 	var file=FileAccess.open(output.path_join("structure-captures.json"),FileAccess.WRITE)
 	check(file!=null,"Cannot write native capture manifest")
-	if file!=null: file.store_string(JSON.stringify({"captures":records,"journeys":journeys,"motion_frames":frames.size(),"motion_samples":motion_samples,"fixture":true,"live_world_presentation":scene.is_processing(),"failures":failures},"  "))
+	if file!=null: file.store_string(JSON.stringify({"captures":records,"journeys":journeys,"motion_frames":frames.size(),"motion_samples":motion_samples,"fixture":true,"live_world_presentation":scene.is_processing(),"capture_input_isolated":scene.capture_input_isolated,"failures":failures},"  "))
 	if failures.is_empty(): print("EXPORTED_STRUCTURES_CAPTURE_PASSED")
 	tree.quit(0 if failures.is_empty() else 1)
 

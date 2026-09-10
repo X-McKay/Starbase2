@@ -10,8 +10,13 @@ progression; repository review itself remains read-only.
 
 ## What works
 
-Run `mise exec -- just bootstrap`, then `mise exec -- just dev`, and open
-[the journal](http://127.0.0.1:8787). No model call happens on startup.
+Run `mise exec -- just bootstrap`, then `mise exec -- just dev` and
+`mise exec -- just world`. Use Godot's Journal/Operations (`J`) for reviews,
+comparisons, local review duties and history; Command (`B`) provides field
+observations, repository watches, configured field duties and retained advice.
+Connection (`O`) selects the private local Core endpoint. The former browser
+dashboard is retired; `/` is a noninteractive API connection page. No model call
+happens merely on startup; previously enabled duties continue independently.
 
 - Start a real review of Python files in this checkout or an explicitly synthetic
   training repository. The core freezes the registered build; Temporal orchestrates
@@ -33,9 +38,9 @@ Run `mise exec -- just bootstrap`, then `mise exec -- just dev`, and open
   acknowledgement; an already started read/model request cannot be retracted.
 - Browse pages of twenty historical runs independently of the active dispatch
   feed. Twenty pending runs is the current queue budget, not an archival cap.
-- Launch `just world` for the Godot outpost and retained result inspector. The
-  journal supplies all commands and keyboard-accessible non-spatial equivalents.
-  Crew poses and the journal illustration are decorative; labels use records.
+- Godot includes structured controls and retained evidence alongside the colony.
+  Keyboard navigation does not require walking to a room. Crew poses remain
+  decorative projections; labels use authoritative records.
 
 Surveyor and Trainer have stable role identities and completion counts derived
 from retained records. Custom crew creation, persistent personality/memory,

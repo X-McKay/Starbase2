@@ -80,12 +80,13 @@ def native_pids(executable: Path, listing: str) -> list[int]:
 def native_capture(
     executable: Path, arguments: list[str], output: Path, name: str, cwd: Path
 ) -> None:
-    """Launch and activate an exact owned GUI instance within a bounded review."""
+    """Launch an exact owned background GUI instance within a bounded review."""
     stdout = output / f"{name}.log"
     stderr = output / f"{name}-stderr.log"
     app = str(executable.resolve().parents[2])
     command = [
         "open",
+        "-g",
         "-n",
         "-W",
         "-a",
@@ -105,54 +106,8 @@ def native_capture(
         command, cwd=cwd, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
     )
     try:
-        # A Launch Services process can exist behind the app on its splash screen.
-        # Activate only after this exact executable exists, avoiding a second launch.
-        while launcher.poll() is None:
-            listing = subprocess.check_output(["ps", "-axo", "pid=,command="], text=True)
-            if native_pids(executable, listing):
-                run(
-                    [
-                        "osascript",
-                        "-e",
-                        "tell application " + json.dumps(app, ensure_ascii=False) + " to activate",
-                    ],
-                    output / f"{name}-activation.log",
-                    cwd,
-                    timeout=15,
-                )
-                break
-            if time.monotonic() >= deadline:
-                raise TimeoutError("Native application did not start within qualification bound")
-            time.sleep(0.1)
-        activation_index = 0
-        while True:
-            try:
-                log, _ = launcher.communicate(timeout=min(2, max(0.1, deadline - time.monotonic())))
-                break
-            except subprocess.TimeoutExpired:
-                if time.monotonic() >= deadline:
-                    raise
-                listing = subprocess.check_output(["ps", "-axo", "pid=,command="], text=True)
-                if native_pids(executable, listing):
-                    activation_index += 1
-                    try:
-                        run(
-                            [
-                                "osascript",
-                                "-e",
-                                "tell application "
-                                + json.dumps(app, ensure_ascii=False)
-                                + " to activate",
-                            ],
-                            output / f"{name}-activation-{activation_index:03}.log",
-                            cwd,
-                            timeout=15,
-                        )
-                    except RuntimeError:
-                        # The last frame may close the exact app between PID lookup
-                        # and activation. Its completion/output checks still apply.
-                        if launcher.poll() is None:
-                            raise
+        # Background Launch Services launch; never take keyboard focus from the user.
+        log, _ = launcher.communicate(timeout=max(0.1, deadline - time.monotonic()))
         (output / f"{name}-launch.log").write_text(log)
         if launcher.returncode:
             raise RuntimeError(f"Native launcher failed; inspect {name}-launch.log")
@@ -345,6 +300,10 @@ def main() -> None:
                     raise RuntimeError("Missing live native capture: " + name)
         report = {
             "live_backend": live_record,
+            "native_input_mode": (
+                "background Launch Services; external input isolated in explicit capture mode; "
+                "no manual OS input claim"
+            ),
             "status": "local macOS export qualified; unsigned, not a Kubani release",
             "godot": version,
             "platform": platform.platform(),

@@ -35,6 +35,7 @@ var compact := false
 var inspect_on_start := false
 var initial_crew := "repair"
 var fixture_path := ""
+var capture_input_isolated := false
 var walk_test := false
 var walk_reached := false
 var overview := Vector3(0,0,0)
@@ -164,6 +165,8 @@ func _ready() -> void:
 	var package_capture_directory := ""
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--capture-package="): package_capture_directory=arg.trim_prefix("--capture-package=")
+	if not capture_path.is_empty() or not package_capture_directory.is_empty() or not live_capture_directory.is_empty():
+		isolate_capture_input()
 	if ("--verify-package" in OS.get_cmdline_user_args() or not package_capture_directory.is_empty()) and fixture_path.is_empty():
 		push_error("Package verification requires an offline fixture")
 		# These nodes are normally parented later in _ready; release on refusal.
@@ -619,8 +622,8 @@ func _physics_process(_delta: float) -> void:
 	if active_room==null or active_room.definition.seamless: set_room_context(containing)
 	var move := Vector3.ZERO
 	if not hud.is_open():
-		var x := float(Input.is_physical_key_pressed(KEY_D) or Input.is_physical_key_pressed(KEY_RIGHT))-float(Input.is_physical_key_pressed(KEY_A) or Input.is_physical_key_pressed(KEY_LEFT))
-		var y := float(Input.is_physical_key_pressed(KEY_S) or Input.is_physical_key_pressed(KEY_DOWN))-float(Input.is_physical_key_pressed(KEY_W) or Input.is_physical_key_pressed(KEY_UP))
+		var x := 0.0 if capture_input_isolated else float(Input.is_physical_key_pressed(KEY_D) or Input.is_physical_key_pressed(KEY_RIGHT))-float(Input.is_physical_key_pressed(KEY_A) or Input.is_physical_key_pressed(KEY_LEFT))
+		var y := 0.0 if capture_input_isolated else float(Input.is_physical_key_pressed(KEY_S) or Input.is_physical_key_pressed(KEY_DOWN))-float(Input.is_physical_key_pressed(KEY_W) or Input.is_physical_key_pressed(KEY_UP))
 		if x != 0 or y != 0:
 			route.clear()
 			move = Vector3(x,0,y).normalized()*TRAVEL_SPEED
@@ -713,10 +716,18 @@ func _process(delta: float) -> void:
 		await RenderingServer.frame_post_draw
 		get_viewport().get_texture().get_image().save_png(capture_path)
 		frame_times.sort()
-		var metrics := {"frames":frame_times.size(),"median_ms":frame_times[frame_times.size()/2],"p95_ms":frame_times[int(frame_times.size()*0.95)],"engine":Engine.get_version_info(),"startup_to_first_frame_ms":first_frame_ms,"viewport":str(get_viewport().get_visible_rect().size),"draw_calls":Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME),"visual_fixture":fixture_path!="","walk_test":walk_test,"colony_overview":colony_overview,"colony_walk_test":colony_walk_test,"camera_focus":str(camera_focus),"walk_reached":walk_reached,"player_position":str($Operator.position),"room":room_kind,"frame_sampling":"monotonic process intervals", "selected_id":hud.selected_id,"command_message":hud.command_status.text}
+		var metrics := {"frames":frame_times.size(),"median_ms":frame_times[frame_times.size()/2],"p95_ms":frame_times[int(frame_times.size()*0.95)],"engine":Engine.get_version_info(),"startup_to_first_frame_ms":first_frame_ms,"viewport":str(get_viewport().get_visible_rect().size),"draw_calls":Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME),"visual_fixture":fixture_path!="","walk_test":walk_test,"capture_input_isolated":capture_input_isolated,"colony_overview":colony_overview,"colony_walk_test":colony_walk_test,"camera_focus":str(camera_focus),"walk_reached":walk_reached,"player_position":str($Operator.position),"room":room_kind,"frame_sampling":"monotonic process intervals", "selected_id":hud.selected_id,"command_message":hud.command_status.text}
 		var file := FileAccess.open(capture_path+".json",FileAccess.WRITE)
 		file.store_string(JSON.stringify(metrics,"  "))
 		if walk_test and not walk_reached:
 			push_error("Scripted movement did not reach its destination")
 			get_tree().quit(1)
 		else: get_tree().quit()
+
+func isolate_capture_input() -> void:
+	# Only explicit automated capture opts in. Direct harness button signals and
+	# method calls still exercise normal interaction; desktop events cannot steal routes.
+	capture_input_isolated=true
+	get_viewport().gui_disable_input=true
+	set_process_unhandled_input(false)
+	set_process_unhandled_key_input(false)

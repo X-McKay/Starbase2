@@ -88,7 +88,7 @@ func run(scene:Node,directory:String) -> void:
 		var control_check:=preload("res://live_duty_controls.gd").new()
 		check(await control_check.run(scene,output),"Explicit native duty control acceptance failed: "+control_check.failure)
 		await shot(tree,"live-duties-restored")
-	var record:Dictionary={"api":scene.api,"installation":scene.snapshot.get("installation"),"observed_at":scene.snapshot.get("observed_at"),"run_ids":initial_ids,"outage_run_ids":outage_ids,"captures":captures,"failures":failures,"fixture":false,"client_outage_test":true,"commands_dispatched":control_opt_in,"duty_controls_opt_in":control_opt_in}
+	var record:Dictionary={"api":scene.api,"installation":scene.snapshot.get("installation"),"observed_at":scene.snapshot.get("observed_at"),"run_ids":initial_ids,"outage_run_ids":outage_ids,"captures":captures,"failures":failures,"fixture":false,"capture_input_isolated":scene.capture_input_isolated,"client_outage_test":true,"commands_dispatched":control_opt_in,"duty_controls_opt_in":control_opt_in}
 	var file:=FileAccess.open(output.path_join("live-review.json"),FileAccess.WRITE)
 	file.store_string(JSON.stringify(record,"  ")); file.close()
 	if failures.is_empty(): print("LIVE_WORLD_CAPTURE_PASSED: live metadata, retained runs, evidence, compact UI, client outage and reconnect; duty controls opt-in="+str(control_opt_in))
