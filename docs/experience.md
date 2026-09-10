@@ -94,15 +94,33 @@ synthetic repair commands, and core-backed achievement displays. Normal, compact
 large-text, stale and offline captures are retained. Interiors, work-stage
 animation, sound, persistent decoration, and direct gym configuration remain open.
 
-## Implemented local repair extension · 2026-09-05
+## Native application direction · 2026-09-10
+
+Godot is the product interface for the world, structured operations, observability,
+and operator actions. J opens native operations. Browser dashboard delivery is
+retired: Core's root page provides connection guidance and preserves the native
+operator-session handshake, while versioned APIs remain available. The old console
+source is historical and is not served. Independent CLI/GitOps emergency stop
+remains available when the renderer cannot run.
+
+Native acceptance must exercise every enabled capability with keyboard access,
+retained evidence, pending/unknown outcomes, reconnect, and stop controls. In
+particular, configured field targets must support manual inference opt-in and
+recurring duty creation/editing without a browser. Disabled memory and repair
+capabilities must remain explicitly disabled; their complete native evidence and
+control journeys are gates before later activation. Screen-reader support requires
+native qualification; a retired browser UI is not evidence of accessibility.
+
+## Historical local repair extension · 2026-09-05
 
 Mender now has a persistent identity, 25 XP per distinct verified synthetic AI repair, two evidence-linked achievements and a level display in both clients. Qualification remains exact-build and permissions remain independent. This provisional progression curve is implemented, not usability-validated; see [repair operations](repairs.md).
 
 Implemented UI: the [local operations edition](operations.md) now has a responsive
 journal with review/gym/duty commands, stable Surveyor/Trainer role projections,
 run history, source citations, keyboard controls, and a decorative station
-illustration. Native Godot consumes the same v2 records and opens the journal for
-review/gym/duty commands; the playable extension adds native repair commands.
+illustration. Native Godot consumed the same v2 records and originally opened the browser journal
+for review/gym/duty commands. That browser dependency is superseded by the native
+application direction above.
 The broader character simulation below remains proposed.
 
 Earlier experiment: [Surveyor’s terrace](local-slice.md) had three static
@@ -123,11 +141,10 @@ expressive billboard/sprite characters. Compose scenes in the editor and
 version their text assets. Favor a few beautifully authored spaces over a
 large procedurally generated map. Create original assets with provenance.
 
-Godot is the leading renderer candidate because the desired experience needs
-scene authoring, lighting, pathfinding, character animation, and camera work.
-Test it against a small browser-native 2.5D alternative if download, accessibility,
-or integration costs dominate. Godot web export uses WebGL 2 and Compatibility
-rendering; native desktop and web must be measured separately.
+Godot is the selected product renderer for scene authoring, lighting, pathfinding,
+character animation, and camera work. Native desktop qualification is the current
+delivery path. Any future Godot web export must be qualified separately; it uses
+WebGL 2 and Compatibility rendering.
 [Godot export constraints](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_web.html)
 
 ## Three layers, one coherent experience
@@ -137,10 +154,9 @@ rendering; native desktop and web must be measured separately.
 **Evidence:** one more step reveals source facts, diffs, traces, or trial data.
 
 Keep the world prominent. The inspector is a legible dock beside it, not tiny
-text pasted onto walls. A compact web console uses the same projections and
-command semantics, without requiring Godot. Godot now creates and cancels synthetic repairs through the existing local
-operator session, with tested pending states and uncertain-response reconciliation.
-Review/gym/duty creation continues to deep-link to the console.
+text pasted onto walls. Structured native operations use the same authoritative
+projections and command semantics inside Godot, with pending states and
+uncertain-response reconciliation. Evidence and commands must not launch a browser.
 
 Rooms are activity contexts. Operators do not need to know the backend topology.
 An event animation is a projection of work; a character reaching a door cannot
@@ -230,7 +246,7 @@ Measure on named reference hardware with representative entity and event load:
 target 60 fps for normal activity and a responsive 30 fps degraded mode. Keep
 camera movement optional; reduced motion replaces travel with transitions.
 Support text scaling, keyboard navigation, color-independent status, sound-off
-operation, and screen-reader access through the console. Test full, compact,
+operation, and native screen-reader access. Screen-reader acceptance remains open. Test full, compact,
 empty, stale, burst, failure, and reconnect states.
 
 First art spike: three crew, three adjacent spaces, 20 active task markers, and

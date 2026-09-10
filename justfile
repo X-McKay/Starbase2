@@ -55,6 +55,7 @@ test:
 
 check: lint test
     cargo build --locked
+    .venv/bin/python scripts/check_service_page.py
     .venv/bin/python scripts/contracts.py --check
     python3 scripts/check_docs.py
 

@@ -1,4 +1,4 @@
-//! Loopback operator API. Browser writes require same-origin session cookies;
+//! Loopback operator API. Native writes require operator session cookies;
 //! worker writes require a separately configured bearer credential.
 use crate::{
     Store,
@@ -100,29 +100,8 @@ pub fn router(access: Access) -> Router<App> {
                             .unwrap(),
                         );
                     }
-                    (
-                        headers,
-                        Html(include_str!("../../../apps/console/index.html")),
-                    )
+                    (headers, Html(include_str!("service.html")))
                 }
-            }),
-        )
-        .route(
-            "/console.css",
-            get(|| async {
-                (
-                    [(header::CONTENT_TYPE, "text/css")],
-                    include_str!("../../../apps/console/console.css"),
-                )
-            }),
-        )
-        .route(
-            "/console.js",
-            get(|| async {
-                (
-                    [(header::CONTENT_TYPE, "text/javascript")],
-                    include_str!("../../../apps/console/console.js"),
-                )
             }),
         )
         .route("/v3/repairs", get(repair_list).post(repair_create))
@@ -144,15 +123,6 @@ pub fn router(access: Access) -> Router<App> {
             post(repair_receipt),
         )
         .route("/internal/v3/repairs/{id}/finish", post(repair_finish))
-        .route(
-            "/field.js",
-            get(|| async {
-                (
-                    [(header::CONTENT_TYPE, "text/javascript")],
-                    include_str!("../../../apps/console/field.js"),
-                )
-            }),
-        )
         .route("/v4/snapshot", get(field_snapshot))
         .route("/v4/runs", post(field_create))
         .route("/v4/runs/{id}", get(field_detail))

@@ -10,6 +10,19 @@ The production architecture remains open. [ADR 0002](adr/0002-local-walking-slic
 accepts the smaller **local** implementation below; it does not accept all of
 [ADR 0001](adr/0001-starbase2-foundation.md).
 
+## Current client boundary · 2026-09-10
+
+Godot owns the product's spatial and structured operator experience: observability,
+commands, and evidence stay in the native application. Core serves a noninteractive
+service page at `/`, retaining its operator-session cookie bootstrap for native
+commands. Browser dashboard JavaScript and stylesheet routes are removed; all
+versioned APIs and raw evidence routes retain their existing access boundaries.
+Historical console files are not served. Independent operator CLI/GitOps recovery
+and emergency stop remain usable without Godot. This changes client delivery, not
+service ownership or credential authority. Native parity and accessibility must
+be qualified before claiming complete product coverage or enabling later memory
+and repair capabilities.
+
 ## Current operations extension
 
 [ADR 0003](adr/0003-local-operations.md) extends the same owners with real read-only
@@ -24,7 +37,7 @@ was required. v1 stays available for compatibility and the original experiment.
 ```mermaid
 flowchart LR
     G[Godot native world] --> C[Rust core]
-    J[Keyboard-accessible journal] --> C
+    J[Historical HTML journal, retired] -.-> C
     P[Python coordinator and fixture activities] --> C
     P --> T[Temporal development server]
     C --> S[(Core SQLite WAL)]
@@ -35,7 +48,7 @@ flowchart LR
 |---|---|---|
 | Rust core | Mission identity, pending intent, state transitions, trusted public-fixture grader, retained evidence, snapshot, journal | One SQLite database, initial migration, immutable evidence triggers |
 | Python runtime | Stable workflow dispatch, bounded activities, build checks, cancellation reconciliation, direct/PydanticAI-integration experiment | Temporal histories; results submitted through core API |
-| Clients | Playable Godot outpost and structured HTML journal | No product state; snapshots from the core |
+| Clients (original slice) | Playable Godot outpost and historical structured HTML journal; current delivery is native only | No product state; snapshots from the core |
 
 The fixture source is an in-process adapter, not a Connector service. Evidence
 is a module in its owning core, not an independently deployed service. A separate

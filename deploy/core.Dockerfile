@@ -5,7 +5,6 @@ FROM ${RUST_IMAGE} AS build
 WORKDIR /build
 COPY Cargo.toml Cargo.lock rust-toolchain.toml ./
 COPY services/core services/core
-COPY apps/console apps/console
 RUN cargo build --release --locked -p starbase-core
 FROM ${BASE_IMAGE}
 COPY --from=build /build/target/release/starbase-core /usr/local/bin/starbase-core
