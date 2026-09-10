@@ -80,13 +80,15 @@ def test_native_timeout_stops_only_exact_isolated_executable(tmp_path):
     )
     with (
         patch("scripts.check_world_export.subprocess.Popen") as launch,
-        patch("scripts.check_world_export.run", side_effect=RuntimeError("timed out")),
         patch("scripts.check_world_export.subprocess.check_output", return_value=processes),
         patch("scripts.check_world_export.os.kill") as kill,
     ):
         launch.return_value.poll.return_value = None
-        launch.return_value.communicate.return_value = ("", None)
-        with pytest.raises(RuntimeError, match="timed out"):
+        launch.return_value.communicate.side_effect = [
+            subprocess.TimeoutExpired(["open"], 180),
+            ("", None),
+        ]
+        with pytest.raises(subprocess.TimeoutExpired):
             native_capture(executable, [], tmp_path, "interior", tmp_path)
         launch.return_value.terminate.assert_called_once()
         kill.assert_called_once_with(101, signal.SIGTERM)

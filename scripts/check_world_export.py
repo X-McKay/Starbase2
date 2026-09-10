@@ -80,13 +80,12 @@ def native_pids(executable: Path, listing: str) -> list[int]:
 def native_capture(
     executable: Path, arguments: list[str], output: Path, name: str, cwd: Path
 ) -> None:
-    """Launch an exact owned background GUI instance within a bounded review."""
+    """Launch an exact owned GUI instance once within a bounded review."""
     stdout = output / f"{name}.log"
     stderr = output / f"{name}-stderr.log"
     app = str(executable.resolve().parents[2])
     command = [
         "open",
-        "-g",
         "-n",
         "-W",
         "-a",
@@ -106,7 +105,7 @@ def native_capture(
         command, cwd=cwd, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
     )
     try:
-        # Background Launch Services launch; never take keyboard focus from the user.
+        # One normal Launch Services launch; no repeated foreground activation.
         log, _ = launcher.communicate(timeout=max(0.1, deadline - time.monotonic()))
         (output / f"{name}-launch.log").write_text(log)
         if launcher.returncode:
@@ -301,7 +300,8 @@ def main() -> None:
         report = {
             "live_backend": live_record,
             "native_input_mode": (
-                "background Launch Services; external input isolated in explicit capture mode; "
+                "one normal Launch Services launch, no repeated activation; "
+                "external input isolated in explicit capture mode; "
                 "no manual OS input claim"
             ),
             "status": "local macOS export qualified; unsigned, not a Kubani release",

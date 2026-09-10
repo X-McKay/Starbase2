@@ -22,7 +22,7 @@ def test_native_pid_aliases_and_exact_boundary(tmp_path):
     assert native_pids(executable, listing) == [10, 11]
 
 
-def test_native_capture_background_launch_preserves_unicode_name(tmp_path):
+def test_native_capture_single_launch_preserves_unicode_name(tmp_path):
     from unittest.mock import patch
 
     from scripts.check_world_export import native_capture
@@ -38,13 +38,14 @@ def test_native_capture_background_launch_preserves_unicode_name(tmp_path):
         launch.return_value.communicate.return_value = ("", None)
         native_capture(executable, [], tmp_path, "view", tmp_path)
         command = launch.call_args.args[0]
-        assert command[:4] == ["open", "-g", "-n", "-W"]
+        assert command[:3] == ["open", "-n", "-W"]
+        assert "-g" not in command
         assert str(executable.resolve().parents[2]) in command
         activate.assert_not_called()
         assert launch.return_value.communicate.call_args.kwargs["timeout"] <= 180
 
 
-def test_background_timeout_cleans_up_only_exact_owned_process(tmp_path):
+def test_native_timeout_cleans_up_only_exact_owned_process(tmp_path):
     import subprocess
     from unittest.mock import patch
 
