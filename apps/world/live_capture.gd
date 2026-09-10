@@ -69,11 +69,12 @@ func run(scene:Node,directory:String) -> void:
 	scene.hud.large_text=false; scene.hud.scale_text()
 	# Deliberately stop client reads to exercise its existing five-second watchdog.
 	# Backend work continues; this is a client outage, not a service health claim.
+	var outage_ids:Array=scene.missions.map(func(m): return str(m.input.id))
 	scene.poll_timer.stop(); scene.http.cancel_request()
 	deadline=Time.get_ticks_msec()+6500
 	while not scene.disconnected and Time.get_ticks_msec()<deadline: await tree.process_frame
 	check(scene.disconnected,"Snapshot watchdog did not mark interrupted reads stale")
-	check(scene.missions.map(func(m): return str(m.input.id))==initial_ids,"Client outage lost retained work")
+	check(scene.missions.map(func(m): return str(m.input.id))==outage_ids,"Client outage lost retained work")
 	await shot(tree,"live-disconnected")
 	scene.poll_timer.start(); scene.poll()
 	deadline=Time.get_ticks_msec()+10000
@@ -87,7 +88,7 @@ func run(scene:Node,directory:String) -> void:
 		var control_check:=preload("res://live_duty_controls.gd").new()
 		check(await control_check.run(scene,output),"Explicit native duty control acceptance failed: "+control_check.failure)
 		await shot(tree,"live-duties-restored")
-	var record:Dictionary={"api":scene.api,"installation":scene.snapshot.get("installation"),"observed_at":scene.snapshot.get("observed_at"),"run_ids":initial_ids,"captures":captures,"failures":failures,"fixture":false,"client_outage_test":true,"commands_dispatched":control_opt_in,"duty_controls_opt_in":control_opt_in}
+	var record:Dictionary={"api":scene.api,"installation":scene.snapshot.get("installation"),"observed_at":scene.snapshot.get("observed_at"),"run_ids":initial_ids,"outage_run_ids":outage_ids,"captures":captures,"failures":failures,"fixture":false,"client_outage_test":true,"commands_dispatched":control_opt_in,"duty_controls_opt_in":control_opt_in}
 	var file:=FileAccess.open(output.path_join("live-review.json"),FileAccess.WRITE)
 	file.store_string(JSON.stringify(record,"  ")); file.close()
 	if failures.is_empty(): print("LIVE_WORLD_CAPTURE_PASSED: live metadata, retained runs, evidence, compact UI, client outage and reconnect; duty controls opt-in="+str(control_opt_in))
