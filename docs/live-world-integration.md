@@ -9,7 +9,10 @@ is recorded below. Step 6 now has a [deployed disposable pilot](../evidence/kuba
 with backend acceptance, actual pod replacement recovery and native Godot
 workspace review verification. The [next rollout](../evidence/llm-observation-20260910/README.md) enables
 manual synthetic inference and scoped Watchkeeper observation; current native
-visual re-verification is tracked separately in that record. Durable production
+visual re-verification is tracked separately in that record.
+[GitHub observation](../evidence/github-observation-20260910/README.md) is now
+authenticated and verified for the selected Starbase2 repository; the first
+observation had no open PRs. Durable production
 recovery qualification is separate.
 
 Owner: Al; implementation assistant owns the approved local delivery and verification.

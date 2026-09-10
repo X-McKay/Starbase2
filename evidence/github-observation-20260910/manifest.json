@@ -1,0 +1,9 @@
+{
+  "sha256": {
+    "README.md": "bbd5db5779a53d2a3893725b0aa0e5f76688fc65ebf12dc275e6f9502261e01a",
+    "credential-metadata.json": "cda9f257e2e9902b0f538b4fd505f885e13b39ce637fb0ab7e02ae30f6f7f5d2",
+    "live-pod.json": "b2df559ad8e94982aac524d0d2b7e78bf054fd487a66e8a64af2f12ee96ad129",
+    "observation-proof.json": "8d3cbd43d53f8738ced444adc75cf5d1380f37e7fb91a4cb27add7292e9268d1",
+    "worker-api-status.json": "4c905d51cb31a24a2d1d59be38f2e48ac5a273127b648063bd22c919fe02d8e4"
+  }
+}

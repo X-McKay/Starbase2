@@ -1,0 +1,21 @@
+{
+  "tls_verified": true,
+  "redirects_enabled": false,
+  "resolved": [
+    "140.82.112.6"
+  ],
+  "checks": [
+    {
+      "method": "GET",
+      "resource": "repository",
+      "repository": "X-McKay/Starbase2",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "resource": "open_pull_metadata",
+      "repository": "X-McKay/Starbase2",
+      "status": 200
+    }
+  ]
+}

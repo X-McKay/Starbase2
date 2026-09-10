@@ -11,7 +11,10 @@ sample review, comparison, pause, cancellation and actual pod replacement
 recovery, plus a native Godot workspace review. The subsequent
 [LLM and observation rollout](../evidence/llm-observation-20260910/README.md)
 reopens manual admission and enables synthetic LLM advice plus scoped
-Watchkeeper reads of starbase2-prod; existing duties stay paused. This does not qualify durable production admission.
+Watchkeeper reads of starbase2-prod; existing duties stay paused. The subsequent
+[GitHub activation](../evidence/github-observation-20260910/README.md) adds a
+dedicated read-only Starbase2 credential and verified manual repository
+observation, with GitHub inference and recurrence disabled. This does not qualify durable production admission.
 
 The accepted sequence is stopped resource preparation, dependency connectivity,
 and reviewed provisioning/migrations; then an explicitly disposable read-only
