@@ -15,7 +15,6 @@ var sound_enabled := false
 var portrait: TextureRect
 var suit_label: Label
 signal place_selected(kind: String)
-signal journal_requested
 signal repair_requested(scenario: String, mode: String)
 signal cancel_requested
 signal selection_changed(id: String)
@@ -151,7 +150,7 @@ func _ready() -> void:
 	top.offset_top = 16
 	button(top,"Map [M]",func(): map_requested.emit())
 	button(top,"Crew [Tab]",toggle_directory)
-	button(top,"Journal [J]",func(): journal_requested.emit())
+	button(top,"Journal [J]",open_operations)
 	var zoom_in := button(top,"+",func(): zoom_requested.emit(-1))
 	zoom_in.name="ZoomIn"
 	zoom_in.tooltip_text="Zoom in · + or mouse wheel up"
@@ -272,7 +271,7 @@ func _ready() -> void:
 	stop = button(col,"Request cancellation",func(): cancel_requested.emit())
 	command_status = text(col,"",13,"f0cea0")
 	command_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	button(col,"Full journal & independent stop controls ↗",func(): journal_requested.emit())
+	button(col,"Operations, history & stop controls",open_operations)
 	var truth := text(col,"Work poses reflect recorded activity. Travel is cosmetic.\nLevels grant no operational permissions.",12,"a8babf")
 	truth.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	dock.hide()
@@ -312,7 +311,7 @@ func _ready() -> void:
 	menu.add_child(building_search)
 	building_list=VBoxContainer.new()
 	menu.add_child(building_list)
-	button(menu,"Journal & all controls ↗",func(): journal_requested.emit())
+	button(menu,"Operations & history [J]",open_operations)
 	button(menu,"Return to outpost [Esc]",close_panels)
 	directory.hide()
 	help = panel_at(root,Vector2(410,0))
@@ -327,7 +326,7 @@ func _ready() -> void:
 	help_scroll.add_child(hc)
 	text(hc,"FIELD GUIDE & COMFORT",18,"efd29d")
 	button(hc,"Colony connection [O]",open_connection)
-	text(hc,"WASD / arrows: move · Click: choose path\nE: inspect crew or console · F: enter or exit\n1–5: inspect crew · Tab: station directory\nEnter: focused control · Esc: close\nC: follow / room camera · M: colony map\n+ / − or wheel: zoom · B: command board\nJ: independent journal · O: connection · H: this guide\nHabitat, Botanical and reserved sites are scenery.",15).autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	text(hc,"WASD / arrows: move · Click: choose path\nE: inspect crew or console · F: enter or exit\n1–5: inspect crew · Tab: station directory\nEnter: focused control · Esc: close\nC: follow / room camera · M: colony map\n+ / − or wheel: zoom · B: command board\nJ: operations & history · O: connection · H: this guide\nHabitat, Botanical and reserved sites are scenery.",15).autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	add_summary_toggle(hc)
 	var rm := CheckButton.new()
 	rm.text = "Reduced motion (room cuts, still crew)"
@@ -339,7 +338,7 @@ func _ready() -> void:
 	lt.text = "Larger interface text"
 	lt.toggled.connect(func(value: bool): large_text=value; scale_text(); settings_changed.emit())
 	hc.add_child(lt)
-	text(hc,"Ambient poses are decorative. Sound is optional.\nLive work never waits for a character to arrive.\nThe browser journal works independently of Godot.",14,"b3c6c5").autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	text(hc,"Ambient poses are decorative. Sound is optional.\nLive work never waits for a character to arrive.\nUse Operations and Command for records and controls.",14,"b3c6c5").autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	var sound := CheckButton.new()
 	sound.text="Enable quiet footsteps & airlock sounds"
 	sound.clip_text=true
@@ -376,7 +375,7 @@ func _ready() -> void:
 	connection_panel.add_theme_stylebox_override("panel",style())
 	root.add_child(connection_panel)
 	connection_panel.connect_requested.connect(func(value:String): connect_requested.emit(value))
-	connection_panel.journal_requested.connect(func(): journal_requested.emit())
+	connection_panel.journal_requested.connect(open_operations)
 	root.resized.connect(layout_hud)
 	layout_hud.call_deferred()
 

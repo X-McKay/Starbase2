@@ -229,7 +229,6 @@ func _ready() -> void:
 	add_child(hud)
 	hud.place_selected.connect(func(_kind): show_mission())
 	hud.selection_changed.connect(func(_id): show_mission())
-	hud.journal_requested.connect(func(): OS.shell_open(api))
 	hud.connect_requested.connect(connect_to_core)
 	hud.settings_changed.connect(apply_settings)
 	hud.map_requested.connect(toggle_map)
@@ -506,7 +505,8 @@ func show_mission() -> void:
 			hud.evidence.text += "%s observed findings\n" % summary.get("finding_count",0)
 		else:
 			hud.evidence.text += "%s files · %s static warnings\n" % [summary.get("files_reviewed",0),summary.get("finding_count",0)]
-		hud.evidence.text += "\n"+str(summary.get("qualification","No qualification recorded"))+"\nFull provenance in the journal."
+		hud.evidence.text += "\n"+str(summary.get("qualification","No qualification recorded"))
+		hud.evidence.text += "\nOpen Command [B] for the retained observation." if summary.get("source_kind")=="field" else "\nOpen Operations [J] to inspect retained review history."
 	else:
 		hud.evidence.text = "No verified evidence retained."
 	var progress = snapshot.get("progression")
@@ -557,7 +557,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		KEY_1: hud.open_place("repair")
 		KEY_2: hud.open_place("review")
 		KEY_3: hud.open_place("gym")
-		KEY_J: OS.shell_open(api)
+		KEY_J: hud.open_operations()
 		KEY_H:
 			var was: bool = hud.help.visible
 			hud.close_panels()

@@ -56,6 +56,17 @@ func run() -> void:
 		check(bounds.position.x>=0 and bounds.end.x<=size.x and bounds.end.y<=size.y,"Connection panel fits compact/large text")
 	hud.close_panels()
 	check(not hud.is_open(),"Escape-equivalent closes connection UI")
+	var journal_found:=false
+	for control in hud.find_children("*","Button",true,false):
+		if control.text.begins_with("Journal"):
+			journal_found=true
+			control.pressed.emit()
+			check(hud.operations.visible,"Journal opens native operations")
+			hud.close_panels()
+	check(journal_found,"Native Journal control is reachable")
+	hud.open_connection()
+	hud.connection_panel.journal_requested.emit()
+	check(hud.operations.visible and not hud.connection_panel.visible,"Connection routes to native operations")
 	hud.queue_free()
 	await process_frame
 	for failure in failures: push_error(failure)

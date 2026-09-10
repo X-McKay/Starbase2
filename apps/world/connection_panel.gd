@@ -52,7 +52,7 @@ func _ready() -> void:
 	line(column,"Local development: start the backend with just dev. For a private installation, establish its authorized port-forward first. This screen does not start or deploy services.",13)
 	capabilities=line(column,"Capabilities unknown",14)
 	var journal:=Button.new()
-	journal.text="Open independent journal"
+	journal.text="Open operations & history"
 	journal.custom_minimum_size.y=38
 	journal.pressed.connect(func(): journal_requested.emit())
 	column.add_child(journal)

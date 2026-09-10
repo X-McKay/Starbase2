@@ -1,5 +1,5 @@
 extends RefCounted
-## Explicit read-only native qualification against a private loopback Core.
+## Native qualification; read-only unless named duty controls are explicitly opted in.
 var failures:Array[String]=[]
 var captures:Array[String]=[]
 var output:=""
@@ -81,8 +81,14 @@ func run(scene:Node,directory:String) -> void:
 	check(not scene.disconnected,"Client did not reconnect")
 	await shot(tree,"live-reconnected")
 	check(scene.commands.payload.is_empty() and scene.hud.board.commands.payload.is_empty(),"Read-only native qualification dispatched a command")
-	var record:Dictionary={"api":scene.api,"installation":scene.snapshot.get("installation"),"observed_at":scene.snapshot.get("observed_at"),"run_ids":initial_ids,"captures":captures,"failures":failures,"fixture":false,"client_outage_test":true,"commands_dispatched":false}
+	var control_opt_in:bool="--qualify-duty-controls" in OS.get_cmdline_user_args()
+	if control_opt_in:
+		scene.hud.open_board()
+		var control_check:=preload("res://live_duty_controls.gd").new()
+		check(await control_check.run(scene,output),"Explicit native duty control acceptance failed: "+control_check.failure)
+		await shot(tree,"live-duties-restored")
+	var record:Dictionary={"api":scene.api,"installation":scene.snapshot.get("installation"),"observed_at":scene.snapshot.get("observed_at"),"run_ids":initial_ids,"captures":captures,"failures":failures,"fixture":false,"client_outage_test":true,"commands_dispatched":control_opt_in,"duty_controls_opt_in":control_opt_in}
 	var file:=FileAccess.open(output.path_join("live-review.json"),FileAccess.WRITE)
 	file.store_string(JSON.stringify(record,"  ")); file.close()
-	if failures.is_empty(): print("LIVE_WORLD_CAPTURE_PASSED: live metadata, retained runs, evidence, compact UI, client outage and reconnect; no dispatch")
+	if failures.is_empty(): print("LIVE_WORLD_CAPTURE_PASSED: live metadata, retained runs, evidence, compact UI, client outage and reconnect; duty controls opt-in="+str(control_opt_in))
 	tree.quit(0 if failures.is_empty() else 1)

@@ -29,7 +29,7 @@ func submit(endpoint: String, data: Dictionary, id: String, lookup: String = "")
 	if phase != "":
 		return
 	if not local_origin(api):
-		feedback.emit("Native commands require the local loopback core. Use its journal.",false)
+		feedback.emit("Native commands require the local loopback core. Use Connection and native History.",false)
 		return
 	if uncertain:
 		phase = "reconcile"
@@ -76,7 +76,7 @@ func _response(result: int, code: int, headers: PackedStringArray, body: PackedB
 		elif success and code >= 400 and code < 500:
 			phase = ""
 			var data = JSON.parse_string(body.get_string_from_utf8())
-			feedback.emit("Request rejected: " + str(data.get("error","see journal")) if data is Dictionary else "Request rejected; see journal.",false)
+			feedback.emit("Request rejected: " + str(data.get("error","see native History")) if data is Dictionary else "Request rejected; see native History.",false)
 		else:
 			uncertain = true
 			phase = "reconcile"
@@ -92,7 +92,7 @@ func _response(result: int, code: int, headers: PackedStringArray, body: PackedB
 					accepted.emit(run_id)
 					feedback.emit("Duty record reconciled · exact settings and next generation retained.",false)
 					return
-				feedback.emit("Duty outcome unknown · no retry. Exact settings and next generation were not found. Reconcile this ID or inspect the journal: " + run_id,false)
+				feedback.emit("Duty outcome unknown · no retry. Exact settings and next generation were not found. Reconcile this ID or inspect native History: " + run_id,false)
 				return
 			if record is Dictionary and path in ["/v4/repositories", "/v4/memory/review"]:
 				var items: Array = record.get("repositories",[]) if path=="/v4/repositories" else record.get("memory",[])
@@ -111,7 +111,7 @@ func _response(result: int, code: int, headers: PackedStringArray, body: PackedB
 				feedback.emit("Record reconciled · inspect current state before another action.",false)
 				return
 		# Keep uncertainty even for a temporary 404: a slow handler may still commit.
-		feedback.emit("Outcome unknown · no retry. Repeat the action to reconcile this ID, or open the journal: " + run_id,false)
+		feedback.emit("Outcome unknown · no retry. Repeat the action to reconcile this ID, or open native History: " + run_id,false)
 
 # A later revision may belong to another operator. It cannot acknowledge this write.
 static func duty_reconciled(snapshot: Variant, request: Dictionary, id: String) -> bool:

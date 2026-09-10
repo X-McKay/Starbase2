@@ -27,7 +27,7 @@ func run() -> void:
 	assert(not Commands.field_duty_reconciled({"duties":[wrong]},request,"watch-cluster"))
 	board.render()
 	var duty_text:=""
-	for l in board.watches.find_children("*","Label",true,false): duty_text+=l.text
+	for l in board.duty_records.find_children("*","Label",true,false): duty_text+=l.text
 	assert(duty_text.contains("watch-cluster") and duty_text.contains("AI cooldown 900 s") and duty_text.contains("Daily admission limit 8"))
 	assert(duty_text.contains("missing-target") and duty_text.contains("policy unknown"))
 	var run_record={"input":{"id":"sample","agent":"reviewer","target":"repo-a"},"state":"completed","updated_at":1000,"detail":"Partial coverage","snapshot":{"data":{"simulation":true}},"report":{"findings":[{"code":"S307","subject":"fixture/repo#7 / x.py","line":2,"summary":"Unsafe dynamic evaluation","recommendation":"Inspect the changed input handling."}],"coverage":["Unsupported language"],"memory":{"status":"empty"}}}

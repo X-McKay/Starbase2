@@ -24,6 +24,16 @@ var notice: Label
 var connection: Label
 var targets: OptionButton
 var launch: Button
+var observation_inference: CheckButton
+var duty_save: Button
+var duty_identity: LineEdit
+var duty_target: OptionButton
+var duty_interval: SpinBox
+var duty_inference: CheckButton
+var duty_enabled: CheckButton
+var duty_records: VBoxContainer
+var duty_editor_status: Label
+var editing_duty: Dictionary = {}
 var watch_input: LineEdit
 var interval: SpinBox
 var watch_save: Button
@@ -97,11 +107,13 @@ func _ready() -> void:
 	tabs.size_flags_vertical=Control.SIZE_EXPAND_FILL
 	col.add_child(tabs)
 	var operations := page("Observations")
-	label(operations,"Choose a target, then explicitly request an observation. AI advice is off.",14)
+	label(operations,"Choose a configured target and explicitly request an observation. AI advice requires a separate opt-in.",14)
 	targets=OptionButton.new()
 	targets.fit_to_longest_item=false
 	targets.custom_minimum_size.y=38
 	operations.add_child(targets)
+	targets.item_selected.connect(func(_index: int): controls())
+	observation_inference=CheckButton.new(); observation_inference.text="Request AI advice (uses target admission budget)"; observation_inference.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; operations.add_child(observation_inference)
 	launch=button(operations,"Start observation",start_selected,true)
 	runs=VBoxContainer.new(); operations.add_child(runs)
 	var repository_page := page("Repositories")
@@ -120,6 +132,23 @@ func _ready() -> void:
 	memories=VBoxContainer.new(); memory_page.add_child(memories)
 	detail=page("Evidence")
 	label(detail,"Select Findings or Source to load retained evidence.")
+	var duties_page:=page("Duties")
+	label(duties_page,"Configured field duties",21)
+	label(duties_page,"Choose an existing Core target. Saving changes future observations; pausing does not cancel work already started. AI advice remains unverified and subject to target cooldown and daily admission.",14)
+	duty_editor_status=label(duties_page,"New duty · generation 0",14)
+	label(duties_page,"Duty identity",14)
+	duty_identity=LineEdit.new(); duty_identity.max_length=40; duties_page.add_child(duty_identity)
+	label(duties_page,"Configured target",14)
+	duty_target=OptionButton.new(); duty_target.fit_to_longest_item=false; duty_target.custom_minimum_size.y=38; duties_page.add_child(duty_target)
+	duty_target.item_selected.connect(func(_index: int): duty_target.set_meta("selection_missing",false); controls())
+	label(duties_page,"Observation interval (30–86400 seconds)",14)
+	duty_interval=SpinBox.new(); duty_interval.min_value=30; duty_interval.max_value=86400; duty_interval.value=300; duties_page.add_child(duty_interval)
+	duty_inference=CheckButton.new(); duty_inference.text="Request AI advice"; duties_page.add_child(duty_inference)
+	duty_inference.toggled.connect(func(_value: bool): controls())
+	duty_enabled=CheckButton.new(); duty_enabled.text="Enable future observations"; duty_enabled.button_pressed=true; duties_page.add_child(duty_enabled)
+	duty_save=button(duties_page,"Save field duty",save_field_duty,true)
+	button(duties_page,"New duty",new_field_duty)
+	duty_records=VBoxContainer.new(); duties_page.add_child(duty_records)
 	commands=Commands.new(); commands.api=api; add_child(commands)
 	commands.feedback.connect(func(message: String, busy: bool): notice.text=message; pending=busy; controls())
 	commands.accepted.connect(func(_id: String): signature=""; poll())
@@ -164,6 +193,7 @@ func set_api(value: String) -> void:
 	get_http.cancel_request(); detail_http.cancel_request()
 	api=value; commands.api=value
 	fixture=""; fixture_details.clear(); snapshot.clear(); selected=""; signature=""
+	new_field_duty()
 	online=false; installation_snapshot.clear(); installation_offline=true
 	set_installation({},true)
 	clear(detail); label(detail,"Select evidence from this installation.")
@@ -244,6 +274,14 @@ func controls() -> void:
 	var dispatch_disabled: bool=installation_offline or (not field_policy.is_empty() and not field_policy.get("enabled",false))
 	launch.disabled=launch.disabled or dispatch_disabled or not snapshot.get("enabled",false) or targets.item_count==0
 	watch_save.disabled=watch_save.disabled or dispatch_disabled or not snapshot.get("enabled",false)
+	var inference_allowed:=ConnectionStatus.enabled(installation_snapshot,"inference") and not installation_offline
+	var observation_target: Dictionary=targets.get_item_metadata(targets.selected) if targets.selected>=0 else {}
+	var editor_target: Dictionary=duty_target.get_item_metadata(duty_target.selected) if duty_target.selected>=0 else {}
+	observation_inference.disabled=not inference_allowed or not observation_target.get("allow_inference",false) or not online or pending or not fixture.is_empty()
+	observation_inference.tooltip_text="Target and installation must both allow AI advice; target cooldown and daily admission apply."
+	duty_inference.disabled=not online or pending or not fixture.is_empty() or ((not inference_allowed or not editor_target.get("allow_inference",false)) and not duty_inference.button_pressed)
+	if observation_inference.disabled: observation_inference.button_pressed=false
+	duty_save.disabled=duty_save.disabled or dispatch_disabled or not ConnectionStatus.enabled(installation_snapshot,"field") or not snapshot.get("enabled",false) or duty_target.selected<0
 	for action in find_children("*","Button",true,false):
 		if action.has_meta("field_resume"): action.disabled=action.disabled or dispatch_disabled or not ConnectionStatus.enabled(installation_snapshot,"field") or not snapshot.get("enabled",false)
 
@@ -260,17 +298,34 @@ func render() -> void:
 	var focused:=get_viewport().gui_get_focus_owner()
 	var focus_key: String=str(focused.get_meta("focus_key","")) if focused!=null else ""
 	var chosen: String=str(targets.get_item_metadata(targets.selected).get("id","")) if targets.selected>=0 else ""
-	targets.clear()
+	var duty_chosen: String=str(duty_target.get_item_metadata(duty_target.selected).get("id","")) if duty_target.selected>=0 else ""
+	targets.clear(); duty_target.clear()
 	var seen := {}
 	for build in snapshot.get("builds",[]):
-		var target: Dictionary=build.manifest.target
+		var target: Dictionary=build.manifest.target.duplicate(true)
+		target.agent=build.manifest.agent
 		if seen.has(target.id): continue
 		seen[target.id]=true
-		if target.get("kind")=="github_repository" and not watch_enabled(target.id): continue
+		if str(target.id).begins_with("repo-") and target.get("kind")=="github_repository" and not watch_enabled(target.id): continue
 		targets.add_item(str(build.manifest.agent)+" · "+str(target.get("repository",target.id))+(" · SYNTHETIC" if target.kind=="fixture" else " · LIVE SOURCE"))
 		targets.set_item_metadata(targets.item_count-1,target)
 		if target.id==chosen: targets.select(targets.item_count-1)
-	clear(runs); clear(watches); clear(memories)
+		if not str(target.id).begins_with("repo-"):
+			duty_target.add_item(str(target.agent)+" · "+str(target.get("repository",target.id)))
+			duty_target.set_item_metadata(duty_target.item_count-1,target)
+			if target.id==duty_chosen: duty_target.select(duty_target.item_count-1)
+	if not chosen.is_empty():
+		var found:=false
+		for i in targets.item_count:
+			if targets.get_item_metadata(i).id==chosen: found=true
+		if not found: targets.select(-1)
+	if not duty_chosen.is_empty():
+		var found:=false
+		for i in duty_target.item_count:
+			if duty_target.get_item_metadata(i).id==duty_chosen: found=true
+		if not found: duty_target.select(-1); duty_target.set_meta("selection_missing",true)
+	elif duty_target.get_meta("selection_missing",false): duty_target.select(-1)
+	clear(runs); clear(watches); clear(memories); clear(duty_records)
 	briefing.text=briefing_text(snapshot,Time.get_unix_time_from_system())
 	for run in ordered_runs(snapshot.get("runs",[])):
 		focus_context=str(run.input.id)
@@ -299,12 +354,13 @@ func render() -> void:
 		var target: Dictionary={}
 		for build in snapshot.get("builds",[]):
 			if build.manifest.target.id==duty.target: target=build.manifest.target
-		label(watches,str(duty.get("agent","Field"))+" duty · "+str(target.get("repository",duty.target)),18)
-		label(watches,str(duty.id)+" · "+("enabled" if duty.enabled else "paused")+" · AI advice "+("requested" if duty.get("inference",false) else "off")+" · Observation interval "+str(int(duty.get("interval_seconds",0)))+" s",14)
-		label(watches,"Target build unavailable · inference policy unknown" if target.is_empty() else "AI cooldown "+str(int(target.get("inference_min_interval_seconds",0)))+" s · Daily admission limit "+str(target.get("daily_inference_limit",24)),14)
+		label(duty_records,str(duty.get("agent","Field"))+" duty · "+str(target.get("repository",duty.target)),18)
+		label(duty_records,str(duty.id)+" · "+("enabled" if duty.enabled else "paused")+" · AI advice "+("requested" if duty.get("inference",false) else "off")+" · Observation interval "+str(int(duty.get("interval_seconds",0)))+" s",14)
+		label(duty_records,"Target build unavailable · inference policy unknown" if target.is_empty() else "AI cooldown "+str(int(target.get("inference_min_interval_seconds",0)))+" s · Daily admission limit "+str(target.get("daily_inference_limit",24)),14)
 		focus_context=str(duty.id)
-		var toggle:=button(watches,"Pause duty" if duty.enabled else "Resume duty",func(): edit_duty(duty,not duty.enabled),true)
+		var toggle:=button(duty_records,"Pause duty" if duty.enabled else "Resume duty",func(): edit_duty(duty,not duty.enabled),true)
 		if not duty.enabled: toggle.set_meta("field_resume",true)
+		button(duty_records,"Edit duty",func(): load_field_duty(duty))
 	if watches.get_child_count()==0: label(watches,"No repositories watched. Add one above.")
 	for m in snapshot.get("memory",[]).slice(0,100):
 		focus_context=str(m.id)
@@ -326,10 +382,10 @@ func watch_enabled(id: String) -> bool:
 	return false
 
 func start_selected() -> void:
-	if not snapshot.get("enabled",false) or targets.selected<0: return
+	if launch.disabled or not online or pending or not fixture.is_empty() or targets.selected<0: return
 	var target: Dictionary=targets.get_item_metadata(targets.selected)
 	var id:=Crypto.new().generate_random_bytes(16).hex_encode()
-	commands.submit("/v4/runs",{"id":id,"agent":target.agent,"target":target.id,"inference":false},id)
+	commands.submit("/v4/runs",{"id":id,"agent":target.agent,"target":target.id,"inference":observation_inference.button_pressed and not observation_inference.disabled},id)
 
 func save_watch() -> void:
 	if not snapshot.get("enabled",false): return
@@ -410,3 +466,43 @@ func edit_duty(duty: Dictionary, enabled: bool) -> void:
 	if not online or pending or not fixture.is_empty(): return
 	if enabled and (installation_offline or not ConnectionStatus.enabled(installation_snapshot,"field") or not snapshot.get("enabled",false)): return
 	commands.submit("/v4/duties",duty_change(duty,enabled),str(duty.id),"/v4/snapshot")
+
+func new_field_duty() -> void:
+	editing_duty={}; duty_identity.editable=true; duty_identity.text=""
+	duty_target.set_meta("selection_missing",false)
+	if duty_target.item_count>0: duty_target.select(0)
+	duty_interval.value=300; duty_inference.button_pressed=false; duty_enabled.button_pressed=true
+	duty_editor_status.text="New duty · generation 0"
+	duty_identity.grab_focus()
+
+func load_field_duty(duty: Dictionary) -> void:
+	editing_duty=duty.duplicate(true); duty_identity.text=str(duty.id); duty_identity.editable=false
+	duty_interval.value=int(duty.interval_seconds); duty_inference.button_pressed=duty.get("inference",false); duty_enabled.button_pressed=duty.enabled
+	duty_target.select(-1); duty_target.set_meta("selection_missing",true)
+	for i in duty_target.item_count:
+		if duty_target.get_item_metadata(i).id==duty.target: duty_target.select(i); duty_target.set_meta("selection_missing",false); break
+	duty_editor_status.text="Editing retained generation "+str(duty.generation)+" · save requires this generation to remain current"
+	tabs.current_tab=4; duty_interval.get_line_edit().grab_focus(); controls()
+
+func field_duty_request() -> Dictionary:
+	var id:=duty_identity.text.strip_edges()
+	var identity_pattern:=RegEx.new(); identity_pattern.compile("^[A-Za-z0-9-]{1,40}$")
+	if identity_pattern.search(id)==null or id.begins_with("repo-") or duty_target.selected<0:
+		duty_editor_status.text="Enter a non-reserved duty identity and choose an available configured target."; return {}
+	var current: Dictionary={}
+	for duty in snapshot.get("duties",[]):
+		if duty.id==id: current=duty
+	if editing_duty.is_empty() and not current.is_empty():
+		duty_editor_status.text="This duty already exists. Choose Edit duty to load its retained configuration."; return {}
+	if not editing_duty.is_empty() and (current.is_empty() or current.generation!=editing_duty.generation):
+		duty_editor_status.text="Duty changed since editing began. Choose Edit duty again before saving."; return {}
+	var target: Dictionary=duty_target.get_item_metadata(duty_target.selected)
+	if duty_inference.button_pressed and (not ConnectionStatus.enabled(installation_snapshot,"inference") or not target.get("allow_inference",false)):
+		duty_editor_status.text="AI advice is unavailable in this installation. Turn it off or wait for policy to become available."; return {}
+	return {"id":id,"agent":target.agent,"target":target.id,"interval_seconds":int(duty_interval.value),"enabled":duty_enabled.button_pressed,"inference":duty_inference.button_pressed,"generation":0 if current.is_empty() else int(current.generation)+1}
+
+func save_field_duty() -> void:
+	if duty_save.disabled or not online or pending or not fixture.is_empty(): return
+	var request:=field_duty_request()
+	if request.is_empty(): return
+	commands.submit("/v4/duties",request,str(request.id),"/v4/snapshot")

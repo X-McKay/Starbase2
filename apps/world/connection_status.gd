@@ -14,7 +14,7 @@ static func enabled(snapshot:Dictionary,key:String) -> bool:
 	return capability(snapshot,key).get("enabled",false)==true
 
 static func reason(snapshot:Dictionary,key:String) -> String:
-	return str(capability(snapshot,key).get("reason","Capability not reported by this Core. Update the backend or use its journal."))
+	return str(capability(snapshot,key).get("reason","Capability not reported by this Core. Check the backend version and connection."))
 
 static func worker_available(snapshot:Dictionary) -> bool:
 	var worker=snapshot.get("worker")
