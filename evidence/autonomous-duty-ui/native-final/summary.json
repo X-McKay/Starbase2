@@ -1,0 +1,8 @@
+{
+  "source_commit": "ce05721 (world source4148d0d)",
+  "qualified_artifact": ".local/reviews/autonomous-duty-ui/20260910-final-05/Starbase2-macOS.zip",
+  "artifact_status": "unsigned local macOS review; not a deployment claim",
+  "native_review": "actual exported physics and pixels; explicit automated input isolation; no manual OS input claim",
+  "controls": "both named duties confirmed paused generation1 then resumed generation2; inference and original intervals preserved",
+  "visual_limitation": "Crew labels overlap behind Command workspace; owned living-world follow-up, no acceptance claim for that presentation."
+}

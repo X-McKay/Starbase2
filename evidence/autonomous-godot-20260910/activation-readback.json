@@ -1,0 +1,153 @@
+{
+  "duties": [
+    {
+      "agent": "reviewer",
+      "enabled": true,
+      "generation": 0,
+      "id": "starbase2-github-autonomous",
+      "inference": true,
+      "interval_seconds": 900,
+      "target": "starbase2-github"
+    },
+    {
+      "agent": "watchkeeper",
+      "enabled": true,
+      "generation": 0,
+      "id": "starbase2-watchkeeper-autonomous",
+      "inference": true,
+      "interval_seconds": 300,
+      "target": "starbase2-watchkeeper"
+    }
+  ],
+  "runs": [
+    {
+      "input": {
+        "agent": "reviewer",
+        "id": "live-reasoning-1d3b40005fbb",
+        "inference": true,
+        "target": "starbase2-github"
+      },
+      "state": "completed",
+      "detail": "No findings within declared checks",
+      "created_at": 1789078464.1864243,
+      "updated_at": 1789078516.9586565,
+      "inference_budget": {
+        "limit": 24,
+        "next_eligible_at": 1789082064.1864243,
+        "reason": "Daily inference slot reserved; failed or uncertain attempts are not refunded",
+        "status": "admitted",
+        "used": 1,
+        "utc_day": 20706
+      },
+      "source": {
+        "kind": "repository",
+        "simulation": false,
+        "repository": "X-McKay/Starbase2",
+        "listed_open_prs": 0,
+        "list_complete": true
+      },
+      "snapshot_digest": "b3eed63c0bce4106bb0a5a7c3ab18d7c85f462f6339626b769101271342e7be1",
+      "finding_count": 0,
+      "coverage": [],
+      "advisory": {
+        "status": "unverified",
+        "calls": 1,
+        "usage": {
+          "details": {},
+          "input_tokens": 575,
+          "output_tokens": 230,
+          "requests": 1
+        },
+        "model": "Qwen3.6-35B-A3B-NVFP4",
+        "elapsed_ms": 51003,
+        "cost_usd": null
+      },
+      "advice_retained": true,
+      "memory_status": "empty",
+      "events": [
+        {
+          "at": 1789078464.1864243,
+          "state": "queued"
+        },
+        {
+          "action": "running",
+          "at": 1789078464.9501584,
+          "state": "running"
+        },
+        {
+          "action": "snapshot",
+          "at": 1789078465.6306865,
+          "state": "running"
+        },
+        {
+          "action": "finish",
+          "at": 1789078516.9586565,
+          "state": "completed"
+        }
+      ]
+    },
+    {
+      "input": {
+        "agent": "watchkeeper",
+        "id": "live-reasoning-ffbb2eb14eb6",
+        "inference": true,
+        "target": "starbase2-watchkeeper"
+      },
+      "state": "completed",
+      "detail": "No findings within declared checks",
+      "created_at": 1789078464.1466992,
+      "updated_at": 1789078511.2021477,
+      "inference_budget": {
+        "limit": 24,
+        "next_eligible_at": 1789082064.1466992,
+        "reason": "Daily inference slot reserved; failed or uncertain attempts are not refunded",
+        "status": "admitted",
+        "used": 1,
+        "utc_day": 20706
+      },
+      "source": {
+        "kind": "cluster",
+        "simulation": false
+      },
+      "snapshot_digest": "2caabaf376097309e591d816f0eef4b9ecdcd3e3a6bbd87dc3d590520e82644d",
+      "finding_count": 0,
+      "coverage": [],
+      "advisory": {
+        "status": "unverified",
+        "calls": 1,
+        "usage": {
+          "details": {},
+          "input_tokens": 797,
+          "output_tokens": 201,
+          "requests": 1
+        },
+        "model": "Qwen3.6-35B-A3B-NVFP4",
+        "elapsed_ms": 45791,
+        "cost_usd": null
+      },
+      "advice_retained": true,
+      "memory_status": "empty",
+      "events": [
+        {
+          "at": 1789078464.1466992,
+          "state": "queued"
+        },
+        {
+          "action": "running",
+          "at": 1789078465.003042,
+          "state": "running"
+        },
+        {
+          "action": "snapshot",
+          "at": 1789078465.0544834,
+          "state": "running"
+        },
+        {
+          "action": "finish",
+          "at": 1789078511.2021477,
+          "state": "completed"
+        }
+      ]
+    }
+  ]
+}

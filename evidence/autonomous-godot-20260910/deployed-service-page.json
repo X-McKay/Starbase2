@@ -1,0 +1,16 @@
+{
+  "/": {
+    "status": 200,
+    "godot_service_page": true,
+    "no_dashboard_controls": true
+  },
+  "/console.js": {
+    "status": 404
+  },
+  "/console.css": {
+    "status": 404
+  },
+  "/field.js": {
+    "status": 404
+  }
+}

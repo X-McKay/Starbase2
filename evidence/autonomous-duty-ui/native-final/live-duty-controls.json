@@ -1,0 +1,110 @@
+{
+  "events": [
+    {
+      "id": "starbase2-watchkeeper-autonomous",
+      "phase": "submitted via native button",
+      "requested": {
+        "agent": "watchkeeper",
+        "enabled": false,
+        "generation": 1,
+        "id": "starbase2-watchkeeper-autonomous",
+        "inference": true,
+        "interval_seconds": 300,
+        "target": "starbase2-watchkeeper"
+      }
+    },
+    {
+      "id": "starbase2-watchkeeper-autonomous",
+      "phase": "confirmed",
+      "retained": {
+        "agent": "watchkeeper",
+        "enabled": false,
+        "generation": 1.0,
+        "id": "starbase2-watchkeeper-autonomous",
+        "inference": true,
+        "interval_seconds": 300.0,
+        "target": "starbase2-watchkeeper"
+      }
+    },
+    {
+      "id": "starbase2-watchkeeper-autonomous",
+      "phase": "submitted via native button",
+      "requested": {
+        "agent": "watchkeeper",
+        "enabled": true,
+        "generation": 2,
+        "id": "starbase2-watchkeeper-autonomous",
+        "inference": true,
+        "interval_seconds": 300,
+        "target": "starbase2-watchkeeper"
+      }
+    },
+    {
+      "id": "starbase2-watchkeeper-autonomous",
+      "phase": "confirmed",
+      "retained": {
+        "agent": "watchkeeper",
+        "enabled": true,
+        "generation": 2.0,
+        "id": "starbase2-watchkeeper-autonomous",
+        "inference": true,
+        "interval_seconds": 300.0,
+        "target": "starbase2-watchkeeper"
+      }
+    },
+    {
+      "id": "starbase2-github-autonomous",
+      "phase": "submitted via native button",
+      "requested": {
+        "agent": "reviewer",
+        "enabled": false,
+        "generation": 1,
+        "id": "starbase2-github-autonomous",
+        "inference": true,
+        "interval_seconds": 900,
+        "target": "starbase2-github"
+      }
+    },
+    {
+      "id": "starbase2-github-autonomous",
+      "phase": "confirmed",
+      "retained": {
+        "agent": "reviewer",
+        "enabled": false,
+        "generation": 1.0,
+        "id": "starbase2-github-autonomous",
+        "inference": true,
+        "interval_seconds": 900.0,
+        "target": "starbase2-github"
+      }
+    },
+    {
+      "id": "starbase2-github-autonomous",
+      "phase": "submitted via native button",
+      "requested": {
+        "agent": "reviewer",
+        "enabled": true,
+        "generation": 2,
+        "id": "starbase2-github-autonomous",
+        "inference": true,
+        "interval_seconds": 900,
+        "target": "starbase2-github"
+      }
+    },
+    {
+      "id": "starbase2-github-autonomous",
+      "phase": "confirmed",
+      "retained": {
+        "agent": "reviewer",
+        "enabled": true,
+        "generation": 2.0,
+        "id": "starbase2-github-autonomous",
+        "inference": true,
+        "interval_seconds": 900.0,
+        "target": "starbase2-github"
+      }
+    }
+  ],
+  "failure": "",
+  "scope": "explicit native Pause/Resume for two named duties; no retry on uncertainty"
+}

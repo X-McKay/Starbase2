@@ -1,0 +1,9 @@
+{
+  "image": "sha256:3eb6b435720a61d3d6fdf3bdbfd687a4bf53c055f4793e2d364ab730c13f10c2",
+  "root": 200,
+  "godot_service_page": true,
+  "scripts_and_forms_absent": true,
+  "/console.js": 404,
+  "/console.css": 404,
+  "/field.js": 404
+}
