@@ -251,7 +251,11 @@ async def capture(target: dict) -> dict:
     async with httpx.AsyncClient(
         base_url=origin,
         headers=headers(target)
-        | {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2026-03-10"},
+        | (
+            {"Accept": "application/json"}
+            if target["kind"] == "kubernetes"
+            else {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2026-03-10"}
+        ),
         verify=verify,
         timeout=15,
         follow_redirects=False,

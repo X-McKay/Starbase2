@@ -65,7 +65,8 @@ Required Kubernetes RBAC verbs are `get,list` for core `pods` and apps
 `deployments` in **each named namespace**. A fine-grained GitHub identity needs
 contents and pull-request read permission for the selected repository. Live
 provider configuration is operator-owned, not model-generated. Both adapters
-reject redirects, preserve TLS verification and cap response size and duration.
+reject redirects, preserve TLS verification and cap response size and duration. Kubernetes requests use `Accept: application/json`; GitHub vendor
+media types and API-version headers are sent only to GitHub.
 PR head/base drift fails capture; unsupported or truncated coverage is not a
 clean-review result. Namespaced list pagination is bounded to five pages per
 resource, and PR capture to 300 metadata entries / 100 Python files / 1 MB source.

@@ -2,6 +2,7 @@ import asyncio
 import base64
 import hashlib
 import json
+import ssl
 
 import httpx
 import pytest
@@ -127,6 +128,63 @@ def test_cluster_never_fetches_secrets_logs_or_specs():
             return await cluster({"namespaces": ["test"]}, client)
 
     assert asyncio.run(run())["resources"] == []
+
+
+@pytest.mark.parametrize("kind", ["kubernetes", "github", "github_repository"])
+def test_capture_uses_provider_specific_accept_headers(kind, monkeypatch, tmp_path):
+    from starbase_runtime import field_sources
+
+    token = tmp_path / "token"
+    token.write_text("synthetic-observer-token")
+    target = {"id": "scoped", "kind": kind, "token_file": str(token)}
+    if kind == "kubernetes":
+        target.update(agent="watchkeeper", api="https://cluster", namespaces=["test"])
+    else:
+        target.update(agent="reviewer", repository="owner/repo")
+        if kind == "github":
+            target["pull"] = 1
+    requests = []
+
+    def handler(request):
+        requests.append(request)
+        assert request.method == "GET"
+        assert request.headers["authorization"] == "Bearer synthetic-observer-token"
+        if kind == "kubernetes":
+            # Kubernetes rejects GitHub's vendor media type with HTTP 406.
+            if request.headers["accept"] != "application/json":
+                return httpx.Response(406)
+            assert "x-github-api-version" not in request.headers
+            assert request.url.host == "cluster"
+            assert request.url.path in {
+                "/api/v1/namespaces/test/pods",
+                "/apis/apps/v1/namespaces/test/deployments",
+            }
+            return httpx.Response(200, json={"items": [], "metadata": {}})
+        assert request.url.host == "api.github.com"
+        assert request.headers["accept"] == "application/vnd.github+json"
+        assert request.headers["x-github-api-version"] == "2026-03-10"
+        if request.url.path.endswith(("/files", "/pulls")):
+            return httpx.Response(200, json=[])
+        return httpx.Response(
+            200,
+            json={"head": {"sha": "a" * 40}, "base": {"sha": "b" * 40}, "changed_files": 0},
+        )
+
+    client = httpx.AsyncClient
+
+    def controlled_client(**kwargs):
+        assert isinstance(kwargs["verify"], ssl.SSLContext)
+        assert kwargs["verify"].verify_mode == ssl.CERT_REQUIRED
+        assert kwargs["verify"].check_hostname
+        assert kwargs["follow_redirects"] is False
+        assert kwargs["trust_env"] is False
+        assert kwargs["timeout"] == 15
+        return client(**kwargs, transport=httpx.MockTransport(handler))
+
+    monkeypatch.setattr(field_sources.httpx, "AsyncClient", controlled_client)
+    result = asyncio.run(field_sources.capture(target))
+    assert result["simulation"] is False
+    assert len(requests) == {"kubernetes": 2, "github": 3, "github_repository": 1}[kind]
 
 
 def memory_record():
