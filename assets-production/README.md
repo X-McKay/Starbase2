@@ -4,6 +4,10 @@ Editable production files live here. Godot loads finished resources from
 [world assets](../apps/world/assets/README.md). Both use the categories and asset
 IDs defined in the [content taxonomy](../docs/content-organization.md).
 
+The active [Meshy world-expansion allowance](batches/meshy-world-expansion/README.md)
+is 1,500 credits, authorized on 2026-09-10. It starts at zero spend and is separate
+from the historical batches below; no generation was dispatched to record it.
+
 | Category / asset | Purpose | Rebuild |
 |---|---|---|
 | `characters/cybercat-vanguard` | Preserved original player, rig and four clips | `mise exec -- just world-vanguard-build` |
