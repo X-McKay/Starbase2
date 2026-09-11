@@ -1,0 +1,55 @@
+{
+  "source": "Exact selected runtime GLBs listed in baked-contacts.json; no provider calls.",
+  "files": [
+    {
+      "path": "assets-production/characters/shift-social/scripts/build_social.py",
+      "bytes": 10813,
+      "sha256": "e6cdb6028dfd66353befd5263a13ee000953bda4c9749bdb1672a76f3b3e4e9c"
+    },
+    {
+      "path": "assets-production/characters/shift-social/scripts/audit_social.py",
+      "bytes": 2649,
+      "sha256": "e0c1498214e6d4e2575cfb2584e5c2293e8b1048340b96f5240b9bdc378ef234"
+    },
+    {
+      "path": "assets-production/characters/shift-social/blender/sentinel-social.blend",
+      "bytes": 7354146,
+      "sha256": "47e6a9c88a5e88d497f6a1bc0a28a7caab8ac06212baa781e86ab29ec19d4e52"
+    },
+    {
+      "path": "assets-production/characters/shift-social/blender/engineer-social.blend",
+      "bytes": 10597801,
+      "sha256": "bf195b38cb40a8c9d4c29fc95ea664e543f9999c4826213dddfbb621033fd4d1"
+    },
+    {
+      "path": "assets-production/characters/shift-social/blender/vanguard-social.blend",
+      "bytes": 70844794,
+      "sha256": "6531b58ae27c5da78d224ad7ee8bef9abaf1c3245c493af4a59b935f73747b6b"
+    },
+    {
+      "path": "apps/world/assets/characters/shift-social/sentinel-social.glb",
+      "bytes": 69132,
+      "sha256": "5371a53087c8ab0943070ce1cd8500391c59b669b5bce18e4ba6dfa274c069b9"
+    },
+    {
+      "path": "apps/world/assets/characters/shift-social/engineer-social.glb",
+      "bytes": 71872,
+      "sha256": "3e14d88b5c74a29eaa768c560c653618d1ed2e528ff65fceb028295070bb3c99"
+    },
+    {
+      "path": "apps/world/assets/characters/shift-social/vanguard-social.glb",
+      "bytes": 75076,
+      "sha256": "aee88dc9e379936ced622a724b2934852709aab685e6bbafe68da4e208da8a11"
+    },
+    {
+      "path": "apps/world/characters/model_visual.gd",
+      "bytes": 6198,
+      "sha256": "db09706f055f94143d6f034274a386ea57b5e7b0337a34f96fa63d012c9777d7"
+    },
+    {
+      "path": "apps/world/test_social_animation.gd",
+      "bytes": 5173,
+      "sha256": "07ee111c71145db6d3941ae657f89e33869db203453e12d7776d5e20a2e93863"
+    }
+  ]
+}

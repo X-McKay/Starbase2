@@ -1,0 +1,23 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M5
+
+NATIVE_JOURNEY_RESULT {"actual":"(-5.99081, 0.0, -25.41727)","capture_input_isolated":true,"collisions":[],"context":"Commons:<Node3D#48100279877>","distance":0.0678969547152519,"manual_input_seen":false,"panel_open":false,"remaining_route":"[]","start":"(-3.0, 0.0, -14.9)","target":"(-6.0, 0.0, -25.35)"}
+NATIVE_JOURNEY_RESULT {"actual":"(-3.10894, 0.0, -23.50002)","capture_input_isolated":true,"collisions":[],"context":"Commons:<Node3D#48100279877>","distance":0.119875185191631,"manual_input_seen":false,"panel_open":false,"remaining_route":"[]","start":"(-5.99081, 0.0, -25.41727)","target":"(-3.0, 0.0, -23.45)"}
+NATIVE_JOURNEY_RESULT {"actual":"(-3.0, 0.0, -15.10955)","capture_input_isolated":true,"collisions":[],"context":"<null>","distance":0.209552764892578,"manual_input_seen":false,"panel_open":false,"remaining_route":"[]","start":"(-3.10894, 0.0, -23.50002)","target":"(-3.0, 0.0, -14.9)"}
+NATIVE_EXPORTED_JOURNEY review
+NATIVE_JOURNEY_RESULT {"actual":"(1.5, 0.0, -2.899998)","capture_input_isolated":true,"collisions":[],"context":"Gym:<Node3D#48117057094>","distance":0.150002479553223,"manual_input_seen":false,"panel_open":false,"remaining_route":"[]","start":"(1.5, 0.0, 9.1)","target":"(1.5, 0.0, -3.05)"}
+NATIVE_JOURNEY_RESULT {"actual":"(-1.826165, 0.0, 0.482006)","capture_input_isolated":true,"collisions":[],"context":"Gym:<Node3D#48117057094>","distance":0.0804734826087952,"manual_input_seen":false,"panel_open":false,"remaining_route":"[]","start":"(1.5, 0.0, -2.899998)","target":"(-1.9, 0.0, 0.45)"}
+NATIVE_JOURNEY_RESULT {"actual":"(1.483122, 0.0, 8.829414)","capture_input_isolated":true,"collisions":[],"context":"<null>","distance":0.271111845970154,"manual_input_seen":false,"panel_open":false,"remaining_route":"[]","start":"(-1.826165, 0.0, 0.482006)","target":"(1.5, 0.0, 9.1)"}
+NATIVE_EXPORTED_JOURNEY gym
+NATIVE_JOURNEY_RESULT {"actual":"(34.02523, 0.0, -19.861)","capture_input_isolated":true,"collisions":[],"context":"Habitat:<Node3D#48133834311>","distance":0.0275239236652851,"manual_input_seen":false,"panel_open":false,"remaining_route":"[]","start":"(36.0, 0.0, -8.9)","target":"(34.0, 0.0, -19.85)"}
+NATIVE_JOURNEY_RESULT {"actual":"(35.4808, 0.0, -17.62697)","capture_input_isolated":true,"collisions":[],"context":"Habitat:<Node3D#48133834311>","distance":0.182258605957031,"manual_input_seen":false,"panel_open":false,"remaining_route":"[]","start":"(34.02523, 0.0, -19.861)","target":"(35.3, 0.0, -17.65)"}
+NATIVE_JOURNEY_RESULT {"actual":"(35.99091, 0.0, -9.082825)","capture_input_isolated":true,"collisions":[],"context":"<null>","distance":0.183050945401192,"manual_input_seen":false,"panel_open":false,"remaining_route":"[]","start":"(35.4808, 0.0, -17.62697)","target":"(36.0, 0.0, -8.9)"}
+NATIVE_EXPORTED_JOURNEY habitat
+NATIVE_JOURNEY_RESULT {"actual":"(30.0, 0.0, 25.60004)","capture_input_isolated":true,"collisions":[],"context":"Greenhouse:<Node3D#48150611528>","distance":0.0500373840332031,"manual_input_seen":false,"panel_open":false,"remaining_route":"[]","start":"(30.0, 0.0, 36.1)","target":"(30.0, 0.0, 25.55)"}
+NATIVE_JOURNEY_RESULT {"actual":"(30.0, 0.0, 22.10002)","capture_input_isolated":true,"collisions":[],"context":"Greenhouse:<Node3D#48150611528>","distance":0.150022506713867,"manual_input_seen":false,"panel_open":false,"remaining_route":"[]","start":"(30.0, 0.0, 25.60004)","target":"(30.0, 0.0, 21.95)"}
+NATIVE_JOURNEY_RESULT {"actual":"(30.0, 0.0, 35.9)","capture_input_isolated":true,"collisions":[],"context":"<null>","distance":0.199996948242188,"manual_input_seen":false,"panel_open":false,"remaining_route":"[]","start":"(30.0, 0.0, 22.10002)","target":"(30.0, 0.0, 36.1)"}
+NATIVE_EXPORTED_JOURNEY greenhouse
+NATIVE_JOURNEY_RESULT {"actual":"(-4.0, 0.0, 23.1119)","capture_input_isolated":true,"collisions":[],"context":"<null>","distance":0.111896514892578,"manual_input_seen":false,"panel_open":false,"remaining_route":"[]","start":"(30.0, 0.0, 35.9)","target":"(-4.0, 0.0, 23.0)"}
+NATIVE_JOURNEY_RESULT {"actual":"(53.98973, 0.0, -26.91349)","capture_input_isolated":true,"collisions":[],"context":"<null>","distance":0.0871208682656288,"manual_input_seen":false,"panel_open":false,"remaining_route":"[]","start":"(-4.0, 0.0, 23.1119)","target":"(54.0, 0.0, -27.0)"}
+NATIVE_JOURNEY_RESULT {"actual":"(-3.0, 0.0, -23.40001)","capture_input_isolated":true,"collisions":[],"context":"Commons:<Node3D#48100279877>","distance":0.0499897003173828,"manual_input_seen":false,"panel_open":false,"remaining_route":"[]","start":"(-3.0, 0.0, -20.3)","target":"(-3.0, 0.0, -23.45)"}
+EXPORTED_STRUCTURES_CAPTURE_PASSED

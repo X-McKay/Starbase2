@@ -1,0 +1,65 @@
+[
+  {
+    "identity": "sentinel",
+    "clip": "sit_down",
+    "frames": 37,
+    "protected_vertices": 4102,
+    "maximum_head_local_change_m": 5.018008991703966e-05
+  },
+  {
+    "identity": "sentinel",
+    "clip": "seated",
+    "frames": 91,
+    "protected_vertices": 4102,
+    "maximum_head_local_change_m": 5.018008991703966e-05
+  },
+  {
+    "identity": "sentinel",
+    "clip": "stand_up",
+    "frames": 31,
+    "protected_vertices": 4102,
+    "maximum_head_local_change_m": 5.018008991703966e-05
+  },
+  {
+    "identity": "engineer",
+    "clip": "sit_down",
+    "frames": 37,
+    "protected_vertices": 1741,
+    "maximum_head_local_change_m": 5.609680622044656e-07
+  },
+  {
+    "identity": "engineer",
+    "clip": "seated",
+    "frames": 91,
+    "protected_vertices": 1741,
+    "maximum_head_local_change_m": 5.039212290397058e-07
+  },
+  {
+    "identity": "engineer",
+    "clip": "stand_up",
+    "frames": 31,
+    "protected_vertices": 1741,
+    "maximum_head_local_change_m": 6.068584201569612e-07
+  },
+  {
+    "identity": "vanguard",
+    "clip": "sit_down",
+    "frames": 37,
+    "protected_vertices": 13631,
+    "maximum_head_local_change_m": 1.412171096115714e-05
+  },
+  {
+    "identity": "vanguard",
+    "clip": "seated",
+    "frames": 91,
+    "protected_vertices": 13631,
+    "maximum_head_local_change_m": 1.412171096115714e-05
+  },
+  {
+    "identity": "vanguard",
+    "clip": "stand_up",
+    "frames": 31,
+    "protected_vertices": 13631,
+    "maximum_head_local_change_m": 1.412171096115714e-05
+  }
+]

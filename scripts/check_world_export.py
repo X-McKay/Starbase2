@@ -127,6 +127,100 @@ def native_capture(
         raise RuntimeError(f"Native capture failed; inspect {stdout} and {stderr}")
 
 
+def verify_shift_report(directory: Path, mode: str) -> dict:
+    report_path = directory / f"{mode}-report.json"
+    record = json.loads(report_path.read_text())
+    if (
+        record.get("mode") != mode
+        or record.get("status") != "passed"
+        or record.get("fixture") is not True
+        or record.get("initial_positions_staged") is not True
+        or record.get("physics_after_staging") is not True
+        or record.get("failures") != []
+        or not 0 <= record.get("wall_ms", -1) < 180000
+    ):
+        raise RuntimeError(f"Shift Change {mode} report did not qualify")
+    expected = [f"{mode}-occupied-habitat.png"]
+    expected += [f"{mode}-seated-{i:02d}.png" for i in range(4)]
+    expected += [f"{mode}-stand-{i:02d}.png" for i in range(5)]
+    expected += (
+        ["domestic-fast-report.png"]
+        if mode == "domestic"
+        else [
+            f"journey-{name}.png"
+            for name in ("console-arrival", "report-ready", "home", "offline", "reconnected")
+        ]
+    )
+    if set(record.get("captures", [])) != set(expected):
+        raise RuntimeError(f"Shift Change {mode} capture sequence incomplete")
+    for name in expected:
+        if not (directory / name).read_bytes().startswith(b"\x89PNG\r\n\x1a\n"):
+            raise RuntimeError(f"Invalid Shift Change capture: {name}")
+    samples = {s["label"]: s for s in record.get("samples", [])}
+    if samples.get("seated", {}).get("clip") != "social/seated" or not any(
+        s.get("clip") == "social/stand_up" for s in samples.values()
+    ):
+        raise RuntimeError("Shift Change social transition samples absent")
+    if mode == "journey":
+        if (
+            samples.get("working", {}).get("pose") != "console"
+            or samples.get("returned-home", {}).get("clip") != "social/seated"
+            or samples.get("report-ready", {}).get("evidence_ready") is not True
+            or samples.get("offline", {}).get("goal") != "hold"
+            or samples.get("offline", {}).get("pose") != ""
+        ):
+            raise RuntimeError("Shift Change journey state samples incomplete")
+    return {
+        "report_sha256": digest(report_path),
+        "captures": {name: digest(directory / name) for name in expected},
+        "initial_positions_staged": True,
+        "physics_after_staging": True,
+        "visual_contact_acceptance": (
+            "requires inspection of native captures; clip names are not pose proof"
+        ),
+    }
+
+
+def qualify_shift_change(
+    executable: Path, fixture: Path, board_fixture: Path, output: Path, cwd: Path
+) -> dict:
+    fixture_hashes = (digest(fixture), digest(board_fixture))
+    run(
+        [
+            str(executable),
+            "--headless",
+            "--",
+            "--shift-change-capture=" + str(output / "shift-refused"),
+        ],
+        output / "shift-fixture-refusal.log",
+        cwd,
+        expected_refusal="Package verification requires an offline fixture",
+    )
+    if (output / "shift-refused").exists():
+        raise RuntimeError("Refused Shift Change run created output before its fixture fence")
+    records = {}
+    for mode in ("domestic", "journey"):
+        directory = output / f"shift-{mode}"
+        native_capture(
+            executable,
+            [
+                "--fixture=" + str(fixture),
+                "--board-fixture=" + str(board_fixture),
+                "--shift-change-capture=" + str(directory),
+                "--shift-change-mode=" + mode,
+            ],
+            output,
+            "shift-" + mode,
+            cwd,
+        )
+        if f"SHIFT_CHANGE_CAPTURE_PASSED {mode}" not in (output / f"shift-{mode}.log").read_text():
+            raise RuntimeError(f"Shift Change {mode} did not finish")
+        records[mode] = verify_shift_report(directory, mode)
+    if fixture_hashes != (digest(fixture), digest(board_fixture)):
+        raise RuntimeError("Shift Change fixtures changed during qualification")
+    return {"board_fixture_sha256": fixture_hashes[1], "modes": records}
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -267,6 +361,13 @@ def main() -> None:
                 raise RuntimeError(f"Missing living-colony review capture: {name}")
         if not (output / "review-motion.png").exists():
             raise RuntimeError("Missing native physical motion strip")
+        shift_record = qualify_shift_change(
+            executable,
+            fixture,
+            ROOT / "evidence/command-district/board-fixture.json",
+            output,
+            isolated,
+        )
         live_record = None
         if args.live_api:
             native_capture(
@@ -298,6 +399,7 @@ def main() -> None:
                 if not (output / (name + ".png")).exists():
                     raise RuntimeError("Missing live native capture: " + name)
         report = {
+            "shift_change": shift_record,
             "live_backend": live_record,
             "native_input_mode": (
                 "one normal Launch Services launch, no repeated activation; "

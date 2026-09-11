@@ -11,3 +11,7 @@ legacy_row = 1
 source = "assets/characters/frontier-crew/crew-adventure.png; approved static reference"
 model_scene = ExtResource("3")
 model_tint = Color(0.6,0.84,1,1)
+
+model_scale = 1.2
+model_floor_offset = -0.1
+label_height = 2.0

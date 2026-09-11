@@ -7,7 +7,7 @@ func check(value:bool,message:String) -> void:
 	if not value: failures.append(message); push_error(message)
 func shot(tree:SceneTree,name:String) -> void:
 	for i in range(12): await tree.process_frame
-	await RenderingServer.frame_post_draw
+	RenderingServer.force_draw(false)
 	check(tree.root.get_texture().get_image().save_png(output.path_join(name+".png"))==OK,"Cannot save "+name)
 	captures.append(name)
 	print("LIVE_CAPTURE ",name)

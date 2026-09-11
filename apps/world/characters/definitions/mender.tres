@@ -12,6 +12,6 @@ source = "assets/characters/frontier-crew/crew-adventure.png; approved static re
 model_scene = ExtResource("3")
 model_tint = Color(1,1,1,1)
 model_scale = 1.0
-model_floor_offset = 0.15
+model_floor_offset = 0.0
 label_height = 2.55
 model_stride = 1.25

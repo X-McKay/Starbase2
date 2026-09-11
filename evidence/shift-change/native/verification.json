@@ -1,0 +1,44 @@
+{
+  "domestic": {
+    "report_sha256": "3589c053c0e15da43a1ac8faaf5526b51fa618e6679bf44bcb3f7a6b82a83330",
+    "captures": {
+      "domestic-occupied-habitat.png": "0eb5888ae7e6259e18c4dbe0a5656dcea76f40d0f953707c9853f04cd2ef10ff",
+      "domestic-seated-00.png": "7aabb483837d1505ccc6b46e5ae3e63059a25b9eaa4236ee437324b663bcf0b7",
+      "domestic-seated-01.png": "48887e59823e01de783b854eed465a9d05d4a27570183596b10b9d4606f853aa",
+      "domestic-seated-02.png": "875c7f405ca3c42e38e2b451f2d4237c21a2e42f0fcfb0c2759ca900559a2b5b",
+      "domestic-seated-03.png": "b18c0df76837b60fb053e45a76725e38298270a2eccb86b1ad359a48dc695b18",
+      "domestic-stand-00.png": "fd52d06915dcd486e543eee42d4dd2a4b5c1215cd75f2e6ef9c33bab7365ac08",
+      "domestic-stand-01.png": "0bf1ef60b9456740ec17d470c02055d3226a10da15b4764e2edfce9d3650653d",
+      "domestic-stand-02.png": "869cbeb6facfb1fc78f624d633682fde7e979fef99bbb7515f41fc48e0cb25cf",
+      "domestic-stand-03.png": "4e89f3fbdda9ec1cca26534722c36bbe48cf1f07b3bef92926afa62e65c5f544",
+      "domestic-stand-04.png": "f7e5582fd3d397fd2b05a84c5bb483bfcddc82bdc28357dec2439d648ff0e2bd",
+      "domestic-fast-report.png": "f7e5582fd3d397fd2b05a84c5bb483bfcddc82bdc28357dec2439d648ff0e2bd"
+    },
+    "initial_positions_staged": true,
+    "physics_after_staging": true,
+    "visual_contact_acceptance": "requires inspection of native captures; clip names are not pose proof"
+  },
+  "journey": {
+    "report_sha256": "76b91419861cf42b5dcdf159c0c4e782813e00f60f27e989aa7d2fc1d5522d06",
+    "captures": {
+      "journey-occupied-habitat.png": "2471706eea7186257948e29ad970a0938e1690470e72c3ea6ffc2cb82eee38a9",
+      "journey-seated-00.png": "4ec122656cade20d30269c91e1a3c7350d35d5f7160263ddce11db17e47fa0b9",
+      "journey-seated-01.png": "20dc44f020e0261e4a95a5a7414b9131faead33912c6a7e4f6bc62f778a39607",
+      "journey-seated-02.png": "7e361f86035a7a20f9cba888066d6e3a4261f1b3225305d957656384dc14bfc4",
+      "journey-seated-03.png": "397cae84b22d0d0d15296d679a5532b9f8d8b1c96d825e7137bf8eaaadccbfae",
+      "journey-stand-00.png": "f346fd33df78511b5ecbed652ddf6dfa4ee6b2b5b78b467e9c0b3bf026303bf9",
+      "journey-stand-01.png": "d80df5fce4a739a92511daa86d09e7a53d4742ce39e6ec5264ccfc10357c36c4",
+      "journey-stand-02.png": "6d9610222c7e8f51673e978eaafea06b76ba282720b05ef200fa7aff669a2548",
+      "journey-stand-03.png": "cc1e3c9270abf0823728f773324049c4c0863d8bae0efc2749c778f06a01c196",
+      "journey-stand-04.png": "ba172e9de0b67d5913cfffdc15ffb11517b55a2e3a469a934f58e9737ff254b7",
+      "journey-console-arrival.png": "8752cfa6f97b894ada1e2009a55b3572c67a595904d2c73520ba5f284f1f4e48",
+      "journey-report-ready.png": "8752cfa6f97b894ada1e2009a55b3572c67a595904d2c73520ba5f284f1f4e48",
+      "journey-home.png": "be4a1787cf6bcdfd0c6089e74b564812062faa0bea5da9f7a3e2a47ebdac118b",
+      "journey-offline.png": "bd9c9b2c039f9a7940e143b370e6954730f9c755c7e942e1bfa709d479dacbe7",
+      "journey-reconnected.png": "bd9c9b2c039f9a7940e143b370e6954730f9c755c7e942e1bfa709d479dacbe7"
+    },
+    "initial_positions_staged": true,
+    "physics_after_staging": true,
+    "visual_contact_acceptance": "requires inspection of native captures; clip names are not pose proof"
+  }
+}

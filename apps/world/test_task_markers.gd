@@ -41,7 +41,7 @@ func run() -> void:
 	check(burst.task_markers.size()==3 and burst.marker_overflow==5 and burst.active_count==7,"Concurrent records are bounded without inventing crew")
 	check(burst.task_markers[0].run_id==burst.run_id and burst.task_markers[1].status=="evidence","Assignment stays first and recent evidence remains visible during active work")
 	actor.project_assignment(burst)
-	check(actor.label.text.contains("+5 retained · inspect crew"),"Hidden records remain discoverable")
+	check(actor.label.text.count("\n")==1 and actor.label.text.contains("7 tasks") and actor.label.get_meta("retained_count")==8,"One compact cue retains concurrency without stacked run labels")
 	var offline:Dictionary=controller.update([],"repair",true,false,23)
 	check(offline.task_markers.all(func(m):return m.status=="unknown"),"Disconnected evidence and activity cannot look current")
 	var reconnect:Dictionary=controller.update([record("new","failed")],"repair",false,false,24)

@@ -1,0 +1,130 @@
+{
+  "captures": [
+    "domestic-occupied-habitat.png",
+    "domestic-seated-00.png",
+    "domestic-seated-01.png",
+    "domestic-seated-02.png",
+    "domestic-seated-03.png",
+    "domestic-stand-00.png",
+    "domestic-stand-01.png",
+    "domestic-stand-02.png",
+    "domestic-stand-03.png",
+    "domestic-stand-04.png",
+    "domestic-fast-report.png"
+  ],
+  "draw_calls": 1606.0,
+  "engine": {
+    "build": "official",
+    "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+    "hex": 263938,
+    "major": 4,
+    "minor": 7,
+    "patch": 2,
+    "status": "stable",
+    "string": "4.7.2-stable (official)",
+    "timestamp": 0
+  },
+  "failures": [],
+  "fixture": true,
+  "frame_samples": 140,
+  "initial_positions_staged": true,
+  "median_frame_ms": 17.286,
+  "mode": "domestic",
+  "p95_frame_ms": 255.032,
+  "physics_after_staging": true,
+  "samples": [
+    {
+      "backend_state": "unknown",
+      "clip": "social/seated",
+      "evidence_ready": false,
+      "goal": "home",
+      "label": "seated",
+      "pose": "sit",
+      "position": [
+        37.5659370422363,
+        0.0,
+        -17.0879154205322
+      ],
+      "route_blocked": false,
+      "wall_ms": 5289
+    },
+    {
+      "backend_state": "running",
+      "clip": "social/stand_up",
+      "evidence_ready": false,
+      "goal": "workstation",
+      "label": "stand-0",
+      "pose": "stand",
+      "position": [
+        37.5659370422363,
+        0.0,
+        -17.0879154205322
+      ],
+      "route_blocked": false,
+      "wall_ms": 6337
+    },
+    {
+      "backend_state": "running",
+      "clip": "social/stand_up",
+      "evidence_ready": false,
+      "goal": "workstation",
+      "label": "stand-1",
+      "pose": "stand",
+      "position": [
+        37.5659370422363,
+        0.0,
+        -17.0879154205322
+      ],
+      "route_blocked": false,
+      "wall_ms": 6597
+    },
+    {
+      "backend_state": "running",
+      "clip": "social/stand_up",
+      "evidence_ready": false,
+      "goal": "workstation",
+      "label": "stand-2",
+      "pose": "stand",
+      "position": [
+        37.5659370422363,
+        0.0,
+        -17.0879154205322
+      ],
+      "route_blocked": false,
+      "wall_ms": 6857
+    },
+    {
+      "backend_state": "running",
+      "clip": "social/stand_up",
+      "evidence_ready": false,
+      "goal": "workstation",
+      "label": "stand-3",
+      "pose": "stand",
+      "position": [
+        37.5659370422363,
+        0.0,
+        -17.0879154205322
+      ],
+      "route_blocked": false,
+      "wall_ms": 7119
+    },
+    {
+      "backend_state": "running",
+      "clip": "social/stand_up",
+      "evidence_ready": false,
+      "goal": "workstation",
+      "label": "stand-4",
+      "pose": "stand",
+      "position": [
+        37.5659370422363,
+        0.0,
+        -17.0879154205322
+      ],
+      "route_blocked": false,
+      "wall_ms": 7382
+    }
+  ],
+  "status": "passed",
+  "viewport": "(1440, 900)",
+  "wall_ms": 7869
+}

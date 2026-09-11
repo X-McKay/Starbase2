@@ -1,0 +1,194 @@
+{
+  "captures": [
+    "journey-occupied-habitat.png",
+    "journey-seated-00.png",
+    "journey-seated-01.png",
+    "journey-seated-02.png",
+    "journey-seated-03.png",
+    "journey-stand-00.png",
+    "journey-stand-01.png",
+    "journey-stand-02.png",
+    "journey-stand-03.png",
+    "journey-stand-04.png",
+    "journey-console-arrival.png",
+    "journey-report-ready.png",
+    "journey-home.png",
+    "journey-offline.png",
+    "journey-reconnected.png"
+  ],
+  "draw_calls": 1591.0,
+  "engine": {
+    "build": "official",
+    "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+    "hex": 263938,
+    "major": 4,
+    "minor": 7,
+    "patch": 2,
+    "status": "stable",
+    "string": "4.7.2-stable (official)",
+    "timestamp": 0
+  },
+  "failures": [],
+  "fixture": true,
+  "frame_samples": 4943,
+  "initial_positions_staged": true,
+  "median_frame_ms": 16.772,
+  "mode": "journey",
+  "p95_frame_ms": 20.436,
+  "physics_after_staging": true,
+  "samples": [
+    {
+      "backend_state": "unknown",
+      "clip": "social/seated",
+      "evidence_ready": false,
+      "goal": "home",
+      "label": "seated",
+      "pose": "sit",
+      "position": [
+        37.5659370422363,
+        0.0,
+        -17.0879154205322
+      ],
+      "route_blocked": false,
+      "wall_ms": 5094
+    },
+    {
+      "backend_state": "running",
+      "clip": "social/stand_up",
+      "evidence_ready": false,
+      "goal": "workstation",
+      "label": "stand-0",
+      "pose": "stand",
+      "position": [
+        37.5659370422363,
+        0.0,
+        -17.0879154205322
+      ],
+      "route_blocked": false,
+      "wall_ms": 6154
+    },
+    {
+      "backend_state": "running",
+      "clip": "social/stand_up",
+      "evidence_ready": false,
+      "goal": "workstation",
+      "label": "stand-1",
+      "pose": "stand",
+      "position": [
+        37.5659370422363,
+        0.0,
+        -17.0879154205322
+      ],
+      "route_blocked": false,
+      "wall_ms": 6416
+    },
+    {
+      "backend_state": "running",
+      "clip": "social/stand_up",
+      "evidence_ready": false,
+      "goal": "workstation",
+      "label": "stand-2",
+      "pose": "stand",
+      "position": [
+        37.5659370422363,
+        0.0,
+        -17.0879154205322
+      ],
+      "route_blocked": false,
+      "wall_ms": 6680
+    },
+    {
+      "backend_state": "running",
+      "clip": "social/stand_up",
+      "evidence_ready": false,
+      "goal": "workstation",
+      "label": "stand-3",
+      "pose": "stand",
+      "position": [
+        37.5659370422363,
+        0.0,
+        -17.0879154205322
+      ],
+      "route_blocked": false,
+      "wall_ms": 6943
+    },
+    {
+      "backend_state": "running",
+      "clip": "social/stand_up",
+      "evidence_ready": false,
+      "goal": "workstation",
+      "label": "stand-4",
+      "pose": "stand",
+      "position": [
+        37.5659370422363,
+        0.0,
+        -17.0879154205322
+      ],
+      "route_blocked": false,
+      "wall_ms": 7203
+    },
+    {
+      "backend_state": "running",
+      "clip": "console",
+      "evidence_ready": false,
+      "goal": "workstation",
+      "label": "working",
+      "pose": "console",
+      "position": [
+        -5.98689413070679,
+        0.0,
+        -27.3900604248047
+      ],
+      "route_blocked": false,
+      "wall_ms": 49989
+    },
+    {
+      "backend_state": "completed",
+      "clip": "console",
+      "evidence_ready": true,
+      "goal": "home",
+      "label": "report-ready",
+      "pose": "console",
+      "position": [
+        -5.98689413070679,
+        0.0,
+        -27.3900604248047
+      ],
+      "route_blocked": false,
+      "wall_ms": 50231
+    },
+    {
+      "backend_state": "completed",
+      "clip": "social/seated",
+      "evidence_ready": true,
+      "goal": "home",
+      "label": "returned-home",
+      "pose": "sit",
+      "position": [
+        37.5605201721191,
+        0.0,
+        -17.0915851593018
+      ],
+      "route_blocked": false,
+      "wall_ms": 94189
+    },
+    {
+      "backend_state": "completed",
+      "clip": "idle",
+      "evidence_ready": false,
+      "goal": "hold",
+      "label": "offline",
+      "pose": "",
+      "position": [
+        37.5605201721191,
+        0.0,
+        -17.0915851593018
+      ],
+      "route_blocked": false,
+      "wall_ms": 94588
+    }
+  ],
+  "status": "passed",
+  "viewport": "(1440, 900)",
+  "wall_ms": 95071
+}

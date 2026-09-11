@@ -1,0 +1,497 @@
+{
+  "capture_input_isolated": true,
+  "captures": [
+    {
+      "name": "review-exterior",
+      "position": [
+        -3.0,
+        0.0,
+        -14.8999996185303
+      ]
+    },
+    {
+      "name": "review-interior",
+      "position": [
+        -3.10893964767456,
+        0.0,
+        -23.5000228881836
+      ]
+    },
+    {
+      "name": "command-workspace",
+      "position": [
+        -3.10893964767456,
+        0.0,
+        -23.5000228881836
+      ]
+    },
+    {
+      "name": "field-duty-editor",
+      "position": [
+        -3.10893964767456,
+        0.0,
+        -23.5000228881836
+      ]
+    },
+    {
+      "name": "command-workspace-compact",
+      "position": [
+        -3.10893964767456,
+        0.0,
+        -23.5000228881836
+      ]
+    },
+    {
+      "name": "gym-exterior",
+      "position": [
+        1.5,
+        0.0,
+        9.10000038146973
+      ]
+    },
+    {
+      "name": "gym-interior",
+      "position": [
+        -1.82616531848907,
+        0.0,
+        0.482006400823593
+      ]
+    },
+    {
+      "name": "habitat-exterior",
+      "position": [
+        36.0,
+        0.0,
+        -8.89999961853027
+      ]
+    },
+    {
+      "name": "habitat-interior",
+      "position": [
+        35.4807968139648,
+        0.0,
+        -17.6269683837891
+      ]
+    },
+    {
+      "name": "habitat-guide",
+      "position": [
+        35.4807968139648,
+        0.0,
+        -17.6269683837891
+      ]
+    },
+    {
+      "name": "greenhouse-exterior",
+      "position": [
+        30.0,
+        0.0,
+        36.0999984741211
+      ]
+    },
+    {
+      "name": "greenhouse-interior",
+      "position": [
+        30.0,
+        0.0,
+        22.1000232696533
+      ]
+    },
+    {
+      "name": "greenhouse-guide",
+      "position": [
+        30.0,
+        0.0,
+        22.1000232696533
+      ]
+    },
+    {
+      "name": "living-commons",
+      "position": [
+        -3.99999976158142,
+        0.0,
+        23.1118965148926
+      ]
+    },
+    {
+      "name": "inhabited-water",
+      "position": [
+        53.9897308349609,
+        0.0,
+        -26.9134864807129
+      ]
+    },
+    {
+      "name": "inhabited-water-reduced",
+      "position": [
+        53.9897308349609,
+        0.0,
+        -26.9134864807129
+      ]
+    },
+    {
+      "name": "living-colony",
+      "position": [
+        53.9897308349609,
+        0.0,
+        -26.9134864807129
+      ]
+    },
+    {
+      "name": "operations-task-markers",
+      "position": [
+        -3.0,
+        0.0,
+        -23.4000110626221
+      ]
+    },
+    {
+      "name": "operations-review",
+      "position": [
+        -3.0,
+        0.0,
+        -23.4000110626221
+      ]
+    },
+    {
+      "name": "operations-briefing",
+      "position": [
+        -3.0,
+        0.0,
+        -23.4000110626221
+      ]
+    },
+    {
+      "name": "operations-comparison",
+      "position": [
+        -3.0,
+        0.0,
+        -23.4000110626221
+      ]
+    },
+    {
+      "name": "operations-duties",
+      "position": [
+        -3.0,
+        0.0,
+        -23.4000110626221
+      ]
+    },
+    {
+      "name": "operations-history",
+      "position": [
+        -3.0,
+        0.0,
+        -23.4000110626221
+      ]
+    },
+    {
+      "name": "operations-compact",
+      "position": [
+        -3.0,
+        0.0,
+        -23.4000110626221
+      ]
+    },
+    {
+      "name": "operations-disconnected",
+      "position": [
+        -3.0,
+        0.0,
+        -23.4000110626221
+      ]
+    },
+    {
+      "name": "operations-heartbeat",
+      "position": [
+        -3.0,
+        0.0,
+        -23.4000110626221
+      ]
+    }
+  ],
+  "failures": [],
+  "fixture": true,
+  "journeys": [
+    {
+      "actual": "(-5.99081, 0.0, -25.41727)",
+      "capture_input_isolated": true,
+      "collisions": [],
+      "context": "Commons:<Node3D#48100279877>",
+      "distance": 0.0678969547152519,
+      "manual_input_seen": false,
+      "panel_open": false,
+      "remaining_route": "[]",
+      "start": "(-3.0, 0.0, -14.9)",
+      "target": "(-6.0, 0.0, -25.35)"
+    },
+    {
+      "actual": "(-3.10894, 0.0, -23.50002)",
+      "capture_input_isolated": true,
+      "collisions": [],
+      "context": "Commons:<Node3D#48100279877>",
+      "distance": 0.119875185191631,
+      "manual_input_seen": false,
+      "panel_open": false,
+      "remaining_route": "[]",
+      "start": "(-5.99081, 0.0, -25.41727)",
+      "target": "(-3.0, 0.0, -23.45)"
+    },
+    {
+      "actual": "(-3.0, 0.0, -15.10955)",
+      "capture_input_isolated": true,
+      "collisions": [],
+      "context": "<null>",
+      "distance": 0.209552764892578,
+      "manual_input_seen": false,
+      "panel_open": false,
+      "remaining_route": "[]",
+      "start": "(-3.10894, 0.0, -23.50002)",
+      "target": "(-3.0, 0.0, -14.9)"
+    },
+    {
+      "actual": "(1.5, 0.0, -2.899998)",
+      "capture_input_isolated": true,
+      "collisions": [],
+      "context": "Gym:<Node3D#48117057094>",
+      "distance": 0.150002479553223,
+      "manual_input_seen": false,
+      "panel_open": false,
+      "remaining_route": "[]",
+      "start": "(1.5, 0.0, 9.1)",
+      "target": "(1.5, 0.0, -3.05)"
+    },
+    {
+      "actual": "(-1.826165, 0.0, 0.482006)",
+      "capture_input_isolated": true,
+      "collisions": [],
+      "context": "Gym:<Node3D#48117057094>",
+      "distance": 0.0804734826087952,
+      "manual_input_seen": false,
+      "panel_open": false,
+      "remaining_route": "[]",
+      "start": "(1.5, 0.0, -2.899998)",
+      "target": "(-1.9, 0.0, 0.45)"
+    },
+    {
+      "actual": "(1.483122, 0.0, 8.829414)",
+      "capture_input_isolated": true,
+      "collisions": [],
+      "context": "<null>",
+      "distance": 0.271111845970154,
+      "manual_input_seen": false,
+      "panel_open": false,
+      "remaining_route": "[]",
+      "start": "(-1.826165, 0.0, 0.482006)",
+      "target": "(1.5, 0.0, 9.1)"
+    },
+    {
+      "actual": "(34.02523, 0.0, -19.861)",
+      "capture_input_isolated": true,
+      "collisions": [],
+      "context": "Habitat:<Node3D#48133834311>",
+      "distance": 0.0275239236652851,
+      "manual_input_seen": false,
+      "panel_open": false,
+      "remaining_route": "[]",
+      "start": "(36.0, 0.0, -8.9)",
+      "target": "(34.0, 0.0, -19.85)"
+    },
+    {
+      "actual": "(35.4808, 0.0, -17.62697)",
+      "capture_input_isolated": true,
+      "collisions": [],
+      "context": "Habitat:<Node3D#48133834311>",
+      "distance": 0.182258605957031,
+      "manual_input_seen": false,
+      "panel_open": false,
+      "remaining_route": "[]",
+      "start": "(34.02523, 0.0, -19.861)",
+      "target": "(35.3, 0.0, -17.65)"
+    },
+    {
+      "actual": "(35.99091, 0.0, -9.082825)",
+      "capture_input_isolated": true,
+      "collisions": [],
+      "context": "<null>",
+      "distance": 0.183050945401192,
+      "manual_input_seen": false,
+      "panel_open": false,
+      "remaining_route": "[]",
+      "start": "(35.4808, 0.0, -17.62697)",
+      "target": "(36.0, 0.0, -8.9)"
+    },
+    {
+      "actual": "(30.0, 0.0, 25.60004)",
+      "capture_input_isolated": true,
+      "collisions": [],
+      "context": "Greenhouse:<Node3D#48150611528>",
+      "distance": 0.0500373840332031,
+      "manual_input_seen": false,
+      "panel_open": false,
+      "remaining_route": "[]",
+      "start": "(30.0, 0.0, 36.1)",
+      "target": "(30.0, 0.0, 25.55)"
+    },
+    {
+      "actual": "(30.0, 0.0, 22.10002)",
+      "capture_input_isolated": true,
+      "collisions": [],
+      "context": "Greenhouse:<Node3D#48150611528>",
+      "distance": 0.150022506713867,
+      "manual_input_seen": false,
+      "panel_open": false,
+      "remaining_route": "[]",
+      "start": "(30.0, 0.0, 25.60004)",
+      "target": "(30.0, 0.0, 21.95)"
+    },
+    {
+      "actual": "(30.0, 0.0, 35.9)",
+      "capture_input_isolated": true,
+      "collisions": [],
+      "context": "<null>",
+      "distance": 0.199996948242188,
+      "manual_input_seen": false,
+      "panel_open": false,
+      "remaining_route": "[]",
+      "start": "(30.0, 0.0, 22.10002)",
+      "target": "(30.0, 0.0, 36.1)"
+    },
+    {
+      "actual": "(-4.0, 0.0, 23.1119)",
+      "capture_input_isolated": true,
+      "collisions": [],
+      "context": "<null>",
+      "distance": 0.111896514892578,
+      "manual_input_seen": false,
+      "panel_open": false,
+      "remaining_route": "[]",
+      "start": "(30.0, 0.0, 35.9)",
+      "target": "(-4.0, 0.0, 23.0)"
+    },
+    {
+      "actual": "(53.98973, 0.0, -26.91349)",
+      "capture_input_isolated": true,
+      "collisions": [],
+      "context": "<null>",
+      "distance": 0.0871208682656288,
+      "manual_input_seen": false,
+      "panel_open": false,
+      "remaining_route": "[]",
+      "start": "(-4.0, 0.0, 23.1119)",
+      "target": "(54.0, 0.0, -27.0)"
+    },
+    {
+      "actual": "(-3.0, 0.0, -23.40001)",
+      "capture_input_isolated": true,
+      "collisions": [],
+      "context": "Commons:<Node3D#48100279877>",
+      "distance": 0.0499897003173828,
+      "manual_input_seen": false,
+      "panel_open": false,
+      "remaining_route": "[]",
+      "start": "(-3.0, 0.0, -20.3)",
+      "target": "(-3.0, 0.0, -23.45)"
+    }
+  ],
+  "live_world_presentation": true,
+  "motion_frames": 12,
+  "motion_samples": [
+    {
+      "physics_frame": 122,
+      "position": [
+        -3.0,
+        0.0,
+        -14.8999996185303
+      ]
+    },
+    {
+      "physics_frame": 130,
+      "position": [
+        -3.0,
+        0.0,
+        -15.6000022888184
+      ]
+    },
+    {
+      "physics_frame": 138,
+      "position": [
+        -3.0,
+        0.0,
+        -16.3000049591064
+      ]
+    },
+    {
+      "physics_frame": 146,
+      "position": [
+        -3.0,
+        0.0,
+        -16.9000072479248
+      ]
+    },
+    {
+      "physics_frame": 154,
+      "position": [
+        -3.0,
+        0.0,
+        -17.6000099182129
+      ]
+    },
+    {
+      "physics_frame": 162,
+      "position": [
+        -3.0,
+        0.0,
+        -18.300012588501
+      ]
+    },
+    {
+      "physics_frame": 170,
+      "position": [
+        -3.0,
+        0.0,
+        -18.9000148773193
+      ]
+    },
+    {
+      "physics_frame": 178,
+      "position": [
+        -3.44813585281372,
+        0.0,
+        -19.43776512146
+      ]
+    },
+    {
+      "physics_frame": 186,
+      "position": [
+        -3.4917094707489,
+        0.0,
+        -20.1359939575195
+      ]
+    },
+    {
+      "physics_frame": 194,
+      "position": [
+        -3.7984447479248,
+        0.0,
+        -20.7342967987061
+      ]
+    },
+    {
+      "physics_frame": 202,
+      "position": [
+        -3.98526644706726,
+        0.0,
+        -21.3892726898193
+      ]
+    },
+    {
+      "physics_frame": 210,
+      "position": [
+        -4.4363842010498,
+        0.0,
+        -21.9245185852051
+      ]
+    }
+  ]
+}

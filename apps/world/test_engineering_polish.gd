@@ -40,7 +40,9 @@ func run() -> void:
  await physics_frame
  check(engineer.presentation_pose.is_empty(),"Idle inspector must not invent operational work")
  world.receive_snapshot({"schema_version":2,"observed_at":Time.get_unix_time_from_system()+2,"worker":{"available":true},"recent":[],"active":[],"repairs":[{"input":{"id":"engineering-semantic","scenario":"clamp-v1"},"state":"executing","updated_at":2.0,"summary":null}]})
- for i in range(600):
+ # Crew now start at Habitat, so allow the full physical colony journey.
+ # Fixed-fps validation advances this bounded 120 seconds without a wall-clock wait.
+ for i in range(7200):
   await physics_frame
   if engineer.presentation_pose=="console": break
  check(engineer.presentation_pose=="console","Authoritative execution requests workstation pose after actual arrival")

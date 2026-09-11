@@ -7,7 +7,7 @@ var last_observed_at := -1.0
 var retained: Array = []
 var selected_run_id := ""
 
-func update(missions: Array, crew_context: String, disconnected: bool, reduced: bool, observed_at: float = 0.0) -> Dictionary:
+func update(missions: Array, crew_context: String, disconnected: bool, reduced: bool, observed_at: float = 0.0, duty_state: Dictionary = {}) -> Dictionary:
 	# Pass the core snapshot observed_at timestamp, not a local animation clock.
 	# A reconnect replaces current intent; there is no queue of obsolete trips.
 	if not disconnected and observed_at >= last_observed_at:
@@ -26,7 +26,7 @@ func update(missions: Array, crew_context: String, disconnected: bool, reduced: 
 	var stale: bool=not active.is_empty() and active.any(func(m): return m.get("stale",true))
 	var unknown: bool=disconnected or stale or (state=="completed" and selected.get("evidence")==null) or (not selected.is_empty() and state=="unknown")
 	var evidence_ready: bool=not unknown and state=="completed" and selected.get("evidence")!=null
-	var goal:="hold"
+	var goal:="home" if not unknown and selected.is_empty() else "hold"
 	var pose:=""
 	if not unknown and not selected.is_empty():
 		if state in WORKING:
@@ -40,6 +40,7 @@ func update(missions: Array, crew_context: String, disconnected: bool, reduced: 
 		pose=""
 	return {"run_id":str(selected.get("input",{}).get("id","")),
 		"backend_state":state,"goal":goal,"pose":pose,
+		"duty_label":("On duty · waiting" if duty_state.get("enabled",false) else "Duty paused") if duty_state.get("known",false) and active.is_empty() and not unknown else "",
 		"moving_allowed":goal!="hold","active_count":active.size(),
 		"label":StateView.crew_activity(retained,crew_context,disconnected),
 		"evidence_ready":evidence_ready,"unknown":unknown,

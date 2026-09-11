@@ -66,10 +66,34 @@ func run() -> void:
 	for m in world.crew_motions.values():
 		check(m.actor.motion.is_zero_approx() and m.actor.presentation_pose.is_empty(),"Outage holds all actors")
 		check(m.intent.label.begins_with("Unknown"),"Outage retains explicit unknown state")
+	data.observed_at+=1
+	for key in ["active","repairs","field_runs"]:
+		for run_record in data[key]:
+			run_record.state="completed";run_record.updated_at=2
+			run_record.summary={"outcome":"no_change"}
+			run_record.report={"summary":{"outcome":"no_change"},"findings":[],"coverage":[]}
+	world.receive_snapshot(data)
+	for m in world.crew_motions.values():
+		check(m.intent.goal=="home" and m.intent.evidence_ready,"Completion exposes evidence immediately and returns home")
+	var home_arrivals:Dictionary={}
+	for tick in range(7200):
+		await physics_frame
+		for kind in world.crew_motions:
+			var m=world.crew_motions[kind]
+			if not home_arrivals.has(kind) and not m.anchor.is_empty() and m.path.is_empty() and m.actor.motion.is_zero_approx() and m.actor.position.distance_to(m.destination)<0.15:
+				home_arrivals[kind]={"anchor":m.anchor.id,"distance":m.actor.position.distance_to(m.destination)}
+		if home_arrivals.size()==world.crew_motions.size(): break
+	var occupied:Dictionary={}
+	for kind in world.crew_motions:
+		var m=world.crew_motions[kind]
+		print("CREW_HOME ",kind," first_stopped_arrival=",home_arrivals.get(kind,{})," blocked=",m.route_blocked)
+		check(home_arrivals.has(kind) and not m.route_blocked,kind+" returned physically to authored home")
+		check(not occupied.has(m.anchor.get("id","")),kind+" reserves distinct home anchor")
+		occupied[m.anchor.get("id","")]=true
 	check(world.commands.payload.is_empty() and world.commands.phase.is_empty(),"Crew presentation never issues a command")
 	check(world.http.get_http_client_status()==HTTPClient.STATUS_DISCONNECTED,"Fixture world makes no live snapshot request")
 	check(world.hud.board.commands.payload.is_empty(),"Board fixture never dispatches")
 	world.queue_free();await process_frame
 	for failure in failures: push_error(failure)
-	if failures.is_empty(): print("LIVE_CREW_PASSED: five physical workstation routes, speed/arrival/pose, Command exterior entry, reduced/outage and no dispatch")
+	if failures.is_empty(): print("LIVE_CREW_PASSED: five home/work/home routes, reservations, speed/arrival/pose, Command exterior entry, reduced/outage and no dispatch")
 	quit(0 if failures.is_empty() else 1)

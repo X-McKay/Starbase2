@@ -1,134 +1,113 @@
 # A miniature autonomous world
 
-Status: proposed. Owner: implementation assistant; Al reviews the native journeys.
-This plan changes presentation after the current autonomous-duty, real-work LLM,
-and Godot-only acceptance journeys pass. Persistent memory remains deferred until
-those three are accepted; it is not a prerequisite for visible crew activity.
+Status: accepted. Shift Change presentation is implemented and passed physical and
+native offline rehearsals. Final packaged-artifact verification passed;
+real-production acceptance below remains open. Owner: implementation assistant;
+Al reviews the native experience. Persistent memory remains deferred.
 
-## What already works
+## Implemented experience
 
-Real V4 field runs already reach the world. Watchkeeper and Reviewer travel to
-separate workstations inside Command. Queued work requests travel; running work
-requests a console animation only after physical arrival. Completion with
-retained evidence shows an evidence marker and returns the actor home. Failure,
-cancellation pending, stale state and disconnection remain distinguishable.
-Arrival never dispatches, delays or completes backend work.
+Five crew inhabit seven authored Habitat/Commons anchors between assignments.
+Shared reservations prevent competing destinations; deterministic dwell timing
+varies cosmetic visits. Three anchors support seated poses and four support
+standing idle activity. The label **On duty · waiting** describes a fresh enabled
+duty, not invented agent reasoning. A paused duty uses the same home behavior
+with an explicit paused label when no assignment remains active.
 
-The existing five-crew physics test verifies routes, airlock entry, continuous
-movement and workstation poses using long-running fixtures. It does not prove
-that short real observations remain visually legible. Runs can finish between
-snapshot polls or before the actor arrives. Crew inside closed interiors are
-hidden from the exterior camera. There is currently no authored home/social destination between runs: `CrewMotion.rest`
-is the actor's starting position, with a nearby-station offset workaround when
-that point overlaps its workstation. A stalled route stops without an explicit
-navigation status. These are the first gaps to address.
+Real V4 field records reach the world through the existing snapshot projection.
+Watchkeeper and Reviewer have separate Survey Command workstations. Queued work
+interrupts home activity and requests travel. Running work uses the console pose
+only after physical arrival. Completion with retained evidence appears immediately
+and redirects home; a short job can complete before the actor reaches a station.
+Arrival never dispatches, delays or completes backend work. Pausing future duties
+does not cancel an already active assignment.
 
-## First implementation slice
+The crew strip and explicit **Watch crew** camera action make inhabitants easier
+to find. Watching is an operator choice; assignments never redirect the camera.
+Visibility follows the actor's occupied building, including Habitat, rather than
+only its assigned workstation. NPC door opening is separate from operator room
+cutaway and camera context. A bounded **Route blocked** cue describes navigation
+failure alongside unchanged operational state.
 
-Make the existing Habitat, break-room furniture and Commons the crew's home
-between assignments. Idle characters relax, sit, rest or hang out at authored
-social anchors, including when an enabled duty is waiting for its next dispatch.
-The label **On duty · waiting** describes scheduling, not a requirement to sit at
-a workstation. A paused duty can use the same ambient home behavior with an
-explicit paused label.
+Stale/offline state holds motion and clears confident work gestures while retaining
+last-known evidence. Reduced motion removes cosmetic travel without teleporting
+actors. Reconnect coalesces directly to current intent; concurrent runs keep one
+stable crew identity and separate task markers. Keyboard and structured operations
+remain available without following an actor through the world.
 
-A real queued assignment interrupts ambient activity and requests travel to the
-appropriate workstation. Running work uses the existing console pose only after
-physical arrival. Completion publishes its result immediately and requests a
-return to Habitat or a chosen Commons anchor when no other active assignment
-remains. If a job finishes en route, show **Report ready** immediately and turn
-home without inventing a console session. Pausing future dispatch does not stop
-an already active run or justify sending its actor home early. Arrival never
-gates backend execution, evidence or completion.
+## Authored places and assets
 
-Add a compact building badge showing assigned active counts plus recent
-result availability. It remains visible when the interior cutaway is closed and
-opens the existing structured inspection path. Offer an explicit **Watch crew**
-camera action; never redirect the camera automatically. Show a cosmetic
-**Route blocked** marker when navigation cannot reach its destination, alongside
-the unchanged backend status.
+Habitat remains at world `(36, 0, -15)`. Its lounge sofa moved to local
+`(3.4, 0.15, -5.3)` as the central visual focus. Prop origins are distinct from
+qualified actor destinations. Four activity markers live in
+`structures/interiors/habitat-continuous.tscn`; three more are authored by
+`living_commons.gd`, whose shelter is at `(-7, 0, 23)`. Marker metadata includes
+identity, pose, zone and facing. Seat geometry, colliders and actor roots remain
+aligned; navigation clearance was not weakened to fit the furniture.
 
-| Authoritative input or local condition | Presentation | Files |
-| --- | --- | --- |
-| Fresh `/v4/snapshot` duty enabled; no active run | Habitat/Commons relaxation; on-duty waiting label | `apps/world/command_board.gd` emits its existing snapshot projection; `world.gd` forwards it; `crew_presentation.gd` selects intent |
-| V2 snapshot `field_runs`: queued | Assignment marker and optional station travel | `apps/world/state.gd`, `crew_presentation.gd`, `crew_motion.gd` |
-| Field run running and actual station arrival | Existing console pose; active count and run identity | `apps/world/crew_motion.gd`, `actor.gd` |
-| Completed run with retained evidence | Immediate result marker; return Habitat/Commons when no active assignment remains | `apps/world/state.gd`, `crew_presentation.gd`, `actor.gd` |
-| Retained `inference_budget` skipped | Explicit hourly/daily limit reason, without implying reasoning occurred | `apps/world/state.gd` preserves budget metadata; `crew_presentation.gd` and structured inspector render it |
-| Duty paused; no active run | Continue/return to Habitat or Commons; paused label | `apps/world/crew_presentation.gd`, `crew_motion.gd` |
-| Failed or cancellation pending | Distinct text/icon; stop work gesture as appropriate | `apps/world/crew_presentation.gd`, `actor.gd` |
-| Stale snapshot or disconnected client | Hold motion, suppress confident work, retain last-known evidence with freshness | `apps/world/world.gd`, `crew_presentation.gd` |
-| Empty or stalled navigation route | Local route-blocked cue; domain state unchanged | `apps/world/crew_motion.gd`, `actor.gd` |
-| Aggregate station assignments | Exterior active/result badge and inspector link | `apps/world/world.gd`, station presentation and `hud.gd` |
+`crew_motion.gd` resolves all building visibility, reservations, travel, dwell and
+bounded route failures. `crew_presentation.gd` maps authoritative records and fresh
+duty state to intent. `characters/model_visual.gd` applies the imported social
+clips and per-instance material corrections. Seated departure waits a fixed
+one-second cosmetic interval matching the authored stand-up clip; no backend work
+waits for that animation.
 
-Keep snapshot projection separate from rendering. Reuse the existing field
-snapshot polling rather than adding another renderer-owned request loop. Carry
-observation timestamps and connection state with duty data. Reconnect replaces
-obsolete motion intent; concurrent runs retain one stable crew identity and
-separate task markers. Reduced motion preserves all labels and evidence while
-removing cosmetic movement. Keyboard navigation and the structured inspector
-must expose the same state without requiring camera travel.
+These are cosmetic home activities, not simulated wellbeing, resources, incidents
+or operational outcomes. See the [social production source](../assets-production/characters/shift-social/README.md)
+and [native animation evidence](../evidence/shift-change/animation/README.md).
 
-## Existing places and anchors to author
+## Evidence and its limits
 
-`apps/world/structures/colony.tscn` places Habitat at world `(36, 0, -15)`.
-`structures/definitions/habitat.tres` already defines its seamless interior,
-doorway approach/threshold and furniture navigation blocks.
-`structures/interiors/habitat-continuous.tscn` contains a galley at local
-`(-7.75, 0.15, -4.35)`, a lounge sofa at `(7.8, 0.15, -3.75)`, and three sleep
-capsules at x `-5.22`, `0`, `5.22`, y `0.15`, z `-9.85`. These are prop transforms,
-**not qualified actor destinations**. Existing generic markers are Spawn
-`(0, 0, 0.7)`, Console `(-0.7, 0, -2.65)`, Crew `(1.75, 0, -5.15)` and WalkTarget
-`(-2, 0, -4.85)`; none defines individual seats or social occupancy.
+The [physical checks](../evidence/shift-change/physical/README.md) passed all 70
+directed anchor/workstation routes and actual five-crew home → work → home travel.
+Each final home arrival stopped with an empty route and zero commanded motion,
+0.102–0.114 m from its anchor. Failed old-spawn and seat-grid attempts remain in
+the evidence. Shared reservations, interruption, fast completion, offline/reduced
+holds, and collision-stalled routes have focused regression coverage.
 
-`apps/world/living_commons.gd` places the shelter/garden at `(-7, 0, 23)` with
-explicit collision blocks. It has no crew seat, rest or social markers. Reuse
-these existing places and furnishings; author named seat/standing/rest anchors,
-entry/exit approach points, facing, pose compatibility and bounded occupancy.
-Do not place actors at furniture origins or disable collisions to make them fit.
+The [native domestic and journey rehearsals](../evidence/shift-change/native/README.md)
+passed using explicit offline fixtures. Domestic captured seated life, stand-up
+interruption and fast-report evidence. Journey captured physical workstation
+arrival, immediate terminal evidence, return home, a brief-job redirect, offline
+hold and reconnect. Initial actors were explicitly staged one metre from anchors;
+subsequent travel used actual physics. These runs issued no production commands.
 
-Extend `crew_motion.gd` from its single work-station visibility reference to
-resolve the actor's current building while routing between Habitat, Commons and
-workstations. Qualify door clearance and interior cutaway visibility at both
-ends; preserve the operator's room and camera. Add comfortable idle/social pose
-variants in `apps/world/characters/model_visual.gd` and its authored animation
-assets as needed. Sitting/resting poses require seat alignment and transitions;
-existing generic idle/console clips are not evidence of this capability.
-Ambient anchor selection is cosmetic and must not invent job or health records.
+Native social corrections now have separate contact evidence. Earlier malformed
+skin, inherited rest-channel rotations and Sentinel thigh penetration are retained
+as failures rather than hidden by passing clip-name checks. The native journey's
+original return framing used a short camera-settle interval; its subsequent
+120-frame correction passed in the final exported app. The [delivery record](../evidence/shift-change/README.md) binds the exact artifact and inspected captures.
+Rehearsal capture timings include rendering and PNG work and are not an FPS
+improvement claim. Owner visual approval is distinct from these technical checks.
 
-## Later visual enrichment
+## Remaining real-production acceptance
 
-Use distinct scan, read, type and review gestures only when corresponding phases
-are actually recorded by the backend. A generic running state does not prove
-that the model is thinking or that a provider is being queried. Add phase events
-and their freshness/replay contract before mapping them to new workstation
-animations. No minimum fake-busy interval should stretch a completed job merely
-to show an animation.
-
-Habitat, Botanical and Living Commons may host clearly decorative idle movement,
-conversation and environmental animation. `apps/world/living_commons.gd` remains
-scenery: ambient activity cannot imply jobs, resources, wellbeing measurements,
-success or incidents. Additional Meshy/Blender assets can enrich this layer after
-the first truthful duty presentation is legible.
-
-## Acceptance journeys
-
-Extend `apps/world/test_crew_presentation.gd` and `test_live_crew.gd` for Habitat/Commons
-idle anchors, cross-building travel, pause, fast completion, concurrent work and
-blocked routes. Then retain
-native captures from three real journeys, with authoritative run/duty IDs:
+Retain native captures with actual authoritative run/duty IDs for these journeys;
+the offline rehearsals above do not establish their production acceptance:
 
 1. **Fast completion:** observe a real job that finishes before arrival. Its
-   result appears immediately, with no delayed completion or invented work pose.
-   The building badge and keyboard inspector expose the same evidence. The actor
-   returns toward its home/social anchor without a fake console visit.
-2. **Pause:** pause an enabled duty in Godot. The paused state is confirmed by
-   Core; no further dispatch occurs. Any active run stays accurately represented,
-   and the actor returns home only when there is no active assignment.
-3. **Offline and reconnect:** interrupt the client connection. Work gestures stop
-   and last-known state is explicit. Reconnect coalesces to the current run/duty
-   state without replaying obsolete trips or losing evidence.
+   result must appear immediately without invented or prolonged console activity.
+   The crew strip and structured inspector must expose the same retained evidence.
+2. **Pause:** pause an enabled duty in Godot, verify Core's retained paused state
+   and no later dispatch, and preserve any already active run until its actual
+   terminal state. This real pause journey remains pending.
+3. **Offline and reconnect:** interrupt the live client connection, verify honest
+   last-known state and stopped work gestures, then reconnect without replaying
+   obsolete trips or losing evidence.
 
-Inspect these journeys with closed and open interiors, reduced motion and text
-scaling. A passing fixture or headless test is not a substitute for the actual
-native experience. Record remaining limitations before Al accepts the slice.
+Closed/open interiors, reduced motion and text scaling passed local qualification.
+The final manifest binds the native captures to the qualified unsigned artifact;
+this does not replace the real-production journeys above.
+
+## Proposed follow-ups
+
+Building aggregate badges showing active assignment counts and recent result
+availability are **not implemented**. Completion requires an exterior-visible,
+keyboard-accessible inspector link derived from authoritative records, with stale
+and unknown states, plus native acceptance. The implemented crew strip is separate.
+
+Additional scan/read/type gestures require actual phase events and freshness
+semantics before they can represent work. A generic running state does not prove
+model inference or a provider request. Further decorative art and ambient activity
+may enrich the colony without creating operational claims. Persistent memory is
+a later, separately gated backend capability.

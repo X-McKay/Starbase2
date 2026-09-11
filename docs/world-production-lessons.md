@@ -237,3 +237,33 @@ both original and canonical executable paths for cleanup (`/var` may appear as
 `/private/var`), and preserve literal Unicode application names in AppleScript.
 Tests must mock the actual launch path so they cannot launch apps accidentally.
 See [native launch evidence](../evidence/native-operations/native-launch-note.md).
+
+
+## Shift Change: authored life, physical proof, native pose proof
+
+The [physical evidence](../evidence/shift-change/physical/README.md) preserves the
+initial failures and corrected routes. A reachable start does not prove a reachable
+destination: test every authored home/workstation pair in both directions and test
+the final segment beyond the grid cell. Seat contact, collision clearance and grid
+rounding are separate constraints. Move the chair and its root together when
+aligning an anchor; never reduce safety padding merely to make a test pass.
+
+Reserve social anchors across crew and count actual stopped arrivals, not proximity
+while passing through. Dwell clocks are cosmetic. A new assignment can interrupt
+home activity, but arrival must never dispatch work and a completed job must never
+be stretched to show a work animation. Hold position and suppress confident poses
+when stale/offline or reduced motion requires it; retain operational evidence.
+
+A headless animation check that only verifies selected clip names can pass while
+native skeletons deform below the floor. Qualify imported child transforms and
+scale, skeleton-space tracks, actual joint positions and seat/foot contact in the
+rendered application. Preserve standing → sit transition → seated → stand transition
+captures and the failed attempt. Blender-local joint measurements alone do not
+prove the native GLB integration. The current social failure is still open.
+
+For visual redesign, lock a generated target derived from the existing native
+view, then ask an independent critic to compare target and actual native captures.
+Keep framing comparable and record concrete composition, light, material and
+readability gaps alongside regressions. This is a design loop, not a numerical
+quality certificate. Travel, honest state, keyboard access, contacts and frame-time
+measurements stay independent gates; a flattering screenshot cannot replace them.

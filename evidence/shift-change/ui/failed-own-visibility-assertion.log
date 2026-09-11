@@ -1,0 +1,8 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+SHIFT_STRIP_BOUNDS (1280, 800) [P: (140.0, 658.0), S: (1000.0, 126.0)] viewport [P: (0.0, 0.0), S: (1280.0, 800.0)]
+SHIFT_STRIP_BOUNDS (800, 640) [P: (22.0, 498.0), S: (756.0, 126.0)] viewport [P: (0.0, 0.0), S: (800.0, 640.0)]
+ERROR: Expanded command records hide world chrome
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_shift_change_ui.gd:49)

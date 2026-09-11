@@ -19,6 +19,17 @@ starts, blocks, or completes work. Unknown/stale/partial states cannot reuse a
 healthy animation; reconnect coalesces obsolete motion without losing history.
 One crew member with concurrent runs needs task markers, not invented identities.
 
+For inhabited crew behavior, reserve authored home/social anchors across actors.
+Keep cosmetic dwell and travel separate from assignment state; interruption and
+fast completion must coalesce immediately to current intent. Stale/offline holds
+must not teleport actors. Resolve visibility using the occupied building, not only
+the assigned workstation. Expose bounded route failure without changing job state.
+
+For a substantial visual redesign, derive a target from the existing native view
+and use an independent target-versus-current critic with comparable framing.
+Retain concrete gaps and regressions. Visual scores guide iteration; they do not
+replace truthful state, physical journeys, accessibility or measured performance.
+
 Give the journey a keyboard and structured non-spatial path. Keep evidence,
 decisions, and stop controls available when the renderer fails. Apply reduced
 motion, text scaling, sound-off behavior, and color-independent status where
