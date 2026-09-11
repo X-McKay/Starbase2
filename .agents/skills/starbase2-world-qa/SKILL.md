@@ -39,6 +39,15 @@ visual acceptance separately from technical qualification.
    furniture/edge collisions, enter/exit and direct-visit routes. Character
    changes need displacement/cadence, collision-stop, turning, transitions and
    reduced motion. Include UI/status/audio checks as affected.
+   For home/work travel, verify every authored anchor pair in both directions and
+   the final segment after grid routing. Require stopped arrival, not passing
+   within a distance threshold. Keep seat contact, collision bounds and grid
+   rounding consistent; do not weaken clearance to turn a failure green.
+   For social animation, clip selection alone is insufficient: inspect native
+   standing, transition, seated and return poses with joint/contact measurements.
+   Include imported child transforms, scale and skeleton-space tracks; a passing
+   Blender-local contact audit cannot certify native deformation. Preserve failed
+   captures even when a headless clip test passed.
 3. Run `mise exec -- just check-world` for an integrated world change. Inspect
    `scripts/check_world.py` and `scripts/check_world_commands.py` for current
    coverage; a new scene or clip may need a meaningful regression check. The
@@ -74,6 +83,13 @@ macOS harness uses fresh Launch Services GUI instances after a reproduced direct
 launch stall; retain native stdout/stderr and restrict timeout cleanup to the
 exact isolated executable. A successful launcher exit alone does not prove the
 app rendered without errors.
+
+An occluded native window may stop emitting `frame_post_draw` while physics
+continues. For explicit automated viewport captures, the qualified helpers use
+`RenderingServer.force_draw(false)` before reading the real viewport. Keep this
+inside capture mode; it is not a gameplay rendering policy. Preserve a stalled
+attempt, distinguish launch failure from missing draw completion, and verify
+the correction in the actual exported app without repeated foreground forcing.
 
 Inspect the actual exported captures and qualification result. Describe an
 unsigned local review package as such; this does not authorize a commit, push,

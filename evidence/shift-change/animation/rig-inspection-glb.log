@@ -1,0 +1,82 @@
+19:59:18 | INFO: Data are loaded, start creating Blender stuff
+19:59:18 | INFO: Blender create Mesh node char1
+19:59:18 | INFO: glTF import finished in 0.04s
+19:59:18 | INFO: Data are loaded, start creating Blender stuff
+19:59:18 | INFO: Blender create Mesh node char1
+19:59:18 | INFO: glTF import finished in 0.07s
+19:59:18 | INFO: Data are loaded, start creating Blender stuff
+19:59:18 | INFO: Blender create Mesh node char1
+19:59:18 | INFO: glTF import finished in 0.10s
+[
+  {
+    "source": "apps/world/assets/characters/cybercat-sentinel/cybercat.glb",
+    "rig": "Meshy_cybercat-sentinel-rigged_Armature",
+    "scale": [
+      0.009999999776482582,
+      0.009999999776482582,
+      0.009999999776482582
+    ],
+    "actions": [
+      "idle",
+      "walk"
+    ],
+    "tracks": [
+      "walk",
+      "idle"
+    ],
+    "meshes": [
+      "char1"
+    ]
+  },
+  {
+    "source": "apps/world/assets/characters/engineering-specialist/engineer.glb",
+    "rig": "Armature",
+    "scale": [
+      0.009999999776482582,
+      0.009999999776482582,
+      0.009999999776482582
+    ],
+    "actions": [
+      "console",
+      "idle",
+      "run",
+      "walk"
+    ],
+    "tracks": [
+      "console",
+      "idle",
+      "run",
+      "walk"
+    ],
+    "meshes": [
+      "char1"
+    ]
+  },
+  {
+    "source": "apps/world/assets/characters/cybercat-vanguard-secondary/vanguard-secondary.glb",
+    "rig": "Armature",
+    "scale": [
+      0.009999999776482582,
+      0.009999999776482582,
+      0.009999999776482582
+    ],
+    "actions": [
+      "console",
+      "idle",
+      "run",
+      "walk"
+    ],
+    "tracks": [
+      "console",
+      "idle",
+      "run",
+      "walk"
+    ],
+    "meshes": [
+      "char1"
+    ]
+  }
+]
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit

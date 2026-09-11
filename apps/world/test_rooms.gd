@@ -95,10 +95,11 @@ func run() -> void:
 	world.hud.room_requested.emit("review")
 	await process_frame
 	check(world.room_kind=="review" and not world.hud.is_open(),"Inspector visit button enters its selected room")
+	var crew_before_switch:Vector3=world.get_node("Surveyor").position
 	world.enter_room("gym")
 	await process_frame
 	check(world.room_kind=="gym","Direct room switching replaces the prior interior")
-	check(world.get_node("Surveyor").position.z<20,"Switching rooms restores the previous crew member")
+	check(world.get_node("Surveyor").position.distance_to(crew_before_switch)<0.1,"Switching rooms preserves crew position instead of teleporting it from home")
 	key(world,KEY_M)
 	check(world.active_room==null and world.colony_overview,"Map exits the room into colony overview")
 	check(world.commands.payload.is_empty(),"All travel and inspection remained free of dispatch")

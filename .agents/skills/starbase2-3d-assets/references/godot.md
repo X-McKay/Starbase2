@@ -33,6 +33,19 @@ teleport resets. At running speed, use a run clip and suitable stride if
 available; retain an explicit fallback for models without that clip. Blend
 changes in pose/heading and test the planted feet, not only clip selection.
 
+Imported animation clips may omit constant rest channels. When explicitly seeking
+an absolute social pose, restore the intended bone baseline before applying its
+tracks so channels omitted by that clip cannot retain a preceding walk/console
+pose. Preserve deliberate blending separately. Test transitions from other clips,
+not just a clean startup: in Shift Change, a passing clip-name check missed folded
+native torsos until the inherited rest-channel state was cleared.
+
+Qualify the native deformed skin in front and side captures of standing, sitting
+down, seated and standing up. Check thighs against the bench and soles against the
+floor, including imported child transforms, model scale and floor offsets. Pelvis,
+knee or ankle positions are diagnostic measurements, not a substitute for visible
+skin contact; a successful bake or selected `social/seated` clip is insufficient.
+
 An inspection gesture follows local UI interaction; activity labels follow
 authoritative records. Opening a panel or moving through a room must not dispatch
 work. Reduced motion uses a stable pose and stops decorative effects; sound
@@ -40,6 +53,10 @@ defaults off. Keep portraits and structured inspection usable independently of
 the 3D presentation.
 
 Verify materials using this project's Compatibility renderer. A custom cutaway
-shader must preserve imported PBR textures and flags. Test muted audio, light and
+shader must preserve imported PBR textures and flags. Inspect light response and
+emission independently: check omitted metallic defaults and whether an emission
+map duplicates albedo. A numeric material correction does not remove baked texture
+contrast. Compare the corrected asset under actual room lighting before judging
+its readability. Test muted audio, light and
 rotor behavior as observable states. Use
 [world QA](../../starbase2-world-qa/SKILL.md) to close the slice with evidence.

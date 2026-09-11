@@ -7,8 +7,10 @@ const BLOCKS: Array[Rect2] = [
 	Rect2(-3.15, 19.9, 1.0, 6.5),
 	Rect2(-9.4, 25.65, 4.8, 0.85),
 	Rect2(-7.7, 22.0, 1.4, 2.1),
+	Rect2(-10.475,20.5,0.95,0.4),
+	Rect2(-4.975,21.5,0.95,0.4),
 ]
-const HEIGHTS := [3.2, 3.2, 1.21, 2.2]
+const HEIGHTS := [3.2, 3.2, 1.21, 2.2, 0.98, 0.98]
 const MODEL := "res://assets/environment/living-commons/living-commons.glb"
 var foliage_materials: Array[ShaderMaterial] = []
 var canopy_materials: Array[ShaderMaterial] = []
@@ -41,6 +43,13 @@ func _ready() -> void:
 		push_error("Living commons model is unavailable")
 		return
 	add_child(packed.instantiate())
+	add_child(preload("res://assets/kits/aster-domestic/commons-details.glb").instantiate())
+	for data in [{"id":"GardenWest","point":Vector3(-3,0,-1.75),"face":Vector3(-3,0,2)}, {"id":"GardenEast","point":Vector3(2.5,0,-0.75),"face":Vector3(2.5,0,2)}, {"id":"CoastalView","point":Vector3(-1.8,0,-2),"face":Vector3(-1.8,0,-8)}]:
+		var anchor := Marker3D.new()
+		anchor.name=data.id; anchor.position=data.point
+		anchor.set_meta("activity_anchor",true); anchor.set_meta("pose","sit" if data.id in ["GardenWest","GardenEast"] else "")
+		anchor.set_meta("facing",data.face); anchor.set_meta("zone","LivingCommons")
+		add_child(anchor)
 	for mesh in find_children("*","MeshInstance3D",true,false):
 		var foliage := "Leaf" in str(mesh.name)
 		var roof := str(mesh.name).begins_with("CanopySlats")
@@ -67,7 +76,7 @@ func _ready() -> void:
 		var lamp := OmniLight3D.new()
 		lamp.position = Vector3(x, 3.0, 0.1)
 		lamp.light_color = Color(1.0, 0.72, 0.40)
-		lamp.light_energy = 0.45
+		lamp.light_energy = 0.8
 		lamp.omni_range = 4.5
 		lamp.shadow_enabled = false
 		add_child(lamp)

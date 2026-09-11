@@ -11,7 +11,8 @@ Use the same category and asset ID in both places; see the
   retained Engineering prototype. Illustrated structure art remains available
   to supported definitions and previews.
 - `props/`: containment reactor and earlier reactor apparatus.
-- `kits/`: Aster material atlas and original frontier surface SVGs.
+- `kits/`: Aster material atlas, original frontier surface SVGs, and the
+  `aster-domestic` Habitat/Commons furniture and dressing.
 - `environment/`: sandstone geology and original plant/tree SVGs.
 
 Scenes, collision and behavior live in `../structures/`, `../characters/` and

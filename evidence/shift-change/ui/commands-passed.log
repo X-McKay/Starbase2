@@ -1,0 +1,5 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Native command checks passed: local origin, session, denial, pending deduplication, lost response, reconciliation without redispatch
+
+HTTP fixture verified seven POSTs only; reconciliation used GET; no worker identity.

@@ -1,0 +1,236 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Scanning file structure...[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Loading global class names...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifying GDExtensions...[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Creating autoload scripts...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Initializing plugins...[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Starting file scan...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Loading editor (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Loading editor layout...[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Loading docks...[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Godot state checks passed: disconnected, empty, stale, missing evidence, terminal and pending states
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+CONNECTION_STATUS_PASSED: explicit policy, worker/offline/fixture distinctions, additive schema, endpoint boundary, pending fence, keyboard and responsive panel
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+CREW_PRESENTATION_PASSED: intent only, chronological coalescing, concurrency, offline/stale, reduced motion, evidence and cancellation
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+CREW_HOME_PASSED: occupancy, physical arrival, assignment interruption, early completion, holds, cross-room visibility and bounded failed routes
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+CREW_HOME_ROUTES: anchors=7 directed_routes=70 failures=0
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+SHIFT_STRIP_BOUNDS (1280, 800) [P: (140.0, 658.0), S: (1000.0, 126.0)] viewport [P: (0.0, 0.0), S: (1280.0, 800.0)]
+SHIFT_STRIP_BOUNDS (800, 640) [P: (22.0, 498.0), S: (756.0, 126.0)] viewport [P: (0.0, 0.0), S: (800.0, 640.0)]
+SHIFT_CHANGE_UI_PASSED: truthful domestic/work states, explicit watching, native inspection and compact layout
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+CREW_WATCH_PASSED: opt-in camera, home cutaway, visible actor, no teleport/dispatch and reversible view
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+TASK_MARKERS_PASSED: seven color-independent states, evidence/unknown guards, reduced motion, scaled text, bounded concurrency, reconnect, immutable records
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+DUTY_COMMANDS_PASSED: exact settings and next generation, mismatch/missing/newer preserved, GET-only uncertainty reconciliation
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Run history passed: >20 paging, active retention, selection/evidence preservation, endpoint epoch, malformed and offline/fixture guards
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+HISTORY_REFRESH_PASSED: same selection refresh, newer detail, keyboard focus and fixture/offline fencing
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ADVISORY_STATES_PASSED: unavailable, skipped, unverified, failed and not-requested remain distinct
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Field duty editor checks passed: configured GitHub target, opt-in, exact generations, stale edit refusal, authoritative state and fixture/offline/policy gates
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Live duty control harness checks passed: exact named buttons, authoritative generation checks, restoration and timer precondition; synthetic only
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Capture input passed: default manual routing preserved, explicit GUI/input isolation, real collision route and internal UI signal
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+OPERATIONS_PANEL_PASSED: fixture/policy fencing, review/comparison contracts, duty generation, independent stop/pause, stale briefing and endpoint reset
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+CREW_ARRIVAL repair distance=0.10984810441732 traveled=87.1007419116795 path=0 stalled=0.0
+CREW_ARRIVAL review distance=0.11939696967602 traveled=51.0250094532967 path=0 stalled=0.0
+CREW_ARRIVAL gym distance=0.11614943295717 traveled=61.1436391435564 path=0 stalled=0.0
+CREW_ARRIVAL watchkeeper distance=0.11056812852621 traveled=51.6534636002034 path=0 stalled=0.0
+CREW_ARRIVAL reviewer distance=0.11087914556265 traveled=53.8201051056385 path=0 stalled=0.0
+CREW_HOME repair first_stopped_arrival={ "anchor": "LoungeConversation", "distance": 0.10176837444305 } blocked=false
+CREW_HOME review first_stopped_arrival={ "anchor": "GardenEast", "distance": 0.11426750570536 } blocked=false
+CREW_HOME gym first_stopped_arrival={ "anchor": "DoorwayPause", "distance": 0.104965493083 } blocked=false
+CREW_HOME watchkeeper first_stopped_arrival={ "anchor": "GalleyConversation", "distance": 0.1092270091176 } blocked=false
+CREW_HOME reviewer first_stopped_arrival={ "anchor": "CoastalView", "distance": 0.10860987752676 } blocked=false
+LIVE_CREW_PASSED: five home/work/home routes, reservations, speed/arrival/pose, Command exterior entry, reduced/outage and no dispatch
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Board overview passed: active retention, source-time truth, bounded briefing, policy/cancel separation, endpoint reset
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Board buttons passed: all action labels fit at 640/960/1280 widths, default and large text
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Command board checks passed: fixture/offline command fences, findings, coverage and compact bounds
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+HUD_BOUNDS (1280, 800) @PanelContainer@17 [P: (848.0, 112.0), S: (410.0, 486.0)]
+HUD_BOUNDS (1280, 800) @PanelContainer@103 [P: (22.0, 112.0), S: (410.0, 486.0)]
+HUD_BOUNDS (1280, 800) @PanelContainer@324 [P: (848.0, 112.0), S: (410.0, 486.0)]
+HUD_BOUNDS (800, 640) @PanelContainer@17 [P: (368.0, 154.0), S: (410.0, 284.0)]
+HUD_BOUNDS (800, 640) @PanelContainer@103 [P: (22.0, 154.0), S: (410.0, 284.0)]
+HUD_BOUNDS (800, 640) @PanelContainer@324 [P: (368.0, 154.0), S: (410.0, 284.0)]
+CONTEXTUAL_HUD_PASSED: compact chrome, truthful optional roster, location, zoom signals, keyboard focus and responsive large text
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+LIVING_FOLIAGE_PASSED: 3 actual surfaces; two-sided rendering contract, authored PBR and reduced motion
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+INHABITED_CHARACTER_PASSED: bounded hair; unchanged helmet; reduced motion; wood/metal/soil; contacts; 6m/s; mute
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+SOCIAL_ANIMATION_CHECK_PASSED
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+INHABITED_JOURNEY_PASSED: physical run/stop/turn, water temporal accessibility, Habitat furniture console and equivalent no-dispatch inspection
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Colony vent passed: imported centered rotor, visible rotation, reduced/hidden freeze, resume, no collision
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+LIVING_ROOM review
+LIVING_ROOM gym
+LIVING_ROOM habitat
+LIVING_ROOM greenhouse
+LIVING_COLONY_PASSED: commons contacts, physical primary-console access, authored cameras, quiet truthful HUD, reduced motion and identical non-spatial Command
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Visual fixture cannot open a live operational Command board or dispatch work
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Navigation checks passed: all crew, route around habitat, walls, colony boundary
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Exploration passed: faster travel, buttons in all camera modes, expanded navigable land, no dispatch
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Shelf shape checks passed: broken long edges, eroded corner and reachable headlands
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Path checks passed: every orthogonal centerline stays on shelf, clears obstacles and ends at a reachable destination
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Paving checks passed: 1252 unique tiles, rectangular pads, two-tile corridors, separate pad/road materials, yellow dashes, four batched meshes, connected door/landing walks, terrain clearance
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Paving light checks passed: all pad borders, exposed road edges, inset fixtures, three-metre spacing, reduced-motion settings, five meshes, no collision or CPU polling
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Surface scatter checks passed: shelf/path/landmark clearance, blocked outcrop routes and physics, traversable craters
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Environment checks passed: animated/frozen/resumed spring and canyon water, room visibility, shore footprint
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Coast checks passed: continuous backdrop extent, shelf clearance, fixed collision count, excluded mainland routes, seven boundary contacts and returns
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Upland seam checks passed: every northern boundary vertex matches the plateau position and elevation
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Colony routes reach landing, habitat, expansion and survey districts
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+16 accepted sprite poses verified: alpha, nonempty content, atlas bounds, no clipped opaque pixels
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Character contract, alpha rejection, frame bounds, distinct poses, displacement gait, stop, contact and teleport checks passed
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Illustrated character passed: alpha, provenance, all four directions live, contacts, stop layout, wall and reduced motion
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+wall sample: 0.48431404866278 -> 0.48431404866278; contacts 0 -> 0; position (0.619847, 0.0, 0.0)
+Actual CharacterBody3D wall collision, turns, reduced motion and teleport passed
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MESHY_CHARACTER_CHECKS_COMPLETE failed=false
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+RUN_CADENCE_PASSED: 6 m/s uses 2.8 m stride, physical contacts and stop-to-idle
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Authoritative execution requests workstation pose after actual arrival
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_engineering_polish.gd:72)
+ERROR: Console pose starts only after travel stops
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_engineering_polish.gd:72)
+ERROR: Closing inspector must not stop authoritative work presentation
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_engineering_polish.gd:72)
+
+Godot validation failed; inspect the retained command output.

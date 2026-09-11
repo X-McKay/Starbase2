@@ -23,6 +23,8 @@ signal zoom_requested(direction: int)
 signal map_requested
 signal room_requested(kind: String)
 signal exit_requested
+signal watch_requested(kind:String)
+var crew_strip:PanelContainer
 var room_exit: Button
 var root := Control.new()
 var dock: PanelContainer
@@ -60,12 +62,12 @@ var prompt_panel: PanelContainer
 var crew_summary := false
 var summary_toggles: Array[CheckButton] = []
 
-func style(bg: String = "152b3fee", border: String = "526a78", pad: int = 18) -> StyleBoxFlat:
+func style(bg: String = "142128f5", border: String = "7c8275", pad: int = 18) -> StyleBoxFlat:
 	var s := StyleBoxFlat.new()
 	s.bg_color = Color(bg)
 	s.border_color = Color(border)
 	s.set_border_width_all(1)
-	s.set_corner_radius_all(6)
+	s.set_corner_radius_all(12)
 	s.content_margin_left = pad
 	s.content_margin_right = pad
 	s.content_margin_top = pad
@@ -109,9 +111,9 @@ func _ready() -> void:
 	root.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var theme := Theme.new()
 	theme.default_font_size = 16
-	theme.set_stylebox("normal", "Button", style("294356", "557281", 9))
-	theme.set_stylebox("hover", "Button", style("3a5a69", "a7c8bc", 9))
-	theme.set_stylebox("pressed", "Button", style("456570", "e4c58f", 9))
+	theme.set_stylebox("normal", "Button", style("22333b", "40514e", 9))
+	theme.set_stylebox("hover", "Button", style("35494c", "c4be91", 9))
+	theme.set_stylebox("pressed", "Button", style("415953", "e4c58f", 9))
 	theme.set_stylebox("focus", "Button", style("00000000", "ffe0a0", 3))
 	root.theme = theme
 	mast = VBoxContainer.new()
@@ -124,7 +126,7 @@ func _ready() -> void:
 	brand.mouse_filter=Control.MOUSE_FILTER_IGNORE
 	brand.add_theme_constant_override("separation",12)
 	mast.add_child(brand)
-	text(brand,"STARBASE 02",13,"d9e6e2")
+	text(brand,"STARBASE2",16,"f0e4c9")
 	location=text(brand,"ASTER OUTPOST",12,"aac1bd")
 	location.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	location.clip_text=true
@@ -213,7 +215,7 @@ func _ready() -> void:
 	identity.add_theme_constant_override("separation",16)
 	col.add_child(identity)
 	portrait = TextureRect.new()
-	portrait.custom_minimum_size = Vector2(80,110)
+	portrait.custom_minimum_size = Vector2(66,82)
 	portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	portrait.texture = CrewArt.pose("mender")
@@ -223,11 +225,12 @@ func _ready() -> void:
 	identity.add_child(identity_text)
 	suit_label = text(identity_text,"COPPER EXOSUIT",14,"efd29d")
 	suit_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	var cosmetic := text(identity_text,"Crew appearance\nEquipment is cosmetic.",12,"a6c9be")
+	var cosmetic := text(identity_text,"ASTER FIELD CREW",12,"a6c9be")
 	cosmetic.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	button(col,"Command board [B]",open_board)
-	button(col,"Operations & history [R]",open_operations)
-	button(col,"Visit this room",func(): room_requested.emit(filter_kind))
+	button(col,"Watch this crew member",func(): watch_requested.emit(filter_kind))
+	var actions:=HBoxContainer.new(); col.add_child(actions)
+	button(actions,"Command [B]",open_board)
+	button(actions,"Journal [J]",open_operations)
 	text(col,"OBSERVED WORK · retained records",12,"a6c9be")
 	list = OptionButton.new()
 	list.fit_to_longest_item = false
@@ -271,8 +274,7 @@ func _ready() -> void:
 	stop = button(col,"Request cancellation",func(): cancel_requested.emit())
 	command_status = text(col,"",13,"f0cea0")
 	command_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	button(col,"Operations, history & stop controls",open_operations)
-	var truth := text(col,"Work poses reflect recorded activity. Travel is cosmetic.\nLevels grant no operational permissions.",12,"a8babf")
+	var truth := text(col,"Live records · available wherever the crew is.",12,"a8babf")
 	truth.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	dock.hide()
 	directory = panel_at(root,Vector2(330,0))
@@ -326,7 +328,7 @@ func _ready() -> void:
 	help_scroll.add_child(hc)
 	text(hc,"FIELD GUIDE & COMFORT",18,"efd29d")
 	button(hc,"Colony connection [O]",open_connection)
-	text(hc,"WASD / arrows: move · Click: choose path\nE: inspect crew or console · F: enter or exit\n1–5: inspect crew · Tab: station directory\nEnter: focused control · Esc: close\nC: follow / room camera · M: colony map\n+ / − or wheel: zoom · B: command board\nJ: operations & history · O: connection · H: this guide\nHabitat, Botanical and reserved sites are scenery.",15).autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	text(hc,"WASD / arrows: move · Click: choose path\nE: inspect crew or console · F: enter or exit\n1–5: inspect crew · Tab: station directory\nEnter: focused control · Esc: close\nC: follow / room camera · M: colony map\nL: Habitat · Watch crew: inspector button\n+ / − or wheel: zoom · B: command board\nJ: operations & history · O: connection · H: this guide\nHabitat is the crew’s home between assignments.\nBotanical and reserved sites are scenery.",15).autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	add_summary_toggle(hc)
 	var rm := CheckButton.new()
 	rm.text = "Reduced motion (room cuts, still crew)"
@@ -376,12 +378,27 @@ func _ready() -> void:
 	root.add_child(connection_panel)
 	connection_panel.connect_requested.connect(func(value:String): connect_requested.emit(value))
 	connection_panel.journal_requested.connect(open_operations)
+	crew_strip=preload("res://crew_strip.gd").new()
+	root.add_child(crew_strip)
+	crew_strip.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
+	crew_strip.inspect_requested.connect(open_place)
+	crew_strip.home_requested.connect(func():room_requested.emit("habitat"))
+	board.visibility_changed.connect(sync_world_chrome)
+	operations.visibility_changed.connect(sync_world_chrome)
 	root.resized.connect(layout_hud)
 	layout_hud.call_deferred()
 
 func set_location(value:String) -> void:
 	location.text=value
 	location.tooltip_text=value
+
+func sync_world_chrome() -> void:
+	# Dense evidence workspaces get their full scroll area; closing restores the
+	# world without making a second action necessary.
+	if crew_strip==null: return
+	var expanded:bool=board.visible or operations.visible
+	crew_strip.visible=not expanded
+	prompt_panel.visible=not expanded
 
 func add_summary_toggle(parent:Node) -> void:
 	var toggle:=CheckButton.new()
@@ -428,7 +445,16 @@ func layout_hud() -> void:
 	var prompt_width:=minf(820,viewport_size.x-44)
 	prompt_panel.offset_left=(viewport_size.x-prompt_width)*0.5
 	prompt_panel.offset_right=-(viewport_size.x-prompt_width)*0.5
-	prompt_panel.offset_top=-68 if large_text else -62
+	prompt_panel.offset_top=-194 if large_text else -184
+	prompt_panel.offset_bottom=-150
+	if crew_strip!=null:
+		var strip_width:=minf(1000,viewport_size.x-44)
+		crew_strip.offset_left=(viewport_size.x-strip_width)*0.5
+		crew_strip.offset_right=-(viewport_size.x-strip_width)*0.5
+		crew_strip.offset_top=-142; crew_strip.offset_bottom=-16
+		crew_strip.fit(viewport_size.x,large_text)
+	for panel in [dock,directory,help,room_details,connection_panel,operations]:
+		if panel!=null: panel.offset_bottom=-202
 
 func open_connection() -> void:
 	close_panels()
@@ -485,6 +511,7 @@ func close_panels() -> void:
 	help.hide()
 	if room_details!=null: room_details.hide()
 	root.get_viewport().gui_release_focus()
+	sync_world_chrome()
 
 func toggle_directory() -> void:
 	var was := directory.visible

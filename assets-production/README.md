@@ -19,6 +19,15 @@ IDs defined in the [content taxonomy](../docs/content-organization.md).
 | `props/reactor-apparatus` | Earlier reactor used by colony build and previews | [Original batch](batches/meshy-blender/provenance.json) |
 | `props/habitat-lounge-sofa` | Selected sage Habitat sofa | `mise exec -- just world-inhabited-build` |
 | `environment/colony-vent` | Authored decorative wall fan | `mise exec -- just world-inhabited-build` |
+| `kits/aster-domestic` | Habitat lounge and Commons furniture, textiles and domestic detail | [Blender recipe and provenance](kits/aster-domestic/README.md) |
+| `characters/shift-social` | Rig-specific sit, seated and stand animation libraries for existing crew | `scripts/build_social.py` within the asset directory |
+
+The Shift Change implementation reuses the selected Meshy characters and props,
+with a new [generated composition target](batches/shift-change/concepts/art-target-v1.md),
+editable domestic dressing and rig-specific social animation. No new Meshy
+credits are spent in this pass. [Physical evidence](../evidence/shift-change/physical/README.md)
+records home reservations and actual round trips for all five crew; native
+animation and final artifact qualification are recorded separately.
 
 The current [inhabited-polish pass](batches/inhabited-polish/DESIGN.md) adds the
 selected sofa, four-room interior detail, authored fans, water motion and

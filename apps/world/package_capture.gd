@@ -9,7 +9,7 @@ var output := ""
 func check(value:bool,message:String) -> void:
 	if not value: failures.append(message); push_error(message)
 func capture(tree:SceneTree,name:String,actor:Node3D) -> void:
-	await RenderingServer.frame_post_draw
+	RenderingServer.force_draw(false)
 	var image=tree.root.get_texture().get_image()
 	check(image.save_png(output.path_join(name+".png"))==OK,"Cannot save native capture: "+name)
 	records.append({"name":name,"position":[actor.position.x,actor.position.y,actor.position.z]})
@@ -30,7 +30,7 @@ func walk(tree:SceneTree,scene:Node,target:Vector3,context:Node3D,record_motion:
 		previous=actor.position
 		previous_tick=Engine.get_physics_frames()
 		if record_motion and tick%8==0 and frames.size()<12:
-			await RenderingServer.frame_post_draw
+			RenderingServer.force_draw(false)
 			var frame=tree.root.get_texture().get_image()
 			frames.append(frame)
 			motion_samples.append({"physics_frame":Engine.get_physics_frames(),"position":[actor.position.x,actor.position.y,actor.position.z]})
@@ -90,10 +90,9 @@ func run(tree:SceneTree,scene:Node,directory:String) -> void:
 			scene.hud.scale_text()
 			scene.hud.close_panels()
 		if id in ["habitat","greenhouse"]:
-			var guide_event:=InputEventKey.new()
-			guide_event.physical_keycode=KEY_E
-			guide_event.pressed=true
-			scene._unhandled_key_input(guide_event)
+			# E now correctly prioritizes nearby home crew. Review the same
+			# guide action directly without depending on a wandering crew gap.
+			scene.show_room_guide()
 			check(scene.hud.room_details.visible,"Native room guide opens")
 			for tick in range(60): await tree.physics_frame
 			await capture(tree,id+"-guide",actor)
@@ -146,6 +145,9 @@ func capture_operations(tree:SceneTree,scene:Node,actor:Node3D) -> void:
 		var run:Dictionary={"sequence":30-index,"input":{"request":{"id":"fixture-review-"+str(30-index),"kind":"review","target":"sample","profile":"surveyor-v2"},"builds":data.builds},"state":"completed","created_at":1788919800,"updated_at":1788919900,"detail":"Synthetic retained Python review; no provider accessed.","report":{"summary":{"outcome":"incomplete","finding_count":0,"files_reviewed":2,"qualification":"Partial synthetic coverage. Unsupported files excluded; not a certification.","synthetic_task":true}},"events":[{"state":"completed","at":1788919900,"detail":"Fixture evidence retained"}]}
 		data.recent.append(run)
 	var active:Dictionary=data.recent[0].duplicate(true)
+	data.observed_at=maxf(Time.get_unix_time_from_system(),float(scene.snapshot.get("observed_at",0))+1)
+	data.worker.seen_at=data.observed_at
+	active.updated_at=data.observed_at
 	active.input.request.id="fixture-active-assignment"; active.sequence=1; active.state="running"; active.report=null
 	data.active=[active]
 	var compare:Dictionary=active.duplicate(true); compare.input.request.kind="evaluation"; compare.input.request.id="fixture-queued-comparison"; compare.state="queued"
@@ -157,9 +159,13 @@ func capture_operations(tree:SceneTree,scene:Node,actor:Node3D) -> void:
 	await walk(tree,scene,review_station.room.to_global(review_station.room.console_point),review_station)
 	scene.adjust_zoom(-1)
 	scene.adjust_zoom(-1)
+	# The assigned crew may still be travelling from home. Explicit watching
+	# follows its actual position without teleporting it beside the operator.
+	scene.watch_crew("review")
 	for tick in range(120): await tree.physics_frame
-	check(scene.get_node("Surveyor").label.visible,"Assignment markers visible near assigned crew")
+	check(scene.watched_crew=="review" and scene.get_node("Surveyor").label.visible,"Explicit watch shows the assigned crew's current status")
 	await capture(tree,"operations-task-markers",actor)
+	scene.stop_watching()
 	scene.adjust_zoom(1)
 	scene.adjust_zoom(1)
 	scene.hud.open_operations()

@@ -14,6 +14,8 @@ func _initialize() -> void:
 	var second=run.duplicate(true);second.input.id="two";second.updated_at=3
 	a=p.update([run,second],"gym",false,false,3)
 	assert(a.run_id=="one" and a.active_count==2 and a.label=="2 open runs","Keep assignment while a newer concurrent run updates")
+	a=p.update([run,second],"gym",false,false,3,{"known":true,"enabled":false})
+	assert(a.goal=="workstation" and a.duty_label.is_empty(),"Pausing future duties must not interrupt an active assignment")
 	second.updated_at=4
 	a=p.update([second,run],"gym",false,false,4)
 	assert(a.run_id=="one","Input reorder and new progress must not bounce assignment")
@@ -35,6 +37,10 @@ func _initialize() -> void:
 	a=p.update([run],"gym",false,false,8)
 	assert(not a.evidence_ready and a.goal=="hold" and a.unknown and a.label.begins_with("Unknown"))
 	a=p.update([],"gym",false,false,9)
-	assert(a.run_id=="" and a.active_count==0 and a.goal=="hold")
+	assert(a.run_id=="" and a.active_count==0 and a.goal=="home")
+	a=p.update([],"gym",false,false,10,{"known":true,"enabled":true})
+	assert(a.goal=="home" and a.duty_label=="On duty · waiting")
+	a=p.update([],"gym",false,false,11,{"known":true,"enabled":false})
+	assert(a.goal=="home" and a.duty_label=="Duty paused")
 	print("CREW_PRESENTATION_PASSED: intent only, chronological coalescing, concurrency, offline/stale, reduced motion, evidence and cancellation")
 	quit()
