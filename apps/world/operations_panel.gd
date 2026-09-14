@@ -12,6 +12,7 @@ var commands:Node
 var history:VBoxContainer
 var heading:Label
 var notice:Label
+var notice_slot:Control
 var briefing:Label
 var tabs:TabContainer
 var target:OptionButton
@@ -99,9 +100,6 @@ func _ready() -> void:
 	briefing=label(briefing_content,"Waiting for retained Core records",14)
 	label(briefing_content,"Commands require an explicit request. Travel and inspection do not start work.",14)
 	briefing_scroll.hide()
-	notice=label(outer,"",14); notice.hide()
-	reconcile_button=button(outer,"Reconcile uncertain request",func(): commands.submit("",{},""))
-	reconcile_button.hide()
 	tabs=TabContainer.new(); tabs.size_flags_vertical=Control.SIZE_EXPAND_FILL; outer.add_child(tabs)
 	var review:=page("Review")
 	section(review,"LOCAL REPOSITORY REVIEW")
@@ -132,7 +130,7 @@ func _ready() -> void:
 	section(watch,"RECURRING LOCAL REVIEWS")
 	label(watch,"Recurring local reviews. The Review tab selects the target and build. Pause prevents future ticks; stop active work separately.")
 	duty_id=LineEdit.new(); duty_id.text="repository-watch"; duty_id.max_length=100; form_field(watch,"Duty identity",duty_id)
-	interval=SpinBox.new(); interval.min_value=30; interval.max_value=86400; interval.value=300; form_field(watch,"Interval · seconds",interval)
+	interval=SpinBox.new(); interval.min_value=30; interval.max_value=86400; interval.value=300; Commands.track_integer_spinbox(interval); form_field(watch,"Interval · seconds",interval)
 	duty_context=label(watch,"Target and build not reported")
 	duty_button=button(watch,"Save / enable recurring review",save_duty)
 	ConsoleTheme.primary(duty_button)
@@ -143,6 +141,13 @@ func _ready() -> void:
 	history=preload("res://run_history.gd").new(); history.size_flags_vertical=Control.SIZE_EXPAND_FILL; history_page.add_child(history)
 	history.configure(api,fixture)
 	history.cancel_requested.connect(cancel_run)
+	# Keep transient command feedback below the workspace so it can never move a
+	# form control after a submission. The slot is always in the layout; the
+	# label remains hidden until there is a message to show.
+	notice_slot=VBoxContainer.new(); notice_slot.add_theme_constant_override("separation",4); outer.add_child(notice_slot)
+	notice=label(notice_slot,"",14); notice.hide()
+	reconcile_button=button(notice_slot,"Reconcile uncertain request",func(): commands.submit("",{},""))
+	reconcile_button.hide()
 	visits.load("user://starbase2-visits.cfg")
 	hide()
 
@@ -197,14 +202,17 @@ func refresh_controls() -> void:
 	reconcile_button.disabled=offline or not fixture.is_empty() or other_pending or commands.phase!=""
 	var can_infer:=selected(target)=="sample" and Status.enabled(snapshot,"inference")
 	inference.disabled=not can_infer
+	inference.tooltip_text="Optional synthetic explanation · one model call. Cost is not reported by Core. Submit the review explicitly to request it."
 	if not can_infer: inference.button_pressed=false
 	review_button.disabled=not allowed("review") or selected(target).is_empty() or selected(profile).is_empty()
 	review_button.tooltip_text=Status.reason(snapshot,"review")
 	evaluation_button.disabled=not allowed("evaluation") or selected(baseline).is_empty() or selected(candidate).is_empty() or selected(baseline)==selected(candidate)
+	evaluation_button.tooltip_text=("Choose two different registered profiles." if selected(baseline)==selected(candidate) else "Choose two registered profiles." if selected(baseline).is_empty() or selected(candidate).is_empty() else Status.reason(snapshot,"evaluation"))
 	duty_button.disabled=not allowed("review") or selected(target).is_empty() or selected(profile).is_empty()
 	var counts:Dictionary={"review":0,"evaluation":0}
-	for record in StateView.project(snapshot):
-		var kind:=StateView.kind(record)
+	for record in StateView.operation_records(snapshot):
+		var request:Dictionary=record.get("input",{}).get("request",record.get("input",{}))
+		var kind:=str(request.get("kind","review"))
 		if counts.has(kind): counts[kind]+=1
 	var availability:="Synthetic fixture · commands disabled" if not fixture.is_empty() else "Disconnected · retained snapshot" if offline else "Pending request · wait for resolution" if other_pending or unresolved() else "Core connected"
 	var target_hint:="" if not targets_empty() else "\nNo targets available. Connect to Core or retain a target before starting work."
@@ -232,12 +240,33 @@ func save_duty() -> void:
 	var generation:=0
 	for duty in rows(snapshot.get("duties",[])):
 		if duty is Dictionary and duty.get("id")==id: generation=int(duty.get("generation",0))
-	write_duty({"id":id,"target":selected(target),"profile":selected(profile),"interval_seconds":int(interval.value),"enabled":true,"generation":generation})
+	var interval_seconds:=Commands.commit_integer_spinbox(interval)
+	if interval_seconds<0:
+		notice.text="Enter an integer interval from 30 to 86400 seconds."; notice.show(); return
+	write_duty({"id":id,"target":selected(target),"profile":selected(profile),"interval_seconds":interval_seconds,"enabled":true,"generation":generation})
 
 func write_duty(value:Dictionary) -> void:
 	if offline or not fixture.is_empty() or other_pending or commands.phase!="": return
 	if value.get("enabled",true) and not Status.enabled(snapshot,"review"): return
-	commands.submit("/v2/duties",value,str(value.id),"/v2/snapshot")
+	var request:Dictionary={
+		"id":value.get("id",""),
+		"target":value.get("target",""),
+		"profile":value.get("profile",""),
+		"interval_seconds":value.get("interval_seconds",-1),
+		"enabled":value.get("enabled",false),
+		"generation":value.get("generation",-1),
+	}
+	for key in ["id","target","profile"]:
+		if not request[key] is String or str(request[key]).is_empty():
+			notice.text="Duty request is missing "+key+"."; notice.show(); return
+	for key in ["interval_seconds","generation"]:
+		if not Commands.valid_duty_integer(request[key]):
+			notice.text="Duty "+key.replace("_"," ")+" must be an integer."; notice.show(); return
+	request.interval_seconds=int(request.interval_seconds)
+	request.generation=int(request.generation)
+	if not request.enabled is bool:
+		notice.text="Duty enabled state is invalid."; notice.show(); return
+	commands.submit("/v2/duties",request,str(request.id),"/v2/snapshot")
 
 func cancel_run(id:String) -> void:
 	if offline or not fixture.is_empty() or other_pending or commands.phase!="": return
@@ -252,7 +281,7 @@ func render_duties() -> void:
 	if records.is_empty(): label(duties,"No recurring local reviews recorded.")
 	for row in records:
 		if not row is Dictionary or not row.get("id") is String: continue
-		label(duties,"%s · %s · every %ss\n%s · configuration %s"%[row.id,row.get("target","unknown"),row.get("interval_seconds","?"),"Enabled · durable timer" if row.get("enabled",false) else "Paused",row.get("generation","?")],14)
+		label(duties,"%s · %s · every %ss\n%s · configuration %s"%[row.id,row.get("target","unknown"),str(int(row.interval_seconds)) if row.has("interval_seconds") else "?","Enabled · durable timer" if row.get("enabled",false) else "Paused",str(int(row.generation)) if row.has("generation") else "?"],14)
 		var value:Dictionary=row.duplicate(true); value.enabled=not row.get("enabled",false)
 		var toggle:=button(duties,"Resume" if value.enabled else "Pause future reviews",func(): write_duty(value))
 		toggle.disabled=offline or not fixture.is_empty() or other_pending or commands.phase!="" or (value.enabled and not Status.enabled(snapshot,"review"))
@@ -270,17 +299,23 @@ func open() -> void:
 func refresh_briefing() -> void:
 	var projected:=StateView.project(snapshot)
 	var completed:=0; var failed:=0; var active:=0; var unknown:=0
+	var review_records:=0; var observations:=0; var repairs:=0
 	for run in projected:
+		match StateView.kind(run):
+			"review", "evaluation": review_records+=1
+			"repair": repairs+=1
+			_: observations+=1
 		if run.get("state") not in ["completed","failed","cancelled"]: active+=1
 		if run.get("stale",false) or (run.get("state")=="completed" and run.get("evidence")==null): unknown+=1
 		if float(run.get("updated_at",0))<=prior_visit: continue
 		if run.get("state")=="completed" and run.get("evidence")!=null: completed+=1
 		if run.get("state")=="failed": failed+=1
 	var since:="recent retained window" if prior_visit==0 else "since "+Time.get_datetime_string_from_unix_time(int(prior_visit)).replace("T"," ")+" UTC"
+	var record_label:=str(projected.size())+" "+("record" if projected.size()==1 else "records")+" (all work)"
 	heading.tooltip_text="Snapshot observed "+Time.get_datetime_string_from_unix_time(int(snapshot.get("observed_at",0)))+" UTC" if snapshot.get("observed_at",0)>0 else "Snapshot time unavailable"
 	heading.text="WORK · "+("FIXTURE" if not fixture.is_empty() else "LAST KNOWN" if offline else "CONNECTED")
-	briefing_toggle.text=("Hide" if briefing_scroll.visible else "Show")+" briefing · %d open · %d records"%[active,projected.size()]
-	briefing.text=("FIXTURE · " if not fixture.is_empty() else "LAST KNOWN · " if offline else "CORE OBSERVED · ")+"%d open · %d completed with evidence · %d failed · %d unknown\n%s; %d records in snapshot. Older work is in History; repository watches and memory review are in Command."%[active,completed,failed,unknown,since,projected.size()]
+	briefing_toggle.text=("Hide" if briefing_scroll.visible else "Show")+" briefing · %d open · %s"%[active,record_label]
+	briefing.text=("FIXTURE · " if not fixture.is_empty() else "LAST KNOWN · " if offline else "CORE OBSERVED · ")+"%d open · %d completed with evidence · %d failed · %d unknown\n%s; %d all retained work records (%d review/comparison · %d observations · %d repairs). Review History shows review/comparison records; repository watches and memory review are in Command."%[active,completed,failed,unknown,since,projected.size(),review_records,observations,repairs]
 
 func configure(endpoint:String,visual_fixture:String="") -> bool:
 	if unresolved() or not Commands.allowed_origin(endpoint): return false

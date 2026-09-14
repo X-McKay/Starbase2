@@ -21,7 +21,7 @@ func run() -> void:
 	panel.submit_run(false)
 	check(recorder.calls.size()==1 and recorder.calls[0].path=="/v2/runs" and recorder.calls[0].data.kind=="review" and not recorder.calls[0].data.inference,"Explicit local review uses existing API with no inference")
 	panel.submit_run(true)
-	check(recorder.calls.size()==1,"Identical baseline and candidate are rejected locally")
+	check(recorder.calls.size()==1 and panel.evaluation_button.tooltip_text.contains("different"),"Identical baseline and candidate are rejected locally with a reason")
 	panel.candidate.select(1); panel.refresh_controls(); panel.submit_run(true)
 	check(recorder.calls.size()==2 and recorder.calls[-1].data.kind=="evaluation" and recorder.calls[-1].data.target=="sample" and recorder.calls[-1].data.profile=="surveyor-v1" and recorder.calls[-1].data.candidate=="surveyor-v2","Comparison uses distinct registered profiles and synthetic target")
 	check(recorder.calls[0].id!=recorder.calls[1].id,"Explicit actions receive separate identities")
@@ -32,8 +32,9 @@ func run() -> void:
 	panel.update_snapshot(data,false)
 	check(panel.review_button.disabled and panel.evaluation_button.disabled and panel.duty_button.disabled,"Disabled policy blocks new work")
 	var paused:Dictionary=data.duties[0].duplicate(); paused.enabled=false
+	paused.interval_seconds=300.0; paused.generation=7.0
 	panel.write_duty(paused); panel.cancel_run("active-run")
-	check(recorder.calls[-2].data.enabled==false and recorder.calls[-1].path=="/v2/runs/active-run/cancel","Pause and cancellation remain independent of admission policy")
+	check(recorder.calls[-2].data.enabled==false and typeof(recorder.calls[-2].data.interval_seconds)==TYPE_INT and typeof(recorder.calls[-2].data.generation)==TYPE_INT and recorder.calls[-1].path=="/v2/runs/active-run/cancel","Pause and cancellation remain independent of admission policy with integer duty fields")
 	var count:=recorder.calls.size()
 	panel.update_snapshot(data,true); panel.cancel_run("active-run"); panel.write_duty(paused)
 	check(recorder.calls.size()==count and panel.briefing.text.begins_with("LAST KNOWN"),"Outage retains truthful briefing and prevents writes")
@@ -50,7 +51,7 @@ func run() -> void:
 	await process_frame; await process_frame
 	check(not panel.briefing_scroll.visible and panel.tabs.size.y>=250,"Compact form retains at least 250 pixels with briefing collapsed")
 	panel.briefing_toggle.pressed.emit()
-	check(panel.briefing_scroll.visible and panel.briefing.text.contains("records in snapshot"),"Complete briefing remains keyboard-accessible through disclosure")
+	check(panel.briefing_scroll.visible and panel.briefing.text.contains("all retained work records") and panel.briefing.text.contains("review/comparison"),"Complete briefing identifies all-work scope and visible history scope")
 	panel.briefing_toggle.pressed.emit(); panel.tabs.current_tab=3
 	await process_frame; await process_frame
 	check(not panel.history.panes.vertical,"History list and evidence share compact wide viewport")

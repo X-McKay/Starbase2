@@ -28,6 +28,48 @@ static func local_origin(value: String) -> bool:
 static func allowed_origin(value: String) -> bool:
 	return preload("res://transport.gd").web_origin(value) if OS.has_feature("web") else local_origin(value)
 
+static func track_integer_spinbox(spin: SpinBox) -> void:
+	if spin.has_meta("integer_text_tracking"): return
+	spin.set_meta("integer_text_tracking",true)
+	spin.set_meta("integer_text_dirty",false)
+	spin.get_line_edit().text_changed.connect(func(_text:String): spin.set_meta("integer_text_dirty",true))
+	spin.value_changed.connect(func(_value:float): spin.set_meta("integer_text_dirty",false))
+
+static func commit_integer_spinbox(spin: SpinBox) -> int:
+	# SpinBox keeps uncommitted editor text separate from `value` while it has
+	# focus. Read that text before building a command so a typed interval is not
+	# silently replaced by the previous value.
+	var line_edit:=spin.get_line_edit()
+	var tracking:=spin.has_meta("integer_text_tracking")
+	if not tracking: track_integer_spinbox(spin)
+	var dirty:bool=bool(spin.get_meta("integer_text_dirty",false))
+	if not tracking:
+		# A caller may provide an already edited LineEdit before binding the
+		# tracker (as tests and accessibility tooling do).
+		dirty=line_edit.text.strip_edges()!=str(int(spin.value))
+	if not dirty: return int(spin.value)
+	var text:=line_edit.text.strip_edges()
+	if text.is_empty(): return int(spin.value)
+	if not text.is_valid_float(): return -1
+	var parsed:=float(text)
+	if not is_finite(parsed) or parsed!=floorf(parsed): return -1
+	var result:=int(parsed)
+	if result<int(spin.min_value) or result>int(spin.max_value): return -1
+	spin.value=result
+	return result
+
+static func http_error_reason(body: PackedByteArray, code: int) -> String:
+	var raw:=body.get_string_from_utf8().strip_edges()
+	var parsed=JSON.parse_string(raw) if raw.begins_with("{") else null
+	if parsed is Dictionary:
+		for key in ["error","detail","message","reason"]:
+			if parsed.get(key)!=null and not str(parsed.get(key)).strip_edges().is_empty():
+				raw=str(parsed.get(key)).strip_edges(); break
+	if raw.is_empty(): raw="HTTP "+str(code)
+	# Keep server details useful in the status line without allowing an
+	# unbounded response body to take over the workspace.
+	return raw.left(240)
+
 func submit(endpoint: String, data: Dictionary, id: String, lookup: String = "") -> void:
 	if phase != "":
 		return
@@ -83,8 +125,7 @@ func _response(result: int, code: int, headers: PackedStringArray, body: PackedB
 			feedback.emit("Request accepted · watching authoritative state.",false)
 		elif success and code >= 400 and code < 500:
 			phase = ""
-			var data = JSON.parse_string(body.get_string_from_utf8())
-			feedback.emit("Request rejected: " + str(data.get("error","see native History")) if data is Dictionary else "Request rejected; see native History.",false)
+			feedback.emit("Request rejected: " + http_error_reason(body,code),false)
 		else:
 			uncertain = true
 			phase = "reconcile"

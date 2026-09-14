@@ -108,6 +108,12 @@ def main() -> None:
                     }
                     self.reply(200, {"id": value["id"]})
             elif self.path == "/v2/duties":
+                if any(
+                    type(value.get(key)) is not int for key in ("generation", "interval_seconds")
+                ):
+                    errors.append("Duty command violated Core's integer wire contract")
+                    self.reply(422, "Duty generation and interval_seconds must be integers")
+                    return
                 saved = copy.deepcopy(value)
                 saved["generation"] += 2 if value["id"] == "drift-duty" else 1
                 duties[value["id"]] = saved

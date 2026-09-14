@@ -124,10 +124,6 @@ func _ready() -> void:
 		tabs.visible=not guidance.visible
 		guidance_toggle.text="Back" if guidance.visible else "Info")
 	connection=label(col,"Connecting to the core…",13)
-	notice=label(col,"",16); notice.hide()
-	reconcile=button(col,"Reconcile uncertain request",func():
-		if online and not pending and fixture.is_empty(): commands.submit("",{},""))
-	reconcile.hide()
 	tabs=TabContainer.new()
 	tabs.size_flags_vertical=Control.SIZE_EXPAND_FILL
 	col.add_child(tabs)
@@ -158,7 +154,7 @@ func _ready() -> void:
 	label(repository_page,"Checks up to 10 recently updated open PRs, with changed-Python analysis. Pausing or removing prevents future dispatch; stop active observations separately.",14)
 	watch_input=LineEdit.new(); watch_input.placeholder_text="owner/repository"; watch_input.max_length=201
 	form_field(repository_page,"Repository",watch_input)
-	interval=SpinBox.new(); interval.min_value=30; interval.max_value=86400; interval.value=300
+	interval=SpinBox.new(); interval.min_value=30; interval.max_value=86400; interval.value=300; Commands.track_integer_spinbox(interval)
 	form_field(repository_page,"Interval · seconds",interval)
 	watch_save=button(repository_page,"Watch repository",save_watch,true)
 	ConsoleTheme.primary(watch_save)
@@ -179,7 +175,7 @@ func _ready() -> void:
 	duty_identity=LineEdit.new(); duty_identity.max_length=40; form_field(duties_page,"Duty identity",duty_identity)
 	duty_target=OptionButton.new(); duty_target.fit_to_longest_item=false; duty_target.custom_minimum_size.y=40; form_field(duties_page,"Configured target",duty_target)
 	duty_target.item_selected.connect(func(_index: int): duty_target.set_meta("selection_missing",false); controls())
-	duty_interval=SpinBox.new(); duty_interval.min_value=30; duty_interval.max_value=86400; duty_interval.value=300; form_field(duties_page,"Interval · seconds",duty_interval)
+	duty_interval=SpinBox.new(); duty_interval.min_value=30; duty_interval.max_value=86400; duty_interval.value=300; Commands.track_integer_spinbox(duty_interval); form_field(duties_page,"Interval · seconds",duty_interval)
 	duty_inference=CheckButton.new(); duty_inference.text="Request AI advice"; duties_page.add_child(duty_inference)
 	duty_inference.toggled.connect(func(_value: bool): controls())
 	duty_enabled=CheckButton.new(); duty_enabled.text="Enable future observations"; duty_enabled.button_pressed=true; duties_page.add_child(duty_enabled)
@@ -190,6 +186,12 @@ func _ready() -> void:
 	button(duties_page,"New duty",new_field_duty)
 	duties_page.add_child(HSeparator.new()); label(duties_page,"RETAINED FIELD DUTIES",18)
 	duty_records=VBoxContainer.new(); duties_page.add_child(duty_records)
+	# Feedback is below the workspace so accepting or rejecting a command cannot
+	# move the form under the user's pointer or keyboard focus.
+	notice=label(col,"",16); notice.hide()
+	reconcile=button(col,"Reconcile uncertain request",func():
+		if online and not pending and fixture.is_empty(): commands.submit("",{},""))
+	reconcile.hide()
 	commands=Commands.new(); commands.api=api; add_child(commands)
 	commands.feedback.connect(func(message: String, busy: bool): notice.text=message; notice.visible=not message.is_empty(); pending=busy; controls())
 	commands.accepted.connect(func(_id: String): signature=""; poll())
@@ -318,15 +320,18 @@ func controls() -> void:
 	var field_policy:=ConnectionStatus.capability(installation_snapshot,"field")
 	var dispatch_disabled: bool=installation_offline or (not field_policy.is_empty() and not field_policy.get("enabled",false))
 	launch.disabled=launch.disabled or dispatch_disabled or not snapshot.get("enabled",false) or targets.item_count==0 or targets.selected<0
+	launch.tooltip_text=("Choose a configured target." if targets.selected<0 else ConnectionStatus.reason(installation_snapshot,"field") if dispatch_disabled else "Start a read-only field observation.")
 	watch_save.disabled=watch_save.disabled or dispatch_disabled or not snapshot.get("enabled",false)
+	watch_save.tooltip_text=("Connect to an enabled Field policy before saving a watch." if dispatch_disabled or not online else "Save the repository watch with the typed interval.")
 	observation_availability.text="Synthetic fixture · commands disabled" if not fixture.is_empty() else "Offline · retained records; commands unavailable" if not online else "Outcome unknown · reconcile the previous request" if uncertain else "Request pending · waiting for Core" if pending else "Field policy: "+ConnectionStatus.reason(installation_snapshot,"field")
 	var inference_allowed:=ConnectionStatus.enabled(installation_snapshot,"inference") and not installation_offline
 	var observation_target: Dictionary=targets.get_item_metadata(targets.selected) if targets.selected>=0 else {}
 	var editor_target: Dictionary=duty_target.get_item_metadata(duty_target.selected) if duty_target.selected>=0 else {}
 	observation_inference.disabled=not inference_allowed or not observation_target.get("allow_inference",false) or not online or pending or not fixture.is_empty()
-	observation_inference.tooltip_text="Target and installation must both allow AI advice; target cooldown and daily admission apply."
+	observation_inference.tooltip_text="Target and installation must both allow AI advice; target cooldown and daily admission apply. Cost is not reported by Core."
 	observation_inference.text="Request AI advice · "+("On" if observation_inference.button_pressed else "Off")+" · target admission budget"
 	duty_inference.text="Request AI advice · "+("On" if duty_inference.button_pressed else "Off")
+	duty_inference.tooltip_text="Optional advice request; target cooldown and daily admission apply. Cost is not reported by Core."
 	duty_enabled.text="Future observations · "+("On" if duty_enabled.button_pressed else "Off")
 	duty_inference.disabled=not online or pending or not fixture.is_empty() or ((not inference_allowed or not editor_target.get("allow_inference",false)) and not duty_inference.button_pressed)
 	if observation_inference.disabled: observation_inference.button_pressed=false
@@ -450,10 +455,15 @@ func start_selected() -> void:
 func save_watch() -> void:
 	if not snapshot.get("enabled",false): return
 	var repository:=watch_input.text.strip_edges().to_lower()
+	if repository.is_empty():
+		notice.text="Enter a repository before saving a watch."; notice.show(); return
+	var interval_seconds:=Commands.commit_integer_spinbox(interval)
+	if interval_seconds<0:
+		notice.text="Enter an integer interval from 30 to 86400 seconds."; notice.show(); return
 	var generation:=0
 	for w in snapshot.get("repositories",[]):
 		if w.config.repository==repository: generation=int(w.config.generation)+1
-	commands.submit("/v4/repositories",{"repository":repository,"interval_seconds":int(interval.value),"enabled":true,"removed":false,"generation":generation},repository,"/v4/repositories")
+	commands.submit("/v4/repositories",{"repository":repository,"interval_seconds":interval_seconds,"enabled":true,"removed":false,"generation":generation},repository,"/v4/repositories")
 
 func edit_watch(config: Dictionary, enabled: bool, removed: bool) -> void:
 	var value:=config.duplicate()
@@ -564,10 +574,13 @@ func field_duty_request() -> Dictionary:
 		duty_editor_status.text="This duty already exists. Choose Edit duty to load its retained configuration."; return {}
 	if not editing_duty.is_empty() and (current.is_empty() or current.generation!=editing_duty.generation):
 		duty_editor_status.text="Duty changed since editing began. Choose Edit duty again before saving."; return {}
+	var interval_seconds:=Commands.commit_integer_spinbox(duty_interval)
+	if interval_seconds<0:
+		duty_editor_status.text="Enter an integer interval from 30 to 86400 seconds."; return {}
 	var target: Dictionary=duty_target.get_item_metadata(duty_target.selected)
 	if duty_inference.button_pressed and (not ConnectionStatus.enabled(installation_snapshot,"inference") or not target.get("allow_inference",false)):
 		duty_editor_status.text="AI advice is unavailable in this installation. Turn it off or wait for policy to become available."; return {}
-	return {"id":id,"agent":target.agent,"target":target.id,"interval_seconds":int(duty_interval.value),"enabled":duty_enabled.button_pressed,"inference":duty_inference.button_pressed,"generation":0 if current.is_empty() else int(current.generation)+1}
+	return {"id":id,"agent":target.agent,"target":target.id,"interval_seconds":interval_seconds,"enabled":duty_enabled.button_pressed,"inference":duty_inference.button_pressed,"generation":0 if current.is_empty() else int(current.generation)+1}
 
 func save_field_duty() -> void:
 	if duty_save.disabled or not online or pending or not fixture.is_empty(): return

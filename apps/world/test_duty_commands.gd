@@ -9,6 +9,15 @@ func check(value:bool,message:String) -> void:
 	if not value: failures.append(message)
 func _initialize() -> void: run.call_deferred()
 func run() -> void:
+	var spin:=SpinBox.new(); spin.min_value=30; spin.max_value=86400; spin.value=300; root.add_child(spin)
+	spin.get_line_edit().text="45"
+	spin.get_line_edit().text_changed.emit("45")
+	check(Commands.commit_integer_spinbox(spin)==45 and int(spin.value)==45,"Typed SpinBox interval is committed before dispatch")
+	spin.get_line_edit().text="45.5"
+	spin.get_line_edit().text_changed.emit("45.5")
+	check(Commands.commit_integer_spinbox(spin)<0 and int(spin.value)==45,"Non-integral interval is rejected instead of rounded")
+	check(Commands.http_error_reason(JSON.stringify({"detail":"interval_seconds must be an integer"}).to_utf8_buffer(),422)=="interval_seconds must be an integer","Structured HTTP rejection reason is surfaced")
+	check(Commands.http_error_reason("plain server reason".to_utf8_buffer(),400)=="plain server reason","Plain HTTP rejection reason is surfaced")
 	var payload:Dictionary={"id":"duty-one","target":"fixture/review","profile":"balanced","interval_seconds":60,"enabled":true,"generation":4}
 	var exact:=payload.duplicate(); exact.generation=5
 	check(Commands.duty_reconciled({"duties":[exact]},payload,"duty-one"),"Exact next generation and settings match")
@@ -46,6 +55,7 @@ func run() -> void:
 	check(not client.uncertain and accepted==["duty-one"],"Exact record acknowledges once")
 	check(client.requests.filter(func(r):return r.method==HTTPClient.METHOD_POST).size()==1,"Reconciliation never redispatches")
 	client.http.free();client.free()
+	spin.queue_free()
 	for failure in failures: push_error(failure)
 	if failures.is_empty(): print("DUTY_COMMANDS_PASSED: exact settings and next generation, mismatch/missing/newer preserved, GET-only uncertainty reconciliation")
 	quit(0 if failures.is_empty() else 1)
