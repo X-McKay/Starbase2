@@ -13,9 +13,13 @@ var pages: Array = []
 var page_index := -1
 var details: Dictionary = {}
 var latest_records: Dictionary = {}
+var snapshot_revision := -1.0
+var auto_detail_revisions: Dictionary = {}
+var auto_detail_attempted: Dictionary = {}
 var detail_serial := 0
 var epoch := 0
 var page_pending := false
+var detail_pending := false
 var page_http = preload("res://transport.gd").create()
 var detail_http = preload("res://transport.gd").create()
 var notice: Label
@@ -28,6 +32,7 @@ var older: Button
 var back: Button
 var latest: Button
 var refresh_selected: Button
+var previous_run_button: Button
 var stop: Button
 var row_ids: Array[String] = []
 var rendered_rows := ""
@@ -63,6 +68,10 @@ func _ready() -> void:
 	full_toggle=button(detail_column,"Source, revisions & full record",func(): full_record.visible=not full_record.visible)
 	full_record=TextEdit.new(); full_record.editable=false; full_record.custom_minimum_size.y=200
 	full_record.size_flags_vertical=Control.SIZE_EXPAND_FILL; detail_column.add_child(full_record); full_record.hide()
+	previous_run_button=button(detail_column,"Open previous run",func():
+		var previous:=previous_run_id(selected_run)
+		if not previous.is_empty(): inspect_run(previous))
+	previous_run_button.hide()
 	resized.connect(layout_panes); layout_panes()
 	refresh()
 
@@ -75,10 +84,12 @@ func configure(endpoint: String, fixture_path: String = "") -> void:
 	invalidate_requests()
 	api=endpoint; fixture=fixture_path; offline=true
 	active.clear(); pages.clear(); details.clear(); latest_records.clear(); page_index=-1; selected=""; selected_run={}
+	snapshot_revision=-1.0; auto_detail_revisions.clear(); auto_detail_attempted.clear(); detail_pending=false
 	refresh()
 
 func invalidate_requests() -> void:
 	epoch+=1; page_pending=false
+	detail_pending=false
 	page_http.cancel_request(); detail_http.cancel_request()
 
 static func valid(run: Variant) -> bool:
@@ -100,7 +111,15 @@ static func cancellable(run: Dictionary) -> bool:
 
 func update_snapshot(snapshot: Dictionary, disconnected: bool) -> void:
 	if disconnected and not offline: invalidate_requests()
+	var previous_selected: Dictionary=latest_records.get(selected,{}) if not selected.is_empty() else {}
 	offline=disconnected
+	var observed:Variant=snapshot.get("observed_at",snapshot.get("revision",-1))
+	var incoming_revision:=float(observed) if observed is int or observed is float else -1.0
+	if incoming_revision>=0 and incoming_revision<snapshot_revision:
+		# An older response cannot move the authoritative projection backwards.
+		refresh()
+		return
+	if incoming_revision>=0: snapshot_revision=incoming_revision
 	if snapshot.get("active") is Array: active=records(snapshot.active)
 	if snapshot.get("recent") is Array:
 		var recent:=records(snapshot.recent)
@@ -110,9 +129,18 @@ func update_snapshot(snapshot: Dictionary, disconnected: bool) -> void:
 			pages=[recent]; page_index=0
 	# Keep source/events bound to the fetched revision; show current snapshot state separately.
 	latest_records.clear()
-	for run in records(snapshot.get("recent",[]))+active:
-		latest_records[run_id(run)]=run.duplicate(true)
+	for run in records(snapshot.get("recent",[]))+records(snapshot.get("active",[])):
+		var id:=run_id(run)
+		var prior:Dictionary=latest_records.get(id,{})
+		if prior.is_empty() or float(run.get("updated_at",0))>=float(prior.get("updated_at",0)):
+			latest_records[id]=run.duplicate(true)
 	refresh()
+	var current:Dictionary=latest_records.get(selected,{}) if not selected.is_empty() else {}
+	if not current.is_empty() and _selected_detail_needs_refresh(previous_selected,current):
+		var revision:=detail_revision(current)
+		auto_detail_revisions[selected]=revision
+		# Defer until the current projection has rendered the changed row.
+		_refresh_selected_detail.call_deferred(selected,revision)
 
 func current_selected() -> Dictionary:
 	var current: Dictionary=latest_records.get(selected,selected_run)
@@ -178,19 +206,53 @@ func inspect_run(id: String) -> void:
 			if run_id(run)==id: selected_run=run.duplicate(true); break
 	refresh(); selection_changed.emit(selected_run)
 	if offline or not fixture.is_empty(): return
+	_request_detail(id)
+
+func _request_detail(id: String) -> void:
+	detail_pending=false
 	detail_http.cancel_request()
 	if detail_callback.is_valid() and detail_http.request_completed.is_connected(detail_callback): detail_http.request_completed.disconnect(detail_callback)
 	detail_callback=receive_detail_response.bind(epoch,id,detail_serial)
 	detail_http.request_completed.connect(detail_callback,CONNECT_ONE_SHOT)
-	if detail_http.request(api+"/v2/runs/"+id.uri_encode())!=OK: notice.text="Detail request could not start; retained evidence remains."
+	detail_pending=true
+	if detail_http.request(api+"/v2/runs/"+id.uri_encode())!=OK:
+		detail_pending=false
+		notice.text="Detail request could not start; retained evidence remains."
+	else:
+		refresh()
+
+func _refresh_selected_detail(id: String, revision: String) -> void:
+	if id!=selected or offline or not fixture.is_empty() or detail_pending: return
+	if auto_detail_revisions.get(id,"")!=revision or auto_detail_attempted.get(id,"")==revision: return
+	auto_detail_attempted[id]=revision
+	_request_detail(id)
+
+func _selected_detail_needs_refresh(previous: Dictionary, current: Dictionary) -> bool:
+	if selected.is_empty() or current.is_empty() or offline or not fixture.is_empty(): return false
+	# Only a changed authoritative run revision can trigger an automatic fetch.
+	# Snapshot observed_at changes every poll, so it is deliberately not used here.
+	var changed:=previous.is_empty() or detail_revision(previous)!=detail_revision(current) or str(previous.get("state",""))!=str(current.get("state",""))
+	if not changed: return false
+	var state:=str(current.get("state","unknown"))
+	if state not in ["completed","failed","cancelled"]: return false
+	var fetched:=selected_run
+	return fetched.is_empty() or detail_revision(fetched)!=detail_revision(current) or str(fetched.get("state",""))!=state
 
 func receive_detail_response(result: int, code: int, _headers: PackedStringArray, body: PackedByteArray, generation: int, id: String, serial: int = -1) -> void:
 	if generation!=epoch or offline or not fixture.is_empty() or selected!=id or (serial>=0 and serial!=detail_serial): return
+	detail_pending=false
 	var parsed=JSON.parse_string(body.get_string_from_utf8())
 	if result!=HTTPRequest.RESULT_SUCCESS or code!=200 or not valid(parsed) or run_id(parsed)!=id:
-		notice.text="Detail unavailable or malformed; retained evidence remains."; return
+		notice.text="Detail unavailable or malformed; retained evidence remains."
+		var desired_after_failure:=str(auto_detail_revisions.get(id,""))
+		if not desired_after_failure.is_empty() and auto_detail_attempted.get(id,"")!=desired_after_failure:
+			_refresh_selected_detail.call_deferred(id,desired_after_failure)
+		return
 	details[id]=parsed.duplicate(true); selected_run=parsed.duplicate(true)
 	refresh(); selection_changed.emit(selected_run)
+	var desired:=str(auto_detail_revisions.get(id,""))
+	if not desired.is_empty() and desired!=detail_revision(parsed):
+		_refresh_selected_detail.call_deferred(id,desired)
 
 func refresh() -> void:
 	if not is_instance_valid(list): return
@@ -199,7 +261,7 @@ func refresh() -> void:
 	var rows: Array=[]
 	for run in visible_records():
 		var id:=run_id(run)
-		rows.append([id,("ACTIVE · " if active_ids.has(id) else "")+str(run.state)+" · "+str(run.input.request.get("kind","unknown"))+" · "+id])
+		rows.append([id,history_row(run,active_ids.has(id))])
 	var signature:=JSON.stringify(rows)
 	if signature!=rendered_rows:
 		var scroll:=list.get_v_scroll_bar().value if rendered_page==page_index else 0.0
@@ -216,19 +278,168 @@ func refresh() -> void:
 	older.disabled=page_pending or (page_index+1>=pages.size() and (offline or not fixture.is_empty() or cursor()<1 or pages[page_index].size()<20))
 	refresh_selected.disabled=offline or not fixture.is_empty() or selected.is_empty()
 	stop.disabled=offline or not fixture.is_empty() or not cancellable(current_selected())
+	stop.tooltip_text="This run has ended; there is no active work to cancel." if current_selected().get("state","") in ["completed","failed","cancelled"] else "Stop selected active run"
 	notice.text=("Fixture · " if not fixture.is_empty() else ("Disconnected · retained records · " if offline else ""))+"Review/comparison history · Page "+str(page_index+1)+" · "+str(active.size())+" active"+(" · loading" if page_pending else "")
 	full_toggle.visible=not selected_run.is_empty()
+	previous_run_button.visible=not previous_run_id(selected_run).is_empty()
 	if selected_run.is_empty():
 		detail.text="Select a run to inspect its retained details. Field observations remain in Command."
 		full_record.text=""; full_record.hide(); return
-	var report=selected_run.get("report")
-	var evidence:="No completion evidence recorded."
-	if report is Dictionary: evidence="Retained report. Inspect summary and coverage below; partial coverage is not certification."
-	var rendered_detail:="Run "+selected+"\nLatest known state: "+str(current_selected().get("state","unknown"))+"\nRetained detail state: "+str(selected_run.get("state","unknown"))+"\nEvidence summary: "+(JSON.stringify(report.get("summary",{})) if report is Dictionary else "Not recorded")+"\nUpdated: "+timestamp(selected_run.get("updated_at",0))+"\n"+str(selected_run.get("detail",""))+"\n"+evidence+"\n"+("Full detail fetched; polling does not replace this retained record. Use Refresh selected to fetch the latest detail.\n" if details.has(selected) else "Summary only; source and events may not be loaded.\n")+"\nCoverage: "+(JSON.stringify(report.get("coverage","Not reported")) if report is Dictionary else "Not recorded")
-
+	var rendered_detail:=structured_detail(selected_run)
 	if detail.text!=rendered_detail: detail.text=rendered_detail
-	var raw:=JSON.stringify(selected_run,"  ")
+	var raw:=JSON.stringify(presentation_record(selected_run),"  ")
 	if full_record.text!=raw: full_record.text=raw
+
+func history_row(run: Dictionary, is_active: bool) -> String:
+	var request:Dictionary=run.input.get("request",{})
+	var kind:=str(request.get("kind","unknown")).capitalize()
+	var target:=str(request.get("target",request.get("scenario","unknown")))
+	var profile:=str(request.get("profile",request.get("candidate","")))
+	var outcome:=outcome_label(run)
+	var result:=relative_time(run.get("updated_at",run.get("created_at",0)))+" · "+kind+" · "+target
+	if not profile.is_empty(): result+=" · "+profile
+	result+=" · "+outcome
+	var previous:=previous_run_id(run)
+	if not previous.is_empty(): result+=" · repeats "+previous
+	if is_active: result="ACTIVE · "+result
+	return result
+
+func structured_detail(run: Dictionary) -> String:
+	var current:Dictionary=current_selected()
+	var stale:=detail_is_stale(run,current)
+	var request:Dictionary=run.input.get("request",{})
+	var report:Dictionary=run.get("report") if run.get("report") is Dictionary else {}
+	var summary:=report_summary(report)
+	var findings:=findings_for(report)
+	var lines: Array[String]=[]
+	var outcome:=outcome_label(run)
+	if stale:
+		lines.append("Current state: "+str(current.get("state","unknown"))+" · detail refresh required")
+	else:
+		lines.append("Outcome: "+outcome+" · state "+str(current.get("state","unknown")))
+	lines.append("Target: "+str(request.get("target",request.get("scenario","Not recorded")))+target_qualifier(summary)+" · Build: "+str(request.get("profile","Not recorded")))
+	lines.append("Updated: "+timestamp(run.get("updated_at",0))+" · Run: "+run_id(run))
+	if stale:
+		lines.append("Last fetched state: "+str(run.get("state","unknown"))+"; evidence below is from that older revision.")
+		return "\n".join(lines)
+	if report.is_empty():
+		lines.append("Details: no completion report recorded yet.")
+		return "\n".join(lines)
+	if request.get("candidate","") is String and not str(request.get("candidate","")).is_empty(): lines.append("Candidate build: "+str(request.candidate))
+	if summary.has("baseline_passed") or summary.has("candidate_passed"):
+		lines.append("Scores: baseline "+format_count(summary.get("baseline_passed",0))+" / "+format_count(summary.get("cases",0))+" · candidate "+format_count(summary.get("candidate_passed",0))+" / "+format_count(summary.get("cases",0)))
+	lines.append("")
+	var finding_label:=" · "+format_count(findings.size()) if not findings.is_empty() else " · none recorded"
+	if findings.is_empty() and summary.get("finding_count",0)>0: finding_label=" · details not fetched"
+	lines.append("FINDINGS"+finding_label)
+	for finding in findings:
+		if not finding is Dictionary: continue
+		var file:=str(finding.get("file",finding.get("path",finding.get("subject","Not recorded"))))
+		var line:=format_count(finding.get("line","Not recorded"))
+		var code:=str(finding.get("code","Not recorded"))
+		var message:=str(finding.get("message",finding.get("summary",finding.get("subject","Not recorded"))))
+		lines.append(file+" · line "+line+" · "+code)
+		lines.append("Message: "+message)
+		var action:Variant=finding.get("suggested_action",finding.get("recommendation",null))
+		if action!=null and not str(action).is_empty(): lines.append("Suggested action: "+str(action))
+	var review:=review_evidence(report)
+	if not review.is_empty():
+		lines.append("")
+		lines.append("RESULT DETAILS")
+		if review.has("engine"): lines.append("Engine: "+str(review.engine))
+		if review.has("files_reviewed") and not summary.has("files_reviewed"): lines.append("Files reviewed: "+format_count(review.files_reviewed))
+		if review.get("errors") is Array and not review.errors.is_empty():
+			lines.append("Coverage limitations")
+			for omission in review.errors:
+				if omission is Dictionary: lines.append(str(omission.get("path","unknown"))+" · "+str(omission.get("reason","not recorded")))
+	var coverage=report.get("coverage")
+	if coverage is Array and not coverage.is_empty():
+		if review.is_empty(): lines.append("\nRESULT DETAILS")
+		lines.append("Coverage limitations")
+		for item in coverage: lines.append(str(item))
+	var previous:=previous_run_id(run)
+	if not previous.is_empty(): lines.append("Repeat: this result repeats run "+previous+".")
+	if summary.has("qualification"): lines.append("Qualification: "+str(summary.qualification))
+	if summary.has("uncertainty"): lines.append("Uncertainty: "+str(summary.uncertainty))
+	if summary.has("coverage"): lines.append("Coverage: "+str(summary.coverage))
+	if details.has(selected): lines.append("Full detail fetched; polling does not replace this retained record.")
+	else: lines.append("Summary only; source and events may not be loaded.")
+	return "\n".join(lines)
+
+func detail_is_stale(run: Dictionary, current: Dictionary) -> bool:
+	if current.is_empty(): return false
+	return detail_revision(run)!=detail_revision(current) or str(run.get("state",""))!=str(current.get("state",""))
+
+static func detail_revision(run: Dictionary) -> String:
+	if run.has("updated_at") and (run.updated_at is int or run.updated_at is float): return "updated:"+str(float(run.updated_at))+"/"+str(run.get("state","unknown"))
+	if run.has("created_at") and (run.created_at is int or run.created_at is float): return "created:"+str(float(run.created_at))+"/"+str(run.get("state","unknown"))
+	return "state:"+str(run.get("state","unknown"))
+
+static func report_summary(report: Dictionary) -> Dictionary:
+	if report.get("summary") is Dictionary: return report.summary
+	if report.get("evidence") is Dictionary and report.evidence.get("summary") is Dictionary: return report.evidence.summary
+	return {}
+
+static func findings_for(report: Dictionary) -> Array:
+	if report.get("findings") is Array: return report.findings
+	var evidence=report.get("evidence")
+	if evidence is Dictionary:
+		if evidence.get("findings") is Array: return evidence.findings
+		if evidence.get("review") is Dictionary and evidence.review.get("findings") is Array: return evidence.review.findings
+	var summary=report.get("summary")
+	if summary is Dictionary and summary.get("findings") is Array: return summary.findings
+	return []
+
+static func review_evidence(report: Dictionary) -> Dictionary:
+	var evidence=report.get("evidence")
+	if evidence is Dictionary and evidence.get("review") is Dictionary: return evidence.review
+	if report.get("review") is Dictionary: return report.review
+	return {}
+
+static func outcome_label(run: Dictionary) -> String:
+	var report:Dictionary=run.get("report") if run.get("report") is Dictionary else {}
+	var summary:=report_summary(report)
+	return outcome_label_from_summary(summary) if not summary.is_empty() else str(run.get("state","unknown")).capitalize().replace("_"," ")
+
+static func outcome_label_from_summary(summary: Dictionary) -> String:
+	var value:=str(summary.get("outcome","unknown"))
+	return {"no_change":"No change","no_findings":"No findings","findings":"Findings","improved":"Improved","regressed":"Regressed","incomplete":"Incomplete","inconclusive":"Inconclusive","ineligible":"Ineligible","failed":"Failed"}.get(value,value.replace("_"," "))
+
+static func previous_run_id(run: Dictionary) -> String:
+	var report:Dictionary=run.get("report") if run.get("report") is Dictionary else {}
+	var summary:=report_summary(report)
+	return str(summary.get("previous_run","")) if summary.get("previous_run","") is String else ""
+
+static func target_qualifier(summary: Dictionary) -> String:
+	return " · synthetic" if summary.get("simulation",summary.get("synthetic_task",false)) else ""
+
+static func format_count(value: Variant) -> String:
+	if value is int: return str(value)
+	if value is float and is_equal_approx(value,floor(value)): return str(int(value))
+	return str(value)
+
+static func relative_time(value: Variant) -> String:
+	if not (value is int or value is float) or value<=0: return "time unavailable"
+	var seconds:=maxi(0,int(Time.get_unix_time_from_system()-float(value)))
+	if seconds<60: return "just now" if seconds<10 else str(seconds)+"s ago"
+	if seconds<3600: return str(int(seconds/60))+"m ago"
+	if seconds<86400: return str(int(seconds/3600))+"h ago"
+	return str(int(seconds/86400))+"d ago"
+
+static func presentation_record(run: Dictionary) -> Dictionary:
+	var result:=run.duplicate(true)
+	redact_inference(result)
+	return result
+
+static func redact_inference(value: Variant) -> void:
+	if value is Dictionary:
+		for key in value.keys():
+			var name:=str(key).to_lower()
+			if name in ["endpoint","provider_endpoint","provider_url","base_url"] and value[key] is String:
+				value[key]="[redacted; see Connection · Capabilities]"
+			else: redact_inference(value[key])
+	elif value is Array:
+		for item in value: redact_inference(item)
 
 func _restore_list_scroll(value: float, generation: int, page: int) -> void:
 	if generation==epoch and page==page_index and is_instance_valid(list): list.get_v_scroll_bar().value=value
@@ -237,6 +448,17 @@ func layout_panes() -> void:
 	if panes==null: return
 	panes.vertical=size.x<560
 	list.custom_minimum_size.y=120 if panes.vertical else 140
+	# Compact workspaces use the page's scroll area for readable evidence,
+	# instead of trapping the result inside a second, few-line viewport.
+	var compact:=size.x<800
+	detail.fit_content=compact
+	detail.scroll_active=not compact
+	back.text="Newer" if compact else "Newer page"
+	older.text="Older" if compact else "Older page"
+	refresh_selected.text="Refresh" if compact else "Refresh selected"
+	stop.text="Stop" if compact else "Stop selected run"
+	refresh_selected.tooltip_text="Refresh selected run"
+
 
 static func timestamp(value:Variant) -> String:
 	if not (value is int or value is float) or value<=0: return "Unavailable"

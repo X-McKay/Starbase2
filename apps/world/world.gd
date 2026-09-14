@@ -87,6 +87,7 @@ var frame_usec := 0
 const Room = preload("res://colony_room.gd")
 const Structures = preload("res://structure_catalog.gd")
 var STATIONS: Dictionary = Structures.station_paths()
+var ROOMS: Dictionary = Structures.room_paths()
 var active_building: Node3D
 const MEMBERS := {"repair":"Mender", "review":"Surveyor", "gym":"Trainer", "watchkeeper":"Watchkeeper", "reviewer":"Reviewer"}
 
@@ -380,6 +381,7 @@ func _ready() -> void:
 		var vent = preload("res://colony_vent.gd").attach(station)
 		if vent != null: decorative_vents.append(vent)
 	hud.exit_requested.connect(exit_room)
+	hud.escape_requested.connect(stop_watching)
 	hud.repair_requested.connect(launch_repair)
 	hud.cancel_requested.connect(cancel_selected)
 	commands = Commands.new()
@@ -485,7 +487,7 @@ func _verify_package() -> void:
 func enter_room(kind: String) -> void:
 	stop_watching()
 	if kind in ["watchkeeper","reviewer"]: kind="review"
-	var station: Node3D=get_node_or_null(STATIONS.get(kind,"Structures/"+kind))
+	var station: Node3D=get_node_or_null(ROOMS.get(kind,"Structures/"+kind))
 	if station==null or station.definition.interior_scene.is_empty(): return
 	if station.definition.seamless:
 		$Operator.position=station.room.global_position+station.room.spawn_point
@@ -698,7 +700,13 @@ func show_mission() -> void:
 	if evidence != null:
 		var summary: Dictionary = evidence.get("summary",{})
 		hud.evidence.text = "Outcome: %s\nInput: %s\n" % [summary.get("outcome","unknown"),StateView.input_label(summary)]
-		if summary.has("candidate_passed"):
+		if summary.get("execution_failed",false):
+			hud.evidence.text = "Execution failed · scores invalid\nInput: %s\n" % StateView.input_label(summary)
+			for failure in summary.get("execution_failures",[]):
+				if failure is Dictionary:
+					hud.evidence.text += "%s · %s\n" % [str(failure.get("stage","execution")).capitalize(),str(failure.get("reason","Execution failure retained"))]
+			hud.evidence.text += "\n"+str(summary.get("next_step","Sandbox readiness is unknown; inspect the retained error and run sandbox-doctor."))
+		elif summary.has("candidate_passed"):
 			hud.evidence.text += "Baseline %d/%d · Candidate %d/%d\n" % [summary["baseline_passed"],summary["cases"],summary["candidate_passed"],summary["cases"]]
 		elif summary.get("source_kind")=="field":
 			hud.evidence.text += "%s observed findings\n" % summary.get("finding_count",0)

@@ -8,6 +8,15 @@ the earlier sprite-only and detached-room presentation on this branch.
 
 Status: proposed
 
+## UAT corrections · 2026-09-14
+
+The [UAT assessment](uat-report-review.md) distinguishes confirmed defects from
+proposed remedies and tracks remaining visual/readiness work. Work presents
+findings directly and follows newer selected-record revisions. Command feedback
+stays below forms; duty edits use the Core's integer command contract. Execution
+failures remain distinct from valid grading, and crew-strip text describes work
+rather than decorative movement. Native launch imports assets before opening.
+
 ## Game-view polish · 2026-09-13
 
 F1 or the HUD button collapses exploration navigation, roster and interaction

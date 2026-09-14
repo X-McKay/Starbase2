@@ -41,7 +41,7 @@ func _ready() -> void:
 		entries[kind]=entry
 		entry.text=NAMES[kind]+"\nConnecting…"
 
-func project(kind:String,intent:Dictionary,activity:String="",blocked:bool=false) -> void:
+func project(kind:String,intent:Dictionary,_activity:String="",blocked:bool=false) -> void:
 	if not entries.has(kind): return
 	var label:=str(intent.get("label","Unknown"))
 	if bool(intent.get("unknown",true)):
@@ -52,7 +52,6 @@ func project(kind:String,intent:Dictionary,activity:String="",blocked:bool=false
 	elif intent.get("evidence_ready",false): label="Report ready"
 	elif intent.get("backend_state")=="failed": label="Needs attention"
 	elif intent.get("backend_state")=="cancelled": label="Cancelled"
-	elif not activity.is_empty(): label=activity
 	else: label="Between assignments"
 	if blocked and not bool(intent.get("unknown",true)): label+=" · route blocked"
 	entries[kind].text=NAMES[kind]+"\n"+label

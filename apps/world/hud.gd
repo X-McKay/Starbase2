@@ -24,6 +24,7 @@ signal zoom_requested(direction: int)
 signal map_requested
 signal room_requested(kind: String)
 signal exit_requested
+signal escape_requested
 signal watch_requested(kind:String)
 var crew_strip:PanelContainer
 var briefing:PanelContainer
@@ -331,6 +332,7 @@ func _ready() -> void:
 	practice_page=repair_form.get_parent()
 	text(repair_form,"ISOLATED REPAIR PRACTICE",18,"e9e5df")
 	text(repair_form,"Synthetic tasks in an isolated environment. Operational permissions never depend on practice or XP.",16,"bcb9b6").autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	text(repair_form,"Sandbox readiness: unknown. Inspect any retained error and run `just sandbox-doctor`; prepare a missing image only if the doctor reports it.",14,"bcb9b6").autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	text(repair_form,"Task",15)
 	scenario=OptionButton.new()
 	scenario.fit_to_longest_item=false
@@ -553,6 +555,20 @@ func _unhandled_key_input(event:InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo and event.physical_keycode==KEY_F1:
 		toggle_exploration_hud()
 		get_viewport().set_input_as_handled()
+
+func _input(event:InputEvent) -> void:
+	# GUI controls normally consume key events before _unhandled_key_input. These
+	# global workspace controls remain available while a LineEdit has focus.
+	if root==null or root.get_viewport().gui_disable_input: return
+	if not event is InputEventKey or not event.pressed or event.echo: return
+	match event.physical_keycode:
+		KEY_F1:
+			toggle_exploration_hud()
+			get_viewport().set_input_as_handled()
+		KEY_ESCAPE:
+			close_panels()
+			escape_requested.emit()
+			get_viewport().set_input_as_handled()
 
 func sync_world_chrome() -> void:
 	# Dense evidence workspaces get their full scroll area; closing restores the
@@ -912,8 +928,9 @@ func update_directory_records() -> void:
 		var input:Dictionary=record.get("input",{})
 		var target:=str(input.get("target",input.get("scenario","Target not reported")))
 		var state:=str(record.get("state","unknown")).capitalize().replace("_"," ")
+		if StateView.repair_execution_failed(record): state=StateView.describe(record,false)
 		if record.get("stale",true): state="Stale · last known "+state
-		var evidence_note:="Evidence retained" if record.get("evidence")!=null else "No completion evidence retained"
+		var evidence_note:="Execution failure retained" if StateView.repair_execution_failed(record) else ("Evidence retained" if record.get("evidence")!=null else "No completion evidence retained")
 		label.text="%s · %s\n%s" % [state,target,evidence_note]
 		label.tooltip_text="Record %s\n%d records in this snapshot\n%s" % [str(input.get("id","Not reported")),matching.size(),str(record.get("detail","Detail not reported"))]
 

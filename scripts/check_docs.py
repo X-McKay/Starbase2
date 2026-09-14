@@ -18,7 +18,17 @@ LINK = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
 def main() -> int:
     errors: list[str] = []
     seen: set[str] = set()
-    files = sorted(p for p in ROOT.rglob("*.md") if not SKIP.intersection(p.parts))
+    files = sorted(
+        p
+        for p in ROOT.rglob("*.md")
+        if not SKIP.intersection(p.parts)
+        # A nested checkout has its own requirements and validation lifecycle.
+        and not any(
+            (parent / ".git").exists()
+            for parent in p.parents
+            if parent != ROOT and parent.is_relative_to(ROOT)
+        )
+    )
     for path in files:
         text = path.read_text(encoding="utf-8")
         rel = path.relative_to(ROOT)

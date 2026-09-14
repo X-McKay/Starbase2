@@ -18,7 +18,16 @@ static func structure_bounds() -> Array[Rect2]:
 static func station_paths() -> Dictionary:
 	var result := {}
 	for placement in placements():
-		if not placement.interaction_kind.is_empty(): result[placement.interaction_kind]="Structures/"+placement.name
+		if not placement.interaction_kind.is_empty(): result[placement.interaction_kind]="Structures/"+str(placement.name)
+	return result
+
+static func room_paths() -> Dictionary:
+	var result: Dictionary={}
+	for placement in placements():
+		var path: String="Structures/"+str(placement.name)
+		# Room navigation accepts canonical definition IDs and legacy scene names.
+		result[str(placement.definition.id)]=path
+		result[str(placement.name)]=path
 	return result
 
 static func navigation_bounds() -> Array[Rect2]:

@@ -5,6 +5,9 @@ import subprocess
 for args in [
     ["--editor", "--import"],
     ["--script", "test_state.gd"],
+    ["--script", "test_uat_regressions.gd"],
+    ["--script", "test_uat_world.gd"],
+    ["--script", "test_native_window_size.gd"],
     ["--script", "test_support_surface.gd"],
     ["--fixed-fps", "60", "--script", "test_world_ground_contact.gd"],
     ["--script", "test_hud_polish.gd"],
@@ -39,6 +42,7 @@ for args in [
     ["--script", "test_duty_commands.gd"],
     ["--script", "test_run_history.gd"],
     ["--script", "test_history_refresh.gd"],
+    ["--script", "test_history_auto_refresh.gd"],
     ["--script", "test_advisory_states.gd"],
     ["--script", "test_field_duty_editor.gd"],
     ["--script", "test_live_duty_controls.gd"],
@@ -88,7 +92,7 @@ for args in [
 ]:
     try:
         result = subprocess.run(
-            ["godot", "--headless", "--path", "apps/world", *args],
+            ["godot", "--headless", "--resolution", "1280x800", "--path", "apps/world", *args],
             text=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,

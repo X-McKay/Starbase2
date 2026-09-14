@@ -8,6 +8,8 @@ static func describe(mission: Dictionary, disconnected: bool) -> String:
 	if mission.get("stale", true):
 		return "Stale · last known " + str(mission.get("state", "unknown"))
 	var current := str(mission.get("state", "unknown"))
+	if current in ["completed","failed"] and context(mission)=="repair" and repair_execution_failed(mission):
+		return "Execution failed"
 	if current == "completed" and mission.get("evidence") == null:
 		return "Unknown · completion evidence missing"
 	return current.capitalize().replace("_", " ")
@@ -21,7 +23,7 @@ static func context(mission: Dictionary) -> String:
 
 static func metadata(projected: Dictionary, run: Dictionary) -> Dictionary:
 	# Keep durable identifiers/timestamps separate from visual crew context.
-	for key in ["created_at","updated_at","events","build","summary","snapshot","workflow_id","source_observed_at"]:
+	for key in ["created_at","updated_at","events","actions","build","summary","snapshot","workflow_id","source_observed_at"]:
 		if run.has(key): projected[key]=run[key].duplicate(true) if run[key] is Dictionary or run[key] is Array else run[key]
 	if run.get("input",{}).has("build"):
 		var build=run.input.build
@@ -30,6 +32,49 @@ static func metadata(projected: Dictionary, run: Dictionary) -> Dictionary:
 		projected["source_observed_at"]=run.summary.source_observed_at
 	projected["context"]=context(projected)
 	return projected
+
+static func repair_execution_failures(run: Dictionary) -> Array:
+	# Core retains the repair as terminal even when an action could not produce a
+	# grade. Keep that execution/output failure separate from a graded result.
+	var failures: Array = []
+	var actions: Array=run.get("actions",[]) if run.get("actions",[]) is Array else []
+	var retained_stderr: String=""
+	for action in actions:
+		if not action is Dictionary: continue
+		var observation=action.get("observation")
+		if not observation is Dictionary: continue
+		var stage: String=str(action.get("stage","execution"))
+		var exit_code=observation.get("exit_code")
+		var stderr: String=str(observation.get("stderr","")).strip_edges()
+		if retained_stderr.is_empty() and not stderr.is_empty(): retained_stderr=stderr
+		if (exit_code is int or exit_code is float) and int(exit_code)!=0:
+			var reason: String="exit code %d" % int(exit_code)
+			if not stderr.is_empty(): reason += ": "+stderr
+			failures.append({"stage":stage,"reason":reason,"exit_code":int(exit_code),"stderr":stderr})
+	var summary: Dictionary=run.get("summary",{}) if run.get("summary") is Dictionary else {}
+	var gates: Array=summary.get("hard_gate_failures",[]) if summary.get("hard_gate_failures",[]) is Array else []
+	for gate in gates:
+		if str(gate).to_lower().contains("execution or output protocol failure") and failures.is_empty():
+			var reason: String="execution or output protocol failure retained by Core"
+			if not retained_stderr.is_empty(): reason += ": "+retained_stderr
+			failures.append({"stage":"grading","reason":reason,"exit_code":null,"stderr":retained_stderr})
+	return failures
+
+static func repair_evidence(run: Dictionary) -> Dictionary:
+	var summary: Dictionary=run.get("summary",{}).duplicate(true) if run.get("summary") is Dictionary else {}
+	var failures:=repair_execution_failures(run)
+	if not failures.is_empty():
+		summary["execution_failed"]=true
+		summary["execution_failures"]=failures
+		summary["next_step"]="Sandbox readiness is unknown. Inspect the retained error and run `just sandbox-doctor`. If it reports a missing image, run `just sandbox-prepare` before retrying."
+	return {"summary":summary}
+
+static func repair_execution_failed(run: Dictionary) -> bool:
+	var evidence=run.get("evidence")
+	var summary: Dictionary={}
+	if evidence is Dictionary and evidence.get("summary") is Dictionary: summary=evidence.summary
+	elif run.get("summary") is Dictionary: summary=run.summary
+	return bool(summary.get("execution_failed",false)) or not repair_execution_failures(run).is_empty()
 
 static func valid_record(run: Variant) -> bool:
 	if not run is Dictionary or not run.get("input") is Dictionary: return false
@@ -89,8 +134,13 @@ static func project(snapshot: Dictionary) -> Array:
 		request["kind"] = "repair"
 		request["target"] = request.get("scenario", "synthetic")
 		request["profile"] = "mender-v1"
+		var repair_failures: Array=repair_execution_failures(run)
+		var repair_evidence_record:Dictionary=repair_evidence(run) if run.get("summary") != null or not repair_failures.is_empty() else {}
+		var repair_detail: String=str(run.get("detail", ""))
+		if not repair_evidence_record.is_empty() and repair_evidence_record.summary.get("execution_failed",false):
+			repair_detail = "Execution failed: "+str(repair_failures[0].reason).left(500)+"\nInspect the retained error; run `just sandbox-doctor` before retrying."
 		repair_records.append(metadata({"input": request, "state": run.get("state", "unknown"),
-			"detail": run.get("detail", ""), "evidence": {"summary":run["summary"]} if run.get("summary") != null else null,
+			"detail": repair_detail, "evidence": repair_evidence_record if not repair_evidence_record.is_empty() else null,
 			"stale": not worker.get("available", false) and run.get("state") not in ["completed", "failed", "cancelled"]},run))
 	var field_records: Array=[]
 	for run in snapshot.get("field_runs",[]):
@@ -129,6 +179,8 @@ static func crew_activity(missions: Array, kind: String, disconnected: bool) -> 
 			return "%d open runs" % active.size()
 		return describe(active[0],false)
 	var latest: Dictionary = own[0]
+	if context(latest)=="repair" and repair_execution_failed(latest):
+		return "Execution failed"
 	if latest.get("state") == "completed" and latest.get("evidence") != null:
 		var outcome := str(latest["evidence"].get("summary",{}).get("outcome","unknown"))
 		return {"improved":"Verified improvement","no_change":"Verified no change","regressed":"Regression recorded","inconclusive":"Inconclusive","equivalent":"Equivalent"}.get(outcome,outcome.capitalize().replace("_"," "))

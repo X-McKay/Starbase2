@@ -18,6 +18,18 @@ func run() -> void:
 	assert(panel.detail_http.get_http_client_status()==HTTPClient.STATUS_DISCONNECTED)
 	panel.configure("http://127.0.0.1:18882","")
 	panel.update_snapshot({"recent":recent,"active":[record(1,"running")]},false)
+	var auto_running:=record(1,"running"); auto_running.input.request.id="auto-1"
+	panel.selected="auto-1"; panel.selected_run=auto_running; panel.latest_records={"auto-1":auto_running}
+	var terminal:=auto_running.duplicate(true); terminal.state="completed"; terminal.updated_at=2; terminal.report={"summary":{"outcome":"no_findings"}}
+	# Hold the test transport pending so scheduling can be checked without a real endpoint.
+	panel.detail_pending=true
+	panel.update_snapshot({"observed_at":101,"recent":[terminal],"active":[]},false)
+	await process_frame
+	assert(panel.auto_detail_revisions.get("auto-1","")=="updated:2.0/completed" and panel.auto_detail_attempted.get("auto-1","")=="","Terminal snapshot schedules one bounded detail refresh per run revision")
+	panel.detail_pending=false
+	panel.update_snapshot({"observed_at":101,"recent":[terminal],"active":[]},false)
+	assert(panel.auto_detail_attempted.get("auto-1","")=="","Unchanged snapshot revision does not retry detail")
+	panel.active=[record(1,"running")]
 	panel.selected="run-40"; panel.selected_run=record(40)
 	var older: Array=[]
 	for i in range(20,0,-1): older.append(record(i))
@@ -39,7 +51,7 @@ func run() -> void:
 	assert(panel.detail.text.contains("partial") and panel.detail.text.contains("Full detail fetched"))
 	var newer=record(40,"cancelled"); newer.updated_at=50
 	panel.update_snapshot({"recent":[newer],"active":[]},false)
-	assert(panel.stop.disabled and panel.detail.text.contains("Latest known state: cancelled"))
+	assert(panel.stop.disabled and panel.detail.text.contains("Current state: cancelled"))
 	assert(panel.selected_run.events.size()==1)
 	var serial=panel.detail_serial
 	panel.detail_serial+=1

@@ -16,6 +16,7 @@ func run() -> void:
 	board.duty_identity.text="watch-example"; board.duty_inference.button_pressed=true; board.duty_interval.value=900
 	var request:=board.field_duty_request()
 	assert(request=={"id":"watch-example","agent":"reviewer","target":"configured-github","interval_seconds":900,"enabled":true,"inference":true,"generation":0})
+	var malformed:Dictionary=request.duplicate(); malformed.generation=0.5; assert(Board.duty_change(malformed,false).is_empty(),"Nonintegral field duty generation cannot be truncated into a command")
 	board.snapshot.duties=[request.duplicate(true)]
 	assert(board.field_duty_request().is_empty(),"Existing identity must be explicitly loaded before edit")
 	board.load_field_duty(request)

@@ -32,6 +32,8 @@ func probe_cliff(world:Node,index:int,oblique:bool=false) -> void:
 	check(not world.navigator.route(operator.position,Vector3(0,0,27)).is_empty(),"Click-to-walk returns from physical rim contact")
 
 func run() -> void:
+	# Screen-space clicks and bounds need a representative headless viewport.
+	root.size=Vector2i(1280,800); root.content_scale_size=Vector2i(1280,800)
 	var world = load("res://main.tscn").instantiate()
 	root.add_child(world)
 	await process_frame

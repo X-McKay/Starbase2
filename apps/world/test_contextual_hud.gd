@@ -9,6 +9,9 @@ func readable(button:Button) -> bool:
 	return width<=button.size.x-button.get_theme_stylebox("normal").get_minimum_size().x
 func _initialize() -> void: run.call_deferred()
 func run() -> void:
+	# Headless Godot starts the root window at 64x64 even when the suite passes a
+	# resolution flag. Initialize the viewport before testing anchored chrome.
+	root.size=Vector2i(1280,800); root.content_scale_size=Vector2i(1280,800)
 	var hud=load("res://hud.gd").new()
 	hud.board_fixture="__empty_visual_fixture__"
 	root.add_child(hud)

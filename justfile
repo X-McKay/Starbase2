@@ -75,7 +75,7 @@ lint:
 test:
     cargo test --locked
     .venv/bin/python -m pytest -q
-    .venv/bin/python -m pytest -q scripts/test_world_web_tools.py
+    .venv/bin/python -m pytest -q scripts/test_world_web_tools.py scripts/test_world_launch.py
 
 check: lint test
     cargo build --locked

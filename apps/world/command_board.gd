@@ -462,10 +462,15 @@ func save_watch() -> void:
 		notice.text="Enter an integer interval from 30 to 86400 seconds."; notice.show(); return
 	var generation:=0
 	for w in snapshot.get("repositories",[]):
-		if w.config.repository==repository: generation=int(w.config.generation)+1
+		if w.config.repository==repository:
+			if not Commands.valid_duty_integer(w.config.get("generation",-1)):
+				notice.text="Retained watch generation is invalid; refresh the snapshot before editing."; notice.show(); return
+			generation=int(w.config.generation)+1
 	commands.submit("/v4/repositories",{"repository":repository,"interval_seconds":interval_seconds,"enabled":true,"removed":false,"generation":generation},repository,"/v4/repositories")
 
 func edit_watch(config: Dictionary, enabled: bool, removed: bool) -> void:
+	if not Commands.valid_duty_integer(config.get("generation",-1)):
+		notice.text="Retained watch generation is invalid; refresh the snapshot before editing."; notice.show(); return
 	var value:=config.duplicate()
 	value.enabled=enabled; value.removed=removed; value.generation=int(value.generation)+1
 	commands.submit("/v4/repositories",value,str(value.repository),"/v4/repositories")
@@ -538,12 +543,17 @@ static func advisory_description(run: Dictionary, full: bool = true) -> String:
 	return result
 
 static func duty_change(duty: Dictionary, enabled: bool) -> Dictionary:
-	return {"id":duty.id,"agent":duty.agent,"target":duty.target,"interval_seconds":int(duty.interval_seconds),"generation":int(duty.generation)+1,"enabled":enabled,"inference":duty.get("inference",false)}
+	if not Commands.valid_duty_integer(duty.get("interval_seconds",-1)) or not Commands.valid_duty_integer(duty.get("generation",-1)):
+		return {}
+	return {"id":duty.get("id",""),"agent":duty.get("agent",""),"target":duty.get("target",""),"interval_seconds":int(duty.interval_seconds),"generation":int(duty.generation)+1,"enabled":enabled,"inference":duty.get("inference",false)}
 
 func edit_duty(duty: Dictionary, enabled: bool) -> void:
 	if not online or pending or not fixture.is_empty(): return
 	if enabled and (installation_offline or not ConnectionStatus.enabled(installation_snapshot,"field") or not snapshot.get("enabled",false)): return
-	commands.submit("/v4/duties",duty_change(duty,enabled),str(duty.id),"/v4/snapshot")
+	var request:=duty_change(duty,enabled)
+	if request.is_empty():
+		duty_editor_status.text="Retained duty interval and generation must be integers; refresh the snapshot before editing."; return
+	commands.submit("/v4/duties",request,str(duty.id),"/v4/snapshot")
 
 func new_field_duty() -> void:
 	editing_duty={}; duty_identity.editable=true; duty_identity.text=""
@@ -554,6 +564,8 @@ func new_field_duty() -> void:
 	duty_identity.grab_focus()
 
 func load_field_duty(duty: Dictionary) -> void:
+	if not Commands.valid_duty_integer(duty.get("interval_seconds",-1)) or not Commands.valid_duty_integer(duty.get("generation",-1)):
+		duty_editor_status.text="Retained duty interval and generation must be integers; refresh the snapshot before editing."; editing_duty={}; return
 	editing_duty=duty.duplicate(true); duty_identity.text=str(duty.id); duty_identity.editable=false
 	duty_interval.value=int(duty.interval_seconds); duty_inference.button_pressed=duty.get("inference",false); duty_enabled.button_pressed=duty.enabled
 	duty_target.select(-1); duty_target.set_meta("selection_missing",true)
@@ -570,6 +582,8 @@ func field_duty_request() -> Dictionary:
 	var current: Dictionary={}
 	for duty in snapshot.get("duties",[]):
 		if duty.id==id: current=duty
+	if not current.is_empty() and not Commands.valid_duty_integer(current.get("generation",-1)):
+		duty_editor_status.text="Retained duty generation is invalid; refresh the snapshot before editing."; return {}
 	if editing_duty.is_empty() and not current.is_empty():
 		duty_editor_status.text="This duty already exists. Choose Edit duty to load its retained configuration."; return {}
 	if not editing_duty.is_empty() and (current.is_empty() or current.generation!=editing_duty.generation):

@@ -28,7 +28,11 @@ func run() -> void:
 	check(Signals.label_text("repair",Signals.project([],false,0).repair).contains("UNKNOWN"),"Unobserved snapshot never appears idle")
 	var component := Signals.new(); root.add_child(component)
 	component.configure({"review":Vector3(0,2,0), "repair":Vector3(15,2,0), "gym":Vector3(35,2,0)})
+	# Screen-space clearance depends on a real-sized viewport. Headless Godot
+	# starts at 64x64, where the safe top band cannot be represented.
+	root.size=Vector2i(1280,800); root.content_scale_size=Vector2i(1280,800)
 	var camera := Camera3D.new(); root.add_child(camera); camera.position=Vector3(0,5,15); camera.look_at(Vector3.ZERO)
+	await process_frame
 	component.update_records(records,false,10)
 	component.update_view(camera,Vector3.ZERO)
 	check(component.visible_context=="review" and component.labels.review.visible and not component.labels.repair.visible,"Only nearest building badge visible")

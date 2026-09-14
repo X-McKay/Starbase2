@@ -35,6 +35,9 @@ func run() -> void:
 	paused.interval_seconds=300.0; paused.generation=7.0
 	panel.write_duty(paused); panel.cancel_run("active-run")
 	check(recorder.calls[-2].data.enabled==false and typeof(recorder.calls[-2].data.interval_seconds)==TYPE_INT and typeof(recorder.calls[-2].data.generation)==TYPE_INT and recorder.calls[-1].path=="/v2/runs/active-run/cancel","Pause and cancellation remain independent of admission policy with integer duty fields")
+	var malformed:Dictionary=paused.duplicate(); malformed.generation=7.5
+	var before_malformed:=recorder.calls.size(); panel.write_duty(malformed)
+	check(recorder.calls.size()==before_malformed and panel.notice.text.contains("must be an integer"),"Nonintegral retained duty generation is rejected before dispatch")
 	var count:=recorder.calls.size()
 	panel.update_snapshot(data,true); panel.cancel_run("active-run"); panel.write_duty(paused)
 	check(recorder.calls.size()==count and panel.briefing.text.begins_with("LAST KNOWN"),"Outage retains truthful briefing and prevents writes")
@@ -42,6 +45,7 @@ func run() -> void:
 	check(not panel.configure("http://127.0.0.1:9999"),"Uncertain command fences endpoint changes")
 	recorder.uncertain=false
 	check(panel.configure("http://127.0.0.1:9999","fixture") and panel.snapshot.is_empty() and panel.history.selected.is_empty(),"New endpoint clears old installation evidence")
+	check(panel.notice.text.is_empty() and not panel.notice.visible,"New endpoint clears old command feedback")
 	# Match the compact native viewport and panel padding, including large text.
 	root.size=Vector2i(800,640); root.content_scale_size=Vector2i(800,640)
 	panel.theme=Theme.new(); panel.theme.default_font_size=19
@@ -55,7 +59,7 @@ func run() -> void:
 	panel.briefing_toggle.pressed.emit(); panel.tabs.current_tab=3
 	await process_frame; await process_frame
 	check(not panel.history.panes.vertical,"History list and evidence share compact wide viewport")
-	check(panel.history.detail.get_global_rect().end.y<=panel.tabs.get_global_rect().end.y+2,"Evidence pane fits without scrolling past the run list")
+	check(panel.history.detail.fit_content and not panel.history.detail.scroll_active,"Compact evidence uses the page scroll instead of a tiny nested viewport")
 	panel.queue_free(); await process_frame
 	for failure in failures: push_error(failure)
 	if failures.is_empty(): print("OPERATIONS_PANEL_PASSED: fixture/policy fencing, review/comparison contracts, duty generation, independent stop/pause, stale briefing and endpoint reset")

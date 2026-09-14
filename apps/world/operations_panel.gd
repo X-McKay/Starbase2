@@ -239,7 +239,11 @@ func save_duty() -> void:
 	if id.is_empty(): notice.text="Enter a duty identity."; notice.show(); return
 	var generation:=0
 	for duty in rows(snapshot.get("duties",[])):
-		if duty is Dictionary and duty.get("id")==id: generation=int(duty.get("generation",0))
+		if duty is Dictionary and duty.get("id")==id:
+			var retained_generation:Variant=duty.get("generation",0)
+			if not Commands.valid_duty_integer(retained_generation):
+				notice.text="Retained duty generation is invalid; refresh the snapshot before editing."; notice.show(); return
+			generation=int(retained_generation)
 	var interval_seconds:=Commands.commit_integer_spinbox(interval)
 	if interval_seconds<0:
 		notice.text="Enter an integer interval from 30 to 86400 seconds."; notice.show(); return
@@ -321,6 +325,7 @@ func configure(endpoint:String,visual_fixture:String="") -> bool:
 	if unresolved() or not Commands.allowed_origin(endpoint): return false
 	api=endpoint; fixture=visual_fixture; commands.api=endpoint
 	snapshot={}; offline=true; duty_signature=""; prior_visit=0
+	notice.text=""; notice.hide()
 	history.configure(endpoint,visual_fixture)
 	update_snapshot({},true)
 	return true
