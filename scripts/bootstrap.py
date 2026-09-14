@@ -50,7 +50,7 @@ def main() -> None:
     subprocess.run(["cargo", "build", "--locked"], check=True)
     print(
         "Bootstrap complete. Run just check, then just dev in one terminal "
-        "and open http://127.0.0.1:8787 for reviews and evaluations."
+        "and just world in another for the native app."
     )
 
 

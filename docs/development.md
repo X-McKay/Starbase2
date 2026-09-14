@@ -224,3 +224,10 @@ required by bootstrap or the running product.
 The [setup, rollback, recovery and teardown playbook](deployment.md) documents
 the disposable PostgreSQL-backed Kubani pilot, its stopped-by-default posture,
 and the remaining durable production admission gates.
+
+## Native launch import
+
+`just world` runs a bounded headless editor import before opening the game, including
+on a fresh checkout. Import or script errors prevent launch even if Godot exits
+zero. Use `just world -- --fixture=res://../../fixtures/world/stale.json` for an
+offline world fixture. The import also refreshes assets changed since the last run.

@@ -20,8 +20,8 @@ dev: build
 demo id="first-survey":
     .venv/bin/python -m starbase_runtime.worker demo --id {{id}}
 
-world:
-    godot --path apps/world
+world *args:
+    python3 scripts/world.py {{args}}
 
 # Builds and runs the packaged macOS game from outside the checkout.
 check-world-export *args:
