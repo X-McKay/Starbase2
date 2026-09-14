@@ -9,6 +9,16 @@ node_modules/
 .env.*
 !.env.example
 .local/
+.dream-loop/
 meshy_output/
 # Blender recovery copies are local, not selected production sources.
 assets-production/**/*.blend[0-9]*
+
+# Local review captures and intermediate asset-production archives.
+/evidence/
+/assets-production/
+# Machine-specific native installation tooling and its local verification.
+/scripts/native_launcher.py
+/scripts/native_launcher.c
+/services/runtime/tests/test_native_launcher.py
+/docs/native-deployment.md

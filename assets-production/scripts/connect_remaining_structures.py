@@ -19,6 +19,14 @@ FAMILIES = {
     "botanical": "greenhouse",
 }
 
+# Authored gameplay views and static architectural lighting, never work status.
+ROOM_PRESENTATION = {
+    "review": ([7, 12, 18], 18.0, [0.42, 0.76, 1.0]),
+    "gym": ([-6, 15, 19], 18.5, [0.67, 0.56, 1.0]),
+    "habitat": ([8, 13, 17], 19.5, [1.0, 0.70, 0.38]),
+    "greenhouse": ([8, 15, 18], 19.0, [0.75, 1.0, 0.75]),
+}
+
 
 def vec(values):
     return "Vector3(" + ",".join(f"{value:.4f}" for value in values) + ")"
@@ -59,7 +67,15 @@ def placements(asset, data):
             for index, offset in enumerate((-3.4, 3.4))
         ]
     if asset == "habitat":
-        return [], [("Galley", "frontier-galley", [left + 1.25, 0.15, cz + 0.6], math.pi / 2)] + [
+        return [], [
+            ("Galley", "frontier-galley", [left + 1.25, 0.15, cz + 0.6], math.pi / 2),
+            (
+                "LoungeSofa",
+                "habitat-lounge-sofa",
+                [left + width - 1.2, 0.15, cz + 1.2],
+                -math.pi / 2,
+            ),
+        ] + [
             (f"SleepPod{i}", "sleep-capsule", [cx + i * width * 0.29, 0.15, back + 1.6], 0)
             for i in [-1, 0, 1]
         ]
@@ -101,10 +117,31 @@ def scene_text(base_path, instances, data=None):
         text += f'shape = SubResource("Shape{index}")\n'
     if data is not None:
         left, back, width, depth = data["footprint"]
+        identity = next(
+            key for key in ROOM_PRESENTATION if base_path.endswith(key + "-interior.glb")
+        )
+        offset, camera_size, color = ROOM_PRESENTATION[identity]
+        focus = [left + width / 2, 1.0, back + depth / 2]
+        text += '[node name="CameraFocus" type="Marker3D" parent="."]\n'
+        text += f"position = {vec(focus)}\nmetadata/view_size = {camera_size}\n"
+        text += '[node name="CameraPosition" type="Marker3D" parent="."]\n'
+        text += f"position = {vec([a + b for a, b in zip(focus, offset, strict=True)])}\n"
         for index, x in enumerate((left + width * 0.27, left + width * 0.73)):
             text += f'[node name="TaskLight{index}" type="OmniLight3D" parent="."]\n'
             text += f"position = {vec([x, 2.8, back + 2.5])}\n"
-            text += "light_color = Color(1,0.72,0.42,1)\nlight_energy = 0.65\nomni_range = 7.0\nshadow_enabled = false\n"
+            text += f"light_color = Color({color[0]},{color[1]},{color[2]},1)\n"
+            text += "light_energy = 1.35\nomni_range = 7.0\nshadow_enabled = true\n"
+        text += '[node name="EntranceLight" type="OmniLight3D" parent="."]\n'
+        text += f"position = {vec([left + width / 2, 2.2, back + depth - 1.3])}\n"
+        text += "light_color = Color(1,0.68,0.34,1)\nlight_energy = 0.85\nomni_range = 4.5\n"
+        if identity == "habitat":
+            for index, (position, energy) in enumerate(
+                [([-3.8, 2.55, -2.65], 0.65), ([6.5, 2.4, -3.75], 0.55)]
+            ):
+                text += f'[node name="DomesticLight{index}" type="OmniLight3D" parent="."]\n'
+                text += f"position = {vec(position)}\n"
+                text += "light_color = Color(1,0.79,0.55,1)\n"
+                text += f"light_energy = {energy}\nomni_range = 4.2\n"
         for name, position in data["markers"].items():
             text += f'[node name="{name}" type="Marker3D" parent="."]\n'
             text += f"position = {vec(position)}\n"

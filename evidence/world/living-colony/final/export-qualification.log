@@ -1,0 +1,8 @@
+python3 scripts/check_world_export.py --output .local/reviews/living-colony/20260907-final-01
+Traceback (most recent call last):
+  File "/Users/al/git/Starbase2/scripts/check_world_export.py", line 258, in <module>
+    main()
+  File "/Users/al/git/Starbase2/scripts/check_world_export.py", line 252, in main
+    raise RuntimeError("World sources changed during qualification; build a new candidate.")
+RuntimeError: World sources changed during qualification; build a new candidate.
+error: recipe `check-world-export` failed on line 28 with exit code 1

@@ -1,0 +1,50 @@
+cargo fmt --all --check
+cargo clippy --locked --all-targets -- -D warnings
+    Checking starbase-core v0.1.0 (/Users/al/git/Starbase2/services/core)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.33s
+.venv/bin/ruff format --check services/runtime scripts
+unformatted: File would be reformatted
+   --> scripts/check_world_export.py:119:25
+    |
+118 |     )
+    -     parser.add_argument("--live-api", help="Optional owned loopback Core for read-only native qualification")
+119 +     parser.add_argument(
+120 +         "--live-api", help="Optional owned loopback Core for read-only native qualification"
+121 +     )
+122 |     args = parser.parse_args()
+--------------------------------------------------------------------------------
+245 |         if args.live_api:
+    -             native_capture(executable, ["--api=" + args.live_api, "--live-capture=" + str(output)], output, "live", isolated)
+246 +             native_capture(
+247 +                 executable,
+248 +                 ["--api=" + args.live_api, "--live-capture=" + str(output)],
+249 +                 output,
+250 +                 "live",
+251 +                 isolated,
+252 +             )
+253 |             live_record = json.loads((output / "live-review.json").read_text())
+    -             if live_record["failures"] or live_record["fixture"] or live_record["commands_dispatched"]:
+254 +             if (
+255 +                 live_record["failures"]
+256 +                 or live_record["fixture"]
+257 +                 or live_record["commands_dispatched"]
+258 +             ):
+259 |                 raise RuntimeError("Live native qualification failed")
+260 |             if "LIVE_WORLD_CAPTURE_PASSED" not in (output / "live.log").read_text():
+261 |                 raise RuntimeError("Live native qualification did not finish")
+    -             for name in ("live-colony", "live-connection", "live-command", "live-repositories", "live-evidence", "live-compact", "live-disconnected", "live-reconnected"):
+262 +             for name in (
+263 +                 "live-colony",
+264 +                 "live-connection",
+265 +                 "live-command",
+266 +                 "live-repositories",
+267 +                 "live-evidence",
+268 +                 "live-compact",
+269 +                 "live-disconnected",
+270 +                 "live-reconnected",
+271 +             ):
+272 |                 if not (output / (name + ".png")).exists():
+    |
+
+1 file would be reformatted, 67 files already formatted
+error: recipe `lint` failed on line 48 with exit code 1

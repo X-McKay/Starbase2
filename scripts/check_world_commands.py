@@ -36,7 +36,21 @@ class Handler(BaseHTTPRequestHandler):
             )
         elif self.path == "/v4/snapshot":
             self.respond(
-                200, {"memory": [{"id": "memory-change", "revision": 1, "decision": "approve"}]}
+                200,
+                {
+                    "memory": [{"id": "memory-change", "revision": 1, "decision": "approve"}],
+                    "duties": [
+                        {
+                            "id": "field-duty",
+                            "agent": "watchkeeper",
+                            "target": "cluster-live",
+                            "interval_seconds": 60,
+                            "generation": 4,
+                            "enabled": False,
+                            "inference": True,
+                        }
+                    ],
+                },
             )
         elif self.path.endswith("/uncertain") and gets.count(self.path) == 1:
             self.respond(503, {"error": "fixture outage"})
@@ -54,7 +68,17 @@ class Handler(BaseHTTPRequestHandler):
         origin = f"http://127.0.0.1:{server.server_port}"
         if self.headers.get("Origin") != origin:
             errors.append("Incorrect operator origin")
-        if run_id in {"lost-response", "uncertain", "repo-change", "memory-change"}:
+        if run_id == "field-duty" and data != {
+            "id": "field-duty",
+            "agent": "watchkeeper",
+            "target": "cluster-live",
+            "interval_seconds": 60,
+            "generation": 4,
+            "enabled": False,
+            "inference": True,
+        }:
+            errors.append("Field duty settings were not preserved")
+        if run_id in {"lost-response", "uncertain", "repo-change", "memory-change", "field-duty"}:
             self.close_connection = True
             return  # Simulate an accepted effect with its HTTP response lost.
         self.respond(
@@ -92,9 +116,10 @@ try:
         "uncertain",
         "repo-change",
         "memory-change",
+        "field-duty",
     ], posts
     assert gets.count("/v3/repairs/uncertain") == 2, gets
-    print("HTTP fixture verified six POSTs only; reconciliation used GET; no worker identity.")
+    print("HTTP fixture verified seven POSTs only; reconciliation used GET; no worker identity.")
 finally:
     server.shutdown()
     server.server_close()

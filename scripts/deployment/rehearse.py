@@ -53,6 +53,7 @@ def main(images=None) -> None:
         installation="starbase2-rehearsal",
         namespace="starbase2-rehearsal",
         temporal_namespace="starbase2-rehearsal",
+        temporal_queue="starbase2-rehearsal-v1",
         database=DB,
         retention_days=1,
     )
@@ -267,6 +268,11 @@ def main(images=None) -> None:
                 data=json.dumps(body).encode() if body is not None else None,
                 headers={
                     "Content-Type": "application/json",
+                    **(
+                        {"Authorization": "Bearer " + data["worker_token"]}
+                        if path.startswith("/internal/")
+                        else {}
+                    ),
                     "Origin": "http://127.0.0.1:8787" if images else base["STARBASE_CORE"],
                 },
             )
@@ -395,6 +401,95 @@ def main(images=None) -> None:
         record("legacy and unqualified repair entry points disabled")
         stop(worker)
         stop(core_process)
+        # Exercise the PostgreSQL JSON admission queries using exact Core images.
+        # No worker is running, so these synthetic records cannot dispatch a provider.
+        base["STARBASE_FIELD_ENABLED"] = "true"
+        base["STARBASE_INFERENCE_ENABLED"] = "true"
+        core_process = core()
+        request("/")
+
+        def field_build(target, limit, interval):
+            manifest = {
+                "agent": "watchkeeper",
+                "target": {
+                    "id": target,
+                    "allow_inference": True,
+                    "daily_inference_limit": limit,
+                    "inference_min_interval_seconds": interval,
+                },
+                "authority": "read-only",
+            }
+            digest = hashlib.sha256(
+                json.dumps(manifest, sort_keys=True, separators=(",", ":")).encode()
+            ).hexdigest()
+            request("/internal/v4/builds", {"manifest": manifest, "digest": digest})
+
+        def field_input(identity, target):
+            return {"id": identity, "agent": "watchkeeper", "target": target, "inference": True}
+
+        field_build("budget-fixture", 1, 0)
+        field_build("cooldown-fixture", 24, 3600)
+        request("/v4/runs", field_input("budget-first", "budget-fixture"))
+        reserved = request("/v4/runs/budget-first")
+        assert reserved["inference_budget"]["status"] == "admitted"
+        request("/v4/runs", field_input("budget-first", "budget-fixture"))
+        request("/internal/v4/runs/budget-first/failed", {})
+        request("/v4/runs", field_input("cooldown-first", "cooldown-fixture"))
+        request("/internal/v4/runs/cooldown-first/failed", {})
+        stop(core_process)
+        core_process = core()
+        request("/")
+        assert request("/v4/runs/budget-first")["inference_budget"] == reserved["inference_budget"]
+        request(
+            "/v4/duties",
+            {
+                "id": "budget-duty",
+                "agent": "watchkeeper",
+                "target": "budget-fixture",
+                "interval_seconds": 300,
+                "enabled": True,
+                "generation": 0,
+                "inference": True,
+            },
+        )
+        skipped = request("/internal/v4/duties/budget-duty/0/1", {})
+        assert skipped["inference_budget"]["status"] == "skipped"
+        assert skipped["inference_budget"]["used"] == 1
+        request("/v4/runs", field_input("cooldown-second", "cooldown-fixture"))
+        cooldown = request("/v4/runs/cooldown-second")
+        assert (
+            cooldown["inference_budget"]["reason"] == "Inference minimum interval has not elapsed"
+        )
+        request("/internal/v4/runs/duty-budget-duty-0-1/failed", {})
+        request("/internal/v4/runs/cooldown-second/failed", {})
+        request(
+            "/v4/duties",
+            {
+                "id": "budget-duty",
+                "agent": "watchkeeper",
+                "target": "budget-fixture",
+                "interval_seconds": 300,
+                "enabled": False,
+                "generation": 1,
+                "inference": True,
+            },
+        )
+        (LOCAL / "field-admission.json").write_text(
+            json.dumps(
+                {
+                    "reserved": reserved["inference_budget"],
+                    "skipped": skipped["inference_budget"],
+                    "cooldown": cooldown["inference_budget"],
+                    "scope": "synthetic records, worker stopped, no provider requests",
+                },
+                indent=2,
+            )
+            + "\n"
+        )
+        stop(core_process)
+        base["STARBASE_FIELD_ENABLED"] = "false"
+        base["STARBASE_INFERENCE_ENABLED"] = "false"
+        record("PostgreSQL field admission and cooldown survive Core restart; no provider calls")
         dump = subprocess.check_output(
             [
                 engine,

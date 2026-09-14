@@ -1,0 +1,2 @@
+python3 scripts/check_world_export.py --output .local/reviews/living-colony/20260907-final-03
+Export qualified. Artifact, captures, logs and provenance: /Users/al/git/Starbase2/.local/reviews/living-colony/20260907-final-03

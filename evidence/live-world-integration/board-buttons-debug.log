@@ -1,0 +1,13 @@
+ERROR: Failed to open 'user://logs/godot2026-09-08T22.17.44.log'.
+   at: copy (core/io/dir_access.cpp:429)
+ERROR: Failed to open log file for writing: user://logs/godot.log
+   at: rotate_file (core/io/logger.cpp:169)
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:1035)
+640 false Findings (8.0, 38.0) 65.0 (8.0, 8.0)
+SCRIPT ERROR: Assertion failed: Action text clipped: Findings
+          at: run (res://test_board_buttons.gd:20)
+          GDScript backtrace (most recent call first):
+              [0] run (res://test_board_buttons.gd:20)

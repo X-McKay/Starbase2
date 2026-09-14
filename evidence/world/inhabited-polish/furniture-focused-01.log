@@ -1,0 +1,14 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+STRUCTURE_CONTACT review
+STRUCTURE_CONTACT gym
+STRUCTURE_CONTACT habitat
+STRUCTURE_CONTACT greenhouse
+ERROR: habitat: furniture stops physical movement
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_remaining_structures.gd:50)
+ERROR: habitat: furniture stops physical movement
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_remaining_structures.gd:50)

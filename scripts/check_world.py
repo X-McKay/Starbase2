@@ -5,7 +5,59 @@ import subprocess
 for args in [
     ["--editor", "--import"],
     ["--script", "test_state.gd"],
+    ["--script", "test_support_surface.gd"],
+    ["--fixed-fps", "60", "--script", "test_world_ground_contact.gd"],
+    ["--script", "test_hud_polish.gd"],
+    ["--script", "test_crew_guide.gd"],
+    ["--script", "test_sole_contact.gd", "--", "--contact-role=operator"],
+    ["--script", "test_sole_contact.gd", "--", "--contact-role=mender"],
+    ["--script", "test_sole_contact.gd", "--", "--contact-role=surveyor"],
+    ["--script", "test_sole_contact.gd", "--", "--contact-role=trainer"],
+    ["--script", "test_sole_contact.gd", "--", "--contact-role=watchkeeper"],
+    ["--script", "test_sole_contact.gd", "--", "--contact-role=reviewer"],
+    ["--script", "test_sole_contact.gd", "--", "--contact-role=cybercat"],
+    ["--script", "test_connection_status.gd"],
+    ["--script", "test_crew_presentation.gd"],
+    ["--script", "test_crew_home.gd"],
+    ["--script", "test_crew_home_routes.gd"],
+    ["--script", "test_shift_change_ui.gd"],
+    ["--script", "test_morning_briefing.gd"],
+    ["--script", "test_morning_director.gd"],
+    ["--script", "test_station_signals.gd"],
+    ["--script", "test_station_records.gd"],
+    ["--script", "test_exact_record_selection.gd"],
+    ["--script", "test_crew_identity.gd"],
+    ["--script", "test_independent_character_rig.gd"],
+    ["--fixed-fps", "60", "--script", "test_cybercat_player.gd"],
+    ["--fixed-fps", "60", "--script", "test_player_character.gd"],
+    ["--script", "test_cast_motion_continuity.gd"],
+    ["--script", "test_cast_blend_retention.gd"],
+    ["--script", "test_morning_controls.gd"],
+    ["--script", "test_morning_atmosphere.gd"],
+    ["--fixed-fps", "60", "--script", "test_crew_watch.gd"],
+    ["--script", "test_task_markers.gd"],
+    ["--script", "test_duty_commands.gd"],
+    ["--script", "test_run_history.gd"],
+    ["--script", "test_history_refresh.gd"],
+    ["--script", "test_advisory_states.gd"],
+    ["--script", "test_field_duty_editor.gd"],
+    ["--script", "test_live_duty_controls.gd"],
+    ["--fixed-fps", "60", "--script", "test_capture_input.gd"],
+    ["--script", "test_operations_panel.gd"],
+    ["--fixed-fps", "60", "--script", "test_live_crew.gd"],
+    ["--script", "test_board_overview.gd"],
+    ["--script", "test_board_buttons.gd"],
     ["--script", "test_command_board.gd"],
+    ["--script", "test_contextual_hud.gd"],
+    ["--script", "test_console_theme.gd"],
+    ["--script", "test_ember_operations.gd"],
+    ["--script", "test_field_compact.gd"],
+    ["--script", "test_console_hud.gd"],
+    ["--script", "test_living_foliage.gd"],
+    ["--fixed-fps", "60", "--script", "test_social_animation.gd"],
+    ["--fixed-fps", "60", "--script", "test_inhabited_journey.gd"],
+    ["--script", "test_colony_vent.gd"],
+    ["--fixed-fps", "60", "--script", "test_living_colony.gd"],
     ["--script", "test_visual_fixture.gd", "--", "--fixture=res://../../fixtures/world/stale.json"],
     ["--script", "test_navigation.gd"],
     ["--script", "test_exploration.gd"],
@@ -24,7 +76,7 @@ for args in [
     ["--script", "test_character_motion.gd"],
     ["--script", "test_meshy_character.gd"],
     ["--fixed-fps", "60", "--script", "test_run_cadence.gd"],
-    ["--script", "test_engineering_polish.gd"],
+    ["--fixed-fps", "60", "--script", "test_engineering_polish.gd"],
     ["--fixed-fps", "60", "--script", "test_remaining_structures.gd"],
     ["--fixed-fps", "60", "--script", "test_seamless_colony.gd"],
     ["--script", "test_character_lab.gd"],
@@ -34,13 +86,20 @@ for args in [
     ["--script", "test_rooms.gd", "--", "--api=http://127.0.0.1:1"],
     ["--script", "test_interaction.gd", "--", "--api=http://127.0.0.1:1"],
 ]:
-    result = subprocess.run(
-        ["godot", "--headless", "--path", "apps/world", *args],
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        timeout=60,
-    )
+    try:
+        result = subprocess.run(
+            ["godot", "--headless", "--path", "apps/world", *args],
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            timeout=60,
+        )
+    except subprocess.TimeoutExpired as error:
+        output = error.stdout or ""
+        print(output.decode(errors="replace") if isinstance(output, bytes) else output, flush=True)
+        raise SystemExit(
+            f"Godot validation timed out: {args}; retained partial output above."
+        ) from error
     print(result.stdout)
     if result.returncode or "ERROR:" in result.stdout or "Parse Error" in result.stdout:
         raise SystemExit("Godot validation failed; inspect the retained command output.")

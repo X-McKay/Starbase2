@@ -17,20 +17,20 @@
   "source_kind": "authored architecture; generated equipment remains separate props",
   "files": {
     "assets-production/structures/habitat/blender/habitat-polished.blend": {
-      "sha256": "bf9db6da66eaa6d4db69c5aa2625a51a8f02714433429449abea8d964878940c",
-      "bytes": 389288
+      "sha256": "1fab5fe83084dee611167f97b36441adda6b912782b3b3f0227ab8adc6ec93b9",
+      "bytes": 481905
     },
     "apps/world/assets/structures/habitat/habitat-shell.glb": {
-      "sha256": "392f06a5cecdf55dba8c3666b1b3f005690986ee1ceae81f95cf25acd6257d51",
-      "bytes": 4404260
+      "sha256": "c64785a003748d1c9203b783d7650cb37e5dd8fca99378b53e9f87a821bf0ccf",
+      "bytes": 5300860
     },
     "apps/world/assets/structures/habitat/habitat-interior.glb": {
-      "sha256": "78fa0ddfbd724fb5bfb7efe252c6e2d7675df9d065a9fc87ccc3ef6f733fd83c",
-      "bytes": 204932
+      "sha256": "4f34de0869a4a4708274bb1d80b8be7fa611d60bb68397afddbfc8a6eb55c7f1",
+      "bytes": 577468
     },
     "assets-production/scripts/build_remaining_structures.py": {
-      "sha256": "852aaf360ae6081ec96be5f0f3bcbf5da906091bac0e2417b5bce11318ddba13",
-      "bytes": 20538
+      "sha256": "0ad4c5724407d7b5e5188a295680fc7b11cf8fea41435a7a00b72228749f13d9",
+      "bytes": 36843
     }
   },
   "semantic_groups": [
@@ -39,10 +39,12 @@
     "DoorRight",
     "Floor",
     "Furniture",
+    "InteriorRevealAlcove",
     "InteriorRevealBack",
+    "InteriorRevealDomestic",
     "InteriorRevealRail"
   ],
-  "mesh_objects": 29,
-  "triangles": 62216,
+  "mesh_objects": 41,
+  "triangles": 80680,
   "review_status": "Requires native and package qualification; owner art judgment separate"
 }

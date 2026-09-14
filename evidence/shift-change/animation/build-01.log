@@ -1,0 +1,33 @@
+20:02:47 | INFO: Data are loaded, start creating Blender stuff
+20:02:47 | INFO: Blender create Mesh node char1
+20:02:47 | INFO: glTF import finished in 0.06s
+Info: Saved as "sentinel-social.blend"
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+20:02:47 | INFO: Starting glTF 2.0 export
+20:02:47 | INFO: Extracting primitive: AnimationCarrier
+20:02:47 | INFO: Primitives created: 1
+20:02:47 | INFO: Finished glTF 2.0 export in 0.16408324241638184 s
+
+20:02:47 | INFO: Data are loaded, start creating Blender stuff
+20:02:47 | INFO: Blender create Mesh node char1
+20:02:47 | INFO: glTF import finished in 0.10s
+Info: Saved as "engineer-social.blend"
+20:02:47 | INFO: Starting glTF 2.0 export
+20:02:47 | INFO: Extracting primitive: AnimationCarrier
+20:02:47 | INFO: Primitives created: 1
+20:02:48 | INFO: Finished glTF 2.0 export in 0.18837904930114746 s
+
+20:02:48 | INFO: Data are loaded, start creating Blender stuff
+20:02:48 | INFO: Blender create Mesh node char1
+20:02:48 | INFO: glTF import finished in 0.15s
+Info: Saved as "vanguard-social.blend"
+20:02:48 | INFO: Starting glTF 2.0 export
+20:02:48 | INFO: Extracting primitive: AnimationCarrier
+20:02:48 | INFO: Primitives created: 1
+20:02:48 | INFO: Finished glTF 2.0 export in 0.21953105926513672 s
+
+SOCIAL_ANIMATIONS_BAKED
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit

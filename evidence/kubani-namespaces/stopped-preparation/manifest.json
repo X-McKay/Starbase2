@@ -1,0 +1,48 @@
+{
+  "scope": "offline infrastructure-only stopped preparation; not applied",
+  "context": "default",
+  "installation": "starbase2-prod",
+  "source_renderer_sha256": "1deff75d7c336a30663825752ca588ae243aa6736dbe995535d93585608857e0",
+  "resources": [
+    {
+      "kind": "Namespace",
+      "name": "starbase2-prod",
+      "namespace": null
+    },
+    {
+      "kind": "ServiceAccount",
+      "name": "starbase2",
+      "namespace": "starbase2-prod"
+    },
+    {
+      "kind": "NetworkPolicy",
+      "name": "starbase2-boundary",
+      "namespace": "starbase2-prod"
+    },
+    {
+      "kind": "NetworkPolicy",
+      "name": "starbase2-prod-postgres",
+      "namespace": "database"
+    },
+    {
+      "kind": "NetworkPolicy",
+      "name": "starbase2-prod-temporal",
+      "namespace": "temporal"
+    }
+  ],
+  "files": {
+    "validation.log": "0e21653d24f20a8501e3f5d08c6973df21f306468ce8926480491f1097559a15",
+    "kustomization.yaml": "0e161f6f73d73c0a66d4955f26de5443198804f94915f71a1e82a903e3c6f7a4",
+    "rendered.yaml": "dc45d9dd9e0c22cfff6afdbc1c0b9e1912b201d11ae3776978a7a8db625dbc99",
+    "infrastructure.json": "1b206e83bd751f8bcd5aa777a29929a193462f5d2abb228262e6af617805594c",
+    "README.md": "3da14dd6586bd9ce375b17e6e403aeacef19edd31d05f887a5378975581d5e61"
+  },
+  "excluded": [
+    "Deployment",
+    "Job",
+    "Secret",
+    "image references"
+  ],
+  "image_qualification": false,
+  "cluster_mutation": false
+}

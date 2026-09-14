@@ -1,0 +1,22 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:1035)
+CREW_ARRIVAL repair distance=0.10984810441732 traveled=87.1007419116795 path=0 stalled=0.0
+CREW_ARRIVAL review distance=0.11939887702465 traveled=51.2850046083331 path=0 stalled=0.0
+CREW_ARRIVAL gym distance=0.11614943295717 traveled=61.1436391435564 path=0 stalled=0.0
+CREW_ARRIVAL watchkeeper distance=0.11056812852621 traveled=51.6534636002034 path=0 stalled=0.0
+CREW_ARRIVAL reviewer distance=0.11087914556265 traveled=53.9717777483165 path=0 stalled=0.0
+CREW_HOME repair distance=39.4890365600586 anchor=CoastalView blocked=false
+CREW_HOME review distance=47.8019943237305 anchor=GardenEast blocked=true
+CREW_HOME gym distance=60.9428329467773 anchor=GardenWest blocked=true
+CREW_HOME watchkeeper distance=0.1125947162509 anchor=GalleyConversation blocked=false
+CREW_HOME reviewer distance=0.09887524694204 anchor=QuietReader blocked=false
+ERROR: review returned physically to authored home
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_live_crew.gd:96)
+ERROR: gym returned physically to authored home
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_live_crew.gd:96)

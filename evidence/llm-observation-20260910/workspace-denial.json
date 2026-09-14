@@ -1,0 +1,15 @@
+{
+  "request": {
+    "id": "llm-denied-2b490bc61b64",
+    "kind": "review",
+    "target": "workspace",
+    "profile": "surveyor-v2",
+    "candidate": null,
+    "inference": true
+  },
+  "status": 409,
+  "response": {
+    "error": "invalid run configuration"
+  },
+  "verification_note": "Observed actual denial. Initial harness incorrectly expected HTTP400; API returns409. No repeat dispatch."
+}

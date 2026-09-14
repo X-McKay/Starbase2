@@ -1,0 +1,12 @@
+{
+  "captured_at": 1788919616.355495,
+  "source_revision": "41aeada3e97ec0410e18f20f1d7007bb18c4da13",
+  "files": {
+    "scripts/live_world_integration.py": "6057ab184693b0fa59496063ea9d059a981cf93fb9fa45f706aacd07ea109ada",
+    "services/runtime/starbase_runtime/field_sources.py": "edc3dc2af0dd51dc8a854aef2baa53d583d90d267de567d7f3dd3977d7aa27c0",
+    "services/runtime/starbase_runtime/field.py": "66120acf7318943cc5be23472759a5bca412e7c52c54233a90f6730d3bb32b41",
+    "services/core/src/field.rs": "308d54e73933a3a48ad71004262fb79be9c42f2fdba4ca618d2a299cebe9f68e",
+    "target/debug/starbase-core": "5268e75834c9b25dea08cb45dc5d3a8b594c91dea5cec73ea636f7dc642ea09a"
+  },
+  "scope": "private loopback local backend; real GET-only GitHub observation; no inference/memory/deployment"
+}

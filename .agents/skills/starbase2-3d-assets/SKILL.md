@@ -18,6 +18,13 @@ textures but no rig or animation. Confirm identity, file contents, topology,
 scale, axes, PBR channels, skeleton and clips. Distinguish an exact downloaded
 model from a newly generated interpretation of its reference.
 
+Inspect omitted glTF material defaults as well as explicit values and texture
+bindings. An albedo texture reused as emission can mask shading; changing PBR
+parameters cannot remove contrast already baked into that texture. For animation,
+qualify the exported hierarchy, sparse rest channels and actual deformed skin in
+native Godot. A selected clip or plausible pelvis/ankle coordinates cannot prove
+seat contact. Keep failed side/front views until a corrected native result exists.
+
 - For Meshy retrieval or generation, read [Meshy workflow](references/meshy.md)
   and use the installed [Meshy skill](../meshy-3d-generation/SKILL.md).
 - For mesh, material, rig or animation preparation, read
@@ -67,3 +74,13 @@ After a meaningful failure, capture the symptom, evidence, fix, scope and
 regression check in the slice evidence. Promote only the reusable lesson into
 the linked lessons record or this skill; do not turn every model-specific
 coordinate or workaround into a universal rule.
+
+## Bundled visual references
+
+For visual work, read [the visual guide](references/visual-guide.md). Its selected
+images are bundled below; no local evidence archive is needed to use these
+examples. They illustrate intent and review cases, not current-build certification.
+
+- [run-sole-side.png](assets/run-sole-side.png)
+
+Image identity and source type: [visual manifest](assets/visual-manifest.json).

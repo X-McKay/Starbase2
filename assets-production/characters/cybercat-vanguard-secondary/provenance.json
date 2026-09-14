@@ -1,0 +1,101 @@
+{
+  "source": "assets-production/characters/cybercat-vanguard/blender/vanguard.blend",
+  "source_sha256": "b06c80c324804878fd6ef18239166263f18aed5fede945d0755b707b9b1f2605",
+  "original_runtime_sha256": "1be1433ffd420a8dbbd72ee03a99fbb06132fad0bb2bdd2b475b06a1c8a0e998",
+  "selected_vertices": 2080,
+  "selection": "Original full Head influence; x < -.215m and z > 1.43m; smooth x/z fade. Verified upper loose strands only.",
+  "protected_vertex_count": 39360,
+  "max_protected_deformation_m": 0.0,
+  "max_hair_deformation_m_at_0_1rad": 0.023541533850334476,
+  "sampled_poses": [
+    {
+      "clip": "walk",
+      "frame": 0
+    },
+    {
+      "clip": "walk",
+      "frame": 6
+    },
+    {
+      "clip": "walk",
+      "frame": 12
+    },
+    {
+      "clip": "walk",
+      "frame": 18
+    },
+    {
+      "clip": "walk",
+      "frame": 24
+    },
+    {
+      "clip": "run",
+      "frame": 0
+    },
+    {
+      "clip": "run",
+      "frame": 6
+    },
+    {
+      "clip": "run",
+      "frame": 12
+    },
+    {
+      "clip": "run",
+      "frame": 18
+    },
+    {
+      "clip": "run",
+      "frame": 24
+    },
+    {
+      "clip": "idle",
+      "frame": 0
+    },
+    {
+      "clip": "idle",
+      "frame": 6
+    },
+    {
+      "clip": "idle",
+      "frame": 12
+    },
+    {
+      "clip": "idle",
+      "frame": 18
+    },
+    {
+      "clip": "idle",
+      "frame": 24
+    },
+    {
+      "clip": "console",
+      "frame": 0
+    },
+    {
+      "clip": "console",
+      "frame": 6
+    },
+    {
+      "clip": "console",
+      "frame": 12
+    },
+    {
+      "clip": "console",
+      "frame": 18
+    },
+    {
+      "clip": "console",
+      "frame": 24
+    }
+  ],
+  "joint": "HairSwing",
+  "parent": "Head",
+  "blender_version": "5.2.1 LTS",
+  "files": {
+    "assets-production/characters/cybercat-vanguard-secondary/blender/vanguard-secondary.blend": "83ef92ecc8f526e5083f016fc2949520771e6ae5d92b479b7cedef7c4ab56c59",
+    "apps/world/assets/characters/cybercat-vanguard-secondary/vanguard-secondary.glb": "dc4b4073e1500d5c82c04412e683536b2846ad5dce1efc1078b0c24a4a451534",
+    "assets-production/scripts/prepare_vanguard_secondary.py": "2f50879255c292bb7f4124122dbd235505215d80502b34468e6afdbfb79e8a21"
+  },
+  "limitations": "Only reviewed upper loose strands move; lower hair remains in original rig. Native motion review required. No new generation or changes to original files."
+}

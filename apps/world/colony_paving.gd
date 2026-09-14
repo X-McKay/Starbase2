@@ -132,12 +132,15 @@ func _ready() -> void:
 	substrate.roughness=0.95
 	var road := ShaderMaterial.new()
 	road.shader=preload("res://road_surface.gdshader")
+	var foundation := ShaderMaterial.new()
+	foundation.shader=preload("res://foundation_surface.gdshader")
 	for parameter in ["atlas","region"]:
 		road.set_shader_parameter(parameter,Kit.material("floor").get_shader_parameter(parameter))
+		foundation.set_shader_parameter(parameter,Kit.material("floor").get_shader_parameter(parameter))
 	var yellow := StandardMaterial3D.new()
 	yellow.albedo_color=Color("efbf35")
 	yellow.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED
-	for part in [["TileField",pads,Kit.material("floor")],["RoadTiles",roads,road],["JointBed",bed,substrate],["Centerline",markings,yellow]]:
+	for part in [["TileField",pads,foundation],["RoadTiles",roads,road],["JointBed",bed,substrate],["Centerline",markings,yellow]]:
 		var instance := MeshInstance3D.new()
 		instance.name=part[0]
 		instance.mesh=part[1].commit()

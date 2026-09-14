@@ -1,0 +1,10 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.13, pytest-9.1.1, pluggy-1.6.0
+rootdir: /Users/al/git/Starbase2
+configfile: pyproject.toml
+plugins: typeguard-4.6.0, anyio-4.15.0
+collected 1 item
+
+services/runtime/tests/test_installation_contract.py .                   [100%]
+
+============================== 1 passed in 0.03s ===============================

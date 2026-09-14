@@ -1,0 +1,18 @@
+[
+  {
+    "method": "GET",
+    "resource": "pods",
+    "namespace": "starbase2-prod",
+    "accept": "application/vnd.github+json",
+    "github_api_version": "2026-03-10",
+    "status": 406
+  },
+  {
+    "method": "GET",
+    "resource": "pods",
+    "namespace": "starbase2-prod",
+    "accept": "application/json",
+    "github_api_version": null,
+    "status": 200
+  }
+]

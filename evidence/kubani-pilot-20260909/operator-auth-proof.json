@@ -1,0 +1,6 @@
+{
+  "status": 403,
+  "body": {
+    "error": "local operator session or worker credential required"
+  }
+}

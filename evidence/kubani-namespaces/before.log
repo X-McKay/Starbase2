@@ -1,0 +1,375 @@
+..FFFFFFFFF...............................                               [100%]
+=================================== FAILURES ===================================
+_ test_unsafe_targets_fail_before_execution[temporal_queue-starbase2-other-v1] _
+
+config = {'installation': 'starbase2-prod', 'context': 'test-kubani', 'namespace': 'starbase2-prod', 'database': 'starbase2_prod', ...}
+tmp_path = PosixPath('/private/var/folders/sl/2t3mlgwj7bq2c4qj1x2csfx00000gn/T/pytest-of-al/pytest-693/test_unsafe_targets_fail_befor2')
+key = 'temporal_queue', value = 'starbase2-other-v1'
+
+    @pytest.mark.parametrize(
+        "key,value",
+        [
+            ("namespace", "default"),
+            ("namespace", "starbase-prod"),
+            ("temporal_queue", "starbase2-other-v1"),
+            ("postgres_namespace", "starbase2-prod"),
+            ("temporal_kubernetes_namespace", "starbase2-prod"),
+            ("postgres_namespace", "default"),
+            ("postgres_namespace", "kube-system"),
+            ("temporal_kubernetes_namespace", "starbase"),
+            ("temporal_kubernetes_namespace", "starbase-prod"),
+            ("core_image", "registry.test/starbase/core@sha256:" + "a" * 64),
+            ("runtime_image", "registry.test/runtime@sha256:" + "b" * 64),
+            ("database", "postgres"),
+            ("database", "starbase2_x;DROP"),
+            ("temporal_namespace", "default"),
+            ("replicas", 2),
+            ("retention_days", 0),
+            ("core_image", "registry.test/core:latest"),
+            ("source_revision", "main"),
+            ("platform", "linux/386"),
+            ("platform", "darwin/arm64"),
+        ],
+    )
+    def test_unsafe_targets_fail_before_execution(config, tmp_path, key, value):
+        config[key] = value
+        p = tmp_path / "bad.json"
+        p.write_text(json.dumps(config))
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+services/runtime/tests/test_deployment.py:55: Failed
+_ test_unsafe_targets_fail_before_execution[postgres_namespace-starbase2-prod] _
+
+config = {'installation': 'starbase2-prod', 'context': 'test-kubani', 'namespace': 'starbase2-prod', 'database': 'starbase2_prod', ...}
+tmp_path = PosixPath('/private/var/folders/sl/2t3mlgwj7bq2c4qj1x2csfx00000gn/T/pytest-of-al/pytest-693/test_unsafe_targets_fail_befor3')
+key = 'postgres_namespace', value = 'starbase2-prod'
+
+    @pytest.mark.parametrize(
+        "key,value",
+        [
+            ("namespace", "default"),
+            ("namespace", "starbase-prod"),
+            ("temporal_queue", "starbase2-other-v1"),
+            ("postgres_namespace", "starbase2-prod"),
+            ("temporal_kubernetes_namespace", "starbase2-prod"),
+            ("postgres_namespace", "default"),
+            ("postgres_namespace", "kube-system"),
+            ("temporal_kubernetes_namespace", "starbase"),
+            ("temporal_kubernetes_namespace", "starbase-prod"),
+            ("core_image", "registry.test/starbase/core@sha256:" + "a" * 64),
+            ("runtime_image", "registry.test/runtime@sha256:" + "b" * 64),
+            ("database", "postgres"),
+            ("database", "starbase2_x;DROP"),
+            ("temporal_namespace", "default"),
+            ("replicas", 2),
+            ("retention_days", 0),
+            ("core_image", "registry.test/core:latest"),
+            ("source_revision", "main"),
+            ("platform", "linux/386"),
+            ("platform", "darwin/arm64"),
+        ],
+    )
+    def test_unsafe_targets_fail_before_execution(config, tmp_path, key, value):
+        config[key] = value
+        p = tmp_path / "bad.json"
+        p.write_text(json.dumps(config))
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+services/runtime/tests/test_deployment.py:55: Failed
+_ test_unsafe_targets_fail_before_execution[temporal_kubernetes_namespace-starbase2-prod] _
+
+config = {'installation': 'starbase2-prod', 'context': 'test-kubani', 'namespace': 'starbase2-prod', 'database': 'starbase2_prod', ...}
+tmp_path = PosixPath('/private/var/folders/sl/2t3mlgwj7bq2c4qj1x2csfx00000gn/T/pytest-of-al/pytest-693/test_unsafe_targets_fail_befor4')
+key = 'temporal_kubernetes_namespace', value = 'starbase2-prod'
+
+    @pytest.mark.parametrize(
+        "key,value",
+        [
+            ("namespace", "default"),
+            ("namespace", "starbase-prod"),
+            ("temporal_queue", "starbase2-other-v1"),
+            ("postgres_namespace", "starbase2-prod"),
+            ("temporal_kubernetes_namespace", "starbase2-prod"),
+            ("postgres_namespace", "default"),
+            ("postgres_namespace", "kube-system"),
+            ("temporal_kubernetes_namespace", "starbase"),
+            ("temporal_kubernetes_namespace", "starbase-prod"),
+            ("core_image", "registry.test/starbase/core@sha256:" + "a" * 64),
+            ("runtime_image", "registry.test/runtime@sha256:" + "b" * 64),
+            ("database", "postgres"),
+            ("database", "starbase2_x;DROP"),
+            ("temporal_namespace", "default"),
+            ("replicas", 2),
+            ("retention_days", 0),
+            ("core_image", "registry.test/core:latest"),
+            ("source_revision", "main"),
+            ("platform", "linux/386"),
+            ("platform", "darwin/arm64"),
+        ],
+    )
+    def test_unsafe_targets_fail_before_execution(config, tmp_path, key, value):
+        config[key] = value
+        p = tmp_path / "bad.json"
+        p.write_text(json.dumps(config))
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+services/runtime/tests/test_deployment.py:55: Failed
+____ test_unsafe_targets_fail_before_execution[postgres_namespace-default] _____
+
+config = {'installation': 'starbase2-prod', 'context': 'test-kubani', 'namespace': 'starbase2-prod', 'database': 'starbase2_prod', ...}
+tmp_path = PosixPath('/private/var/folders/sl/2t3mlgwj7bq2c4qj1x2csfx00000gn/T/pytest-of-al/pytest-693/test_unsafe_targets_fail_befor5')
+key = 'postgres_namespace', value = 'default'
+
+    @pytest.mark.parametrize(
+        "key,value",
+        [
+            ("namespace", "default"),
+            ("namespace", "starbase-prod"),
+            ("temporal_queue", "starbase2-other-v1"),
+            ("postgres_namespace", "starbase2-prod"),
+            ("temporal_kubernetes_namespace", "starbase2-prod"),
+            ("postgres_namespace", "default"),
+            ("postgres_namespace", "kube-system"),
+            ("temporal_kubernetes_namespace", "starbase"),
+            ("temporal_kubernetes_namespace", "starbase-prod"),
+            ("core_image", "registry.test/starbase/core@sha256:" + "a" * 64),
+            ("runtime_image", "registry.test/runtime@sha256:" + "b" * 64),
+            ("database", "postgres"),
+            ("database", "starbase2_x;DROP"),
+            ("temporal_namespace", "default"),
+            ("replicas", 2),
+            ("retention_days", 0),
+            ("core_image", "registry.test/core:latest"),
+            ("source_revision", "main"),
+            ("platform", "linux/386"),
+            ("platform", "darwin/arm64"),
+        ],
+    )
+    def test_unsafe_targets_fail_before_execution(config, tmp_path, key, value):
+        config[key] = value
+        p = tmp_path / "bad.json"
+        p.write_text(json.dumps(config))
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+services/runtime/tests/test_deployment.py:55: Failed
+__ test_unsafe_targets_fail_before_execution[postgres_namespace-kube-system] ___
+
+config = {'installation': 'starbase2-prod', 'context': 'test-kubani', 'namespace': 'starbase2-prod', 'database': 'starbase2_prod', ...}
+tmp_path = PosixPath('/private/var/folders/sl/2t3mlgwj7bq2c4qj1x2csfx00000gn/T/pytest-of-al/pytest-693/test_unsafe_targets_fail_befor6')
+key = 'postgres_namespace', value = 'kube-system'
+
+    @pytest.mark.parametrize(
+        "key,value",
+        [
+            ("namespace", "default"),
+            ("namespace", "starbase-prod"),
+            ("temporal_queue", "starbase2-other-v1"),
+            ("postgres_namespace", "starbase2-prod"),
+            ("temporal_kubernetes_namespace", "starbase2-prod"),
+            ("postgres_namespace", "default"),
+            ("postgres_namespace", "kube-system"),
+            ("temporal_kubernetes_namespace", "starbase"),
+            ("temporal_kubernetes_namespace", "starbase-prod"),
+            ("core_image", "registry.test/starbase/core@sha256:" + "a" * 64),
+            ("runtime_image", "registry.test/runtime@sha256:" + "b" * 64),
+            ("database", "postgres"),
+            ("database", "starbase2_x;DROP"),
+            ("temporal_namespace", "default"),
+            ("replicas", 2),
+            ("retention_days", 0),
+            ("core_image", "registry.test/core:latest"),
+            ("source_revision", "main"),
+            ("platform", "linux/386"),
+            ("platform", "darwin/arm64"),
+        ],
+    )
+    def test_unsafe_targets_fail_before_execution(config, tmp_path, key, value):
+        config[key] = value
+        p = tmp_path / "bad.json"
+        p.write_text(json.dumps(config))
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+services/runtime/tests/test_deployment.py:55: Failed
+_ test_unsafe_targets_fail_before_execution[temporal_kubernetes_namespace-starbase] _
+
+config = {'installation': 'starbase2-prod', 'context': 'test-kubani', 'namespace': 'starbase2-prod', 'database': 'starbase2_prod', ...}
+tmp_path = PosixPath('/private/var/folders/sl/2t3mlgwj7bq2c4qj1x2csfx00000gn/T/pytest-of-al/pytest-693/test_unsafe_targets_fail_befor7')
+key = 'temporal_kubernetes_namespace', value = 'starbase'
+
+    @pytest.mark.parametrize(
+        "key,value",
+        [
+            ("namespace", "default"),
+            ("namespace", "starbase-prod"),
+            ("temporal_queue", "starbase2-other-v1"),
+            ("postgres_namespace", "starbase2-prod"),
+            ("temporal_kubernetes_namespace", "starbase2-prod"),
+            ("postgres_namespace", "default"),
+            ("postgres_namespace", "kube-system"),
+            ("temporal_kubernetes_namespace", "starbase"),
+            ("temporal_kubernetes_namespace", "starbase-prod"),
+            ("core_image", "registry.test/starbase/core@sha256:" + "a" * 64),
+            ("runtime_image", "registry.test/runtime@sha256:" + "b" * 64),
+            ("database", "postgres"),
+            ("database", "starbase2_x;DROP"),
+            ("temporal_namespace", "default"),
+            ("replicas", 2),
+            ("retention_days", 0),
+            ("core_image", "registry.test/core:latest"),
+            ("source_revision", "main"),
+            ("platform", "linux/386"),
+            ("platform", "darwin/arm64"),
+        ],
+    )
+    def test_unsafe_targets_fail_before_execution(config, tmp_path, key, value):
+        config[key] = value
+        p = tmp_path / "bad.json"
+        p.write_text(json.dumps(config))
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+services/runtime/tests/test_deployment.py:55: Failed
+_ test_unsafe_targets_fail_before_execution[temporal_kubernetes_namespace-starbase-prod] _
+
+config = {'installation': 'starbase2-prod', 'context': 'test-kubani', 'namespace': 'starbase2-prod', 'database': 'starbase2_prod', ...}
+tmp_path = PosixPath('/private/var/folders/sl/2t3mlgwj7bq2c4qj1x2csfx00000gn/T/pytest-of-al/pytest-693/test_unsafe_targets_fail_befor8')
+key = 'temporal_kubernetes_namespace', value = 'starbase-prod'
+
+    @pytest.mark.parametrize(
+        "key,value",
+        [
+            ("namespace", "default"),
+            ("namespace", "starbase-prod"),
+            ("temporal_queue", "starbase2-other-v1"),
+            ("postgres_namespace", "starbase2-prod"),
+            ("temporal_kubernetes_namespace", "starbase2-prod"),
+            ("postgres_namespace", "default"),
+            ("postgres_namespace", "kube-system"),
+            ("temporal_kubernetes_namespace", "starbase"),
+            ("temporal_kubernetes_namespace", "starbase-prod"),
+            ("core_image", "registry.test/starbase/core@sha256:" + "a" * 64),
+            ("runtime_image", "registry.test/runtime@sha256:" + "b" * 64),
+            ("database", "postgres"),
+            ("database", "starbase2_x;DROP"),
+            ("temporal_namespace", "default"),
+            ("replicas", 2),
+            ("retention_days", 0),
+            ("core_image", "registry.test/core:latest"),
+            ("source_revision", "main"),
+            ("platform", "linux/386"),
+            ("platform", "darwin/arm64"),
+        ],
+    )
+    def test_unsafe_targets_fail_before_execution(config, tmp_path, key, value):
+        config[key] = value
+        p = tmp_path / "bad.json"
+        p.write_text(json.dumps(config))
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+services/runtime/tests/test_deployment.py:55: Failed
+_ test_unsafe_targets_fail_before_execution[core_image-registry.test/starbase/core@sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa] _
+
+config = {'installation': 'starbase2-prod', 'context': 'test-kubani', 'namespace': 'starbase2-prod', 'database': 'starbase2_prod', ...}
+tmp_path = PosixPath('/private/var/folders/sl/2t3mlgwj7bq2c4qj1x2csfx00000gn/T/pytest-of-al/pytest-693/test_unsafe_targets_fail_befor9')
+key = 'core_image'
+value = 'registry.test/starbase/core@sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+
+    @pytest.mark.parametrize(
+        "key,value",
+        [
+            ("namespace", "default"),
+            ("namespace", "starbase-prod"),
+            ("temporal_queue", "starbase2-other-v1"),
+            ("postgres_namespace", "starbase2-prod"),
+            ("temporal_kubernetes_namespace", "starbase2-prod"),
+            ("postgres_namespace", "default"),
+            ("postgres_namespace", "kube-system"),
+            ("temporal_kubernetes_namespace", "starbase"),
+            ("temporal_kubernetes_namespace", "starbase-prod"),
+            ("core_image", "registry.test/starbase/core@sha256:" + "a" * 64),
+            ("runtime_image", "registry.test/runtime@sha256:" + "b" * 64),
+            ("database", "postgres"),
+            ("database", "starbase2_x;DROP"),
+            ("temporal_namespace", "default"),
+            ("replicas", 2),
+            ("retention_days", 0),
+            ("core_image", "registry.test/core:latest"),
+            ("source_revision", "main"),
+            ("platform", "linux/386"),
+            ("platform", "darwin/arm64"),
+        ],
+    )
+    def test_unsafe_targets_fail_before_execution(config, tmp_path, key, value):
+        config[key] = value
+        p = tmp_path / "bad.json"
+        p.write_text(json.dumps(config))
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+services/runtime/tests/test_deployment.py:55: Failed
+_ test_unsafe_targets_fail_before_execution[runtime_image-registry.test/runtime@sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb] _
+
+config = {'installation': 'starbase2-prod', 'context': 'test-kubani', 'namespace': 'starbase2-prod', 'database': 'starbase2_prod', ...}
+tmp_path = PosixPath('/private/var/folders/sl/2t3mlgwj7bq2c4qj1x2csfx00000gn/T/pytest-of-al/pytest-693/test_unsafe_targets_fail_befor10')
+key = 'runtime_image'
+value = 'registry.test/runtime@sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
+
+    @pytest.mark.parametrize(
+        "key,value",
+        [
+            ("namespace", "default"),
+            ("namespace", "starbase-prod"),
+            ("temporal_queue", "starbase2-other-v1"),
+            ("postgres_namespace", "starbase2-prod"),
+            ("temporal_kubernetes_namespace", "starbase2-prod"),
+            ("postgres_namespace", "default"),
+            ("postgres_namespace", "kube-system"),
+            ("temporal_kubernetes_namespace", "starbase"),
+            ("temporal_kubernetes_namespace", "starbase-prod"),
+            ("core_image", "registry.test/starbase/core@sha256:" + "a" * 64),
+            ("runtime_image", "registry.test/runtime@sha256:" + "b" * 64),
+            ("database", "postgres"),
+            ("database", "starbase2_x;DROP"),
+            ("temporal_namespace", "default"),
+            ("replicas", 2),
+            ("retention_days", 0),
+            ("core_image", "registry.test/core:latest"),
+            ("source_revision", "main"),
+            ("platform", "linux/386"),
+            ("platform", "darwin/arm64"),
+        ],
+    )
+    def test_unsafe_targets_fail_before_execution(config, tmp_path, key, value):
+        config[key] = value
+        p = tmp_path / "bad.json"
+        p.write_text(json.dumps(config))
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+services/runtime/tests/test_deployment.py:55: Failed
+=========================== short test summary info ============================
+FAILED services/runtime/tests/test_deployment.py::test_unsafe_targets_fail_before_execution[temporal_queue-starbase2-other-v1]
+FAILED services/runtime/tests/test_deployment.py::test_unsafe_targets_fail_before_execution[postgres_namespace-starbase2-prod]
+FAILED services/runtime/tests/test_deployment.py::test_unsafe_targets_fail_before_execution[temporal_kubernetes_namespace-starbase2-prod]
+FAILED services/runtime/tests/test_deployment.py::test_unsafe_targets_fail_before_execution[postgres_namespace-default]
+FAILED services/runtime/tests/test_deployment.py::test_unsafe_targets_fail_before_execution[postgres_namespace-kube-system]
+FAILED services/runtime/tests/test_deployment.py::test_unsafe_targets_fail_before_execution[temporal_kubernetes_namespace-starbase]
+FAILED services/runtime/tests/test_deployment.py::test_unsafe_targets_fail_before_execution[temporal_kubernetes_namespace-starbase-prod]
+FAILED services/runtime/tests/test_deployment.py::test_unsafe_targets_fail_before_execution[core_image-registry.test/starbase/core@sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa]
+FAILED services/runtime/tests/test_deployment.py::test_unsafe_targets_fail_before_execution[runtime_image-registry.test/runtime@sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb]
+9 failed, 33 passed in 0.44s

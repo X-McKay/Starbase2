@@ -5,7 +5,7 @@ Status: accepted
 Owner: Al; implementation assistant maintains the taxonomy and migration checks.
 Date: 2026-09-07.
 
-The category layout is implemented on `feature/meshy-blender`. The
+The category layout is implemented on `codex/morning-at-starbase2`. The
 [migration record](../evidence/world/content-reorganization/README.md) records
 moves, cleanup, validation and the pushed baseline. Original paid inputs remain
 local rebuild dependencies. See the [initial assessment](../evidence/content-organization/README.md).
@@ -38,7 +38,7 @@ an operational identity during an art cleanup.
 ```text
 assets-production/
   README.md
-  characters/cybercat-vanguard/
+  characters/moss-cartographer/
     README.md                  status, runtime consumers, rebuild and dependencies
     provenance.json            source IDs, hashes, costs, rights/ownership context
     concepts/                  selected design images and reference material
@@ -51,7 +51,7 @@ assets-production/
   environment/sandstone/
 apps/world/
   assets/                      same category and asset ID as production
-    characters/cybercat-vanguard/
+    characters/moss-cartographer/
     structures/engineering/
     props/containment-reactor/
     kits/aster-v1/
@@ -93,7 +93,7 @@ not another runtime category. Link those records rather than duplicate ledgers.
 | `art/`, earlier proposed `asset-production/` | `assets-production/` |
 | `apps/world/art/` and `apps/world/buildings/art/` | `apps/world/assets/<category>/<asset-id>/` |
 | `apps/world/buildings/`, building catalogs/classes/recipes | `apps/world/structures/`, structure catalog/gallery/test and `world-structure` recipe |
-| `art/cybercat-vanguard/` | `assets-production/characters/cybercat-vanguard/` |
+| `art/cybercat-vanguard/` | Retired source family; current independent cast lives under `assets-production/characters/<stable-id>/` |
 | `engineering-polish` | Split by actual contents: Engineering structure, reactor prop, engineer character; it remains an evidence milestone |
 | `meshy-blender`, `colony-3d` | Split by actual structure/character identity; neither tool nor colony is an asset category |
 | `crew`, operator/Mender/etc. | Preserve product roles; map them to character assets, do not rename backend identities |

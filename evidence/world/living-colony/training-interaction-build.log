@@ -1,0 +1,81 @@
+/Users/al/git/Starbase2/assets-production/scripts/build_remaining_structures.py:172: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  mat.use_nodes = True
+Info: Saved as "training-polished.blend"
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+18:22:02 | INFO: Starting glTF 2.0 export
+18:22:02 | INFO: Extracting primitive: Cube.354
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Text
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cube.353
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cube.362
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cube.361
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cube.360
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cube.359
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cube.366
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cube.365
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cube.364
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cube.363
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cube.194
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cube.407
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cube.002
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cube.001
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cube.424
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cylinder.075
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Text.001
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cube.196
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cube.199
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cube.201
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cube.409
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Text.002
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cube.408
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cube.419
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cube.418
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cylinder.041
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cylinder.009
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Finished glTF 2.0 export in 0.044389963150024414 s
+
+18:22:02 | INFO: Starting glTF 2.0 export
+18:22:02 | INFO: Extracting primitive: Cylinder.005
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cube.390
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cylinder
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cube.388
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Extracting primitive: Cylinder.002
+18:22:02 | INFO: Primitives created: 1
+18:22:02 | INFO: Finished glTF 2.0 export in 0.005775928497314453 s
+
+STRUCTURE_AUTHORED training
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit

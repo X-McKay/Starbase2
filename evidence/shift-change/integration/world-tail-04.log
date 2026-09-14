@@ -1,0 +1,9 @@
+Room switching now asserts preserved actual crew position rather than obsolete workstation coordinates.
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Room checks passed: three door journeys, prop/edge physics, route recovery, console inspection, stale/offline state, direct visits, map exit, no dispatch
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Interaction checks passed: keyboard directory, spatial interaction, walking, gym, camera, reduced motion, explicit form, offline fencing
+

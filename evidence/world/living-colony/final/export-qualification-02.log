@@ -1,0 +1,2 @@
+python3 scripts/check_world_export.py --output .local/reviews/living-colony/20260907-final-02
+error: recipe `check-world-export` was terminated on line 28 by signal 15

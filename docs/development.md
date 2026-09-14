@@ -49,16 +49,17 @@ In another terminal:
 mise exec -- just world
 ```
 
-The journal is at [localhost:8787](http://127.0.0.1:8787). `just dev` runs the Rust
-core, Python worker, and persistent Temporal development server. Ctrl-C stops
-its own processes and preserves `.local/` databases and logs. No browser or world
-window is required for execution. Launching Godot is optional.
+The Core root at [localhost:8787](http://127.0.0.1:8787) is a non-interactive
+service page. `just dev` runs the Rust core, Python worker, and persistent
+Temporal development server. Launch Godot with `just world`; `J` opens native
+operations, while Field Command and Connection expose structured controls.
+Ctrl-C stops its own processes and preserves `.local/` databases and logs.
 
 `just demo` is idempotent for the default ID `first-survey`. After changing a build,
 restart the worker and use `just demo another-survey`. Changed input under an
-existing mission ID is rejected. The journal creates v2 runs with fresh IDs.
-Use its Stop control to cancel a run;
-stopping the local launcher merely takes workers offline and leaves work durable.
+existing mission ID is rejected. The Godot Work panel creates v2 runs with fresh
+IDs; use its Stop control to cancel a run. Stopping the local launcher merely
+takes workers offline and leaves work durable.
 
 Run under `mise exec --` if tools are not on PATH. Bootstrap downloads a
 checksum-pinned Temporal CLI into `.local/tools`, runs `uv sync --locked` and
@@ -89,12 +90,18 @@ once dependencies are present.
 | `just dev` | Build then launch persistent local Temporal, core, worker; logs in `.local/` |
 | `just demo ID` | Submit one synthetic baseline/regression campaign |
 | `just world` | Playable native outpost; H opens controls and comfort settings |
+| `just world-web-templates` | Download and verify the pinned Godot 4.7.2 template archive, then install only the no-thread Web templates in the checkout-local cache |
+| `just check-world-web-probe` | Export the isolated Web probe twice and retain a deterministic size/hash manifest |
+| `just check-world-web --output DIRECTORY --text-resources --stable-node-ids` | Qualified current-world path: export two clean staged copies, normalize Godot 4.7.2 imported-scene node IDs, run both package journeys from empty directories and require byte-identical artifacts without editing the checkout |
+| `just prepare-world-web-transport --output DIRECTORY` | Export a minimal fixture containing the actual Web request adapter and Godot command state machine |
+| `just web-fixture EXPORT_DIRECTORY` | Serve a Godot export and an in-memory Core together on one isolated loopback origin |
+| `just check-web-fixture --output DIRECTORY` | Exercise the fixture's real Core cookie/origin boundary, static routing and controlled create/cancel flow |
 | `just world-map` | Open the planetary colony overview |
 | `just world-crew` | Native preview of the actual generated crew atlas regions |
 | `just world-shot` | Capture the real native viewport to `.local/world-preview.png` |
 | `just contracts` | Generate Rust-owned JSON Schema and Python models |
 | `just fmt` / `just lint` | Rustfmt, Clippy, Ruff, ty for implemented sources |
-| `just test` | Rust store/grader/migration tests; Python review, fake-model, and inference-adapter tests |
+| `just test` | Rust store/grader/migration tests; Python review, fake-model, inference-adapter and Web export-tooling tests |
 | `just check` | Lint, tests, Rust build, generated-contract drift, documentation |
 | `just check-world` | Import, state, navigation, keyboard/mouse and local HTTP command fixtures; visual QA remains separate |
 | `just characters-import` | Rebuild every registered illustrated sheet, then validate artwork, movement and the review room |
@@ -144,17 +151,62 @@ room's inspector; normal startup remains outdoors. These flags dispatch no work.
 - `contracts`: generated v1/v2 JSON Schemas; endpoint semantics in the owning README.
 - `apps/world`: original SVG art, reusable habitats, navigation, actors, HUD, native
   operator client and state projection. See [playable world evidence](world-playable.md).
-- `apps/console`: dependency-free structured HTML journal embedded in the core.
+- `apps/console`: historical dependency-free journal source; it is not served by
+  the current Godot-native product.
 - `scripts`: bootstrap, launcher, integration experiment, contracts, documentation.
 - `evidence`: selected retained experiment records and actual rendered captures.
 
 ## Limits and next tooling work
 
-General statistical comparison tooling, Postgres integration,
-container images, deployment, signing/notarization, and production telemetry are
-not implemented. Godot native export was exercised; web export needs matching
-web templates and same-origin API hosting. The native archive was also launched and rendered locally; it is unsigned
-and is not a distributed release.
+General statistical comparison tooling, signing/notarization, and production
+telemetry remain open. The local Godot Web handoff is verified through its export,
+transport, browser journey and native regression gates. Godot 4.7.2 templates are
+checksum-pinned; the minimal probe and current 177-root world export are
+byte-identical across clean pairs. The current artifact is 760,154,489 bytes, with
+a 720,305,104-byte PCK at SHA-256
+`2141fa334dd952027c2e2bb3fd40a18d3aa1d28b4cfefa22f0df91c452c0139d`.
+Both copies pass the five-structure package journey from empty directories, so
+the check cannot fall back to staged source files. The qualified command is:
+
+```sh
+just check-world-web --output FRESH_DIRECTORY --text-resources --stable-node-ids
+```
+
+This staged pipeline keeps authored text resources unconverted during export and
+uses a Godot-revision-pinned normalizer for imported GLB node IDs. All 53 imported
+scenes passed persisted semantic verification; the manifest records the
+normalizer hash and the checkout's world resources remain unchanged.
+
+The same-origin `/game/` plus in-memory Core fixture passes browser-managed
+credentials, redirect, timeout, cancellation and uncertain-write reconciliation.
+Chrome 151 passed the actual exported-Godot command probe with no console errors.
+The exact deterministic PCK completed startup, snapshot refresh, controlled work,
+stop to `cancel_requested`, synthetic evidence inspection, character selection,
+keyboard interior entry, disconnected last-known state and reconnect. The full
+native `just check-world` suite, repository check and seven Web-tooling tests also
+pass. The historical journal remains source history, not a fallback product or
+delivery gate.
+
+The matched 1280×800 comparison is a limited local measurement on an Apple M5
+with 24 GiB RAM. Native reached its first process frame in 9.345 seconds and
+sampled 150 monotonic intervals at 16.693 ms median / 23.941 ms p95. Chrome reached
+the first Web post-draw marker in 42.610 seconds, then sampled 600 child-frame
+`requestAnimationFrame` intervals at 16.7 ms median / 17.6 ms p95; 25 snapshot
+requests measured 2.6 ms median / 4.0 ms p95. The browser reported
+2,139,426,713 bytes of texture memory. The startup markers differ, the browser
+navigation was a warm local no-store run, and rAF cadence is not render CPU or
+end-to-end projection latency, so these numbers support no native/Web performance
+improvement claim. The same Trial Hall composition, HUD, player and authoritative
+state were visible in both; Web fine textures and edges were softer.
+
+This is not production-ready: the 760 MB artifact, 42.6-second warm local startup
+and 2.14 GB reported texture allocation require UI/content optimization. Cold
+transfer, background-tab suspend/resume, wider browser/device coverage, structured
+keyboard/accessibility review and worker-backed cancellation through terminal
+acknowledgment also remain open; Rivet still contains one historical journal
+reference. Container packaging and Kubernetes deployment are a separate workstream
+explicitly deferred until the owner is happy with the UI. No deployment is part
+of this handoff; `Starbase2.almckay.io` remains the intended eventual hostname.
 
 No plugin packaging or hooks were added. Existing tailored development skills
 were usable in this session; Codex exposed them, while actual Claude-host discovery
@@ -169,9 +221,6 @@ required by bootstrap or the running product.
 
 ## Fresh Kubani deployment preparation
 
-The [setup, rollback, recovery and teardown playbook](deployment.md) prepares a fresh
-PostgreSQL-backed installation. Local SQLite and local Temporal histories are
-development-only and are not imported. The private deployment bundle starts
-stopped, with provider inference, legacy fixture API and unqualified sandbox
-repairs disabled. Cluster/image qualification and platform backup restoration
-remain required before activation; no Kubani deployment has been performed.
+The [setup, rollback, recovery and teardown playbook](deployment.md) documents
+the disposable PostgreSQL-backed Kubani pilot, its stopped-by-default posture,
+and the remaining durable production admission gates.

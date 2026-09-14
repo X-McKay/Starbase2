@@ -76,7 +76,7 @@ def install_secret(c: dict, name: str, data: dict) -> None:
         "metadata": {
             "name": name,
             "namespace": c["namespace"],
-            "labels": {render.LABEL: c["installation"]},
+            "labels": {render.LABEL: c["installation"], "app.kubernetes.io/name": "starbase2"},
         },
         "type": "Opaque",
         "data": encoded,
@@ -148,6 +148,11 @@ def main() -> None:
     p.add_argument("--previous", type=Path)
     p.add_argument("--service", default="starbase2-admin", help="libpq service name, not a URL")
     p.add_argument("--temporal-address", help="Operator connection, usually a local port-forward")
+    p.add_argument(
+        "--core-address",
+        default=journal.ORIGIN,
+        help="Canonical loopback Core address for drain (for example http://127.0.0.1:18787)",
+    )
     p.add_argument("--connection-dir", type=Path, default=Path(".local/deploy/libpq"))
     p.add_argument("--postgres-port", type=int, default=54329)
     p.add_argument("--execute", action="store_true")
@@ -249,7 +254,7 @@ def main() -> None:
         print("Migration job completed; apply runtime grants before starting the application")
     elif a == "drain":
         ownership(c)
-        print(json.dumps(journal.drain(), indent=2))
+        print(json.dumps(journal.drain(c["installation"], args.core_address), indent=2))
     elif a == "status":
         ownership(c)
         print(kubectl(c, "get", "deployment,pods,jobs,networkpolicy", "-o", "wide"))

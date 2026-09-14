@@ -1,0 +1,42 @@
+{
+  "input": {
+    "agent": "reviewer",
+    "id": "github-pilot-41ed445bf699",
+    "inference": false,
+    "target": "starbase2-github"
+  },
+  "state": "completed",
+  "detail": "No findings within declared checks",
+  "observed_at": 1789075348.771479,
+  "snapshot_digest": "b3eed63c0bce4106bb0a5a7c3ab18d7c85f462f6339626b769101271342e7be1",
+  "repository": "X-McKay/Starbase2",
+  "simulation": false,
+  "listed_open_prs": 0,
+  "list_complete": true,
+  "captured_prs": [],
+  "coverage": [],
+  "finding_count": 0,
+  "advisory": null,
+  "memory_status": "empty",
+  "events": [
+    {
+      "at": 1789075348.10279,
+      "state": "queued"
+    },
+    {
+      "action": "running",
+      "at": 1789075348.3069937,
+      "state": "running"
+    },
+    {
+      "action": "snapshot",
+      "at": 1789075348.7878604,
+      "state": "running"
+    },
+    {
+      "action": "finish",
+      "at": 1789075349.0206616,
+      "state": "completed"
+    }
+  ]
+}

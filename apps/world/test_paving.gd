@@ -69,7 +69,8 @@ func run() -> void:
 	var drawn=Paving.new()
 	root.add_child(drawn)
 	check(drawn.get_child_count()==4,"Pads, roads, joints and paint each use one batched mesh")
-	check(drawn.get_node("TileField").material_override==Paving.Kit.material("floor"),"Pads retain the dark central floor material")
+	check(drawn.get_node("TileField").material_override.shader==load("res://foundation_surface.gdshader"),"Pads use the restrained foundation treatment")
+	check(drawn.get_node("TileField").material_override.get_shader_parameter("atlas")==Paving.Kit.material("floor").get_shader_parameter("atlas"),"Foundation retains authored tile source")
 	check(drawn.get_node("RoadTiles").material_override.shader==load("res://road_surface.gdshader"),"Roads need their separate light-grey material")
 	for cell in Paving.road_tiles():
 		check(not Paving.pad_tiles().has(cell),"Road tiles must never overwrite a dark foundation")

@@ -16,12 +16,12 @@ Press F near a main entrance to visit its interior, E at its console to inspect,
 and F to return. Inspectors also offer **Visit this room**. `just world-kit`
 retains the isolated art showroom for future asset review.
 
-**Status: functional local operations edition.** Review Python files without
+**Status: functional Godot-native operations edition.** Review Python files without
 executing them, run paired evaluations, schedule durable recurring reviews, and
-inspect retained source citations and history in the journal or native Godot
-outpost. Optional explanations use the permitted hosted model or Ollama and stay
-separate from grading. Synthetic inputs are labeled. Production deployment,
-external operational writes and arbitrary-repository repair remain future work.
+inspect retained source citations and history in the native Godot outpost. The
+Core root page is a non-interactive service surface. A disposable `starbase2-prod`
+Kubani pilot has been rehearsed with bounded duties and read-only provider
+scopes; durable production admission and external writes remain separately gated.
 The [repair workshop](docs/repairs.md) now runs model-proposed fixes in pinned
 microsandbox VMs, retains independent judgments and diffs, and awards duplicate-safe
 cosmetic XP. See the [sandbox survey](docs/sandbox-survey.md) for the choice.
@@ -40,9 +40,9 @@ mise exec -- just dev
 mise exec -- just world
 ```
 
-Open [the local journal](http://127.0.0.1:8787). See the
-[implemented workflows, evidence, and limits](docs/operations.md) and
-[actual development commands](docs/development.md).
+Launch Godot with `just world` and press `J` for native operations. See the
+[implemented workflows and limits](docs/operations.md), [current refactor
+handoff](docs/recent-refactor.md), and [development commands](docs/development.md).
 
 ## Start here
 
@@ -71,12 +71,10 @@ No old workflows, data, permissions, or deployments are implicitly migrated.
 
 ## Fresh Kubani deployment preparation
 
-The [setup, rollback, recovery and teardown playbook](docs/deployment.md) prepares a fresh
-PostgreSQL-backed installation. Local SQLite and local Temporal histories are
-development-only and are not imported. The private deployment bundle starts
-stopped, with provider inference, legacy fixture API and unqualified sandbox
-repairs disabled. Cluster/image qualification and platform backup restoration
-remain required before activation; no Kubani deployment has been performed.
+The [setup, rollback, recovery and teardown playbook](docs/deployment.md) covers
+the disposable PostgreSQL-backed Kubani pilot and its recovery boundaries.
+Durable production admission, provider activation and platform backup
+restoration remain required before treating that pilot as a production release.
 
 The [field crew guide](docs/field-agents.md) covers Watchkeeper, GitHub PR Reviewer,
 recurring observations, reviewed Graphiti/FalkorDB memory and qualification limits.

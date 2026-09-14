@@ -15,6 +15,13 @@ uniform float normal_strength = 1.0;
 uniform float emission_strength = 1.0;
 uniform bool reactor_glow = false;
 uniform float visibility : hint_range(0.0,1.0) = 1.0;
+uniform float breeze_strength = 0.0;
+uniform bool motion_enabled = true;
+void vertex() {
+ if (motion_enabled && breeze_strength > 0.0) {
+  VERTEX.x += sin(TIME * 1.1 + VERTEX.z * 2.0 + VERTEX.y) * breeze_strength * clamp(VERTEX.y, 0.0, 1.0);
+ }
+}
 void fragment() {
  float noise=fract(sin(dot(floor(FRAGCOORD.xy),vec2(12.9898,78.233)))*43758.5453);
  if (visibility <= noise) discard;

@@ -75,6 +75,22 @@
         "state"
       ]
     },
+    "CapabilityStatus": {
+      "description": "Configured capability policy, not proof of worker readiness or target health.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "enabled",
+        "reason"
+      ]
+    },
     "CaseTrial": {
       "type": "object",
       "properties": {
@@ -213,6 +229,60 @@
         "builds"
       ]
     },
+    "InstallationCapabilities": {
+      "type": "object",
+      "properties": {
+        "accept_work": {
+          "$ref": "#/$defs/CapabilityStatus"
+        },
+        "evaluation": {
+          "$ref": "#/$defs/CapabilityStatus"
+        },
+        "field": {
+          "$ref": "#/$defs/CapabilityStatus"
+        },
+        "inference": {
+          "$ref": "#/$defs/CapabilityStatus"
+        },
+        "memory": {
+          "$ref": "#/$defs/CapabilityStatus"
+        },
+        "repair": {
+          "$ref": "#/$defs/CapabilityStatus"
+        },
+        "review": {
+          "$ref": "#/$defs/CapabilityStatus"
+        }
+      },
+      "required": [
+        "accept_work",
+        "review",
+        "evaluation",
+        "repair",
+        "field",
+        "memory",
+        "inference"
+      ]
+    },
+    "InstallationMetadata": {
+      "type": "object",
+      "properties": {
+        "capabilities": {
+          "$ref": "#/$defs/InstallationCapabilities"
+        },
+        "environment": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "environment",
+        "capabilities"
+      ]
+    },
     "Omission": {
       "type": "object",
       "properties": {
@@ -260,6 +330,17 @@
           "type": "array",
           "default": [],
           "items": true
+        },
+        "installation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/InstallationMetadata"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
         },
         "observed_at": {
           "type": "number",

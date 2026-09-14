@@ -1,0 +1,16 @@
+[
+  {
+    "event": "repository_duty_created_without_godot",
+    "at": 1788919587.659476,
+    "repository": "X-McKay/Starbase2",
+    "watch_id": "repo-4b5e27397679c50e698d0bc9",
+    "core_url": "http://127.0.0.1:18801",
+    "memory": false,
+    "inference": false,
+    "credential": "existing gh identity; scope not asserted"
+  },
+  {
+    "event": "owned_processes_stopped_credentials_removed",
+    "at": 1788919622.968048
+  }
+]

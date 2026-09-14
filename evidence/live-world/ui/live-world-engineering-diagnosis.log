@@ -1,0 +1,4 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+START (-21.85, 0.0, -1.7) WORK (-21.85, 0.0, -3.7) PATH [(-22.0, 0.0, -1.5), (-22.0, 0.0, -2.0), (-22.0, 0.0, -2.5), (-22.0, 0.0, -3.0), (-22.0, 0.0, -3.5)] INTENT { "run_id": "r", "backend_state": "executing", "goal": "workstation", "pose": "console", "moving_allowed": true, "active_count": 1, "label": "Executing", "evidence_ready": false, "unknown": false, "observed_at": 1788919577.19626 }
+END (-21.99989, 0.0, -3.389382) dist 0.34489053487778 PATH [] INTENT { "run_id": "r", "backend_state": "executing", "goal": "workstation", "pose": "console", "moving_allowed": true, "active_count": 1, "label": "Executing", "evidence_ready": false, "unknown": false, "observed_at": 1788919577.19626 } stall 0.0

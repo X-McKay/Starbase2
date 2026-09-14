@@ -1,0 +1,14 @@
+{
+  "status": "local macOS export qualified; unsigned, not a Kubani release",
+  "godot": "4.7.2.stable.official.ed1daf0bf",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "archive_sha256": "65f7c2d2b8c6208b9ca4bcce0c027bf95530de90c3cde752d9d95f9546200744",
+  "pack_sha256": "5f40bf5b0b08cc3dbb398d7908374f293eab2b1651ada6cafc5fa4362754ff0a",
+  "executable_sha256": "6135ad137facbb26cd73a5f7f7d541d334a84fc81650e870ef075cdd14a129cd",
+  "verification": "Existing unsigned qualified native executable and pack match qualification manifest at live deployment check",
+  "launch_arguments": [
+    "--api=http://127.0.0.1:18787",
+    "--room=review"
+  ],
+  "fixture": false
+}

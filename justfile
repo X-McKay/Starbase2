@@ -27,6 +27,29 @@ world:
 check-world-export *args:
     python3 scripts/check_world_export.py {{args}}
 
+# Downloads only the checksum-pinned Godot Web templates into .local/.
+world-web-templates *args:
+    python3 scripts/install_godot_web_templates.py {{args}}
+
+# Export-only toolchain probe; it does not change the main world's Web preset.
+check-world-web-probe *args:
+    python3 scripts/check_world_web_probe.py {{args}}
+
+# Runs two clean staged exports; it does not edit the checked-out world project.
+check-world-web *args:
+    python3 scripts/check_world_web.py {{args}}
+
+prepare-world-web-transport *args:
+    python3 scripts/prepare_world_web_transport.py {{args}}
+
+web-fixture *args:
+    cargo build --locked -p starbase-core --example web_fixture
+    target/debug/examples/web_fixture {{args}}
+
+check-web-fixture *args:
+    cargo build --locked -p starbase-core --example web_fixture
+    python3 scripts/check_web_fixture.py {{args}}
+
 world-crew:
     godot --path apps/world --script crew_gallery.gd
 
@@ -52,15 +75,18 @@ lint:
 test:
     cargo test --locked
     .venv/bin/python -m pytest -q
+    .venv/bin/python -m pytest -q scripts/test_world_web_tools.py
 
 check: lint test
     cargo build --locked
+    .venv/bin/python scripts/check_service_page.py
     .venv/bin/python scripts/contracts.py --check
     python3 scripts/check_docs.py
 
 check-world:
     python3 scripts/check_world.py
     .venv/bin/python scripts/check_world_commands.py
+    .venv/bin/python scripts/check_world_operations.py
 
 world-map:
     godot --path apps/world -- --colony-overview
@@ -207,6 +233,13 @@ world-remaining-build blender="/Applications/Blender.app/Contents/MacOS/Blender"
     python3 assets-production/scripts/connect_remaining_structures.py
     godot --headless --path apps/world --editor --import --quit
 
+# Rebuild authored living-colony additions around retained Meshy assets; no paid calls.
+world-living-build blender="/Applications/Blender.app/Contents/MacOS/Blender":
+    "{{blender}}" --background --factory-startup --python assets-production/scripts/build_remaining_structures.py
+    "{{blender}}" --background --factory-startup --python assets-production/scripts/build_living_commons.py
+    python3 assets-production/scripts/connect_remaining_structures.py
+    godot --headless --path apps/world --editor --import --quit
+
 # Review continuous Engineering entry and the rest of the colony.
 world-seamless:
     godot --path apps/world -- --room=repair
@@ -215,12 +248,13 @@ world-seamless:
 world-engineering-build blender="/Applications/Blender.app/Contents/MacOS/Blender":
     "{{blender}}" --background --factory-startup --python assets-production/scripts/build_engineering.py
     "{{blender}}" --background --factory-startup --python assets-production/scripts/prepare_models.py
-    "{{blender}}" --background --factory-startup --python assets-production/scripts/prepare_character.py
     python3 assets-production/scripts/connect_engineering.py
     godot --headless --path apps/world --editor --import
 
-# Rebuild the exact user-supplied Vanguard from retained rig exports; no paid calls.
-world-vanguard-build blender="/Applications/Blender.app/Contents/MacOS/Blender":
-    "{{blender}}" --background --factory-startup --python assets-production/scripts/prepare_character.py -- --asset cybercat-vanguard
-    "{{blender}}" --background --factory-startup --python assets-production/scripts/audit_character.py -- --vanguard
-    godot --headless --path apps/world --editor --import
+# Offline authoring/preparation only; selected Meshy originals must already exist.
+world-inhabited-build blender="/Applications/Blender.app/Contents/MacOS/Blender":
+    "{{blender}}" --background --factory-startup --python assets-production/scripts/prepare_inhabited_props.py
+    "{{blender}}" --background --factory-startup --python assets-production/scripts/build_remaining_structures.py
+    "{{blender}}" --background --factory-startup --python assets-production/scripts/build_colony_vent.py
+    python3 assets-production/scripts/connect_remaining_structures.py
+    godot --headless --path apps/world --editor --import --quit

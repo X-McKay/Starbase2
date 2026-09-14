@@ -1,0 +1,10 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+LIVING_ROOM review
+LIVING_ROOM gym
+LIVING_ROOM habitat
+LIVING_ROOM greenhouse
+ERROR: Primary console stands beside accessible furniture
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_living_colony.gd:107)

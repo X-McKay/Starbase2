@@ -1,0 +1,15 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:1035)
+CREW_ARRIVAL repair distance=0.10984810441732 traveled=87.1007419116795 path=0 stalled=0.0
+CREW_ARRIVAL review distance=0.11939696967602 traveled=51.0250094532967 path=0 stalled=0.0
+CREW_ARRIVAL gym distance=0.11614943295717 traveled=61.1436391435564 path=0 stalled=0.0
+CREW_ARRIVAL watchkeeper distance=0.11056812852621 traveled=51.6534636002034 path=0 stalled=0.0
+CREW_ARRIVAL reviewer distance=0.11087914556265 traveled=53.8201051056385 path=0 stalled=0.0
+CREW_HOME repair first_stopped_arrival={ "anchor": "LoungeConversation", "distance": 0.10176837444305 } blocked=false
+CREW_HOME review first_stopped_arrival={ "anchor": "GardenEast", "distance": 0.11426750570536 } blocked=false
+CREW_HOME gym first_stopped_arrival={ "anchor": "DoorwayPause", "distance": 0.104965493083 } blocked=false
+CREW_HOME watchkeeper first_stopped_arrival={ "anchor": "GalleyConversation", "distance": 0.1092270091176 } blocked=false
+CREW_HOME reviewer first_stopped_arrival={ "anchor": "CoastalView", "distance": 0.10860987752676 } blocked=false
+LIVE_CREW_PASSED: five home/work/home routes, reservations, speed/arrival/pose, Command exterior entry, reduced/outage and no dispatch

@@ -1,0 +1,32 @@
+{
+  "qualified_manifest_sha256": "80b378a7bb1b527dd349cb660e9cf9dd891f9c648924aa202e90fa53a3aa2aa8",
+  "archive_sha256": "c1362ec4f94d953adaf12e25b2a6e93278ff5c2019b350c044c158e5fc6057c5",
+  "executable_sha256": "6135ad137facbb26cd73a5f7f7d541d334a84fc81650e870ef075cdd14a129cd",
+  "pack_sha256": "556156f4b00e1a1e3dd3757267f4648b675e49d27b2fe0322b6a13246918333f",
+  "source_tree_sha256": "20d864f5c60969d912d83aeaa05506e57cd1d78797ff0609e12e0b659b075521",
+  "app": "/var/folders/sl/2t3mlgwj7bq2c4qj1x2csfx00000gn/T/starbase2-qualified-controls-zmygo0pt/Starbase2 \u00b7 Aster Colony.app",
+  "scope": "explicit two named duty Pause/Resume; exact qualified artifact; engine-native input, not manual OS input",
+  "checks": {
+    "controls.log": "31ee437a2456d87798df882ade40cc39db120453965501618499e76779337957",
+    "controls-launch.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "controls-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "captures": {
+    "live-command.png": "f335225c0665b1c098640d4df5b229b18f2268b4fcd689a1474ef0b38c3c6539",
+    "live-reconnected.png": "305bea0e70e3c037e94bbbeced7815c1c5e30fe87a5001391ee46009ae513dca",
+    "live-colony.png": "fdf354df8bb205b2ea65d8a908673c9ef26d6e1cea0f1c519570f0babdb2951c",
+    "live-connection.png": "1e1029828efb96ee7db198ef84ff45d43184aff4e22da4323e4c558d1a761f86",
+    "live-reasoning-watchkeeper.png": "7ff5894d7e2f7d1e508faff91b3c17efd6c34cd5ad3c045ef3c40d510eda84b9",
+    "live-repositories.png": "50ae1a7c0fc4c8e2f98ba955366a57bfca5f5c9df2eec4eb61861cdcf0744445",
+    "duty-starbase2-github-autonomous-resumed.png": "52d218512002fa59529d0b85705647bc71571af5b9e82d595bdd0f65415a4eb7",
+    "live-evidence.png": "669948a089ce6db95693f24a270d6e06bb9560129412805e5b5d65ee4aaac6ed",
+    "duty-starbase2-github-autonomous-paused.png": "9e1c691afec828900b822d80c070a682cef5e1ed3c4c2588adc38f8b9f617cc9",
+    "duty-starbase2-watchkeeper-autonomous-resumed.png": "1464ca3dab8e594ec2f692557de82a45ed6e8e14bf06abbec0620438b9dd6c88",
+    "live-reasoning-reviewer.png": "0d677ce61bcd018e6535251d69d91df89d3bf896229555c33ceab8ea118e76f3",
+    "live-duties-restored.png": "9fa34c5fc68c9854c0e177fc2ecbd175b5251ea410d571dab7dc1d730115711f",
+    "live-disconnected.png": "1747dbed5a33377d64e7284b76bef3068e8c9e97350b3c1cf063356c22cd031b",
+    "live-compact.png": "30d54d861e0d904667958a70c40d8e499cca853613a535b356f0121b7c1f2a14",
+    "duty-starbase2-watchkeeper-autonomous-paused.png": "5927eaa93cca730178c043b40392515db43831321eed0ab96c65ea8d594f4454"
+  },
+  "status": "two named native duties paused/resumed and authoritative restoration confirmed"
+}

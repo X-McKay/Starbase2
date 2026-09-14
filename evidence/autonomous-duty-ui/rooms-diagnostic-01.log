@@ -1,0 +1,12 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+DIAG_ENTRY repair focus=(-25.95, 0.0, 3.9) expected_old=(-25.95, 1.0, -1.1) authored=none hud=false
+DIAG_CLICK repair goal=(-28.45, 0.0, -1.0) screen=(607.0109, 323.9698) route=[(-26.0, 0.0, 2.0), (-26.5, 0.0, 1.5), (-27.0, 0.0, 1.0), (-27.5, 0.0, 1.0), (-28.0, 0.0, 1.0), (-28.0, 0.0, 0.5), (-28.0, 0.0, 0.0), (-28.5, 0.0, -0.5), (-28.5, 0.0, -1.0)] hud=false nearest= actor=(-25.95, 0.0, 2.2)
+DIAG_ENTRY review focus=(-3.0, 1.0, -25.45) expected_old=(-3.0, 1.0, -25.45) authored=(-3.0, 1.0, -25.45) hud=false
+DIAG_CLICK review goal=(-6.0, 0.0, -25.35) screen=(514.1218, 414.4323) route=[(-3.0, 0.0, -20.5), (-3.5, 0.0, -21.0), (-4.0, 0.0, -21.5), (-4.5, 0.0, -22.0), (-4.5, 0.0, -22.5), (-5.0, 0.0, -23.0), (-5.5, 0.0, -23.5), (-5.5, 0.0, -24.0), (-5.5, 0.0, -24.5), (-6.0, 0.0, -25.0), (-6.0, 0.0, -25.5)] hud=false nearest= actor=(-3.0, 0.0, -20.3)
+DIAG_ENTRY gym focus=(1.5, 1.0, -1.45) expected_old=(1.5, 1.0, -1.45) authored=(1.5, 1.0, -1.45) hud=false
+DIAG_CLICK gym goal=(1.5, 0.0, -3.05) screen=(619.165, 394.8657) route=[(1.5, 0.0, 3.5), (1.5, 0.0, 3.0), (1.5, 0.0, 2.5), (1.5, 0.0, 2.0), (1.5, 0.0, 1.5), (1.5, 0.0, 1.0), (1.5, 0.0, 0.5), (1.5, 0.0, 0.0), (1.5, 0.0, -0.5), (1.5, 0.0, -1.0), (1.5, 0.0, -1.5), (1.5, 0.0, -2.0), (1.5, 0.0, -2.5), (1.5, 0.0, -3.0)] hud=false nearest= actor=(1.5, 0.0, 3.7)
+ERROR: Reduced-motion entry uses an immediate room camera cut
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (/tmp/starbase2-rooms-diagnostic.gd:124)

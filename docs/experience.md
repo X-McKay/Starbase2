@@ -8,6 +8,60 @@ the earlier sprite-only and detached-room presentation on this branch.
 
 Status: proposed
 
+## Game-view polish · 2026-09-13
+
+F1 or the HUD button collapses exploration navigation, roster and interaction
+chrome; the header retains a restore action and keyboard workspace routes remain
+available. The expanded roster respects the wide navigation rail. Compact
+workspaces reserve less top space. Nearby station labels leave clearance above
+the operator and doorway; distant labels are restrained.
+
+Empty assignment, target and build selectors now explain what is unavailable.
+Idle states and disabled actions use neutral emphasis. Station observation
+summaries have a keyboard-accessible details disclosure retaining the exact
+observation time and snapshot-window limitations. Dense panel surfaces are more
+opaque. None of these presentation actions dispatches operational work.
+
+## Ember console workspaces · 2026-09-11
+
+The implemented Godot UI follows the approved orange workspace concepts: neutral
+smoked charcoal panels, subdued blurred scenery behind the panel surfaces, ivory
+text, and ember-orange selection, focus and primary actions. The shared theme
+keeps text opaque; a screen-reading shader softens the scenery instead of adding
+animated smoke. The native colony remains the surrounding experience.
+
+Named navigation routes expose Map, Crew, Work, Stations, Field operations,
+Settings and Connection. Wide windows use a left navigation rail; compact windows
+use a horizontal strip. The crew dossier pairs the actual character portrait with
+Overview and Evidence tabs. Mender alone also has isolated Practice; selecting a
+record or watching a crew member does not dispatch work. Mender progression
+remains distinct from operational permission.
+
+Work groups Review, Compare, Duties and History. Field Command retains its
+Observations, Repositories, Memory, Evidence and Duties workspaces. Forms group
+inputs and policy context around their existing actions; retained evidence keeps
+its exact identity and source qualification. Connection separates receipt/worker
+status and endpoint controls from configured capabilities; enabled policy is not
+proof of provider health. Settings groups Display, Audio and Controls and labels
+boolean preferences with explicit On / Off values.
+
+Station records and Habitat briefing share search, state filters, timestamped
+rows and a wide-screen selected-record detail column. Compact rows retain exact
+identity, outcome and evidence qualification when that detail column is hidden.
+Station records show at most twenty retained snapshot records, open work first;
+the Habitat briefing shows at most five terminal records with separate open-work
+counts. Neither view claims complete historical coverage. Inspect routes to the
+exact record and context; repeated unchanged polling preserves the pointer target
+and keyboard focus. Unknown, disconnected/stale, failed, cancelled and missing
+evidence remain distinguishable.
+
+The `ember implementation evidence` (local review evidence is retained outside this commit)
+records native review at 1280×800 and 800×640 with larger text, including a passed
+27-view fixture run and independently reviewed corrections to compact Field
+Command density, directory organization and active-workspace navigation. Full-suite
+completion and standalone export qualification are tracked there separately. These source-checkout captures are synthetic review evidence,
+not proof of live provider behavior or deployment of the new client.
+
 ## Faster exploration and expansion land · 2026-09-07
 
 Keyboard and click-route travel now use 6 m/s (previously 3.7 m/s). Route steps
@@ -94,15 +148,52 @@ synthetic repair commands, and core-backed achievement displays. Normal, compact
 large-text, stale and offline captures are retained. Interiors, work-stage
 animation, sound, persistent decoration, and direct gym configuration remain open.
 
-## Implemented local repair extension · 2026-09-05
+## Inhabited station refinement · 2026-09-10
+
+The `next Morning refinement` (local review evidence is retained outside this commit) tightens
+optional observation around actual crew, uses direct cuts between selected
+inhabitants, and retains pending assignment changes through a minimum shot.
+Lighter suit material response, domestic shelves and woven accents make the
+existing rooms easier to read. Exterior station signs summarize retained records
+and open native station records; Stations [I] provides the same structured
+destination. Four-sample edge smoothing softens furniture and character outlines. Local
+technical qualification and owner visual judgment remain separate.
+
+## Native application direction · 2026-09-10
+
+The [Habitat visual guide](../.agents/skills/starbase2-world/references/visual-guide.md#inhabited-habitat)
+extends the inhabited world with optional close observation [V], a physical
+Habitat daybook and historical briefing [K], authored handheld work equipment,
+and warm domestic detail. Its acceptance bar is an understandable minute of
+ordinary activity that the owner wants to keep watching. Native technical proof
+and owner visual judgment are recorded separately in the
+`integration evidence` (local review evidence is retained outside this commit).
+
+Godot is the product interface for the world, structured operations, observability,
+and operator actions. J opens native operations. Browser dashboard delivery is
+retired: Core's root page provides connection guidance and preserves the native
+operator-session handshake, while versioned APIs remain available. The old console
+source is historical and is not served. Independent CLI/GitOps emergency stop
+remains available when the renderer cannot run.
+
+Native acceptance must exercise every enabled capability with keyboard access,
+retained evidence, pending/unknown outcomes, reconnect, and stop controls. In
+particular, configured field targets must support manual inference opt-in and
+recurring duty creation/editing without a browser. Disabled memory and repair
+capabilities must remain explicitly disabled; their complete native evidence and
+control journeys are gates before later activation. Screen-reader support requires
+native qualification; a retired browser UI is not evidence of accessibility.
+
+## Historical local repair extension · 2026-09-05
 
 Mender now has a persistent identity, 25 XP per distinct verified synthetic AI repair, two evidence-linked achievements and a level display in both clients. Qualification remains exact-build and permissions remain independent. This provisional progression curve is implemented, not usability-validated; see [repair operations](repairs.md).
 
 Implemented UI: the [local operations edition](operations.md) now has a responsive
 journal with review/gym/duty commands, stable Surveyor/Trainer role projections,
 run history, source citations, keyboard controls, and a decorative station
-illustration. Native Godot consumes the same v2 records and opens the journal for
-review/gym/duty commands; the playable extension adds native repair commands.
+illustration. Native Godot consumed the same v2 records and originally opened the browser journal
+for review/gym/duty commands. That browser dependency is superseded by the native
+application direction above.
 The broader character simulation below remains proposed.
 
 Earlier experiment: [Surveyor’s terrace](local-slice.md) had three static
@@ -123,11 +214,10 @@ expressive billboard/sprite characters. Compose scenes in the editor and
 version their text assets. Favor a few beautifully authored spaces over a
 large procedurally generated map. Create original assets with provenance.
 
-Godot is the leading renderer candidate because the desired experience needs
-scene authoring, lighting, pathfinding, character animation, and camera work.
-Test it against a small browser-native 2.5D alternative if download, accessibility,
-or integration costs dominate. Godot web export uses WebGL 2 and Compatibility
-rendering; native desktop and web must be measured separately.
+Godot is the selected product renderer for scene authoring, lighting, pathfinding,
+character animation, and camera work. Native desktop qualification is the current
+delivery path. Any future Godot web export must be qualified separately; it uses
+WebGL 2 and Compatibility rendering.
 [Godot export constraints](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_web.html)
 
 ## Three layers, one coherent experience
@@ -137,10 +227,9 @@ rendering; native desktop and web must be measured separately.
 **Evidence:** one more step reveals source facts, diffs, traces, or trial data.
 
 Keep the world prominent. The inspector is a legible dock beside it, not tiny
-text pasted onto walls. A compact web console uses the same projections and
-command semantics, without requiring Godot. Godot now creates and cancels synthetic repairs through the existing local
-operator session, with tested pending states and uncertain-response reconciliation.
-Review/gym/duty creation continues to deep-link to the console.
+text pasted onto walls. Structured native operations use the same authoritative
+projections and command semantics inside Godot, with pending states and
+uncertain-response reconciliation. Evidence and commands must not launch a browser.
 
 Rooms are activity contexts. Operators do not need to know the backend topology.
 An event animation is a projection of work; a character reaching a door cannot
@@ -230,7 +319,7 @@ Measure on named reference hardware with representative entity and event load:
 target 60 fps for normal activity and a responsive 30 fps degraded mode. Keep
 camera movement optional; reduced motion replaces travel with transitions.
 Support text scaling, keyboard navigation, color-independent status, sound-off
-operation, and screen-reader access through the console. Test full, compact,
+operation, and native screen-reader access. Screen-reader acceptance remains open. Test full, compact,
 empty, stale, burst, failure, and reconnect states.
 
 First art spike: three crew, three adjacent spaces, 20 active task markers, and
@@ -246,3 +335,17 @@ gesture follows local inspection in Engineering, never inferred operational
 activity. Reduced motion freezes the decorative effects and skeletal animation;
 reactor sound defaults off. The [review notes](../assets-production/batches/engineering-polish/REVIEW.md)
 define the bounded milestone and remaining visual review.
+
+### Crew workflow guide
+
+Crew dossier Overview leads with an authored purpose, skills/workflows, scope,
+and a keyboard-accessible action that opens the appropriate setup form. Rivet
+opens repair Practice; Moss opens Review; Mae opens Compare; Wes and Prism open
+Observations and select a matching configured target when available. Opening a
+form never submits work. Evidence contains the assignment selector, cancellation,
+retained result details, and Rivet's verified progression.
+
+Descriptions explain the implemented workflow, not installed runtime skill
+packages or proficiency. Installation policy, disconnected state, worker status,
+and fixture mode remain explicit; the submission form validates actual readiness.
+The backend does not currently provide a named runtime skills catalog.

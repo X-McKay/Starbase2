@@ -1,7 +1,12 @@
 """Lifecycle failure cases. All cluster/database calls are replaced by explicit fakes."""
 
 import json
+import signal
+import socket
 import subprocess
+import sys
+import time
+from contextlib import nullcontext
 
 import pytest
 from starbase_runtime.connection import settings
@@ -14,8 +19,8 @@ def config(tmp_path):
     c = json.loads((render.ROOT / "deploy/production.example.json").read_text())
     c.update(
         context="test-kubani",
-        core_image="registry.test/core@sha256:" + "a" * 64,
-        runtime_image="registry.test/runtime@sha256:" + "b" * 64,
+        core_image="registry.test/starbase2/core@sha256:" + "a" * 64,
+        runtime_image="registry.test/starbase2/runtime@sha256:" + "b" * 64,
         source_revision="c" * 40,
     )
     p = tmp_path / "config.json"
@@ -27,6 +32,16 @@ def config(tmp_path):
     "key,value",
     [
         ("namespace", "default"),
+        ("namespace", "starbase-prod"),
+        ("temporal_queue", "starbase2-other-v1"),
+        ("postgres_namespace", "starbase2-prod"),
+        ("temporal_kubernetes_namespace", "starbase2-prod"),
+        ("postgres_namespace", "default"),
+        ("postgres_namespace", "kube-system"),
+        ("temporal_kubernetes_namespace", "starbase"),
+        ("temporal_kubernetes_namespace", "starbase-prod"),
+        ("core_image", "registry.test/starbase/core@sha256:" + "a" * 64),
+        ("runtime_image", "registry.test/runtime@sha256:" + "b" * 64),
         ("database", "postgres"),
         ("database", "starbase2_x;DROP"),
         ("temporal_namespace", "default"),
@@ -79,6 +94,84 @@ def test_render_reproducible_private_and_separated_credentials(config, tmp_path)
     (tmp_path / "application.json").write_text("tampered")
     with pytest.raises(ValueError, match="edited"):
         cli.verify_bundle(config, tmp_path)
+
+
+def test_dependency_init_is_scoped_unprivileged_and_has_no_credentials(config):
+    resources = render.objects(config)
+    deployment = next(o for o in resources if o["kind"] == "Deployment")
+    migration = next(o for o in resources if o["kind"] == "Job")
+    assert migration["spec"]["backoffLimit"] == 0
+    assert migration["spec"]["activeDeadlineSeconds"] == 180
+    for resource, expected in (
+        (deployment, [config["postgres_host"] + ":5432", config["temporal_address"]]),
+        (migration, [config["postgres_host"] + ":5432"]),
+    ):
+        pod = resource["spec"]["template"]["spec"]
+        assert pod["automountServiceAccountToken"] is False
+        assert len(pod["initContainers"]) == 1
+        init = pod["initContainers"][0]
+        assert init["image"] == config["runtime_image"]
+        assert init["command"][4:] == expected
+        assert init["command"][:3] == ["/app/.venv/bin/python", "-u", "-c"]
+        assert not init.get("volumeMounts")
+        assert not init.get("env") and not init.get("envFrom")
+        assert init["securityContext"] == pod["containers"][0]["securityContext"]
+        assert init["resources"]["requests"] and init["resources"]["limits"]
+
+
+@pytest.mark.parametrize("ready_after", [5, None])
+def test_dependency_wait_delayed_success_or_bounded_failure(monkeypatch, ready_after):
+    clock = [0.0]
+    attempts = []
+    alarms = []
+
+    def connect(address, timeout):
+        assert 0 < timeout <= 2
+        attempts.append((address, clock[0]))
+        if ready_after is None:
+            clock[0] += timeout
+            raise TimeoutError("synthetic dependency unavailable")
+        if clock[0] < ready_after:
+            raise ConnectionRefusedError("synthetic policy convergence")
+        return nullcontext()
+
+    monkeypatch.setattr(socket, "create_connection", connect)
+    monkeypatch.setattr(time, "monotonic", lambda: clock[0])
+    monkeypatch.setattr(time, "sleep", lambda seconds: clock.__setitem__(0, clock[0] + seconds))
+    monkeypatch.setattr(signal, "signal", lambda *_: None)
+    monkeypatch.setattr(signal, "alarm", alarms.append)
+    monkeypatch.setattr(sys, "argv", ["-c", "postgresql.database:5432", "temporal.temporal:7233"])
+    if ready_after is None:
+        with pytest.raises(SystemExit) as failure:
+            exec(render.DEPENDENCY_WAIT, {})
+        assert failure.value.code == 1
+        assert clock[0] == 60
+    else:
+        exec(render.DEPENDENCY_WAIT, {})
+        assert clock[0] == 5
+        assert {address for address, at in attempts if at >= 5} == {
+            ("postgresql.database", 5432),
+            ("temporal.temporal", 7233),
+        }
+    assert alarms == [60, 0]
+    assert len(attempts) <= 60
+
+
+def test_dependency_wait_alarm_stops_blocked_dns(monkeypatch):
+    handlers = []
+    alarms = []
+    monkeypatch.setattr(signal, "signal", lambda number, handler: handlers.append(handler))
+    monkeypatch.setattr(signal, "alarm", alarms.append)
+    monkeypatch.setattr(sys, "argv", ["-c", "blocked-dns.database:5432"])
+
+    def blocked_dns(*args, **kwargs):
+        handlers[0](signal.SIGALRM, None)
+
+    monkeypatch.setattr(socket, "create_connection", blocked_dns)
+    with pytest.raises(SystemExit) as failure:
+        exec(render.DEPENDENCY_WAIT, {})
+    assert failure.value.code == 1
+    assert alarms == [60, 0]
 
 
 def test_credentials_are_private_stable_and_cannot_be_adopted(config, tmp_path):
@@ -441,3 +534,51 @@ def test_image_driver_waits_for_tcp_database_readiness(tmp_path, monkeypatch):
     monkeypatch.setattr("scripts.deployment.image_rehearsal.time.sleep", lambda _: None)
     driver.wait_for_database()
     assert len(calls) == 3 and all(c == command for c in calls)
+
+
+def test_every_generated_resource_has_starbase2_identity_and_explicit_namespace(config):
+    resources = render.objects(config)
+    exceptions = {
+        config["installation"] + "-postgres": config["postgres_namespace"],
+        config["installation"] + "-temporal": config["temporal_kubernetes_namespace"],
+    }
+    for resource in resources:
+        meta = resource["metadata"]
+        assert meta["name"] == "starbase2" or meta["name"].startswith("starbase2-")
+        assert meta["labels"]["app.kubernetes.io/name"] == "starbase2"
+        assert meta["labels"][render.LABEL] == config["installation"]
+        if resource["kind"] == "Namespace":
+            assert meta["name"] == config["namespace"]
+            assert "namespace" not in meta
+        elif meta["name"] in exceptions:
+            assert resource["kind"] == "NetworkPolicy"
+            assert meta["namespace"] == exceptions[meta["name"]]
+            peer = resource["spec"]["ingress"][0]["from"][0]
+            assert peer["namespaceSelector"]["matchLabels"] == {
+                "kubernetes.io/metadata.name": config["namespace"]
+            }
+            assert peer["podSelector"]["matchLabels"][render.LABEL] == config["installation"]
+        else:
+            assert meta["namespace"] == config["namespace"]
+
+
+def test_created_secrets_use_application_namespace_and_identity(config, monkeypatch):
+    created = []
+
+    def fake(c, *args, body=None):
+        if args[0] == "get":
+            return ""
+        assert args[:3] == ("create", "-f", "-")
+        assert isinstance(body, str)
+        created.append(json.loads(body))
+        return ""
+
+    monkeypatch.setattr(cli, "kubectl", fake)
+    for name in ("starbase2-worker", "starbase2-database", "starbase2-migrator"):
+        cli.install_secret(config, name, {"test": "synthetic"})
+    assert len(created) == 3
+    for secret in created:
+        assert secret["metadata"]["namespace"] == config["namespace"]
+        assert secret["metadata"]["labels"][render.LABEL] == config["installation"]
+        assert secret["metadata"]["name"].startswith("starbase2-")
+        assert secret["metadata"]["labels"]["app.kubernetes.io/name"] == "starbase2"

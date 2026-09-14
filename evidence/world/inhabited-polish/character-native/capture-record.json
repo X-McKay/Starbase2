@@ -1,0 +1,104 @@
+[
+	{
+		"audio_enabled": false,
+		"capture": "01-idle",
+		"clip": "idle",
+		"dust_emitting": false,
+		"foot_contacts": 0,
+		"hair_angle": [
+			0.0,
+			0.0
+		],
+		"position": [
+			-29.0,
+			0.0,
+			-32.0
+		],
+		"surface": "soil"
+	},
+	{
+		"audio_enabled": false,
+		"capture": "02-running",
+		"clip": "run",
+		"dust_emitting": true,
+		"foot_contacts": 2,
+		"hair_angle": [
+			-0.0530835837125778,
+			0.0
+		],
+		"position": [
+			-29.0,
+			0.0,
+			-28.4999866485596
+		],
+		"surface": "soil"
+	},
+	{
+		"audio_enabled": false,
+		"capture": "03-turning",
+		"clip": "run",
+		"dust_emitting": true,
+		"foot_contacts": 2,
+		"hair_angle": [
+			-0.0535696558654308,
+			-0.0182907767593861
+		],
+		"position": [
+			-28.4999980926514,
+			0.0,
+			-28.4999866485596
+		],
+		"surface": "soil"
+	},
+	{
+		"audio_enabled": false,
+		"capture": "04-soil-footfall",
+		"clip": "run",
+		"dust_emitting": true,
+		"foot_contacts": 4,
+		"hair_angle": [
+			-0.0539825968444347,
+			-0.0162292905151844
+		],
+		"position": [
+			-26.4999904632568,
+			0.0,
+			-28.4999866485596
+		],
+		"surface": "soil"
+	},
+	{
+		"audio_enabled": false,
+		"capture": "05-stopped",
+		"clip": "idle",
+		"dust_emitting": false,
+		"foot_contacts": 4,
+		"hair_angle": [
+			-0.00762821920216084,
+			-0.00111542921513319
+		],
+		"position": [
+			-26.4999904632568,
+			0.0,
+			-28.4999866485596
+		],
+		"surface": "soil"
+	},
+	{
+		"audio_enabled": false,
+		"capture": "06-reduced-motion",
+		"clip": "idle",
+		"dust_emitting": false,
+		"foot_contacts": 5,
+		"hair_angle": [
+			0.0,
+			0.0
+		],
+		"position": [
+			-26.4999904632568,
+			0.0,
+			-26.9999809265137
+		],
+		"surface": "soil"
+	}
+]

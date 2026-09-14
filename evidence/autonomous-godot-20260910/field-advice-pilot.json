@@ -1,0 +1,22 @@
+{
+  "scope": "one synthetic cluster-fixture field_advice attempt; no private source or credentials",
+  "endpoint": "https://llm.almckay.io/v1",
+  "model": "Qwen3.6-35B-A3B-NVFP4",
+  "result": {
+    "status": "unverified",
+    "advice": {
+      "summary": "The 'api' deployment in the 'training' namespace is failing to roll out. The pod is in CrashLoopBackOff with 4 restarts, and the deployment reports 0 available replicas against a desired count of 2. This indicates the container is crashing immediately after startup.",
+      "recommendation": "1. Inspect the pod's logs using `kubectl logs training/pods/api/api -c api` to identify the specific error causing the crash.\n2. Check previous crash logs with `kubectl logs training/pods/api/api -c api --previous` if the current logs are empty.\n3. Verify the container's startup command, environment variables, and dependencies (e.g., database connectivity) are correctly configured.\n4. Review the deployment's events with `kubectl describe deployment api -n training` to check for scheduling or image pull errors.\n5. Ensure the container image is valid and the entrypoint is executable."
+    },
+    "usage": {
+      "details": {},
+      "requests": 1,
+      "input_tokens": 816,
+      "output_tokens": 223
+    },
+    "calls": 1,
+    "model": "Qwen3.6-35B-A3B-NVFP4",
+    "elapsed_ms": 32107,
+    "cost_usd": null
+  }
+}

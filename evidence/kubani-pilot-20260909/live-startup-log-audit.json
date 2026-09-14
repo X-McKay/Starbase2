@@ -1,0 +1,26 @@
+{
+  "result": "No errors present in captured startup logs",
+  "limits": "Runtime log is empty; this alone does not prove worker readiness. Root runtime API and restart observations provide behavior evidence.",
+  "core": "Reports loopback listener at127.0.0.1:18787",
+  "dependencies": [
+    "postgresql.database.svc.cluster.local:5432 TCPready",
+    "temporal-frontend.temporal.svc.cluster.local:7233 TCPready"
+  ],
+  "files": {
+    "core": {
+      "path": ".local/deploy/live-core.log",
+      "bytes": 45,
+      "sha256": "5bc150f4e47d28fc380a4858c7badbf387cee2e3cb8a12e9b925749fe75c2730"
+    },
+    "runtime": {
+      "path": ".local/deploy/live-runtime.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "starbase2-wait-dependencies": {
+      "path": ".local/deploy/live-starbase2-wait-dependencies.log",
+      "bytes": 137,
+      "sha256": "18b0d19318056c0ae0ce7961d67f60bca56233ad0b8d98333eccf9131de3a865"
+    }
+  }
+}

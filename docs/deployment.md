@@ -2,9 +2,55 @@
 
 Status: accepted
 
+
+## Current staged scope · 2026-09-10
+
+The [disposable cluster pilot](../evidence/kubani-pilot-20260909/README.md) is
+deployed with qualified source `ef60c6a` images. Backend acceptance includes
+sample review, comparison, pause, cancellation and actual pod replacement
+recovery, plus a native Godot workspace review. The subsequent
+[LLM and observation rollout](../evidence/llm-observation-20260910/README.md)
+reopens manual admission and enables synthetic LLM advice plus scoped
+Watchkeeper reads of starbase2-prod; existing duties stay paused. The subsequent
+[GitHub activation](../evidence/github-observation-20260910/README.md) adds a
+dedicated read-only Starbase2 credential and verified manual repository
+observation, with GitHub inference and recurrence disabled at that stage.
+The [autonomous Godot rollout](../evidence/autonomous-godot-20260910/README.md)
+now deploys source `2b64a73` through Kubani PR149: both scoped targets allow
+bounded advice, and their 300/900-second observation duties are enabled.
+Reasoning is limited to 24 admissions per target per UTC day, at least 3600
+seconds apart. Browser dashboard routes are retired; Godot owns normal operator
+interaction. Actual timer and final native acceptance are tracked in that record.
+Memory remains disabled. This does not qualify durable production admission.
+
+The accepted sequence is stopped resource preparation, dependency connectivity,
+and reviewed provisioning/migrations; then an explicitly disposable read-only
+pilot; then durable admission after its backup/recovery gates pass. Keep
+`replicas: 0` and `accept_work: false` during preparation. The independent backup
+key and verified restore/RPO/RTO remain gates for durable work, not a reason to
+block stopped namespace, identity, policy or connectivity preparation. A pilot
+must have bounded scope, duration and cleanup, and its disposable records must
+not become production data.
+
+The earlier [read-only audit](../evidence/kubani-namespaces/current-readiness.md)
+found that Kubani main `d72107f` had no Starbase2 directory or Flux owner, and
+`starbase2-prod` did not exist. Commit `cd565b6` deliberately removed the inactive
+PR127 draft. References to that preparation below are historical; they do not
+establish a current installation or authorize restoring the old draft. The pilot
+was subsequently prepared through fresh reviewed GitOps changes.
+
+Fresh committed and qualified amd64 images now carry the current
+installation/capability/source-time contract into the pilot. Published revision
+`71ca83d` is retained release evidence, not qualification of these later changes.
+Infrastructure preparation can be designed in parallel, but final manifests
+must bind the chosen qualified images by digest. The base preparation renderer disables field observations, inference, memory
+and repairs and permits only dependency egress. Kubani owns the explicit
+activation overlays described in the current rollout record. A real GitHub pilot needs a separately reviewed field-only target,
+credential and network configuration; enabling admission alone is insufficient.
+
 This is the executable preparation package for a **fresh** Starbase2 production
-installation. Nothing in this work activates Kubani or imports local SQLite or
-Temporal data. [ADR 0005](adr/0005-fresh-kubani-installation.md) records the
+installation. The authorized pilot uses fresh cluster stores; no local SQLite
+or Temporal data was imported. [ADR 0005](adr/0005-fresh-kubani-installation.md) records the
 storage and private access decisions. The existing SQLite launcher remains for
 development/testing.
 
@@ -21,7 +67,7 @@ development/testing.
 | Network policies | No incoming pod traffic; DNS, PostgreSQL and Temporal only; specific database-side allowance |
 | Private secrets | Worker token, application URL, temporary migration URL; no secrets in rendered bundle |
 
-The journal and native Godot client use a local port-forward. No public ingress,
+The native Godot client uses a local port-forward. No public ingress,
 TLS certificate, FalkorDB, dedicated Temporal server, persistent volume, or
 Kubernetes workload credential is needed by this application. Images contain
 the read-only application source and the explicit sample repository. Selecting
@@ -37,6 +83,42 @@ worker gRPC. The private PostgreSQL configuration has no verified TLS setup.
 Treat cluster/platform administrators and other authorized service clients as
 trusted for this first private installation. Public ingress, sensitive source
 and operational permissions remain gated on a stronger identity design.
+
+## Starbase2 naming and namespace ownership
+
+All new Kubani application resources belong to `starbase2`, with production
+installation identity `starbase2-prod`. Use the GitOps directory
+`infrastructure/gitops/apps/starbase2/`; do not adopt or rename the predecessor's
+`starbase/` resources. Preserve historical references as history.
+
+| Kubernetes scope | Starbase2 additions |
+|---|---|
+| `starbase2-prod` | Deployment `starbase2`, ServiceAccount `starbase2`, migration Jobs `starbase2-migrate-*`, Secrets `starbase2-worker`, `starbase2-database`, `starbase2-migrator`, and NetworkPolicy `starbase2-boundary` |
+| Existing PostgreSQL namespace (`database` by default) | Only NetworkPolicy `starbase2-prod-postgres`, allowing the selected Starbase2 pods to the existing database |
+| Existing Temporal namespace (`temporal` by default) | Only NetworkPolicy `starbase2-prod-temporal`, allowing the selected Starbase2 pods to the existing frontend |
+| Cluster scope | Namespace `starbase2-prod`; no generated ClusterRoles or ClusterRoleBindings |
+
+The two infrastructure-side policies must live beside the destination pods.
+Their source selector combines the exact Starbase2 namespace and installation
+pod labels. Shared PostgreSQL and Temporal retain their existing names and
+ownership. New Starbase2 workloads, secrets or future application stores belong
+in the installation namespace; any future cluster-scoped permissions require
+an explicit reviewed boundary change.
+
+The renderer rejects legacy application identities, default/system/legacy
+infrastructure namespaces, and application/infrastructure namespace overlap.
+Kubernetes and Temporal namespace identities must match the installation;
+the queue must start with that installation plus `-`. Database names begin
+`starbase2_`. Application image repositories end in `/starbase2/core` and
+`/starbase2/runtime`; the build registry path ends in `/starbase2`.
+All generated resources and installed Secrets carry the `starbase2.io/installation`
+label and `app.kubernetes.io/name: starbase2`.
+
+Existing `STARBASE_*` settings, `starbase-core` executable and `starbase_runtime`
+Python module are versioned runtime interfaces inside the qualified images.
+They are not Kubernetes resource names. Preserve these interfaces until a
+coordinated code/image compatibility migration; independently changing the
+manifest's commands or environment names would break the current release.
 
 ## Commands and safety behavior
 
@@ -147,6 +229,16 @@ the loopback forward. Never confuse them.
 
 ## 3. Provision and migrate, with the application stopped
 
+The deployment renderer adds a credential-free TCP readiness init container before
+the one-shot migration (PostgreSQL) and application (PostgreSQL and Temporal).
+It uses the selected, digest-pinned runtime image, with no Secret mounts or API
+token, a 60-second deadline including DNS, and connection attempts of at most two
+seconds. This handles the observed initial pod-network convergence race; it does
+not retry migration SQL or certify dependency authentication. Migration retains
+`backoffLimit: 0` and its 180-second total deadline. The September 2026 pilot uses
+the qualified `ef60c6a` Core/runtime images with this separately reviewed renderer
+change; image source provenance must not be relabeled as a newer runtime build.
+
 Prepare a reviewed Kubani change adding the generated application directory
 under `infrastructure/gitops/apps/starbase2/` and its reference in the apps
 aggregate. The currently checked-in `starbase/` directory belongs to the older
@@ -209,11 +301,14 @@ kubectl --context YOUR_KUBANI_CONTEXT -n starbase2-prod port-forward deployment/
 mise exec -- just deploy temporal-check --config .local/deploy/production.json --temporal-address 127.0.0.1:17239
 ```
 
-Open `http://127.0.0.1:8787` and optionally `mise exec -- just world`. Keep the
+Launch `mise exec -- just world` and select the forwarded address in Godot's
+Connection panel. The service URL itself contains no dashboard. Keep the
 forward bound to localhost; do not add `--address 0.0.0.0`. Kubernetes RBAC for
-pods/port-forward grants operational journal access, not a view-only role. Never
-give it to an untrusted viewer. The port must be 8787 to match native-client and
-operator-origin checks. Neither core nor worker gets a Kubernetes API token.
+pods/port-forward grants operational API access, not a view-only role. Never
+give it to an untrusted viewer. Match the installation's configured Core port
+and operator origin. The current pilot uses local/remote port 18787, overriding
+the base renderer's 8787. Provider identities, including Watchkeeper's scoped
+runtime token, require their separate explicit target configuration.
 
 Core readiness performs a real store-backed request. Worker readiness checks a
 heartbeat written only after successful reconciliation. A live process with a
@@ -230,15 +325,22 @@ by the local rehearsal. No model calls happen merely by starting this bundle.
 
 ## 5. Quiesce, stop and back up
 
-Stop operator submissions and close other journal clients. With the port-forward
+Stop operator submissions and close other Godot clients. With the port-forward
 and worker still running, pause duties and drain bounded work:
 
 ```sh
 mise exec -- just deploy drain --config .local/deploy/production.json --execute --confirm starbase2-prod
 ```
 
+For the current pilot, append `--core-address http://127.0.0.1:18787`.
+Drain verifies the configured installation identity before any mutation, pauses
+V2 and configured V4 duties plus repository watches, and checks V2/V3/V4 active
+work and retained schedules before reporting success. It preserves inference
+settings and increments field generations. An uncertain write stops the command
+without retry; reconcile its retained state in Godot before proceeding.
+
 This waits at most three minutes. A timeout leaves active records intact: inspect
-or explicitly cancel them in the journal and wait for acknowledgement. It never
+or explicitly cancel them in Godot and wait for acknowledgement. It never
 labels uncertain work completed. Drain requires an operational core/worker and
 is not the emergency stop path. Prevent competing operator submissions during
 this maintenance window. Promote `accept_work: false`; repeat the active-work
@@ -391,7 +493,7 @@ migration, real Temporal review, role restrictions, restart, dump/restore and
 cleanup. `just deployment-test-db-stop` removes only that container. These
 commands never use kubeconfig. The [local rehearsal result](../evidence/deployment-rehearsal.json)
 is scoped separately from cluster acceptance; earlier failed runs are retained
-in [the history directory](../evidence/deployment-rehearsal-history).
+in `the history directory` (local review evidence is retained outside this commit).
 
 Primary references: [Temporal namespace administration](https://docs.temporal.io/cli/operator#namespace),
 [PostgreSQL dump](https://www.postgresql.org/docs/18/app-pgdump.html),

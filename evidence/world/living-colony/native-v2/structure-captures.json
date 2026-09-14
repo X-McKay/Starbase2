@@ -1,0 +1,218 @@
+{
+  "captures": [
+    {
+      "name": "review-exterior",
+      "position": [
+        -3.0,
+        0.0,
+        -14.8999996185303
+      ]
+    },
+    {
+      "name": "review-interior",
+      "position": [
+        -3.10893964767456,
+        0.0,
+        -23.5000228881836
+      ]
+    },
+    {
+      "name": "command-workspace",
+      "position": [
+        -3.10893964767456,
+        0.0,
+        -23.5000228881836
+      ]
+    },
+    {
+      "name": "command-workspace-compact",
+      "position": [
+        -3.10893964767456,
+        0.0,
+        -23.5000228881836
+      ]
+    },
+    {
+      "name": "gym-exterior",
+      "position": [
+        1.5,
+        0.0,
+        9.10000038146973
+      ]
+    },
+    {
+      "name": "gym-interior",
+      "position": [
+        1.5,
+        0.0,
+        -0.0999980270862579
+      ]
+    },
+    {
+      "name": "habitat-exterior",
+      "position": [
+        36.0,
+        0.0,
+        -8.89999961853027
+      ]
+    },
+    {
+      "name": "habitat-interior",
+      "position": [
+        36.4801826477051,
+        0.0,
+        -18.6774406433105
+      ]
+    },
+    {
+      "name": "habitat-guide",
+      "position": [
+        36.4801826477051,
+        0.0,
+        -18.6774406433105
+      ]
+    },
+    {
+      "name": "greenhouse-exterior",
+      "position": [
+        30.0,
+        0.0,
+        36.0999984741211
+      ]
+    },
+    {
+      "name": "greenhouse-interior",
+      "position": [
+        30.0,
+        0.0,
+        22.1000232696533
+      ]
+    },
+    {
+      "name": "greenhouse-guide",
+      "position": [
+        30.0,
+        0.0,
+        22.1000232696533
+      ]
+    },
+    {
+      "name": "living-commons",
+      "position": [
+        -3.99999976158142,
+        0.0,
+        23.1118965148926
+      ]
+    },
+    {
+      "name": "living-colony",
+      "position": [
+        -3.99999976158142,
+        0.0,
+        23.1118965148926
+      ]
+    }
+  ],
+  "failures": [],
+  "fixture": true,
+  "live_world_presentation": true,
+  "motion_frames": 12,
+  "motion_samples": [
+    {
+      "physics_frame": 131,
+      "position": [
+        -3.0,
+        0.0,
+        -15.5000019073486
+      ]
+    },
+    {
+      "physics_frame": 139,
+      "position": [
+        -3.0,
+        0.0,
+        -16.2000045776367
+      ]
+    },
+    {
+      "physics_frame": 147,
+      "position": [
+        -3.0,
+        0.0,
+        -16.9000072479248
+      ]
+    },
+    {
+      "physics_frame": 155,
+      "position": [
+        -3.0,
+        0.0,
+        -17.5000095367432
+      ]
+    },
+    {
+      "physics_frame": 167,
+      "position": [
+        -3.0,
+        0.0,
+        -18.5000133514404
+      ]
+    },
+    {
+      "physics_frame": 175,
+      "position": [
+        -3.19205832481384,
+        0.0,
+        -19.1304798126221
+      ]
+    },
+    {
+      "physics_frame": 183,
+      "position": [
+        -3.47569274902344,
+        0.0,
+        -19.7364959716797
+      ]
+    },
+    {
+      "physics_frame": 191,
+      "position": [
+        -3.49626350402832,
+        0.0,
+        -20.3359413146973
+      ]
+    },
+    {
+      "physics_frame": 199,
+      "position": [
+        -3.91931748390198,
+        0.0,
+        -20.8936386108398
+      ]
+    },
+    {
+      "physics_frame": 207,
+      "position": [
+        -4.11415767669678,
+        0.0,
+        -21.542200088501
+      ]
+    },
+    {
+      "physics_frame": 215,
+      "position": [
+        -4.45835876464844,
+        0.0,
+        -22.1233062744141
+      ]
+    },
+    {
+      "physics_frame": 223,
+      "position": [
+        -4.78452682495117,
+        0.0,
+        -22.7189178466797
+      ]
+    }
+  ]
+}

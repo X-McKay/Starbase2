@@ -5,9 +5,11 @@ import hashlib
 import json
 import os
 import platform
+import re
 import signal
 import subprocess
 import tempfile
+import time
 import tomllib
 import zipfile
 from datetime import UTC, datetime
@@ -64,48 +66,334 @@ def run(
     return result.stdout
 
 
+def native_pids(executable: Path, listing: str) -> list[int]:
+    # macOS may report /private/var for an executable launched through /var.
+    prefixes = {str(executable) + " ", str(executable.resolve()) + " "}
+    result = []
+    for line in listing.splitlines():
+        fields = line.strip().split(maxsplit=1)
+        if len(fields) == 2 and any(fields[1].startswith(prefix) for prefix in prefixes):
+            result.append(int(fields[0]))
+    return result
+
+
 def native_capture(
     executable: Path, arguments: list[str], output: Path, name: str, cwd: Path
 ) -> None:
-    """Launch a fresh GUI instance through macOS; direct second launches can stall."""
+    """Launch an exact owned GUI instance once within a bounded review."""
     stdout = output / f"{name}.log"
     stderr = output / f"{name}-stderr.log"
+    app = str(executable.resolve().parents[2])
+    command = [
+        "open",
+        "-n",
+        "-W",
+        "-a",
+        app,
+        "--stdout",
+        str(stdout),
+        "--stderr",
+        str(stderr),
+        "--args",
+        "--max-fps",
+        "60",
+        "--",
+        *arguments,
+    ]
+    deadline = time.monotonic() + 180
+    launcher = subprocess.Popen(
+        command, cwd=cwd, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+    )
     try:
-        run(
-            [
-                "open",
-                "-n",
-                "-W",
-                "-a",
-                str(executable.parents[2]),
-                "--stdout",
-                str(stdout),
-                "--stderr",
-                str(stderr),
-                "--args",
-                "--max-fps",
-                "60",
-                "--",
-                *arguments,
-            ],
-            output / f"{name}-launch.log",
-            cwd,
-        )
+        # One normal Launch Services launch; no repeated foreground activation.
+        log, _ = launcher.communicate(timeout=max(0.1, deadline - time.monotonic()))
+        (output / f"{name}-launch.log").write_text(log)
+        if launcher.returncode:
+            raise RuntimeError(f"Native launcher failed; inspect {name}-launch.log")
     except Exception:
-        # open -W is not the app process. A timed-out launch must not leave the
-        # isolated review running. Match this exact temporary executable only.
-        processes = subprocess.check_output(["ps", "-axo", "pid=,command="], text=True)
-        for line in processes.splitlines():
-            fields = line.strip().split(maxsplit=1)
-            if len(fields) == 2 and fields[1].startswith(str(executable) + " "):
-                try:
-                    os.kill(int(fields[0]), signal.SIGTERM)
-                except ProcessLookupError:
-                    pass
+        if launcher.poll() is None:
+            launcher.terminate()
+        log, _ = launcher.communicate(timeout=5)
+        (output / f"{name}-launch.log").write_text(log)
+        listing = subprocess.check_output(["ps", "-axo", "pid=,command="], text=True)
+        for pid in native_pids(executable, listing):
+            try:
+                os.kill(pid, signal.SIGTERM)
+            except ProcessLookupError:
+                pass
         raise
     log = stdout.read_text() + stderr.read_text()
     if "Godot Engine" not in log or any(x in log for x in ("ERROR:", "Parse Error")):
         raise RuntimeError(f"Native capture failed; inspect {stdout} and {stderr}")
+
+
+def verify_shift_report(directory: Path, mode: str) -> dict:
+    report_path = directory / f"{mode}-report.json"
+    record = json.loads(report_path.read_text())
+    if (
+        record.get("mode") != mode
+        or record.get("status") != "passed"
+        or record.get("fixture") is not True
+        or record.get("initial_positions_staged") is not True
+        or record.get("physics_after_staging") is not True
+        or record.get("failures") != []
+        or not 0 <= record.get("wall_ms", -1) < 180000
+    ):
+        raise RuntimeError(f"Shift Change {mode} report did not qualify")
+    expected = [f"{mode}-occupied-habitat.png"]
+    expected += [f"{mode}-seated-{i:02d}.png" for i in range(4)]
+    expected += [f"{mode}-stand-{i:02d}.png" for i in range(5)]
+    expected += (
+        ["domestic-fast-report.png"]
+        if mode == "domestic"
+        else [
+            f"journey-{name}.png"
+            for name in ("console-arrival", "report-ready", "home", "offline", "reconnected")
+        ]
+    )
+    if set(record.get("captures", [])) != set(expected):
+        raise RuntimeError(f"Shift Change {mode} capture sequence incomplete")
+    for name in expected:
+        if not (directory / name).read_bytes().startswith(b"\x89PNG\r\n\x1a\n"):
+            raise RuntimeError(f"Invalid Shift Change capture: {name}")
+    samples = {s["label"]: s for s in record.get("samples", [])}
+    if samples.get("seated", {}).get("clip") != "social/seated" or not any(
+        s.get("clip") == "social/stand_up" for s in samples.values()
+    ):
+        raise RuntimeError("Shift Change social transition samples absent")
+    if mode == "journey":
+        if (
+            samples.get("working", {}).get("pose") != "console"
+            or samples.get("returned-home", {}).get("clip") != "social/seated"
+            or samples.get("report-ready", {}).get("evidence_ready") is not True
+            or samples.get("offline", {}).get("goal") != "hold"
+            or samples.get("offline", {}).get("pose") != ""
+        ):
+            raise RuntimeError("Shift Change journey state samples incomplete")
+    return {
+        "report_sha256": digest(report_path),
+        "captures": {name: digest(directory / name) for name in expected},
+        "initial_positions_staged": True,
+        "physics_after_staging": True,
+        "visual_contact_acceptance": (
+            "requires inspection of native captures; clip names are not pose proof"
+        ),
+    }
+
+
+def qualify_shift_change(
+    executable: Path, fixture: Path, board_fixture: Path, output: Path, cwd: Path
+) -> dict:
+    fixture_hashes = (digest(fixture), digest(board_fixture))
+    run(
+        [
+            str(executable),
+            "--headless",
+            "--",
+            "--shift-change-capture=" + str(output / "shift-refused"),
+        ],
+        output / "shift-fixture-refusal.log",
+        cwd,
+        expected_refusal="Package verification requires an offline fixture",
+    )
+    if (output / "shift-refused").exists():
+        raise RuntimeError("Refused Shift Change run created output before its fixture fence")
+    records = {}
+    for mode in ("domestic", "journey"):
+        directory = output / f"shift-{mode}"
+        native_capture(
+            executable,
+            [
+                "--fixture=" + str(fixture),
+                "--board-fixture=" + str(board_fixture),
+                "--shift-change-capture=" + str(directory),
+                "--shift-change-mode=" + mode,
+            ],
+            output,
+            "shift-" + mode,
+            cwd,
+        )
+        if f"SHIFT_CHANGE_CAPTURE_PASSED {mode}" not in (output / f"shift-{mode}.log").read_text():
+            raise RuntimeError(f"Shift Change {mode} did not finish")
+        records[mode] = verify_shift_report(directory, mode)
+    if fixture_hashes != (digest(fixture), digest(board_fixture)):
+        raise RuntimeError("Shift Change fixtures changed during qualification")
+    return {"board_fixture_sha256": fixture_hashes[1], "modes": records}
+
+
+def verify_morning_report(directory: Path) -> dict:
+    """Require the ordinary minute and its exact retained native evidence."""
+    report_path = directory / "morning-report.json"
+    record = json.loads(report_path.read_text())
+    if (
+        record.get("mode") != "morning"
+        or record.get("status") != "passed"
+        or record.get("fixture") is not True
+        or record.get("initial_positions_staged") is not True
+        or record.get("physics_after_staging") is not True
+        or record.get("failures") != []
+        or not 60000 <= record.get("wall_ms", -1) < 180000
+    ):
+        raise RuntimeError("Morning report did not qualify")
+    expected = ["01-inhabited-habitat.png"]
+    expected += [f"02-standing-{frame:02d}.png" for frame in (8, 24, 40)]
+    expected += [f"minute-{second:02d}.png" for second in (15, 30, 45, 60)]
+    expected += [
+        "03-workstation.png",
+        "04-result-ready.png",
+        "05-morning-briefing.png",
+        "06-retained-evidence.png",
+        "07-home-again.png",
+        "08-stale-briefing.png",
+        "09-reduced-large-text.png",
+        "10-station-records.png",
+        "11-station-compact.png",
+    ]
+    if sorted(record.get("captures", [])) != sorted(expected):
+        raise RuntimeError("Morning capture sequence incomplete")
+    for name in expected:
+        if not (directory / name).read_bytes().startswith(b"\x89PNG\r\n\x1a\n"):
+            raise RuntimeError(f"Invalid morning capture: {name}")
+    samples = {sample["label"]: sample for sample in record.get("samples", [])}
+    if (
+        samples.get("home", {}).get("clip") != "social/seated"
+        or not any(
+            sample.get("label") == "departure" and sample.get("clip") == "social/stand_up"
+            for sample in record.get("samples", [])
+        )
+        or samples.get("working", {}).get("pose") != "console"
+        or samples.get("working", {}).get("clip") != "work/field_slate"
+        or samples.get("result-ready", {}).get("evidence_ready") is not True
+        or samples.get("home-again", {}).get("clip") != "social/seated"
+        or samples.get("offline", {}).get("pose") != ""
+        or samples.get("offline", {}).get("goal") != "hold"
+        or samples.get("reconnected", {}).get("evidence_ready") is not True
+    ):
+        raise RuntimeError("Morning journey state samples incomplete")
+    minute_path = directory / "minute-samples.json"
+    minute = json.loads(minute_path.read_text())
+    observations = minute.get("samples", [])
+    ticks = [sample.get("wall_ms", -1) for sample in observations]
+    if (
+        minute.get("fixture") is not True
+        or minute.get("world_fixture") is not True
+        or minute.get("board_fixture") is not True
+        or minute.get("commands_dispatched") is not False
+        or minute.get("http_idle") is not True
+        or minute.get("fixture_memory_status") != "disabled"
+        or minute.get("initial_setup_only_teleports") is not True
+        or minute.get("moving_frames", 0) <= 100
+        or len(ticks) < 55
+        or any(not isinstance(tick, int) or tick < 0 for tick in ticks)
+        or ticks != sorted(set(ticks))
+        or ticks[-1] - ticks[0] < 60000
+        or ticks[-1] >= 180000
+    ):
+        raise RuntimeError("Morning continuous minute or isolation proof incomplete")
+    return {
+        "report_sha256": digest(report_path),
+        "minute_samples_sha256": digest(minute_path),
+        "captures": {name: digest(directory / name) for name in expected},
+        "fixture_only": True,
+        "commands_dispatched": False,
+        "fixture_memory_status": "disabled",
+        "visual_acceptance": "requires native frame inspection; not production qualification",
+    }
+
+
+def qualify_morning(
+    executable: Path, fixture: Path, board_fixture: Path, output: Path, cwd: Path
+) -> dict:
+    fixture_hashes = (digest(fixture), digest(board_fixture))
+    refusal = output / "morning-refused"
+    for name, arguments in (
+        ("no-fixtures", []),
+        ("no-board", ["--fixture=" + str(fixture)]),
+    ):
+        run(
+            [str(executable), "--headless", "--", *arguments, "--morning-capture=" + str(refusal)],
+            output / f"morning-{name}-refusal.log",
+            cwd,
+            expected_refusal="Morning capture requires offline world and board fixtures",
+        )
+        if refusal.exists():
+            raise RuntimeError("Refused morning run created output before its fixture fence")
+    directory = output / "morning"
+    native_capture(
+        executable,
+        [
+            "--fixture=" + str(fixture),
+            "--board-fixture=" + str(board_fixture),
+            "--morning-capture=" + str(directory),
+        ],
+        output,
+        "morning",
+        cwd,
+    )
+    if "SHIFT_CHANGE_CAPTURE_PASSED morning" not in (output / "morning.log").read_text():
+        raise RuntimeError("Morning native journey did not finish")
+    record = verify_morning_report(directory)
+    if fixture_hashes != (digest(fixture), digest(board_fixture)):
+        raise RuntimeError("Morning fixtures changed during qualification")
+    return {"board_fixture_sha256": fixture_hashes[1], "journey": record}
+
+
+def qualify_ember(executable: Path, output: Path, cwd: Path) -> dict:
+    """Exercise all new UI surfaces from the exact pack with both fixtures fenced."""
+    fixture = ROOT / "evidence/ember-implementation/world-fixture.json"
+    board = ROOT / "evidence/command-district/board-fixture.json"
+    before = (digest(fixture), digest(board))
+    refusal = output / "ember-refused"
+    for name, arguments in (("no-fixtures", []), ("no-board", ["--fixture=" + str(fixture)])):
+        run(
+            [str(executable), "--headless", "--", *arguments, "--ember-capture=" + str(refusal)],
+            output / f"ember-{name}-refusal.log",
+            cwd,
+            expected_refusal="Ember capture requires offline world and board fixtures",
+        )
+        if refusal.exists():
+            raise RuntimeError("Ember refused capture created output")
+    directory = output / "ember"
+    native_capture(
+        executable,
+        [
+            "--fixture=" + str(fixture),
+            "--board-fixture=" + str(board),
+            "--ember-capture=" + str(directory),
+        ],
+        output,
+        "ember",
+        cwd,
+    )
+    record = json.loads((directory / "ember-report.json").read_text())
+    if (
+        record.get("status") != "passed"
+        or record.get("mode") != "ember"
+        or record.get("fixture") is not True
+        or record.get("commands_dispatched") is not False
+        or record.get("http_idle") is not True
+        or record.get("failures") != []
+        or len(set(record.get("captures", []))) != 27
+        or not 0 <= record.get("wall_ms", -1) < 120000
+        or "EMBER_CAPTURE_PASSED" not in (output / "ember.log").read_text()
+    ):
+        raise RuntimeError("Ember standalone UI acceptance failed")
+    captures = {}
+    for name in record["captures"]:
+        if Path(name).name != name or not name.endswith(".png"):
+            raise RuntimeError("Invalid ember capture name")
+        path = directory / name
+        if not path.is_file() or path.stat().st_size < 10000:
+            raise RuntimeError("Missing or empty ember native capture")
+        captures[name] = digest(path)
+    if before != (digest(fixture), digest(board)):
+        raise RuntimeError("Ember fixture changed during qualification")
+    return {
+        "fixture_sha256": before[0],
+        "board_fixture_sha256": before[1],
+        "report_sha256": digest(directory / "ember-report.json"),
+        "captures": captures,
+    }
 
 
 def main() -> None:
@@ -115,7 +403,14 @@ def main() -> None:
         type=Path,
         default=ROOT / ".local/world-release" / datetime.now(UTC).strftime("%Y%m%dT%H%M%S%fZ"),
     )
+    parser.add_argument(
+        "--live-api", help="Optional owned loopback Core for read-only native qualification"
+    )
     args = parser.parse_args()
+    if args.live_api:
+        match = re.fullmatch(r"http://127\.0\.0\.1:([1-9][0-9]{0,4})", args.live_api)
+        if not match or int(match[1]) > 65535:
+            raise SystemExit("Live qualification requires a canonical private loopback origin.")
     if platform.system() != "Darwin":
         raise SystemExit("This qualification runs the actual macOS executable; use a macOS host.")
     output = args.output.resolve()
@@ -217,9 +512,85 @@ def main() -> None:
         capture_data = json.loads(capture_report.read_text())
         if capture_data["failures"] or capture_data["motion_frames"] < 4:
             raise RuntimeError("Native physical motion evidence failed")
+        if not capture_data.get("live_world_presentation", False):
+            raise RuntimeError("Native review must exercise the live camera and HUD")
+        for name in (
+            "command-workspace",
+            "command-workspace-compact",
+            "habitat-guide",
+            "greenhouse-guide",
+            "living-commons",
+            "living-colony",
+            "inhabited-water",
+            "inhabited-water-reduced",
+            "operations-task-markers",
+            "operations-review",
+            "operations-comparison",
+            "operations-duties",
+            "operations-history",
+            "operations-compact",
+            "operations-disconnected",
+            "operations-heartbeat",
+        ):
+            if not (output / f"{name}.png").exists():
+                raise RuntimeError(f"Missing living-colony review capture: {name}")
         if not (output / "review-motion.png").exists():
             raise RuntimeError("Missing native physical motion strip")
+        shift_record = qualify_shift_change(
+            executable,
+            fixture,
+            ROOT / "evidence/command-district/board-fixture.json",
+            output,
+            isolated,
+        )
+        morning_record = qualify_morning(
+            executable,
+            fixture,
+            ROOT / "evidence/command-district/board-fixture.json",
+            output,
+            isolated,
+        )
+        ember_record = qualify_ember(executable, output, isolated)
+        live_record = None
+        if args.live_api:
+            native_capture(
+                executable,
+                ["--api=" + args.live_api, "--live-capture=" + str(output)],
+                output,
+                "live",
+                isolated,
+            )
+            live_record = json.loads((output / "live-review.json").read_text())
+            if (
+                live_record["failures"]
+                or live_record["fixture"]
+                or live_record["commands_dispatched"]
+            ):
+                raise RuntimeError("Live native qualification failed")
+            if "LIVE_WORLD_CAPTURE_PASSED" not in (output / "live.log").read_text():
+                raise RuntimeError("Live native qualification did not finish")
+            for name in (
+                "live-colony",
+                "live-connection",
+                "live-command",
+                "live-repositories",
+                "live-evidence",
+                "live-compact",
+                "live-disconnected",
+                "live-reconnected",
+            ):
+                if not (output / (name + ".png")).exists():
+                    raise RuntimeError("Missing live native capture: " + name)
         report = {
+            "shift_change": shift_record,
+            "morning": morning_record,
+            "ember": ember_record,
+            "live_backend": live_record,
+            "native_input_mode": (
+                "one normal Launch Services launch, no repeated activation; "
+                "external input isolated in explicit capture mode; "
+                "no manual OS input claim"
+            ),
             "status": "local macOS export qualified; unsigned, not a Kubani release",
             "godot": version,
             "platform": platform.platform(),

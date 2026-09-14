@@ -1,0 +1,65 @@
+extends SceneTree
+const History=preload("res://run_history.gd")
+func _initialize() -> void: run.call_deferred()
+func record(sequence: int, state: String = "completed") -> Dictionary:
+	return {"sequence":sequence,"input":{"request":{"id":"run-"+str(sequence),"kind":"review"}},"state":state,"updated_at":sequence,"report":null}
+func body(value: Variant) -> PackedByteArray: return JSON.stringify(value).to_utf8_buffer()
+func run() -> void:
+	var panel=History.new(); root.add_child(panel)
+	var recent: Array=[]
+	for i in range(40,20,-1): recent.append(record(i))
+	panel.configure("http://127.0.0.1:18881","fixture")
+	panel.update_snapshot({"recent":[],"active":[]},false)
+	panel.update_snapshot({"recent":recent,"active":[record(1,"running")]},false)
+	assert(panel.visible_records().size()==21 and panel.cursor()==21)
+	panel.inspect_run("run-40"); assert(panel.selected=="run-40")
+	panel.load_latest(); panel.load_older()
+	assert(panel.page_http.get_http_client_status()==HTTPClient.STATUS_DISCONNECTED)
+	assert(panel.detail_http.get_http_client_status()==HTTPClient.STATUS_DISCONNECTED)
+	panel.configure("http://127.0.0.1:18882","")
+	panel.update_snapshot({"recent":recent,"active":[record(1,"running")]},false)
+	panel.selected="run-40"; panel.selected_run=record(40)
+	var older: Array=[]
+	for i in range(20,0,-1): older.append(record(i))
+	panel.receive_page(panel.epoch,HTTPRequest.RESULT_SUCCESS,200,body({"runs":older}),false,21)
+	assert(panel.page_index==1 and panel.visible_records().size()==20)
+	assert(panel.visible_records()[0].state=="running")
+	assert(panel.selected=="run-40" and panel.selected_run.sequence==40)
+	panel.go_back(); assert(panel.page_index==0)
+	var refreshed: Array=recent.duplicate(true); refreshed[0]=record(41)
+	panel.update_snapshot({"recent":refreshed,"active":[record(1,"running")]},false)
+	assert(panel.pages.size()==1 and panel.pages[0][0].sequence==41 and panel.selected=="run-40")
+	panel.receive_page(panel.epoch,HTTPRequest.RESULT_SUCCESS,200,body({"runs":older}),false,21)
+	panel.update_snapshot({"recent":recent,"active":[record(1,"running")]},false)
+	assert(panel.page_index==1 and panel.pages[1][0].sequence==20)
+	var full=record(40); full.events=[{"state":"completed"}]; full.snapshot={"data":{}}; full.report={"summary":{"coverage":"partial"}}
+	panel.receive_detail_response(HTTPRequest.RESULT_SUCCESS,200,[],body(full),panel.epoch,"run-40")
+	panel.update_snapshot({"recent":[record(40)],"active":[]},false)
+	assert(panel.selected_run.events.size()==1 and panel.selected_run.snapshot is Dictionary)
+	assert(panel.detail.text.contains("partial") and panel.detail.text.contains("Full detail fetched"))
+	var newer=record(40,"cancelled"); newer.updated_at=50
+	panel.update_snapshot({"recent":[newer],"active":[]},false)
+	assert(panel.stop.disabled and panel.detail.text.contains("Latest known state: cancelled"))
+	assert(panel.selected_run.events.size()==1)
+	var serial=panel.detail_serial
+	panel.detail_serial+=1
+	panel.receive_detail_response(HTTPRequest.RESULT_SUCCESS,200,[],body(record(40)),panel.epoch,"run-40",serial)
+	assert(panel.selected_run.events.size()==1)
+	var old_epoch=panel.epoch
+	panel.configure("http://127.0.0.1:18883","")
+	panel.update_snapshot({"recent":[],"active":[]},false)
+	panel.receive_page(old_epoch,HTTPRequest.RESULT_SUCCESS,200,body({"runs":older}),false,21)
+	panel.receive_detail_response(HTTPRequest.RESULT_SUCCESS,200,[],body(full),old_epoch,"run-40")
+	assert(panel.selected.is_empty() and panel.details.is_empty() and panel.pages[0].is_empty())
+	panel.receive_page(panel.epoch,HTTPRequest.RESULT_SUCCESS,200,body({"runs":[{"input":4}]}),true,-1)
+	assert(panel.pages[0].is_empty() and panel.notice.text.contains("Malformed"))
+	panel.receive_page(panel.epoch,HTTPRequest.RESULT_SUCCESS,200,body({"runs":[record(30)]}),false,21)
+	assert(panel.pages.size()==1)
+	panel.update_snapshot({"recent":7,"active":[null,{"input":"bad"}]},true)
+	panel.load_latest(); panel.inspect_run("run-missing")
+	assert(panel.page_http.get_http_client_status()==HTTPClient.STATUS_DISCONNECTED)
+	assert(panel.detail_http.get_http_client_status()==HTTPClient.STATUS_DISCONNECTED)
+	assert(panel.stop.disabled and panel.selected_run.is_empty())
+	panel.queue_free(); await process_frame
+	print("Run history passed: >20 paging, active retention, selection/evidence preservation, endpoint epoch, malformed and offline/fixture guards")
+	quit()

@@ -1,0 +1,45 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:1035)
+ERROR: GardenWest unreachable for repair
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_crew_home_routes.gd:20)
+ERROR: GardenWest unreachable for review
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_crew_home_routes.gd:20)
+ERROR: GardenWest unreachable for gym
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_crew_home_routes.gd:20)
+ERROR: GardenWest unreachable for watchkeeper
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_crew_home_routes.gd:20)
+ERROR: GardenWest unreachable for reviewer
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_crew_home_routes.gd:20)
+ERROR: GardenEast unreachable for repair
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_crew_home_routes.gd:20)
+ERROR: GardenEast unreachable for review
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_crew_home_routes.gd:20)
+ERROR: GardenEast unreachable for gym
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_crew_home_routes.gd:20)
+ERROR: GardenEast unreachable for watchkeeper
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_crew_home_routes.gd:20)
+ERROR: GardenEast unreachable for reviewer
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://test_crew_home_routes.gd:20)
+CREW_HOME_ROUTES: anchors=7 directed_routes=70 failures=10

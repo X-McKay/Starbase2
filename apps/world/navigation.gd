@@ -4,7 +4,7 @@ const Geography = preload("res://geography.gd")
 const Surface = preload("res://surface_layout.gd")
 const Structures = preload("res://structure_catalog.gd")
 static var STRUCTURES: Array[Rect2] = Structures.navigation_bounds()
-const PROPS := Surface.NATURAL_BLOCKS+Surface.UTILITY_BLOCKS+[Rect2(-6.5,5.6,2,0.85),Rect2(4.5,5.6,2,0.85),Rect2(-11.5,2.7,1,0.7)]
+const PROPS := Surface.NATURAL_BLOCKS+Surface.UTILITY_BLOCKS+preload("res://living_commons.gd").BLOCKS+[Rect2(-6.5,5.6,2,0.85),Rect2(4.5,5.6,2,0.85),Rect2(-11.5,2.7,1,0.7)]
 static var BLOCKS: Array[Rect2] = inflated_blocks()
 var grid := AStarGrid2D.new()
 

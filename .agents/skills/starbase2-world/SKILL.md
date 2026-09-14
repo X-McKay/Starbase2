@@ -19,6 +19,17 @@ starts, blocks, or completes work. Unknown/stale/partial states cannot reuse a
 healthy animation; reconnect coalesces obsolete motion without losing history.
 One crew member with concurrent runs needs task markers, not invented identities.
 
+For inhabited crew behavior, reserve authored home/social anchors across actors.
+Keep cosmetic dwell and travel separate from assignment state; interruption and
+fast completion must coalesce immediately to current intent. Stale/offline holds
+must not teleport actors. Resolve visibility using the occupied building, not only
+the assigned workstation. Expose bounded route failure without changing job state.
+
+For a substantial visual redesign, derive a target from the existing native view
+and use an independent target-versus-current critic with comparable framing.
+Retain concrete gaps and regressions. Visual scores guide iteration; they do not
+replace truthful state, physical journeys, accessibility or measured performance.
+
 Give the journey a keyboard and structured non-spatial path. Keep evidence,
 decisions, and stop controls available when the renderer fails. Apply reduced
 motion, text scaling, sound-off behavior, and color-independent status where
@@ -50,3 +61,17 @@ Use the [content taxonomy](../../../docs/content-organization.md) when naming or
 organizing assets and scenes. Use `structures` in category, catalog and gallery names. Coordinate any further
 resource, scene-node and caller changes; the current index records actual paths.
 Crew roles and room contexts remain distinct from character and structure assets.
+
+## Bundled visual references
+
+For visual work, read [the visual guide](references/visual-guide.md). Its selected
+images are bundled below; no local evidence archive is needed to use these
+examples. They illustrate intent and review cases, not current-build certification.
+
+- [crew-overview.png](assets/crew-overview.png)
+
+- [crew-compact.png](assets/crew-compact.png)
+
+- [habitat-art-target.png](assets/habitat-art-target.png)
+
+Image identity and source type: [visual manifest](assets/visual-manifest.json).

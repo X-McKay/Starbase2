@@ -43,7 +43,10 @@ func run() -> void:
 	await process_frame
 	key(KEY_ENTER,false)
 	await process_frame
-	check(world.hud.board.visible,"Enter on first directory item opens Command")
+	check(not world.hud.directory.visible,"Enter activates the focused directory Close control")
+	key(KEY_B)
+	await process_frame
+	check(world.hud.board.visible,"B opens Field Command directly from the keyboard")
 	key(KEY_ESCAPE)
 	await process_frame
 	check(not world.hud.is_open(),"Escape returns to walking")
@@ -77,12 +80,28 @@ func run() -> void:
 	world.hud.reduced = true
 	world.apply_settings()
 	check(not world.hud.follow and world.get_node("Mender").reduced_motion,"Reduced motion disables camera follow and crew animation")
+	# Isolate the explicit snapshot fixture from asynchronous connection failures.
+	# The following assertion tests GUI dispatch selection, not HTTP transport.
+	world.poll_timer.stop()
+	world.http.cancel_request()
+	if world.http.request_completed.is_connected(world.on_response):
+		world.http.request_completed.disconnect(world.on_response)
 	world.receive_snapshot({"schema_version":2,"recent":[],"worker":{"available":true},"observed_at":0})
+	check(world.hud.submit.disabled,"Missing capability metadata cannot authorize repair dispatch")
+	world.receive_snapshot({"schema_version":2,"recent":[],"worker":{"available":true},"observed_at":0,
+		"installation":{"id":"interaction-test","environment":"development","capabilities":{
+			"accept_work":{"enabled":true,"reason":"Test admission enabled"},
+			"repair":{"enabled":true,"reason":"Explicit synthetic repair fixture"},
+			"inference":{"enabled":false,"reason":"No inference in this keyboard test"}}}})
 	world.hud.open_place("repair")
 	world.hud.repair_requested.disconnect(world.launch_repair)
 	var calls: Array = []
 	world.hud.repair_requested.connect(func(scenario,mode): calls.append([scenario,mode]))
+	world.hud.dossier_tabs.current_tab=2
+	await process_frame
 	world.hud.submit.grab_focus()
+	await process_frame
+	await process_frame
 	key(KEY_ENTER)
 	await process_frame
 	key(KEY_ENTER,false)

@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+from enum import StrEnum
 from typing import Annotated, Any
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -16,6 +17,7 @@ class FieldDuty(BaseModel):
     enabled: bool
     generation: Annotated[int, Field(ge=0)]
     id: str
+    inference: bool | None = False
     interval_seconds: Annotated[int, Field(ge=0)]
     target: str
 
@@ -40,6 +42,24 @@ class Finding(BaseModel):
     recommendation: str
     subject: str
     summary: str
+
+
+class InferenceAdmission(StrEnum):
+    admitted = "admitted"
+    skipped = "skipped"
+    not_requested = "not_requested"
+
+
+class InferenceBudget(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    limit: Annotated[int, Field(ge=0)]
+    next_eligible_at: float
+    reason: str
+    status: InferenceAdmission
+    used: Annotated[int, Field(ge=0)]
+    utc_day: Annotated[int, Field(ge=0)]
 
 
 class MemoryReview(BaseModel):
@@ -75,6 +95,7 @@ class FieldReport(BaseModel):
 
 class FieldContract(BaseModel):
     duty: FieldDuty
+    inference_budget: InferenceBudget | None = None
     input: FieldInput
     memory_review: MemoryReview
     report: FieldReport

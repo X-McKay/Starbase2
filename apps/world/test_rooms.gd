@@ -28,13 +28,18 @@ func run() -> void:
 		check(world.near_door==str(station.name),"Door proximity must select "+kind)
 		key(world,KEY_F)
 		await physics_frame
+		# process_frame fires before Node._process; wait through a completed update
+		# before asserting the camera or projecting a physical click.
+		await process_frame
 		await process_frame
 		check(world.active_room!=null and world.room_kind==kind,"F enters "+kind)
 		if world.active_room==null: continue
 		var room: Node3D=world.active_room
 		check(world.hud.room_exit.visible,"Interior must expose return control and cutaway backdrop")
 		check(world.sky_layer.visible and world.get_node("Terrace").visible,"Continuous interior retains exterior sky and canyon scenery")
-		check(world.camera_focus.distance_to(room.global_position+Vector3(room.definition.interior_bounds.get_center().x,1,room.definition.interior_bounds.get_center().y))<0.01,"Reduced-motion entry uses an immediate room camera cut")
+		var expected_focus:Vector3=room.global_position+Vector3(room.definition.interior_bounds.get_center().x,1,room.definition.interior_bounds.get_center().y)
+		if room.content.has_node("CameraFocus"): expected_focus=room.content.get_node("CameraFocus").global_position
+		check(world.camera_focus.distance_to(expected_focus)<0.01,"Reduced-motion entry uses an immediate authored room camera cut")
 		check(world.commands.phase=="" and world.commands.payload.is_empty(),"Room entry must never dispatch work")
 		if kind=="repair": check(room.activity.text.contains("Stale"),"Room activity must preserve stale authoritative work")
 		var goal: Vector3 = room.content.get_node("WalkTarget").global_position
@@ -90,10 +95,11 @@ func run() -> void:
 	world.hud.room_requested.emit("review")
 	await process_frame
 	check(world.room_kind=="review" and not world.hud.is_open(),"Inspector visit button enters its selected room")
+	var crew_before_switch:Vector3=world.get_node("Surveyor").position
 	world.enter_room("gym")
 	await process_frame
 	check(world.room_kind=="gym","Direct room switching replaces the prior interior")
-	check(world.get_node("Surveyor").position.z<20,"Switching rooms restores the previous crew member")
+	check(world.get_node("Surveyor").position.distance_to(crew_before_switch)<0.1,"Switching rooms preserves crew position instead of teleporting it from home")
 	key(world,KEY_M)
 	check(world.active_room==null and world.colony_overview,"Map exits the room into colony overview")
 	check(world.commands.payload.is_empty(),"All travel and inspection remained free of dispatch")

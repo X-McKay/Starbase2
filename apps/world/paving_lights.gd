@@ -61,9 +61,9 @@ func _ready() -> void:
 	for rect in cores: halos.append(rect.grow(0.12))
 	var blue := ShaderMaterial.new()
 	blue.shader=preload("res://paving_glow.gdshader")
-	blue.set_shader_parameter("tint",Color("168dff"))
+	blue.set_shader_parameter("tint",Color("73979f"))
 	mesh_part("PadHalo",halos,blue,HEIGHT)
-	mesh_part("PadNeon",cores,steady("71dfff"),HEIGHT+0.006)
+	mesh_part("PadNeon",cores,steady("658086"),HEIGHT+0.006)
 	var edges: Array[Rect2]=[]
 	for edge in road_edges(): edges.append(edge.rect)
 	mesh_part("RoadOutline",edges,steady("b4ab78"),HEIGHT)

@@ -1,0 +1,2 @@
+python3 scripts/check_world_export.py --output .local/reviews/native-operations/20260909-final-05
+Export qualified. Artifact, captures, logs and provenance: /Users/al/git/Starbase2/.local/reviews/native-operations/20260909-final-05

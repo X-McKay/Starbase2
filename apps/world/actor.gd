@@ -5,7 +5,10 @@ const Catalog = preload("res://characters/catalog.gd")
 const Gait = preload("res://characters/gait.gd")
 const ModelVisual = preload("res://characters/model_visual.gd")
 var model_visual: Node3D
+var support_sample:Callable
+var contact_shadow:MeshInstance3D
 var presentation_pose := ""
+var presentation_facing := Vector3(INF,0,0)
 signal foot_contact
 @export var character_definition: Resource
 var gait := Gait.new()
@@ -42,7 +45,8 @@ func _ready() -> void:
 	if character_definition.model_scene:
 		model_visual = ModelVisual.new()
 		add_child(model_visual)
-		model_visual.configure(character_definition.model_scene, character_definition.model_scale, character_definition.model_floor_offset)
+		model_visual.configure_definition(character_definition)
+		model_visual.set_motion_profile(character_definition.motion_profile)
 		model_visual.apply_role(character_definition.model_tint*suit_tint)
 		sprite.visible = false
 	var shape := CollisionShape3D.new()
@@ -59,7 +63,35 @@ func _ready() -> void:
 	label.pixel_size = 0.021
 	# Grounding shadow complements the real directional sprite shadow.
 	var shadow := Art.cylinder(self, Vector3(0, 0.015, 0), 0.36, 0.015, "456169")
+	contact_shadow=shadow
 	shadow.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+
+func replace_character_definition(definition:Resource) -> void:
+	if definition==character_definition:return
+	var previous_visual:Node3D=model_visual
+	var heading:float=previous_visual.rotation.y if is_instance_valid(previous_visual) else 0.0
+	character_definition=definition
+	sprite.sprite_frames=definition.frames()
+	sprite.animation=definition.animation_for(gait.moving and not reduced_motion,facing)
+	_apply_layout()
+	model_visual=null
+	if definition.model_scene:
+		model_visual=ModelVisual.new();add_child(model_visual)
+		model_visual.configure_definition(definition)
+		model_visual.set_motion_profile(definition.motion_profile)
+		model_visual.apply_role(definition.model_tint*suit_tint)
+		model_visual.rotation.y=heading
+		model_visual.heading=previous_visual.heading if is_instance_valid(previous_visual) else heading
+		var face_delta:=presentation_facing-global_position
+		var face_heading:=atan2(face_delta.x,face_delta.z) if is_finite(presentation_facing.x) else INF
+		model_visual.project(Vector3.ZERO,false,gait.phase,reduced_motion,0.0,presentation_pose,face_heading)
+		# Keep the displayed turn continuous; the next physics step projects measured motion.
+		model_visual.rotation.y=heading
+		if is_instance_valid(previous_visual):model_visual.turn_velocity=previous_visual.turn_velocity
+	if is_instance_valid(previous_visual):
+		remove_child(previous_visual);previous_visual.queue_free()
+	sprite.visible=model_visual==null
+	label.position.y=definition.label_height
 
 func _physics_process(_delta: float) -> void:
 	var teleported:=global_position.distance_to(last_position)>0.5
@@ -70,11 +102,17 @@ func _physics_process(_delta: float) -> void:
 	traveled.y=0
 	last_position=global_position
 	var stride: float = character_definition.model_stride if model_visual else character_definition.stride
-	if model_visual and model_visual.animation.has_animation("run") and traveled.length()/maxf(_delta,0.001)>5.0:
+	var measured_speed:=traveled.length()/maxf(_delta,0.001)
+	if model_visual and model_visual.animation.has_animation("run") and (measured_speed>5.2 or (model_visual.run_selected and measured_speed>=4.7)):
 		stride=character_definition.model_run_stride
 	gait.advance(traveled.length(),stride,teleported)
 	if model_visual:
-		model_visual.project(traveled,gait.moving,gait.phase,reduced_motion,_delta,presentation_pose)
+		var face_delta:=presentation_facing-global_position
+		var face_heading:=atan2(face_delta.x,face_delta.z) if is_finite(presentation_facing.x) else INF
+		model_visual.support_sample=support_sample
+		model_visual.project(traveled,gait.moving,gait.phase,reduced_motion,_delta,presentation_pose,face_heading)
+	if contact_shadow!=null and support_sample.is_valid():
+		contact_shadow.position.y=float(support_sample.call(global_position))-global_position.y+0.015
 	if gait.moving:
 		if absf(traveled.x)>absf(traveled.z):
 			facing=3 if traveled.x>0 else 2
@@ -99,3 +137,17 @@ func _apply_layout() -> void:
 		sprite.pixel_size=layout.pixel_size
 		sprite.offset=Vector2(size.x*.5-anchor.x,anchor.y-size.y*.5)
 		sprite.position.y=0; sprite.shaded=layout.get("shaded",false)
+
+# Static, color-independent assignment cues. Structured inspectors own full run IDs.
+# This changes only the existing label: no timers, movement, or command dispatch.
+func project_assignment(intent: Dictionary, large_text: bool = false) -> void:
+	if label==null: return
+	var markers: Array=intent.get("task_markers",[])
+	var summary:=str(intent.get("label","No recorded work"))
+	if not markers.is_empty():
+		summary="%s %s" % [markers[0].get("icon","?"),markers[0].get("text","Unknown")]
+		if int(intent.get("active_count",0))>1: summary+=" · %d tasks" % int(intent.active_count)
+	label.text=display_name+"\n"+summary
+	label.set_meta("retained_count",markers.size()+int(intent.get("marker_overflow",0)))
+	label.font_size=22 if large_text else 18
+	label.modulate=Color(markers[0].get("color","e8e6d4")) if not markers.is_empty() else Color("e8e6d4")

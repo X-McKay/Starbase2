@@ -1,0 +1,1 @@
+Qualification intentionally stopped before native capture: independent visual audit found missing double-sided foliage rendering. Candidate superseded; do not treat as qualified.

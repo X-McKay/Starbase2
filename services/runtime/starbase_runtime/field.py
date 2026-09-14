@@ -30,6 +30,10 @@ def targets(watches: list | None = None) -> dict:
     values = json.loads(Path(path).read_text()) if path else field_sources.DEFAULT_TARGETS
     result = {}
     for target in values:
+        target = target | {
+            "daily_inference_limit": target.get("daily_inference_limit", 24),
+            "inference_min_interval_seconds": target.get("inference_min_interval_seconds", 0),
+        }
         field_sources.validate_target(target)
         if target["id"] in result:
             raise ValueError("Duplicate field target")
@@ -136,6 +140,13 @@ async def field_analyze(run_id: str) -> dict:
 
 @activity.defn
 async def field_advice(input: dict) -> dict:
+    run = await frozen(input["id"])
+    budget = run.get("inference_budget")
+    if budget and budget["status"] != "admitted":
+        return {"status": "skipped", "reason": budget["reason"], "calls": 0}
+    # Legacy admitted runs have no budget object; Core counts them conservatively.
+    if not run["input"]["inference"] or os.environ.get("STARBASE_INFERENCE_ENABLED") == "false":
+        return {"status": "skipped", "reason": "Inference disabled before dispatch", "calls": 0}
     # One provider activity attempt. Uncertain requests are never automatically repeated.
     import httpx2
     from openai import AsyncOpenAI
@@ -150,7 +161,6 @@ async def field_advice(input: dict) -> dict:
         summary: str = Field(max_length=3000)
         recommendation: str = Field(max_length=3000)
 
-    run = await frozen(input["id"])
     config = run["build"]["manifest"]["inference"]
     start = time.monotonic()
     # Only frozen, masked source / normalized observations and reviewed facts enter the model.

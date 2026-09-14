@@ -8,6 +8,43 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 LABEL = "starbase2.io/installation"
 
+# Runs from the qualified runtime image without mounting application credentials.
+# SIGALRM also bounds DNS resolution, which socket's connect timeout does not cover.
+DEPENDENCY_WAIT = """import signal
+import socket
+import sys
+import time
+
+def expired(*_):
+    print("Dependency TCP readiness timed out after 60 seconds", flush=True)
+    raise SystemExit(1)
+
+signal.signal(signal.SIGALRM, expired)
+signal.alarm(60)
+deadline = time.monotonic() + 60
+pending = [address.rsplit(":", 1) for address in sys.argv[1:]]
+try:
+    while pending:
+        for host, port in list(pending):
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                expired()
+            try:
+                with socket.create_connection((host, int(port)), timeout=min(2, remaining)):
+                    pass
+            except OSError:
+                continue
+            print("Dependency TCP ready: " + host + ":" + port, flush=True)
+            pending.remove([host, port])
+        if pending:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                expired()
+            time.sleep(min(1, remaining))
+finally:
+    signal.alarm(0)
+"""
+
 
 def load(path: Path) -> dict:
     c = json.loads(path.read_text())
@@ -39,9 +76,19 @@ def load(path: Path) -> dict:
         raise ValueError("Invalid dedicated database name")
     if c["namespace"] != c["installation"] or c["temporal_namespace"] != c["installation"]:
         raise ValueError("Installation, Kubernetes namespace and Temporal namespace must match")
+    if not c["temporal_queue"].startswith(c["installation"] + "-"):
+        raise ValueError("Temporal queue must belong to the selected installation")
     for key in ("postgres_namespace", "temporal_kubernetes_namespace"):
         if not re.fullmatch(r"[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?", c[key]):
             raise ValueError(f"Invalid dependency namespace: {key}")
+        if (
+            c[key] == c["namespace"]
+            or c[key] == "default"
+            or c[key].startswith("kube-")
+            or c[key] == "starbase"
+            or c[key].startswith("starbase-")
+        ):
+            raise ValueError(f"{key} requires a dedicated existing infrastructure namespace")
     if not re.fullmatch(r"[a-z0-9][a-z0-9.-]{0,250}", c["postgres_host"]):
         raise ValueError("PostgreSQL host must be a DNS name")
     if not re.fullmatch(r"[a-z0-9][a-z0-9.-]{0,250}:7233", c["temporal_address"]):
@@ -49,6 +96,10 @@ def load(path: Path) -> dict:
     for key in ("core_image", "runtime_image"):
         if not re.fullmatch(r"[a-zA-Z0-9./:_-]+@sha256:[a-f0-9]{64}", c[key]):
             raise ValueError(f"{key} requires an immutable published digest")
+        component = key.removesuffix("_image")
+        repository = c[key].split("@", 1)[0]
+        if not repository.endswith("/starbase2/" + component):
+            raise ValueError(f"{key} must use the starbase2/{component} image repository")
     if not re.fullmatch(r"[a-f0-9]{40}", c["source_revision"]):
         raise ValueError("source_revision requires a committed revision")
     if c["platform"] not in {"linux/amd64", "linux/arm64"}:
@@ -95,6 +146,19 @@ def objects(c: dict) -> list[dict]:
         "readOnlyRootFilesystem": True,
         "capabilities": {"drop": ["ALL"]},
     }
+
+    def dependency_wait(addresses):
+        return {
+            "name": "starbase2-wait-dependencies",
+            "image": c["runtime_image"],
+            "command": ["/app/.venv/bin/python", "-u", "-c", DEPENDENCY_WAIT, *addresses],
+            "securityContext": security,
+            "resources": {
+                "requests": {"cpu": "10m", "memory": "32Mi"},
+                "limits": {"cpu": "100m", "memory": "64Mi"},
+            },
+        }
+
     common = {
         "STARBASE_ENV": "production",
         "STARBASE_INSTALLATION": c["installation"],
@@ -181,6 +245,7 @@ def objects(c: dict) -> list[dict]:
             "seccompProfile": {"type": "RuntimeDefault"},
         },
         "terminationGracePeriodSeconds": 90,
+        "initContainers": [dependency_wait([c["postgres_host"] + ":5432", c["temporal_address"]])],
         "containers": [core, runtime],
         "volumes": [
             secret_volume("starbase2-worker"),
@@ -312,9 +377,14 @@ def objects(c: dict) -> list[dict]:
             "activeDeadlineSeconds": 180,
             "template": {
                 "metadata": {"labels": labels},
-                "spec": {k: v for k, v in pod.items() if k not in {"containers", "volumes"}}
+                "spec": {
+                    k: v
+                    for k, v in pod.items()
+                    if k not in {"containers", "initContainers", "volumes"}
+                }
                 | {
                     "restartPolicy": "Never",
+                    "initContainers": [dependency_wait([c["postgres_host"] + ":5432"])],
                     "containers": [
                         {
                             "name": "migrate",

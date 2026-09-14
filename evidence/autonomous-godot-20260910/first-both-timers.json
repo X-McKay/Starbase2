@@ -1,0 +1,376 @@
+{
+  "duties": [
+    {
+      "agent": "reviewer",
+      "enabled": true,
+      "generation": 0,
+      "id": "starbase2-github-autonomous",
+      "inference": true,
+      "interval_seconds": 900,
+      "target": "starbase2-github"
+    },
+    {
+      "agent": "watchkeeper",
+      "enabled": true,
+      "generation": 0,
+      "id": "starbase2-watchkeeper-autonomous",
+      "inference": true,
+      "interval_seconds": 300,
+      "target": "starbase2-watchkeeper"
+    }
+  ],
+  "runs": [
+    {
+      "input": {
+        "agent": "reviewer",
+        "id": "duty-starbase2-github-autonomous-0-1789079442",
+        "inference": true,
+        "target": "starbase2-github"
+      },
+      "state": "completed",
+      "detail": "No findings within declared checks",
+      "created_at": 1789079442.8346834,
+      "updated_at": 1789079443.6898575,
+      "inference_budget": {
+        "limit": 24,
+        "next_eligible_at": 1789082064.1864243,
+        "reason": "Inference minimum interval has not elapsed",
+        "status": "skipped",
+        "used": 1,
+        "utc_day": 20706
+      },
+      "source": {
+        "kind": "repository",
+        "simulation": false,
+        "repository": "X-McKay/Starbase2",
+        "listed_open_prs": 0,
+        "list_complete": true
+      },
+      "snapshot_digest": "b3eed63c0bce4106bb0a5a7c3ab18d7c85f462f6339626b769101271342e7be1",
+      "finding_count": 0,
+      "coverage": [],
+      "advisory": {
+        "status": "skipped",
+        "reason": "Inference minimum interval has not elapsed",
+        "calls": 0
+      },
+      "advice_retained": false,
+      "memory_status": "empty",
+      "events": [
+        {
+          "at": 1789079442.8346834,
+          "state": "queued"
+        },
+        {
+          "action": "running",
+          "at": 1789079443.0306902,
+          "state": "running"
+        },
+        {
+          "action": "snapshot",
+          "at": 1789079443.3464143,
+          "state": "running"
+        },
+        {
+          "action": "finish",
+          "at": 1789079443.6898575,
+          "state": "completed"
+        }
+      ]
+    },
+    {
+      "input": {
+        "agent": "watchkeeper",
+        "id": "duty-starbase2-watchkeeper-autonomous-0-1789078842",
+        "inference": true,
+        "target": "starbase2-watchkeeper"
+      },
+      "state": "completed",
+      "detail": "No findings within declared checks",
+      "created_at": 1789078842.800953,
+      "updated_at": 1789078844.0400617,
+      "inference_budget": {
+        "limit": 24,
+        "next_eligible_at": 1789082064.1466992,
+        "reason": "Inference minimum interval has not elapsed",
+        "status": "skipped",
+        "used": 1,
+        "utc_day": 20706
+      },
+      "source": {
+        "kind": "cluster",
+        "simulation": false
+      },
+      "snapshot_digest": "2caabaf376097309e591d816f0eef4b9ecdcd3e3a6bbd87dc3d590520e82644d",
+      "finding_count": 0,
+      "coverage": [],
+      "advisory": {
+        "status": "skipped",
+        "reason": "Inference minimum interval has not elapsed",
+        "calls": 0
+      },
+      "advice_retained": false,
+      "memory_status": "empty",
+      "events": [
+        {
+          "at": 1789078842.800953,
+          "state": "queued"
+        },
+        {
+          "action": "running",
+          "at": 1789078843.6650875,
+          "state": "running"
+        },
+        {
+          "action": "snapshot",
+          "at": 1789078843.7097435,
+          "state": "running"
+        },
+        {
+          "action": "finish",
+          "at": 1789078844.0400617,
+          "state": "completed"
+        }
+      ]
+    },
+    {
+      "input": {
+        "agent": "watchkeeper",
+        "id": "duty-starbase2-watchkeeper-autonomous-0-1789079142",
+        "inference": true,
+        "target": "starbase2-watchkeeper"
+      },
+      "state": "completed",
+      "detail": "No findings within declared checks",
+      "created_at": 1789079142.977822,
+      "updated_at": 1789079144.6770756,
+      "inference_budget": {
+        "limit": 24,
+        "next_eligible_at": 1789082064.1466992,
+        "reason": "Inference minimum interval has not elapsed",
+        "status": "skipped",
+        "used": 1,
+        "utc_day": 20706
+      },
+      "source": {
+        "kind": "cluster",
+        "simulation": false
+      },
+      "snapshot_digest": "2caabaf376097309e591d816f0eef4b9ecdcd3e3a6bbd87dc3d590520e82644d",
+      "finding_count": 0,
+      "coverage": [],
+      "advisory": {
+        "status": "skipped",
+        "reason": "Inference minimum interval has not elapsed",
+        "calls": 0
+      },
+      "advice_retained": false,
+      "memory_status": "empty",
+      "events": [
+        {
+          "at": 1789079142.977822,
+          "state": "queued"
+        },
+        {
+          "action": "running",
+          "at": 1789079144.2953858,
+          "state": "running"
+        },
+        {
+          "action": "snapshot",
+          "at": 1789079144.3399205,
+          "state": "running"
+        },
+        {
+          "action": "finish",
+          "at": 1789079144.6770756,
+          "state": "completed"
+        }
+      ]
+    },
+    {
+      "input": {
+        "agent": "watchkeeper",
+        "id": "duty-starbase2-watchkeeper-autonomous-0-1789079443",
+        "inference": true,
+        "target": "starbase2-watchkeeper"
+      },
+      "state": "completed",
+      "detail": "No findings within declared checks",
+      "created_at": 1789079443.1363149,
+      "updated_at": 1789079444.633839,
+      "inference_budget": {
+        "limit": 24,
+        "next_eligible_at": 1789082064.1466992,
+        "reason": "Inference minimum interval has not elapsed",
+        "status": "skipped",
+        "used": 1,
+        "utc_day": 20706
+      },
+      "source": {
+        "kind": "cluster",
+        "simulation": false
+      },
+      "snapshot_digest": "2caabaf376097309e591d816f0eef4b9ecdcd3e3a6bbd87dc3d590520e82644d",
+      "finding_count": 0,
+      "coverage": [],
+      "advisory": {
+        "status": "skipped",
+        "reason": "Inference minimum interval has not elapsed",
+        "calls": 0
+      },
+      "advice_retained": false,
+      "memory_status": "empty",
+      "events": [
+        {
+          "at": 1789079443.1363149,
+          "state": "queued"
+        },
+        {
+          "action": "running",
+          "at": 1789079444.2621207,
+          "state": "running"
+        },
+        {
+          "action": "snapshot",
+          "at": 1789079444.3055449,
+          "state": "running"
+        },
+        {
+          "action": "finish",
+          "at": 1789079444.633839,
+          "state": "completed"
+        }
+      ]
+    },
+    {
+      "input": {
+        "agent": "reviewer",
+        "id": "live-reasoning-1d3b40005fbb",
+        "inference": true,
+        "target": "starbase2-github"
+      },
+      "state": "completed",
+      "detail": "No findings within declared checks",
+      "created_at": 1789078464.1864243,
+      "updated_at": 1789078516.9586565,
+      "inference_budget": {
+        "limit": 24,
+        "next_eligible_at": 1789082064.1864243,
+        "reason": "Daily inference slot reserved; failed or uncertain attempts are not refunded",
+        "status": "admitted",
+        "used": 1,
+        "utc_day": 20706
+      },
+      "source": {
+        "kind": "repository",
+        "simulation": false,
+        "repository": "X-McKay/Starbase2",
+        "listed_open_prs": 0,
+        "list_complete": true
+      },
+      "snapshot_digest": "b3eed63c0bce4106bb0a5a7c3ab18d7c85f462f6339626b769101271342e7be1",
+      "finding_count": 0,
+      "coverage": [],
+      "advisory": {
+        "status": "unverified",
+        "calls": 1,
+        "usage": {
+          "details": {},
+          "input_tokens": 575,
+          "output_tokens": 230,
+          "requests": 1
+        },
+        "model": "Qwen3.6-35B-A3B-NVFP4",
+        "elapsed_ms": 51003,
+        "cost_usd": null
+      },
+      "advice_retained": true,
+      "memory_status": "empty",
+      "events": [
+        {
+          "at": 1789078464.1864243,
+          "state": "queued"
+        },
+        {
+          "action": "running",
+          "at": 1789078464.9501584,
+          "state": "running"
+        },
+        {
+          "action": "snapshot",
+          "at": 1789078465.6306865,
+          "state": "running"
+        },
+        {
+          "action": "finish",
+          "at": 1789078516.9586565,
+          "state": "completed"
+        }
+      ]
+    },
+    {
+      "input": {
+        "agent": "watchkeeper",
+        "id": "live-reasoning-ffbb2eb14eb6",
+        "inference": true,
+        "target": "starbase2-watchkeeper"
+      },
+      "state": "completed",
+      "detail": "No findings within declared checks",
+      "created_at": 1789078464.1466992,
+      "updated_at": 1789078511.2021477,
+      "inference_budget": {
+        "limit": 24,
+        "next_eligible_at": 1789082064.1466992,
+        "reason": "Daily inference slot reserved; failed or uncertain attempts are not refunded",
+        "status": "admitted",
+        "used": 1,
+        "utc_day": 20706
+      },
+      "source": {
+        "kind": "cluster",
+        "simulation": false
+      },
+      "snapshot_digest": "2caabaf376097309e591d816f0eef4b9ecdcd3e3a6bbd87dc3d590520e82644d",
+      "finding_count": 0,
+      "coverage": [],
+      "advisory": {
+        "status": "unverified",
+        "calls": 1,
+        "usage": {
+          "details": {},
+          "input_tokens": 797,
+          "output_tokens": 201,
+          "requests": 1
+        },
+        "model": "Qwen3.6-35B-A3B-NVFP4",
+        "elapsed_ms": 45791,
+        "cost_usd": null
+      },
+      "advice_retained": true,
+      "memory_status": "empty",
+      "events": [
+        {
+          "at": 1789078464.1466992,
+          "state": "queued"
+        },
+        {
+          "action": "running",
+          "at": 1789078465.003042,
+          "state": "running"
+        },
+        {
+          "action": "snapshot",
+          "at": 1789078465.0544834,
+          "state": "running"
+        },
+        {
+          "action": "finish",
+          "at": 1789078511.2021477,
+          "state": "completed"
+        }
+      ]
+    }
+  ]
+}

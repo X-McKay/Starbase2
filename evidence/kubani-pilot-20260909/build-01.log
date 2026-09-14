@@ -1,0 +1,454 @@
+podman build --platform linux/amd64 --pull=always --label org.opencontainers.image.revision=ef60c6acc7afdc238c44af4f01fefb75cff03aaf --file deploy/core.Dockerfile --tag registry.almckay.io/starbase2/core:ef60c6acc7afdc238c44af4f01fefb75cff03aaf --build-arg RUST_IMAGE=docker.io/library/rust@sha256:408fe88047cef61a2087653b0c5255fa51c0f2d6d94ddedd7a2562a9b91a46f6 --build-arg BASE_IMAGE=docker.io/library/debian@sha256:5ae3c39ebd15e229dcedd5cee596b2497182493d41ff162e824ba13fc1b2b867 .
+[1/2] STEP 1/6: FROM docker.io/library/rust@sha256:408fe88047cef61a2087653b0c5255fa51c0f2d6d94ddedd7a2562a9b91a46f6 AS build
+Trying to pull docker.io/library/rust@sha256:408fe88047cef61a2087653b0c5255fa51c0f2d6d94ddedd7a2562a9b91a46f6...
+Getting image source signatures
+Copying blob sha256:3af9207d37990175f61d5ce9faa0c7373ffcd2d6da1b6ba0a9ca9d61f8f47cc9
+Copying blob sha256:6b02178232c403d8a6d5b460ad955daba177c38e178ed7dd417e5c4d748e948d
+Copying blob sha256:d32ed818f20fae825717c40dbc77cd4ed4bcefad6ba95a83f8c4f3c1f8631c31
+Copying blob sha256:a6c1a23a6280781f0cf3b6b3a43fc59462763953c4285dd4addc7d4963cc923f
+Copying blob sha256:c5a4625b533197abb25ea2a32be06c59c984d97c3c2dc9952e0b76f2e81ee0d2
+Copying config sha256:897e260d0a1a5a5146433bdb73f62bd84f5f47e846d3485e5f70f63912b5917d
+Writing manifest to image destination
+[1/2] STEP 2/6: WORKDIR /build
+--> Using cache a39ccf369c11b19b586d7a95b4e0327c165e22bdfd0362cfe56ea6a9079301a6
+--> a39ccf369c11
+[1/2] STEP 3/6: COPY Cargo.toml Cargo.lock rust-toolchain.toml ./
+--> Using cache 58e7d05abcfd7ff149dc508497cf6ab640fb1d0821dd1d7f35217ee29c345c6d
+--> 58e7d05abcfd
+[1/2] STEP 4/6: COPY services/core services/core
+--> e9d4ebc74ea2
+[1/2] STEP 5/6: COPY apps/console apps/console
+--> 74fc1e61672e
+[1/2] STEP 6/6: RUN cargo build --release --locked -p starbase-core
+info: syncing channel updates for 1.97.1-x86_64-unknown-linux-gnu
+info: latest update on 2026-07-16 for version 1.97.1 (8bab26f4f 2026-07-14)
+info: downloading component clippy
+    Updating crates.io index
+ Downloading crates ...
+  Downloaded cfg-if v1.0.4
+  Downloaded crc v3.4.0
+  Downloaded block-buffer v0.10.4
+  Downloaded block-buffer v0.12.1
+  Downloaded rand_core v0.10.1
+  Downloaded cpufeatures v0.3.0
+  Downloaded atoi v2.0.0
+  Downloaded crypto-common v0.2.2
+  Downloaded signal-hook-registry v1.4.8
+  Downloaded ryu v1.0.23
+  Downloaded atomic-waker v1.1.2
+  Downloaded cpufeatures v0.2.17
+  Downloaded crypto-common v0.1.7
+  Downloaded ref-cast v1.0.27
+  Downloaded scopeguard v1.2.0
+  Downloaded http-body v1.1.0
+  Downloaded hex v0.4.3
+  Downloaded autocfg v1.5.1
+  Downloaded byteorder v1.5.0
+  Downloaded cmov v0.5.4
+  Downloaded serde_urlencoded v0.7.1
+  Downloaded futures-io v0.3.34
+  Downloaded mime v0.3.17
+  Downloaded subtle v2.6.1
+  Downloaded futures-task v0.3.34
+  Downloaded tower-layer v0.3.3
+  Downloaded tinyvec_macros v0.1.1
+  Downloaded tower-service v0.3.3
+  Downloaded tokio-macros v2.7.2
+  Downloaded futures-core v0.3.34
+  Downloaded parking v2.2.1
+  Downloaded stable_deref_trait v1.2.1
+  Downloaded dyn-clone v1.0.20
+  Downloaded errno v0.3.14
+  Downloaded potential_utf v0.1.6
+  Downloaded fallible-streaming-iterator v0.1.9
+  Downloaded sync_wrapper v1.0.2
+  Downloaded utf8_iter v1.0.4
+  Downloaded futures-sink v0.3.34
+  Downloaded form_urlencoded v1.2.2
+  Downloaded itoa v1.0.18
+  Downloaded zerofrom v0.1.8
+  Downloaded idna_adapter v1.2.2
+  Downloaded generic-array v0.14.7
+  Downloaded heck v0.5.0
+  Downloaded zerofrom-derive v0.1.7
+  Downloaded untrusted v0.9.0
+  Downloaded dotenvy v0.15.7
+  Downloaded version_check v0.9.5
+  Downloaded axum-core v0.5.6
+  Downloaded crc-catalog v2.5.0
+  Downloaded ctutils v0.4.2
+  Downloaded http-body-util v0.1.5
+  Downloaded md-5 v0.11.0
+  Downloaded hashlink v0.11.1
+  Downloaded httpdate v1.0.3
+  Downloaded ref-cast-impl v1.0.27
+  Downloaded lock_api v0.4.14
+  Downloaded pin-project-lite v0.2.17
+  Downloaded hashlink v0.9.1
+  Downloaded digest v0.10.7
+  Downloaded percent-encoding v2.3.2
+  Downloaded fallible-iterator v0.3.0
+  Downloaded equivalent v1.0.2
+  Downloaded foldhash v0.2.0
+  Downloaded displaydoc v0.2.7
+  Downloaded pkg-config v0.3.34
+  Downloaded shlex v2.0.1
+  Downloaded smallvec v1.16.0
+  Downloaded find-msvc-tools v0.1.12
+  Downloaded sha2 v0.10.9
+  Downloaded chacha20 v0.10.1
+  Downloaded crossbeam-queue v0.3.13
+  Downloaded digest v0.11.3
+  Downloaded thiserror-impl v2.0.20
+  Downloaded ahash v0.8.12
+  Downloaded hybrid-array v0.4.14
+  Downloaded synstructure v0.13.2
+  Downloaded hmac v0.13.0
+  Downloaded stringprep v0.1.5
+  Downloaded httparse v1.10.1
+  Downloaded getrandom v0.2.17
+  Downloaded futures-channel v0.3.34
+  Downloaded parking_lot v0.12.5
+  Downloaded thiserror v2.0.20
+  Downloaded yoke-derive v0.8.2
+  Downloaded once_cell v1.21.4
+  Downloaded matchit v0.8.4
+  Downloaded litemap v0.8.3
+  Downloaded parking_lot_core v0.9.12
+  Downloaded event-listener v5.4.2
+  Downloaded writeable v0.6.4
+  Downloaded whoami v2.1.3
+  Downloaded either v1.17.0
+  Downloaded schemars_derive v1.2.1
+  Downloaded bitflags v2.13.1
+  Downloaded icu_provider v2.3.0
+  Downloaded crossbeam-utils v0.8.22
+  Downloaded serde_path_to_error v0.1.20
+  Downloaded slab v0.4.12
+  Downloaded getrandom v0.4.3
+  Downloaded log v0.4.34
+  Downloaded num-traits v0.2.19
+  Downloaded quote v1.0.47
+  Downloaded zeroize v1.9.0
+  Downloaded tinystr v0.8.4
+  Downloaded zmij v1.0.23
+  Downloaded base64 v0.22.1
+  Downloaded allocator-api2 v0.2.21
+  Downloaded bytes v1.12.1
+  Downloaded rustls-pki-types v1.15.1
+  Downloaded sha2 v0.11.0
+  Downloaded icu_locale_core v2.3.0
+  Downloaded zerovec-derive v0.11.4
+  Downloaded sqlx-macros v0.9.0
+  Downloaded proc-macro2 v1.0.107
+  Downloaded unicode-properties v0.1.4
+  Downloaded icu_normalizer_data v2.3.0
+  Downloaded futures-intrusive v0.5.0
+  Downloaded tokio-stream v0.1.19
+  Downloaded icu_collections v2.3.0
+  Downloaded rand v0.10.2
+  Downloaded mio v1.2.3
+  Downloaded memchr v2.8.3
+  Downloaded tracing-attributes v0.1.31
+  Downloaded yoke v0.8.3
+  Downloaded cc v1.4.5
+  Downloaded serde_derive v1.0.229
+  Downloaded serde_derive_internals v0.29.1
+  Downloaded socket2 v0.6.5
+  Downloaded http v1.5.0
+  Downloaded indexmap v2.14.0
+  Downloaded unicode-ident v1.0.24
+  Downloaded icu_properties v2.3.0
+  Downloaded tracing-core v0.1.36
+  Downloaded hyper-util v0.1.20
+  Downloaded tinyvec v1.12.0
+  Downloaded hashbrown v0.16.1
+  Downloaded hashbrown v0.14.5
+  Downloaded idna v1.1.0
+  Downloaded axum v0.8.8
+  Downloaded serde_core v1.0.229
+  Downloaded icu_properties_data v2.3.0
+  Downloaded futures-util v0.3.34
+  Downloaded hashbrown v0.17.1
+  Downloaded hkdf v0.13.0
+  Downloaded hyper v1.11.1
+  Downloaded unicode-bidi v0.3.18
+  Downloaded sqlx-macros-core v0.9.0
+  Downloaded serde v1.0.229
+  Downloaded url v2.5.8
+  Downloaded icu_normalizer v2.3.0
+  Downloaded rustls-webpki v0.103.14
+  Downloaded zerotrie v0.2.5
+  Downloaded schemars v1.2.1
+  Downloaded libc v0.2.189
+  Downloaded tower v0.5.3
+  Downloaded typenum v1.20.1
+  Downloaded unicode-normalization v0.1.25
+  Downloaded zerovec v0.11.7
+  Downloaded rusqlite v0.32.1
+  Downloaded serde_json v1.0.149
+  Downloaded sqlx-core v0.9.0
+  Downloaded sqlx-postgres v0.9.0
+  Downloaded webpki-roots v1.0.9
+  Downloaded vcpkg v0.2.15
+  Downloaded sqlx v0.9.0
+  Downloaded zerocopy v0.8.56
+  Downloaded syn v2.0.119
+  Downloaded syn v3.0.5
+  Downloaded rustls v0.23.43
+  Downloaded libsqlite3-sys v0.30.1
+  Downloaded tracing v0.1.44
+  Downloaded tokio v1.53.1
+  Downloaded ring v0.17.14
+   Compiling proc-macro2 v1.0.107
+   Compiling unicode-ident v1.0.24
+   Compiling quote v1.0.47
+   Compiling libc v0.2.189
+   Compiling cfg-if v1.0.4
+   Compiling version_check v0.9.5
+   Compiling typenum v1.20.1
+   Compiling stable_deref_trait v1.2.1
+   Compiling pin-project-lite v0.2.17
+   Compiling shlex v2.0.1
+   Compiling smallvec v1.16.0
+   Compiling find-msvc-tools v0.1.12
+   Compiling bytes v1.12.1
+   Compiling once_cell v1.21.4
+   Compiling futures-core v0.3.34
+   Compiling itoa v1.0.18
+   Compiling writeable v0.6.4
+   Compiling litemap v0.8.3
+   Compiling futures-sink v0.3.34
+   Compiling utf8_iter v1.0.4
+   Compiling icu_properties_data v2.3.0
+   Compiling icu_normalizer_data v2.3.0
+   Compiling cmov v0.5.4
+   Compiling memchr v2.8.3
+   Compiling serde_core v1.0.229
+   Compiling log v0.4.34
+   Compiling zeroize v1.9.0
+   Compiling percent-encoding v2.3.2
+   Compiling parking_lot_core v0.9.12
+   Compiling futures-task v0.3.34
+   Compiling zerocopy v0.8.56
+   Compiling autocfg v1.5.1
+   Compiling futures-io v0.3.34
+   Compiling untrusted v0.9.0
+   Compiling scopeguard v1.2.0
+   Compiling slab v0.4.12
+   Compiling crossbeam-utils v0.8.22
+   Compiling equivalent v1.0.2
+   Compiling lock_api v0.4.14
+   Compiling futures-channel v0.3.34
+   Compiling foldhash v0.2.0
+   Compiling cc v1.4.5
+   Compiling tracing-core v0.1.36
+   Compiling generic-array v0.14.7
+   Compiling rustls-pki-types v1.15.1
+   Compiling ahash v0.8.12
+   Compiling form_urlencoded v1.2.2
+   Compiling zmij v1.0.23
+   Compiling serde v1.0.229
+   Compiling thiserror v2.0.20
+   Compiling rustls v0.23.43
+   Compiling httparse v1.10.1
+   Compiling rand_core v0.10.1
+   Compiling cpufeatures v0.3.0
+   Compiling tinyvec_macros v0.1.1
+   Compiling allocator-api2 v0.2.21
+   Compiling getrandom v0.4.3
+   Compiling pkg-config v0.3.34
+   Compiling tinyvec v1.12.0
+   Compiling ctutils v0.4.2
+   Compiling tower-service v0.3.3
+   Compiling parking v2.2.1
+   Compiling hashbrown v0.17.1
+   Compiling cpufeatures v0.2.17
+   Compiling vcpkg v0.2.15
+   Compiling serde_json v1.0.149
+   Compiling num-traits v0.2.19
+   Compiling subtle v2.6.1
+   Compiling crc-catalog v2.5.0
+   Compiling chacha20 v0.10.1
+   Compiling either v1.17.0
+   Compiling ref-cast v1.0.27
+   Compiling event-listener v5.4.2
+   Compiling unicode-properties v0.1.4
+   Compiling base64 v0.22.1
+   Compiling crc v3.4.0
+   Compiling sync_wrapper v1.0.2
+   Compiling bitflags v2.13.1
+   Compiling unicode-bidi v0.3.18
+   Compiling tower-layer v0.3.3
+   Compiling httpdate v1.0.3
+   Compiling webpki-roots v1.0.9
+   Compiling atomic-waker v1.1.2
+   Compiling byteorder v1.5.0
+   Compiling whoami v2.1.3
+   Compiling dotenvy v0.15.7
+   Compiling mime v0.3.17
+   Compiling http v1.5.0
+   Compiling futures-util v0.3.34
+   Compiling hashbrown v0.16.1
+   Compiling ryu v1.0.23
+   Compiling hex v0.4.3
+   Compiling unicode-normalization v0.1.25
+   Compiling fallible-streaming-iterator v0.1.9
+   Compiling dyn-clone v1.0.20
+   Compiling fallible-iterator v0.3.0
+   Compiling crossbeam-queue v0.3.13
+   Compiling matchit v0.8.4
+   Compiling syn v3.0.5
+   Compiling syn v2.0.119
+   Compiling hybrid-array v0.4.14
+   Compiling stringprep v0.1.5
+   Compiling indexmap v2.14.0
+   Compiling ring v0.17.14
+   Compiling libsqlite3-sys v0.30.1
+   Compiling atoi v2.0.0
+   Compiling errno v0.3.14
+   Compiling mio v1.2.3
+   Compiling socket2 v0.6.5
+   Compiling getrandom v0.2.17
+   Compiling signal-hook-registry v1.4.8
+   Compiling rand v0.10.2
+   Compiling crypto-common v0.2.2
+   Compiling block-buffer v0.12.1
+   Compiling parking_lot v0.12.5
+   Compiling hashlink v0.11.1
+   Compiling block-buffer v0.10.4
+   Compiling crypto-common v0.1.7
+   Compiling http-body v1.1.0
+   Compiling futures-intrusive v0.5.0
+   Compiling digest v0.10.7
+   Compiling http-body-util v0.1.5
+   Compiling sha2 v0.10.9
+   Compiling digest v0.11.3
+   Compiling hmac v0.13.0
+   Compiling md-5 v0.11.0
+   Compiling sha2 v0.11.0
+   Compiling hkdf v0.13.0
+   Compiling serde_path_to_error v0.1.20
+   Compiling hashbrown v0.14.5
+   Compiling zerovec-derive v0.11.4
+   Compiling displaydoc v0.2.7
+   Compiling tokio-macros v2.7.2
+   Compiling thiserror-impl v2.0.20
+   Compiling serde_derive v1.0.229
+   Compiling ref-cast-impl v1.0.27
+   Compiling synstructure v0.13.2
+   Compiling serde_derive_internals v0.29.1
+   Compiling tokio v1.53.1
+   Compiling hashlink v0.9.1
+   Compiling zerofrom-derive v0.1.7
+   Compiling yoke-derive v0.8.2
+   Compiling tracing-attributes v0.1.31
+   Compiling schemars_derive v1.2.1
+   Compiling zerofrom v0.1.8
+   Compiling yoke v0.8.3
+   Compiling zerovec v0.11.7
+   Compiling zerotrie v0.2.5
+   Compiling tracing v0.1.44
+   Compiling axum-core v0.5.6
+   Compiling tinystr v0.8.4
+   Compiling potential_utf v0.1.6
+   Compiling icu_collections v2.3.0
+   Compiling icu_locale_core v2.3.0
+   Compiling serde_urlencoded v0.7.1
+   Compiling schemars v1.2.1
+   Compiling icu_provider v2.3.0
+   Compiling icu_properties v2.3.0
+   Compiling icu_normalizer v2.3.0
+   Compiling idna_adapter v1.2.2
+   Compiling idna v1.1.0
+   Compiling url v2.5.8
+   Compiling tokio-stream v0.1.19
+   Compiling hyper v1.11.1
+   Compiling tower v0.5.3
+   Compiling rustls-webpki v0.103.14
+   Compiling hyper-util v0.1.20
+   Compiling axum v0.8.8
+   Compiling sqlx-core v0.9.0
+   Compiling sqlx-postgres v0.9.0
+   Compiling sqlx v0.9.0
+   Compiling rusqlite v0.32.1
+   Compiling starbase-core v0.1.0 (/build/services/core)
+    Finished `release` profile [optimized] target(s) in 34.84s
+--> 79d7f698ccc9
+[2/2] STEP 1/6: FROM docker.io/library/debian@sha256:5ae3c39ebd15e229dcedd5cee596b2497182493d41ff162e824ba13fc1b2b867
+Trying to pull docker.io/library/debian@sha256:5ae3c39ebd15e229dcedd5cee596b2497182493d41ff162e824ba13fc1b2b867...
+Getting image source signatures
+Copying blob sha256:a8ac7f6c67abc236e4c745052c404112b8fab6fe8ac3a329d1ef3b867ad67c71
+Copying config sha256:160466e67bb85a4099d9d9c2356b4a6a64747b281a22c142efbd4539db1b8525
+Writing manifest to image destination
+[2/2] STEP 2/6: COPY --from=build /build/target/release/starbase-core /usr/local/bin/starbase-core
+--> 188244c940aa
+[2/2] STEP 3/6: USER 10001:10001
+--> f22b1874f45f
+[2/2] STEP 4/6: WORKDIR /tmp
+--> 57bf2e0b3165
+[2/2] STEP 5/6: ENTRYPOINT ["/usr/local/bin/starbase-core"]
+--> a593ef43c444
+[2/2] STEP 6/6: LABEL "org.opencontainers.image.revision"="ef60c6acc7afdc238c44af4f01fefb75cff03aaf"
+[2/2] COMMIT registry.almckay.io/starbase2/core:ef60c6acc7afdc238c44af4f01fefb75cff03aaf
+--> 8d799b035053
+Successfully tagged registry.almckay.io/starbase2/core:ef60c6acc7afdc238c44af4f01fefb75cff03aaf
+8d799b0350530f7a5b839d00d0277e60a406928b6bf1fc907b4c74b8f2d009de
+podman build --platform linux/amd64 --pull=always --label org.opencontainers.image.revision=ef60c6acc7afdc238c44af4f01fefb75cff03aaf --file deploy/runtime.Dockerfile --tag registry.almckay.io/starbase2/runtime:ef60c6acc7afdc238c44af4f01fefb75cff03aaf --build-arg PYTHON_IMAGE=docker.io/library/python@sha256:6e13e65c55e33adf203d77ee371cf8bf5d81bd4902ef07565721f46bf44917af --build-arg UV_IMAGE=ghcr.io/astral-sh/uv@sha256:ef1726226744409e420a0b4903a915602186c356ae626be0a673b11ac87b3860 .
+[1/2] STEP 1/1: FROM ghcr.io/astral-sh/uv@sha256:ef1726226744409e420a0b4903a915602186c356ae626be0a673b11ac87b3860 AS uv
+Trying to pull ghcr.io/astral-sh/uv@sha256:ef1726226744409e420a0b4903a915602186c356ae626be0a673b11ac87b3860...
+Getting image source signatures
+Copying blob sha256:4ca6048656a65ae329c392f8655df388fad02ffd22871df88153b5f52fa86089
+Copying blob sha256:d83b8e177a755c778076527af25ded906680235fb03e2b6fcebf10a0571a2fee
+Copying config sha256:82f83ac4c515f4555ef813062b75f38e0bad9240f49ada41556d223c53153192
+Writing manifest to image destination
+--> 9dd9dac9ee45
+[2/2] STEP 1/16: FROM docker.io/library/python@sha256:6e13e65c55e33adf203d77ee371cf8bf5d81bd4902ef07565721f46bf44917af
+Trying to pull docker.io/library/python@sha256:6e13e65c55e33adf203d77ee371cf8bf5d81bd4902ef07565721f46bf44917af...
+Getting image source signatures
+Copying blob sha256:e8e392f3681c10ad9c2b19ab6614fd158f6d5a03e0f71694aea9429d38813dbd
+Copying blob sha256:8e0b0d5a4a0425bc991b95b78af125c6005a0a82a89011f076802a0265d8ff32
+Copying blob sha256:1634f3c69c84a41815c187086e80cf5fdec289c6ce620014ef3ca9b54c019279
+Copying blob sha256:039e6f9f9752f74a3ff4a6a224f64c7c864da16ed98f882107704328f41b9c42
+Copying config sha256:64d91f7b885eed272bba87909446b12ff408d4aaa5f1a0e9ca787bbea1a020b9
+Writing manifest to image destination
+[2/2] STEP 2/16: COPY --from=uv /uv /usr/local/bin/uv
+--> Using cache 76806b29bf9b5ea06611ac8d7297861347a52ed35f3271a83a0e3367c155c3d0
+--> 76806b29bf9b
+[2/2] STEP 3/16: WORKDIR /app
+--> Using cache 0d3295ae0749d67d7df27aaaea4a0b3806f684e62224012eb7be49aaa2388943
+--> 0d3295ae0749
+[2/2] STEP 4/16: ENV UV_PROJECT_ENVIRONMENT=/app/.venv UV_LINK_MODE=copy
+--> Using cache b018f14f5e46f7a2ddb8fd293a6e9cc01917d341475e8efa2cf708a809d94d6b
+--> b018f14f5e46
+[2/2] STEP 5/16: COPY pyproject.toml uv.lock ./
+--> Using cache d5d5c73dd45bb03893be5a30033fef9ece2025661f28a2c1b2e76a30fda63cf3
+--> d5d5c73dd45b
+[2/2] STEP 6/16: RUN test "$(python --version)" = "Python 3.12.13" && uv --version | grep -Eq '^uv 0\.12\.7( \([^)]*\))?$'
+--> Using cache f3b9e2b21dab1cef16df8050d0f88962e960e9f8ecbc3c5d02099e46c3ae4da7
+--> f3b9e2b21dab
+[2/2] STEP 7/16: RUN uv sync --locked --no-install-project --no-dev --no-cache
+--> Using cache 2e132b6063a881ccf073fa981a21c09a11dd6b370ed2c5caa51a2d9d3cb7108c
+--> 2e132b6063a8
+[2/2] STEP 8/16: COPY services/runtime services/runtime
+--> 153cf546349a
+[2/2] STEP 9/16: COPY services/core/src services/core/src
+--> 8701ba80c84c
+[2/2] STEP 10/16: COPY fixtures fixtures
+--> 69dd1e981099
+[2/2] STEP 11/16: COPY contracts contracts
+--> d0266a767cc3
+[2/2] STEP 12/16: ENV PATH=/app/.venv/bin:$PATH PYTHONPATH=/app/services/runtime PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+--> be4b3218ce85
+[2/2] STEP 13/16: RUN python -c "import starbase_runtime.worker"
+--> 528ad0836be2
+[2/2] STEP 14/16: USER 10001:10001
+--> 7def8f122700
+[2/2] STEP 15/16: ENTRYPOINT ["/app/.venv/bin/python", "-m", "starbase_runtime.worker", "worker"]
+--> 21f43afeca23
+[2/2] STEP 16/16: LABEL "org.opencontainers.image.revision"="ef60c6acc7afdc238c44af4f01fefb75cff03aaf"
+[2/2] COMMIT registry.almckay.io/starbase2/runtime:ef60c6acc7afdc238c44af4f01fefb75cff03aaf
+--> ac14ce6c2aa3
+Successfully tagged registry.almckay.io/starbase2/runtime:ef60c6acc7afdc238c44af4f01fefb75cff03aaf
+ac14ce6c2aa3cc02a7d587beb1dec240e8e718c3f01b6aa4d844bbd30733ebfe
+Images are local only. Publish through an authorized release workflow, then record registry digests.

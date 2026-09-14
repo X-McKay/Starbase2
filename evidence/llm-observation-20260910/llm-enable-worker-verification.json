@@ -1,0 +1,50 @@
+{
+  "resolved": [
+    "10.43.100.136"
+  ],
+  "url": "https://llm.almckay.io/v1",
+  "http_status": 200,
+  "tls_verified": true,
+  "models": [
+    "Qwen3.6-35B-A3B-NVFP4"
+  ],
+  "installation": {
+    "capabilities": {
+      "accept_work": {
+        "enabled": true,
+        "reason": "Enabled by installation policy; worker and target readiness checked separately"
+      },
+      "evaluation": {
+        "enabled": true,
+        "reason": "Enabled by installation policy; worker and target readiness checked separately"
+      },
+      "field": {
+        "enabled": false,
+        "reason": "Field observations are disabled by installation policy"
+      },
+      "inference": {
+        "enabled": true,
+        "reason": "Enabled by installation policy; worker and target readiness checked separately"
+      },
+      "memory": {
+        "enabled": false,
+        "reason": "Reviewed recall is disabled; basic observations remain available"
+      },
+      "repair": {
+        "enabled": false,
+        "reason": "Synthetic repairs are disabled by installation policy"
+      },
+      "review": {
+        "enabled": true,
+        "reason": "Enabled by installation policy; worker and target readiness checked separately"
+      }
+    },
+    "environment": "production",
+    "id": "starbase2-prod"
+  },
+  "worker": {
+    "available": true,
+    "seen_at": 1789046292.303729
+  },
+  "duties_paused": 1
+}

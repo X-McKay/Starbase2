@@ -1,0 +1,20 @@
+{
+  "name": "starbase2-6c479dd964-vzhgh",
+  "uid": "898a2052-0055-43e7-9c29-d72905253ce9",
+  "node": "rig0",
+  "source": "028f42a836e93197488580e41d3ceb38af64715c",
+  "containers": [
+    {
+      "name": "core",
+      "imageID": "registry.almckay.io/starbase2/core@sha256:2b555684be31b251c5051d8ef8eb9974f0d768d43fe7a58d075d5f787471e8dd",
+      "ready": true,
+      "restartCount": 0
+    },
+    {
+      "name": "runtime",
+      "imageID": "registry.almckay.io/starbase2/runtime@sha256:8d38b938e5f5d9bf5a4e04ba90cf6becd9e1e8ba8edc01a2f9be6213f62d1d2e",
+      "ready": true,
+      "restartCount": 0
+    }
+  ]
+}

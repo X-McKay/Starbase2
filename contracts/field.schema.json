@@ -6,6 +6,16 @@
     "duty": {
       "$ref": "#/$defs/FieldDuty"
     },
+    "inference_budget": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/InferenceBudget"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
     "input": {
       "$ref": "#/$defs/FieldInput"
     },
@@ -43,6 +53,10 @@
         },
         "id": {
           "type": "string"
+        },
+        "inference": {
+          "type": "boolean",
+          "default": false
         },
         "interval_seconds": {
           "type": "integer",
@@ -148,6 +162,53 @@
         "line",
         "summary",
         "recommendation"
+      ]
+    },
+    "InferenceAdmission": {
+      "type": "string",
+      "enum": [
+        "admitted",
+        "skipped",
+        "not_requested"
+      ]
+    },
+    "InferenceBudget": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "next_eligible_at": {
+          "type": "number",
+          "format": "double"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/InferenceAdmission"
+        },
+        "used": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "utc_day": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reason",
+        "utc_day",
+        "limit",
+        "used",
+        "next_eligible_at"
       ]
     },
     "MemoryReview": {

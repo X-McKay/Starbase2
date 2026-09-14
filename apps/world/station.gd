@@ -93,15 +93,20 @@ func contains(point: Vector3) -> bool:
 	var local := to_local(point)
 	return definition.seamless and definition.interior_bounds.has_point(Vector2(local.x,local.z))
 
-func update_presentation(point: Vector3, delta: float, reduced: bool) -> void:
+func update_presentation(point: Vector3, delta: float, reduced: bool, crew_positions:Array=[]) -> void:
 	if not definition.seamless: return
 	var local := to_local(point)
 	var distance := Vector2(local.x-definition.threshold.x,local.z-definition.threshold.z).length()
-	var target := 1.0 if distance<3.2 else 0.0
+	var door_distance:=distance
+	for position in crew_positions:
+		var crew_local:Vector3=to_local(position)
+		door_distance=minf(door_distance,Vector2(crew_local.x-definition.threshold.x,crew_local.z-definition.threshold.z).length())
+	var target := 1.0 if door_distance<3.2 else 0.0
 	openness=target if reduced else move_toward(openness,target,delta*3.5)
 	for leaf in door_leaves: leaf.position.x=float(leaf.get_meta("closed_x"))+(-1.3 if str(leaf.name).begins_with("DoorLeft") else 1.3)*smoothstep(0,1,openness)
 	door_collision.set_deferred("disabled",openness>0.8)
-	var visibility := 0.0 if contains(point) or distance<3.4 else 1.0
+	# Crew can use airlocks; only the operator's approach controls the cutaway/camera.
+	var visibility := 0.0 if contains(point) or (distance<1.65 and absf(local.x-definition.threshold.x)<1.4) else 1.0
 	cutaway=visibility if reduced else move_toward(cutaway,visibility,delta*2.5)
 	if room!=null: room.visible=cutaway<0.999
 	for material in cut_materials: material.set_shader_parameter("visibility",cutaway)

@@ -1,13 +1,30 @@
 [gd_resource type="Resource" script_class="" load_steps=4 format=3]
 [ext_resource type="Script" path="res://characters/definition.gd" id="1"]
 [ext_resource type="Texture2D" path="res://assets/characters/frontier-crew/crew-adventure.png" id="2"]
-[ext_resource type="PackedScene" path="res://assets/characters/cybercat-sentinel/cybercat.glb" id="3"]
+[ext_resource type="PackedScene" path="res://assets/characters/moss-cartographer/character.glb" id="3"]
 [resource]
 script = ExtResource("1")
 id = "surveyor"
+display_name = "Moss Bombadil"
 atlas = ExtResource("2")
 animated = false
 legacy_row = 1
-source = "assets/characters/frontier-crew/crew-adventure.png; approved static reference"
+source = "Selected Moss Cartographer; new Meshy7 body and own rig; assets-production/batches/new-cast/provenance.json"
 model_scene = ExtResource("3")
-model_tint = Color(0.6,0.84,1,1)
+model_tint = Color(1,1,1,1)
+
+model_scale = 1.0
+model_floor_offset = 0.0
+label_height = 1.93
+
+animation_family = "moss-cartographer"
+motion_profile = "surveyor"
+
+preserve_source_materials = true
+use_legacy_animation_libraries = false
+model_animation_sources = {"social": ExtResource("3"), "work": ExtResource("3")}
+secondary_motion_bones = PackedStringArray("HairLeft", "HairRight", "HairRear")
+secondary_motion_strength = 4.0
+secondary_motion_limit = 0.42
+work_slate_palm_offset = Vector3(0,0.012,0.075)
+work_slate_grip_span_scale = 1.0

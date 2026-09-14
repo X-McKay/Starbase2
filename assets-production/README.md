@@ -4,9 +4,14 @@ Editable production files live here. Godot loads finished resources from
 [world assets](../apps/world/assets/README.md). Both use the categories and asset
 IDs defined in the [content taxonomy](../docs/content-organization.md).
 
+The active [Meshy world-expansion allowance](batches/meshy-world-expansion/README.md)
+is 1,500 credits, authorized on 2026-09-10. It starts at zero spend and is separate
+from the historical batches below; no generation was dispatched to record it.
+
 | Category / asset | Purpose | Rebuild |
 |---|---|---|
-| `characters/cybercat-vanguard` | Selected player, rig and four clips | `mise exec -- just world-vanguard-build` |
+| `characters/cybercat-vanguard` | Preserved original player, rig and four clips | `mise exec -- just world-vanguard-build` |
+| `characters/cybercat-vanguard-secondary` | Selected player with bounded upper-hair motion | `mise exec -- just world-inhabited-build` |
 | `characters/engineering-specialist` | Mender's Engineering suit | `mise exec -- just world-engineering-build` |
 | `characters/cybercat-sentinel` | Earlier repaired crew, still used by other roles | Shared preparation scripts; see [production record](../docs/meshy-blender.md) |
 | `characters/captain`, `characters/eva` | Illustrated captain inputs and retained technical pilots | `mise exec -- just characters-import`; pilot render uses Blender 4.5.3 |
@@ -16,6 +21,36 @@ IDs defined in the [content taxonomy](../docs/content-organization.md).
 | `structures/engineering-prototype` | Earlier generated structure retained for supported references/recipes | [Original batch](batches/meshy-blender/provenance.json) |
 | `props/containment-reactor` | Selected Engineering reactor | `mise exec -- just world-engineering-build` |
 | `props/reactor-apparatus` | Earlier reactor used by colony build and previews | [Original batch](batches/meshy-blender/provenance.json) |
+| `props/habitat-lounge-sofa` | Selected sage Habitat sofa | `mise exec -- just world-inhabited-build` |
+| `environment/colony-vent` | Authored decorative wall fan | `mise exec -- just world-inhabited-build` |
+| `kits/aster-domestic` | Habitat lounge and Commons furniture, textiles and domestic detail | [Blender recipe and provenance](kits/aster-domestic/README.md) |
+| `characters/shift-social` | Rig-specific sit, seated and stand animation libraries for existing crew | `scripts/build_social.py` within the asset directory |
+
+The Shift Change implementation reuses the selected Meshy characters and props,
+with a new [generated composition target](batches/shift-change/concepts/art-target-v1.md),
+editable domestic dressing and rig-specific social animation. No new Meshy
+credits are spent in this pass. [Physical evidence](../evidence/shift-change/physical/README.md)
+records home reservations and actual round trips for all five crew; native
+animation and final artifact qualification are recorded separately.
+
+The current [inhabited-polish pass](batches/inhabited-polish/DESIGN.md) adds the
+selected sofa, four-room interior detail, authored fans, water motion and
+upper-hair/surface-footfall presentation. Its offline `world-inhabited-build`
+recipe preserves original inputs. The separate new 1,000-credit allowance has
+39 actual Meshy credits spent, zero pending, and 961 remaining; historical
+507-credit generation is excluded. Three final focused tests, `just check-world`
+and `just check` passed. Native four-room images were inspected; standalone
+qualification passed in `20260908-final-01`, matching all 553 frozen world files.
+The [durable manifest](../evidence/world/inhabited-polish/final/package-01/manifest.json)
+binds the unsigned macOS package and retained exported images. Owner art
+acceptance and human audio audition remain open.
+
+The preceding [living-colony frontend pass](batches/living-colony/DESIGN.md) reuses
+those generated assets and adds retained interior architecture, distinct material
+zones and a shared commons. Its representative Command slice and corrected
+world/repository checks passed; fresh export qualification passed in `20260907-final-03`. Use
+the `world-living-build` recipe for that composition. No new Meshy spend
+is part of this pass.
 
 The [remaining-structures batch](batches/remaining-structures/DESIGN.md) uses
 built-in imagegen concept plates, Meshy-generated hulls/equipment and Blender
@@ -48,7 +83,7 @@ Blender 5.2.1 is used for the native colony/rig pipelines. Background source sav
 are compressed and do not accumulate numbered backups. The earlier captain/EVA
 render pipeline remains pinned to Blender 4.5.3.
 
-Final qualification: the unsigned macOS `20260907-final-02` review passed, with
+Historical remaining-structures qualification: the unsigned macOS `20260907-final-02` review passed, with
 exact source/artifact hashes in its manifest and an inspected nonblank 12-frame
 motion contact sheet. Full world checks preceded the capture-only RGB8 fix;
 the fresh standalone run covers that final capture change. This establishes

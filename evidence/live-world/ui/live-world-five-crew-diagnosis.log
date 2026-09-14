@@ -1,0 +1,29 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+STALLED reviewer pos (-2.498355, 0.0, -19.16907) next [(-2.5, 0.0, -19.5), (-2.5, 0.0, -20.0), (-3.0, 0.0, -20.5), (-3.0, 0.0, -21.0), (-3.5, 0.0, -21.5), (-4.0, 0.0, -22.0), (-4.5, 0.0, -22.5), (-5.0, 0.0, -23.0), (-5.5, 0.0, -23.5), (-5.5, 0.0, -24.0), (-5.5, 0.0, -24.5), (-6.0, 0.0, -25.0), (-6.0, 0.0, -25.5), (-6.0, 0.0, -26.0), (-6.0, 0.0, -26.5), (-6.0, 0.0, -27.0), (-6.0, 0.0, -27.5), (-6.0, 0.0, -27.5)] colliders 2
+/root/AsterOutpost/Structures/Commons/Airlock
+/root/AsterOutpost/Structures/Commons/Airlock
+STALLED watchkeeper pos (-3.001657, 0.0, -19.16907) next [(-3.0, 0.0, -19.5), (-3.0, 0.0, -20.0), (-3.0, 0.0, -20.5), (-3.0, 0.0, -21.0), (-2.5, 0.0, -21.5), (-2.0, 0.0, -22.0), (-1.5, 0.0, -22.5), (-1.0, 0.0, -23.0), (-0.5, 0.0, -23.5), (-0.5, 0.0, -24.0), (-0.5, 0.0, -24.5), (-0.5, 0.0, -25.0), (-0.5, 0.0, -25.5), (-0.5, 0.0, -26.0), (-0.5, 0.0, -26.5), (0.0, 0.0, -27.0), (0.0, 0.0, -27.5), (0.0, 0.0, -27.5)] colliders 2
+/root/AsterOutpost/Structures/Commons/Airlock
+/root/AsterOutpost/Structures/Commons/Airlock
+CREW_ARRIVAL repair distance=0.10655443370342 traveled=2.16667341068387 path=0 stalled=0.0
+CREW_ARRIVAL review distance=0.10490787774324 traveled=2.03665362857282 path=0 stalled=0.0
+CREW_ARRIVAL gym distance=0.1199604049325 traveled=2.25333389081061 path=0 stalled=0.0
+CREW_ARRIVAL watchkeeper distance=8.85376358032227 traveled=16.0193812744983 path=0 stalled=2.01666666666666
+CREW_ARRIVAL reviewer distance=9.03562450408936 traveled=8.45268007822233 path=0 stalled=2.01666666666666
+ERROR: watchkeeper reached authored workstation
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (/tmp/diagnose-five-crew.gd:66)
+ERROR: watchkeeper arrived stopped in work pose
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (/tmp/diagnose-five-crew.gd:66)
+ERROR: reviewer reached authored workstation
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (/tmp/diagnose-five-crew.gd:66)
+ERROR: reviewer arrived stopped in work pose
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (/tmp/diagnose-five-crew.gd:66)

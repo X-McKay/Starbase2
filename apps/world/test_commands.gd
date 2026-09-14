@@ -28,13 +28,14 @@ func run() -> void:
 			assert(not client.uncertain)
 	for action in [
 		["/v4/repositories",{"repository":"fixture/command","generation":0},"repo-change","/v4/repositories"],
-		["/v4/memory/review",{"id":"memory-change","revision":0,"decision":"approve"},"memory-change","/v4/snapshot"]
+		["/v4/memory/review",{"id":"memory-change","revision":0,"decision":"approve"},"memory-change","/v4/snapshot"],
+		["/v4/duties",{"id":"field-duty","agent":"watchkeeper","target":"cluster-live","interval_seconds":60,"generation":4,"enabled":false,"inference":true},"field-duty","/v4/snapshot"]
 	]:
 		messages.clear()
 		client.submit(action[0],action[1],action[2],action[3])
 		while messages.is_empty(): await process_frame
 		assert(not client.uncertain)
-	assert(accepted==["normal","lost-response","uncertain","repo-change","memory-change"])
+	assert(accepted==["normal","lost-response","uncertain","repo-change","memory-change","field-duty"])
 	print("Native command checks passed: local origin, session, denial, pending deduplication, lost response, reconciliation without redispatch")
 	client.queue_free()
 	await process_frame

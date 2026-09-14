@@ -1,0 +1,36 @@
+1788997467.0928817 postgresql.database.svc.cluster.local ConnectionRefusedError [Errno 111] Connection refused
+1788997467.093318 10.42.3.129 ConnectionRefusedError [Errno 111] Connection refused
+1788997467.0950897 temporal-frontend.temporal.svc.cluster.local ConnectionRefusedError [Errno 111] Connection refused
+1788997467.0951428 10.42.1.52 ConnectionRefusedError [Errno 111] Connection refused
+1788997472.0995536 postgresql.database.svc.cluster.local TCP_OK
+1788997472.100293 10.42.3.129 TCP_OK
+1788997472.1023145 temporal-frontend.temporal.svc.cluster.local TCP_OK
+1788997472.1023672 10.42.1.52 TCP_OK
+1788997477.1074915 postgresql.database.svc.cluster.local TCP_OK
+1788997477.1083128 10.42.3.129 TCP_OK
+1788997477.1104825 temporal-frontend.temporal.svc.cluster.local TCP_OK
+1788997477.1105447 10.42.1.52 TCP_OK
+1788997482.1156619 postgresql.database.svc.cluster.local TCP_OK
+1788997482.116477 10.42.3.129 TCP_OK
+1788997482.1187735 temporal-frontend.temporal.svc.cluster.local TCP_OK
+1788997482.1188488 10.42.1.52 TCP_OK
+1788997487.1243536 postgresql.database.svc.cluster.local TCP_OK
+1788997487.1253054 10.42.3.129 TCP_OK
+1788997487.1273918 temporal-frontend.temporal.svc.cluster.local TCP_OK
+1788997487.1274354 10.42.1.52 TCP_OK
+1788997492.1313562 postgresql.database.svc.cluster.local TCP_OK
+1788997492.1321206 10.42.3.129 TCP_OK
+1788997492.1360161 temporal-frontend.temporal.svc.cluster.local TCP_OK
+1788997492.1360586 10.42.1.52 TCP_OK
+1788997497.1403124 postgresql.database.svc.cluster.local TCP_OK
+1788997497.1410742 10.42.3.129 TCP_OK
+1788997497.1430645 temporal-frontend.temporal.svc.cluster.local TCP_OK
+1788997497.1431057 10.42.1.52 TCP_OK
+1788997502.1464434 postgresql.database.svc.cluster.local TCP_OK
+1788997502.1472158 10.42.3.129 TCP_OK
+1788997502.1498568 temporal-frontend.temporal.svc.cluster.local TCP_OK
+1788997502.1499186 10.42.1.52 TCP_OK
+1788997507.1552315 postgresql.database.svc.cluster.local TCP_OK
+1788997507.1559708 10.42.3.129 TCP_OK
+1788997507.1592302 temporal-frontend.temporal.svc.cluster.local TCP_OK
+1788997507.1592793 10.42.1.52 TCP_OK

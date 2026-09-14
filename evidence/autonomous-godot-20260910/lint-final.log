@@ -1,0 +1,10 @@
+cargo fmt --all --check
+cargo clippy --locked --all-targets -- -D warnings
+    Checking starbase-core v0.1.0 (/Users/al/git/Starbase2/services/core)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.42s
+.venv/bin/ruff format --check services/runtime scripts
+71 files already formatted
+.venv/bin/ruff check services/runtime scripts
+All checks passed!
+.venv/bin/ty check services/runtime scripts
+All checks passed!

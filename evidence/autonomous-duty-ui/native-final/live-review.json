@@ -1,0 +1,103 @@
+{
+  "api": "http://127.0.0.1:18787",
+  "capture_input_isolated": true,
+  "captures": [
+    "live-colony",
+    "live-connection",
+    "live-command",
+    "live-repositories",
+    "live-evidence",
+    "live-reasoning-watchkeeper",
+    "live-reasoning-reviewer",
+    "live-compact",
+    "live-disconnected",
+    "live-reconnected",
+    "live-duties-restored"
+  ],
+  "client_outage_test": true,
+  "commands_dispatched": true,
+  "duty_controls_opt_in": true,
+  "failures": [],
+  "fixture": false,
+  "installation": {
+    "capabilities": {
+      "accept_work": {
+        "enabled": true,
+        "reason": "Enabled by installation policy; worker and target readiness checked separately"
+      },
+      "evaluation": {
+        "enabled": true,
+        "reason": "Enabled by installation policy; worker and target readiness checked separately"
+      },
+      "field": {
+        "enabled": true,
+        "reason": "Enabled by installation policy; worker and target readiness checked separately"
+      },
+      "inference": {
+        "enabled": true,
+        "reason": "Enabled by installation policy; worker and target readiness checked separately"
+      },
+      "memory": {
+        "enabled": false,
+        "reason": "Reviewed recall is disabled; basic observations remain available"
+      },
+      "repair": {
+        "enabled": false,
+        "reason": "Synthetic repairs are disabled by installation policy"
+      },
+      "review": {
+        "enabled": true,
+        "reason": "Enabled by installation policy; worker and target readiness checked separately"
+      }
+    },
+    "environment": "production",
+    "id": "starbase2-prod"
+  },
+  "observed_at": 1789080706.89048,
+  "outage_run_ids": [
+    "duty-starbase2-watchkeeper-autonomous-0-1789080643",
+    "duty-starbase2-watchkeeper-autonomous-0-1789080343",
+    "duty-starbase2-github-autonomous-0-1789080342",
+    "duty-starbase2-watchkeeper-autonomous-0-1789080043",
+    "duty-starbase2-watchkeeper-autonomous-0-1789079743",
+    "duty-starbase2-watchkeeper-autonomous-0-1789079443",
+    "duty-starbase2-github-autonomous-0-1789079442",
+    "duty-starbase2-watchkeeper-autonomous-0-1789079142",
+    "duty-starbase2-watchkeeper-autonomous-0-1789078842",
+    "live-reasoning-1d3b40005fbb",
+    "live-reasoning-ffbb2eb14eb6",
+    "github-pilot-41ed445bf699",
+    "watchkeeper-pilot-a43a45a148e5",
+    "watchkeeper-pilot-cc82b9942f99",
+    "llm-pilot-b42160c0c356",
+    "starbase2-review-33583b1fe15f010d13e5dce0",
+    "duty-accept-4be6d44e00c6-watch-1788998423",
+    "accept-4be6d44e00c6-cancel",
+    "duty-accept-4be6d44e00c6-watch-1788998303",
+    "accept-4be6d44e00c6-evaluation",
+    "accept-4be6d44e00c6-review"
+  ],
+  "run_ids": [
+    "duty-starbase2-watchkeeper-autonomous-0-1789080643",
+    "duty-starbase2-watchkeeper-autonomous-0-1789080343",
+    "duty-starbase2-github-autonomous-0-1789080342",
+    "duty-starbase2-watchkeeper-autonomous-0-1789080043",
+    "duty-starbase2-watchkeeper-autonomous-0-1789079743",
+    "duty-starbase2-watchkeeper-autonomous-0-1789079443",
+    "duty-starbase2-github-autonomous-0-1789079442",
+    "duty-starbase2-watchkeeper-autonomous-0-1789079142",
+    "duty-starbase2-watchkeeper-autonomous-0-1789078842",
+    "live-reasoning-1d3b40005fbb",
+    "live-reasoning-ffbb2eb14eb6",
+    "github-pilot-41ed445bf699",
+    "watchkeeper-pilot-a43a45a148e5",
+    "watchkeeper-pilot-cc82b9942f99",
+    "llm-pilot-b42160c0c356",
+    "starbase2-review-33583b1fe15f010d13e5dce0",
+    "duty-accept-4be6d44e00c6-watch-1788998423",
+    "accept-4be6d44e00c6-cancel",
+    "duty-accept-4be6d44e00c6-watch-1788998303",
+    "accept-4be6d44e00c6-evaluation",
+    "accept-4be6d44e00c6-review"
+  ]
+}

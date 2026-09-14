@@ -1,0 +1,59 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Starbase2 browser transport checks</title>
+<h1>Isolated browser transport checks</h1>
+<pre id="results">Running…</pre>
+<script src="web_request.js"></script>
+<script>
+(async () => {
+  const results = document.querySelector('#results');
+  const records = [];
+  const check = (condition, name) => {
+    if (!condition) throw new Error(name);
+    records.push(name);
+    results.textContent = records.join('\n');
+  };
+  const decode = (response) => JSON.parse(atob(response[2]));
+  const request = (path, method = 'GET', body = '', timeout = 2000, limit = 4194304) =>
+    new Promise((resolve, reject) => {
+      const transport = StarbaseWebTransport.create(value => resolve(JSON.parse(value)));
+      if (!transport.request(location.origin + path, method, body, timeout, limit)) reject(new Error('request refused'));
+    });
+  try {
+    const refused = StarbaseWebTransport.create(() => { throw new Error('invalid request callback'); });
+    check(!refused.request('https://other.invalid/v2/snapshot','GET','',1000,1000), 'cross-origin rejected before dispatch');
+    check(!refused.request(location.origin.replace('://', '://user@') + '/','GET','',1000,1000), 'URL credentials rejected');
+    const session = await request('/');
+    check(session[0] === 'success' && session[1] === 200, 'same-origin session bootstrap');
+    check(!document.cookie.includes('starbase_session='), 'operator cookie is HttpOnly');
+    const command = JSON.stringify({id:'browser-transport-check',kind:'review',target:'sample',profile:'surveyor-v1',inference:false});
+    const accepted = await request('/v2/runs','POST',command);
+    check(accepted[0] === 'success' && accepted[1] === 200, 'browser-managed cookie and Origin accepted by real Core');
+    const snapshot = await request('/v2/snapshot');
+    check(decode(snapshot).active.some(run => run.input.request.id === 'browser-transport-check'), 'snapshot refresh retains controlled command');
+    const redirected = await request('/__fixture/redirect');
+    check(redirected[0] === 'connection_error', 'redirect is rejected');
+    const stats = await request('/__fixture/stats');
+    check(decode(stats).redirect_hits === 0, 'redirect target was never requested');
+    const slow = await request('/__fixture/slow','GET','',30);
+    check(slow[0] === 'timeout', 'deadline abort reports timeout');
+    check((await request('/__fixture/large','GET','',2000,1024))[0] === 'body_limit', 'streamed response limit enforced');
+    let cancelledCallback = false;
+    const cancelled = StarbaseWebTransport.create(() => { cancelledCallback = true; });
+    check(cancelled.request(location.origin + '/__fixture/slow','GET','',2000,1024), 'cancellable read started');
+    cancelled.cancel();
+    check(!cancelled.busy, 'cancel immediately releases request slot');
+    await new Promise(resolve => setTimeout(resolve, 1100));
+    check(!cancelledCallback, 'cancelled generation never delivers a callback');
+    check((await request('/v2/snapshot'))[1] === 200, 'reconnect read succeeds after timeout and cancellation');
+    const uncertainBody = JSON.stringify({id:'browser-lost-body',kind:'review',target:'sample',profile:'surveyor-v1',inference:false});
+    const uncertain = await request('/v2/runs','POST',uncertainBody,2000,1);
+    check(uncertain[0] === 'body_limit', 'accepted write response deliberately unreadable');
+    const reconciled = await request('/v2/runs/browser-lost-body');
+    check(decode(reconciled).input.request.id === 'browser-lost-body', 'uncertain write reconciles by exact record read without repost');
+    check((await request('/v2/runs/browser-transport-check/cancel','POST','{}'))[1] === 200, 'stop command accepted');
+    check(decode(await request('/v2/runs/browser-transport-check')).state === 'cancel_requested', 'stop remains pending without a worker acknowledgment');
+    results.textContent = 'PASS (' + records.length + ')\n' + records.join('\n');
+  } catch (error) { results.textContent += '\nFAIL: ' + error.message; }
+})();
+</script>

@@ -1,0 +1,19 @@
+{
+  "blender": "5.2.1 LTS",
+  "new_meshy_credits": 0,
+  "method": "offline authored dressing reusing current Meshy hero props",
+  "outputs": [
+    {
+      "path": "apps/world/assets/kits/aster-domestic/habitat-lounge.glb",
+      "sha256": "ad97fa4787a61bf3f919a9e070d992f64c9512e3b1f4733581c370b5ac1b9f4d",
+      "bytes": 562608,
+      "objects": 91
+    },
+    {
+      "path": "apps/world/assets/kits/aster-domestic/commons-details.glb",
+      "sha256": "5097cfa78fa2866be541a96867d906a0a19ed9dd752fc4507772c89025e2dd16",
+      "bytes": 308496,
+      "objects": 49
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+00:00.490  blend            | Read blend: "/Users/al/git/Starbase2/assets-production/characters/cybercat-sentinel/blender/cybercat-repaired.blend"
+Traceback (most recent call last):
+  File "/tmp/inspect-shift-rigs.py", line 6, in <module>
+    rig=next(o for o in bpy.context.scene.objects if o.type=='ARMATURE')
+StopIteration
+Warning: Library file, loading empty scene
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 01:35:57)
+
+Blender quit

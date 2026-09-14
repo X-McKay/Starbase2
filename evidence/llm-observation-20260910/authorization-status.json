@@ -1,0 +1,114 @@
+[
+  {
+    "verb": "get",
+    "resource": "pods",
+    "namespace": "starbase2-prod",
+    "subresource": null,
+    "allowed": true
+  },
+  {
+    "verb": "list",
+    "resource": "pods",
+    "namespace": "starbase2-prod",
+    "subresource": null,
+    "allowed": true
+  },
+  {
+    "verb": "create",
+    "resource": "pods",
+    "namespace": "starbase2-prod",
+    "subresource": null,
+    "allowed": false
+  },
+  {
+    "verb": "patch",
+    "resource": "pods",
+    "namespace": "starbase2-prod",
+    "subresource": null,
+    "allowed": false
+  },
+  {
+    "verb": "delete",
+    "resource": "pods",
+    "namespace": "starbase2-prod",
+    "subresource": null,
+    "allowed": false
+  },
+  {
+    "verb": "get",
+    "resource": "deployments.apps",
+    "namespace": "starbase2-prod",
+    "subresource": null,
+    "allowed": true
+  },
+  {
+    "verb": "list",
+    "resource": "deployments.apps",
+    "namespace": "starbase2-prod",
+    "subresource": null,
+    "allowed": true
+  },
+  {
+    "verb": "create",
+    "resource": "deployments.apps",
+    "namespace": "starbase2-prod",
+    "subresource": null,
+    "allowed": false
+  },
+  {
+    "verb": "patch",
+    "resource": "deployments.apps",
+    "namespace": "starbase2-prod",
+    "subresource": null,
+    "allowed": false
+  },
+  {
+    "verb": "delete",
+    "resource": "deployments.apps",
+    "namespace": "starbase2-prod",
+    "subresource": null,
+    "allowed": false
+  },
+  {
+    "verb": "get",
+    "resource": "secrets",
+    "namespace": "starbase2-prod",
+    "subresource": null,
+    "allowed": false
+  },
+  {
+    "verb": "list",
+    "resource": "secrets",
+    "namespace": "starbase2-prod",
+    "subresource": null,
+    "allowed": false
+  },
+  {
+    "verb": "get",
+    "resource": "pods",
+    "namespace": "starbase2-prod",
+    "subresource": "log",
+    "allowed": false
+  },
+  {
+    "verb": "create",
+    "resource": "pods",
+    "namespace": "starbase2-prod",
+    "subresource": "exec",
+    "allowed": false
+  },
+  {
+    "verb": "get",
+    "resource": "pods",
+    "namespace": "default",
+    "subresource": null,
+    "allowed": false
+  },
+  {
+    "verb": "list",
+    "resource": "pods",
+    "namespace": "default",
+    "subresource": null,
+    "allowed": false
+  }
+]

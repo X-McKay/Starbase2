@@ -1,0 +1,234 @@
+{
+  "captures": [
+    {
+      "name": "review-exterior",
+      "position": [
+        -3.0,
+        0.0,
+        -14.8999996185303
+      ]
+    },
+    {
+      "name": "review-interior",
+      "position": [
+        -3.10893964767456,
+        0.0,
+        -23.5000228881836
+      ]
+    },
+    {
+      "name": "command-workspace",
+      "position": [
+        -3.10893964767456,
+        0.0,
+        -23.5000228881836
+      ]
+    },
+    {
+      "name": "command-workspace-compact",
+      "position": [
+        -3.10893964767456,
+        0.0,
+        -23.5000228881836
+      ]
+    },
+    {
+      "name": "gym-exterior",
+      "position": [
+        1.5,
+        0.0,
+        9.10000038146973
+      ]
+    },
+    {
+      "name": "gym-interior",
+      "position": [
+        -1.82616531848907,
+        0.0,
+        0.482006400823593
+      ]
+    },
+    {
+      "name": "habitat-exterior",
+      "position": [
+        36.0,
+        0.0,
+        -8.89999961853027
+      ]
+    },
+    {
+      "name": "habitat-interior",
+      "position": [
+        35.4807968139648,
+        0.0,
+        -17.6269683837891
+      ]
+    },
+    {
+      "name": "habitat-guide",
+      "position": [
+        35.4807968139648,
+        0.0,
+        -17.6269683837891
+      ]
+    },
+    {
+      "name": "greenhouse-exterior",
+      "position": [
+        30.0,
+        0.0,
+        36.0999984741211
+      ]
+    },
+    {
+      "name": "greenhouse-interior",
+      "position": [
+        30.0,
+        0.0,
+        22.1000232696533
+      ]
+    },
+    {
+      "name": "greenhouse-guide",
+      "position": [
+        30.0,
+        0.0,
+        22.1000232696533
+      ]
+    },
+    {
+      "name": "living-commons",
+      "position": [
+        -3.99999976158142,
+        0.0,
+        23.1118965148926
+      ]
+    },
+    {
+      "name": "inhabited-water",
+      "position": [
+        53.9741477966309,
+        0.0,
+        -26.8588066101074
+      ]
+    },
+    {
+      "name": "inhabited-water-reduced",
+      "position": [
+        53.9741477966309,
+        0.0,
+        -26.8588066101074
+      ]
+    },
+    {
+      "name": "living-colony",
+      "position": [
+        53.9741477966309,
+        0.0,
+        -26.8588066101074
+      ]
+    }
+  ],
+  "failures": [],
+  "fixture": true,
+  "live_world_presentation": true,
+  "motion_frames": 12,
+  "motion_samples": [
+    {
+      "physics_frame": 122,
+      "position": [
+        -3.0,
+        0.0,
+        -14.8999996185303
+      ]
+    },
+    {
+      "physics_frame": 130,
+      "position": [
+        -3.0,
+        0.0,
+        -15.6000022888184
+      ]
+    },
+    {
+      "physics_frame": 138,
+      "position": [
+        -3.0,
+        0.0,
+        -16.3000049591064
+      ]
+    },
+    {
+      "physics_frame": 146,
+      "position": [
+        -3.0,
+        0.0,
+        -16.9000072479248
+      ]
+    },
+    {
+      "physics_frame": 154,
+      "position": [
+        -3.0,
+        0.0,
+        -17.6000099182129
+      ]
+    },
+    {
+      "physics_frame": 162,
+      "position": [
+        -3.0,
+        0.0,
+        -18.300012588501
+      ]
+    },
+    {
+      "physics_frame": 170,
+      "position": [
+        -3.0,
+        0.0,
+        -18.9000148773193
+      ]
+    },
+    {
+      "physics_frame": 178,
+      "position": [
+        -3.44813585281372,
+        0.0,
+        -19.43776512146
+      ]
+    },
+    {
+      "physics_frame": 186,
+      "position": [
+        -3.4917094707489,
+        0.0,
+        -20.1359939575195
+      ]
+    },
+    {
+      "physics_frame": 194,
+      "position": [
+        -3.7984447479248,
+        0.0,
+        -20.7342967987061
+      ]
+    },
+    {
+      "physics_frame": 202,
+      "position": [
+        -3.98526644706726,
+        0.0,
+        -21.3892726898193
+      ]
+    },
+    {
+      "physics_frame": 210,
+      "position": [
+        -4.4363842010498,
+        0.0,
+        -21.9245185852051
+      ]
+    }
+  ]
+}

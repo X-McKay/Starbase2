@@ -1,0 +1,17 @@
+{
+  "status": "published_and_verified",
+  "source_revision": "028f42a836e93197488580e41d3ceb38af64715c",
+  "platform": "linux/amd64",
+  "images": {
+    "core": {
+      "reference": "registry.almckay.io/starbase2/core@sha256:2b555684be31b251c5051d8ef8eb9974f0d768d43fe7a58d075d5f787471e8dd",
+      "config_id": "sha256:c54c36711e03bcb79ab553ed0e6f0c4787f5fd4ff64d41dece83cb114a0a0308",
+      "revision": "028f42a836e93197488580e41d3ceb38af64715c"
+    },
+    "runtime": {
+      "reference": "registry.almckay.io/starbase2/runtime@sha256:8d38b938e5f5d9bf5a4e04ba90cf6becd9e1e8ba8edc01a2f9be6213f62d1d2e",
+      "config_id": "sha256:0aa83c381c3b591cde17a405a4ac8d09a2a338ceb825795e03784027bacd2a97",
+      "revision": "028f42a836e93197488580e41d3ceb38af64715c"
+    }
+  }
+}

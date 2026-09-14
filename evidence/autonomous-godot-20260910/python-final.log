@@ -1,0 +1,42 @@
+........................................................................ [ 56%]
+..................................................F....                  [100%]
+=================================== FAILURES ===================================
+___________ test_native_timeout_stops_only_exact_isolated_executable ___________
+
+tmp_path = PosixPath('/private/var/folders/sl/2t3mlgwj7bq2c4qj1x2csfx00000gn/T/pytest-of-al/pytest-717/test_native_timeout_stops_only0')
+
+    def test_native_timeout_stops_only_exact_isolated_executable(tmp_path):
+        import signal
+    
+        from scripts.check_world_export import native_capture
+    
+        executable = tmp_path / "Review.app/Contents/MacOS/Review"
+        processes = (
+            f"101 {executable} -- --capture=interior.png\n"
+            "102 /other/Review.app/Contents/MacOS/Review -- --capture=interior.png\n"
+            f"103 {executable}-other -- --capture=interior.png\n"
+        )
+        with (
+            patch("scripts.check_world_export.subprocess.Popen") as launch,
+            patch("scripts.check_world_export.run", side_effect=RuntimeError("timed out")),
+            patch("scripts.check_world_export.subprocess.check_output", return_value=processes),
+            patch("scripts.check_world_export.os.kill") as kill,
+        ):
+            launch.return_value.poll.return_value = None
+            launch.return_value.communicate.return_value = ("", None)
+>           with pytest.raises(RuntimeError, match="timed out"):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: Regex pattern did not match.
+E             Expected regex: 'timed out'
+E             Actual message: 'Native launcher failed; inspect interior-launch.log'
+
+services/runtime/tests/test_world_export.py:89: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/graphiti_core/driver/search_interface/search_interface.py:22
+  /Users/al/git/Starbase2/.venv/lib/python3.12/site-packages/graphiti_core/driver/search_interface/search_interface.py:22: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class SearchInterface(BaseModel):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED services/runtime/tests/test_world_export.py::test_native_timeout_stops_only_exact_isolated_executable
+1 failed, 126 passed, 1 warning in 1.17s

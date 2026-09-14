@@ -12,32 +12,30 @@ script = ExtResource("2")
 position = Vector3(0,0,5.5)
 script = ExtResource("4")
 appearance = "operator"
-display_name = "YOU"
+display_name = "Sho Junko"
 [node name="Mender" type="CharacterBody3D" parent="."]
 position = Vector3(-24,0,5.5)
 script = ExtResource("4")
 appearance = "mender"
-display_name = "MENDER"
+display_name = "Rivet"
 [node name="Surveyor" type="CharacterBody3D" parent="."]
 position = Vector3(-3,0,-12.5)
 script = ExtResource("4")
 appearance = "surveyor"
-display_name = "SURVEYOR"
+display_name = "Moss Bombadil"
 [node name="Trainer" type="CharacterBody3D" parent="."]
 position = Vector3(1.5,0,7)
 script = ExtResource("4")
 appearance = "trainer"
-display_name = "TRAINER"
+display_name = "Mae Jin"
 
 [node name="Watchkeeper" type="CharacterBody3D" parent="."]
 position = Vector3(-16.5,0,-24.5)
 script = ExtResource("4")
-appearance = "trainer"
-display_name = "WATCHKEEPER"
-suit_tint = Color(0.5,0.82,1,1)
+appearance = "watchkeeper"
+display_name = "Wes Walker"
 [node name="Reviewer" type="CharacterBody3D" parent="."]
 position = Vector3(2,0,-12.5)
 script = ExtResource("4")
-appearance = "operator"
-display_name = "PR REVIEWER"
-suit_tint = Color(0.85,0.65,1,1)
+appearance = "reviewer"
+display_name = "Prism"

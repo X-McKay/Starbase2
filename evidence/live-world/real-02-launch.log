@@ -1,0 +1,22 @@
+repository_duty_created_without_godot
+owned_processes_stopped_credentials_removed
+Traceback (most recent call last):
+  File "/Users/al/git/Starbase2/scripts/live_world_integration.py", line 314, in <module>
+    asyncio.run(main(parser.parse_args()))
+  File "/Users/al/.local/share/mise/installs/python/3.12.13/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/al/.local/share/mise/installs/python/3.12.13/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/al/.local/share/mise/installs/python/3.12.13/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/al/git/Starbase2/scripts/live_world_integration.py", line 249, in main
+    await post("/v4/runs", cancelled_input)
+  File "/Users/al/git/Starbase2/scripts/live_world_integration.py", line 170, in post
+    response.raise_for_status()
+  File "/Users/al/git/Starbase2/.venv/lib/python3.12/site-packages/httpx/_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '409 Conflict' for url 'http://127.0.0.1:18801/v4/runs'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/409

@@ -1,0 +1,212 @@
+python3 scripts/check_world.py
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Scanning file structure...[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Loading global class names...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifying GDExtensions...[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Creating autoload scripts...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Initializing plugins...[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Starting file scan...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Loading editor (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Loading editor layout...[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Loading docks...[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Godot state checks passed: disconnected, empty, stale, missing evidence, terminal and pending states
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+CONNECTION_STATUS_PASSED: explicit policy, worker/offline/fixture distinctions, additive schema, endpoint boundary, pending fence, keyboard and responsive panel
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+CREW_PRESENTATION_PASSED: intent only, chronological coalescing, concurrency, offline/stale, reduced motion, evidence and cancellation
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+CREW_ARRIVAL repair distance=0.10655443370342 traveled=2.16667341068387 path=0 stalled=0.0
+CREW_ARRIVAL review distance=0.10490787774324 traveled=1.9716523103416 path=0 stalled=0.0
+CREW_ARRIVAL gym distance=0.1199604049325 traveled=2.14500058628619 path=0 stalled=0.0
+CREW_ARRIVAL watchkeeper distance=0.10392178595066 traveled=25.1333217658103 path=0 stalled=0.0
+CREW_ARRIVAL reviewer distance=0.10101890563965 traveled=17.9400169644505 path=0 stalled=0.0
+LIVE_CREW_PASSED: five physical workstation routes, speed/arrival/pose, Command exterior entry, reduced/outage and no dispatch
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Board overview passed: active retention, source-time truth, bounded briefing, policy/cancel separation, endpoint reset
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Board buttons passed: all action labels fit at 640/960/1280 widths, default and large text
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Command board checks passed: fixture/offline command fences, findings, coverage and compact bounds
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+HUD_BOUNDS (1280, 800) @PanelContainer@17 [P: (848.0, 112.0), S: (410.0, 608.0)]
+HUD_BOUNDS (1280, 800) @PanelContainer@101 [P: (22.0, 112.0), S: (410.0, 608.0)]
+HUD_BOUNDS (1280, 800) @PanelContainer@178 [P: (848.0, 112.0), S: (410.0, 608.0)]
+HUD_BOUNDS (800, 640) @PanelContainer@17 [P: (368.0, 154.0), S: (410.0, 406.0)]
+HUD_BOUNDS (800, 640) @PanelContainer@101 [P: (22.0, 154.0), S: (410.0, 406.0)]
+HUD_BOUNDS (800, 640) @PanelContainer@178 [P: (368.0, 154.0), S: (410.0, 406.0)]
+CONTEXTUAL_HUD_PASSED: compact chrome, truthful optional roster, location, zoom signals, keyboard focus and responsive large text
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+LIVING_FOLIAGE_PASSED: 3 actual surfaces; two-sided rendering contract, authored PBR and reduced motion
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+INHABITED_CHARACTER_PASSED: bounded hair; unchanged helmet; reduced motion; wood/metal/soil; contacts; 6m/s; mute
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+INHABITED_JOURNEY_PASSED: physical run/stop/turn, water temporal accessibility, Habitat furniture console and equivalent no-dispatch inspection
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Colony vent passed: imported centered rotor, visible rotation, reduced/hidden freeze, resume, no collision
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+LIVING_ROOM review
+LIVING_ROOM gym
+LIVING_ROOM habitat
+LIVING_ROOM greenhouse
+LIVING_COLONY_PASSED: commons contacts, physical primary-console access, authored cameras, quiet truthful HUD, reduced motion and identical non-spatial Command
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Visual fixture cannot open a live operational Command board or dispatch work
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Navigation checks passed: all crew, route around habitat, walls, colony boundary
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Exploration passed: faster travel, buttons in all camera modes, expanded navigable land, no dispatch
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Shelf shape checks passed: broken long edges, eroded corner and reachable headlands
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Path checks passed: every orthogonal centerline stays on shelf, clears obstacles and ends at a reachable destination
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Paving checks passed: 1252 unique tiles, rectangular pads, two-tile corridors, separate pad/road materials, yellow dashes, four batched meshes, connected door/landing walks, terrain clearance
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Paving light checks passed: all pad borders, exposed road edges, inset fixtures, three-metre spacing, reduced-motion settings, five meshes, no collision or CPU polling
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Surface scatter checks passed: shelf/path/landmark clearance, blocked outcrop routes and physics, traversable craters
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Environment checks passed: animated/frozen/resumed spring and canyon water, room visibility, shore footprint
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Coast checks passed: continuous backdrop extent, shelf clearance, fixed collision count, excluded mainland routes, seven boundary contacts and returns
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Upland seam checks passed: every northern boundary vertex matches the plateau position and elevation
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Colony routes reach landing, habitat, expansion and survey districts
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+16 accepted sprite poses verified: alpha, nonempty content, atlas bounds, no clipped opaque pixels
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Character contract, alpha rejection, frame bounds, distinct poses, displacement gait, stop, contact and teleport checks passed
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Illustrated character passed: alpha, provenance, all four directions live, contacts, stop layout, wall and reduced motion
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+wall sample: 0.48431404866278 -> 0.48431404866278; contacts 0 -> 0; position (0.619847, 0.0, 0.0)
+Actual CharacterBody3D wall collision, turns, reduced motion and teleport passed
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MESHY_CHARACTER_CHECKS_COMPLETE failed=false
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+RUN_CADENCE_PASSED: 6 m/s uses 2.8 m stride, physical contacts and stop-to-idle
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ENGINEERING_POLISH_PASSED: PBR, route, cutaway, muted audio, reduced effects, four clips, run selection, no dispatch
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+STRUCTURE_CONTACT review
+STRUCTURE_CONTACT gym
+STRUCTURE_CONTACT habitat
+STRUCTURE_CONTACT greenhouse
+REMAINING_STRUCTURES_PASSED: all-four furniture contact, side walls, direct visits, cutaways, scenery and no dispatch
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+JOURNEY Workshop
+JOURNEY Commons
+JOURNEY Gym
+JOURNEY Habitat
+JOURNEY Greenhouse
+Seamless colony passed: five continuous journeys, console routes, airlocks, cutaways, direct visits, reduced motion, no dispatch
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Character showroom controls, default mute, and sprite anchoring passed
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Field crew checks passed: two characters, reachable positions, keyboard directory inspectors, authoritative fixture and offline state
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Art kit checks passed: atlas regions, shared materials, collision separation, editor rebuild, keyboard scene/camera/light/roof
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+50 definition/host fixture creation ms: 135.762
+Building catalog checks passed: assets, alpha, malformed metadata, room anchors, placement physics/routes, 50 IDs, shared texture, no per-frame polling
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Room checks passed: three door journeys, prop/edge physics, route recovery, console inspection, stale/offline state, direct visits, map exit, no dispatch
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Interaction checks passed: keyboard directory, spatial interaction, walking, gym, camera, reduced motion, explicit form, offline fencing
+
+.venv/bin/python scripts/check_world_commands.py
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Native command checks passed: local origin, session, denial, pending deduplication, lost response, reconciliation without redispatch
+
+HTTP fixture verified six POSTs only; reconciliation used GET; no worker identity.

@@ -1,7 +1,7 @@
 # Linux amd64 release qualification · 2026-09-07
 
-Status: **local Linux amd64 qualification passed**. Nothing was pushed,
-published, or deployed to Kubani. These are private image candidates built on
+Status: **Linux amd64 images qualified, published and verified; not activated**.
+These are private images built on
 Kubani node `rig0` (x86_64) with rootless podman; production activation still
 requires the target checks in the [deployment playbook](../../docs/deployment.md).
 
