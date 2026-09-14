@@ -5,15 +5,16 @@
 [ext_resource type="SpriteFrames" path="res://characters/frames/captain-front.tres" id="4"]
 [ext_resource type="SpriteFrames" path="res://characters/frames/captain-back.tres" id="5"]
 [ext_resource type="SpriteFrames" path="res://characters/frames/captain-left.tres" id="6"]
-[ext_resource type="PackedScene" path="res://assets/characters/cybercat-vanguard-secondary/vanguard-secondary.glb" id="7"]
+[ext_resource type="PackedScene" path="res://assets/characters/wayfinder/character.glb" id="7"]
 [resource]
 script = ExtResource("1")
 id = "operator"
+display_name = "Sho Junko"
 model_scene = ExtResource("7")
 atlas = ExtResource("2")
 animated = false
 legacy_row = 0
-source = "assets/characters/frontier-crew/crew-adventure.png; approved illustrated stills and authored four-direction walks"
+source = "Selected Wayfinder; new Meshy7 body and own rig; assets-production/batches/new-cast/provenance.json"
 sprite_frames = ExtResource("3")
 additional_frames = Array[SpriteFrames]([ExtResource("4"), ExtResource("5"), ExtResource("6")])
 clip_layouts = {
@@ -25,7 +26,19 @@ clip_layouts = {
 stride = 3.2
 model_scale = 1.0
 model_floor_offset = 0.0
-label_height = 2.55
+label_height = 2.08
 model_stride = 1.6
 model_tint = Color(1,1,1,1)
 model_run_stride = 2.8
+
+animation_family = "wayfinder"
+motion_profile = "operator"
+
+preserve_source_materials = true
+use_legacy_animation_libraries = false
+model_animation_sources = {"social": ExtResource("7"), "work": ExtResource("7")}
+secondary_motion_bones = PackedStringArray("HairLeft", "HairRight", "HairRear")
+secondary_motion_strength = 4.0
+secondary_motion_limit = 0.45
+work_slate_palm_offset = Vector3(0,0.012,0.075)
+work_slate_grip_span_scale = 1.0

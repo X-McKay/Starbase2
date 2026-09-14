@@ -1,0 +1,14 @@
+; Minimal isolated Web export probe. It is not the Starbase2 world project.
+config_version=5
+
+[application]
+config/name="Starbase2 Web Export Probe"
+run/main_scene="res://probe.tscn"
+
+[display]
+window/size/viewport_width=640
+window/size/viewport_height=360
+
+[rendering]
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"

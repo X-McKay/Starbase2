@@ -109,3 +109,13 @@ For a new failure mode, add symptom → evidence → correction → scope → re
 check to the slice record. Promote a rule into the shared lessons/skills only
 when it changes a future decision. Revisit rules that cause misrouting or excess
 work; do not store raw transcripts as automatically accepted runtime memory.
+
+## Bundled visual references
+
+For visual work, read [the visual guide](references/visual-guide.md). Its selected
+images are bundled below; no local evidence archive is needed to use these
+examples. They illustrate intent and review cases, not current-build certification.
+
+- [stale-record-compact.png](assets/stale-record-compact.png)
+
+Image identity and source type: [visual manifest](assets/visual-manifest.json).

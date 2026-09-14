@@ -1,0 +1,44 @@
+[gd_resource type="Resource" script_class="" load_steps=8 format=3]
+[ext_resource type="Script" path="res://characters/definition.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/characters/frontier-crew/crew-adventure.png" id="2"]
+[ext_resource type="SpriteFrames" path="res://characters/frames/captain-illustrated.tres" id="3"]
+[ext_resource type="SpriteFrames" path="res://characters/frames/captain-front.tres" id="4"]
+[ext_resource type="SpriteFrames" path="res://characters/frames/captain-back.tres" id="5"]
+[ext_resource type="SpriteFrames" path="res://characters/frames/captain-left.tres" id="6"]
+[ext_resource type="PackedScene" path="res://assets/characters/prism/character.glb" id="7"]
+[resource]
+script = ExtResource("1")
+id = "reviewer"
+display_name = "Prism"
+model_scene = ExtResource("7")
+atlas = ExtResource("2")
+animated = false
+legacy_row = 0
+source = "Selected Prism; new Meshy7 body and own rig; assets-production/batches/new-cast/provenance.json"
+sprite_frames = ExtResource("3")
+additional_frames = Array[SpriteFrames]([ExtResource("4"), ExtResource("5"), ExtResource("6")])
+clip_layouts = {
+"walk_front": {"canvas": Vector2i(256,320), "pivot": Vector2(128,296), "pixel_size": 0.010, "shaded": true, "frames": 4},
+"walk_back": {"canvas": Vector2i(256,320), "pivot": Vector2(128,296), "pixel_size": 0.011, "shaded": true, "frames": 4},
+"walk_left": {"canvas": Vector2i(256,320), "pivot": Vector2(128,296), "pixel_size": 0.0115, "shaded": true, "frames": 4},
+"walk_right": {"canvas": Vector2i(256,320), "pivot": Vector2(128,296), "pixel_size": 0.009, "shaded": true, "frames": 8}
+}
+stride = 3.2
+model_scale = 1.0
+model_floor_offset = 0.0
+label_height = 1.97
+model_stride = 1.6
+model_tint = Color(1,1,1,1)
+model_run_stride = 2.8
+
+animation_family = "prism"
+motion_profile = "reviewer"
+
+preserve_source_materials = true
+use_legacy_animation_libraries = false
+model_animation_sources = {"social": ExtResource("7"), "work": ExtResource("7")}
+secondary_motion_bones = PackedStringArray("HairLeft", "HairRight", "HairRear")
+secondary_motion_strength = 4.0
+secondary_motion_limit = 0.45
+work_slate_palm_offset = Vector3(0,0.012,0.075)
+work_slate_grip_span_scale = 1.0

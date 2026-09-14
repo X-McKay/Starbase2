@@ -20,13 +20,13 @@ skill owns endpoint/client details; these new skills add project experience.
 
 | Observed issue and evidence | Reusable practice | Scope / what not to assume |
 |---|---|---|
-| Vanguard's shared GLB had no skin or clips; [source provenance](../assets-production/characters/cybercat-vanguard/provenance.json) records the exact asset | Inspect actual file contents before promising animation or regenerating a model | A model viewer pose or a newer model version does not prove better animation |
-| Website task metadata was readable but rigging by task ID returned HTTP 400; the returned GLB URL succeeded ([record](../evidence/cybercat-vanguard/README.md)) | Keep a supported source-URL path after a definite task-ID rejection; retain the original failure | This is not a reason to blindly retry every failure or bypass an uncertain submission |
+| Vanguard's shared GLB had no skin or clips; archived source provenance records the exact asset | Inspect actual file contents before promising animation or regenerating a model | A model viewer pose or a newer model version does not prove better animation |
+| Website task metadata was readable but rigging by task ID returned HTTP 400; the returned GLB URL succeeded (archived record) | Keep a supported source-URL path after a definite task-ID rejection; retain the original failure | This is not a reason to blindly retry every failure or bypass an uncertain submission |
 | An earlier 60-credit batch and a 140-credit Engineering batch initially had separate accounting; Vanguard added 8 ([provenance](../assets-production/batches/engineering-polish/provenance.json)) | Count prior batches and pending reservations under the user's total cap; reuse existing authorization | Provider account balance is not the authorized budget; historical prices are not future quotes |
 | Engineering bounds included a rig control Icosphere ([inspection](../evidence/engineering-polish/rig-inspection.log)) | Select intended skinned meshes and update evaluated transforms before measuring/exporting | Do not rescale a valid character to compensate for unrelated control geometry |
 | Imported bone tails exceeded joint spacing; console baking also lost correct hierarchy ([record](../evidence/engineering-polish/README.md)) | Reproduce the tail defect; preserve bind orientation and bake parent-relative transforms/action slots | No universal tail multiplier or bone naming convention is established |
-| Face/helmet vertices had shoulder influence ([Vanguard weights](../evidence/cybercat-vanguard/source-weights.json)) | Locate the actual collar, stabilize the rigid region and preserve a flexible neck transition | Do not copy a previous model's height threshold or certify the entire character from one region |
-| The first Vanguard audit included nearly rigid neck vertices; [final audit](../evidence/cybercat-vanguard/helmet-audit.json) measures fully rigid vertices | Define the measured region and units; match export influence limits before measurement | A changed selection needs explanation; do not relax thresholds just to pass |
+| Face/helmet vertices had shoulder influence (archived Vanguard weight audit) | Locate the actual collar, stabilize the rigid region and preserve a flexible neck transition | Do not copy a previous model's height threshold or certify the entire character from one region |
+| The first Vanguard audit included nearly rigid neck vertices; archived final audit measures fully rigid vertices | Define the measured region and units; match export influence limits before measurement | A changed selection needs explanation; do not relax thresholds just to pass |
 | Generated hull shape exposed authored rear-wall/furniture geometry in exterior views ([iterations](../evidence/engineering-polish/README.md)) | Review both exterior and cutaway; align collision, doorway, visibility and interior dressing | A plausible Blender render does not prove physical access or correct native occlusion |
 | Character speed shared a short walking stride; [cadence check](../apps/world/test_run_cadence.gd) now measures physical travel and contacts | Use displacement-driven walk/run cadence, collision-stop and reduced-motion tests | 1.6 m / 2.8 m are current player settings, not universal rig values |
 | An interior reveal assertion sampled before the physics update ([record](../evidence/engineering-polish/README.md)) | Wait for the relevant update and test observable arrival/visibility | Do not hide a timing defect behind arbitrary long sleeps or repeated retries |
@@ -37,9 +37,9 @@ skill owns endpoint/client details; these new skills add project experience.
 
 - [Engineering review](../assets-production/batches/engineering-polish/REVIEW.md): concept to hull/reactor,
   authored interior, tested continuous journeys, native captures and limitations.
-- [Vanguard review](../assets-production/characters/cybercat-vanguard/README.md): exact supplied asset,
+- archived Vanguard review: exact supplied asset,
   rigging, 2K game textures, face/helmet stabilization and runtime selection.
-- [Preparation](../assets-production/scripts/prepare_character.py),
+- archived preparation script,
   [rigid-region audit](../assets-production/scripts/audit_character.py), and
   [building connection](../assets-production/scripts/connect_engineering.py): working
   implementations with asset-specific assumptions to inspect before reuse.
@@ -90,7 +90,7 @@ analysis consoles also appeared too small; their preparation fit limits and
 room composition were enlarged before continuing. Review the actual native
 camera scale early, not only an isolated provider thumbnail or fit target.
 See the [selected production design](../assets-production/batches/remaining-structures/DESIGN.md)
-and [final native captures](../evidence/world/remaining-structures/final/native/).
+and `final native captures` (local review evidence is retained outside this commit).
 
 Generated doors and shell interiors are visual suggestions. The playable
 opening, moving leaves, floor and collision stayed authored separately; hull
@@ -259,7 +259,9 @@ native skeletons deform below the floor. Qualify imported child transforms and
 scale, skeleton-space tracks, actual joint positions and seat/foot contact in the
 rendered application. Preserve standing → sit transition → seated → stand transition
 captures and the failed attempt. Blender-local joint measurements alone do not
-prove the native GLB integration. The current social failure is still open.
+prove the native GLB integration. The later
+[qualified Shift Change record](../evidence/shift-change/README.md) retains the
+correction and final native evidence; the failed attempts remain useful evidence.
 
 For visual redesign, lock a generated target derived from the existing native
 view, then ask an independent critic to compare target and actual native captures.
@@ -267,3 +269,92 @@ Keep framing comparable and record concrete composition, light, material and
 readability gaps alongside regressions. This is a design loop, not a numerical
 quality certificate. Travel, honest state, keyboard access, contacts and frame-time
 measurements stay independent gates; a flattering screenshot cannot replace them.
+
+## A Morning at Starbase2
+
+The `morning review` (local review evidence is retained outside this commit) showed that closer
+camera framing can enlarge labels enough to obscure the very work pose it is
+meant to reveal. Observation now keeps status in the compact screen caption;
+opening historical evidence chooses a stable authored room view rather than
+continuing to follow an unrelated wandering crew member underneath the panel.
+These are optional camera choices, never actor teleports or backend events.
+
+Repeatedly setting an unchanged text-size preference rebuilt report buttons on
+every snapshot. Preserve control identity when neither records nor presentation
+settings changed; a stable screenshot cannot catch a lost mouse release. The
+briefing regression also tests all supported active state names, including
+repair execution and review phases, separately from unknown state.
+
+The daybook's first 1K export exposed prominent UV seams on its blank reading
+face. The native same-camera 2K comparison justified retaining those source maps.
+Its decorative model supplies no report text; Godot projects retained counts
+and a physical ray rejects clicks through solid occluders. Keyboard inspection
+remains available independently of the object.
+
+
+## Inhabited station: inspection and legibility
+
+World-sized labels can be legible in close views and unreadable from ordinary
+exterior framing. Check their apparent size in the real camera, suppress redundant
+labels during observation, and preserve a structured action at compact sizes.
+A badge count is not inspectable merely because it opens a journal: verify that
+the destination contains every counted role and selects the exact retained record.
+Records owned by separate capabilities may share an ID; preserve context plus ID
+through presentation and command selection. The `refinement evidence` (local review evidence is retained outside this commit)
+retains the small-text, wrong-destination, clipping and identity reproductions.
+
+A same-camera native comparison justified four-sample MSAA for geometry edges.
+That does not simplify intricate source meshes or erase baked texture noise; crew
+material response and camera framing were reviewed separately. Capped sequential
+frame intervals describe this local review, not an uncapped performance claim.
+
+## Crew outfit exports · 2026-09-11
+
+A present vertex-color attribute does not prove that the intended shader mask was
+exported. Blender reserved a white `COLOR_0` and wrote the authored protection mask
+into `COLOR_1`. Inspect the actual accessor values and surface bindings; the
+[crew outfit recipe](../.agents/skills/starbase2-3d-assets/references/visual-guide.md#outfit-and-hair-preparation)
+canonicalizes the binding without rewriting vertex data and audits both mask
+extremes. Preserve the imported scene FPS or explicitly rebake time: changing
+24 FPS to 30 FPS shortened otherwise valid exported clips to 80% duration.
+
+Place wearable equipment from the actual evaluated skin envelope in the chosen
+pose, then inspect it in native front/side/back views and during seated motion.
+A fixed offset from a spine bone can bury a backpack in the torso. Bone placement
+is not a body-surface measurement, and an exported mesh count is not proof that
+an accessory is visible or clears animated anatomy.
+## Independent character rigs: rest poses and native acceptance
+
+The selected September 11 cast exposed a secondary-motion assumption hidden by
+the earlier Cybercat rig: a newly authored child bone can have a nonidentity
+local rest rotation. Writing the spring quaternion directly collapses that rest
+orientation, even when spring strength is zero. Compose the cosmetic delta with
+the imported bone baseline, and restore that baseline for reduced motion. Keep a
+nonidentity-rest regression; an identity-only fixture cannot catch this defect.
+
+Use native off/on skin captures to distinguish runtime transform mistakes from
+mesh weighting faults. Hard texture-color masks can leave neighboring hair
+vertices on unrelated joints, so inspect the full lock and its transition, not
+just the count of weighted vertices. Seated joints inside plausible bounds do
+not prove coat or pelvis contact. Preserve and inspect deformed triangles and
+the interpolated animation against the actual furniture.
+
+Zero furniture penetration does not prove visible support. Rivet's first pose
+cleared the bench while appearing to hover over it. Calibrate against the actual
+pelvis support surface; a broad minimum-vertex region can accidentally follow a
+knee or shin and raise the whole body. Respect each model's proportions: short
+robot legs can deliberately dangle from a supported seat instead of being
+stretched into a human foot-plant constraint.
+
+## Validate animation after the engine frame
+
+A paused AnimationPlayer (`speed_scale = 0`) still reapplies its current clip
+during automatic processing. This overwrote the selected cast’s manually blended
+bones and secondary hair motion after `project()` returned. Synchronous pose
+checks passed while native idle/walk/run/work transitions visibly snapped.
+
+When code owns sampling through `seek()` and applies overlays afterward, set the
+player’s callback mode to manual. Verify the pose again after normal engine
+frames, not only inside the projection call. The twelve-case six-character
+regression failed before this correction and passed unchanged afterward; native
+before/after sequences are retained in `motion validation` (local review evidence is retained outside this commit).

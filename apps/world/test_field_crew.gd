@@ -16,13 +16,15 @@ func run() -> void:
 	key.pressed=true
 	key.physical_keycode=KEY_4
 	world._unhandled_key_input(key)
-	assert(world.hud.heading.text.contains("WATCHKEEPER"))
+	assert(world.hud.heading.text.contains("WES WALKER"))
+	assert(world.hud.suit_label.text.contains("WATCHKEEPER"))
 	assert(world.hud.selected_id=="cluster-test")
 	assert(world.hud.evidence.text.contains("synthetic fixture"))
 	assert(world.hud.evidence.text.contains("1 observed findings"))
 	key.physical_keycode=KEY_5
 	world._unhandled_key_input(key)
-	assert(world.hud.heading.text.contains("PR REVIEWER"))
+	assert(world.hud.heading.text.contains("PRISM"))
+	assert(world.hud.suit_label.text.contains("REVIEWER"))
 	for name in ["Watchkeeper","Reviewer"]:
 		var actor=world.get_node(name)
 		assert(not world.navigator.route(Vector3(0,0,5.5),actor.position).is_empty())

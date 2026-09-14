@@ -1,4 +1,9 @@
-# Meshy and Blender world pass
+# Meshy and Blender world pass (historical record)
+
+This document records the earlier shared-rig production slice. It is retained
+for provenance and measured lessons; it is not the current character or runtime
+source. See [the September refactor](recent-refactor.md) and
+[character production](character-production.md) for the active pipeline.
 
 Status: proposed
 
@@ -115,7 +120,7 @@ with `mise exec -- just world-engineering-build`; this reuses retained downloads
 and does not call paid endpoints. New bespoke rooms wait for owner review.
 
 
-The subsequent [CyberCat Vanguard integration](../assets-production/characters/cybercat-vanguard/README.md)
+The subsequent historical CyberCat Vanguard integration
 replaces the player's Engineering suit with the exact supplied CyberCat model.
 Its source had no rig or clips; rigging and idle cost 8 credits, with walk/run
 included. Total recorded spend is now 208 / 250 (42 remaining). Mender retains

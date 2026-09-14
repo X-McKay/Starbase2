@@ -493,7 +493,7 @@ migration, real Temporal review, role restrictions, restart, dump/restore and
 cleanup. `just deployment-test-db-stop` removes only that container. These
 commands never use kubeconfig. The [local rehearsal result](../evidence/deployment-rehearsal.json)
 is scoped separately from cluster acceptance; earlier failed runs are retained
-in [the history directory](../evidence/deployment-rehearsal-history).
+in `the history directory` (local review evidence is retained outside this commit).
 
 Primary references: [Temporal namespace administration](https://docs.temporal.io/cli/operator#namespace),
 [PostgreSQL dump](https://www.postgresql.org/docs/18/app-pgdump.html),

@@ -62,7 +62,7 @@ func run() -> void:
  visual.project(Vector3(0,0,0.1),true,0.3,false,1.0/60.0)
  check(visual.clip=="run","Fast physical displacement selects running")
  visual.project(Vector3.ZERO,false,0,false,0.2,"console")
- check(visual.clip=="console","Workstation gesture is available")
+ check(visual.clip=="work/field_slate","Authored field-slate workstation gesture is available")
  visual.project(Vector3.ZERO,false,0,true,0.2,"console")
  check(visual.clip=="idle","Reduced motion suppresses console gesture")
  var rotation=visual.skeleton.get_bone_pose_rotation(0)

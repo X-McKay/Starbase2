@@ -2,8 +2,8 @@ extends Node
 ## Local operator session only. Never reads a worker credential or persists cookies.
 signal feedback(message: String, pending: bool)
 signal accepted(id: String)
-var api := "http://127.0.0.1:8787"
-var http := HTTPRequest.new()
+var api := preload("res://transport.gd").default_origin()
+var http = preload("res://transport.gd").create()
 var cookie := ""
 var phase := ""
 var path := ""
@@ -25,11 +25,14 @@ static func local_origin(value: String) -> bool:
 	var port := value.trim_prefix(prefix)
 	return port.is_valid_int() and str(int(port)) == port and int(port) > 0 and int(port) <= 65535
 
+static func allowed_origin(value: String) -> bool:
+	return preload("res://transport.gd").web_origin(value) if OS.has_feature("web") else local_origin(value)
+
 func submit(endpoint: String, data: Dictionary, id: String, lookup: String = "") -> void:
 	if phase != "":
 		return
-	if not local_origin(api):
-		feedback.emit("Native commands require the local loopback core. Use Connection and native History.",false)
+	if not allowed_origin(api):
+		feedback.emit("Browser commands require this page’s origin. Use Connection to reconnect." if OS.has_feature("web") else "Native commands require the local loopback core. Use Connection and native History.",false)
 		return
 	if uncertain:
 		phase = "reconcile"
@@ -47,7 +50,7 @@ func submit(endpoint: String, data: Dictionary, id: String, lookup: String = "")
 	_request(api + "/", PackedStringArray(), HTTPClient.METHOD_GET)
 
 func _request(url: String, headers: PackedStringArray, method: int, body: String = "") -> void:
-	var result := http.request(url, headers, method, body)
+	var result: int = http.request(url, headers, method, body)
 	if result != OK:
 		_response(HTTPRequest.RESULT_CANT_CONNECT,0,PackedStringArray(),PackedByteArray())
 
@@ -59,13 +62,18 @@ func _response(result: int, code: int, headers: PackedStringArray, body: PackedB
 			for header in headers:
 				if header.to_lower().begins_with("set-cookie: starbase_session="):
 					cookie = header.substr(header.find(":")+1).strip_edges().split(";")[0]
-		if cookie.is_empty():
+		var browser_session := OS.has_feature("web") and success and code == 200
+		if cookie.is_empty() and not browser_session:
 			phase = ""
 			feedback.emit("Could not obtain a local operator session. Nothing dispatched.",false)
 			return
 		phase = "write"
 		feedback.emit("Request pending · awaiting the core record…",true)
-		_request(api+path,PackedStringArray(["Content-Type: application/json","Cookie: "+cookie,"Origin: "+api]),HTTPClient.METHOD_POST,JSON.stringify(payload))
+		var write_headers := PackedStringArray(["Content-Type: application/json"])
+		if not OS.has_feature("web"):
+			write_headers.append("Cookie: "+cookie)
+			write_headers.append("Origin: "+api)
+		_request(api+path,write_headers,HTTPClient.METHOD_POST,JSON.stringify(payload))
 		cookie = ""
 		return
 	if phase == "write":

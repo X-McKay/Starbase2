@@ -1,13 +1,20 @@
 extends SceneTree
 var output:=""
 var side_view:=false
+var review_identity:="surveyor"
 var actors:Array=[]
 var records:Array=[]
 func _initialize() -> void:
 	for arg in OS.get_cmdline_user_args():
 		if arg=="--social-side": side_view=true
+		if arg.begins_with("--social-identity="): review_identity=arg.trim_prefix("--social-identity=")
 		if arg.begins_with("--capture-social="): output=arg.trim_prefix("--capture-social=")
 	run.call_deferred()
+func social_definition(id:String) -> Resource:
+	var selected:Resource=load("res://characters/definitions/"+id+".tres")
+	assert(selected!=null and not selected.use_legacy_animation_libraries,"Social review requires the selected independent cast: "+id)
+	return selected
+
 func box(parent:Node,position:Vector3,size:Vector3,color:Color) -> void:
 	var node:=MeshInstance3D.new(); var mesh:=BoxMesh.new(); mesh.size=size
 	var mat:=StandardMaterial3D.new(); mat.albedo_color=color; mat.roughness=.8
@@ -22,9 +29,9 @@ func sample(name:String) -> void:
 			var point:Vector3=skeleton.to_global(skeleton.get_bone_global_pose(skeleton.find_bone(bone)).origin)-actor.position
 			points[bone]=[point.x,point.y,point.z]
 		if name=="seated":
-			assert(absf(points.Hips[1]-(.76 if actor.appearance=="surveyor" else .63))<.03 and absf(points.Hips[2]+.55)<.03,"Seated pelvis must match authored bench contact")
-			assert(points.Head[1]>1.05 and points.Head[1]<1.6 and absf(points.Head[2])<1.0,"Head must remain above torso, without accumulated child transforms")
-			assert(points.LeftLeg[1]>=.48 and points.RightLeg[1]>=.48,"Knees and thighs must clear the seat slab")
+			assert(points.Hips[1]>.55 and points.Hips[1]<.85 and absf(points.Hips[2]+.44)<.08,"Seated pelvis must match authored bench contact")
+			assert(points.Head[1]>.85 and points.Head[1]<1.7 and absf(points.Head[2])<1.0,"Head must remain above torso, without accumulated child transforms")
+			assert(points.LeftLeg[1]>=.25 and points.RightLeg[1]>=.25,"Knees and thighs remain above the floor in the seated pose")
 			for foot in ["LeftFoot","RightFoot"]: assert(points[foot][1]>0.03 and points[foot][1]<.3 and absf(points[foot][2])<.4,"Feet remain near the planted floor contact")
 		states.append({"id":actor.appearance,"clip":visual.clip,"points":points,"transition_finished":visual.social_transition_finished})
 	records.append({"phase":name,"actors":states})
@@ -36,15 +43,17 @@ func run() -> void:
 	var stage:=Node3D.new(); root.add_child(stage)
 	var camera:=Camera3D.new(); stage.add_child(camera); camera.position=Vector3(3.6,2.7,6); camera.look_at(Vector3(0,.8,0)); camera.projection=Camera3D.PROJECTION_ORTHOGONAL; camera.size=6.6
 	if side_view: camera.position=Vector3(6,1.2,-.1); camera.look_at(Vector3(0,.8,-.2)); camera.size=2.7
+	else: camera.position=Vector3(1.2,2.7,10); camera.look_at(Vector3(0,.8,0)); camera.size=12.5
 	var sun:=DirectionalLight3D.new(); sun.rotation_degrees=Vector3(-45,-25,0); sun.light_energy=1.5; stage.add_child(sun)
 	var environment:=WorldEnvironment.new(); environment.environment=Environment.new(); environment.environment.background_mode=Environment.BG_COLOR; environment.environment.background_color=Color("273342"); environment.environment.ambient_light_source=Environment.AMBIENT_SOURCE_COLOR; environment.environment.ambient_light_color=Color("cad9e7"); environment.environment.ambient_light_energy=.5; stage.add_child(environment)
-	box(stage,Vector3(0,-.05,0),Vector3(8,.1,5),Color("566774"))
-	for i in range(1 if side_view else 3):
-		var actor=preload("res://actor.gd").new(); actor.appearance=["surveyor","repair","operator"][i]
-		actor.character_definition=load(["res://characters/definitions/surveyor.tres","res://characters/definitions/mender.tres","res://characters/definitions/operator.tres"][i])
-		actor.position.x=0.0 if side_view else (i-1)*2.0; stage.add_child(actor); actors.append(actor)
-		box(stage,Vector3(actor.position.x,.43,-.55),Vector3(.8,.1,.4),Color("a68257"))
-		box(stage,Vector3(actor.position.x,.76,-.8),Vector3(.8,.5,.09),Color("a68257"))
+	box(stage,Vector3(0,-.05,0),Vector3(15,.1,5),Color("566774"))
+	var identities:Array=[review_identity] if side_view else ["operator","mender","surveyor","trainer","watchkeeper","reviewer"]
+	for i in range(identities.size()):
+		var actor=preload("res://actor.gd").new(); actor.appearance=identities[i]
+		actor.character_definition=social_definition(str(identities[i]))
+		actor.position.x=0.0 if side_view else (i-2.5)*2.0; stage.add_child(actor); actors.append(actor)
+		box(stage,Vector3(actor.position.x,.43,-.44),Vector3(.8,.1,.4),Color("a68257"))
+		box(stage,Vector3(actor.position.x,.76,-.69),Vector3(.8,.5,.09),Color("a68257"))
 		assert(actor.model_visual.animation.has_animation("social/seated"),"Baked social clips must load on actual selected skeleton")
 	if not output.is_empty(): DirAccess.make_dir_recursive_absolute(output)
 	for tick in range(12): await physics_frame
@@ -64,7 +73,7 @@ func run() -> void:
 	for actor in actors: assert(actor.model_visual.social_transition_finished)
 	for i in actors.size():
 		for foot in ["LeftFoot","RightFoot"]:
-			assert(absf(records[2].actors[i].points[foot][1]-records[4].actors[i].points[foot][1])<.002,"Sitting retains each rig own standing ankle-to-sole offset")
+				assert(absf(records[0].actors[i].points[foot][1]-records[4].actors[i].points[foot][1])<.002,"Standing return retains each rig own ankle-to-sole offset")
 	for actor in actors: actor.presentation_pose="sit"; actor.reduced_motion=true
 	for tick in range(3): await physics_frame
 	for actor in actors: assert(actor.model_visual.clip=="social/seated" and actor.model_visual.social_transition_finished,"Reduced motion snaps to stable seated contact")

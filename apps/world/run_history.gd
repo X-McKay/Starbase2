@@ -3,7 +3,7 @@ extends VBoxContainer
 signal cancel_requested(id: String)
 signal selection_changed(run: Dictionary)
 const StateView = preload("res://state.gd")
-var api := "http://127.0.0.1:8787"
+var api := preload("res://transport.gd").default_origin()
 var fixture := ""
 var offline := true
 var selected := ""
@@ -16,11 +16,13 @@ var latest_records: Dictionary = {}
 var detail_serial := 0
 var epoch := 0
 var page_pending := false
-var page_http := HTTPRequest.new()
-var detail_http := HTTPRequest.new()
+var page_http = preload("res://transport.gd").create()
+var detail_http = preload("res://transport.gd").create()
 var notice: Label
 var list: ItemList
 var detail: RichTextLabel
+var full_record: TextEdit
+var full_toggle: Button
 var panes: BoxContainer
 var older: Button
 var back: Button
@@ -54,7 +56,13 @@ func _ready() -> void:
 	list.item_activated.connect(func(index): inspect_run(row_ids[index])); panes.add_child(list)
 	detail=RichTextLabel.new(); detail.custom_minimum_size=Vector2(0,140); detail.size_flags_vertical=Control.SIZE_EXPAND_FILL
 	detail.size_flags_horizontal=Control.SIZE_EXPAND_FILL; detail.size_flags_stretch_ratio=1.4
-	detail.selection_enabled=true; detail.bbcode_enabled=false; panes.add_child(detail)
+	detail.selection_enabled=true; detail.bbcode_enabled=false
+	var detail_column:=VBoxContainer.new(); detail_column.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	detail_column.size_flags_vertical=Control.SIZE_EXPAND_FILL; detail_column.size_flags_stretch_ratio=1.4
+	panes.add_child(detail_column); detail_column.add_child(detail)
+	full_toggle=button(detail_column,"Source, revisions & full record",func(): full_record.visible=not full_record.visible)
+	full_record=TextEdit.new(); full_record.editable=false; full_record.custom_minimum_size.y=200
+	full_record.size_flags_vertical=Control.SIZE_EXPAND_FILL; detail_column.add_child(full_record); full_record.hide()
 	resized.connect(layout_panes); layout_panes()
 	refresh()
 
@@ -141,7 +149,7 @@ func request_page(before: int, reset: bool) -> void:
 	# Capture the generation by value, rather than reading the current generation in callbacks.
 	page_callback=receive_page_response.bind(epoch,reset,before)
 	page_http.request_completed.connect(page_callback,CONNECT_ONE_SHOT)
-	var error:=page_http.request(api+"/v2/runs"+("?before="+str(before) if before>0 else ""))
+	var error: int = page_http.request(api+"/v2/runs"+("?before="+str(before) if before>0 else ""))
 	if error!=OK: page_pending=false; refresh(); notice.text="History request could not start; retained records remain."
 
 func receive_page_response(result: int, code: int, _headers: PackedStringArray, body: PackedByteArray, generation: int, reset: bool, before: int) -> void:
@@ -161,6 +169,7 @@ func receive_page(generation: int, result: int, code: int, body: PackedByteArray
 	refresh()
 
 func inspect_run(id: String) -> void:
+	if selected!=id and is_instance_valid(full_record): full_record.hide()
 	detail_serial+=1
 	selected=id
 	selected_run=details.get(id,{}).duplicate(true)
@@ -208,13 +217,18 @@ func refresh() -> void:
 	refresh_selected.disabled=offline or not fixture.is_empty() or selected.is_empty()
 	stop.disabled=offline or not fixture.is_empty() or not cancellable(current_selected())
 	notice.text=("Fixture · " if not fixture.is_empty() else ("Disconnected · retained records · " if offline else ""))+"Review/comparison history · Page "+str(page_index+1)+" · "+str(active.size())+" active"+(" · loading" if page_pending else "")
-	if selected_run.is_empty(): detail.text="Select a run to inspect its retained details. Field observations remain in Command."; return
+	full_toggle.visible=not selected_run.is_empty()
+	if selected_run.is_empty():
+		detail.text="Select a run to inspect its retained details. Field observations remain in Command."
+		full_record.text=""; full_record.hide(); return
 	var report=selected_run.get("report")
 	var evidence:="No completion evidence recorded."
 	if report is Dictionary: evidence="Retained report. Inspect summary and coverage below; partial coverage is not certification."
-	var rendered_detail:="Run "+selected+"\nLatest known state: "+str(current_selected().get("state","unknown"))+"\nRetained detail state: "+str(selected_run.get("state","unknown"))+"\nEvidence summary: "+(JSON.stringify(report.get("summary",{})) if report is Dictionary else "Not recorded")+"\nUpdated: "+str(selected_run.get("updated_at","unknown"))+"\n"+str(selected_run.get("detail",""))+"\n"+evidence+"\n"+("Full detail fetched; polling does not replace this retained record. Use Refresh selected to fetch the latest detail.\n" if details.has(selected) else "Summary only; source and events may not be loaded.\n")+"\n"+JSON.stringify(selected_run,"  ")
+	var rendered_detail:="Run "+selected+"\nLatest known state: "+str(current_selected().get("state","unknown"))+"\nRetained detail state: "+str(selected_run.get("state","unknown"))+"\nEvidence summary: "+(JSON.stringify(report.get("summary",{})) if report is Dictionary else "Not recorded")+"\nUpdated: "+timestamp(selected_run.get("updated_at",0))+"\n"+str(selected_run.get("detail",""))+"\n"+evidence+"\n"+("Full detail fetched; polling does not replace this retained record. Use Refresh selected to fetch the latest detail.\n" if details.has(selected) else "Summary only; source and events may not be loaded.\n")+"\nCoverage: "+(JSON.stringify(report.get("coverage","Not reported")) if report is Dictionary else "Not recorded")
 
 	if detail.text!=rendered_detail: detail.text=rendered_detail
+	var raw:=JSON.stringify(selected_run,"  ")
+	if full_record.text!=raw: full_record.text=raw
 
 func _restore_list_scroll(value: float, generation: int, page: int) -> void:
 	if generation==epoch and page==page_index and is_instance_valid(list): list.get_v_scroll_bar().value=value
@@ -223,3 +237,7 @@ func layout_panes() -> void:
 	if panes==null: return
 	panes.vertical=size.x<560
 	list.custom_minimum_size.y=120 if panes.vertical else 140
+
+static func timestamp(value:Variant) -> String:
+	if not (value is int or value is float) or value<=0: return "Unavailable"
+	return Time.get_datetime_string_from_unix_time(int(value)).replace("T"," ")+" UTC"

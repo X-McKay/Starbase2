@@ -31,7 +31,7 @@ func run() -> void:
 	var watch:Array=[]
 	hud.watch_requested.connect(func(kind):watch.append(kind))
 	for button in hud.dock.find_children("*","Button",true,false):
-		if button.text=="Watch this crew member": button.pressed.emit()
+		if button.text=="Watch this crew member" and button.is_visible_in_tree(): button.pressed.emit()
 	check(watch==["watchkeeper"],"Watching is an explicit action, separate from selecting a record")
 	hud.open_board()
 	await process_frame
@@ -47,7 +47,7 @@ func run() -> void:
 		await process_frame
 		print("SHIFT_STRIP_BOUNDS ",size," ",strip.get_global_rect()," viewport ",root.get_visible_rect())
 		check(root.get_visible_rect().encloses(strip.get_global_rect()),"Crew strip fits native and compact viewport")
-		check(strip.get_global_rect().position.y>=hud.dock.get_global_rect().end.y,"Inspector and crew strip do not cover one another")
+		check(not strip.is_visible_in_tree(),"Inspector hides crew strip so controls do not overlap")
 		for kind in strip.entries:
 			check(strip.entries[kind].size.x>=100,"Every crew selection has a useful target width")
 	hud.queue_free(); await process_frame

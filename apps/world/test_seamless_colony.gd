@@ -17,6 +17,8 @@ func walk(world: Node3D, target: Vector3, context: Node3D) -> void:
  check(world.active_building==context,"Physical crossing sets matching context")
 func run() -> void:
  var world=load("res://main.tscn").instantiate()
+ world.fixture_path="res://../../fixtures/world/stale.json"
+ world.board_fixture="__empty_visual_fixture__"
  root.add_child(world)
  await process_frame
  await physics_frame

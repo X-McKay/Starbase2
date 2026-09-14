@@ -221,6 +221,181 @@ def qualify_shift_change(
     return {"board_fixture_sha256": fixture_hashes[1], "modes": records}
 
 
+def verify_morning_report(directory: Path) -> dict:
+    """Require the ordinary minute and its exact retained native evidence."""
+    report_path = directory / "morning-report.json"
+    record = json.loads(report_path.read_text())
+    if (
+        record.get("mode") != "morning"
+        or record.get("status") != "passed"
+        or record.get("fixture") is not True
+        or record.get("initial_positions_staged") is not True
+        or record.get("physics_after_staging") is not True
+        or record.get("failures") != []
+        or not 60000 <= record.get("wall_ms", -1) < 180000
+    ):
+        raise RuntimeError("Morning report did not qualify")
+    expected = ["01-inhabited-habitat.png"]
+    expected += [f"02-standing-{frame:02d}.png" for frame in (8, 24, 40)]
+    expected += [f"minute-{second:02d}.png" for second in (15, 30, 45, 60)]
+    expected += [
+        "03-workstation.png",
+        "04-result-ready.png",
+        "05-morning-briefing.png",
+        "06-retained-evidence.png",
+        "07-home-again.png",
+        "08-stale-briefing.png",
+        "09-reduced-large-text.png",
+        "10-station-records.png",
+        "11-station-compact.png",
+    ]
+    if sorted(record.get("captures", [])) != sorted(expected):
+        raise RuntimeError("Morning capture sequence incomplete")
+    for name in expected:
+        if not (directory / name).read_bytes().startswith(b"\x89PNG\r\n\x1a\n"):
+            raise RuntimeError(f"Invalid morning capture: {name}")
+    samples = {sample["label"]: sample for sample in record.get("samples", [])}
+    if (
+        samples.get("home", {}).get("clip") != "social/seated"
+        or not any(
+            sample.get("label") == "departure" and sample.get("clip") == "social/stand_up"
+            for sample in record.get("samples", [])
+        )
+        or samples.get("working", {}).get("pose") != "console"
+        or samples.get("working", {}).get("clip") != "work/field_slate"
+        or samples.get("result-ready", {}).get("evidence_ready") is not True
+        or samples.get("home-again", {}).get("clip") != "social/seated"
+        or samples.get("offline", {}).get("pose") != ""
+        or samples.get("offline", {}).get("goal") != "hold"
+        or samples.get("reconnected", {}).get("evidence_ready") is not True
+    ):
+        raise RuntimeError("Morning journey state samples incomplete")
+    minute_path = directory / "minute-samples.json"
+    minute = json.loads(minute_path.read_text())
+    observations = minute.get("samples", [])
+    ticks = [sample.get("wall_ms", -1) for sample in observations]
+    if (
+        minute.get("fixture") is not True
+        or minute.get("world_fixture") is not True
+        or minute.get("board_fixture") is not True
+        or minute.get("commands_dispatched") is not False
+        or minute.get("http_idle") is not True
+        or minute.get("fixture_memory_status") != "disabled"
+        or minute.get("initial_setup_only_teleports") is not True
+        or minute.get("moving_frames", 0) <= 100
+        or len(ticks) < 55
+        or any(not isinstance(tick, int) or tick < 0 for tick in ticks)
+        or ticks != sorted(set(ticks))
+        or ticks[-1] - ticks[0] < 60000
+        or ticks[-1] >= 180000
+    ):
+        raise RuntimeError("Morning continuous minute or isolation proof incomplete")
+    return {
+        "report_sha256": digest(report_path),
+        "minute_samples_sha256": digest(minute_path),
+        "captures": {name: digest(directory / name) for name in expected},
+        "fixture_only": True,
+        "commands_dispatched": False,
+        "fixture_memory_status": "disabled",
+        "visual_acceptance": "requires native frame inspection; not production qualification",
+    }
+
+
+def qualify_morning(
+    executable: Path, fixture: Path, board_fixture: Path, output: Path, cwd: Path
+) -> dict:
+    fixture_hashes = (digest(fixture), digest(board_fixture))
+    refusal = output / "morning-refused"
+    for name, arguments in (
+        ("no-fixtures", []),
+        ("no-board", ["--fixture=" + str(fixture)]),
+    ):
+        run(
+            [str(executable), "--headless", "--", *arguments, "--morning-capture=" + str(refusal)],
+            output / f"morning-{name}-refusal.log",
+            cwd,
+            expected_refusal="Morning capture requires offline world and board fixtures",
+        )
+        if refusal.exists():
+            raise RuntimeError("Refused morning run created output before its fixture fence")
+    directory = output / "morning"
+    native_capture(
+        executable,
+        [
+            "--fixture=" + str(fixture),
+            "--board-fixture=" + str(board_fixture),
+            "--morning-capture=" + str(directory),
+        ],
+        output,
+        "morning",
+        cwd,
+    )
+    if "SHIFT_CHANGE_CAPTURE_PASSED morning" not in (output / "morning.log").read_text():
+        raise RuntimeError("Morning native journey did not finish")
+    record = verify_morning_report(directory)
+    if fixture_hashes != (digest(fixture), digest(board_fixture)):
+        raise RuntimeError("Morning fixtures changed during qualification")
+    return {"board_fixture_sha256": fixture_hashes[1], "journey": record}
+
+
+def qualify_ember(executable: Path, output: Path, cwd: Path) -> dict:
+    """Exercise all new UI surfaces from the exact pack with both fixtures fenced."""
+    fixture = ROOT / "evidence/ember-implementation/world-fixture.json"
+    board = ROOT / "evidence/command-district/board-fixture.json"
+    before = (digest(fixture), digest(board))
+    refusal = output / "ember-refused"
+    for name, arguments in (("no-fixtures", []), ("no-board", ["--fixture=" + str(fixture)])):
+        run(
+            [str(executable), "--headless", "--", *arguments, "--ember-capture=" + str(refusal)],
+            output / f"ember-{name}-refusal.log",
+            cwd,
+            expected_refusal="Ember capture requires offline world and board fixtures",
+        )
+        if refusal.exists():
+            raise RuntimeError("Ember refused capture created output")
+    directory = output / "ember"
+    native_capture(
+        executable,
+        [
+            "--fixture=" + str(fixture),
+            "--board-fixture=" + str(board),
+            "--ember-capture=" + str(directory),
+        ],
+        output,
+        "ember",
+        cwd,
+    )
+    record = json.loads((directory / "ember-report.json").read_text())
+    if (
+        record.get("status") != "passed"
+        or record.get("mode") != "ember"
+        or record.get("fixture") is not True
+        or record.get("commands_dispatched") is not False
+        or record.get("http_idle") is not True
+        or record.get("failures") != []
+        or len(set(record.get("captures", []))) != 27
+        or not 0 <= record.get("wall_ms", -1) < 120000
+        or "EMBER_CAPTURE_PASSED" not in (output / "ember.log").read_text()
+    ):
+        raise RuntimeError("Ember standalone UI acceptance failed")
+    captures = {}
+    for name in record["captures"]:
+        if Path(name).name != name or not name.endswith(".png"):
+            raise RuntimeError("Invalid ember capture name")
+        path = directory / name
+        if not path.is_file() or path.stat().st_size < 10000:
+            raise RuntimeError("Missing or empty ember native capture")
+        captures[name] = digest(path)
+    if before != (digest(fixture), digest(board)):
+        raise RuntimeError("Ember fixture changed during qualification")
+    return {
+        "fixture_sha256": before[0],
+        "board_fixture_sha256": before[1],
+        "report_sha256": digest(directory / "ember-report.json"),
+        "captures": captures,
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -368,6 +543,14 @@ def main() -> None:
             output,
             isolated,
         )
+        morning_record = qualify_morning(
+            executable,
+            fixture,
+            ROOT / "evidence/command-district/board-fixture.json",
+            output,
+            isolated,
+        )
+        ember_record = qualify_ember(executable, output, isolated)
         live_record = None
         if args.live_api:
             native_capture(
@@ -400,6 +583,8 @@ def main() -> None:
                     raise RuntimeError("Missing live native capture: " + name)
         report = {
             "shift_change": shift_record,
+            "morning": morning_record,
+            "ember": ember_record,
             "live_backend": live_record,
             "native_input_mode": (
                 "one normal Launch Services launch, no repeated activation; "

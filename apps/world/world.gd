@@ -11,12 +11,18 @@ var crew_presentations:Dictionary={}
 var crew_motions:Dictionary={}
 var home_reservations:Dictionary={}
 var watched_crew := ""
+var morning_director:=preload("res://morning_director.gd").new()
+var morning_atmosphere:Node3D
+var daybook:Node3D
+var station_signals:Node3D
+var briefing_camera_cut := false
+var observation_camera_cut := false
 var life_ui_timer := 0.0
 var connection_message:="Waiting for the Core snapshot"
 var poll_timer:Timer
 const LivingCommons = preload("res://living_commons.gd")
-var http := HTTPRequest.new()
-var api := "http://127.0.0.1:8787"
+var http = preload("res://transport.gd").create()
+var api := preload("res://transport.gd").default_origin()
 var decorative_vents: Array[Node3D] = []
 var hud: CanvasLayer
 var commands: Node
@@ -28,6 +34,7 @@ var disconnected := true
 var last_received := 0
 var snapshot: Dictionary = {}
 var live_reviewer:RefCounted
+var support_surface=preload("res://support_surface.gd").new()
 var live_capture_directory := ""
 var capture_path := ""
 var capture_frames := 180
@@ -61,6 +68,8 @@ var board_tab := 0
 var board_evidence := ""
 var foley: Node
 var large_on_start := false
+var player_character_id:="operator"
+var player_preferences_path:=preload("res://player_preferences.gd").PATH
 var reduced_on_start := false
 var directory_on_start := false
 var pending_selection_id := ""
@@ -127,6 +136,8 @@ func update_crew_presentation() -> void:
 		if hud.crew_strip!=null: hud.crew_strip.project(kind,intent)
 
 func watch_crew(kind:String) -> void:
+	morning_director.stop()
+	hud.observing=false; hud.sync_world_chrome()
 	if not MEMBERS.has(kind): return
 	watched_crew=kind
 	colony_overview=false
@@ -134,8 +145,50 @@ func watch_crew(kind:String) -> void:
 	hud.close_panels(); hud.crew_strip.set_watching(kind)
 
 func stop_watching() -> void:
+	morning_director.stop()
+	hud.observing=false; hud.sync_world_chrome()
 	watched_crew=""
 	hud.crew_strip.set_watching("")
+
+func start_observing() -> void:
+	if hud.reduced:
+		hud.prompt.text="Observation camera is paused with reduced motion. Choose a crew member to inspect."
+		return
+	hud.close_panels()
+	route.clear(); marker.hide()
+	colony_overview=false
+	morning_director.start()
+	hud.observing=true; hud.sync_world_chrome()
+
+func open_morning_briefing() -> void:
+	stop_watching()
+	colony_overview=false
+	briefing_camera_cut=true
+	# Explicit reading view: reveal only visual surfaces, leaving door physics alone.
+	var habitat=$Structures/Habitat
+	habitat.cutaway=0.0; habitat.room.visible=true
+	for material in habitat.cut_materials: material.set_shader_parameter("visibility",0.0)
+	for material in habitat.reveal_materials: material.set_shader_parameter("visibility",1.0)
+	hud.close_panels()
+	hud.briefing.present()
+
+func open_station_records(context:String="") -> void:
+	if context.is_empty():
+		context=station_signals.visible_context if station_signals!=null and not station_signals.visible_context.is_empty() else hud.station_records.selected_station
+	stop_watching()
+	hud.close_panels()
+	hud.station_records.set_large_text(hud.large_text)
+	hud.station_records.present(context)
+
+func inspect_morning_record(id:String,context:String) -> void:
+	hud.close_panels()
+	if context in ["watchkeeper","reviewer"]:
+		hud.open_board(); hud.board.inspect(id)
+	elif context in ["review","gym","evaluation"]:
+		hud.open_operations(); hud.operations.tabs.current_tab=3
+		hud.operations.history.inspect_run(id)
+	else:
+		hud.open_place(context); hud.selected_id=id; show_mission()
 
 func command_unresolved() -> bool:
 	return commands.phase!="" or commands.uncertain or hud.board.commands.phase!="" or hud.board.commands.uncertain or hud.operations.unresolved()
@@ -146,12 +199,15 @@ func refresh_connection_panel() -> void:
 
 
 func connect_to_core(endpoint:String) -> void:
-	if not Commands.local_origin(endpoint) or command_unresolved():
+	if not Commands.allowed_origin(endpoint) or command_unresolved():
 		hud.connection_panel.feedback.text="Resolve pending commands before changing the local Core address."
 		return
 	http.cancel_request()
 	api=endpoint; fixture_path=""; board_fixture=""
 	snapshot={}; missions=[]; disconnected=true; last_received=0
+	if hud.briefing!=null: hud.briefing.reset()
+	if hud.station_records!=null: hud.station_records.reset()
+	stop_watching()
 	initial_xp=-1; pending_selection_id=""; hud.selected_id=""
 	commands.api=api; hud.api=api
 	hud.operations.configure(api,"")
@@ -172,7 +228,7 @@ func _ready() -> void:
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--live-capture="): live_capture_directory=arg.trim_prefix("--live-capture=")
 		if arg.begins_with("--capture="): capture_path = arg.trim_prefix("--capture=")
-		if arg.begins_with("--api="): api = arg.trim_prefix("--api=").trim_suffix("/")
+		if arg.begins_with("--api=") and not OS.has_feature("web"): api = arg.trim_prefix("--api=").trim_suffix("/")
 		if arg.begins_with("--frames="): capture_frames = maxi(60,int(arg.trim_prefix("--frames=")))
 		if arg.begins_with("--fixture="): fixture_path = arg.trim_prefix("--fixture=")
 		if arg.begins_with("--board-tab="): board_tab=int(arg.trim_prefix("--board-tab="))
@@ -202,13 +258,23 @@ func _ready() -> void:
 	var package_capture_directory := ""
 	var shift_capture_directory := ""
 	var shift_capture_mode := "domestic"
+	var morning_capture_directory := ""
+	var ember_capture_directory := ""
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--capture-package="): package_capture_directory=arg.trim_prefix("--capture-package=")
 		if arg.begins_with("--shift-change-capture="): shift_capture_directory=arg.trim_prefix("--shift-change-capture=")
 		if arg.begins_with("--shift-change-mode="): shift_capture_mode=arg.trim_prefix("--shift-change-mode=")
-	if not capture_path.is_empty() or not package_capture_directory.is_empty() or not live_capture_directory.is_empty() or not shift_capture_directory.is_empty():
+		if arg.begins_with("--morning-capture="): morning_capture_directory=arg.trim_prefix("--morning-capture=")
+		if arg.begins_with("--ember-capture="): ember_capture_directory=arg.trim_prefix("--ember-capture=")
+	if not capture_path.is_empty() or not package_capture_directory.is_empty() or not live_capture_directory.is_empty() or not shift_capture_directory.is_empty() or not morning_capture_directory.is_empty() or not ember_capture_directory.is_empty():
 		isolate_capture_input()
-	if ("--verify-package" in OS.get_cmdline_user_args() or not package_capture_directory.is_empty() or not shift_capture_directory.is_empty()) and fixture_path.is_empty():
+	if not ember_capture_directory.is_empty() and (fixture_path.is_empty() or board_fixture.is_empty()):
+		push_error("Ember capture requires offline world and board fixtures")
+		http.free(); camera.free(); get_tree().quit(1); return
+	if not morning_capture_directory.is_empty() and (fixture_path.is_empty() or board_fixture.is_empty()):
+		push_error("Morning capture requires offline world and board fixtures")
+		http.free(); camera.free(); get_tree().quit(1); return
+	if (("--verify-package" in OS.get_cmdline_user_args() or not package_capture_directory.is_empty() or not shift_capture_directory.is_empty() or not morning_capture_directory.is_empty()) and fixture_path.is_empty()) or (not morning_capture_directory.is_empty() and board_fixture.is_empty()):
 		push_error("Package verification requires an offline fixture")
 		# These nodes are normally parented later in _ready; release on refusal.
 		http.free(); camera.free()
@@ -271,10 +337,40 @@ func _ready() -> void:
 	hud.api=api; hud.board_fixture=board_fixture
 	if not fixture_path.is_empty() and board_fixture.is_empty(): hud.board_fixture="__empty_visual_fixture__"
 	add_child(hud)
+	hud.station_records=preload("res://station_records.gd").new()
+	hud.root.add_child(hud.station_records)
+	hud.station_records.visibility_changed.connect(hud.sync_world_chrome)
+	hud.station_records.inspect_requested.connect(inspect_morning_record)
+	hud.stations_requested.connect(func(): open_station_records())
+	hud.briefing=preload("res://morning_briefing.gd").new()
+	hud.root.add_child(hud.briefing)
+	hud.briefing.visibility_changed.connect(hud.sync_world_chrome)
+	hud.briefing.inspect_requested.connect(inspect_morning_record)
+	hud.crew_strip.briefing_requested.connect(open_morning_briefing)
+	hud.crew_strip.observe_requested.connect(func():
+		if morning_director.enabled: stop_watching()
+		else: start_observing())
+	station_signals=preload("res://station_signals.gd").new()
+	station_signals.name="StationSignals"; add_child(station_signals)
+	var signal_anchors:Dictionary={}
+	for context in ["review","repair","gym"]:
+		var building=get_node(STATIONS[context])
+		signal_anchors[context]=building.entrance()+Vector3(0,3.5,2.0)
+	station_signals.configure(signal_anchors)
+	station_signals.inspect_requested.connect(open_station_records)
+	morning_atmosphere=preload("res://morning_atmosphere.gd").new()
+	morning_atmosphere.name="MorningAtmosphere"; add_child(morning_atmosphere)
+	morning_atmosphere.install(self)
+	daybook=preload("res://morning_daybook.gd").new()
+	daybook.name="MorningDaybook"
+	$Structures/Habitat.room.content.add_child(daybook)
+	daybook.position=Vector3(-4.45,0.94,-2.2)
+	daybook.rotation.y=-0.15
 	hud.place_selected.connect(func(_kind): show_mission())
 	hud.selection_changed.connect(func(_id): show_mission())
 	hud.connect_requested.connect(connect_to_core)
 	hud.settings_changed.connect(apply_settings)
+	hud.player_character_selected.connect(func(character_id:String):set_player_character(character_id))
 	hud.map_requested.connect(toggle_map)
 	hud.zoom_requested.connect(adjust_zoom)
 	hud.room_requested.connect(enter_room)
@@ -319,15 +415,19 @@ func _ready() -> void:
 			member.position=station.room.to_global(station.room.crew_point)
 			member.home=member.position
 	setup_crew_presentation()
+	if OS.has_feature("web"): add_child(preload("res://web_metrics.gd").new())
 	if inspect_on_start:
 		hud.open_place(initial_crew)
-		hud.evidence.visible = true
+		hud.dossier_tabs.current_tab = 1
 	if large_on_start:
 		hud.large_text = true
 		hud.scale_text()
 	if reduced_on_start:
 		hud.reduced = true
 		apply_settings()
+	# Fixtures do not read or mutate personal cosmetic preferences.
+	if not fixture_path.is_empty() and player_preferences_path==preload("res://player_preferences.gd").PATH:player_preferences_path=""
+	set_player_character(preload("res://player_preferences.gd").read_character(player_preferences_path),false)
 	if directory_on_start: hud.toggle_directory()
 	if walk_test:
 		route = navigator.route($Operator.position, walk_destination)
@@ -347,7 +447,12 @@ func _ready() -> void:
 	if get_tree().current_scene==self and fixture_path.is_empty() and room_on_start.is_empty() and capture_path.is_empty() and live_capture_directory.is_empty() and not inspect_on_start and not board_on_start and not walk_test and not colony_overview:
 		enter_room("habitat")
 	show_mission()
-	if not shift_capture_directory.is_empty():
+	configure_support_surfaces()
+	if not ember_capture_directory.is_empty():
+		call_deferred("_capture_ember",ember_capture_directory)
+	elif not morning_capture_directory.is_empty():
+		call_deferred("_capture_morning",morning_capture_directory)
+	elif not shift_capture_directory.is_empty():
 		call_deferred("_capture_shift_change",shift_capture_directory,shift_capture_mode)
 	elif not live_capture_directory.is_empty():
 		call_deferred("_capture_live",live_capture_directory)
@@ -358,6 +463,12 @@ func _ready() -> void:
 
 func _capture_shift_change(directory:String, mode:String) -> void:
 	await preload("res://shift_change_capture.gd").new().run(get_tree(),self,directory,mode)
+
+func _capture_ember(directory:String) -> void:
+	await preload("res://ember_capture.gd").new().run(get_tree(),self,directory)
+
+func _capture_morning(directory:String) -> void:
+	await preload("res://morning_capture.gd").new().run(get_tree(),self,directory)
 
 func _capture_live(directory:String) -> void:
 	live_reviewer=preload("res://live_capture.gd").new()
@@ -405,7 +516,7 @@ func enter_room(kind: String) -> void:
 		member.motion=Vector3.ZERO
 	colony_overview=false
 	hud.close_panels()
-	hud.room_exit.show()
+	hud.set_room_available(true)
 	room_environment.background_mode=Environment.BG_COLOR
 	sky_layer.hide()
 	$Terrace.hide()
@@ -419,7 +530,7 @@ func set_room_context(station: Node3D) -> void:
 	room_kind=station.interaction_kind if station!=null else ""
 	foley.interior=station!=null
 	foley.doorway()
-	hud.room_exit.visible=station!=null
+	hud.set_room_available(station!=null)
 	if station!=null: room_return=station.return_position()
 	show_mission()
 
@@ -446,7 +557,7 @@ func exit_room() -> void:
 	active_room=null
 	active_building=null
 	room_kind=""
-	hud.room_exit.hide()
+	hud.set_room_available(false)
 	room_environment.background_mode=Environment.BG_CANVAS
 	sky_layer.show()
 	$Terrace.show()
@@ -466,7 +577,25 @@ func travel_route(destination: Vector3) -> PackedVector3Array:
 	if active_room != null and not active_room.definition.seamless: return active_room.route($Operator.position,destination)
 	return navigator.route($Operator.position,destination)
 
+func set_player_character(choice:String,persist:bool=true) -> void:
+	var selected:String=preload("res://player_preferences.gd").valid_id(choice)
+	var catalog=preload("res://characters/catalog.gd")
+	if not catalog.definitions().has(selected):selected="operator"
+	var entry:Dictionary=catalog.definitions().get(selected,{})
+	if not ResourceLoader.exists(str(entry.get("production",""))):selected="operator"
+	var pilot:=selected=="operator" and "--character-pilot" in OS.get_cmdline_user_args()
+	var definition:Resource=catalog.get_definition(selected,pilot)
+	if definition==null or definition.model_scene==null:
+		selected="operator";definition=catalog.get_definition(selected,"--character-pilot" in OS.get_cmdline_user_args())
+	$Operator.replace_character_definition(definition)
+	player_character_id=selected
+	hud.set_player_character_selection(selected)
+	if persist:
+		var result:Error=preload("res://player_preferences.gd").write_character(selected,player_preferences_path)
+		if result!=OK:hud.player_character_status.text+=" · Could not save this choice"
+
 func apply_settings() -> void:
+	if hud.reduced and morning_director.enabled: stop_watching()
 	for vent in decorative_vents: vent.reduced_motion = hud.reduced
 	foley.enabled=hud.sound_enabled
 	foley.reduced=hud.reduced
@@ -537,19 +666,33 @@ func receive_snapshot(data: Dictionary) -> void:
 
 func selected_mission() -> Dictionary:
 	for m in missions:
-		if m["input"]["id"] == hud.selected_id: return m
+		if m["input"]["id"] == hud.selected_id and StateView.context(m)==hud.filter_kind: return m
 	return {}
 
 func show_mission() -> void:
 	if hud == null: return
+	if hud.station_records!=null:
+		hud.station_records.update_records(missions,disconnected,float(snapshot.get("observed_at",0)),not fixture_path.is_empty())
+		hud.station_records.set_large_text(hud.large_text)
+	if station_signals!=null:
+		station_signals.update_records(missions,disconnected,float(snapshot.get("observed_at",0)),not fixture_path.is_empty())
+	if hud.briefing!=null:
+		hud.briefing.update_records(missions,disconnected,float(snapshot.get("observed_at",0)),not fixture_path.is_empty())
+		hud.briefing.set_large_text(hud.large_text)
+		if daybook!=null: daybook.update_records(hud.briefing.model)
 	hud.update_list(missions)
 	hud.operations.update_snapshot(snapshot,disconnected,commands.phase!="" or commands.uncertain or hud.board.commands.phase!="" or hud.board.commands.uncertain)
+	hud.update_crew_guide()
 	refresh_connection_panel()
 	if hud.board.has_method("set_installation"): hud.board.set_installation(snapshot,disconnected)
 	update_crew_presentation()
 	var mission := selected_mission()
 	hud.status.text = StateView.describe(mission,disconnected)
-	hud.details.text = str(mission.get("detail","No snapshot available; work is unknown." if disconnected else "No run recorded here. Open the journal for reviews and gym campaigns."))
+	hud.details.text = str(mission.get("detail","No snapshot available; work is unknown." if disconnected else "No run recorded here. Open Work & history [J] for reviews and comparisons."))
+	if mission.is_empty():
+		hud.status.text="Work unknown" if disconnected else "No retained assignment"
+		hud.status.add_theme_color_override("font_color",Color("bcb9b6"))
+		hud.details.text="No snapshot available; work is unknown." if disconnected else "No retained assignment is available for this crew member. Open Work & history [J] to review other retained records."
 	if mission.get("state")=="cancelled": hud.details.text="Cancellation acknowledged.\nLast recorded message: "+hud.details.text
 	var evidence = mission.get("evidence")
 	if evidence != null:
@@ -568,10 +711,10 @@ func show_mission() -> void:
 	var progress = snapshot.get("progression")
 	if progress is Dictionary:
 		var xp := int(progress.get("xp",0))
-		hud.progression.text = "Mender · Level %d · %d verified XP\n%s" % [progress.get("level",1),xp," · ".join(progress.get("achievements",[]))]
+		hud.progression.text = "Rivet · Level %d · %d verified XP\n%s" % [progress.get("level",1),xp," · ".join(progress.get("achievements",[]))]
 		if disconnected: hud.progression.text += "\nLast-known progression · core unavailable"
 		if initial_xp >= 0 and xp > initial_xp and not disconnected:
-			award_notice = "Verified achievement retained · inspect Mender’s evidence"
+			award_notice = "Verified achievement retained · inspect Rivet’s evidence"
 		initial_xp = xp
 		for i in range(trophies.size()):
 			trophies[i].visible = not disconnected and progress.get("achievements",[]).size() > i
@@ -598,6 +741,11 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		KEY_R: hud.open_operations()
 		KEY_O: hud.open_connection()
 		KEY_B: hud.open_board()
+		KEY_I: open_station_records()
+		KEY_K: open_morning_briefing()
+		KEY_V:
+			if morning_director.enabled: stop_watching()
+			else: start_observing()
 		KEY_4: hud.open_place("watchkeeper")
 		KEY_5: hud.open_place("reviewer")
 		KEY_TAB: hud.toggle_directory()
@@ -626,7 +774,9 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			if not hud.reduced: hud.follow = not hud.follow
 		KEY_M: toggle_map()
 		KEY_ENTER:
-			if hud.dock.visible: hud.evidence.visible = not hud.evidence.visible
+			# Focused controls own the press/release pair used for activation.
+			if hud.dock.visible and get_viewport().gui_get_focus_owner()==null:
+				hud.dossier_tabs.current_tab = 0 if hud.dossier_tabs.current_tab == 1 else 1
 
 func crew_hit_rect(actor: Node3D) -> Rect2:
 	if actor.model_visual!=null:
@@ -658,6 +808,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			adjust_zoom(1)
 		elif event.button_index == MOUSE_BUTTON_LEFT and not hud.is_open():
+			if station_signals!=null and station_signals.hit(camera,event.position): return
+			if daybook!=null and daybook.hit(camera,event.position):
+				open_morning_briefing(); return
 			for pair in crew_pairs():
 				if pair[1].visible and crew_hit_rect(pair[1]).has_point(event.position):
 					hud.open_place(pair[0])
@@ -671,11 +824,30 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _physics_process(_delta: float) -> void:
 	if hud == null: return
-	$LivingCommons.update_presentation($Operator.position,_delta,hud.reduced)
+	if morning_atmosphere!=null:
+		morning_atmosphere.update_presentation(crew_pairs().map(func(pair):return pair[1].position)+[$Operator.position],_delta,hud.reduced)
+	if daybook!=null: daybook.caption.visible=not hud.briefing.visible and not morning_director.enabled
+	if morning_director.enabled:
+		var intents:Dictionary={}
+		for kind in crew_motions: intents[kind]=crew_motions[kind].intent
+		var chosen:String=morning_director.advance(_delta,intents,hud.reduced)
+		if not chosen.is_empty():
+			watched_crew=chosen; hud.crew_strip.set_watching(chosen)
+			observation_camera_cut=true
+			# A new shot reveals its subject immediately; ordinary walking still eases
+			# through room transitions. No actor, door or backend state is changed.
+			for station in $Structures.get_children():
+				if station.contains(get_node(MEMBERS[chosen]).position):
+					station.cutaway=0.0; station.room.visible=true
+					for material in station.cut_materials: material.set_shader_parameter("visibility",0.0)
+					for material in station.reveal_materials: material.set_shader_parameter("visibility",1.0)
 	var viewing:Vector3=get_node(MEMBERS[watched_crew]).position if MEMBERS.has(watched_crew) else $Operator.position
+	if hud.briefing.visible and daybook!=null: viewing=daybook.global_position
+	$LivingCommons.update_presentation(viewing,_delta,hud.reduced)
 	var containing: Node3D=null
 	for station in $Structures.get_children():
 		station.update_presentation(viewing,_delta,hud.reduced,crew_pairs().map(func(pair): return pair[1].position)+[$Operator.position])
+		if station.room!=null: station.room.activity.visible=not morning_director.enabled
 		if station.contains($Operator.position): containing=station
 	if active_room==null or active_room.definition.seamless: set_room_context(containing)
 	var move := Vector3.ZERO
@@ -699,6 +871,7 @@ func _physics_process(_delta: float) -> void:
 	for pair in crew_pairs():
 		var d: float = $Operator.position.distance_to(pair[1].position)
 		pair[1].label.visible = not colony_overview and (d < 3.0 or watched_crew==pair[0] or (hud.dock.visible and hud.filter_kind == pair[0]))
+		if morning_director.enabled or watched_crew==pair[0]: pair[1].label.visible=false
 		if d < distance:
 			nearest = pair[0]
 			distance = d
@@ -712,7 +885,7 @@ func _physics_process(_delta: float) -> void:
 		for station in $Structures.get_children():
 			if not station.definition.interior_scene.is_empty() and $Operator.position.distance_to(station.entrance())<2.0: near_door=str(station.name)
 	if nearest != "":
-		hud.prompt.text = "E  ·  Inspect " + {"repair":"Mender’s workshop","review":"Surveyor’s briefing","gym":"Trainer’s gym","watchkeeper":"Watchkeeper’s cluster watch","reviewer":"PR Reviewer’s drafts"}[nearest]
+		hud.prompt.text = "E  ·  Inspect " + {"repair":"Rivet’s workshop","review":"Moss Bombadil’s briefing","gym":"Mae Jin’s gym","watchkeeper":"Wes Walker’s cluster watch","reviewer":"Prism’s drafts"}[nearest]
 	else:
 		hud.prompt.text = award_notice if award_notice != "" else "WASD / arrows · Explore the colony · M overview"
 	if active_room != null:
@@ -724,7 +897,11 @@ func _physics_process(_delta: float) -> void:
 	if walk_test and $Operator.position.distance_to(walk_destination) < 0.65: walk_reached = true
 	hud.set_location(active_building.definition.title if active_building != null else ("CONSERVATORY COMMONS" if LivingCommons.FOOTPRINT.has_point(Vector2($Operator.position.x,$Operator.position.z)) else "ASTER COLONY"))
 	if not watched_crew.is_empty():
-		hud.prompt.text="Watching "+str(get_node(MEMBERS[watched_crew]).display_name)+" · Esc / move to return · 1–5 inspect"
+		var watched_intent:Dictionary=crew_motions[watched_crew].intent
+		hud.prompt.text="Watching %s · %s · Esc / move to return · 1–5 inspect"%[str(get_node(MEMBERS[watched_crew]).display_name),str(watched_intent.get("label","Unknown"))]
+		if morning_director.enabled:
+			var current:Dictionary=crew_motions[watched_crew].intent
+			hud.prompt.text="%s · %s   |   V / Esc / move to return · K briefing"%[str(get_node(MEMBERS[watched_crew]).display_name),str(current.get("label","Unknown"))]
 		hud.set_location("CREW VIEW")
 	life_ui_timer+=_delta
 	if life_ui_timer>=0.5:
@@ -735,6 +912,9 @@ func _physics_process(_delta: float) -> void:
 			if not life.path.is_empty(): activity="Walking home" if life.intent.get("goal")=="home" else "Heading to station"
 			elif life.ambient_activity=="sit": activity="Taking a break"
 			hud.crew_strip.project(kind,life.intent,activity,life.route_blocked)
+	if station_signals!=null:
+		station_signals.set_selected_context(hud.station_records.selected_station if hud.station_records.visible else "")
+		station_signals.update_view(camera,$Operator.position,active_room!=null or not watched_crew.is_empty() or hud.is_open() or colony_overview,hud.large_text)
 	$Operator.label.visible = false
 	update_ambience()
 
@@ -752,6 +932,7 @@ func _process(delta: float) -> void:
 		overview = $Operator.position
 	var subject:Vector3=get_node(MEMBERS[watched_crew]).position if MEMBERS.has(watched_crew) else $Operator.position
 	var view_room:Node3D=active_room
+	if hud.briefing.visible and daybook!=null: view_room=$Structures/Habitat.room
 	if not watched_crew.is_empty():
 		view_room=null
 		for station in $Structures.get_children():
@@ -761,6 +942,7 @@ func _process(delta: float) -> void:
 	var desired_offset := Vector3(10,36,46)
 	var desired_size := 142.0 if colony_overview else zoom
 	if not watched_crew.is_empty(): desired_size=20.0; desired_offset=Vector3(8,18,23)
+	if morning_director.enabled: desired_size=12.0
 	if view_room == null and not colony_overview and LivingCommons.FOOTPRINT.has_point(Vector2(subject.x,subject.z)):
 		desired = LivingCommons.ORIGIN+Vector3(0,1,0)
 		desired_offset = Vector3(7,11,15)
@@ -775,12 +957,25 @@ func _process(delta: float) -> void:
 			desired = focus.global_position
 			desired_offset = view.global_position-focus.global_position
 			desired_size = float(focus.get_meta("view_size",18.0))
+		if morning_director.enabled and not hud.is_open():
+			# Keep nearby furniture in the frame while giving the selected person scale.
+			desired=subject+Vector3(0,0.85,0)
+			desired_size=8.8
 		if hud.dock.visible or hud.board.visible or hud.room_details.visible:
 			# Keep the interaction destination in the unobscured left workspace.
 			desired += camera.global_basis.x * (4.8 if hud.board.visible else 2.8)
 			if room_kind == "review" and hud.board.visible: desired_size = 15.5
+	# Explicit crew watch frames the person after room/commons scenic overrides.
+	if not watched_crew.is_empty():
+		desired=subject+Vector3(0,0.85,0)
+		desired_size=8.8 if view_room!=null else 10.0
 	desired_size*=zoom_factor
-	var blend := 1.0 if hud.reduced else 1-exp(-delta*4)
+	if hud.briefing!=null and hud.briefing.visible and daybook!=null:
+		var reading_right:=Vector3.UP.cross(desired_offset).normalized()
+		desired=daybook.global_position+Vector3(1,0.4,0)-reading_right*3.5
+		desired_size=13.0*zoom_factor
+	var blend := 1.0 if hud.reduced or briefing_camera_cut or observation_camera_cut else 1-exp(-delta*4)
+	briefing_camera_cut=false; observation_camera_cut=false
 	camera_focus=camera_focus.lerp(desired,blend)
 	camera_offset=camera_offset.lerp(desired_offset,blend)
 	camera.position=camera_focus+camera_offset
@@ -811,3 +1006,15 @@ func isolate_capture_input() -> void:
 	get_viewport().gui_disable_input=true
 	set_process_unhandled_input(false)
 	set_process_unhandled_key_input(false)
+
+func configure_support_surfaces() -> void:
+	var paving_type=preload("res://colony_paving.gd")
+	var sills:Array=[]
+	for station in $Structures.get_children():
+		if station.definition.interior_scene.is_empty():continue
+		var sill:Vector3=station.to_global(station.definition.threshold+Vector3(0,0.12,0.35))
+		sills.append({"position":sill,"size":Vector3(1.7,0.06,0.75),"height":sill.y+0.03})
+		sills.append({"position":sill+Vector3(0,0.04,0.30),"size":Vector3(1.6,0.025,0.055),"height":sill.y+0.0525})
+	support_surface.configure(self,paving_type.contains,sills)
+	$Operator.support_sample=support_surface.height_at
+	for pair in crew_pairs():pair[1].support_sample=support_surface.height_at

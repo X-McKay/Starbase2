@@ -1,0 +1,17 @@
+{
+  "crew-overview.png": {
+    "sha256": "3945afe82271545da5c4a40323df7f94a5ff2d857d36e87e3b7007fb39703675",
+    "kind": "Native Godot synthetic fixture or isolated character test",
+    "retained": "Selected reusable example; not current-build certification"
+  },
+  "crew-compact.png": {
+    "sha256": "010feee801d3672e72be434768554505d62819ef99e92aa2c49c6a264586fa33",
+    "kind": "Native Godot synthetic fixture or isolated character test",
+    "retained": "Selected reusable example; not current-build certification"
+  },
+  "habitat-art-target.png": {
+    "sha256": "f51bb6ea51aa989815c107ce646b327c0d635178e20b98de67cfd5b7822e9d79",
+    "kind": "AI-generated art-direction target; not gameplay",
+    "retained": "Selected reusable example; not current-build certification"
+  }
+}

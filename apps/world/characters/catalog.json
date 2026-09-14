@@ -12,5 +12,14 @@
   },
   "trainer": {
     "production": "res://characters/definitions/trainer.tres"
+  },
+  "watchkeeper": {
+    "production": "res://characters/definitions/watchkeeper.tres"
+  },
+  "reviewer": {
+    "production": "res://characters/definitions/reviewer.tres"
+  },
+  "cybercat": {
+    "production": "res://characters/definitions/cybercat.tres"
   }
 }

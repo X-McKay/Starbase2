@@ -60,9 +60,9 @@ func run() -> void:
 		var dismiss:Button=hud.board.find_children("*","Button",true,false)[0]
 		check(readable(dismiss) and dismiss.tooltip_text.contains("Esc"),"Close remains fully readable with keyboard shortcut available")
 		check(workspace.position.x>=0 and workspace.end.x<=size.x and workspace.end.y<=size.y,"Command workspace remains inside canvas")
-		check(hud.board.is_docked==(size.x>=1100),"Command workspace chooses docked or full available width")
-		if size.x>=1100:
-			check(workspace.position.x>=size.x*0.4 and workspace.size.x<=650,"Wide Command view leaves the world visible on the left")
+		check(hud.board.is_docked==(size.x>=1000),"Command workspace chooses docked or full available width")
+		if size.x>=1000:
+			check(workspace.position.x>=184 and workspace.end.x<=size.x-22,"Wide Command workspace leaves the navigation rail accessible")
 		else:
 			check(workspace.size.x>=size.x-44,"Narrow Command view uses the available width")
 		hud.close_panels()

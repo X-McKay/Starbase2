@@ -1,0 +1,7 @@
+{
+  "run-sole-side.png": {
+    "sha256": "bcaf9562c3cec8dcef9e2f2bb068464c5be2a81720d05361c11bacc67a1f4c4c",
+    "kind": "Native Godot synthetic fixture or isolated character test",
+    "retained": "Selected reusable example; not current-build certification"
+  }
+}

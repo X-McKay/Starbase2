@@ -1,8 +1,7 @@
 extends SceneTree
 const Board=preload("res://command_board.gd")
-class Recorder extends Node:
-	var payload:Dictionary={}
-	var path:=""
+class Recorder extends "res://commands.gd":
+	# Inherit the command lifecycle contract; intercept all external effects.
 	func submit(endpoint:String,value:Dictionary,_id:String,_lookup:String="") -> void:
 		path=endpoint; payload=value.duplicate(true)
 func _initialize() -> void: run.call_deferred()

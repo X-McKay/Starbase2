@@ -1,6 +1,8 @@
 extends Resource
 ## Cosmetic asset contract. Collision and operational permissions live elsewhere.
 @export var id := ""
+## Personal name; asset IDs and operational roles remain stable.
+@export var display_name := ""
 @export var atlas: Texture2D
 @export var canvas := Vector2i(256,320)
 @export var pivot := Vector2(128,300)
@@ -15,11 +17,28 @@ extends Resource
 @export var clip_layouts: Dictionary = {}
 @export var model_scene: PackedScene
 @export var model_tint := Color.WHITE
+## Keep authored PBR channels/colors; role color still applies to separate equipment.
+@export var preserve_source_materials := false
+@export var animation_family := ""
+## Independent rigs supply clips baked against their own bind/rest transforms.
+## Keys are library namespaces (e.g. social/work), values are PackedScenes.
+@export var model_animation_sources: Dictionary = {}
+@export var use_legacy_animation_libraries := true
+@export var upper_spine_bone := "Spine02"
+## Cosmetic rotation-only bones; empty disables secondary motion for rigid art.
+@export var secondary_motion_bones := PackedStringArray(["HairSwing"])
+## Qualify each model's deformation envelope in native front/side captures.
+@export_range(0.0,10.0,0.05) var secondary_motion_strength := 1.0
+@export_range(0.0,1.5,0.005) var secondary_motion_limit := 0.10
+@export var motion_profile := "operator"
 @export var model_scale := 1.5
 @export var model_floor_offset := -0.10
 @export var label_height := 3.65
 @export var model_stride := 1.8
 @export var model_run_stride := 2.8
+## Authored palm attachment in across/up/forward axes; legacy wrist defaults retained.
+@export var work_slate_palm_offset := Vector3(0,0.035,0.055)
+@export_range(0.1,2.0,0.01) var work_slate_grip_span_scale := 1.0
 var cached_frames: SpriteFrames
 const DIRECTIONS := ["front","back","left","right"]
 

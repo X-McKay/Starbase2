@@ -8,6 +8,60 @@ the earlier sprite-only and detached-room presentation on this branch.
 
 Status: proposed
 
+## Game-view polish · 2026-09-13
+
+F1 or the HUD button collapses exploration navigation, roster and interaction
+chrome; the header retains a restore action and keyboard workspace routes remain
+available. The expanded roster respects the wide navigation rail. Compact
+workspaces reserve less top space. Nearby station labels leave clearance above
+the operator and doorway; distant labels are restrained.
+
+Empty assignment, target and build selectors now explain what is unavailable.
+Idle states and disabled actions use neutral emphasis. Station observation
+summaries have a keyboard-accessible details disclosure retaining the exact
+observation time and snapshot-window limitations. Dense panel surfaces are more
+opaque. None of these presentation actions dispatches operational work.
+
+## Ember console workspaces · 2026-09-11
+
+The implemented Godot UI follows the approved orange workspace concepts: neutral
+smoked charcoal panels, subdued blurred scenery behind the panel surfaces, ivory
+text, and ember-orange selection, focus and primary actions. The shared theme
+keeps text opaque; a screen-reading shader softens the scenery instead of adding
+animated smoke. The native colony remains the surrounding experience.
+
+Named navigation routes expose Map, Crew, Work, Stations, Field operations,
+Settings and Connection. Wide windows use a left navigation rail; compact windows
+use a horizontal strip. The crew dossier pairs the actual character portrait with
+Overview and Evidence tabs. Mender alone also has isolated Practice; selecting a
+record or watching a crew member does not dispatch work. Mender progression
+remains distinct from operational permission.
+
+Work groups Review, Compare, Duties and History. Field Command retains its
+Observations, Repositories, Memory, Evidence and Duties workspaces. Forms group
+inputs and policy context around their existing actions; retained evidence keeps
+its exact identity and source qualification. Connection separates receipt/worker
+status and endpoint controls from configured capabilities; enabled policy is not
+proof of provider health. Settings groups Display, Audio and Controls and labels
+boolean preferences with explicit On / Off values.
+
+Station records and Habitat briefing share search, state filters, timestamped
+rows and a wide-screen selected-record detail column. Compact rows retain exact
+identity, outcome and evidence qualification when that detail column is hidden.
+Station records show at most twenty retained snapshot records, open work first;
+the Habitat briefing shows at most five terminal records with separate open-work
+counts. Neither view claims complete historical coverage. Inspect routes to the
+exact record and context; repeated unchanged polling preserves the pointer target
+and keyboard focus. Unknown, disconnected/stale, failed, cancelled and missing
+evidence remain distinguishable.
+
+The `ember implementation evidence` (local review evidence is retained outside this commit)
+records native review at 1280×800 and 800×640 with larger text, including a passed
+27-view fixture run and independently reviewed corrections to compact Field
+Command density, directory organization and active-workspace navigation. Full-suite
+completion and standalone export qualification are tracked there separately. These source-checkout captures are synthetic review evidence,
+not proof of live provider behavior or deployment of the new client.
+
 ## Faster exploration and expansion land · 2026-09-07
 
 Keyboard and click-route travel now use 6 m/s (previously 3.7 m/s). Route steps
@@ -94,7 +148,26 @@ synthetic repair commands, and core-backed achievement displays. Normal, compact
 large-text, stale and offline captures are retained. Interiors, work-stage
 animation, sound, persistent decoration, and direct gym configuration remain open.
 
+## Inhabited station refinement · 2026-09-10
+
+The `next Morning refinement` (local review evidence is retained outside this commit) tightens
+optional observation around actual crew, uses direct cuts between selected
+inhabitants, and retains pending assignment changes through a minimum shot.
+Lighter suit material response, domestic shelves and woven accents make the
+existing rooms easier to read. Exterior station signs summarize retained records
+and open native station records; Stations [I] provides the same structured
+destination. Four-sample edge smoothing softens furniture and character outlines. Local
+technical qualification and owner visual judgment remain separate.
+
 ## Native application direction · 2026-09-10
+
+The [Habitat visual guide](../.agents/skills/starbase2-world/references/visual-guide.md#inhabited-habitat)
+extends the inhabited world with optional close observation [V], a physical
+Habitat daybook and historical briefing [K], authored handheld work equipment,
+and warm domestic detail. Its acceptance bar is an understandable minute of
+ordinary activity that the owner wants to keep watching. Native technical proof
+and owner visual judgment are recorded separately in the
+`integration evidence` (local review evidence is retained outside this commit).
 
 Godot is the product interface for the world, structured operations, observability,
 and operator actions. J opens native operations. Browser dashboard delivery is
@@ -262,3 +335,17 @@ gesture follows local inspection in Engineering, never inferred operational
 activity. Reduced motion freezes the decorative effects and skeletal animation;
 reactor sound defaults off. The [review notes](../assets-production/batches/engineering-polish/REVIEW.md)
 define the bounded milestone and remaining visual review.
+
+### Crew workflow guide
+
+Crew dossier Overview leads with an authored purpose, skills/workflows, scope,
+and a keyboard-accessible action that opens the appropriate setup form. Rivet
+opens repair Practice; Moss opens Review; Mae opens Compare; Wes and Prism open
+Observations and select a matching configured target when available. Opening a
+form never submits work. Evidence contains the assignment selector, cancellation,
+retained result details, and Rivet's verified progression.
+
+Descriptions explain the implemented workflow, not installed runtime skill
+packages or proficiency. Installation policy, disconnected state, worker status,
+and fixture mode remain explicit; the submission form validates actual readiness.
+The backend does not currently provide a named runtime skills catalog.

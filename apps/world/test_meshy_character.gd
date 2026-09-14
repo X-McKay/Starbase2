@@ -20,7 +20,13 @@ func run() -> void:
 	actor.motion = Vector3(2,0,0)
 	for tick in range(12): await physics_frame
 	check(visual.clip == "walk" and actor.gait.phase > 0, "Displacement advances walk")
-	check(is_equal_approx(visual.rotation.y,PI/2), "Model faces travel")
+	check(visual.rotation.y>0 and visual.rotation.y<PI/2, "Model turns progressively toward travel")
+	var previous_heading:float=visual.rotation.y
+	for tick in range(60):
+		await physics_frame
+		check(absf(angle_difference(previous_heading,visual.rotation.y))<.2,"Travel facing has no abrupt snap")
+		previous_heading=visual.rotation.y
+	check(absf(angle_difference(visual.rotation.y,PI/2))<.005, "Model converges to travel facing")
 	actor.motion = Vector3.ZERO
 	await physics_frame
 	await physics_frame

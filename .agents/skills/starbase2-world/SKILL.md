@@ -61,3 +61,17 @@ Use the [content taxonomy](../../../docs/content-organization.md) when naming or
 organizing assets and scenes. Use `structures` in category, catalog and gallery names. Coordinate any further
 resource, scene-node and caller changes; the current index records actual paths.
 Crew roles and room contexts remain distinct from character and structure assets.
+
+## Bundled visual references
+
+For visual work, read [the visual guide](references/visual-guide.md). Its selected
+images are bundled below; no local evidence archive is needed to use these
+examples. They illustrate intent and review cases, not current-build certification.
+
+- [crew-overview.png](assets/crew-overview.png)
+
+- [crew-compact.png](assets/crew-compact.png)
+
+- [habitat-art-target.png](assets/habitat-art-target.png)
+
+Image identity and source type: [visual manifest](assets/visual-manifest.json).

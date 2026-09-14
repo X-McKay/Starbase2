@@ -74,3 +74,13 @@ After a meaningful failure, capture the symptom, evidence, fix, scope and
 regression check in the slice evidence. Promote only the reusable lesson into
 the linked lessons record or this skill; do not turn every model-specific
 coordinate or workaround into a universal rule.
+
+## Bundled visual references
+
+For visual work, read [the visual guide](references/visual-guide.md). Its selected
+images are bundled below; no local evidence archive is needed to use these
+examples. They illustrate intent and review cases, not current-build certification.
+
+- [run-sole-side.png](assets/run-sole-side.png)
+
+Image identity and source type: [visual manifest](assets/visual-manifest.json).

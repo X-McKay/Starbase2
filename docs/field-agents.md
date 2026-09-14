@@ -121,7 +121,7 @@ Use `python -m pytest`, not the `pytest` executable: FalkorDBLite puts its modul
 binary in the environment's bin directory, where it can shadow the Python
 `falkordb` package for console-script entry points. No dependency files are patched.
 
-Retained evidence lives in [field-agents](../evidence/field-agents). Local integration
+Retained evidence lives in `field-agents` (local review evidence is retained outside this commit). Local integration
 covers changed-line review, cluster fixtures, approval/recall, core/worker/graph
 restart, revocation, cancellation, recurring duty pause and Temporal replay.
 A real Qwen model response was retained from `llm.almckay.io` on a synthetic PR;
@@ -133,7 +133,7 @@ benchmark or production readiness claim.
 
 Linux host qualification was recorded on 2026-09-07: the x86_64 host with KVM
 passed the same six probes and both crash probes (process-group loss 0.31 s,
-coordinator-only loss 12.3 s) under [the Linux-host evidence](../evidence/sandbox-qualification/linux),
+coordinator-only loss 12.3 s) under `the Linux-host evidence` (local review evidence is retained outside this commit),
 after the sandbox image pin was corrected to the x86_64 manifest digest; the
 first run's `Exec format error` is retained in [the onboarding record](../evidence/linux-onboarding/README.md).
 This qualifies that host and image, not Kubernetes.
@@ -142,7 +142,7 @@ Linux-guest probes passed on this Mac: file/credential/network isolation,
 memory/file limits, timeout, background cleanup and cancellation. Crash probes
 confirmed termination after process-group loss and after coordinator-only loss
 (10.533 seconds in this run). Results are under
-[the Darwin-host evidence](../evidence/sandbox-qualification/darwin). This verifies
+`the Darwin-host evidence` (local review evidence is retained outside this commit). This verifies
 the local Linux guest boundary on that Mac.
 
 Before activation, the runtime owner must qualify real selected provider targets,

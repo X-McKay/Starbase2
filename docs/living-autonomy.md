@@ -23,7 +23,10 @@ Arrival never dispatches, delays or completes backend work. Pausing future dutie
 does not cancel an already active assignment.
 
 The crew strip and explicit **Watch crew** camera action make inhabitants easier
-to find. Watching is an operator choice; assignments never redirect the camera.
+to find. Watching is an operator choice; assignments never redirect the camera
+unless the operator enables the new **Observe [V]** mode. That optional director
+selects actual crew and gives fresh active assignments priority after a minimum
+shot duration. V, Escape or movement exits it; reduced motion disables directing.
 Visibility follows the actor's occupied building, including Habitat, rather than
 only its assigned workstation. NPC door opening is separate from operator room
 cutaway and camera context. A bounded **Route blocked** cue describes navigation
@@ -36,6 +39,16 @@ stable crew identity and separate task markers. Keyboard and structured operatio
 remain available without following an actor through the world.
 
 ## Authored places and assets
+
+The [Habitat visual guide](../.agents/skills/starbase2-world/references/visual-guide.md#inhabited-habitat)
+adds a physical Habitat daybook and **Briefing [K]** with recent timestamped
+terminal records. Its explicitly historical view links to existing native evidence;
+it does not infer an absence interval, complete history or persistent agent memory.
+Opening it frames the Habitat instrument without moving the operator. A solid
+occluder prevents clicking the instrument through a wall; K remains available.
+Fresh workstation poses use Blender-authored field-slate support clips on the
+existing three rigs. Travel, stale/hold and reduced motion suppress the equipment.
+Doorway cloth, proximity light, warm rear-wall panels and mug steam are decorative.
 
 Habitat remains at world `(36, 0, -15)`. Its lounge sofa moved to local
 `(3.4, 0.15, -5.3)` as the central visual focus. Prop origins are distinct from
@@ -53,7 +66,7 @@ one-second cosmetic interval matching the authored stand-up clip; no backend wor
 waits for that animation.
 
 These are cosmetic home activities, not simulated wellbeing, resources, incidents
-or operational outcomes. See the [social production source](../assets-production/characters/shift-social/README.md)
+or operational outcomes. See the retired social production source
 and [native animation evidence](../evidence/shift-change/animation/README.md).
 
 ## Evidence and its limits
@@ -101,10 +114,13 @@ this does not replace the real-production journeys above.
 
 ## Proposed follow-ups
 
-Building aggregate badges showing active assignment counts and recent result
-availability are **not implemented**. Completion requires an exterior-visible,
-keyboard-accessible inspector link derived from authoritative records, with stale
-and unknown states, plus native acceptance. The implemented crew strip is separate.
+Building aggregate signs now show open assignments and retained terminal results
+from authoritative projected records, with last-known/unknown and missing-evidence
+qualifiers. Command combines its three existing crew roles. Only the nearest
+exterior sign is shown; its click and Stations [I] open native station records, with exact
+record links across all resident roles. Counts describe
+the bounded retained snapshot, not complete history or inferred success. See the
+`refinement evidence` (local review evidence is retained outside this commit).
 
 Additional scan/read/type gestures require actual phase events and freshness
 semantics before they can represent work. A generic running state does not prove

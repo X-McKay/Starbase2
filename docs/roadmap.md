@@ -33,6 +33,12 @@ Owner for initial work: Al McKay (X-McKay), with implementation assistance.
 Stage boundaries are evidence gates, not time estimates. All items below remain
 planned unless explicitly marked complete.
 
+The current world and cast handoff is recorded in the [September refactor](recent-refactor.md).
+It includes the independent six-person Meshy cast, Cybercat alternate player,
+native Godot operations surface and legacy runtime cleanup. Generated evidence
+captures are intentionally kept out of the release commit; they do not affect
+runtime qualification.
+
 ## Playable world refinement — first pass implemented
 
 The user prioritized a clean space-themed mini-world before deployment scoping.
@@ -93,24 +99,26 @@ documentation validation. This does not establish runtime or deployment readines
 ## 1. Prove the two riskiest seams — partially demonstrated
 
 The [local slice](local-slice.md) implements a Rust core, Python/PydanticAI,
-a persistent Temporal development server, six per-trial results, and a native
-Godot scene plus journal. Direct activities and maintained Temporal integration
-were compared on identical public fake-model controls. Worker SIGKILL, duplicates,
-core restart, cancellation, and retained-history replay were exercised.
+a persistent Temporal development server, six per-trial results, and the native
+Godot scene. Its browser journal is retained only as historical experiment source.
+Direct activities and maintained Temporal integration were compared on identical
+public fake-model controls. Worker SIGKILL, duplicates, core restart, cancellation,
+and retained-history replay were exercised.
 
 The experiment justified collapsing the proposed four owners to one core plus
 Python workers for local development. [ADR 0002](adr/0002-local-walking-slice.md)
 records the scope and exit path. Neither real agent quality nor hostile-code
-isolation was established. Native Godot rendering/export work; web export and
-comparative visual/performance budgets remain open.
+isolation was established. Native Godot rendering/export and the bounded local
+Web handoff now work; Web UI/content budgets and broader platform coverage remain
+open.
 
 ## 2. Useful local operations — implemented and exercised
 
 The [operations edition](operations.md) connects real bounded Python review,
 retained masked sources and citations, typed v2 records, pagination, lifecycle
 history, operator/worker write boundaries, controlled gym comparisons, and optional
-model explanations. The journal supplies all commands; the native Godot inspector
-consumes the same records. The original v1 experiment remains compatible.
+model explanations. The Godot operations surface supplies commands and consumes
+the same records. The original v1 experiment remains compatible.
 
 The core owns these capabilities without another service. Local migration,
 completion/cancellation invariants, genuine analyzer output, and replay were
@@ -183,7 +191,8 @@ build and per-duty rollback until observation confirms the replacement.
 | FalkorDB / Graphiti | Runtime/evaluation owner | Structured persistence and review implemented; paired evidence must justify richer retrieval over SQL |
 | agentgateway | Al | Repeated routing/identity need and measured operational benefit |
 | First external-action policy | Al | Named action, target, identity, verifier, recovery, and limits |
-| Godot web export (backlog, 2026-09-08) | World implementation | Matching 4.7.2 web templates, a reviewed same-origin serving/origin policy in the core, and a measured native/web comparison; deliberately deferred behind journal parity |
+| [Godot Web UI optimization](godot-web.md) (local handoff verified 2026-09-13) | World implementation | Pinned templates, byte-identical current-world exports, isolated package journeys, same-origin transport, the bounded browser journey, Chrome command probe, native regression and a limited matched Chrome/native visual and performance comparison pass. Readiness remains blocked by the 760,154,489-byte artifact, 42.6-second warm local first draw and 2.14 GB reported texture allocation, plus cold transfer, background resume, broader browser/device, accessibility and worker-acknowledged cancellation coverage. Optimize the UI/content before packaging. The historical journal is not a delivery gate. |
+| Godot Web container and Kubernetes delivery (deferred) | Al | Separate workstream after owner approval of the Web UI; no packaging or deployment is part of the current handoff. Retain `Starbase2.almckay.io` as the intended eventual hostname and revalidate the deployment authority and access design before use. |
 | Independent PostgreSQL backup key (backlog, 2026-09-08) | Kubani platform owner | Kubani's backup CronJob encrypts with the administrator password; replace it with an independently recoverable key (SOPS plus offline copy), re-run the isolated restore, and record RPO/RTO before Starbase2 accepts production work; deferred by owner decision |
 
 Do not implement every row speculatively. Each resolved decision removes an

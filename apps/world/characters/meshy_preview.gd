@@ -38,7 +38,7 @@ func build() -> void:
 	material.albedo_color = Color("405361")
 	ground.material_override = material
 	stage.add_child(ground)
-	model = load("res://assets/characters/cybercat-sentinel/cybercat.glb").instantiate()
+	model = load("res://assets/characters/cybercat-player/character.glb").instantiate()
 	stage.add_child(model)
 	player = model.find_children("*", "AnimationPlayer", true, false)[0]
 	var clips := player.get_animation_list()
@@ -75,7 +75,7 @@ func build() -> void:
 	title.add_theme_font_size_override("font_size",24)
 	panel.add_child(title)
 	var detail := Label.new()
-	detail.text = "Existing cybercat source · 24 bones · textured 3D mesh\nDecorative walk preview; no crew assignment or backend activity."
+	detail.text = "Reference-based Cybercat · authored rig · textured 3D mesh\nDecorative walk preview; no crew assignment or backend activity."
 	panel.add_child(detail)
 	for item in [["Walk / idle [Space]", toggle_walk, KEY_SPACE], ["Turn left [Left]", turn_left, KEY_LEFT], ["Turn right [Right]", turn_right, KEY_RIGHT], ["Reduced motion [R]", toggle_reduced, KEY_R]]:
 		var button := Button.new()

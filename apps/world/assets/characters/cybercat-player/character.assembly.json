@@ -1,0 +1,17 @@
+{
+  "asset_id": "cybercat-player",
+  "runtime_sha256": "b39bc88d58528b3f41d3bb634edfd6031a86b16a78b7262ae13428232950e779",
+  "clips": [
+    "walk",
+    "run",
+    "idle",
+    "console",
+    "field_slate",
+    "sit_down",
+    "seated",
+    "stand_up"
+  ],
+  "generation": "User-reference-derived ImageGen concept and fresh Meshy7 body/rig; no prior Cybercat mesh or animation reused",
+  "production_manifest_local_archive": "assets-production/characters/cybercat-player/reference-rebuild/provenance.json",
+  "production_manifest_bundled": false
+}

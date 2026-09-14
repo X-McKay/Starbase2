@@ -58,12 +58,12 @@ func run() -> void:
 	check(not hud.is_open(),"Escape-equivalent closes connection UI")
 	var journal_found:=false
 	for control in hud.find_children("*","Button",true,false):
-		if control.text.begins_with("Journal"):
+		if control.text.begins_with("Work"):
 			journal_found=true
 			control.pressed.emit()
-			check(hud.operations.visible,"Journal opens native operations")
+			check(hud.operations.visible,"Work opens native operations")
 			hud.close_panels()
-	check(journal_found,"Native Journal control is reachable")
+	check(journal_found,"Native Work control is reachable")
 	hud.open_connection()
 	hud.connection_panel.journal_requested.emit()
 	check(hud.operations.visible and not hud.connection_panel.visible,"Connection routes to native operations")

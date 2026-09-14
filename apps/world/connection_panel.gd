@@ -9,8 +9,9 @@ var health:Label
 var capabilities:Label
 var feedback:Label
 var reconnect:Button
+var tabs:TabContainer
 
-func line(parent:Node,value:String,size:int=15) -> Label:
+func line(parent:Node,value:String,size:int=16) -> Label:
 	var label:=Label.new()
 	label.text=value
 	label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
@@ -24,22 +25,28 @@ func _ready() -> void:
 	var frame:=VBoxContainer.new()
 	frame.add_theme_constant_override("separation",12)
 	add_child(frame)
-	line(frame,"COLONY CONNECTION",20)
+	line(frame,"COLONY CONNECTION",22)
+	line(frame,"Installation status, local connection and configured policy",15)
+	tabs=TabContainer.new()
+	tabs.size_flags_vertical=Control.SIZE_EXPAND_FILL
+	frame.add_child(tabs)
 	var scroll:=ScrollContainer.new()
 	scroll.size_flags_vertical=Control.SIZE_EXPAND_FILL
 	scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.follow_focus=true
-	frame.add_child(scroll)
+	scroll.name="Connection"
+	tabs.add_child(scroll)
 	var column:=VBoxContainer.new()
 	column.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	column.add_theme_constant_override("separation",12)
 	scroll.add_child(column)
 	summary=line(column,"No Core observed",17)
 	health=line(column,"")
-	line(column,"Local Core or private port-forward address",13)
+	line(column,"BROWSER ORIGIN" if OS.has_feature("web") else "LOCAL CORE / PRIVATE PORT-FORWARD",14)
 	endpoint=LineEdit.new()
-	endpoint.text="http://127.0.0.1:8787"
-	endpoint.placeholder_text="http://127.0.0.1:8787"
+	endpoint.text=preload("res://transport.gd").default_origin()
+	endpoint.placeholder_text=endpoint.text
+	endpoint.editable=not OS.has_feature("web")
 	endpoint.max_length=80
 	column.add_child(endpoint)
 	reconnect=Button.new()
@@ -48,24 +55,31 @@ func _ready() -> void:
 	reconnect.pressed.connect(request_connection)
 	endpoint.text_submitted.connect(func(_value:String): request_connection())
 	column.add_child(reconnect)
+	preload("res://console_theme.gd").primary(reconnect)
 	feedback=line(column,"")
-	line(column,"Local development: start the backend with just dev. For a private installation, establish its authorized port-forward first. This screen does not start or deploy services.",13)
-	capabilities=line(column,"Capabilities unknown",14)
+	line(column,"The browser connects to Core through this page’s origin. Reconnect refreshes retained state." if OS.has_feature("web") else "Local development: start the backend with just dev. For a private installation, establish its authorized port-forward first. This screen does not start or deploy services.",15)
+	var policy_scroll:=ScrollContainer.new()
+	policy_scroll.name="Capabilities"
+	policy_scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED
+	policy_scroll.follow_focus=true
+	tabs.add_child(policy_scroll)
+	capabilities=line(policy_scroll,"Capabilities unknown",16)
+	capabilities.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	var journal:=Button.new()
 	journal.text="Open operations & history"
 	journal.custom_minimum_size.y=38
 	journal.pressed.connect(func(): journal_requested.emit())
-	column.add_child(journal)
+	frame.add_child(journal)
 	var close:=Button.new()
 	close.text="Return to colony [Esc]"
 	close.custom_minimum_size.y=38
 	close.pressed.connect(hide)
-	column.add_child(close)
+	frame.add_child(close)
 	hide()
 
 func request_connection() -> void:
 	var value:=endpoint.text.strip_edges().trim_suffix("/")
-	if not Commands.local_origin(value):
+	if not Commands.allowed_origin(value):
 		feedback.text="Use http://127.0.0.1:<port>. Remote installations require a private local port-forward."
 		return
 	connect_requested.emit(value)

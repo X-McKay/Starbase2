@@ -62,12 +62,12 @@ experiment.
 
 ## Field-agent follow-up qualification
 
-The 2026-09-06 [Darwin-host run](../evidence/sandbox-qualification/darwin) repeats
+The 2026-09-06 `Darwin-host run` (local review evidence is retained outside this commit) repeats
 the Linux guest probes with a real temporary host-only canary and explicit
 credential-variable exclusion. Isolation, resource bounds, timeout, background
 cleanup, cancellation and both coordinator-loss cases passed. The separate
 Linux host has usable KVM and the pinned archive passed its upstream checksum,
-and on 2026-09-07 the [Linux-host run](../evidence/sandbox-qualification/linux)
+and on 2026-09-07 the `Linux-host run` (local review evidence is retained outside this commit)
 passed the same probes and crash cases on x86_64 KVM once the image pin named the
 x86_64 manifest digest; the pinned digest recorded on the Mac was the arm64
 manifest of `python:3.12.13-alpine`, so the adapter now pins one digest per
