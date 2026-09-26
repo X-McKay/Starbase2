@@ -1,0 +1,63 @@
+{
+  "kind": "selected_read_only_observation_extracts",
+  "observed_on": "2026-09-25",
+  "context": "default",
+  "scope": "Incident discovery only; no workload, GitOps, repository, or credential mutation",
+  "coverage": "Selected API responses and bounded logs, not a complete historical archive or cluster health certification",
+  "local_kubani_revision": "4350f49acf67ceee0d38d78190bfb43d6cc316a6",
+  "github_main_revision": "4fb888919e5255af1a4a1e4807d4e7ceb2f912b1",
+  "nodes": ["asio", "rig0", "sparky", "strix"],
+  "flux": {
+    "query": "kubectl --context default -n flux-system get kustomizations",
+    "kustomizations": [
+      {"name": "apps", "ready": "True", "lastAppliedRevision": "main@sha1:4fb888919e5255af1a4a1e4807d4e7ceb2f912b1"},
+      {"name": "databases", "ready": "True", "lastAppliedRevision": "main@sha1:4fb888919e5255af1a4a1e4807d4e7ceb2f912b1"},
+      {"name": "flux-system", "ready": "True", "lastAppliedRevision": "main@sha1:4fb888919e5255af1a4a1e4807d4e7ceb2f912b1"},
+      {"name": "infrastructure", "ready": "True", "lastAppliedRevision": "main@sha1:4fb888919e5255af1a4a1e4807d4e7ceb2f912b1"}
+    ],
+    "log_excerpt": {
+      "timestamp": "2026-09-25T22:08:44.024Z",
+      "name": "databases",
+      "level": "info",
+      "message": "Reconciliation finished in 319.714424ms, next run in 10m0s",
+      "revision": "main@sha1:4fb888919e5255af1a4a1e4807d4e7ceb2f912b1"
+    },
+    "other_observation": "The sampled apps reconciliation log also contained PodSecurity would-violate messages at info level and reported creation of Job/temporal/temporal-db-init. These messages alone do not establish an admission denial."
+  },
+  "backup_failure": {
+    "namespace": "database",
+    "pod": "postgres-backup-29838360-r4mv4",
+    "observed_phase": "Failed",
+    "log_lines": [
+      "2026-09-24T22:00:10.458497447-04:00 Starting encrypted PostgreSQL logical backup on rig0",
+      "2026-09-24T22:00:10.473045710-04:00 pg_dumpall: error: connection to server at \"postgresql.database.svc.cluster.local\" (10.43.236.122), port 5432 failed: Connection refused",
+      "2026-09-24T22:00:10.473052930-04:00 \tIs the server running on that host and accepting TCP/IP connections?"
+    ],
+    "root_cause": "unconfirmed; no repair attempted"
+  },
+  "temporal_init": {
+    "namespace": "temporal",
+    "pod": "temporal-db-init-qfknz",
+    "observed_phase": "Succeeded",
+    "restart_count": 2,
+    "warning_event": {"reason": "BackOff", "lastTimestamp": "2026-09-25T22:11:43Z"},
+    "log_lines": [
+      "2026-09-25T18:11:54.362698774-04:00 Creating Temporal databases and user...",
+      "2026-09-25T18:11:54.399253427-04:00 DO",
+      "2026-09-25T18:11:54.403319481-04:00 GRANT",
+      "2026-09-25T18:11:54.404966260-04:00 GRANT",
+      "2026-09-25T18:11:54.405481297-04:00 Temporal databases initialized successfully!"
+    ],
+    "previous_log_request": "BadRequest: previous terminated container init-db not found",
+    "root_cause": "unconfirmed; latest success does not explain earlier failures"
+  },
+  "historical_events": {
+    "observation": "The event query also returned August 16 records alongside September 25 records; an event's presence does not establish a current incident.",
+    "example": {"namespace": "auth", "lastTimestamp": "2026-08-16T16:53:42Z", "reason": "Unhealthy", "message": "Readiness probe failed: HTTP probe failed with statuscode: 500"}
+  },
+  "log_access_limits": [
+    "No Loki or other centralized log-store service was identified in the inspected in-cluster service inventory; off-cluster stores were not investigated.",
+    "Original February incident logs were not recovered; those cases are supported by Git history and exact patches.",
+    "No Secrets, database contents, or credential values were retrieved. Full live service-probe scripts were not run."
+  ]
+}

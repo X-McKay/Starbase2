@@ -1,0 +1,93 @@
+{
+  "status": "passed",
+  "cleanup": "verified",
+  "xp": 0,
+  "model_calls": 0,
+  "cluster": "sb-readiness-231b35f406",
+  "mode": "public-deterministic-controls",
+  "service_export_digest": "sha256:7c59087b8790446f70e98449467958780710cc7da58bb8f9a3e08648c78bd8c4",
+  "git_export_digest": "sha256:172a247c747f4288bbd827eff626e2c8519e95ee814ae02f7cb3a6559ffa79e0",
+  "source_run": ".local/readiness-runs/cluster-20260925-08",
+  "report_sha256": "3db9b08c76214f3d4dc9cb597d0a89ce9f15ae6a3fb975025109e11cf68238b9",
+  "controls": [
+    {
+      "id": "healthy-wait",
+      "verdict": "verified-no-change",
+      "expected": "verified-no-change",
+      "dispatched": true,
+      "revision": "1f82cefca679df2002ca06732bb0191c081f7bdd",
+      "sample_count": 3
+    },
+    {
+      "id": "route-mismatch-repair",
+      "verdict": "verified-repair",
+      "expected": "verified-repair",
+      "dispatched": true,
+      "revision": "0b11661e739277a28078434e82a7f87f167e247e",
+      "sample_count": 3
+    },
+    {
+      "id": "python-environment-repair",
+      "verdict": "verified-repair",
+      "expected": "verified-repair",
+      "dispatched": true,
+      "revision": "c18e1b6ed74656416b30a5d4b4ac3c28f4f10026",
+      "sample_count": 4
+    },
+    {
+      "id": "transient-dependency-wait",
+      "verdict": "verified-no-change",
+      "expected": "verified-no-change",
+      "dispatched": true,
+      "revision": "76a09850a4e247986760339ccf4099410c67d8c1",
+      "sample_count": 12
+    },
+    {
+      "id": "persistent-dependency-escalate",
+      "verdict": "blocked",
+      "expected": "blocked",
+      "dispatched": true,
+      "revision": "d5cc5b9204325c75647860866dd505877ee624c4",
+      "sample_count": 16
+    },
+    {
+      "id": "listening-but-broken-wait",
+      "verdict": "failed",
+      "expected": "failed",
+      "dispatched": true,
+      "revision": "0d09b475024f8adfa64ff7e105da14487f788b1f",
+      "sample_count": 16
+    },
+    {
+      "id": "route-mismatch-wrong-route",
+      "verdict": "failed",
+      "expected": "failed",
+      "dispatched": true,
+      "revision": "51b47428ba00e5b2a62ada83ff3c4a2c6c12e995",
+      "sample_count": 16
+    },
+    {
+      "id": "route-mismatch-tcp-only",
+      "verdict": "ineligible",
+      "expected": "ineligible",
+      "dispatched": false,
+      "revision": null,
+      "sample_count": 0
+    },
+    {
+      "id": "python-environment-timeout-only",
+      "verdict": "ineligible",
+      "expected": "ineligible",
+      "dispatched": false,
+      "revision": null,
+      "sample_count": 0
+    }
+  ],
+  "validation": {
+    "python_tests_passed": 179,
+    "focused_tests_included": 18,
+    "ruff": "passed",
+    "ty": "passed",
+    "known_warning": "graphiti_core uses deprecated class-based Pydantic Config"
+  }
+}

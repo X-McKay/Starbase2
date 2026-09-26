@@ -1,0 +1,26 @@
+{
+  "verified_at": "2026-09-26T00:27:33.252095+00:00",
+  "machines": [
+    {
+      "Name": "starbase2-readiness-lab",
+      "Default": false,
+      "Running": false,
+      "Starting": false,
+      "CPUs": 4,
+      "Memory": "4294967296",
+      "DiskSize": "25769803776"
+    },
+    {
+      "Name": "kz-eval",
+      "Default": true,
+      "Running": false,
+      "Starting": false,
+      "CPUs": 4,
+      "Memory": "6442450944",
+      "DiskSize": "21474836480"
+    }
+  ],
+  "default_connection": "kz-eval",
+  "lab_stop": "Podman fell back to hard stop after graceful-stop timeout; cluster cleanup had already been verified",
+  "supervisor_exit": 0
+}

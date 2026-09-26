@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "platform": "darwin-arm64",
+  "podman_client_version": "6.1.0",
+  "podman_server_version": "6.1.2",
+  "machine_image": "quay.io/podman/machine-os@sha256:28a277e4270450adec4e6a8d9a1b6d4dc105fa2b7b0b94e2c2e48245ce52837d",
+  "machine_archive_sha256": "14d81b8566b71a096402d2c6222ed06221e2db6f71a7ff013210aed4dc804ef8",
+  "kind": {
+    "version": "0.27.0",
+    "url": "https://github.com/kubernetes-sigs/kind/releases/download/v0.27.0/kind-darwin-arm64",
+    "sha256": "5240ca1acb587e1d0386532dd8c3373d81f5173b5af322919fc56f0cdd646596"
+  },
+  "flux": {
+    "version": "2.5.1",
+    "url": "https://github.com/fluxcd/flux2/releases/download/v2.5.1/flux_2.5.1_darwin_arm64.tar.gz",
+    "sha256": "68c025b8059934457978d8952c0c62fd06c585d46b334804da72d268eaf630d4"
+  },
+  "images": {
+    "node": "docker.io/kindest/node:v1.32.2@sha256:f226345927d7e348497136874b6d207e0b32cc52154ad8323129352923a3142f",
+    "python": "docker.io/library/python@sha256:900229622a576409d52f7a66b24cf441415a828d7e503b0107bf56452a4e44ac",
+    "git": "docker.io/alpine/git@sha256:062a01ad7a0eb17cff382bc5e26086b4d710e56dfdfdf001109a49b6d9bd378c",
+    "source": "ghcr.io/fluxcd/source-controller@sha256:00b1298fa2c65e7ee99bbc464453b77220bfdb49ba49a11ecd676022b43ce2ee",
+    "kustomize": "ghcr.io/fluxcd/kustomize-controller@sha256:8436cf360beca3ee2813a63d802eb87acf0b90f55c28d9ff70cb89074b8da1d6"
+  }
+}

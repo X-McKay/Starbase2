@@ -19,6 +19,13 @@ process isolation, stochastic confidence estimates, or promotions yet.
 
 ## What we can promise
 
+The [Kubani-inspired readiness pack](readiness-scenarios.md) adds public development
+controls for the next Kubernetes learning cycle. Its local kind/Flux rehearsal
+matched all nine predeclared outcomes: seven dispatched controls and two policy
+rejections before dispatch. Fixture processes and the grader have deterministic
+regression coverage. Qualified candidate isolation and a sealed agent comparison
+remain separate gates. Simulations in this pack award no XP.
+
 For a defined workload and budget, Starbase2 should reliably detect meaningful
 regressions and improvements, retain the evidence, and say when it cannot tell.
 It cannot prove that an arbitrary stochastic agent change is universally better.

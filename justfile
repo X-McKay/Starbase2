@@ -103,6 +103,18 @@ eval-smoke:
     .venv/bin/python -m pytest -q
     cargo test --locked grading
 
+# Public readiness controls: real loopback fixture processes, no models or cluster.
+test-readiness:
+    .venv/bin/python -m pytest -q services/runtime/tests/test_readiness*.py
+
+# Downloads checksum-pinned tools into .local; see docs/readiness-scenarios.md.
+readiness-prepare:
+    .venv/bin/python -m scripts.readiness.tools
+
+# Requires the separate, explicitly started lab VM; never reads user kubeconfig.
+readiness-rehearse output:
+    .venv/bin/python -m scripts.readiness.run {{output}}
+
 # No provider calls; local services and sanitized inputs only.
 test-operations:
     cargo build --locked

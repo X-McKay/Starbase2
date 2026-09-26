@@ -1,0 +1,85 @@
+[
+  {
+    "run": "cluster-20260925-01",
+    "report": ".local/readiness-runs/cluster-20260925-01/report.json",
+    "status": "invalid",
+    "cleanup": "verified",
+    "error": "Dedicated lab VM is stopped; no shared VM or cluster was touched",
+    "controls": []
+  },
+  {
+    "run": "cluster-20260925-03",
+    "report": ".local/readiness-runs/cluster-20260925-03/report.json",
+    "status": "invalid",
+    "cleanup": "verified",
+    "error": "Unpinned Podman version: 6.1.0 6.1.2",
+    "controls": []
+  },
+  {
+    "run": "cluster-20260925-04",
+    "report": ".local/readiness-runs/cluster-20260925-04/report.json",
+    "status": "invalid",
+    "cleanup": "verified",
+    "error": "podman ('--connection', 'starbase2-readiness-lab-root') failed (1): timed out waiting for the condition on pods/git\ntimed out waiting for the condition on pods/observer\n",
+    "controls": []
+  },
+  {
+    "run": "cluster-20260925-05",
+    "report": ".local/readiness-runs/cluster-20260925-05/report.json",
+    "status": "invalid",
+    "cleanup": "verified",
+    "error": "Imported fixture image differs from its built manifest digest",
+    "controls": []
+  },
+  {
+    "run": "cluster-20260925-06",
+    "report": ".local/readiness-runs/cluster-20260925-06/report.json",
+    "status": "invalid",
+    "cleanup": "verified",
+    "error": "Seeded failure was not reproduced: route-mismatch-repair",
+    "controls": [
+      {
+        "id": "healthy-wait",
+        "verdict": "verified-no-change",
+        "matches_expected": true
+      },
+      {
+        "id": "route-mismatch-repair",
+        "verdict": null,
+        "matches_expected": null
+      }
+    ]
+  },
+  {
+    "run": "cluster-20260925-07",
+    "report": ".local/readiness-runs/cluster-20260925-07/report.json",
+    "status": "invalid",
+    "cleanup": "verified",
+    "error": "Control disagreed with its predeclared outcome: python-environment-repair",
+    "controls": [
+      {
+        "id": "healthy-wait",
+        "verdict": "verified-no-change",
+        "matches_expected": true
+      },
+      {
+        "id": "route-mismatch-repair",
+        "verdict": "verified-repair",
+        "matches_expected": true
+      },
+      {
+        "id": "python-environment-repair",
+        "verdict": "invalid",
+        "matches_expected": false
+      }
+    ]
+  },
+  {
+    "run": "preflight-20260925",
+    "report": ".local/readiness-runs/preflight-20260925/report.json",
+    "status": "invalid",
+    "cleanup": "verified",
+    "error": "Dedicated lab VM is stopped; no shared VM or cluster was touched",
+    "controls": []
+  }
+]

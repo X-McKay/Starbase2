@@ -1,0 +1,10 @@
+ARG GIT_IMAGE
+ARG PYTHON_IMAGE
+FROM ${GIT_IMAGE} AS git
+FROM ${PYTHON_IMAGE}
+COPY --from=git /usr/bin/git /usr/bin/git
+COPY --from=git /usr/lib/libpcre2-8.so.0* /usr/lib/
+COPY server.py /server.py
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null
+USER 10001:10001
+ENTRYPOINT ["python3", "-I", "-B", "/server.py"]

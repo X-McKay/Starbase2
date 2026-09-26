@@ -1,0 +1,24 @@
+{
+  "version": "readiness-v1",
+  "visibility": "public-development-controls",
+  "question": "Does the lab reproduce known readiness faults and reject misleading success evidence?",
+  "model_calls": 0,
+  "xp": 0,
+  "stopping_rule": "Run each authored control once in order; stop on infrastructure error or an unexpected verdict, retain every attempted control, and use a new evidence directory after any fix.",
+  "controls": [
+    {"case": "healthy", "action": "wait", "expected": "verified-no-change", "variant": ""},
+    {"case": "route-mismatch", "action": "repair", "expected": "verified-repair", "variant": ""},
+    {"case": "python-environment", "action": "repair", "expected": "verified-repair", "variant": ""},
+    {"case": "transient-dependency", "action": "wait", "expected": "verified-no-change", "variant": ""},
+    {"case": "persistent-dependency", "action": "escalate", "expected": "blocked", "variant": ""},
+    {"case": "listening-but-broken", "action": "wait", "expected": "failed", "variant": ""},
+    {"case": "route-mismatch", "action": "repair", "expected": "failed", "variant": "wrong-route"},
+    {"case": "route-mismatch", "action": "repair", "expected": "ineligible", "variant": "tcp-only"},
+    {"case": "python-environment", "action": "repair", "expected": "ineligible", "variant": "timeout-only"}
+  ],
+  "historical_sources": {
+    "route-mismatch": "https://github.com/X-McKay/kubani/commit/3fec4eda62ae467f091e4c2a2966453ca55e93fd",
+    "python-environment": "https://github.com/X-McKay/kubani/commit/0e3109fec5d2bf02284b4a4182dc787f5cdc1b97",
+    "transient-dependency": "evidence/kubani-pilot-20260909/dependency-policy-convergence.log"
+  }
+}
