@@ -7,6 +7,18 @@ static var STRUCTURES: Array[Rect2] = Structures.navigation_bounds()
 const PROPS := Surface.NATURAL_BLOCKS+Surface.UTILITY_BLOCKS+preload("res://living_commons.gd").BLOCKS+[Rect2(-6.5,5.6,2,0.85),Rect2(4.5,5.6,2,0.85),Rect2(-11.5,2.7,1,0.7)]
 static var BLOCKS: Array[Rect2] = inflated_blocks()
 var grid := AStarGrid2D.new()
+var added_blocks:Array[Rect2]=[]
+
+func add_obstacle(rect:Rect2) -> void:
+	if not rect.has_area(): return
+	added_blocks.append(rect)
+	var padded:=rect.grow(0.4)
+	var first:=Vector2i((padded.position*2).floor())
+	var last:=Vector2i((padded.end*2).ceil())
+	for x in range(first.x,last.x+1):
+		for z in range(first.y,last.y+1):
+			var cell:=Vector2i(x,z)
+			if grid.is_in_boundsv(cell) and padded.has_point(Vector2(cell)*0.5): grid.set_point_solid(cell)
 
 static func inflated_blocks() -> Array[Rect2]:
 	var result: Array[Rect2] = []
@@ -46,6 +58,20 @@ func route(from: Vector3, to: Vector3) -> PackedVector3Array:
 					best=start.distance_squared_to(target)
 					snapped=candidate
 		a=snapped
+	# A reachable authored contact point may round toward a nearby console stand.
+	# End at a neighboring clear cell only when its final physical segment is safe.
+	if grid.is_in_boundsv(b) and grid.is_point_solid(b):
+		var best:=INF
+		var snapped:=b
+		var end:=Vector2(to.x,to.z)
+		for dx in range(-1,2):
+			for dy in range(-1,2):
+				var candidate:=b+Vector2i(dx,dy)
+				if not grid.is_in_boundsv(candidate) or grid.is_point_solid(candidate): continue
+				var point:=Vector2(candidate)*0.5
+				if end.distance_squared_to(point)<best and clear_start_segment(point,end):
+					best=end.distance_squared_to(point);snapped=candidate
+		b=snapped
 	if not grid.is_in_boundsv(a) or not grid.is_in_boundsv(b) or grid.is_point_solid(b) or grid.is_point_solid(a):
 		return PackedVector3Array()
 	var path := PackedVector3Array()
@@ -58,4 +84,6 @@ func clear_start_segment(start: Vector2, end: Vector2) -> bool:
 		if not Geography.contains(point,0.25): return false
 		for rect in STRUCTURES+PROPS+Surface.rock_bounds():
 			if rect.grow(0.25).has_point(point): return false
+		for rect in added_blocks:
+			if rect.grow(0.4).has_point(point): return false
 	return true

@@ -17,20 +17,24 @@
   "source_kind": "authored architecture; generated equipment remains separate props",
   "files": {
     "assets-production/structures/command/blender/command-polished.blend": {
-      "sha256": "6325eae1ecf06f7f305e69ec9a210b54f61896172bab4cf5de4a85958cf07ba8",
-      "bytes": 424398
+      "sha256": "16a0a5b99fb8afaef35cf17846950e1d5216f2b7e8cac59980726190d957908a",
+      "bytes": 431122
     },
     "apps/world/assets/structures/command/review-shell.glb": {
-      "sha256": "c41698a2b48040d0fa0b3f05c606412c16c9409a58aa24e8b42e125af08ca5f7",
+      "sha256": "673ac862677986fa48245ebce14ccaf60cd50eaec5745f78201fb6e4b8ce8a8e",
       "bytes": 4484172
     },
     "apps/world/assets/structures/command/review-interior.glb": {
-      "sha256": "bcb76c729da0c9d666f48eb2554320fd59905ab6c92358920c9abe79b161d352",
-      "bytes": 325764
+      "sha256": "5afb6e41b9b7ef2204d15678a6709bf7767d4ac87ac6e9221eee5059d417461d",
+      "bytes": 433112
     },
     "assets-production/scripts/build_remaining_structures.py": {
-      "sha256": "0ad4c5724407d7b5e5188a295680fc7b11cf8fea41435a7a00b72228749f13d9",
-      "bytes": 36843
+      "sha256": "fe2317b74d465c34a07fbe3cf1d6b46f2aa9432cf8400c6d975e32e572a8758b",
+      "bytes": 37279
+    },
+    "assets-production/scripts/dimensional_foliage.py": {
+      "sha256": "6ae5174454c487237763fb4e73834d5f616edea088b3a9f00ebffff07afde2ac",
+      "bytes": 2272
     }
   },
   "semantic_groups": [
@@ -45,6 +49,6 @@
     "InteriorRevealRail"
   ],
   "mesh_objects": 40,
-  "triangles": 66352,
+  "triangles": 67856,
   "review_status": "Requires native and package qualification; owner art judgment separate"
 }

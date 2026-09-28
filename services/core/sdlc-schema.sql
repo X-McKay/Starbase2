@@ -1,0 +1,2 @@
+CREATE TABLE sdlc_policy (id TEXT PRIMARY KEY, body TEXT NOT NULL);
+CREATE TABLE sdlc_missions (id TEXT PRIMARY KEY, opportunity TEXT UNIQUE NOT NULL, body TEXT NOT NULL);

@@ -8,12 +8,16 @@ import hashlib
 import json
 import math
 import random
+import sys
 from pathlib import Path
 
-import bpy
-from mathutils import Vector
+import bpy  # ty: ignore[unresolved-import]  # Provided by pinned Blender, not host Python.
+from mathutils import Vector  # ty: ignore[unresolved-import]  # Provided by Blender.
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from dimensional_foliage import curved_blade  # noqa: E402
+
 SOURCE = ROOT / "assets-production/environment/living-commons"
 RUNTIME = ROOT / "apps/world/assets/environment/living-commons"
 
@@ -91,26 +95,7 @@ def main():
     rng = random.Random(1702)
 
     def leaf(base, tip, width, material):
-        a, b = Vector(base), Vector(tip)
-        direction = (b - a).normalized()
-        across = direction.cross(Vector((0, 1, 0))).normalized() * width
-        # A folded, tapering lance leaf; raised midrib catches soft daylight.
-        points = [
-            a,
-            a.lerp(b, 0.30) - across,
-            a.lerp(b, 0.67) - across * 0.72,
-            b,
-            a.lerp(b, 0.67) + across * 0.72,
-            a.lerp(b, 0.30) + across,
-            a.lerp(b, 0.43) + Vector((0, width * 0.28, 0)),
-        ]
-        mesh = bpy.data.meshes.new("Lance leaf")
-        mesh.from_pydata([coord(p) for p in points], [], [(i, (i + 1) % 6, 6) for i in range(6)])
-        mesh.update()
-        obj = bpy.data.objects.new("Foliage", mesh)
-        bpy.context.scene.collection.objects.link(obj)
-        for polygon in mesh.polygons:
-            polygon.use_smooth = True
+        obj = curved_blade("Cupped lance blade", base, tip, width, sum(base))
         finish(obj, "Planting", material)
 
     # Two substantial raised beds: all stems, supports and irrigation stay within
@@ -133,7 +118,7 @@ def main():
             for tier in range(6):
                 y = 0.73 + height * tier / 7
                 for azimuth in (0, math.pi):
-                    angle = azimuth + rng.uniform(-0.45, 0.45) + (tier % 2) * 0.6
+                    angle = azimuth + rng.uniform(-0.25, 0.25) + tier * 2.39996
                     tip = (
                         plant_x + math.cos(angle) * 0.28,
                         y + rng.uniform(0.18, 0.35),
@@ -230,7 +215,13 @@ def main():
         obj.data.calc_loop_triangles()
         triangles += len(obj.data.loop_triangles)
     files = {}
-    for path in (blend, exported, Path(__file__)):
+    assert triangles <= 150000, "Commons geometry exceeds the bounded vegetation budget"
+    for path in (
+        blend,
+        exported,
+        Path(__file__),
+        Path(__file__).with_name("dimensional_foliage.py"),
+    ):
         with path.open("rb") as stream:
             files[str(path.relative_to(ROOT))] = {
                 "sha256": hashlib.file_digest(stream, "sha256").hexdigest(),
@@ -241,8 +232,11 @@ def main():
             {
                 "asset_id": "living-commons",
                 "blender_version": bpy.app.version_string,
-                "source_kind": "Authored garden architecture and leaf meshes; no paid generation",
-                "version": 2,
+                "source_kind": (
+                    "Authored garden architecture; closed cupped and twisted leaf meshes; "
+                    "no paid generation"
+                ),
+                "version": 3,
                 "world_origin": [-7, 0, 23],
                 "world_footprint": [-12, 19.6, 10, 7.1],
                 "blocks": [

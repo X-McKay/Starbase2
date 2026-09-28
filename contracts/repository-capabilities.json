@@ -1,0 +1,246 @@
+{
+  "schema_version": 1,
+  "capabilities": [
+    {
+      "schema_version": 1,
+      "id": "algent-persistence-history-v1",
+      "repository": "x-mckay/algent",
+      "opportunity": "persistence-history",
+      "workflow": "RepositorySdlcV7",
+      "source_paths": [
+        "src/__init__.py",
+        "src/utils/__init__.py",
+        "src/utils/logging.py",
+        "src/utils/persistence.py"
+      ],
+      "editable_paths": [
+        "src/utils/persistence.py"
+      ],
+      "editable_symbol": "get_conversation_history",
+      "discovery_rule": "history-missing-tie-order-v1",
+      "objective": "Chronological conversation history with latest-limit selection and insertion-order ties",
+      "verification": {
+        "id": "algent-history-seven-v1",
+        "case_ids": [
+          "history_all",
+          "history_last3",
+          "history_last1",
+          "history_zero",
+          "history_empty",
+          "history_context",
+          "history_mixed"
+        ],
+        "runtime": "Python 3.13.5 / microsandbox 0.6.14",
+        "network": "none",
+        "dependencies": "stdlib only",
+        "scope": "Seven persistence behaviors; not full Redis/API/application verification"
+      },
+      "limits": {
+        "max_rounds": 3,
+        "max_active_missions": 1,
+        "max_retained_missions": 100
+      },
+      "effects": [
+        "create_pilot_branch",
+        "create_pull_request",
+        "comment_review"
+      ],
+      "merge": false,
+      "assignments": [
+        {
+          "task": "diagnose",
+          "role": "lead",
+          "crew": "moss",
+          "requires": [],
+          "evidence": "investigating"
+        },
+        {
+          "task": "implement",
+          "role": "implementer",
+          "crew": "rivet",
+          "requires": [
+            "diagnose"
+          ],
+          "evidence": "implementing",
+          "fallback_crews": [
+            "moss"
+          ]
+        },
+        {
+          "task": "review",
+          "role": "reviewer",
+          "crew": "prism",
+          "requires": [
+            "implement"
+          ],
+          "evidence": "testing"
+        }
+      ],
+      "priority": 100,
+      "coordination": {
+        "max_reassignments": 1,
+        "basis": "Installed role compatibility; development builds, not independently qualified proficiency"
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "algent-memory-key-v1",
+      "repository": "x-mckay/algent",
+      "opportunity": "memory-key",
+      "workflow": "RepositorySdlcV7",
+      "source_paths": [
+        "src/__init__.py",
+        "src/utils/__init__.py",
+        "src/utils/logging.py",
+        "src/utils/persistence.py"
+      ],
+      "editable_paths": [
+        "src/utils/persistence.py"
+      ],
+      "editable_symbol": "get_agent_memory",
+      "discovery_rule": "memory-key-v1",
+      "objective": "Retrieve an explicitly supplied empty-string memory key; distinguish it from omitted key, preserve values and agent isolation",
+      "verification": {
+        "id": "algent-memory-key-six-v1",
+        "case_ids": [
+          "memory_empty_key",
+          "memory_named",
+          "memory_missing",
+          "memory_other_agent",
+          "memory_all",
+          "memory_zero"
+        ],
+        "runtime": "Python 3.13.5 / microsandbox 0.6.14",
+        "network": "none",
+        "dependencies": "stdlib only",
+        "scope": "Retrieve an explicitly supplied empty-string memory key; distinguish it from omitted key, preserve values and agent isolation; six isolated behaviors, not application-wide verification"
+      },
+      "limits": {
+        "max_rounds": 3,
+        "max_active_missions": 1,
+        "max_retained_missions": 100
+      },
+      "effects": [
+        "create_pilot_branch",
+        "create_pull_request",
+        "comment_review"
+      ],
+      "merge": false,
+      "assignments": [
+        {
+          "task": "diagnose",
+          "role": "lead",
+          "crew": "moss",
+          "requires": [],
+          "evidence": "investigating"
+        },
+        {
+          "task": "implement",
+          "role": "implementer",
+          "crew": "rivet",
+          "requires": [
+            "diagnose"
+          ],
+          "evidence": "implementing",
+          "fallback_crews": [
+            "moss"
+          ]
+        },
+        {
+          "task": "review",
+          "role": "reviewer",
+          "crew": "prism",
+          "requires": [
+            "implement"
+          ],
+          "evidence": "testing"
+        }
+      ],
+      "priority": 80,
+      "coordination": {
+        "max_reassignments": 1,
+        "basis": "Installed role compatibility; development builds, not independently qualified proficiency"
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "algent-logging-level-v1",
+      "repository": "x-mckay/algent",
+      "opportunity": "logging-level",
+      "workflow": "RepositorySdlcV7",
+      "source_paths": [
+        "src/__init__.py",
+        "src/utils/__init__.py",
+        "src/utils/logging.py",
+        "src/utils/persistence.py"
+      ],
+      "editable_paths": [
+        "src/utils/logging.py"
+      ],
+      "editable_symbol": "get_logger",
+      "discovery_rule": "logging-level-v1",
+      "objective": "Honor an explicit level on an existing logger, preserve level when omitted, and do not duplicate handlers or alter unrelated loggers",
+      "verification": {
+        "id": "algent-logging-level-six-v1",
+        "case_ids": [
+          "logging_initial",
+          "logging_update",
+          "logging_error",
+          "logging_handlers",
+          "logging_omitted",
+          "logging_other"
+        ],
+        "runtime": "Python 3.13.5 / microsandbox 0.6.14",
+        "network": "none",
+        "dependencies": "stdlib only",
+        "scope": "Honor an explicit level on an existing logger, preserve level when omitted, and do not duplicate handlers or alter unrelated loggers; six isolated behaviors, not application-wide verification"
+      },
+      "limits": {
+        "max_rounds": 3,
+        "max_active_missions": 1,
+        "max_retained_missions": 100
+      },
+      "effects": [
+        "create_pilot_branch",
+        "create_pull_request",
+        "comment_review"
+      ],
+      "merge": false,
+      "assignments": [
+        {
+          "task": "diagnose",
+          "role": "lead",
+          "crew": "moss",
+          "requires": [],
+          "evidence": "investigating"
+        },
+        {
+          "task": "implement",
+          "role": "implementer",
+          "crew": "rivet",
+          "requires": [
+            "diagnose"
+          ],
+          "evidence": "implementing",
+          "fallback_crews": [
+            "moss"
+          ]
+        },
+        {
+          "task": "review",
+          "role": "reviewer",
+          "crew": "prism",
+          "requires": [
+            "implement"
+          ],
+          "evidence": "testing"
+        }
+      ],
+      "priority": 60,
+      "coordination": {
+        "max_reassignments": 1,
+        "basis": "Installed role compatibility; development builds, not independently qualified proficiency"
+      }
+    }
+  ]
+}

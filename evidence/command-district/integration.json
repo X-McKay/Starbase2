@@ -1,5 +1,8 @@
 [
   {
+    "event": "discovery_worker_identity_and_owner_fence"
+  },
+  {
     "event": "cluster_and_changed_line_pr",
     "cluster": {
       "advisory": null,
@@ -96,12 +99,12 @@
             "summary": "Container cannot enter a stable running state."
           },
           "id": "c2a416ab76ec3601580f6b71082a8ff67025fa7b86c01edfe03b2703e3b4a7e4",
-          "observed_at": 1788821307.4393702,
+          "observed_at": 1790599690.051084,
           "revision": 1,
           "source_digest": "96229b8d631064782e9d403ca29df4d8c3fe61ed8afbf1dcc2382bcf771dd0fe",
           "source_run": "cluster-first",
           "target": "cluster-fixture",
-          "target_digest": "f0bef5e643ac829af47d261c7d81417be6425e63a784746fc44eba02d97d0694"
+          "target_digest": "b6d94dfb899c6c2a81e110144da64fa9c5afa61b918fb0accf3d77395add1441"
         }
       ],
       "recurring_keys": [
@@ -120,8 +123,26 @@
     "event": "repository_watch_restart_capture_remove_replay",
     "report": {
       "advisory": null,
-      "coverage": [],
+      "coverage": [
+        "Repository health covers bounded GitHub metadata, issues, PRs and Actions only; it does not certify repository health or review all languages."
+      ],
       "findings": [
+        {
+          "code": "default-branch-ci-failed",
+          "key": "8584c92b022e952dcfe4bf95cb822fcab2989414ee83acdd2b034a9ad8e0f6c2",
+          "line": 0,
+          "recommendation": "Inspect the linked run and verify the current revision before proposing a repair.",
+          "subject": "fixture/command / workflow 12",
+          "summary": "Latest observed Actions run 21 at cccccccccccccccccccccccccccccccccccccccc concluded failure."
+        },
+        {
+          "code": "open-pr-review-candidate",
+          "key": "7e2ef7d8d4a73aee3823ba2d76f30bd17ab7693d07198509ad807005b28ee2f1",
+          "line": 0,
+          "recommendation": "Inspect existing reviews and current head before deciding whether another review is needed.",
+          "subject": "fixture/command#7",
+          "summary": "An open, non-draft pull request is a review candidate; approval state was not inspected."
+        },
         {
           "code": "S307",
           "key": "5cecb27f4e805af510ed91481a06196b71a25bc247edaae980a58be3b01af078",
@@ -146,7 +167,7 @@
         "recurring_keys": [],
         "status": "empty"
       },
-      "snapshot_digest": "1dac955e9d812468d2bac0b696b3162b8924b5ad5d9fbe1111bf878e9dee9b58"
+      "snapshot_digest": "a9e857d8a8d1b5a374e238e71e78941eeb12843d35948771265349d64f6073e8"
     }
   }
 ]

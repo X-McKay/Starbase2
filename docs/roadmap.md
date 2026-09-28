@@ -251,3 +251,41 @@ recording, explicit Kubani target verification, and activation through Kubani
 GitOps. Native amd64 qualification remains required for an amd64 target. No cluster deployment is implied by a
 passing local UI archive. Other crew’s animation and 50-texture performance remain
 separate art/performance work with the existing owner and native review gate.
+
+## Readiness learning loop · 2026-09-25
+
+The [local comparison harness](readiness-campaigns.md) implements immutable
+baseline/Procedure builds, predeclared paired trials, fresh kind/Flux environments,
+independent repair/no-change/abstention evidence, retained failures, and suggested
+follow-up work. Practice awards no XP and changes no authority.
+
+| Next deliverable | Owner | Completion evidence |
+|---|---|---|
+| Broader readiness capability evaluation | Runtime/evaluation | Fresh held-out task families, repeated paired trials, calibrated uncertainty and all hard gates |
+| Durable readiness missions and campaigns | Runtime/core | Core-owned build/effect records; additive Temporal workflow; restart, cancellation and uncertain-effect reconciliation checks |
+| Crew sheet and Engineering comparison journey | Runtime/world | Authoritative per-trial projections, keyboard parity, stale/unknown states and native visual/interaction QA |
+| Proactive Trainer improvement duties | Runtime/evaluation/core | Duplicate-safe schedules, bounded candidate proposals with provenance, independent campaigns and recorded promotion policy |
+
+The JSON lab journal is not a durable product integration. Real Kubani GitOps
+writes remain a separately qualified authority boundary.
+
+## Autonomous crew coordination · 2026-09-27
+
+Autonomous multi-agent coordination is the owner’s required outcome. The
+[Playbooks alignment and acceptance plan](playbooks-alignment.md) defines the
+implementation sequence: packaged readiness agent → durable mission with typed
+specialist delegation → adaptive autonomous coordination → continuous improvement
+→ evidence-backed crew progression and world presentation. The package is now
+implemented; the overall objective remains open. Runtime/core/evaluation own the
+next thin end-to-end lab mission, including shared budgets, independent grading,
+restart recovery, cancellation and no-progress termination. Completing only a
+refactor or separately runnable agents does not satisfy this milestone.
+
+## Autonomous RPG implementation tracking · 2026-09-27
+
+The [complete research-to-code delivery map](autonomous-rpg-delivery.md) owns the
+remaining work. [V5 joint readiness](joint-readiness.md) adds bounded durable
+simulation coordination; real GitOps recovery, continuous improvement,
+qualification and adoption remain separate gates. Native work adds a
+[Crew sheet](crew-sheet.md) and [detailed work attention](crew-work-attention.md)
+without inventing measured capability.

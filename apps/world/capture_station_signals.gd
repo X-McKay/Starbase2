@@ -31,6 +31,27 @@ func run() -> void:
 	for i in range(150): await physics_frame
 	check(world.station_signals.visible_context=="review","Command signal visible from exterior")
 	await picture("01-fresh-command")
+	var failed: Dictionary = rehearsal.record("station-failed","failed")
+	var unchanged: Dictionary = rehearsal.record("station-no-change","completed")
+	unchanged.summary.outcome="no_change"
+	var blocked: Dictionary = rehearsal.record("station-blocked","completed")
+	blocked.summary.outcome="blocked"
+	rehearsal.project([rehearsal.record("station-active","running"),failed,unchanged,blocked])
+	await picture("01b-mixed-retained-outcomes")
+	check(world.station_signals.labels.review.text.contains("FAILED RESULTS") and world.station_signals.labels.review.text.contains("1 open"),"Retained failure does not hide current open work")
+	for example in [{"name":"no-change","record":unchanged},{"name":"blocked","record":blocked},{"name":"cancelled","record":rehearsal.record("station-cancelled","cancelled")}]:
+		rehearsal.project([example.record])
+		await picture("01c-"+example.name)
+	rehearsal.project([])
+	await picture("01d-no-retained-records")
+	world.station_signals.update_records([],false,0,true)
+	await picture("01e-unobserved")
+	rehearsal.project([rehearsal.record("station-active","running"),rehearsal.record("station-completed","completed")])
+	var stale_records: Array = world.missions.duplicate(true)
+	for retained in stale_records: retained.stale=true
+	world.station_signals.update_records(stale_records,false,rehearsal.observation,true)
+	await picture("01f-stale-records")
+	rehearsal.project([rehearsal.record("station-active","running"),rehearsal.record("station-completed","completed")])
 	world.disconnected=true; world.show_mission()
 	await picture("02-offline-command")
 	check(world.station_signals.labels.review.text.contains("OFFLINE"),"Offline aggregate explicit")
@@ -70,7 +91,21 @@ func run() -> void:
 	world.hud.close_panels()
 	for i in range(3): await process_frame
 	await picture("07-compact-exterior")
-	var report={"failures":failures,"fixture":true,"native":true,"pointer_station_records":true,"keyboard_station_records":true,"scope":"Explicit staged exterior fixture; no production commands or travel acceptance"}
+	rehearsal.project([rehearsal.record("station-active","running"),failed,unchanged,blocked])
+	world.disconnected=false; world.show_mission()
+	await picture("08-compact-mixed-large")
+	var station_label: Label3D = world.station_signals.labels.review
+	var extent: Vector2 = world.station_signals._screen_half_size(world.camera,station_label)
+	var marker_center: Vector2 = world.camera.unproject_position(station_label.global_position)
+	check(marker_center.x-extent.x>=0 and marker_center.x+extent.x<=root.get_visible_rect().size.x,"Compact enlarged marker stays within horizontal viewport bounds")
+	click.position=marker_center+Vector2(0,extent.y-2)
+	world._unhandled_input(click)
+	await process_frame
+	check(world.hud.station_records.visible,"Bottom line of multiline badge opens native records")
+	world.hud.close_panels(); world.hud.reduced=true; world.apply_settings()
+	await picture("09-compact-reduced-motion")
+	check(world.station_signals.labels.review.text.contains("FAILED RESULTS") and world.station_signals.labels.review.text.contains("1 no change"),"Reduced motion retains status and mixed outcome details")
+	var report={"failures":failures,"fixture":true,"native":true,"pointer_station_records":true,"keyboard_station_records":true,"reduced_motion_markers":true,"scope":"Explicit staged exterior fixture; no production commands or travel acceptance"}
 	FileAccess.open(output.path_join("manifest.json"),FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
 	for failure in failures: push_error(failure)
 	if failures.is_empty(): print("STATION_SIGNALS_NATIVE_PASSED")

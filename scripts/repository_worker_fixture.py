@@ -18,7 +18,38 @@ async def handler(request):
     assert request.method == "GET" and request.url.host == "api.github.com"
     assert "authorization" not in request.headers
     path = request.url.path
-    pr = {"number": 7, "head": {"sha": "a" * 40}, "base": {"sha": "b" * 40}, "changed_files": 1}
+    pr = {
+        "number": 7,
+        "head": {"sha": "a" * 40},
+        "base": {"sha": "b" * 40},
+        "changed_files": 1,
+        "draft": False,
+    }
+    if path == "/repos/fixture/command":
+        return httpx.Response(200, json={"default_branch": "main", "private": False})
+    if path == "/repos/fixture/command/commits/main":
+        return httpx.Response(200, json={"sha": "c" * 40})
+    if path == "/repos/fixture/command/issues":
+        return httpx.Response(200, json=[{"number": 9}])
+    if path == "/repos/fixture/command/actions/runs":
+        assert request.url.params["head_sha"] == "c" * 40
+        assert request.url.params["branch"] == "main"
+        return httpx.Response(
+            200,
+            json={
+                "total_count": 1,
+                "workflow_runs": [
+                    {
+                        "id": 21,
+                        "workflow_id": 12,
+                        "head_sha": "c" * 40,
+                        "head_branch": "main",
+                        "status": "completed",
+                        "conclusion": "failure",
+                    }
+                ],
+            },
+        )
     if path == "/repos/fixture/command/pulls":
         return httpx.Response(200, json=[pr])
     if path == "/repos/fixture/command/pulls/7":

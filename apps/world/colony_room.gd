@@ -51,6 +51,13 @@ func _ready() -> void:
 	for x in range(first.x,last.x+1):
 		for z in range(first.y,last.y+1):
 			if not clear(Vector2(x,z)*0.5): grid.set_point_solid(Vector2i(x,z))
+func add_obstacle(rect:Rect2) -> void:
+	if not rect.has_area(): return
+	blocks.append(rect)
+	for x in range(grid.region.position.x,grid.region.end.x):
+		for z in range(grid.region.position.y,grid.region.end.y):
+			if rect.grow(0.36).has_point(Vector2(x,z)*0.5): grid.set_point_solid(Vector2i(x,z))
+
 func clear(point: Vector2) -> bool:
 	if not definition.interior_bounds.has_point(point): return false
 	for rect in blocks:

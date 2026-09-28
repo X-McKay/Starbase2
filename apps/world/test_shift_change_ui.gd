@@ -4,6 +4,7 @@ func check(value:bool,message:String) -> void:
 	if not value: failures.append(message)
 func _initialize() -> void: run.call_deferred()
 func run() -> void:
+	root.size=Vector2i(800,640);root.content_scale_size=root.size
 	var hud=preload("res://hud.gd").new()
 	hud.board_fixture="__empty_visual_fixture__"
 	root.add_child(hud)
@@ -12,9 +13,13 @@ func run() -> void:
 	var strip=hud.crew_strip
 	var base:Dictionary={"unknown":false,"active_count":0,"backend_state":"unknown","label":"No recorded work","duty_label":"Duty paused"}
 	strip.project("watchkeeper",base,"Taking a break")
-	check(strip.entries.watchkeeper.text.contains("Between assignments"),"Operational crew status remains visible without decorative activity claims")
+	check(strip.entries.watchkeeper.text.ends_with("Between tasks"),"Compact crew status is concise without claiming decorative activity")
+	strip.entries.watchkeeper.grab_focus();await process_frame
+	check(strip.status_detail.text=="Wes Walker · Between assignments","Keyboard focus exposes full between-assignment status")
+	check(strip.entries.watchkeeper.tooltip_text.contains("Between assignments") and strip.entries.watchkeeper.tooltip_text.contains("Duty paused"),"Compact crew tooltip retains full operational status and duty")
 	var offline:Dictionary=base.duplicate(); offline.unknown=true
 	strip.project("watchkeeper",offline,"Taking a break")
+	check(strip.entries.watchkeeper.text.ends_with("State unknown") and strip.status_detail.text=="Wes Walker · Awaiting live state","Unknown state stays explicit in compact label and keyboard detail")
 	check(not strip.entries.watchkeeper.text.contains("Taking a break"),"Unknown backend state suppresses confident activity caption")
 	var active:Dictionary=base.duplicate(); active.active_count=1; active.backend_state="cancel_requested"
 	strip.project("watchkeeper",active)
@@ -23,7 +28,8 @@ func run() -> void:
 	strip.project("watchkeeper",cancelled,"Taking a break")
 	check(strip.entries.watchkeeper.text.contains("Cancelled"),"Completed cancellation stays distinct from local activity")
 	strip.project("watchkeeper",base,"At home",true)
-	check(strip.entries.watchkeeper.text.contains("route blocked"),"A blocked return is visible even without active work")
+	check(strip.entries.watchkeeper.text.ends_with("Route blocked"),"Compact blocked route remains visible even without active work")
+	check(strip.status_detail.text=="Wes Walker · Between assignments · route blocked","Focused full status distinguishes a blocked return from active operational work")
 	var selected:Array=[]
 	hud.place_selected.connect(func(kind):selected.append(kind))
 	strip.entries.watchkeeper.pressed.emit()
@@ -44,6 +50,10 @@ func run() -> void:
 		hud.large_text=true; hud.scale_text()
 		await process_frame
 		await process_frame
+		var expected:="Route blocked" if size.x<1200 else "Between assignments · route blocked"
+		check(strip.entries.watchkeeper.text.ends_with(expected),"Responsive crew status is concise only when horizontal space is constrained")
+		strip.entries.watchkeeper.grab_focus();await process_frame
+		check(strip.status_detail.text=="Wes Walker · Between assignments · route blocked","Full keyboard status survives responsive layout changes")
 		print("SHIFT_STRIP_BOUNDS ",size," ",strip.get_global_rect()," viewport ",root.get_visible_rect())
 		check(strip.is_visible_in_tree(),"Crew strip is visible while measuring its responsive target widths")
 		check(root.get_visible_rect().encloses(strip.get_global_rect()),"Crew strip fits native and compact viewport")

@@ -17,12 +17,20 @@ uniform bool reactor_glow = false;
 uniform float visibility : hint_range(0.0,1.0) = 1.0;
 uniform float breeze_strength = 0.0;
 uniform bool motion_enabled = true;
+// Optional roof-only cutaway: retain rear structure and all low supports.
+uniform bool sightline_clip = false;
+uniform mat4 sightline_to_station = mat4(1.0);
+uniform float sightline_ceiling = 3.2;
+uniform float sightline_rear = -1000.0;
+varying vec3 sightline_position;
 void vertex() {
+ sightline_position = (sightline_to_station * vec4(VERTEX, 1.0)).xyz;
  if (motion_enabled && breeze_strength > 0.0) {
   VERTEX.x += sin(TIME * 1.1 + VERTEX.z * 2.0 + VERTEX.y) * breeze_strength * clamp(VERTEX.y, 0.0, 1.0);
  }
 }
 void fragment() {
+ if (sightline_clip && sightline_position.y > sightline_ceiling && sightline_position.z > sightline_rear) discard;
  float noise=fract(sin(dot(floor(FRAGCOORD.xy),vec2(12.9898,78.233)))*43758.5453);
  if (visibility <= noise) discard;
  ALBEDO=color.rgb*(use_albedo ? texture(albedo_map,UV).rgb : vec3(1.0));

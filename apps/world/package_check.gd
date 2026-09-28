@@ -20,8 +20,16 @@ func walk(tree:SceneTree,scene:Node,target:Vector3,station:Node3D) -> void:
 
 func run(tree:SceneTree, scene:Node) -> void:
 	check(not ResourceLoader.exists("res://test_state.gd"),"Development tests leaked into release")
+	check(not ResourceLoader.exists("res://probe_station_hands.gd"),"Development hand diagnostics leaked into release")
+	check(not ResourceLoader.exists("res://workstations/test_interaction_station.gd"),"Development furniture test leaked into release")
 	check(not ResourceLoader.exists("res://characters/illustrated_import.gd"),"Art importer leaked into release")
 	check(FileAccess.file_exists("res://characters/catalog.json"),"Missing character catalog")
+	check(FileAccess.file_exists("res://characters/hand_contact_probes.json"),"Missing calibrated hand contact data")
+	check(ResourceLoader.exists("res://characters/environment_interaction.gd"),"Missing environment interaction driver")
+	check(ResourceLoader.exists("res://workstations/interaction_station.gd"),"Missing authored interaction furniture")
+	check(ResourceLoader.exists("res://workstations/seated_console.gd"),"Missing seated Command furniture")
+	check(ResourceLoader.exists("res://characters/seated_footwork.gd"),"Missing grounded chair transitions")
+	check(not ResourceLoader.exists("res://test_seated_work_animation.gd"),"Development seated animation tests leaked into release")
 	check(FileAccess.file_exists("res://assets/kits/aster-v1/manifest.json"),"Missing surface catalog")
 	var catalog=load("res://characters/catalog.gd")
 	var definition=catalog.get_definition("operator")
@@ -49,6 +57,18 @@ func run(tree:SceneTree, scene:Node) -> void:
 	# Load the actual colony and every authored interior using the supplied fixture.
 	for i in range(5): await tree.process_frame
 	check(scene.fixture_path!="","Export checks require an isolated fixture")
+	for resource in ["joint_operations.gd","joint_commands.gd","joint_state.gd","learning_panel.gd","learning_commands.gd","characters/slate_choreography.gd","characters/work_attention.gd"]:
+		check(ResourceLoader.exists("res://"+resource),"Missing packaged local-cycle dependency: "+resource)
+	var operations=scene.hud.operations
+	check(operations.joint!=null and operations.learning!=null,"Packaged mission and Practice views missing")
+	check(scene.footprints!=null and scene.footprints.marks.multimesh.instance_count==128,"Packaged bounded sand footprint effect missing")
+	check(ResourceLoader.exists("res://sand_print.gdshader"),"Packaged footprint material missing")
+	check(ResourceLoader.exists("res://shadow_quality.gd"),"Packaged bounded shadow configuration missing")
+	check(ResourceLoader.exists("res://crew_contact_shadow.gdshader"),"Packaged soft crew contact material missing")
+	check(ResourceLoader.exists("res://structures/interior_sightlines.gd"),"Packaged roof sightline configuration missing")
+	check(not operations.joint.fixture.is_empty() and not operations.learning.fixture.is_empty(),"Packaged local-cycle review must remain fixture fenced")
+	check(operations.learning.enable_button.disabled and operations.learning.stop_button.disabled and operations.learning.cancel_button.disabled,"Packaged Practice fixture enabled mutation")
+
 	check(scene.get_node("Operator").character_definition.id=="operator","Wrong production character")
 	check(scene.get_node("Operator").model_visual.hair_bone>=0,"Packaged secondary-motion rig missing")
 	check(scene.decorative_vents.size()==4,"Packaged four-room ventilation missing")

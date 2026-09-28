@@ -1,10 +1,17 @@
 pub mod field;
 pub mod grader;
+pub mod joint;
+pub mod joint_opportunities;
+pub mod learning;
 pub mod model;
 pub mod operations;
 pub mod operations_api;
 pub mod repair;
 pub mod repositories;
+pub mod repository_discovery;
+pub mod sdlc;
+pub mod sdlc_discovery;
+pub mod sdlc_feedback;
 pub mod storage;
 
 use crate::parameters as params;
@@ -33,7 +40,7 @@ impl Store {
         let version: i64 = db
             .query_row("PRAGMA user_version", [], |r| r.get(0))
             .map_err(|e| e.to_string())?;
-        if version > 5 {
+        if version > 10 {
             return Err("database schema is newer than this core".into());
         }
         db.execute_batch(
@@ -65,6 +72,46 @@ impl Store {
                 "BEGIN IMMEDIATE;",
                 include_str!("../repository-schema.sql"),
                 "PRAGMA user_version=5; COMMIT;"
+            ))
+            .map_err(|e| e.to_string())?;
+        }
+        if version < 6 {
+            db.execute_batch(concat!(
+                "BEGIN IMMEDIATE;",
+                include_str!("../joint-schema.sql"),
+                "PRAGMA user_version=6; COMMIT;"
+            ))
+            .map_err(|e| e.to_string())?;
+        }
+        if version < 7 {
+            db.execute_batch(concat!(
+                "BEGIN IMMEDIATE;",
+                include_str!("../learning-schema.sql"),
+                "PRAGMA user_version=7; COMMIT;"
+            ))
+            .map_err(|e| e.to_string())?;
+        }
+        if version < 8 {
+            db.execute_batch(concat!(
+                "BEGIN IMMEDIATE;",
+                include_str!("../repository-discovery-schema.sql"),
+                "PRAGMA user_version=8; COMMIT;"
+            ))
+            .map_err(|e| e.to_string())?;
+        }
+        if version < 9 {
+            db.execute_batch(concat!(
+                "BEGIN IMMEDIATE;",
+                include_str!("../sdlc-schema.sql"),
+                "PRAGMA user_version=9; COMMIT;"
+            ))
+            .map_err(|e| e.to_string())?;
+        }
+        if version < 10 {
+            db.execute_batch(concat!(
+                "BEGIN IMMEDIATE;",
+                include_str!("../sdlc-discovery-schema.sql"),
+                "PRAGMA user_version=10; COMMIT;"
             ))
             .map_err(|e| e.to_string())?;
         }
@@ -111,7 +158,7 @@ impl Store {
                 |r| r.get(0),
             )
             .map_err(|e| e.to_string())?;
-        if !(1..=3).contains(&versions) || recorded != checksum {
+        if !(1..=8).contains(&versions) || recorded != checksum {
             return Err("Unsupported PostgreSQL schema/checksum; no automatic downgrade".into());
         }
         let v2 = format!("{:x}", Sha256::digest(include_str!("../field-schema.sql")));
@@ -166,6 +213,140 @@ impl Store {
             .map_err(|e| e.to_string())?;
         if actual != v3 {
             return Err("Unsupported repository schema checksum".into());
+        }
+        let v4 = format!("{:x}", Sha256::digest(include_str!("../joint-schema.sql")));
+        if versions < 4 {
+            if !migrate {
+                return Err("PostgreSQL joint mission migration required".into());
+            }
+            let tx = db.transaction().map_err(|e| e.to_string())?;
+            tx.execute_batch(include_str!("../joint-schema.sql"))
+                .map_err(|e| e.to_string())?;
+            tx.execute(
+                "INSERT INTO schema_version VALUES (4,$1)",
+                params![v4.clone()],
+            )
+            .map_err(|e| e.to_string())?;
+            tx.commit().map_err(|e| e.to_string())?;
+        }
+        let actual: String = db
+            .query_row(
+                "SELECT checksum FROM schema_version WHERE version=4",
+                params![],
+                |r| r.get(0),
+            )
+            .map_err(|e| e.to_string())?;
+        if actual != v4 {
+            return Err("Unsupported joint schema checksum".into());
+        }
+        let v5 = format!(
+            "{:x}",
+            Sha256::digest(include_str!("../learning-schema.sql"))
+        );
+        if versions < 5 {
+            if !migrate {
+                return Err("PostgreSQL local learning migration required".into());
+            }
+            let tx = db.transaction().map_err(|e| e.to_string())?;
+            tx.execute_batch(include_str!("../learning-schema.sql"))
+                .map_err(|e| e.to_string())?;
+            tx.execute(
+                "INSERT INTO schema_version VALUES (5,$1)",
+                params![v5.clone()],
+            )
+            .map_err(|e| e.to_string())?;
+            tx.commit().map_err(|e| e.to_string())?;
+        }
+        let actual: String = db
+            .query_row(
+                "SELECT checksum FROM schema_version WHERE version=5",
+                params![],
+                |r| r.get(0),
+            )
+            .map_err(|e| e.to_string())?;
+        if actual != v5 {
+            return Err("Unsupported learning schema checksum".into());
+        }
+        let v6 = format!(
+            "{:x}",
+            Sha256::digest(include_str!("../repository-discovery-schema.sql"))
+        );
+        if versions < 6 {
+            if !migrate {
+                return Err("PostgreSQL repository discovery migration required".into());
+            }
+            let tx = db.transaction().map_err(|e| e.to_string())?;
+            tx.execute_batch(include_str!("../repository-discovery-schema.sql"))
+                .map_err(|e| e.to_string())?;
+            tx.execute(
+                "INSERT INTO schema_version VALUES (6,$1)",
+                params![v6.clone()],
+            )
+            .map_err(|e| e.to_string())?;
+            tx.commit().map_err(|e| e.to_string())?;
+        }
+        let actual: String = db
+            .query_row(
+                "SELECT checksum FROM schema_version WHERE version=6",
+                params![],
+                |r| r.get(0),
+            )
+            .map_err(|e| e.to_string())?;
+        if actual != v6 {
+            return Err("Unsupported repository discovery schema checksum".into());
+        }
+        let v7 = format!("{:x}", Sha256::digest(include_str!("../sdlc-schema.sql")));
+        if versions < 7 {
+            if !migrate {
+                return Err("PostgreSQL SDLC migration required".into());
+            }
+            let tx = db.transaction().map_err(|e| e.to_string())?;
+            tx.execute_batch(include_str!("../sdlc-schema.sql"))
+                .map_err(|e| e.to_string())?;
+            tx.execute(
+                "INSERT INTO schema_version VALUES (7,$1)",
+                params![v7.clone()],
+            )
+            .map_err(|e| e.to_string())?;
+            tx.commit().map_err(|e| e.to_string())?;
+        }
+        let actual: String = db
+            .query_row(
+                "SELECT checksum FROM schema_version WHERE version=7",
+                params![],
+                |r| r.get(0),
+            )
+            .map_err(|e| e.to_string())?;
+        if actual != v7 {
+            return Err("Unsupported SDLC schema checksum".into());
+        }
+        let v8 = format!(
+            "{:x}",
+            Sha256::digest(include_str!("../sdlc-discovery-schema.sql"))
+        );
+        if versions < 8 {
+            if !migrate {
+                return Err("PostgreSQL SDLC discovery migration required".into());
+            }
+            let tx = db.transaction().map_err(|e| e.to_string())?;
+            tx.execute_batch(include_str!("../sdlc-discovery-schema.sql"))
+                .map_err(|e| e.to_string())?;
+            tx.execute(
+                "INSERT INTO schema_version VALUES (8,$1)",
+                params![v8.clone()],
+            )
+            .map_err(|e| e.to_string())?;
+            tx.commit().map_err(|e| e.to_string())?;
+        }
+        let actual: String = db
+            .query_row(
+                "SELECT checksum FROM schema_version WHERE version=8",
+                params![],
+                |r| r.get(0),
+            )
+            .map_err(|e| e.to_string())?;
+        if actual != v8 {
+            return Err("Unsupported SDLC discovery schema checksum".into());
         }
         Ok(Self { db })
     }

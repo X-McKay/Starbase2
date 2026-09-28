@@ -71,6 +71,18 @@ class MemoryReview(BaseModel):
     revision: Annotated[int, Field(ge=0)]
 
 
+class RepositoryDiscovery(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    complete: bool
+    error: str | None = None
+    interval_seconds: Annotated[int, Field(ge=0)]
+    observed_at: float
+    owner: str
+    repositories: list[str]
+
+
 class RepositoryWatch(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
@@ -99,4 +111,5 @@ class FieldContract(BaseModel):
     input: FieldInput
     memory_review: MemoryReview
     report: FieldReport
+    repository_discovery: RepositoryDiscovery
     repository_watch: RepositoryWatch

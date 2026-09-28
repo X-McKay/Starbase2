@@ -5,15 +5,14 @@ Editable production files live here. Godot loads finished resources from
 IDs defined in the [content taxonomy](../docs/content-organization.md).
 
 The active [Meshy world-expansion allowance](batches/meshy-world-expansion/README.md)
-is 1,500 credits, authorized on 2026-09-10. It starts at zero spend and is separate
-from the historical batches below; no generation was dispatched to record it.
+is 1,500 credits, authorized on 2026-09-10. The
+[Morning slice](batches/morning-at-starbase2/README.md) uses 30 actual credits and
+the [selected cast](batches/new-cast/README.md) uses 210. Total: 240 spent,
+zero pending, and 1,260 remaining, separate from historical batches.
 
 | Category / asset | Purpose | Rebuild |
 |---|---|---|
-| `characters/cybercat-vanguard` | Preserved original player, rig and four clips | `mise exec -- just world-vanguard-build` |
-| `characters/cybercat-vanguard-secondary` | Selected player with bounded upper-hair motion | `mise exec -- just world-inhabited-build` |
-| `characters/engineering-specialist` | Mender's Engineering suit | `mise exec -- just world-engineering-build` |
-| `characters/cybercat-sentinel` | Earlier repaired crew, still used by other roles | Shared preparation scripts; see [production record](../docs/meshy-blender.md) |
+| `characters/wayfinder`, `rivet`, `moss-cartographer`, `stillpoint`, `night-shift`, `prism` | Six selected independent cast bodies, own rigs, hair and work/rest animation | [Batch recipe](batches/new-cast/scripts/README.md) |
 | `characters/captain`, `characters/eva` | Illustrated captain inputs and retained technical pilots | `mise exec -- just characters-import`; pilot render uses Blender 4.5.3 |
 | `structures/engineering` | Selected shell and furnished interior | `mise exec -- just world-engineering-build` |
 | `structures/command`, `training`, `habitat`, `botanical` | Selected authored frontier structures | `mise exec -- just world-remaining-build` |
@@ -22,9 +21,12 @@ from the historical batches below; no generation was dispatched to record it.
 | `props/containment-reactor` | Selected Engineering reactor | `mise exec -- just world-engineering-build` |
 | `props/reactor-apparatus` | Earlier reactor used by colony build and previews | [Original batch](batches/meshy-blender/provenance.json) |
 | `props/habitat-lounge-sofa` | Selected sage Habitat sofa | `mise exec -- just world-inhabited-build` |
+| `environment/aster-vegetation` | Closed curved exterior groundcover, four shared runtime batches | [Pinned Blender recipe](environment/aster-vegetation/README.md) |
+| `environment/living-commons` | Authored garden and dimensional leaves | [Commons recipe](environment/living-commons/README.md) |
 | `environment/colony-vent` | Authored decorative wall fan | `mise exec -- just world-inhabited-build` |
 | `kits/aster-domestic` | Habitat lounge and Commons furniture, textiles and domestic detail | [Blender recipe and provenance](kits/aster-domestic/README.md) |
-| `characters/shift-social` | Rig-specific sit, seated and stand animation libraries for existing crew | `scripts/build_social.py` within the asset directory |
+| `props/field-slate`, `props/daybook` | Handheld work equipment and physical historical briefing instrument | [Morning production](batches/morning-at-starbase2/README.md) |
+| `environment/morning-atmosphere` | Doorway textiles, Habitat wall detail and suspended planters | [Blender source](environment/morning-atmosphere/README.md) |
 
 The Shift Change implementation reuses the selected Meshy characters and props,
 with a new [generated composition target](batches/shift-change/concepts/art-target-v1.md),
@@ -88,3 +90,5 @@ exact source/artifact hashes in its manifest and an inspected nonblank 12-frame
 motion contact sheet. Full world checks preceded the capture-only RGB8 fix;
 the fresh standalone run covers that final capture change. This establishes
 local technical qualification, not owner art approval or deployment readiness.
+
+The [Habitat accents kit](kits/habitat-accents/README.md) adds editable Blender domestic dressing for the `inhabited station refinement` (local review evidence is retained outside this commit), with zero additional Meshy spend.

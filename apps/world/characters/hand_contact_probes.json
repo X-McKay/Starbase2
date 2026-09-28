@@ -1,0 +1,152 @@
+{
+  "mender": {
+    "Left": {
+      "keyboard": [
+        1.8984375,
+        12.2472915649414,
+        1.15242004394531
+      ],
+      "samples": 768,
+      "screen": [
+        0.956933975219727,
+        14.3112449645996,
+        -0.622886657714844
+      ],
+      "units": "skeleton centimetres; vertices >95% weighted to own hand"
+    },
+    "Right": {
+      "keyboard": [
+        -2.27828216552734,
+        13.1555213928223,
+        0.916282653808594
+      ],
+      "samples": 853,
+      "screen": [
+        -0.78839111328125,
+        15.1235427856445,
+        -0.583518981933594
+      ],
+      "units": "skeleton centimetres; vertices >95% weighted to own hand"
+    }
+  },
+  "reviewer": {
+    "Left": {
+      "keyboard": [
+        2.31427764892578,
+        13.3028812408447,
+        1.46755981445312
+      ],
+      "samples": 2120,
+      "screen": [
+        0.83416748046875,
+        16.3558139801025,
+        -0.237762451171875
+      ],
+      "units": "skeleton centimetres; vertices >95% weighted to own hand"
+    },
+    "Right": {
+      "keyboard": [
+        -2.08982467651367,
+        13.5431823730469,
+        1.14434814453125
+      ],
+      "samples": 1760,
+      "screen": [
+        -0.812599182128906,
+        16.6716766357422,
+        0.041046142578125
+      ],
+      "units": "skeleton centimetres; vertices >95% weighted to own hand"
+    }
+  },
+  "surveyor": {
+    "Left": {
+      "keyboard": [
+        1.61738204956055,
+        12.1144609451294,
+        0.693771362304688
+      ],
+      "samples": 641,
+      "screen": [
+        -0.613109588623047,
+        14.374415397644,
+        -1.16380310058594
+      ],
+      "units": "skeleton centimetres; vertices >95% weighted to own hand"
+    },
+    "Right": {
+      "keyboard": [
+        -1.21548652648926,
+        12.8704414367676,
+        2.05784606933594
+      ],
+      "samples": 616,
+      "screen": [
+        1.56840705871582,
+        15.0297431945801,
+        0.837188720703125
+      ],
+      "units": "skeleton centimetres; vertices >95% weighted to own hand"
+    }
+  },
+  "trainer": {
+    "Left": {
+      "keyboard": [
+        0.333026885986328,
+        12.2307167053223,
+        -0.49822998046875
+      ],
+      "samples": 546,
+      "screen": [
+        0.551826477050781,
+        13.448616027832,
+        -1.48387145996094
+      ],
+      "units": "skeleton centimetres; vertices >95% weighted to own hand"
+    },
+    "Right": {
+      "keyboard": [
+        -0.301223754882812,
+        11.802074432373,
+        -0.508255004882812
+      ],
+      "samples": 573,
+      "screen": [
+        -0.37445068359375,
+        14.1334037780762,
+        -1.49916839599609
+      ],
+      "units": "skeleton centimetres; vertices >95% weighted to own hand"
+    }
+  },
+  "watchkeeper": {
+    "Left": {
+      "keyboard": [
+        0.839458465576172,
+        16.4337577819824,
+        2.89141845703125
+      ],
+      "samples": 1183,
+      "screen": [
+        1.14346313476562,
+        18.3696899414062,
+        1.51194763183594
+      ],
+      "units": "skeleton centimetres; vertices >95% weighted to own hand"
+    },
+    "Right": {
+      "keyboard": [
+        -1.16557312011719,
+        15.8569841384888,
+        2.85604858398438
+      ],
+      "samples": 1111,
+      "screen": [
+        -1.50532150268555,
+        17.5993804931641,
+        1.64059448242188
+      ],
+      "units": "skeleton centimetres; vertices >95% weighted to own hand"
+    }
+  }
+}

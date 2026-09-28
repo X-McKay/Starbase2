@@ -8,10 +8,29 @@ for args in [
     ["--script", "test_uat_regressions.gd"],
     ["--script", "test_uat_world.gd"],
     ["--script", "test_native_window_size.gd"],
+    ["--fixed-fps", "60", "--script", "test_closer_camera.gd"],
+    ["--script", "test_shadow_quality.gd"],
+    ["--script", "test_crew_contact_shadow.gd"],
+    ["--fixed-fps", "60", "--script", "test_sand_footprints.gd"],
     ["--script", "test_support_surface.gd"],
+    ["--script", "test_interior_sightlines.gd"],
     ["--fixed-fps", "60", "--script", "test_world_ground_contact.gd"],
     ["--script", "test_hud_polish.gd"],
+    ["--script", "test_compact_chrome.gd"],
     ["--script", "test_crew_guide.gd"],
+    ["--script", "test_crew_slate.gd"],
+    ["--script", "test_crew_attention.gd"],
+    ["--script", "test_crew_work_cycle.gd"],
+    ["--script", "test_slate_choreography.gd"],
+    ["--script", "workstations/test_interaction_station.gd"],
+    ["--script", "workstations/test_seated_console.gd"],
+    ["--script", "test_environment_animation.gd"],
+    ["--script", "test_seated_work_animation.gd"],
+    ["--script", "test_hand_contact_probes.gd"],
+    ["--fixed-fps", "60", "--script", "test_environment_interactions.gd"],
+    ["--script", "test_crew_sheet.gd"],
+    ["--script", "test_joint_operations.gd"],
+    ["--script", "test_learning_panel.gd"],
     ["--script", "test_sole_contact.gd", "--", "--contact-role=operator"],
     ["--script", "test_sole_contact.gd", "--", "--contact-role=mender"],
     ["--script", "test_sole_contact.gd", "--", "--contact-role=surveyor"],
@@ -52,12 +71,16 @@ for args in [
     ["--script", "test_board_overview.gd"],
     ["--script", "test_board_buttons.gd"],
     ["--script", "test_command_board.gd"],
+    ["--script", "test_sdlc_missions.gd"],
+    ["--script", "test_sdlc_coordination.gd"],
+    ["--script", "test_sdlc_crew.gd", "--", "--api=http://127.0.0.1:1"],
     ["--script", "test_contextual_hud.gd"],
     ["--script", "test_console_theme.gd"],
     ["--script", "test_ember_operations.gd"],
     ["--script", "test_field_compact.gd"],
     ["--script", "test_console_hud.gd"],
     ["--script", "test_living_foliage.gd"],
+    ["--script", "test_dimensional_foliage.gd"],
     ["--fixed-fps", "60", "--script", "test_social_animation.gd"],
     ["--fixed-fps", "60", "--script", "test_inhabited_journey.gd"],
     ["--script", "test_colony_vent.gd"],
@@ -96,7 +119,16 @@ for args in [
             text=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
-            timeout=60,
+            # Rig/cadence cases sample after engine frames; full colony seating
+            # adds bounded mid-sit cancellation and re-entry journeys.
+            timeout=300
+            if any(
+                name in args
+                for name in ["test_environment_animation.gd", "test_seated_work_animation.gd"]
+            )
+            else 120
+            if "test_environment_interactions.gd" in args
+            else 60,
         )
     except subprocess.TimeoutExpired as error:
         output = error.stdout or ""

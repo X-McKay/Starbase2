@@ -65,6 +65,7 @@ pub struct FieldContract {
     pub duty: FieldDuty,
     pub inference_budget: Option<InferenceBudget>,
     pub repository_watch: crate::repositories::RepositoryWatch,
+    pub repository_discovery: crate::repository_discovery::RepositoryDiscovery,
 }
 fn error(e: rusqlite::Error) -> String {
     e.to_string()
@@ -80,6 +81,22 @@ pub(crate) fn enabled() -> bool {
         |_| !std::env::var("STARBASE_ENV").is_ok_and(|v| v == "production"),
         |v| v == "true",
     ) && !std::env::var("STARBASE_ACCEPT_WORK").is_ok_and(|v| v == "false")
+}
+pub(crate) fn summarize_run(r: &Value) -> Value {
+    let report = &r["report"];
+    let count = report["findings"].as_array().map_or(0, Vec::len);
+    let partial = report["coverage"].as_array().is_some_and(|v| !v.is_empty());
+    let summary = if report.is_null() {
+        Value::Null
+    } else {
+        json!({
+            "outcome":if partial {"partial"} else if count>0 {"findings"} else {"no_findings"},
+            "finding_count":count,"simulation":r["snapshot"]["data"]["simulation"],
+            "memory_status":report["memory"]["status"],"source_kind":"field",
+            "advisory_status":report["advisory"]["status"],"advisory_reason":report["advisory"]["reason"]
+        })
+    };
+    json!({"input":r["input"],"state":r["state"],"detail":r["detail"],"created_at":r["created_at"],"updated_at":r["updated_at"],"source_observed_at":r["snapshot"]["observed_at"],"inference_budget":r["inference_budget"],"summary":summary})
 }
 impl Store {
     pub fn field_build(&self, body: &Value) -> Result<Value> {
@@ -149,21 +166,13 @@ impl Store {
             "SELECT body FROM field_runs ORDER BY CASE WHEN body::jsonb->>'state' IN ('completed','failed','cancelled') THEN 1 ELSE 0 END,at DESC LIMIT 120",
         ))?;
         // Polling clients receive summaries; full source, advice and memory are detail-only.
-        let runs: Vec<Value> = runs.into_iter().map(|r| {
-            let report=&r["report"];
-            let count=report["findings"].as_array().map_or(0,Vec::len);
-            let partial=report["coverage"].as_array().is_some_and(|v| !v.is_empty());
-            let summary=if report.is_null() {Value::Null} else {json!({
-                "outcome":if partial {"partial"} else if count>0 {"findings"} else {"no_findings"},
-                "finding_count":count,"simulation":r["snapshot"]["data"]["simulation"],
-                "memory_status":report["memory"]["status"],"source_kind":"field",
-                "advisory_status":report["advisory"]["status"],"advisory_reason":report["advisory"]["reason"]
-            })};
-            json!({"input":r["input"],"state":r["state"],"detail":r["detail"],"created_at":r["created_at"],"updated_at":r["updated_at"],"source_observed_at":r["snapshot"]["observed_at"],"inference_budget":r["inference_budget"],"summary":summary})
-        }).collect();
-        let builds = read(
-            "SELECT body FROM (SELECT body,at,ROW_NUMBER() OVER (PARTITION BY agent,target ORDER BY at DESC) AS rank FROM field_builds) AS latest WHERE rank=1 ORDER BY at DESC LIMIT 100",
-        )?;
+        let runs: Vec<Value> = runs.iter().map(summarize_run).collect();
+        // Watch targets must not disappear behind newer historical/configured builds.
+        // The first branch is bounded by repository capacity, the second by 100.
+        let builds = read(self.db.dialect(
+            "WITH latest AS (SELECT body,at,agent,target,ROW_NUMBER() OVER (PARTITION BY agent,target ORDER BY at DESC) AS rank FROM field_builds) SELECT body FROM latest WHERE rank=1 AND agent='reviewer' AND target IN (SELECT id FROM repository_watches WHERE json_extract(body,'$.config.removed')=0) UNION ALL SELECT body FROM (SELECT body FROM latest WHERE rank=1 AND target NOT LIKE 'repo-%' ORDER BY at DESC LIMIT 100) AS configured",
+            "WITH latest AS (SELECT body,at,agent,target,ROW_NUMBER() OVER (PARTITION BY agent,target ORDER BY at DESC) AS rank FROM field_builds) SELECT body FROM latest WHERE rank=1 AND agent='reviewer' AND target IN (SELECT id FROM repository_watches WHERE body::jsonb->'config'->>'removed'='false') UNION ALL SELECT body FROM (SELECT body FROM latest WHERE rank=1 AND target NOT LIKE 'repo-%' ORDER BY at DESC LIMIT 100) AS configured",
+        ))?;
         Ok(
             json!({"schema_version":4,"enabled":enabled(),"runs":runs,"builds":builds,
             "repositories":self.repositories()?,"observed_at":now(),"memory":self.field_memory()?,"duties":self.field_duties()?,"authority":"Read-only observations and local review drafts; no external writes"}),
@@ -891,6 +900,38 @@ impl Store {
             params![duty.id,serde_json::to_string(duty).unwrap()]).map_err(error)?;
         Ok(json!(duty))
     }
+    // Persisted admission times implement oldest-first fairness across independent
+    // durable timers. Busy, paused, removed, unregistered and not-yet-due watches
+    // cannot reserve a turn. Saturation skips a tick rather than failing its workflow.
+    fn repository_turn(&self, id: &str, snapshot: &Value, slots: usize) -> Result<bool> {
+        let latest: std::collections::HashMap<String, f64> = self.db.prepare(self.db.dialect(
+            "SELECT json_extract(body,'$.input.target'),MAX(at) FROM field_runs GROUP BY json_extract(body,'$.input.target')",
+            "SELECT body::jsonb->'input'->>'target',MAX(at) FROM field_runs GROUP BY body::jsonb->'input'->>'target'",
+        )).map_err(error)?.query_map(params![], |r| Ok((r.get(0)?, r.get(1)?)))
+            .map_err(error)?.collect::<std::result::Result<_,_>>().map_err(error)?;
+        let at = now();
+        let mut ready: Vec<(f64, String)> = Vec::new();
+        for watch in self.repositories()? {
+            let target = watch["id"].as_str().unwrap();
+            let config = &watch["config"];
+            let last = latest.get(target).copied().unwrap_or(0.0);
+            if config["enabled"] != true
+                || config["removed"] == true
+                || last + config["interval_seconds"].as_f64().unwrap() > at
+                || !snapshot["builds"].as_array().unwrap().iter().any(|b| {
+                    b["manifest"]["agent"] == "reviewer" && b["manifest"]["target"]["id"] == target
+                })
+                || snapshot["runs"].as_array().unwrap().iter().any(|r| {
+                    r["input"]["target"] == target && !terminal(r["state"].as_str().unwrap_or(""))
+                })
+            {
+                continue;
+            }
+            ready.push((last, target.to_owned()));
+        }
+        ready.sort_by(|a, b| a.0.total_cmp(&b.0).then_with(|| a.1.cmp(&b.1)));
+        Ok(ready.iter().take(slots).any(|(_, target)| target == id))
+    }
     pub fn field_tick(&mut self, id: &str, generation: u32, tick: u64) -> Result<Value> {
         let value = self
             .field_duties()?
@@ -908,6 +949,18 @@ impl Store {
                 && !terminal(r["state"].as_str().unwrap_or(""))
         }) {
             return Ok(json!({"outcome":"busy"}));
+        }
+        let active = snapshot["runs"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .filter(|r| !terminal(r["state"].as_str().unwrap_or("")))
+            .count();
+        if active >= 20 {
+            return Ok(json!({"outcome":"deferred","reason":"active_run_budget"}));
+        }
+        if id.starts_with("repo-") && !self.repository_turn(id, &snapshot, 20 - active)? {
+            return Ok(json!({"outcome":"deferred","reason":"repository_fair_share"}));
         }
         self.create_field(&FieldInput {
             id: format!("duty-{}-{}-{}", id, generation, tick),

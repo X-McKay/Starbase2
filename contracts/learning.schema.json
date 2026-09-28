@@ -1,0 +1,521 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LearningContract",
+  "type": "object",
+  "properties": {
+    "cycle": {
+      "$ref": "#/$defs/LearningCycle"
+    },
+    "duty": {
+      "$ref": "#/$defs/LearningDuty"
+    },
+    "proposal_result": {
+      "$ref": "#/$defs/ProcedureResult"
+    },
+    "snapshot": {
+      "$ref": "#/$defs/LearningSnapshot"
+    }
+  },
+  "required": [
+    "duty",
+    "proposal_result",
+    "cycle",
+    "snapshot"
+  ],
+  "$defs": {
+    "JointBuild": {
+      "type": "object",
+      "properties": {
+        "digest": {
+          "type": "string"
+        },
+        "manifest": true
+      },
+      "additionalProperties": false,
+      "required": [
+        "digest",
+        "manifest"
+      ]
+    },
+    "LearningBudget": {
+      "type": "object",
+      "properties": {
+        "proposal_requests": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "proposal_tokens": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "trial_requests": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "trial_tokens": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "proposal_requests",
+        "proposal_tokens",
+        "trial_requests",
+        "trial_tokens"
+      ]
+    },
+    "LearningControl": {
+      "type": "object",
+      "properties": {
+        "admitted_cycles": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "duty": {
+          "$ref": "#/$defs/LearningDuty"
+        },
+        "last_started_at": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "practice_incumbent": {
+          "$ref": "#/$defs/PracticeIncumbent"
+        },
+        "rebases": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/PracticeRebase"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "duty",
+        "practice_incumbent",
+        "admitted_cycles"
+      ]
+    },
+    "LearningCycle": {
+      "type": "object",
+      "properties": {
+        "baseline": {
+          "$ref": "#/$defs/JointBuild"
+        },
+        "baseline_generation": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "budget": true,
+        "candidate": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/JointBuild"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "created_at": {
+          "type": "number",
+          "format": "double"
+        },
+        "deadline": {
+          "type": "number",
+          "format": "double"
+        },
+        "dedup_key": {
+          "type": "string"
+        },
+        "duty_generation": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "evidence_digest": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "policy": true,
+        "proposal": {
+          "$ref": "#/$defs/LearningProposal"
+        },
+        "source_build": {
+          "$ref": "#/$defs/JointBuild"
+        },
+        "source_missions": {
+          "type": "array",
+          "items": true
+        },
+        "source_opportunity": true,
+        "state": {
+          "type": "string"
+        },
+        "summary": true,
+        "trial_order": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "trials": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LearningTrial"
+          }
+        },
+        "updated_at": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "dedup_key",
+        "duty_generation",
+        "source_opportunity",
+        "source_build",
+        "evidence_digest",
+        "source_missions",
+        "baseline",
+        "baseline_generation",
+        "state",
+        "deadline",
+        "budget",
+        "proposal",
+        "trials",
+        "trial_order",
+        "policy",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "LearningDuty": {
+      "type": "object",
+      "properties": {
+        "baseline": {
+          "type": "string"
+        },
+        "budget": {
+          "$ref": "#/$defs/LearningBudget",
+          "default": {
+            "proposal_requests": 1,
+            "proposal_tokens": 32768,
+            "trial_requests": 24,
+            "trial_tokens": 384000
+          }
+        },
+        "cooldown_seconds": {
+          "type": "integer",
+          "format": "uint32",
+          "default": 60,
+          "minimum": 0
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "generation": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "id": {
+          "type": "string"
+        },
+        "max_cycles": {
+          "type": "integer",
+          "format": "uint32",
+          "default": 2,
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "generation",
+        "baseline"
+      ]
+    },
+    "LearningGrant": {
+      "type": "object",
+      "properties": {
+        "requests": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "tokens": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "requests",
+        "tokens"
+      ]
+    },
+    "LearningProposal": {
+      "type": "object",
+      "properties": {
+        "accounted_tokens": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "grant": {
+          "$ref": "#/$defs/LearningGrant"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ProcedureResult"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "state": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "grant",
+        "accounted_tokens"
+      ]
+    },
+    "LearningSnapshot": {
+      "type": "object",
+      "properties": {
+        "control": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LearningControl"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "cycles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LearningCycle"
+          }
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "policy": true,
+        "schema_version": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "enabled",
+        "cycles",
+        "policy"
+      ]
+    },
+    "LearningTrial": {
+      "type": "object",
+      "properties": {
+        "arm": {
+          "type": "string"
+        },
+        "mission_id": {
+          "type": "string"
+        },
+        "pair": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "requests": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "scenario": {
+          "$ref": "#/$defs/Scenario"
+        },
+        "slot": {
+          "type": "string"
+        },
+        "tokens": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "slot",
+        "pair",
+        "arm",
+        "scenario",
+        "mission_id",
+        "requests",
+        "tokens"
+      ]
+    },
+    "PracticeIncumbent": {
+      "type": "object",
+      "properties": {
+        "build": {
+          "type": "string"
+        },
+        "generation": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "source_cycle": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "build",
+        "generation"
+      ]
+    },
+    "PracticeRebase": {
+      "type": "object",
+      "properties": {
+        "at": {
+          "type": "number",
+          "format": "double"
+        },
+        "build": {
+          "type": "string"
+        },
+        "duty_generation": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "incumbent_generation": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "previous_build": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "previous_build",
+        "build",
+        "duty_generation",
+        "incumbent_generation",
+        "at"
+      ]
+    },
+    "ProcedureResult": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "procedure": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/TaskStatus"
+        },
+        "trace": {
+          "default": null
+        },
+        "usage": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Usage"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "rationale"
+      ]
+    },
+    "Scenario": {
+      "type": "string",
+      "enum": [
+        "route-mismatch",
+        "healthy",
+        "persistent-dependency",
+        "listening-but-broken"
+      ]
+    },
+    "TaskStatus": {
+      "type": "string",
+      "enum": [
+        "completed",
+        "failed",
+        "unknown"
+      ]
+    },
+    "Usage": {
+      "type": "object",
+      "properties": {
+        "input_tokens": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "output_tokens": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "input_tokens",
+        "output_tokens"
+      ]
+    }
+  }
+}

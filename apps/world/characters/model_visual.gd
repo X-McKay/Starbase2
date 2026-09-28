@@ -12,6 +12,12 @@ var clip := ""
 var heading := 0.0
 var skeleton: Skeleton3D
 var transition := 0.0
+var transition_duration := 0.18
+var work_treatment := "precise"
+var work_elapsed := 0.0
+const WORK_TREATMENTS := {
+	"precise": {"entry": 0.36, "settle": 0.16, "attention_scale": 0.85, "attention_tempo": 0.9},
+	"deliberate": {"entry": 0.62, "settle": 0.30, "attention_scale": 1.0, "attention_tempo": 1.0}}
 var idle_time := 0.0
 var start_rotations: Array[Quaternion] = []
 var start_positions: Array[Vector3] = []
@@ -29,6 +35,21 @@ var secondary_motion_limit := 0.10
 var social_transition_finished := true
 var social_elapsed := 0.0
 var social_pose := ""
+var seated_footwork=preload("res://characters/seated_footwork.gd").new()
+var seating_station:Node3D
+var seat_alignment_offset:=Vector3.ZERO
+var seat_reference_error:=0.0
+var seat_entry_position:=Vector3.ZERO
+var seat_stand_position:=Vector3.ZERO
+var seated_stand_time_offset:=0.0
+var seating_facing_ready:=true
+var seating_prepare_elapsed:=0.0
+var seat_departure_progress:=1.0
+const SEAT_DEPARTURE_PREP:=.60
+var interaction_station:Node3D
+var environment_interaction=preload("res://characters/environment_interaction.gd").new()
+var work_attention=preload("res://characters/work_attention.gd").new()
+var slate_choreography:RefCounted
 var work_slate: Node3D
 var work_slate_palm_offset := Vector3(0,0.035,0.055)
 var work_slate_grip_span_scale := 1.0
@@ -45,6 +66,10 @@ const MOTION_PROFILES:={
 	"trainer":Vector3(1.35,1.10,1.15),
 	"watchkeeper":Vector3(0.85,0.80,0.70),
 	"reviewer":Vector3(1.10,0.95,0.80)}
+
+func set_work_treatment(treatment:String) -> void:
+	# Local art-direction choice; never changes assignment, movement or authority.
+	work_treatment=treatment if WORK_TREATMENTS.has(treatment) else "precise"
 
 func set_motion_profile(profile:String) -> void:
 	motion_profile=profile if MOTION_PROFILES.has(profile) else "operator"
@@ -63,6 +88,11 @@ func configure_definition(definition: Resource) -> void:
 	configure(definition.model_scene,definition.model_scale,definition.model_floor_offset,definition.animation_family)
 	var profiles:Dictionary=JSON.parse_string(FileAccess.get_file_as_string("res://characters/sole_probes.json"))
 	sole_contact.configure(self,profiles.get(definition.id,{}))
+	environment_interaction.configure(self,definition.id)
+	seated_footwork.configure(self,definition.id)
+	if definition.id=="mender":
+		slate_choreography=preload("res://characters/slate_choreography.gd").new()
+		slate_choreography.configure(self)
 
 func configure(scene: PackedScene, scale_factor: float, floor_offset: float = -0.10, animation_family: String = "") -> void:
 	model_source=scene
@@ -71,6 +101,7 @@ func configure(scene: PackedScene, scale_factor: float, floor_offset: float = -0
 	instance.position.y = floor_offset * scale_factor
 	add_child(instance)
 	skeleton = instance.find_children("*", "Skeleton3D", true, false)[0]
+	work_attention.configure(skeleton)
 	secondary_bones.clear()
 	secondary_rest_rotations.clear()
 	for bone_name in secondary_motion_bones:
@@ -163,25 +194,43 @@ func project(displacement: Vector3, moving: bool, phase: float, reduced: bool, d
 	elif speed>5.2: run_selected=true
 	elif speed<4.7: run_selected=false
 	if next=="walk" and run_selected and animation.has_animation("run"): next="run"
-	if not actual_moving and not reduced and pose=="console":
+	var station_work:bool=environment_interaction.enabled and is_instance_valid(interaction_station) and not moving and (pose=="console" or (pose=="sit" and is_instance_valid(seating_station)))
+	if not actual_moving and not reduced and pose=="console" and not station_work:
 		if animation.has_animation("work/field_slate"): next="work/field_slate"
 		elif animation.has_animation("console"): next="console"
 	if pose!=social_pose:
 		social_ground_start=position.y
-		social_pose=pose; social_elapsed=0.0
-	social_elapsed+=delta
+		seat_entry_position=position
+		seat_stand_position=position
+		if pose=="stand" and social_pose=="sit":seat_departure_progress=clampf(social_elapsed/animation.get_animation("social/sit_down").length,0,1)
+		seated_stand_time_offset=0.0
+		if pose=="stand" and social_pose=="sit" and is_instance_valid(seating_station) and not social_transition_finished:
+			var sit_duration:float=animation.get_animation("social/sit_down").length
+			seated_stand_time_offset=animation.get_animation("social/stand_up").length*(1-clampf(social_elapsed/sit_duration,0,1))
+		social_pose=pose; social_elapsed=0.0; seating_prepare_elapsed=0.0
+	seating_prepare_elapsed+=delta
+	seating_facing_ready=pose!="sit" or not is_instance_valid(seating_station) or reduced or (seating_prepare_elapsed>=.22 and absf(angle_difference(rotation.y,heading))<.01)
+	if pose!="sit" or seating_facing_ready:social_elapsed+=delta
 	var social_time:=-1.0
 	social_transition_finished=true
-	if not actual_moving and pose=="sit" and animation.has_animation("social/seated"):
+	if not actual_moving and pose=="sit" and not seating_facing_ready:
+		social_transition_finished=false
+	elif not actual_moving and pose=="sit" and animation.has_animation("social/seated"):
 		var sit_length:=animation.get_animation("social/sit_down").length if animation.has_animation("social/sit_down") else 0.0
+		if reduced:social_elapsed=maxf(social_elapsed,sit_length)
 		if reduced or social_elapsed>=sit_length:
 			next="social/seated"; social_time=0.0 if reduced else fposmod(social_elapsed-sit_length,animation.get_animation(next).length)
 		else:
 			next="social/sit_down"; social_time=social_elapsed; social_transition_finished=false
 	elif not actual_moving and pose=="stand" and animation.has_animation("social/stand_up"):
 		var stand_length:=animation.get_animation("social/stand_up").length
-		next="social/stand_up"; social_time=stand_length if reduced else minf(social_elapsed,stand_length)
-		social_transition_finished=reduced or social_elapsed>=stand_length
+		var stand_elapsed:=maxf(0,social_elapsed-SEAT_DEPARTURE_PREP) if is_instance_valid(seating_station) else social_elapsed
+		next="social/stand_up"; social_time=stand_length if reduced else minf(seated_stand_time_offset+stand_elapsed,stand_length)
+		social_transition_finished=reduced or seated_stand_time_offset+stand_elapsed>=stand_length
+		if is_instance_valid(seating_station) and social_elapsed<SEAT_DEPARTURE_PREP and not reduced:
+			next="social/seated" if seat_departure_progress>=1 else "social/sit_down"
+			social_time=0.0 if seat_departure_progress>=1 else seat_departure_progress*animation.get_animation(next).length
+			social_transition_finished=false
 	if not reduced: idle_time+=delta
 	if clip != next:
 		start_rotations.clear()
@@ -189,16 +238,31 @@ func project(displacement: Vector3, moving: bool, phase: float, reduced: bool, d
 		for i in skeleton.get_bone_count():
 			start_rotations.append(skeleton.get_bone_pose_rotation(i))
 			start_positions.append(skeleton.get_bone_pose_position(i))
-		transition=0.18
+		transition_duration=float(WORK_TREATMENTS[work_treatment].entry) if next=="work/field_slate" else 0.18
+		transition=transition_duration
+		work_elapsed=0.0
 		clip = next
 		animation.play(clip)
+	if reduced:transition=0.0
 	var time := 0.0
 	if not reduced:
 		time=phase*animation.get_animation(clip).length if clip in ["walk","run"] else fposmod(idle_time,animation.get_animation(clip).length)
+	if clip=="work/field_slate" and not reduced:
+		work_elapsed+=delta if valid_step else 0.0
+		# Enter the authored work pose at a stable phase. Unrelated idle time must
+		# not choose where the equipment gesture begins. This clock is cosmetic.
+		time=fposmod(maxf(0.0,work_elapsed-transition_duration),animation.get_animation(clip).length)
 	if social_time>=0: time=social_time
 	# Imported social clips omit constant rest channels; clear prior clip poses.
-	if social_time>=0 or clip=="work/field_slate": skeleton.reset_bone_poses()
+	if social_time>=0 or clip=="work/field_slate" or station_work or environment_interaction.blend>0: skeleton.reset_bone_poses()
 	animation.seek(time,true)
+
+	var treatment:Dictionary=WORK_TREATMENTS[work_treatment]
+	var settled_work:=work_elapsed>=transition_duration+float(treatment.settle)
+	if slate_choreography!=null:settled_work=slate_choreography.state=="use"
+	work_attention.strength=float(treatment.attention_scale)
+	work_attention.tempo=float(treatment.attention_tempo)
+	work_attention.project(skeleton,motion_profile,not moving and not reduced and pose=="console" and clip=="work/field_slate" and settled_work and not station_work,delta)
 
 	if not moving and not reduced:
 		var spine := spine_bone
@@ -216,7 +280,9 @@ func project(displacement: Vector3, moving: bool, phase: float, reduced: bool, d
 		skeleton.set_bone_pose_rotation(spine_bone,skeleton.get_bone_pose_rotation(spine_bone)*overlay)
 	if transition>0 and not reduced:
 		transition=maxf(0,transition-delta)
-		var blend := smoothstep(0,0.18,0.18-transition)
+		var amount:=clampf((transition_duration-transition)/transition_duration,0.0,1.0)
+		# Smootherstep gives a controlled reach with zero endpoint acceleration.
+		var blend:=amount*amount*amount*(amount*(amount*6.0-15.0)+10.0) if clip=="work/field_slate" else smoothstep(0.0,1.0,amount)
 		for i in skeleton.get_bone_count():
 			skeleton.set_bone_pose_rotation(i,start_rotations[i].slerp(skeleton.get_bone_pose_rotation(i),blend))
 			skeleton.set_bone_pose_position(i,start_positions[i].lerp(skeleton.get_bone_pose_position(i),blend))
@@ -227,7 +293,16 @@ func project(displacement: Vector3, moving: bool, phase: float, reduced: bool, d
 		var delta_rotation:Quaternion=secondary_bones[bone].step(displacement if actual_moving else Vector3.ZERO,turn,delta,reduced or not valid_step,phase)
 		skeleton.set_bone_pose_rotation(bone,secondary_rest_rotations[bone]*delta_rotation)
 	_apply_ground_contact(pose)
-	work_slate.project(skeleton,not moving and not reduced and pose=="console" and clip=="work/field_slate" and transition<=0)
+	if station_work or environment_interaction.blend>0:
+		if slate_choreography!=null:slate_choreography.project(false,true,delta,work_treatment)
+		work_slate.visible=false
+	elif slate_choreography!=null:
+		slate_choreography.project(not moving and pose=="console" and clip=="work/field_slate",reduced,delta,work_treatment)
+	else:
+		work_slate.project(skeleton,not moving and not reduced and pose=="console" and clip=="work/field_slate" and transition<=0)
+
+	var tray_ready:bool=not is_instance_valid(seating_station) or not seating_station.has_method("seated_ready") or seating_station.seated_ready()
+	environment_interaction.project(interaction_station,station_work and (pose!="sit" or (social_transition_finished and tray_ready)),reduced,delta)
 
 func apply_role(color: Color) -> void:
 	work_slate.apply_role(color)
@@ -249,6 +324,50 @@ func apply_role(color: Color) -> void:
 				mesh.set_surface_override_material(i,material)
 
 func _apply_ground_contact(pose:String) -> void:
+	if pose=="stand" and is_instance_valid(seating_station) and social_elapsed<SEAT_DEPARTURE_PREP and not social_transition_finished:
+		position=seat_stand_position
+		ground_clearance=position.y;seat_alignment_offset=position
+		seated_footwork.project("sit",false,seat_stand_position,seat_departure_progress)
+		seating_station.set_seated_amount(1.0 if social_elapsed<.32 and seat_departure_progress>=1 else 0.0)
+		return
+	if pose=="sit" and is_instance_valid(seating_station) and not seating_facing_ready:
+		position=Vector3.ZERO
+		ground_clearance=sole_contact.required_lift(self,support_sample) if support_sample.is_valid() else maxf(0,.002-sole_contact.minimum_y(self))
+		position.y=ground_clearance
+		seat_entry_position=position
+		seated_footwork.project(pose,false,Vector3.ZERO,0)
+		seating_station.set_seated_amount(0.0)
+		return
+	if is_instance_valid(seating_station) and seating_station.has_method("seat") and pose in ["sit","stand"]:
+		var data:Dictionary=seating_station.seat()
+		if data.has("frame") and data.frame is Transform3D:
+			var frame:Transform3D=data.frame
+			var reference:=Basis(Vector3.UP,rotation.y)*Vector3(0,.48,-.44)
+			var target:Vector3=get_parent().to_local(frame.origin)-reference
+			var horizontal:=Vector2(target.x,target.z).limit_length(.45)
+			target.x=horizontal.x;target.z=horizontal.y
+			var body_amount:=1.0
+			var foot_progress:=1.0
+			if pose=="sit":
+				var duration:float=animation.get_animation("social/sit_down").length
+				foot_progress=1.0 if social_transition_finished else clampf(social_elapsed/duration,0,1)
+				body_amount=smoothstep(0,1,foot_progress)
+				position=seat_entry_position.lerp(target,body_amount)
+			else:
+				var duration:float=maxf(.001,animation.get_animation("social/stand_up").length-seated_stand_time_offset)
+				foot_progress=1.0 if social_transition_finished else clampf((social_elapsed-SEAT_DEPARTURE_PREP)/duration,0,1)
+				body_amount=1-smoothstep(0,1,foot_progress)
+				position=Vector3.ZERO
+				var lift:float=sole_contact.required_lift(self,support_sample) if support_sample.is_valid() else maxf(0,.002-sole_contact.minimum_y(self))
+				position=seat_stand_position.lerp(Vector3(0,lift,0),1-body_amount)
+			ground_clearance=position.y;seat_alignment_offset=position
+			seat_reference_error=(global_transform*Vector3(0,.48,-.44)).distance_to(frame.origin)
+			seated_footwork.project(pose,false,target,foot_progress)
+			if seating_station.has_method("set_seated_amount"):seating_station.set_seated_amount(1.0 if pose=="sit" and social_transition_finished else 0.0)
+			return
+	seated_footwork.project(pose,false,Vector3.ZERO,0)
+	seat_alignment_offset=Vector3.ZERO;seat_reference_error=0.0
+	position.x=0;position.z=0
 	# Navigation remains planar. Correct only cosmetic support after every blend.
 	# Authored social poses own their bench contact; never lift their pelvis.
 	if not contact_enabled:

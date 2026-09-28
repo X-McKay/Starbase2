@@ -1,0 +1,308 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SdlcContract",
+  "type": "object",
+  "properties": {
+    "discovery": {
+      "$ref": "#/$defs/DiscoveryInput"
+    },
+    "effect": {
+      "$ref": "#/$defs/SdlcEffect"
+    },
+    "event": {
+      "$ref": "#/$defs/SdlcEvent"
+    },
+    "feedback": {
+      "$ref": "#/$defs/FeedbackInput"
+    },
+    "input": {
+      "$ref": "#/$defs/SdlcInput"
+    },
+    "policy": {
+      "$ref": "#/$defs/SdlcPolicy"
+    },
+    "pr_observation": {
+      "$ref": "#/$defs/SdlcPrObservation"
+    },
+    "publication": {
+      "$ref": "#/$defs/SdlcPublication"
+    },
+    "retry": {
+      "$ref": "#/$defs/SdlcRetry"
+    },
+    "verification": {
+      "$ref": "#/$defs/SdlcVerificationInput"
+    }
+  },
+  "required": [
+    "feedback",
+    "discovery",
+    "pr_observation",
+    "verification",
+    "retry",
+    "effect",
+    "policy",
+    "input",
+    "event",
+    "publication"
+  ],
+  "$defs": {
+    "DiscoveryInput": {
+      "type": "object",
+      "properties": {
+        "build": true,
+        "capability_digest": {
+          "type": "string"
+        },
+        "observed_at": {
+          "type": "number",
+          "format": "double"
+        },
+        "opportunity": {
+          "type": "string"
+        },
+        "outcome": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "repository": {
+          "type": "string"
+        },
+        "revision": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_digest": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "repository",
+        "opportunity",
+        "build",
+        "capability_digest",
+        "outcome",
+        "reason",
+        "observed_at"
+      ]
+    },
+    "FeedbackInput": {
+      "type": "object",
+      "properties": {
+        "captured": true,
+        "digest": {
+          "type": "string"
+        },
+        "head": {
+          "type": "string"
+        },
+        "observed_at": {
+          "type": "number",
+          "format": "double"
+        },
+        "proposal": true
+      },
+      "additionalProperties": false,
+      "required": [
+        "head",
+        "digest",
+        "captured",
+        "proposal",
+        "observed_at"
+      ]
+    },
+    "SdlcEffect": {
+      "type": "object",
+      "properties": {
+        "data": true,
+        "key": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "key",
+        "kind",
+        "data"
+      ]
+    },
+    "SdlcEvent": {
+      "type": "object",
+      "properties": {
+        "data": true,
+        "key": {
+          "type": "string"
+        },
+        "stage": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "key",
+        "stage",
+        "data"
+      ]
+    },
+    "SdlcInput": {
+      "type": "object",
+      "properties": {
+        "build": true,
+        "capability_digest": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "id": {
+          "type": "string"
+        },
+        "opportunity": {
+          "type": "string"
+        },
+        "repository": {
+          "type": "string"
+        },
+        "revision": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "repository",
+        "revision",
+        "opportunity",
+        "build"
+      ]
+    },
+    "SdlcPolicy": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "expires_at": {
+          "type": "number",
+          "format": "double"
+        },
+        "generation": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "max_missions": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "publish": {
+          "type": "boolean"
+        },
+        "repository": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "repository",
+        "enabled",
+        "publish",
+        "generation",
+        "max_missions",
+        "expires_at"
+      ]
+    },
+    "SdlcPrObservation": {
+      "type": "object",
+      "properties": {
+        "head": {
+          "type": "string"
+        },
+        "number": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "observed_at": {
+          "type": "number",
+          "format": "double"
+        },
+        "state": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "number",
+        "head",
+        "state",
+        "observed_at"
+      ]
+    },
+    "SdlcPublication": {
+      "type": "object",
+      "properties": {
+        "artifact_digest": {
+          "type": "string"
+        },
+        "revision": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "artifact_digest",
+        "revision"
+      ]
+    },
+    "SdlcRetry": {
+      "type": "object",
+      "properties": {
+        "build": true,
+        "id": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "build"
+      ]
+    },
+    "SdlcVerificationInput": {
+      "type": "object",
+      "properties": {
+        "build": true,
+        "feedback_digest": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "head": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "head",
+        "build"
+      ]
+    }
+  }
+}

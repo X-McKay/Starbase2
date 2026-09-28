@@ -9,6 +9,15 @@ allowances. Prior batches retain their original accounting. At authorization,
 this allowance has **0 actual charges, 0 pending reservations, 1,500 available**.
 Recording the authorization made no provider calls.
 
+Current spend: the [Morning slice](../morning-at-starbase2/README.md) generated
+one daybook for **30 actual credits**. The [selected cast](../new-cast/README.md)
+adds six new textured bodies and rigs for **210 actual credits**. Total:
+**240 actual credits, zero pending, 1,260 remaining**. Provider balance decreased
+from 2,351 to 2,141 during the cast batch, matching its recorded charges.
+Reconcile both live ledgers: `meshy_output/morning-at-starbase2-ledger.json` and
+`meshy_output/new-cast-ledger.json`. The provider balance is separate from this
+user-authorized allowance.
+
 Use Meshy selectively for distinctive character/prop geometry, useful
 retexturing, and supported rigging/animation. Choose it after inspecting the
 actual source and the needed capability; do not regenerate a suitable asset

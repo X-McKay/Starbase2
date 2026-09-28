@@ -1,8 +1,8 @@
 {
   "asset_id": "living-commons",
   "blender_version": "5.2.1 LTS",
-  "source_kind": "Authored garden architecture and leaf meshes; no paid generation",
-  "version": 2,
+  "source_kind": "Authored garden architecture; closed cupped and twisted leaf meshes; no paid generation",
+  "version": 3,
   "world_origin": [
     -7,
     0,
@@ -41,19 +41,23 @@
     ]
   ],
   "mesh_objects": 25,
-  "triangles": 35564,
+  "triangles": 135628,
   "files": {
     "assets-production/environment/living-commons/blender/living-commons.blend": {
-      "sha256": "e1ef219389aa752522a50c0342f1262844baa97b3b1e42325954c0128bb8df76",
-      "bytes": 606732
+      "sha256": "38d7c7a2915087890b3bfb48726616e06e3a41bc4e0fdc63fc7c3d5e0e9ce95e",
+      "bytes": 1150389
     },
     "apps/world/assets/environment/living-commons/living-commons.glb": {
-      "sha256": "cd3a7ce382813b5424456f25715311db4f696fd59c7470e48e0dcba545bd5c93",
-      "bytes": 2306212
+      "sha256": "67913948af445f0a472ab96738f8ec554e26795ad56e82331525f2fb2d1085ea",
+      "bytes": 4189380
     },
     "assets-production/scripts/build_living_commons.py": {
-      "sha256": "5439eb6bcebf3eced38cb1b3d6dbd15e479e2c27fe311353a6a92db027ed84ed",
-      "bytes": 11705
+      "sha256": "e43a4c9e7273faceab42a8824e5e30df298a03f391de9b64459eb75e2436c8e0",
+      "bytes": 11443
+    },
+    "assets-production/scripts/dimensional_foliage.py": {
+      "sha256": "6ae5174454c487237763fb4e73834d5f616edea088b3a9f00ebffff07afde2ac",
+      "bytes": 2272
     }
   },
   "review_status": "Requires native visual review and physics/navigation integration"

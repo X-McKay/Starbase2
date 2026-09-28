@@ -9,6 +9,8 @@ var support_sample:Callable
 var contact_shadow:MeshInstance3D
 var presentation_pose := ""
 var presentation_facing := Vector3(INF,0,0)
+var interaction_station:Node3D
+var seating_station:Node3D
 signal foot_contact
 @export var character_definition: Resource
 var gait := Gait.new()
@@ -61,8 +63,15 @@ func _ready() -> void:
 	label = Art.sign(self, display_name, Vector3(0, character_definition.label_height, 0), "e8e6d4", 18)
 	label.no_depth_test = true
 	label.pixel_size = 0.021
-	# Grounding shadow complements the real directional sprite shadow.
-	var shadow := Art.cylinder(self, Vector3(0, 0.015, 0), 0.36, 0.015, "456169")
+	# Restrained translucent sole contact, not an opaque teal marker underfoot.
+	var shadow := MeshInstance3D.new()
+	shadow.name="CrewContactShadow"
+	var contact_plane:=PlaneMesh.new();contact_plane.size=Vector2(0.72,0.46)
+	shadow.mesh=contact_plane;shadow.position=Vector3(0,0.015,0)
+	var contact_material:=ShaderMaterial.new()
+	contact_material.shader=preload("res://crew_contact_shadow.gdshader")
+	shadow.material_override=contact_material
+	add_child(shadow)
 	contact_shadow=shadow
 	shadow.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 
@@ -81,6 +90,8 @@ func replace_character_definition(definition:Resource) -> void:
 		model_visual.set_motion_profile(definition.motion_profile)
 		model_visual.apply_role(definition.model_tint*suit_tint)
 		model_visual.rotation.y=heading
+		model_visual.interaction_station=interaction_station
+		model_visual.seating_station=seating_station
 		model_visual.heading=previous_visual.heading if is_instance_valid(previous_visual) else heading
 		var face_delta:=presentation_facing-global_position
 		var face_heading:=atan2(face_delta.x,face_delta.z) if is_finite(presentation_facing.x) else INF
@@ -110,9 +121,15 @@ func _physics_process(_delta: float) -> void:
 		var face_delta:=presentation_facing-global_position
 		var face_heading:=atan2(face_delta.x,face_delta.z) if is_finite(presentation_facing.x) else INF
 		model_visual.support_sample=support_sample
+		model_visual.interaction_station=interaction_station
+		model_visual.seating_station=seating_station
 		model_visual.project(traveled,gait.moving,gait.phase,reduced_motion,_delta,presentation_pose,face_heading)
 	if contact_shadow!=null and support_sample.is_valid():
-		contact_shadow.position.y=float(support_sample.call(global_position))-global_position.y+0.015
+		var shadow_point:=global_position
+		if model_visual!=null and seating_station!=null:
+			var soles:Dictionary=model_visual.seated_footwork.sole_points
+			if soles.has("Left") and soles.has("Right"): shadow_point=(soles.Left+soles.Right)*.5
+		contact_shadow.global_position=Vector3(shadow_point.x,float(support_sample.call(shadow_point))+.015,shadow_point.z)
 	if gait.moving:
 		if absf(traveled.x)>absf(traveled.z):
 			facing=3 if traveled.x>0 else 2

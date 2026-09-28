@@ -25,6 +25,9 @@
     "report": {
       "$ref": "#/$defs/FieldReport"
     },
+    "repository_discovery": {
+      "$ref": "#/$defs/RepositoryDiscovery"
+    },
     "repository_watch": {
       "$ref": "#/$defs/RepositoryWatch"
     }
@@ -34,7 +37,8 @@
     "report",
     "memory_review",
     "duty",
-    "repository_watch"
+    "repository_watch",
+    "repository_discovery"
   ],
   "$defs": {
     "FieldDuty": {
@@ -231,6 +235,46 @@
         "id",
         "revision",
         "decision"
+      ]
+    },
+    "RepositoryDiscovery": {
+      "type": "object",
+      "properties": {
+        "complete": {
+          "type": "boolean"
+        },
+        "error": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "interval_seconds": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "observed_at": {
+          "type": "number",
+          "format": "double"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "repositories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "owner",
+        "observed_at",
+        "interval_seconds",
+        "complete",
+        "repositories"
       ]
     },
     "RepositoryWatch": {

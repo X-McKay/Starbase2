@@ -9,6 +9,7 @@ const CrewPresentation = preload("res://crew_presentation.gd")
 const CrewMotion = preload("res://crew_motion.gd")
 var crew_presentations:Dictionary={}
 var crew_motions:Dictionary={}
+var interaction_stations:Dictionary={}
 var home_reservations:Dictionary={}
 var watched_crew := ""
 var morning_director:=preload("res://morning_director.gd").new()
@@ -52,7 +53,10 @@ var overview := Vector3(0,0,0)
 var camera_focus := Vector3.ZERO
 var camera_offset := Vector3(10,36,46)
 const TRAVEL_SPEED := 6.0
-var zoom := 34.0
+# Rooms move one manual zoom step closer, outdoor exploration two steps.
+# Map and deliberate crew/briefing shots retain their authored framing below.
+const GAMEPLAY_ZOOM_SCALE := 1.0 / 1.2
+var zoom := 34.0 * GAMEPLAY_ZOOM_SCALE * GAMEPLAY_ZOOM_SCALE
 var zoom_factor := 1.0
 var colony_overview := false
 var colony_walk_test := false
@@ -67,6 +71,7 @@ var board_on_start := false
 var board_tab := 0
 var board_evidence := ""
 var foley: Node
+var footprints: Node3D
 var large_on_start := false
 var player_character_id:="operator"
 var player_preferences_path:=preload("res://player_preferences.gd").PATH
@@ -103,9 +108,22 @@ func setup_crew_presentation() -> void:
 		var point:Vector3=station.room.to_global(station.room.crew_point)
 		if kind=="reviewer": point=station.room.to_global(Vector3(-3.0,0,-6.5))
 		if kind=="watchkeeper": point=station.room.to_global(Vector3(3.0,0,-6.5))
+		var contact_station:=preload("res://workstations/interaction_station.gd").new()
+		contact_station.name="CrewInteraction_"+kind
+		station.room.add_child(contact_station)
+		contact_station.global_position=point
+		contact_station.configure(kind,pair[1])
+		interaction_stations[kind]=contact_station
+		var footprint:Rect2=contact_station.footprint_rect()
+		if footprint.has_area():
+			navigator.add_obstacle(footprint)
+			station.room.add_obstacle(Rect2(footprint.position-Vector2(station.room.global_position.x,station.room.global_position.z),footprint.size))
+			var center:=footprint.get_center()
+			Art.collider(station.room,station.room.to_local(Vector3(center.x,0.75,center.y)),Vector3(footprint.size.x,1.5,footprint.size.y))
 		var controller:=CrewPresentation.new()
 		var motion:=CrewMotion.new()
-		motion.configure(pair[1],navigator,station,point)
+		motion.configure(pair[1],navigator,station,contact_station.approach_point())
+		motion.work_seated=not contact_station.seat().is_empty()
 		motion.configure_home(kind,anchors,$Structures.get_children(),home_reservations)
 		if not anchors.is_empty():
 			motion.project({"goal":"home"})
@@ -119,6 +137,19 @@ func setup_crew_presentation() -> void:
 func collect_home_anchors() -> Array:
 	return preload("res://shift_change_anchors.gd").collect(self)
 
+func project_environment_interaction(kind:String) -> void:
+	var actor=get_node(MEMBERS[kind])
+	var motion=crew_motions[kind]
+	var contact_station:Node3D=interaction_stations.get(kind)
+	actor.seating_station=contact_station if motion.at_work_seat or motion.standing_from_work else null
+	var eligible:bool=motion.intent.get("goal", "hold")=="workstation" and motion.intent.get("pose", "")=="console" and actor.presentation_pose in ["console","sit"] and not motion.standing_from_work and motion.path.is_empty() and not motion.route_blocked and actor.position.distance_to(motion.workstation)<0.025 and not actor.reduced_motion
+	actor.interaction_station=contact_station if eligible else null
+	var facing_station:Node3D=actor.seating_station if actor.seating_station!=null else actor.interaction_station
+	actor.presentation_facing=facing_station.facing_point() if facing_station!=null else motion.ambient_facing
+	if actor.seating_station!=null:
+		# Match the actual chair axis even when navigation stops a few mm off center.
+		actor.presentation_facing=actor.global_position+actor.seating_station.global_basis.z
+
 func duty_state_for(kind:String) -> Dictionary:
 	if disconnected or not hud.board.online: return {}
 	var data:Dictionary=hud.board.snapshot
@@ -130,8 +161,13 @@ func duty_state_for(kind:String) -> Dictionary:
 	return {"known":true,"enabled":relevant.any(func(d):return d.get("enabled",false))}
 
 func update_crew_presentation() -> void:
+	hud.sdlc_assignments.clear()
+	var sdlc=hud.board.sdlc_missions
+	var fresh:bool=sdlc.online and Time.get_ticks_msec()-sdlc.received_at_msec<15000 and not disconnected and bool(snapshot.get("worker",{}).get("available",false))
 	for kind in crew_presentations:
 		var intent:Dictionary=crew_presentations[kind].update(missions,kind,disconnected,hud.reduced,float(snapshot.get("observed_at",0)),duty_state_for(kind))
+		intent=preload("res://sdlc_crew.gd").project(sdlc.snapshot,kind,fresh,hud.reduced,intent)
+		if intent.has("sdlc_mission_id"): hud.sdlc_assignments[kind]=intent.sdlc_mission_id
 		crew_motions[kind].project(intent)
 		get_node(MEMBERS[kind]).project_assignment(intent,hud.large_text)
 		if hud.crew_strip!=null: hud.crew_strip.project(kind,intent)
@@ -192,7 +228,7 @@ func inspect_morning_record(id:String,context:String) -> void:
 		hud.open_place(context); hud.selected_id=id; show_mission()
 
 func command_unresolved() -> bool:
-	return commands.phase!="" or commands.uncertain or hud.board.commands.phase!="" or hud.board.commands.uncertain or hud.operations.unresolved()
+	return commands.phase!="" or commands.uncertain or hud.board.commands.phase!="" or hud.board.commands.uncertain or hud.board.sdlc_missions.commands.phase!="" or hud.board.sdlc_missions.commands.uncertain or hud.operations.unresolved()
 
 func refresh_connection_panel() -> void:
 	if hud.connection_panel==null or commands==null: return
@@ -298,6 +334,7 @@ func _ready() -> void:
 	sky.add_child(backdrop)
 	camera.projection = Camera3D.PROJECTION_ORTHOGONAL
 	camera.size = zoom
+	camera.far = preload("res://shadow_quality.gd").depth_for_view(zoom,camera_offset)
 	camera.position = Vector3(10,36,46)
 	add_child(camera)
 	camera.look_at(Vector3.ZERO)
@@ -308,6 +345,7 @@ func _ready() -> void:
 	sun.light_energy = 0.48
 	sun.shadow_enabled = true
 	sun.directional_shadow_max_distance = 150
+	preload("res://shadow_quality.gd").configure_sun(sun)
 	add_child(sun)
 	var env := WorldEnvironment.new()
 	env.environment = room_environment
@@ -333,11 +371,19 @@ func _ready() -> void:
 		trophy.hide()
 		trophies.append(trophy)
 	foley=preload("res://footfall.gd").new(); foley.actor=$Operator; add_child(foley)
+	footprints=preload("res://sand_footprints.gd").new()
+	footprints.name="SandFootprints";footprints.surface=support_surface.height_at
+	add_child(footprints)
+	footprints.watch($Operator)
+	for pair in crew_pairs():footprints.watch(pair[1])
 	hud = HUD.new()
 	hud.compact = compact
 	hud.api=api; hud.board_fixture=board_fixture
 	if not fixture_path.is_empty() and board_fixture.is_empty(): hud.board_fixture="__empty_visual_fixture__"
 	add_child(hud)
+	hud.board.sdlc_missions.observe_in_background=true
+	hud.board.sdlc_missions.snapshot_changed.connect(update_crew_presentation)
+	hud.board.sdlc_missions.poll()
 	hud.station_records=preload("res://station_records.gd").new()
 	hud.root.add_child(hud.station_records)
 	hud.station_records.visibility_changed.connect(hud.sync_world_chrome)
@@ -601,6 +647,7 @@ func apply_settings() -> void:
 	for vent in decorative_vents: vent.reduced_motion = hud.reduced
 	foley.enabled=hud.sound_enabled
 	foley.reduced=hud.reduced
+	footprints.reduced=hud.reduced
 	$LivingCommons.set_reduced_motion(hud.reduced)
 	update_ambience()
 	$Terrace/PavingLights.reduced_motion = hud.reduced
@@ -885,7 +932,7 @@ func _physics_process(_delta: float) -> void:
 			distance = d
 		if crew_motions.has(pair[0]):
 			crew_motions[pair[0]].advance(_delta)
-			pair[1].presentation_facing=crew_motions[pair[0]].ambient_facing
+			project_environment_interaction(pair[0])
 	near_door=""
 	if active_room != null:
 		if MEMBERS.has(room_kind) and $Operator.position.distance_to(active_room.global_position+active_room.console_point)<1.5: nearest=room_kind
@@ -954,17 +1001,17 @@ func _process(delta: float) -> void:
 	if view_room == null and not colony_overview and LivingCommons.FOOTPRINT.has_point(Vector2(subject.x,subject.z)):
 		desired = LivingCommons.ORIGIN+Vector3(0,1,0)
 		desired_offset = Vector3(7,11,15)
-		desired_size = 13.5
+		desired_size = 13.5 * GAMEPLAY_ZOOM_SCALE
 	if view_room != null and not colony_overview:
 		desired=view_room.global_position+Vector3(view_room.definition.interior_bounds.get_center().x,1.0,view_room.definition.interior_bounds.get_center().y)
 		desired_offset=Vector3(5,14,18)
-		desired_size=22.0 if compact and hud.dock.visible else 18.0
+		desired_size=(22.0 if compact and hud.dock.visible else 18.0) * GAMEPLAY_ZOOM_SCALE
 		var focus: Node3D = view_room.content.get_node_or_null("CameraFocus")
 		var view: Node3D = view_room.content.get_node_or_null("CameraPosition")
 		if focus != null and view != null:
 			desired = focus.global_position
 			desired_offset = view.global_position-focus.global_position
-			desired_size = float(focus.get_meta("view_size",18.0))
+			desired_size = float(focus.get_meta("view_size",18.0)) * GAMEPLAY_ZOOM_SCALE
 		if morning_director.enabled and not hud.is_open():
 			# Keep nearby furniture in the frame while giving the selected person scale.
 			desired=subject+Vector3(0,0.85,0)
@@ -989,6 +1036,7 @@ func _process(delta: float) -> void:
 	camera.position=camera_focus+camera_offset
 	camera.look_at(camera_focus)
 	camera.size=lerpf(camera.size,desired_size,blend)
+	camera.far=preload("res://shadow_quality.gd").depth_for_view(camera.size,camera_offset)
 	if fixture_path == "" and last_received > 0 and Time.get_ticks_msec()-last_received > 5000 and not disconnected:
 		disconnected = true
 		connection_message="STALE · no snapshot for five seconds"
@@ -1026,3 +1074,7 @@ func configure_support_surfaces() -> void:
 	support_surface.configure(self,paving_type.contains,sills)
 	$Operator.support_sample=support_surface.height_at
 	for pair in crew_pairs():pair[1].support_sample=support_surface.height_at
+	# Navigation stays planar; authored floor meshes set the visible furniture datum.
+	# Use the same sampled floor as the crew soles, not the actor's navigation Y.
+	for station in interaction_stations.values():
+		station.global_position.y=support_surface.height_at(station.global_position)

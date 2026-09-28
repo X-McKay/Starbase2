@@ -14,8 +14,13 @@ from .operations import request
 
 async def register_field() -> None:
     watches = (await request("GET", "/v4/repositories"))["repositories"]
+    snapshot = await request("GET", "/v4/snapshot")
+    if not snapshot["enabled"]:
+        return
+    registered = {build["digest"] for build in snapshot["builds"]}
     for build in builds([w for w in watches if not w["config"]["removed"]]).values():
-        await request("POST", "/internal/v4/builds", build)
+        if build["digest"] not in registered:
+            await request("POST", "/internal/v4/builds", build)
 
 
 async def reconcile_field(client, queue: str) -> None:

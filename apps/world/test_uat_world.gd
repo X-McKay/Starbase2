@@ -31,11 +31,18 @@ func run() -> void:
 		check(StateView.describe(ongoing,false)=="Executing","An interim action failure must not replace an active lifecycle state")
 	var strip=load("res://crew_strip.gd").new(); root.add_child(strip); await process_frame; await process_frame
 	var intent:Dictionary={"unknown":false,"active_count":0,"backend_state":""}
+	strip.fit(1280,false)
 	strip.project("repair",intent,"Walking home")
 	check(strip.entries.repair.text.ends_with("Between assignments"),"Ambient life is omitted from the operational crew strip")
 	var before:String=strip.entries.repair.text
 	strip.project("repair",intent,"Taking a break")
 	check(strip.entries.repair.text==before,"Input or ambient refresh cannot replace operational status")
+	strip.fit(800,true)
+	check(strip.entries.repair.text.ends_with("Between tasks"),"Compact presentation shortens the label without showing ambient activity")
+	strip.entries.repair.grab_focus();await process_frame
+	check(strip.status_detail.text=="Rivet · Between assignments","Keyboard focus preserves the full authoritative status in compact mode")
+	strip.project("repair",intent,"At home")
+	check(strip.status_detail.text=="Rivet · Between assignments","Ambient refresh cannot replace focused full-status evidence")
 	var paths:Dictionary=Structures.room_paths()
 	check(paths.get("habitat")=="Structures/Habitat","Canonical habitat definition ID resolves to its station")
 	check(paths.get("Habitat")=="Structures/Habitat","Existing capitalized habitat callers remain supported")

@@ -1,0 +1,624 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "JointContract",
+  "type": "object",
+  "properties": {
+    "build": {
+      "$ref": "#/$defs/JointBuild"
+    },
+    "claim": {
+      "$ref": "#/$defs/JointClaim"
+    },
+    "finish": {
+      "$ref": "#/$defs/JointFinish"
+    },
+    "input": {
+      "$ref": "#/$defs/JointInput"
+    },
+    "mission": {
+      "$ref": "#/$defs/JointMission"
+    },
+    "reservation": {
+      "$ref": "#/$defs/TaskReservation"
+    },
+    "result": {
+      "$ref": "#/$defs/TaskResult"
+    },
+    "snapshot": {
+      "$ref": "#/$defs/JointSnapshot"
+    }
+  },
+  "required": [
+    "input",
+    "build",
+    "reservation",
+    "result",
+    "finish",
+    "mission",
+    "snapshot",
+    "claim"
+  ],
+  "$defs": {
+    "JointBudget": {
+      "type": "object",
+      "properties": {
+        "requests": {
+          "type": "integer",
+          "format": "uint32",
+          "maximum": 24,
+          "minimum": 1
+        },
+        "tokens": {
+          "type": "integer",
+          "format": "uint64",
+          "maximum": 384000,
+          "minimum": 1
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "requests",
+        "tokens"
+      ]
+    },
+    "JointBuild": {
+      "type": "object",
+      "properties": {
+        "digest": {
+          "type": "string"
+        },
+        "manifest": true
+      },
+      "additionalProperties": false,
+      "required": [
+        "digest",
+        "manifest"
+      ]
+    },
+    "JointClaim": {
+      "type": "object",
+      "properties": {
+        "dispatch": {
+          "type": "boolean"
+        },
+        "task": {
+          "$ref": "#/$defs/JointTask"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "dispatch",
+        "task"
+      ]
+    },
+    "JointFinish": {
+      "type": "object",
+      "properties": {
+        "decision": true,
+        "reason": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "reason"
+      ]
+    },
+    "JointInput": {
+      "type": "object",
+      "properties": {
+        "budget": {
+          "$ref": "#/$defs/JointBudget"
+        },
+        "build": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "inference": {
+          "type": "boolean"
+        },
+        "opportunity": {
+          "type": "string"
+        },
+        "scenario": {
+          "$ref": "#/$defs/Scenario"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "opportunity",
+        "build",
+        "scenario",
+        "inference",
+        "budget"
+      ]
+    },
+    "JointLedgerBudget": {
+      "type": "object",
+      "properties": {
+        "requests_limit": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "requests_reserved": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "tokens_accounted": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "tokens_limit": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "tokens_reserved": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "requests_reserved",
+        "tokens_reserved",
+        "tokens_accounted",
+        "requests_limit",
+        "tokens_limit"
+      ]
+    },
+    "JointMission": {
+      "type": "object",
+      "properties": {
+        "budget": {
+          "$ref": "#/$defs/JointLedgerBudget"
+        },
+        "build": {
+          "$ref": "#/$defs/JointBuild"
+        },
+        "created_at": {
+          "type": "number",
+          "format": "double"
+        },
+        "deadline": {
+          "type": "number",
+          "format": "double"
+        },
+        "decision": true,
+        "finish": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/JointFinish"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "input": {
+          "$ref": "#/$defs/JointInput"
+        },
+        "learning_cycle": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "outcome": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "simulation": {
+          "type": "boolean"
+        },
+        "state": {
+          "type": "string"
+        },
+        "tasks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/JointTask"
+          }
+        },
+        "updated_at": {
+          "type": "number",
+          "format": "double"
+        },
+        "xp": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "input",
+        "build",
+        "state",
+        "deadline",
+        "created_at",
+        "updated_at",
+        "tasks",
+        "budget",
+        "simulation",
+        "xp"
+      ]
+    },
+    "JointSnapshot": {
+      "type": "object",
+      "properties": {
+        "builds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/JointBuild"
+          }
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "missions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/JointMission"
+          }
+        },
+        "observed_at": {
+          "type": "number",
+          "format": "double"
+        },
+        "opportunities": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/TrainerOpportunity"
+          }
+        },
+        "schema_version": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "simulation": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "enabled",
+        "simulation",
+        "observed_at",
+        "missions",
+        "builds"
+      ]
+    },
+    "JointTask": {
+      "type": "object",
+      "properties": {
+        "accounted_tokens": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "eligible": {
+          "type": "boolean"
+        },
+        "focus": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "question": {
+          "type": "string"
+        },
+        "reservation": {
+          "$ref": "#/$defs/TaskReservation"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TaskResult"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "role": {
+          "$ref": "#/$defs/Role"
+        },
+        "round": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "state": {
+          "type": "string"
+        },
+        "tokens": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "role",
+        "round",
+        "question",
+        "focus",
+        "tokens",
+        "reservation",
+        "state",
+        "eligible",
+        "accounted_tokens"
+      ]
+    },
+    "OpportunityCategory": {
+      "type": "string",
+      "enum": [
+        "diagnostic-fail",
+        "malformed-response",
+        "unknown-usage-or-dispatch",
+        "repeated-no-progress",
+        "budget-stop",
+        "incomplete"
+      ]
+    },
+    "OpportunityScope": {
+      "type": "string",
+      "enum": [
+        "public-simulation-review"
+      ]
+    },
+    "OpportunitySource": {
+      "type": "object",
+      "properties": {
+        "mission_id": {
+          "type": "string"
+        },
+        "task_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tokens_accounted": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "usage_unknown": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "mission_id",
+        "task_ids",
+        "tokens_accounted",
+        "usage_unknown"
+      ]
+    },
+    "OpportunityStatus": {
+      "type": "string",
+      "enum": [
+        "proposed-review"
+      ]
+    },
+    "Role": {
+      "type": "string",
+      "enum": [
+        "lead",
+        "workload",
+        "service"
+      ]
+    },
+    "Scenario": {
+      "type": "string",
+      "enum": [
+        "route-mismatch",
+        "healthy",
+        "persistent-dependency",
+        "listening-but-broken"
+      ]
+    },
+    "TaskReservation": {
+      "type": "object",
+      "properties": {
+        "focus": {
+          "type": "string",
+          "default": "overview"
+        },
+        "id": {
+          "type": "string"
+        },
+        "question": {
+          "type": "string",
+          "maxLength": 2000,
+          "minLength": 1
+        },
+        "role": {
+          "$ref": "#/$defs/Role"
+        },
+        "round": {
+          "type": "integer",
+          "format": "uint32",
+          "maximum": 3,
+          "minimum": 0
+        },
+        "tokens": {
+          "type": "integer",
+          "format": "uint64",
+          "maximum": 384000,
+          "minimum": 1
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "role",
+        "round",
+        "question",
+        "tokens"
+      ]
+    },
+    "TaskResult": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "output": true,
+        "status": {
+          "$ref": "#/$defs/TaskStatus"
+        },
+        "trace": {
+          "default": null
+        },
+        "usage": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Usage"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "output"
+      ]
+    },
+    "TaskStatus": {
+      "type": "string",
+      "enum": [
+        "completed",
+        "failed",
+        "unknown"
+      ]
+    },
+    "TrainerOpportunity": {
+      "type": "object",
+      "properties": {
+        "accounting_overflow": {
+          "type": "boolean"
+        },
+        "build": {
+          "type": "string"
+        },
+        "category": {
+          "$ref": "#/$defs/OpportunityCategory"
+        },
+        "id": {
+          "type": "string"
+        },
+        "most_recent_at": {
+          "type": "number",
+          "format": "double"
+        },
+        "observed_count": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "proposed_investigation": {
+          "type": "string"
+        },
+        "scenario": {
+          "type": "string"
+        },
+        "scope": {
+          "$ref": "#/$defs/OpportunityScope"
+        },
+        "source_mission_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/OpportunitySource"
+          }
+        },
+        "status": {
+          "$ref": "#/$defs/OpportunityStatus"
+        },
+        "tokens_accounted": {
+          "description": "Null on arithmetic overflow; exact per-mission amounts remain in sources.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "usage_unknown": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "build",
+        "scenario",
+        "category",
+        "status",
+        "scope",
+        "observed_count",
+        "source_mission_ids",
+        "sources",
+        "accounting_overflow",
+        "usage_unknown",
+        "most_recent_at",
+        "proposed_investigation"
+      ]
+    },
+    "Usage": {
+      "type": "object",
+      "properties": {
+        "input_tokens": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "output_tokens": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "input_tokens",
+        "output_tokens"
+      ]
+    }
+  }
+}

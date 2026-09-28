@@ -123,12 +123,99 @@ pub fn router(access: Access) -> Router<App> {
             post(repair_receipt),
         )
         .route("/internal/v3/repairs/{id}/finish", post(repair_finish))
+        .route("/v7/snapshot", get(sdlc_snapshot))
+        .route("/v7/policy", post(sdlc_policy))
+        .route("/v7/missions/{id}", get(sdlc_detail))
+        .route("/v7/missions/{id}/cancel", post(sdlc_cancel))
+        .route("/v7/missions/{id}/retry", post(sdlc_retry))
+        .route("/internal/v7/missions", post(sdlc_admit))
+        .route("/internal/v7/discoveries", post(sdlc_discover))
+        .route(
+            "/internal/v7/discoveries/{id}/admit",
+            post(sdlc_admit_discovery),
+        )
+        .route("/internal/v7/missions/{id}/effect", post(sdlc_effect))
+        .route("/internal/v7/missions/{id}/event", post(sdlc_event))
+        .route(
+            "/internal/v7/missions/{id}/feedback",
+            post(sdlc_record_feedback),
+        )
+        .route(
+            "/internal/v7/missions/{id}/pr-observation",
+            post(sdlc_observe_pr),
+        )
+        .route(
+            "/internal/v7/missions/{id}/publication",
+            post(sdlc_publication),
+        )
+        .route(
+            "/internal/v7/missions/{id}/verifications",
+            post(sdlc_verification_admit),
+        )
+        .route(
+            "/internal/v7/missions/{id}/verifications/{vid}/event",
+            post(sdlc_verification_event),
+        )
+        .route(
+            "/internal/v7/missions/{id}/verifications/{vid}/effect",
+            post(sdlc_verification_effect),
+        )
+        .route(
+            "/internal/v7/missions/{id}/verifications/{vid}/authorize",
+            post(sdlc_verification_authorize),
+        )
+        .route(
+            "/v7/missions/{id}/verifications/{vid}/cancel",
+            post(sdlc_verification_cancel),
+        )
+        .route("/v6/snapshot", get(learning_snapshot))
+        .route("/v6/duty", post(learning_duty))
+        .route("/v6/cycles/{id}", get(learning_detail))
+        .route("/v6/cycles/{id}/cancel", post(learning_cancel))
+        .route("/internal/v6/duty/{generation}/tick", post(learning_tick))
+        .route(
+            "/internal/v6/cycles/{id}/proposal/claim",
+            post(learning_claim),
+        )
+        .route(
+            "/internal/v6/cycles/{id}/proposal/result",
+            post(learning_result),
+        )
+        .route(
+            "/internal/v6/cycles/{id}/trials/{slot}/admit",
+            post(learning_admit),
+        )
+        .route("/internal/v6/cycles/{id}/finish", post(learning_finish))
+        .route(
+            "/internal/v6/cycles/{id}/reconcile-stop",
+            post(learning_reconcile_stop),
+        )
+        .route("/v5/snapshot", get(joint_snapshot))
+        .route("/v5/missions", post(joint_create))
+        .route("/v5/missions/{id}", get(joint_detail))
+        .route("/v5/missions/{id}/cancel", post(joint_cancel))
+        .route("/internal/v5/builds", post(joint_build))
+        .route("/internal/v5/missions/{id}/reserve", post(joint_reserve))
+        .route(
+            "/internal/v5/missions/{id}/tasks/{task}/claim",
+            post(joint_claim),
+        )
+        .route(
+            "/internal/v5/missions/{id}/tasks/{task}/result",
+            post(joint_result),
+        )
+        .route("/internal/v5/missions/{id}/finish", post(joint_finish))
         .route("/v4/snapshot", get(field_snapshot))
         .route("/v4/runs", post(field_create))
         .route("/v4/runs/{id}", get(field_detail))
         .route("/v4/runs/{id}/cancel", post(field_cancel))
         .route("/v4/duties", post(field_duty))
         .route("/v4/repositories", get(repositories).post(repository_set))
+        .route("/v4/repository-discovery", get(repository_discoveries))
+        .route(
+            "/internal/v4/repository-discovery",
+            post(repository_discover),
+        )
         .route(
             "/internal/v4/duties/{id}/{generation}/{tick}",
             post(field_tick),
@@ -482,5 +569,344 @@ async fn repository_set(
         .unwrap()
         .set_repository(&input)
         .map(Json)
+        .map_err(err)
+}
+
+async fn joint_snapshot(State(app): State<App>) -> ApiResult {
+    app.lock().unwrap().joint_snapshot().map(Json).map_err(err)
+}
+async fn joint_detail(State(app): State<App>, Path(id): Path<String>) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .joint_mission(&id)
+        .map(Json)
+        .map_err(err)
+}
+async fn joint_create(
+    State(app): State<App>,
+    Json(input): Json<crate::joint::JointInput>,
+) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .create_joint(&input)
+        .map(Json)
+        .map_err(err)
+}
+async fn joint_cancel(State(app): State<App>, Path(id): Path<String>) -> ApiResult {
+    app.lock().unwrap().cancel_joint(&id).map(Json).map_err(err)
+}
+async fn joint_build(
+    State(app): State<App>,
+    Json(body): Json<crate::joint::JointBuild>,
+) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .joint_build(&body)
+        .map(Json)
+        .map_err(err)
+}
+async fn joint_reserve(
+    State(app): State<App>,
+    Path(id): Path<String>,
+    Json(body): Json<crate::joint::TaskReservation>,
+) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .reserve_joint(&id, &body)
+        .map(Json)
+        .map_err(err)
+}
+async fn joint_claim(
+    State(app): State<App>,
+    Path((id, task)): Path<(String, String)>,
+) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .claim_joint(&id, &task)
+        .map(Json)
+        .map_err(err)
+}
+async fn joint_result(
+    State(app): State<App>,
+    Path((id, task)): Path<(String, String)>,
+    Json(body): Json<crate::joint::TaskResult>,
+) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .result_joint(&id, &task, &body)
+        .map(Json)
+        .map_err(err)
+}
+async fn joint_finish(
+    State(app): State<App>,
+    Path(id): Path<String>,
+    Json(body): Json<crate::joint::JointFinish>,
+) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .finish_joint(&id, &body)
+        .map(Json)
+        .map_err(err)
+}
+
+async fn learning_snapshot(State(app): State<App>) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .learning_snapshot()
+        .map(Json)
+        .map_err(err)
+}
+async fn learning_detail(State(app): State<App>, Path(id): Path<String>) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .learning_cycle(&id)
+        .map(Json)
+        .map_err(err)
+}
+async fn learning_duty(
+    State(app): State<App>,
+    Json(d): Json<crate::learning::LearningDuty>,
+) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .set_learning_duty(&d)
+        .map(Json)
+        .map_err(err)
+}
+async fn learning_cancel(State(app): State<App>, Path(id): Path<String>) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .cancel_learning(&id)
+        .map(Json)
+        .map_err(err)
+}
+async fn learning_tick(State(app): State<App>, Path(generation): Path<u32>) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .learning_tick(generation)
+        .map(Json)
+        .map_err(err)
+}
+async fn learning_claim(State(app): State<App>, Path(id): Path<String>) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .claim_learning_proposal(&id)
+        .map(Json)
+        .map_err(err)
+}
+async fn learning_result(
+    State(app): State<App>,
+    Path(id): Path<String>,
+    Json(r): Json<crate::learning::ProcedureResult>,
+) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .learning_proposal_result(&id, &r)
+        .map(Json)
+        .map_err(err)
+}
+async fn learning_admit(
+    State(app): State<App>,
+    Path((id, slot)): Path<(String, String)>,
+) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .admit_learning_trial(&id, &slot)
+        .map(Json)
+        .map_err(err)
+}
+async fn learning_reconcile_stop(State(app): State<App>, Path(id): Path<String>) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .reconcile_learning_stop(&id)
+        .map(Json)
+        .map_err(err)
+}
+async fn learning_finish(State(app): State<App>, Path(id): Path<String>) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .finish_learning(&id)
+        .map(Json)
+        .map_err(err)
+}
+
+async fn repository_discoveries(State(app): State<App>) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .repository_discoveries()
+        .map(|v| Json(json!({"discoveries":v})))
+        .map_err(err)
+}
+async fn repository_discover(
+    State(app): State<App>,
+    Json(input): Json<crate::repository_discovery::RepositoryDiscovery>,
+) -> ApiResult {
+    let owner = std::env::var("STARBASE_GITHUB_DISCOVERY_OWNER").unwrap_or_default();
+    app.lock()
+        .unwrap()
+        .discover_repositories(&input, &owner)
+        .map(Json)
+        .map_err(err)
+}
+
+async fn sdlc_snapshot(State(app): State<App>) -> ApiResult {
+    app.lock().unwrap().sdlc_snapshot().map(Json).map_err(err)
+}
+async fn sdlc_policy(State(app): State<App>, Json(p): Json<crate::sdlc::SdlcPolicy>) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .sdlc_set_policy(&p)
+        .map(Json)
+        .map_err(err)
+}
+async fn sdlc_detail(State(app): State<App>, Path(id): Path<String>) -> ApiResult {
+    app.lock().unwrap().sdlc_mission(&id).map(Json).map_err(err)
+}
+async fn sdlc_cancel(State(app): State<App>, Path(id): Path<String>) -> ApiResult {
+    app.lock().unwrap().sdlc_cancel(&id).map(Json).map_err(err)
+}
+async fn sdlc_admit(State(app): State<App>, Json(i): Json<crate::sdlc::SdlcInput>) -> ApiResult {
+    app.lock().unwrap().sdlc_admit(&i).map(Json).map_err(err)
+}
+async fn sdlc_event(
+    State(app): State<App>,
+    Path(id): Path<String>,
+    Json(e): Json<crate::sdlc::SdlcEvent>,
+) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .sdlc_event(&id, &e)
+        .map(Json)
+        .map_err(err)
+}
+async fn sdlc_publication(
+    State(app): State<App>,
+    Path(id): Path<String>,
+    Json(r): Json<crate::sdlc::SdlcPublication>,
+) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .sdlc_publication(&id, &r)
+        .map(Json)
+        .map_err(err)
+}
+
+async fn sdlc_effect(
+    State(app): State<App>,
+    Path(id): Path<String>,
+    Json(e): Json<crate::sdlc::SdlcEffect>,
+) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .sdlc_effect(&id, &e)
+        .map(Json)
+        .map_err(err)
+}
+
+async fn sdlc_retry(
+    State(app): State<App>,
+    Path(id): Path<String>,
+    Json(r): Json<crate::sdlc::SdlcRetry>,
+) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .sdlc_retry(&id, &r)
+        .map(Json)
+        .map_err(err)
+}
+
+async fn sdlc_verification_admit(
+    State(app): State<App>,
+    Path(id): Path<String>,
+    Json(i): Json<crate::sdlc::SdlcVerificationInput>,
+) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .sdlc_verification_admit(&id, &i)
+        .map(Json)
+        .map_err(err)
+}
+async fn sdlc_verification_event(
+    State(app): State<App>,
+    Path((id, vid)): Path<(String, String)>,
+    Json(e): Json<crate::sdlc::SdlcEvent>,
+) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .sdlc_verification_event(&id, &vid, &e)
+        .map(Json)
+        .map_err(err)
+}
+async fn sdlc_verification_effect(
+    State(app): State<App>,
+    Path((id, vid)): Path<(String, String)>,
+    Json(e): Json<crate::sdlc::SdlcEffect>,
+) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .sdlc_verification_effect(&id, &vid, &e)
+        .map(Json)
+        .map_err(err)
+}
+async fn sdlc_verification_authorize(
+    State(app): State<App>,
+    Path((id, vid)): Path<(String, String)>,
+) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .sdlc_verification_authorize(&id, &vid)
+        .map(Json)
+        .map_err(err)
+}
+async fn sdlc_verification_cancel(
+    State(app): State<App>,
+    Path((id, vid)): Path<(String, String)>,
+) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .sdlc_verification_cancel(&id, &vid)
+        .map(Json)
+        .map_err(err)
+}
+
+async fn sdlc_observe_pr(
+    State(app): State<App>,
+    Path(id): Path<String>,
+    Json(input): Json<crate::sdlc::SdlcPrObservation>,
+) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .sdlc_observe_pr(&id, &input)
+        .map(Json)
+        .map_err(err)
+}
+
+async fn sdlc_discover(
+    State(app): State<App>,
+    Json(input): Json<crate::sdlc_discovery::DiscoveryInput>,
+) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .sdlc_discover(&input)
+        .map(Json)
+        .map_err(err)
+}
+async fn sdlc_admit_discovery(State(app): State<App>, Path(id): Path<String>) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .sdlc_admit_discovery(&id)
+        .map(Json)
+        .map_err(err)
+}
+
+async fn sdlc_record_feedback(
+    State(app): State<App>,
+    Path(id): Path<String>,
+    Json(input): Json<crate::sdlc_feedback::FeedbackInput>,
+) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .sdlc_record_feedback(&id, &input)
+        .map(|record| Json(serde_json::json!(record)))
         .map_err(err)
 }

@@ -163,6 +163,8 @@ def test_capture_uses_provider_specific_accept_headers(kind, monkeypatch, tmp_pa
         assert request.url.host == "api.github.com"
         assert request.headers["accept"] == "application/vnd.github+json"
         assert request.headers["x-github-api-version"] == "2026-03-10"
+        if kind == "github_repository" and not request.url.path.endswith("/pulls"):
+            return httpx.Response(403)
         if request.url.path.endswith(("/files", "/pulls")):
             return httpx.Response(200, json=[])
         return httpx.Response(
@@ -184,7 +186,7 @@ def test_capture_uses_provider_specific_accept_headers(kind, monkeypatch, tmp_pa
     monkeypatch.setattr(field_sources.httpx, "AsyncClient", controlled_client)
     result = asyncio.run(field_sources.capture(target))
     assert result["simulation"] is False
-    assert len(requests) == {"kubernetes": 2, "github": 3, "github_repository": 1}[kind]
+    assert len(requests) == {"kubernetes": 2, "github": 3, "github_repository": 3}[kind]
 
 
 def memory_record():
@@ -241,6 +243,8 @@ def test_repository_watch_capture_budget_revision_and_no_publication(monkeypatch
 
     async def handler(request):
         assert request.method == "GET"
+        if request.url.path != "/repos/owner/repo/pulls":
+            return httpx.Response(403)
         assert request.url.path == "/repos/owner/repo/pulls"
         assert request.url.params["state"] == "open"
         assert request.url.params["per_page"] == "11"
@@ -271,7 +275,8 @@ def test_repository_watch_capture_budget_revision_and_no_publication(monkeypatch
             listed.clear()
             empty = await field_sources.repository({"repository": "owner/repo"}, client)
             assert empty["pulls"] == [] and empty["list_complete"]
-            assert analyze(empty) == ([], [])
+            assert analyze(empty)[0] == []
+            assert "unknown" in " ".join(analyze(empty)[1])
 
     asyncio.run(run())
 

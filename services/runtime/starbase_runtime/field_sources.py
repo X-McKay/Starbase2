@@ -3,13 +3,17 @@
 import base64
 import hashlib
 import json
+import math
 import re
 import ssl
+import time
+from email.utils import parsedate_to_datetime
 from pathlib import Path
 from urllib.parse import quote
 
 import httpx
 
+from .repository_health import observe as observe_health
 from .review import digest, redact, scan_sources
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -95,8 +99,52 @@ def public_target(target: dict) -> dict:
     return {k: v for k, v in target.items() if not k.endswith("_file")}
 
 
+# Shared by all watches/discovery in this worker; cooldown never sleeps the worker.
+_GITHUB_READ_AFTER = 0.0
+
+
+def _github_cooldown(response: httpx.Response) -> float:
+    delays = []
+    retry = response.headers.get("retry-after")
+    if retry:
+        try:
+            delays.append(float(retry))
+        except ValueError:
+            try:
+                delays.append(parsedate_to_datetime(retry).timestamp() - time.time())
+            except (ValueError, TypeError, OverflowError):
+                pass
+    reset = response.headers.get("x-ratelimit-reset")
+    if reset:
+        try:
+            delays.append(float(reset) - time.time())
+        except ValueError:
+            pass
+    finite = [d for d in delays if math.isfinite(d)]
+    return max(1.0, min(3600.0, max(finite, default=60.0)))
+
+
 async def get_json(client: httpx.AsyncClient, path: str, params: dict | None = None):
+    global _GITHUB_READ_AFTER
+    url = client.build_request("GET", path, params=params).url
+    github_origin = (
+        url.scheme == "https" and url.host == "api.github.com" and url.port in {None, 443}
+    )
+    if github_origin and time.monotonic() < _GITHUB_READ_AFTER:
+        raise ValueError("Provider rate limited")
     async with client.stream("GET", path, params=params) as response:
+        limited = response.status_code == 429 or (
+            response.status_code == 403
+            and (
+                response.headers.get("x-ratelimit-remaining") == "0"
+                or "retry-after" in response.headers
+            )
+        )
+        if github_origin and limited:
+            _GITHUB_READ_AFTER = max(
+                _GITHUB_READ_AFTER, time.monotonic() + _github_cooldown(response)
+            )
+            raise ValueError("Provider rate limited")
         if response.status_code != 200:
             # Provider error bodies can contain tokens, source or private messages.
             raise ValueError(f"Provider returned HTTP {response.status_code}")
@@ -298,6 +346,35 @@ def analyze(data: dict) -> tuple[list, list]:
     coverage = list(data["coverage"])
     findings = []
     if data["kind"] == "repository":
+        for run in data.get("health", {}).get("ci", []):
+            if run["status"] == "completed" and run["conclusion"] in {
+                "failure",
+                "timed_out",
+                "action_required",
+                "startup_failure",
+            }:
+                findings.append(
+                    finding(
+                        "default-branch-ci-failed",
+                        f"{data['repository']} / workflow {run['workflow_id']}",
+                        f"Latest observed Actions run {run['id']} at {run['head_sha']} "
+                        f"concluded {run['conclusion']}.",
+                        "Inspect the linked run and verify the current revision "
+                        "before proposing a repair.",
+                    )
+                )
+        for pr in data.get("open_pull_requests", []):
+            if not pr["draft"]:
+                findings.append(
+                    finding(
+                        "open-pr-review-candidate",
+                        f"{data['repository']}#{pr['number']}",
+                        "An open, non-draft pull request is a review candidate; "
+                        "approval state was not inspected.",
+                        "Inspect existing reviews and current head before deciding "
+                        "whether another review is needed.",
+                    )
+                )
         for pr in data["pulls"]:
             child_findings, child_coverage = analyze(pr)
             prefix = f"{data['repository']}#{pr['number']} / "
@@ -392,19 +469,32 @@ async def repository(target: dict, client: httpx.AsyncClient) -> dict:
     No GitHub writes, source execution, model calls or arbitrary URL fetching.
     """
     repo = target["repository"]
-    items = await get_json(
-        client,
-        f"/repos/{repo}/pulls",
-        {
-            "state": "open",
-            "sort": "updated",
-            "direction": "desc",
-            "per_page": 11,
-        },
-    )
+    health, coverage = await observe_health(repo, client, get_json)
+    list_available = True
+    try:
+        items = await get_json(
+            client,
+            f"/repos/{repo}/pulls",
+            {
+                "state": "open",
+                "sort": "updated",
+                "direction": "desc",
+                "per_page": 11,
+            },
+        )
+    except ValueError as error:
+        if str(error) not in {
+            "Provider returned HTTP 403",
+            "Provider returned HTTP 404",
+            "Provider returned HTTP 429",
+            "Provider rate limited",
+        }:
+            raise
+        items, list_available = [], False
+        coverage.append(f"Open PR list unavailable ({error}); PR state unknown")
     if not isinstance(items, list) or len(items) > 11:
         raise ValueError("Malformed open PR list")
-    coverage, pulls = [], []
+    pulls, open_pulls = [], []
     if len(items) > 10:
         coverage.append(
             "Only the 10 most recently updated open PRs reviewed; additional PRs omitted"
@@ -415,7 +505,34 @@ async def repository(target: dict, client: httpx.AsyncClient) -> dict:
         if type(number) is not int or number < 1 or number in seen:
             raise ValueError("Invalid or duplicate PR identity")
         seen.add(number)
-        pr = await github(target | {"pull": number}, client, source_budget=80_000, file_budget=10)
+        if not all(
+            re.fullmatch("[a-f0-9]{40}", str(item.get(ref, {}).get("sha", "")))
+            for ref in ("head", "base")
+        ):
+            raise ValueError("Invalid PR revision")
+        open_pulls.append(
+            {
+                "number": number,
+                "head": item["head"]["sha"],
+                "base": item["base"]["sha"],
+                "draft": item.get("draft", True) is not False,
+                "url": f"https://github.com/{repo}/pull/{number}",
+            }
+        )
+        try:
+            pr = await github(
+                target | {"pull": number}, client, source_budget=80_000, file_budget=10
+            )
+        except ValueError as error:
+            if str(error) not in {
+                "Provider returned HTTP 403",
+                "Provider returned HTTP 404",
+                "Provider returned HTTP 429",
+                "Provider rate limited",
+            }:
+                raise
+            coverage.append(f"PR #{number} source unavailable ({error}); source review unknown")
+            continue
         if pr["head"] != item["head"]["sha"] or pr["base"] != item["base"]["sha"]:
             raise ValueError("Repository changed during capture; retry a fresh observation")
         pulls.append(pr)
@@ -423,8 +540,10 @@ async def repository(target: dict, client: httpx.AsyncClient) -> dict:
         "kind": "repository",
         "repository": repo,
         "pulls": pulls,
+        "health": health,
+        "open_pull_requests": open_pulls,
         "listed_open_prs": len(items),
-        "list_complete": len(items) <= 10,
+        "list_complete": list_available and len(items) <= 10,
         "coverage": coverage,
         "simulation": False,
     }

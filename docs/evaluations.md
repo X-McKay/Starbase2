@@ -26,6 +26,24 @@ rejections before dispatch. Fixture processes and the grader have deterministic
 regression coverage. Qualified candidate isolation and a sealed agent comparison
 remain separate gates. Simulations in this pack award no XP.
 
+The [bounded readiness mission](readiness-missions.md) adds fixed observation
+tools and a typed proposal boundary. Its scripted PydanticAI control completed a
+real local Git/Flux repair and independent verification. This proves the wiring.
+The first Qwen attempt stopped at the conservative token-reservation guard.
+An owner-expanded allowance exposed forced-tool output truncation; a subsequent
+regression-tested compatibility fix enabled one independently verified Qwen
+repair. All attempts are retained in the mission guide. This is evidence for one
+public scenario, not comparative quality or held-out capability qualification.
+
+The [readiness comparison harness](readiness-campaigns.md) now freezes a baseline
+and one Run book Procedure candidate, counterbalances eight trials across four
+public decision scenarios, and independently grades repair, no-change, and
+abstention. It retains all trials and produces improvement opportunities without
+promoting a build. Its [first Qwen pilot](../evidence/readiness-pilot-20260925/README.md)
+recorded 3/4 appropriate baseline decisions and 4/4 candidate decisions, retaining
+the baseline failure. The comparison is inconclusive; held-out qualification
+remains a separate gate.
+
 For a defined workload and budget, Starbase2 should reliably detect meaningful
 regressions and improvements, retain the evidence, and say when it cannot tell.
 It cannot prove that an arbitrary stochastic agent change is universally better.

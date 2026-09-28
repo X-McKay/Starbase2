@@ -87,6 +87,8 @@ check-world:
     python3 scripts/check_world.py
     .venv/bin/python scripts/check_world_commands.py
     .venv/bin/python scripts/check_world_operations.py
+    .venv/bin/python scripts/check_world_joint.py
+    .venv/bin/python scripts/check_world_learning.py
 
 world-map:
     godot --path apps/world -- --colony-overview
@@ -114,6 +116,14 @@ readiness-prepare:
 # Requires the separate, explicitly started lab VM; never reads user kubeconfig.
 readiness-rehearse output:
     .venv/bin/python -m scripts.readiness.run {{output}}
+
+# One crew mission in the dedicated lab; scripted by default, inference is opt-in.
+readiness-mission output *args:
+    .venv/bin/python -m scripts.readiness.mission {{output}} {{args}}
+
+# Eight predeclared paired trials in fresh owned clusters. No automatic promotion.
+readiness-campaign output *args:
+    .venv/bin/python -m scripts.readiness.campaign {{output}} {{args}}
 
 # No provider calls; local services and sanitized inputs only.
 test-operations:
@@ -270,3 +280,23 @@ world-inhabited-build blender="/Applications/Blender.app/Contents/MacOS/Blender"
     "{{blender}}" --background --factory-startup --python assets-production/scripts/build_colony_vent.py
     python3 assets-production/scripts/connect_remaining_structures.py
     godot --headless --path apps/world --editor --import --quit
+
+# Real isolated Core/Temporal coordination checks; no provider or cluster calls.
+test-joint:
+    cargo build --locked
+    .venv/bin/python scripts/joint_integration.py
+
+# Explicit local Qwen smoke: four public diagnostic simulations, no qualification.
+joint-pilot:
+    cargo build --locked
+    .venv/bin/python scripts/joint_integration.py --inference
+
+# Full local learning cycle, including durable proposal recovery and replay.
+test-learning:
+    cargo build --locked
+    .venv/bin/python scripts/learning_integration.py --restart
+
+# One predeclared public paired Qwen cycle; practice only, no qualification.
+learning-pilot:
+    cargo build --locked
+    .venv/bin/python scripts/learning_integration.py --inference

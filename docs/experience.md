@@ -79,6 +79,12 @@ nearby waypoint. Actual displacement continues to drive the existing walk clip.
 Visible Zoom in/out buttons, +/− keys and the wheel share bounded zoom in outdoor,
 interior and map views. Reduced motion applies zoom immediately.
 
+The default gameplay camera now starts two zoom steps closer outdoors (44%
+larger character scale) and one step closer in authored rooms and Commons (20%).
+The Map and dedicated crew-watch, observation and briefing shots retain their
+existing authored overrides. Manual zoom still adjusts from the new defaults;
+fixed-camera advancement uses the tighter outdoor view to keep walking visible.
+
 The playable outline is 40% wider and 35% deeper, providing 89% more area. Existing
 structures keep their coordinates. The same expanded outline owns the cap,
 cliff collision, navigation and northern mainland seam; the overview camera fits
@@ -358,3 +364,39 @@ Descriptions explain the implemented workflow, not installed runtime skill
 packages or proficiency. Installation policy, disconnected state, worker status,
 and fixture mode remain explicit; the submission form validates actual readiness.
 The backend does not currently provide a named runtime skills catalog.
+
+## Crew equipment and station records · 2026-09-27
+
+[Station markers](station-signal-markers.md) now distinguish retained failed,
+blocked, cancelled and no-change records with static symbols and explicit text.
+Nearby signs keep open counts alongside history; stale/offline states take
+precedence. Large text visibly scales, and the whole multiline sign opens the
+same keyboard-accessible Station records view. This is presentation of existing
+records, not a new mission or authority state.
+
+The crew's decorative field slate follows bounded actual wrist rotation around
+its grip axis and uses muted ceramic and darker glass. Calibration resets on
+pose exit, travel and reduced motion. The measured change is subtle, about
+0.59–1.06 degrees on selected rigs; richer authored task and handoff gestures
+remain future work. [Native before/after evidence](../evidence/world/crew-slate-20260927/README.md)
+records the isolated review and its limits. Neither equipment animation nor
+station inspection dispatches work or claims operational success.
+
+## Crew development and work attention · 2026-09-27
+
+The [Crew sheet](crew-sheet.md) presents the agreed eight core stats, exact-identity
+service history, build registry and qualification context. Missing measured stats,
+Class assignments and active-build pointers remain explicitly unassessed or not
+reported. [Detailed work attention](crew-work-attention.md) adds restrained,
+role-specific head focus while preserving authored hands, equipment contact and
+lower-body motion. Stale records, travel and reduced motion suppress the overlay.
+Neither presentation grants XP, qualifications or operational clearance.
+
+## Surface detail review · 2026-09-28
+
+[Temporary regolith impressions](surface-detail-polish.md) follow real Commander
+and crew gait contacts, fade within 24 seconds and remain off paving and raised
+floors. They are bounded cosmetic feedback, not retained activity records.
+Reduced motion suppresses the effect. The same quality pass reviews moving-camera
+shadows, dimensional foliage and interior sightlines; native evidence and owner
+art acceptance remain separate.

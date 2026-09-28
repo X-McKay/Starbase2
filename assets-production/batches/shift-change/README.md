@@ -28,7 +28,7 @@ criticism; no external skill package was installed.
   available in the inspector. Camera changes never dispatch work or teleport crew.
 
 Production assets: [domestic kit](../../kits/aster-domestic/README.md) and
-[social clips](../../characters/shift-social/README.md). The concept uses built-in
+retired social clips. The concept uses built-in
 image generation; the new geometry/animation uses Blender5.2.1 and the actual
 Godot4.7.2 Compatibility renderer. Existing Meshy work is reused. **Zero new
 Meshy credits** were spent; previous allowances were not reset or combined.

@@ -11,10 +11,13 @@ import math
 import sys
 from pathlib import Path
 
-import bpy
-from mathutils import Vector
+import bpy  # ty: ignore[unresolved-import]  # Provided by pinned Blender, not host Python.
+from mathutils import Vector  # ty: ignore[unresolved-import]  # Provided by Blender.
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from dimensional_foliage import curved_blade  # noqa: E402
+
 assert bpy.app.background, "Use a separate background Blender process"
 assert bpy.app.version[:3] == (5, 2, 1)
 bpy.context.preferences.filepaths.save_version = 0
@@ -117,11 +120,25 @@ def locker(x, z):
         box("Furniture", (x, 1.82 + i * 0.06, z + 0.39), (0.43, 0.018, 0.012), "Graphite", 0)
 
 
-def chair(x, z):
-    cylinder("Furniture", (x, 0.38, z), 0.10, 0.55)
-    cylinder("Furniture", (x, 0.15, z), 0.38, 0.10, "Graphite")
-    box("Furniture", (x, 0.73, z), (0.68, 0.18, 0.68), "Fabric", 0.09)
-    box("Furniture", (x, 1.10, z - 0.27), (0.68, 0.75, 0.16), "Fabric", 0.09)
+def chair(x, z, key_height):
+    # Analysis-platform top is 0.184 m; own seated clips use a 0.48 m cushion.
+    floor = 0.184
+    cylinder("Furniture", (x, floor + 0.05, z), 0.30, 0.10, "Graphite")
+    cylinder("Furniture", (x, floor + 0.20, z), 0.10, 0.24, "Steel")
+    box("Furniture", (x, floor + 0.39, z + 0.14), (0.68, 0.18, 0.40), "Fabric", 0.07)
+    # Back is south: both seated operators face their large north consoles.
+    box("Furniture", (x, floor + 0.76, z + 0.27), (0.68, 0.75, 0.16), "Fabric", 0.07)
+    for side in [-1, 1]:
+        arm_x = x + side * 0.42
+        top = floor + key_height - 0.04
+        box(
+            "Furniture",
+            (arm_x, (floor + 0.40 + top) / 2, z),
+            (0.065, top - floor - 0.40, 0.24),
+            "Steel",
+            0.02,
+        )
+        box("Furniture", (arm_x, top - 0.03, z - 0.02), (0.14, 0.06, 0.46), "Fabric", 0.025)
 
 
 def roof_vault(x, z, w, d, h=1.0, mat="Ivory"):
@@ -143,32 +160,16 @@ def reveal_arch(group, x, z, radius, spring, rise, mat="Ivory"):
 
 
 def pointed_leaf(group, at, length, width, heading, mat="Moss"):
-    """A small folded pointed blade, deliberately authored without box edges."""
+    """A closed, cupped blade with a real underside and curved midrib."""
     x, y, z = at
-    outline = [
-        (-0.5, 0, 0),
-        (-0.12, -0.5, 0.025),
-        (0.5, 0, 0.10),
-        (-0.12, 0.5, 0.025),
-        (-0.05, 0, 0.12),
-    ]
-    vertices = []
-    for along, across, lift in outline:
-        dx, dz = along * length, across * width
-        vertices.append(
-            coord(
-                (
-                    x + dx * math.cos(heading) - dz * math.sin(heading),
-                    y + lift,
-                    z + dx * math.sin(heading) + dz * math.cos(heading),
-                )
-            )
-        )
-    mesh = bpy.data.meshes.new("Folded leaf")
-    mesh.from_pydata(vertices, [], [(4, 1, 0), (4, 2, 1), (4, 3, 2), (4, 0, 3)])
-    mesh.update()
-    obj = bpy.data.objects.new("Leaf blade", mesh)
-    bpy.context.collection.objects.link(obj)
+    dx, dz = math.cos(heading) * length * 0.5, math.sin(heading) * length * 0.5
+    obj = curved_blade(
+        "Dimensional leaf blade",
+        (x - dx, y, z - dz),
+        (x + dx, y + 0.16, z + dz),
+        width * 0.5,
+        heading,
+    )
     return finish(obj, group, mat)
 
 
@@ -324,8 +325,8 @@ for asset, kind in FAMILIES.items():
         box("Furniture", (cx, 0.22, cz), (3.4, 0.3, 2.4), "Graphite", 0.12)
         for x in [cx - 3.2, cx + 3.2]:
             block("AnalysisDesk", x, back + 1.4, 3.7, 1.2, 2.6)
-            chair(x, back + 2.85)
-            block("AnalysisChair", x, back + 2.85, 0.7, 0.72, 1.5)
+            chair(x, -7.22, 0.90 if x > cx else 0.80)
+            block("AnalysisChair", x, -7.22, 1.0, 0.70, 1.34)
         for x in [left + 0.85, right - 0.85]:
             locker(x, back + 1.1)
             block("CommsRack", x, back + 1.1, 0.8, 0.78, 2.3)
@@ -768,7 +769,13 @@ for asset, kind in FAMILIES.items():
             export_animations=False,
         )
     (source.parents[1] / "layout.json").write_text(json.dumps(data, indent=2) + "\n")
-    files = [source, out / f"{kind}-shell.glb", out / f"{kind}-interior.glb", Path(__file__)]
+    files = [
+        source,
+        out / f"{kind}-shell.glb",
+        out / f"{kind}-interior.glb",
+        Path(__file__),
+        Path(__file__).with_name("dimensional_foliage.py"),
+    ]
     provenance = {
         "asset_id": asset,
         "room_id": kind,

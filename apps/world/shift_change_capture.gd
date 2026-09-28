@@ -104,7 +104,7 @@ func run(host:SceneTree,world:Node3D,directory:String,mode:String="domestic") ->
 		finish(mode);return
 	# Long fixture stays running until physical arrival; this is not a backend timing claim.
 	var departed:Vector3=selected.actor.position
-	while selected.actor.presentation_pose!="console":
+	while selected.actor.presentation_pose!=("sit" if selected.work_seated else "console"):
 		if not await tick(): finish(mode);return
 		if selected.route_blocked: check(false,"Physical station route blocked");finish(mode);return
 	check(selected.actor.position.distance_to(departed)>2,"Selected real actor physically travels")
@@ -116,7 +116,7 @@ func run(host:SceneTree,world:Node3D,directory:String,mode:String="domestic") ->
 	project([record("shift-change-long","completed")])
 	check(selected.intent.evidence_ready,"Terminal evidence appears before return-home travel")
 	sample("report-ready",selected);await picture("journey-report-ready")
-	while selected.actor.model_visual.clip!="social/seated":
+	while selected.at_work_seat or selected.actor.model_visual.clip!="social/seated":
 		if not await tick(): finish(mode);return
 		if selected.route_blocked: check(false,"Physical home route blocked");finish(mode);return
 	scene.enter_room("Habitat")

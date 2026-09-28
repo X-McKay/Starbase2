@@ -45,7 +45,7 @@ func run() -> void:
 			var traveled:float=m.actor.position.distance_to(previous[kind])
 			check(traveled<=1.3/60.0+0.015,kind+" moves continuously within crew speed")
 			distance[kind]+=traveled;previous[kind]=m.actor.position
-			if m.actor.presentation_pose!="console": all_arrived=false
+			if m.actor.presentation_pose!=("sit" if m.work_seated else "console"): all_arrived=false
 			else: check(m.actor.position.distance_to(m.workstation)<0.3,kind+" poses only at workstation")
 		if all_arrived: break
 	for kind in world.crew_motions:
@@ -53,18 +53,18 @@ func run() -> void:
 		print("CREW_ARRIVAL ",kind," distance=",m.actor.position.distance_to(m.workstation)," traveled=",distance[kind]," path=",m.path.size()," stalled=",m.stalled)
 		check(distance[kind]>0.2,kind+" actually traveled")
 		check(m.actor.position.distance_to(m.workstation)<0.3,kind+" reached authored workstation")
-		check(m.actor.motion.length()<0.01 and m.actor.presentation_pose=="console",kind+" arrived stopped in work pose")
+		check(m.actor.motion.length()<0.01 and m.actor.presentation_pose==("sit" if m.work_seated else "console"),kind+" arrived stopped in work pose")
 	check(crew_opened_airlock,"Outside Command crew physically open their airlock")
 	world.hud.reduced=true;world.apply_settings()
 	await physics_frame;await physics_frame
 	for m in world.crew_motions.values():
-		check(m.actor.motion.is_zero_approx() and m.actor.presentation_pose.is_empty(),"Reduced motion holds all actors without work pose")
+		check(m.actor.motion.is_zero_approx() and m.actor.presentation_pose==("sit" if m.at_work_seat else "") and m.actor.interaction_station==null,"Reduced motion holds body posture with inactive hands")
 	world.hud.reduced=false;world.apply_settings()
 	await physics_frame;await physics_frame
 	world.disconnected=true;world.show_mission()
 	await physics_frame;await physics_frame
 	for m in world.crew_motions.values():
-		check(m.actor.motion.is_zero_approx() and m.actor.presentation_pose.is_empty(),"Outage holds all actors")
+		check(m.actor.motion.is_zero_approx() and m.actor.presentation_pose==("sit" if m.at_work_seat else "") and m.actor.interaction_station==null,"Outage holds posture and clears work contact")
 		check(m.intent.label.begins_with("Unknown"),"Outage retains explicit unknown state")
 	data.observed_at+=1
 	for key in ["active","repairs","field_runs"]:

@@ -21,7 +21,7 @@ func run() -> void:
 	check(hud.list.is_item_disabled(0),"Empty dossier selector is clearly unavailable")
 	check(hud.stop.disabled and not hud.stop.visible and not hud.record_metadata.visible,"Empty dossier hides irrelevant cancellation and missing metadata")
 	hud.open_operations()
-	check(hud.navigation_background.visible==hud.navigation_bar.vertical,"Open workspace keeps a readable navigation background")
+	check(hud.navigation_background.visible==hud.navigation_bar.visible,"Open workspace keeps a readable navigation background")
 	hud.open_place("repair")
 	check(hud.dossier_tabs.current_tab==0 and hud.list.get_parent()!=hud.dossier_scroll.get_child(0),"Profile opens before assignment records")
 	hud.operations.fixture=""; hud.operations.offline=true; hud.update_crew_guide()

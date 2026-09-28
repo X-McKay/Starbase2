@@ -73,7 +73,7 @@ E to inspect and F to return to the colony. Native captures and the animation
 loop are available in `evidence/engineering-polish`.
 
 
-Follow-up: the player now uses [CyberCat Vanguard](../../characters/cybercat-vanguard/README.md),
+Follow-up: the player now uses the retired Vanguard-derived Cybercat (removed from the active tree),
 while Mender keeps the Engineering suit. The original package above remains the
 pre-Vanguard baseline. Vanguard adds 8 credits, bringing recorded total spend
 to 208 / 250, with 42 remaining.

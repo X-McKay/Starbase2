@@ -24,6 +24,34 @@ async fn main() {
         );
         return;
     }
+    if std::env::args().any(|s| s == "--schema-v7") {
+        println!(
+            "{}",
+            serde_json::to_string_pretty(&schemars::schema_for!(starbase_core::sdlc::SdlcContract))
+                .unwrap()
+        );
+        return;
+    }
+    if std::env::args().any(|s| s == "--schema-v6") {
+        println!(
+            "{}",
+            serde_json::to_string_pretty(&schemars::schema_for!(
+                starbase_core::learning::LearningContract
+            ))
+            .unwrap()
+        );
+        return;
+    }
+    if std::env::args().any(|s| s == "--schema-v5") {
+        println!(
+            "{}",
+            serde_json::to_string_pretty(&schemars::schema_for!(
+                starbase_core::joint::JointContract
+            ))
+            .unwrap()
+        );
+        return;
+    }
     if std::env::args().any(|s| s == "--schema-v4") {
         println!(
             "{}",

@@ -85,6 +85,7 @@ func _ready() -> void:
 					var material := preload("res://structures/materials.gd").cutaway(source)
 					mesh.set_surface_override_material(i,material)
 					if str(mesh.name).begins_with("InteriorReveal"):
+						preload("res://structures/interior_sightlines.gd").configure(material,mesh,self)
 						reveal_materials.append(material)
 						material.set_shader_parameter("visibility",0.0)
 					else: cut_materials.append(material)

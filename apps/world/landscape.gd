@@ -45,23 +45,16 @@ func rock(pos: Vector3, size: Vector3, color: String) -> void:
 	add_child(node)
 
 func grass(pos: Vector3, size: float) -> void:
-	# Clustered, still golden fronds. Low enough to remain traversable groundcover.
-	var surface := SurfaceTool.new()
-	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
+	# Preserve the original ten RNG draws so every existing scatter position stays fixed.
+	var heading:=0.0
 	for i in range(5):
-		var angle := rng.randf_range(0,TAU)
-		var foot := Vector3(cos(angle)*0.18,0,sin(angle)*0.18)*size
-		var right := Vector3(cos(angle+PI/2),0,sin(angle+PI/2))*0.07*size
-		var tip := foot+Vector3(cos(angle)*0.25,rng.randf_range(0.45,0.8),sin(angle)*0.25)*size
-		for point in [foot-right,tip,foot+right]: surface.add_vertex(point)
-	surface.generate_normals()
-	var node := MeshInstance3D.new()
-	node.mesh=surface.commit()
-	node.position=pos
-	var material := Art.mat("c7b85f").duplicate()
-	material.cull_mode=BaseMaterial3D.CULL_DISABLED
-	node.material_override=material
-	add_child(node)
+		var angle:=rng.randf_range(0,TAU)
+		rng.randf_range(0.45,0.8)
+		if i==0:heading=angle
+	var foliage=get_node_or_null("DryFoliage")
+	if foliage==null:
+		foliage=preload("res://dry_foliage.gd").new();foliage.name="DryFoliage";add_child(foliage)
+	foliage.add_tuft(pos,size,heading)
 
 func plot(pos: Vector3, number: String) -> void:
 	for x in [-4.5,4.5]:

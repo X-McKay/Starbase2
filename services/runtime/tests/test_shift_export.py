@@ -35,7 +35,7 @@ def write_record(directory, mode):
         "samples": [
             {"label": "seated", "clip": "social/seated"},
             {"label": "stand-0", "clip": "social/stand_up"},
-            {"label": "working", "pose": "console"},
+            {"label": "working", "pose": "sit"},
             {"label": "returned-home", "clip": "social/seated"},
             {"label": "report-ready", "evidence_ready": True},
             {"label": "offline", "goal": "hold", "pose": ""},
@@ -79,7 +79,15 @@ def test_exact_packaged_binary_modes_fences_and_bound_artifacts(tmp_path):
 
 
 @pytest.mark.parametrize(
-    "mutation", ["failed", "missing-image", "not-fixture", "missing-offline", "incomplete-sequence"]
+    "mutation",
+    [
+        "failed",
+        "missing-image",
+        "not-fixture",
+        "missing-offline",
+        "incomplete-sequence",
+        "standing-work",
+    ],
 )
 def test_incomplete_or_failed_native_proof_is_rejected(tmp_path, mutation):
     path, record = write_record(tmp_path / "journey", "journey")
@@ -91,6 +99,10 @@ def test_incomplete_or_failed_native_proof_is_rejected(tmp_path, mutation):
         record["fixture"] = False
     elif mutation == "missing-offline":
         record["samples"] = [s for s in record["samples"] if s["label"] != "offline"]
+    elif mutation == "standing-work":
+        next(sample for sample in record["samples"] if sample["label"] == "working")["pose"] = (
+            "console"
+        )
     else:
         record["captures"].pop()
     path.write_text(json.dumps(record))

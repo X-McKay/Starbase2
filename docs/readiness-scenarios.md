@@ -162,6 +162,9 @@ disposable fixture only; it is not a general Git hosting service.
 
 ## Completion gates and next learning experiment
 
+The next implementation is the [bounded crew mission](readiness-missions.md),
+with fixed observation tools, typed proposals, and independent verification.
+
 The first completion gate is met: all nine known outcomes matched, exact revision
 and functional observations were retained, and cluster cleanup was verified.
 Runtime/evaluation owns the remaining work, in this order:

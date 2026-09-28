@@ -97,3 +97,21 @@ this pass has no new Meshy charges. Command's representative physical/native
 slice passed before expansion; four-room visual review and corrected world/repository checks passed. Fresh
 standalone export passed in `20260907-final-03`; the first attempt correctly failed source
 hash binding after an intentional test edit. Engineering, characters and operational identities are preserved.
+
+## Seated Command console furniture
+
+Wes and Prism now use the existing large analysis consoles from authored chairs,
+replacing their separate standing terminals. The deterministic Command recipe
+places north-facing chairs at X=±3.2, Z=-7.22, with cushion tops Y=0.664 (0.48 m
+above the actual platform). Actual cushions are 0.68 × 0.40 m, centered 0.14 m
+behind the canonical seated reference to support the hips and clear bent legs.
+Chair-mounted hinged keyboard trays are authored in
+`apps/world/workstations/seated_console.gd`; the role-specific armrests support
+them. Bases have radius 0.30 m and full chair proxies are 1.00 × 0.70 m.
+
+The matching layout, GLBs, Blender source, collision and navigation are regenerated
+together. Existing paid source assets/ledgers are unchanged. Focused checks measure
+actual imported cushion vertices and collision-safe approach points. Native
+seated fit and fresh integration qualification are tracked in
+[workstation affordances](../../../docs/workstation-affordances.md); previous
+standing-terminal evidence does not certify this revision.

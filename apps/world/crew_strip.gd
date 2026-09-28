@@ -8,6 +8,10 @@ const NAMES := {"repair":"Rivet","review":"Moss Bombadil","gym":"Mae Jin","watch
 var entries:Dictionary={}
 var rows:HBoxContainer
 var watching:Label
+var status_detail:Label
+var full_status:Dictionary={}
+var detail_kind:=""
+var compact_labels:=false
 
 func _ready() -> void:
 	preload("res://console_theme.gd").apply(self)
@@ -38,8 +42,14 @@ func _ready() -> void:
 		entry.add_theme_stylebox_override("hover",_entry_style("ffffff0d","77777755"))
 		entry.add_theme_stylebox_override("pressed",_entry_style("ff653f19","ff653f"))
 		entry.pressed.connect(func():inspect_requested.emit(kind))
+		entry.focus_entered.connect(func():show_status(kind))
+		entry.mouse_entered.connect(func():show_status(kind))
 		entries[kind]=entry
 		entry.text=NAMES[kind]+"\nConnecting…"
+	status_detail=Label.new();status_detail.text="Focus a crew member for full status"
+	status_detail.add_theme_font_size_override("font_size",12);status_detail.add_theme_color_override("font_color",Color("bcb9b6"))
+	status_detail.clip_text=true;status_detail.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
+	column.add_child(status_detail)
 
 func project(kind:String,intent:Dictionary,_activity:String="",blocked:bool=false) -> void:
 	if not entries.has(kind): return
@@ -53,18 +63,35 @@ func project(kind:String,intent:Dictionary,_activity:String="",blocked:bool=fals
 	elif intent.get("backend_state")=="failed": label="Needs attention"
 	elif intent.get("backend_state")=="cancelled": label="Cancelled"
 	else: label="Between assignments"
+	if intent.has("sdlc_label"): label=str(intent.sdlc_label)
 	if blocked and not bool(intent.get("unknown",true)): label+=" · route blocked"
-	entries[kind].text=NAMES[kind]+"\n"+label
+	full_status[kind]=label
+	entries[kind].text=NAMES[kind]+"\n"+display_status(label)
+	if detail_kind==kind:show_status(kind)
 	var attention:=label in ["Working","Queued","Cancel pending","Needs attention"] or label.ends_with("· route blocked")
 	entries[kind].add_theme_color_override("font_color",Color("ffb39c") if attention else Color("c9c5c1"))
-	entries[kind].tooltip_text="%s · %s\n%s\nInspect crew and retained work" % [NAMES[kind],str(intent.get("label","Unknown")),str(intent.get("duty_label",""))]
+	entries[kind].tooltip_text="%s · %s\n%s\nInspect crew and retained work" % [NAMES[kind],label,str(intent.get("duty_label",""))]
 
 func set_watching(kind:String) -> void:
 	watching.text="WATCHING  /  "+NAMES.get(kind,"").to_upper() if NAMES.has(kind) else "THE CREW  /  ASTER COLONY"
 
 func fit(width:float,large:bool) -> void:
+	compact_labels=width<1200
 	for kind in entries:
 		entries[kind].add_theme_font_size_override("font_size",15 if large else (12 if width<900 else 14))
+		if full_status.has(kind):entries[kind].text=NAMES[kind]+"\n"+display_status(full_status[kind])
+	if status_detail!=null:status_detail.add_theme_font_size_override("font_size",14 if large else 12)
+
+func display_status(value:String) -> String:
+	if not compact_labels:return value
+	if value.ends_with("· route blocked"):return "Route blocked"
+	return {"Between assignments":"Between tasks","Last known · offline":"Last known","Awaiting live state":"State unknown"}.get(value,value)
+
+func show_status(kind:String) -> void:
+	detail_kind=kind
+	if status_detail!=null:
+		status_detail.text=NAMES.get(kind,kind)+" · "+str(full_status.get(kind,"Connecting…"))
+		status_detail.tooltip_text=status_detail.text
 
 func _entry_style(background:String,border:String) -> StyleBoxFlat:
 	var surface:=StyleBoxFlat.new()

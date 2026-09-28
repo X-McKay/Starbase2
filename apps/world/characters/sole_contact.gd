@@ -55,3 +55,21 @@ func required_lift(visual:Node3D, surface:Callable) -> float:
 		if point.y>=0.352+lift:continue
 		lift=maxf(lift,float(surface.call(point))+0.002-point.y)
 	return lift
+
+func ground_contact(_visual:Node3D) -> Vector3:
+	# Use the final deformed sole, not the actor origin or a guessed alternating foot.
+	if probes.is_empty():return Vector3.INF
+	skeleton.force_update_all_bone_transforms()
+	var transforms:Array[Transform3D]=[]
+	for bind in binds:transforms.append(skeleton.global_transform*skeleton.get_bone_global_pose(bind[0])*bind[1])
+	var points:Array[Vector3]=[]
+	var low:=INF
+	for probe in probes:
+		var point:=Vector3.ZERO
+		for term in probe[1]:point+=(transforms[term[0]]*probe[0])*term[1]
+		points.append(point);low=minf(low,point.y)
+	var contact:=Vector3.ZERO
+	var count:=0
+	for point in points:
+		if point.y<=low+0.025:contact+=point;count+=1
+	return contact/maxi(count,1)

@@ -37,7 +37,14 @@ def morning_files(directory):
         "samples": [
             {"label": "home", "clip": "social/seated"},
             {"label": "departure", "clip": "social/stand_up"},
-            {"label": "working", "pose": "console", "clip": "work/field_slate"},
+            {
+                "label": "working",
+                "pose": "sit",
+                "station_bound": True,
+                "contact_keys": ["left_key", "right_key"],
+                "interaction_state": "type",
+                "held_slate_visible": False,
+            },
             {"label": "result-ready", "evidence_ready": True},
             {"label": "home-again", "clip": "social/seated"},
             {"label": "offline", "pose": "", "goal": "hold"},
@@ -81,6 +88,11 @@ def test_morning_manifest_binds_report_minute_and_native_frames(tmp_path):
         "duplicate-time",
         "still-working",
         "missing-frame",
+        "standing-work",
+        "unbound-station",
+        "one-hand",
+        "unknown-interaction",
+        "held-slate",
     ],
 )
 def test_morning_rejects_incomplete_or_unsafe_evidence(tmp_path, defect):
@@ -101,6 +113,16 @@ def test_morning_rejects_incomplete_or_unsafe_evidence(tmp_path, defect):
         minute["samples"][50]["wall_ms"] = 0
     elif defect == "still-working":
         record["samples"][5]["pose"] = "console"
+    elif defect == "standing-work":
+        record["samples"][2]["pose"] = "console"
+    elif defect == "unbound-station":
+        record["samples"][2]["station_bound"] = False
+    elif defect == "one-hand":
+        record["samples"][2]["contact_keys"] = ["left_key"]
+    elif defect == "unknown-interaction":
+        record["samples"][2]["interaction_state"] = "unknown"
+    elif defect == "held-slate":
+        record["samples"][2]["held_slate_visible"] = True
     elif defect == "missing-frame":
         record["captures"].pop()
     (tmp_path / "morning-report.json").write_text(json.dumps(record))

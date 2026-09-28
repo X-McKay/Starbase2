@@ -11,6 +11,7 @@ var room_detail_title: Label
 var room_detail_body: Label
 var api := preload("res://transport.gd").default_origin()
 var board_fixture := ""
+var sdlc_assignments: Dictionary = {}
 var sound_enabled := false
 var portrait: Control
 var suit_label: Label
@@ -80,6 +81,7 @@ var large_toggle: CheckButton
 var room_available := false
 var workspace_label: Label
 var nav_buttons: Dictionary = {}
+var crew_sheet: VBoxContainer
 var dossier_tabs: TabContainer
 var identity_column: VBoxContainer
 var dossier_body: HBoxContainer
@@ -171,6 +173,7 @@ func _ready() -> void:
 	workspace_label=text(brand,"WORLD",12,"c9c5c1")
 	chrome_toggle=button(brand,"HUD [F1]",toggle_exploration_hud)
 	chrome_toggle.custom_minimum_size=Vector2(132,30)
+	chrome_toggle.clip_text=false
 	chrome_toggle.size_flags_horizontal=Control.SIZE_SHRINK_END
 	chrome_toggle.add_theme_font_size_override("font_size",11)
 	connection = text(mast,"Connecting to local core…",12,"bcb9b6")
@@ -351,6 +354,12 @@ func _ready() -> void:
 		repair_requested.emit("clamp-v1" if scenario.selected==0 else "dedupe-v1","control-good" if mode.selected==0 else "inference"))
 	ConsoleTheme.primary(submit)
 	text(repair_form,"Submission feedback remains visible below. Request cancellation is available in Evidence.",15,"bcb9b6").autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	var sheet_page:=dossier_page("Crew sheet")
+	crew_sheet=preload("res://crew_sheet.gd").new()
+	sheet_page.add_child(crew_sheet)
+	crew_sheet.evidence_requested.connect(func():
+		dossier_tabs.current_tab=1
+		list.grab_focus())
 	dock.hide()
 	directory = panel_at(root,Vector2(330,0))
 	directory.set_anchors_and_offsets_preset(Control.PRESET_LEFT_WIDE)
@@ -589,7 +598,7 @@ func sync_world_chrome() -> void:
 	crew_strip.rows.visible=show_exploration and not observing
 	prompt_panel.visible=show_exploration
 	navigation_bar.visible=show_exploration or expanded
-	navigation_background.visible=navigation_bar.visible and navigation_bar.vertical
+	navigation_background.visible=navigation_bar.visible
 	chrome_toggle.text="Show HUD [F1]" if exploration_hud_collapsed else "Hide HUD [F1]"
 	chrome_toggle.visible=not expanded
 	layout_hud()
@@ -622,12 +631,15 @@ func layout_hud() -> void:
 	for key in nav_buttons:
 		nav_buttons[key].text=short_labels[key] if narrow else {"map":"Map","crew":"Crew","work":"Work","stations":"Stations","field":"Field ops","settings":"Settings","connection":"Connection"}[key]
 		nav_buttons[key].tooltip_text=labels[key]
-	navigation_bar.offset_top=72
+	chrome_toggle.add_theme_font_size_override("font_size",16 if large_text else 13)
+	header_panel.size=Vector2(viewport_size.x-36,header_panel.get_combined_minimum_size().y)
+	var compact_nav_top:=maxf(72,header_panel.position.y+header_panel.get_combined_minimum_size().y+8)
+	navigation_bar.offset_top=compact_nav_top
 	navigation_bar.offset_left=-minf(980,viewport_size.x-44)-22
 	navigation_bar.offset_right=-22
 	header_panel.size.x=viewport_size.x-36
 	room_exit.position=Vector2(22,116)
-	var top_edge:=128.0
+	var top_edge:=maxf(128,compact_nav_top+46) if narrow else 128.0
 	var panel_width:=minf(520 if large_text else 490,viewport_size.x-44)
 	for panel in [dock,directory,help,room_details,connection_panel]:
 		panel.custom_minimum_size.x=panel_width
@@ -647,11 +659,11 @@ func layout_hud() -> void:
 		operations.offset_top=top_edge
 		operations.offset_bottom=-24
 	var wide:=viewport_size.x>=1000
-	room_exit.position=Vector2(184,92) if wide else Vector2(22,116)
+	room_exit.position=Vector2(184,92) if wide else Vector2(22,compact_nav_top+46)
 	navigation_bar.vertical=wide
-	navigation_background.visible=wide and navigation_bar.visible
-	navigation_background.position=Vector2(18,92)
-	navigation_background.size=Vector2(150,maxf(0,viewport_size.y-116))
+	navigation_background.visible=navigation_bar.visible
+	navigation_background.position=Vector2(18,92) if wide else Vector2(22,compact_nav_top)
+	navigation_background.size=Vector2(150,maxf(0,viewport_size.y-116)) if wide else Vector2(viewport_size.x-44,40)
 	for key in nav_buttons:
 		nav_buttons[key].icon=navigation_icons[key] if wide else null
 		nav_buttons[key].icon_alignment=HORIZONTAL_ALIGNMENT_LEFT
@@ -681,7 +693,7 @@ func layout_hud() -> void:
 			operations.offset_top=92
 	else:
 		navigation_bar.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
-		navigation_bar.offset_top=72
+		navigation_bar.offset_top=compact_nav_top
 		navigation_bar.offset_left=-viewport_size.x+22
 		navigation_bar.offset_right=-22
 		for item in navigation_bar.get_children(): item.custom_minimum_size=Vector2(0,38)
@@ -705,6 +717,10 @@ func layout_hud() -> void:
 		crew_strip.offset_right=-(viewport_size.x-(strip_left+strip_width))
 		crew_strip.offset_top=-108 if observing else -174; crew_strip.offset_bottom=-16
 		crew_strip.fit(viewport_size.x,large_text)
+		var strip_height:=maxf(92 if observing else 158,crew_strip.get_combined_minimum_size().y)
+		crew_strip.offset_top=-16-strip_height
+		prompt_panel.offset_bottom=-16-strip_height
+		prompt_panel.offset_top=prompt_panel.offset_bottom-44
 
 func settings_page(title:String) -> VBoxContainer:
 	var scroll:=ScrollContainer.new()
@@ -807,6 +823,14 @@ func toggle_directory() -> void:
 		directory.find_children("*","Button",true,false)[0].grab_focus()
 
 func open_place(kind: String) -> void:
+	if sdlc_assignments.has(kind):
+		open_board()
+		board.tabs.current_tab=5
+		board.sdlc_missions.selected=str(sdlc_assignments[kind])
+		board.sdlc_missions.signature=""
+		board.sdlc_missions.render()
+		board.sdlc_missions.choices.grab_focus()
+		return
 	close_panels()
 	filter_kind = kind
 	dock.show()
@@ -945,6 +969,8 @@ func update_crew_guide() -> void:
 	if crew_purpose==null: return
 	var role:String={"repair":"mender","review":"surveyor","gym":"trainer"}.get(filter_kind,filter_kind)
 	var guide:Dictionary=preload("res://crew_guide.gd").profile(operations.snapshot,role,operations.offline)
+	if crew_sheet!=null:
+		crew_sheet.update_snapshot(operations.snapshot,role,operations.offline,not operations.fixture.is_empty())
 	crew_purpose.text=str(guide.get("purpose","Crew profile unavailable."))
 	var actions:Array=guide.get("actions",[])
 	crew_action.visible=not actions.is_empty()

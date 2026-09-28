@@ -23,6 +23,17 @@ from .dispatch import reconcile_operations, register
 from .field import field_advice, field_analyze, field_capture, field_finish, field_tick
 from .field_dispatch import reconcile_field, register_field
 from .field_workflow import FieldDuty, FieldObservation
+from .joint_activities import joint_finish, joint_member
+from .joint_dispatch import reconcile_joint, register_joint
+from .joint_workflow import ReadinessJoint
+from .learning import (
+    learning_admit,
+    learning_finish,
+    learning_poll,
+    learning_propose,
+    reconcile_learning,
+)
+from .learning_workflow import LearningPractice
 from .operations import (
     duty_tick,
     request,
@@ -35,6 +46,31 @@ from .operations_workflows import RecurringReview, RepositoryReview
 from .repair import BUILD, repair_execute, repair_finish, repair_propose
 from .repair_dispatch import reconcile_repairs
 from .repair_workflow import IsolatedRepair
+from .repository_discovery import reconcile_discovery
+from .sdlc_runtime import (
+    reconcile_sdlc,
+    sdlc_abort,
+    sdlc_finish,
+    sdlc_follow,
+    sdlc_implement,
+    sdlc_lead,
+    sdlc_prepare,
+    sdlc_publish,
+    sdlc_review,
+)
+from .sdlc_verification import (
+    reconcile_verifications,
+    verification_abort,
+    verification_execute,
+    verification_finish,
+    verification_pending,
+    verification_repair,
+    verification_review,
+    verification_status,
+    verification_update,
+)
+from .sdlc_verification_workflow import RepositoryVerification
+from .sdlc_workflow import RepositorySdlc
 from .workflows import SurveyorCampaign
 
 QUEUE = os.environ.get("STARBASE_TEMPORAL_QUEUE", "starbase2-local-v1")
@@ -107,8 +143,20 @@ async def reconcile(client: Client) -> None:
 
 async def reconcile_all(client: Client) -> bool:
     healthy = True
+    if os.environ.get("STARBASE_GITHUB_DISCOVERY_FILE") and os.environ.get("STARBASE_TOKEN_FILE"):
+        try:
+            await reconcile_discovery()
+        except Exception as exc:
+            healthy = False
+            print(f"Repository discovery unavailable: {type(exc).__name__}", flush=True)
     # A legacy experiment outage must not suppress current operational dispatch.
-    for version in (1, 2, 3, 4):
+    for version in (1, 2, 3, 4, 5, 6, 7):
+        if version == 7 and os.environ.get("STARBASE_SDLC_ENABLED") != "true":
+            continue
+        if version == 6 and os.environ.get("STARBASE_LEARNING_ENABLED") != "true":
+            continue
+        if version == 5 and os.environ.get("STARBASE_JOINT_ENABLED") != "true":
+            continue
         if (version == 1 and not LEGACY_ENABLED) or (version == 3 and not REPAIRS_ENABLED):
             continue
         if version >= 2 and not os.environ.get("STARBASE_TOKEN_FILE"):
@@ -120,8 +168,16 @@ async def reconcile_all(client: Client) -> bool:
                 await reconcile_operations(client, QUEUE)
             elif version == 3:
                 await reconcile_repairs(client, QUEUE)
-            else:
+            elif version == 4:
                 await reconcile_field(client, QUEUE)
+            elif version == 5:
+                await reconcile_joint(client, QUEUE)
+            elif version == 6:
+                await reconcile_learning(client, QUEUE)
+            else:
+                await reconcile_sdlc(client, QUEUE)
+                if os.environ.get("STARBASE_SDLC_VERIFICATION_ENABLED") == "true":
+                    await reconcile_verifications(client, QUEUE)
         except Exception as exc:
             healthy = False
             print(f"v{version} reconciliation unavailable: {type(exc).__name__}: {exc}", flush=True)
@@ -137,15 +193,48 @@ async def run_worker() -> None:
     if os.environ.get("STARBASE_TOKEN_FILE"):
         await register()
         await register_field()
+        if os.environ.get("STARBASE_JOINT_ENABLED") == "true":
+            await register_joint()
         if REPAIRS_ENABLED:
             await request("POST", "/internal/v3/builds", BUILD)
     async with Worker(
         client,
         task_queue=QUEUE,
-        workflows=[RepositoryReview, RecurringReview, FieldObservation, FieldDuty]
+        workflows=[
+            RepositoryReview,
+            RecurringReview,
+            FieldObservation,
+            FieldDuty,
+            ReadinessJoint,
+            LearningPractice,
+            RepositorySdlc,
+            RepositoryVerification,
+        ]
         + ([SurveyorCampaign] if LEGACY_ENABLED else [])
         + ([IsolatedRepair] if REPAIRS_ENABLED else []),
         activities=[
+            verification_pending,
+            verification_execute,
+            verification_status,
+            verification_repair,
+            verification_review,
+            verification_update,
+            verification_finish,
+            verification_abort,
+            sdlc_prepare,
+            sdlc_lead,
+            sdlc_implement,
+            sdlc_review,
+            sdlc_publish,
+            sdlc_follow,
+            sdlc_finish,
+            sdlc_abort,
+            learning_propose,
+            learning_admit,
+            learning_poll,
+            learning_finish,
+            joint_member,
+            joint_finish,
             field_capture,
             field_analyze,
             field_advice,

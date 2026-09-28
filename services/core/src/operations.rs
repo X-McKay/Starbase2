@@ -892,7 +892,7 @@ mod tests {
         assert_eq!(
             s.db.query_row("PRAGMA user_version", params![], |r| r.get::<_, i64>(0))
                 .unwrap(),
-            5
+            10
         );
         drop(s);
         std::fs::remove_file(path).unwrap();

@@ -434,6 +434,18 @@ def render(c: dict, output: Path) -> None:
             {
                 "config": c,
                 "files": files,
+                "joint_schema_sha256": hashlib.sha256(
+                    (ROOT / "services/core/joint-schema.sql").read_bytes()
+                ).hexdigest(),
+                "learning_schema_sha256": hashlib.sha256(
+                    (ROOT / "services/core/learning-schema.sql").read_bytes()
+                ).hexdigest(),
+                "sdlc_schema_sha256": hashlib.sha256(
+                    (ROOT / "services/core/sdlc-schema.sql").read_bytes()
+                ).hexdigest(),
+                "repository_discovery_schema_sha256": hashlib.sha256(
+                    (ROOT / "services/core/repository-discovery-schema.sql").read_bytes()
+                ).hexdigest(),
                 "repository_schema_sha256": hashlib.sha256(
                     (ROOT / "services/core/repository-schema.sql").read_bytes()
                 ).hexdigest(),

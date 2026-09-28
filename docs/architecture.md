@@ -147,3 +147,14 @@ agents to the existing worker/core, with a Graphiti/FalkorDB episodic projection
 SQL remains the approval and evidence authority; no new Starbase2 service owns
 memory. [The implementation guide](field-agents.md) distinguishes structured
 recall from deferred semantic extraction and production activation.
+
+## Agent packaging and coordination direction · 2026-09-27
+
+The readiness agent now has a private validated package and explicit factory;
+its trusted lab coordinator and effect boundary remain unchanged. See the
+[implemented scope and autonomous coordination plan](playbooks-alignment.md).
+The additive [V5 joint investigation](joint-readiness.md) now implements typed
+lead/specialist delegation, shared root reservations and adaptive dispatch with
+Core-owned records and Temporal execution. It is an opt-in public simulation;
+live lab integration, continuous improvement and qualified autonomous operations
+remain open in the [full delivery plan](autonomous-rpg-delivery.md).

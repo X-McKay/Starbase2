@@ -21,6 +21,7 @@ static func project(records: Array, disconnected: bool, observed_at: float, fixt
 	var result: Dictionary = {}
 	for context in GROUPS:
 		result[context] = {"active":0, "results":0, "evidence":0, "missing_evidence":0, "unknown":0, "stale":0,
+			"failed":0, "blocked":0, "cancelled":0, "no_change":0,
 			"disconnected":disconnected, "observed_at":observed_at, "fixture":fixture}
 	var unique: Dictionary = {}
 	for record in records:
@@ -46,24 +47,53 @@ static func project(records: Array, disconnected: bool, observed_at: float, fixt
 			counts.results += 1
 			if record.get("evidence") is Dictionary and not record.evidence.is_empty(): counts.evidence += 1
 			elif state == "completed": counts.missing_evidence += 1
+			var evidence: Dictionary = record.evidence if record.get("evidence") is Dictionary else {}
+			var summary: Dictionary = evidence.summary if evidence.get("summary") is Dictionary else {}
+			# Retained failures are history, not an assertion about current open work.
+			# Completion alone is never evidence of success or verified improvement.
+			if state == "failed" or StateView.repair_execution_failed(record): counts.failed += 1
+			elif state == "cancelled": counts.cancelled += 1
+			elif summary.get("outcome") == "blocked": counts.blocked += 1
+			elif summary.get("outcome") == "no_change": counts.no_change += 1
 		else: counts.unknown += 1
 	return result
 
+static func signal_status(counts: Dictionary) -> Dictionary:
+	# Symbols and explicit words carry the distinction without color or motion.
+	# Freshness overrides history; the count lines still retain mixed outcomes.
+	if counts.is_empty() or float(counts.get("observed_at", 0)) <= 0:
+		return {"text":"[?] UNKNOWN", "color":Color("ddd6cc")}
+	if counts.get("disconnected", false):
+		return {"text":"[/] OFFLINE · last known", "color":Color("c7c8cc")}
+	if int(counts.get("stale", 0)) > 0:
+		return {"text":"[~] STALE · last known", "color":Color("edd0a5")}
+	if int(counts.get("missing_evidence", 0)) > 0 or int(counts.get("unknown", 0)) > 0:
+		return {"text":"[?] INCOMPLETE RECORDS", "color":Color("edd0a5")}
+	if int(counts.get("failed", 0)) > 0:
+		return {"text":"[!] FAILED RESULTS", "color":Color("f2b5a7")}
+	if int(counts.get("blocked", 0)) > 0:
+		return {"text":"[#] BLOCKED RESULTS", "color":Color("edd0a5")}
+	if int(counts.get("active", 0)) > 0:
+		return {"text":"[>] OPEN WORK", "color":Color("f3d0a9")}
+	if int(counts.get("cancelled", 0)) > 0:
+		return {"text":"[x] CANCELLED RESULTS", "color":Color("d7d0c6")}
+	if int(counts.get("no_change", 0)) > 0:
+		return {"text":"[=] NO CHANGE RECORDED", "color":Color("c7dcd7")}
+	return {"text":"[-] RETAINED RECORDS" if int(counts.get("results", 0)) > 0 else "[-] NO RETAINED RECORDS", "color":Color("ddd6cc")}
+
 static func label_text(context: String, counts: Dictionary, detailed: bool = true) -> String:
 	var title := str(TITLES.get(context, "STATION"))
+	var status := ("FIXTURE · " if counts.get("fixture", false) else "") + str(signal_status(counts).text)
 	if counts.is_empty() or float(counts.get("observed_at", 0)) <= 0:
-		return title+" · UNKNOWN" if not detailed else title+" · UNKNOWN\nAwaiting records · I inspect"
-	var status := ""
-	if counts.get("fixture", false): status += "FIXTURE · "
-	if counts.get("disconnected", false): status += "OFFLINE · last known\n"
-	elif int(counts.get("stale", 0)) > 0: status += "STALE · last known\n"
+		return title+" · "+status if not detailed else title+" · I inspect\n"+status+"\nAwaiting records"
+	if not detailed: return title+" · "+status
 	var detail := "%d open · %d retained results" % [int(counts.get("active", 0)), int(counts.get("results", 0))]
-	if int(counts.get("missing_evidence", 0)) > 0: detail += " · %d missing evidence" % int(counts.missing_evidence)
-	if int(counts.get("unknown", 0)) > 0: detail += " · %d unknown" % int(counts.unknown)
-	if not detailed:
-		var restrained_status := status.strip_edges().replace("\n", " ").trim_suffix(" ·")
-		return title + (" · " + restrained_status if not restrained_status.is_empty() else "")
-	return title+" · I inspect\n"+status+detail
+	var outcomes: PackedStringArray = []
+	for key in ["failed", "blocked", "cancelled", "no_change", "missing_evidence", "unknown"]:
+		if int(counts.get(key, 0)) > 0: outcomes.append("%d %s" % [int(counts[key]),str(key).replace("_", " ")])
+	# Keep the complete mixed breakdown without producing a single wide line.
+	for start in range(0,outcomes.size(),3): detail += "\n"+" · ".join(outcomes.slice(start,start+3))
+	return title+" · I inspect\n"+status+"\n"+detail
 
 func configure(anchors: Dictionary) -> void:
 	# Explicit world-space entrance anchors, provided by the owning scene.
@@ -119,12 +149,15 @@ func update_view(camera: Camera3D, focus_position: Vector3, suppressed: bool = f
 		var detailed: bool = shown and (distance <= NEAR_RANGE or context == selected_context)
 		label.font_size = 36 if large_text and detailed else 30 if detailed else 20
 		label.text = label_text(context, model.get(context, {}), detailed)
+		label.modulate = signal_status(model.get(context, {})).color
 		label.global_position = point
-		if shown:
-			_place_safely(camera, label, focus_position)
 		if camera != null and camera.projection == Camera3D.PROJECTION_ORTHOGONAL:
 			# Keep nearby detail legible while restrained/distant badges stay quiet.
-			label.pixel_size = camera.size / maxf(1.0, camera.get_viewport().get_visible_rect().size.y) * ((17.0 if shown else 12.0) / float(label.font_size))
+			# Large text must enlarge apparent pixels, not just font texture resolution.
+			var apparent_size := (21.0 if large_text else 17.0) if detailed else (16.0 if large_text else 13.0)
+			label.pixel_size = camera.size / maxf(1.0, camera.get_viewport().get_visible_rect().size.y) * (apparent_size / float(label.font_size))
+		if shown:
+			_place_safely(camera, label, focus_position)
 
 func _place_safely(camera: Camera3D, label: Label3D, focus_position: Vector3) -> void:
 	if camera == null: return
@@ -138,19 +171,26 @@ func _place_safely(camera: Camera3D, label: Label3D, focus_position: Vector3) ->
 	desired.y = minf(desired.y, focus_screen.y - SAFE_CLEARANCE_PIXELS)
 	# Keep the world badge below the wide/compact navigation chrome.
 	desired.y = maxf(desired.y, SAFE_TOP_PIXELS)
-	desired.x = clampf(desired.x, SAFE_EDGE_PIXELS, viewport_size.x - SAFE_EDGE_PIXELS)
+	var horizontal_clearance := minf(viewport_size.x * 0.5, SAFE_EDGE_PIXELS + _screen_half_size(camera,label).x)
+	desired.x = clampf(desired.x, horizontal_clearance, viewport_size.x - horizontal_clearance)
 	var depth := maxf(0.1, -camera.to_local(anchor).z)
 	label.global_position = camera.project_position(desired, depth)
+
+func _screen_half_size(camera: Camera3D, label: Label3D) -> Vector2:
+	var center := camera.unproject_position(label.global_position)
+	var dimensions := label.get_aabb().size
+	var right := camera.unproject_position(label.global_position+camera.global_basis.x*dimensions.x*0.5)
+	var top := camera.unproject_position(label.global_position+camera.global_basis.y*dimensions.y*0.5)
+	return Vector2(center.distance_to(right),center.distance_to(top))
 
 func hit(camera: Camera3D, point: Vector2) -> bool:
 	if visible_context.is_empty() or camera == null: return false
 	var label: Label3D = labels[visible_context]
 	if not label.is_visible_in_tree() or camera.is_position_behind(label.global_position): return false
 	var center := camera.unproject_position(label.global_position)
-	var dimensions := label.get_aabb().size
-	var edge := camera.unproject_position(label.global_position+camera.global_basis.x*dimensions.x*0.5)
-	var radius := maxf(24.0, center.distance_to(edge))
-	if not Rect2(center-Vector2(radius, 30), Vector2(radius*2, 60)).has_point(point): return false
+	var half_size := _screen_half_size(camera,label)+Vector2(8,8)
+	half_size = half_size.max(Vector2(24,30))
+	if not Rect2(center-half_size, half_size*2).has_point(point): return false
 	var ray := PhysicsRayQueryParameters3D.create(camera.project_ray_origin(center), label.global_position)
 	ray.collide_with_areas = false
 	if not get_world_3d().direct_space_state.intersect_ray(ray).is_empty(): return false

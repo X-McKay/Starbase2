@@ -1,6 +1,7 @@
 """Additive workflow type; existing v1/v2/v3 histories retain their implementations."""
 
 from datetime import timedelta
+from hashlib import sha256
 
 from temporalio import workflow
 from temporalio.common import RetryPolicy
@@ -44,8 +45,14 @@ class FieldObservation:
 class FieldDuty:
     @workflow.run
     async def run(self, input: dict) -> None:
-        for _ in range(100):
-            await workflow.sleep(timedelta(seconds=input["interval_seconds"]))
+        staggered = input["id"].startswith("repo-") and workflow.patched(
+            "repository-duty-stagger-v1"
+        )
+        for iteration in range(100):
+            delay = input["interval_seconds"]
+            if staggered and iteration == 0:
+                delay = repository_initial_delay(input["id"], delay, int(workflow.time()))
+            await workflow.sleep(timedelta(seconds=delay))
             await workflow.execute_activity(
                 field_tick,
                 {
@@ -57,3 +64,9 @@ class FieldDuty:
                 retry_policy=RetryPolicy(maximum_attempts=2),
             )
         workflow.continue_as_new(input)
+
+
+def repository_initial_delay(identity: str, interval: int, timestamp: int) -> int:
+    """Stable phase across restarts/continue-as-new; never catch up missed ticks."""
+    phase = int.from_bytes(sha256(identity.encode()).digest()[:8], "big") % interval
+    return (phase - timestamp) % interval or interval

@@ -1069,3 +1069,11 @@ Kubani history and selected live cluster status, events, and logs; its scope and
 limitations are recorded in the linked incident report. No production mutation
 or experiment was performed. Documentation validation is recorded with the
 delivery response.
+
+## Implementation progress
+
+The [autonomous RPG delivery contract](autonomous-rpg-delivery.md) maps these
+selected choices to current code and ordered, owned acceptance gates. It preserves
+the distinction between the existing single-agent lab, new V5 public diagnostic
+simulations, and the still-open continuous learning, progression and production
+journeys. Completing one simulation does not complete this plan.

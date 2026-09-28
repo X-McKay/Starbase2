@@ -163,7 +163,7 @@ def verify_shift_report(directory: Path, mode: str) -> dict:
         raise RuntimeError("Shift Change social transition samples absent")
     if mode == "journey":
         if (
-            samples.get("working", {}).get("pose") != "console"
+            samples.get("working", {}).get("pose") != "sit"
             or samples.get("returned-home", {}).get("clip") != "social/seated"
             or samples.get("report-ready", {}).get("evidence_ready") is not True
             or samples.get("offline", {}).get("goal") != "hold"
@@ -261,8 +261,11 @@ def verify_morning_report(directory: Path) -> dict:
             sample.get("label") == "departure" and sample.get("clip") == "social/stand_up"
             for sample in record.get("samples", [])
         )
-        or samples.get("working", {}).get("pose") != "console"
-        or samples.get("working", {}).get("clip") != "work/field_slate"
+        or samples.get("working", {}).get("pose") != "sit"
+        or samples.get("working", {}).get("station_bound") is not True
+        or set(samples.get("working", {}).get("contact_keys", [])) != {"left_key", "right_key"}
+        or samples.get("working", {}).get("interaction_state") not in {"type", "read", "gesture"}
+        or samples.get("working", {}).get("held_slate_visible") is not False
         or samples.get("result-ready", {}).get("evidence_ready") is not True
         or samples.get("home-again", {}).get("clip") != "social/seated"
         or samples.get("offline", {}).get("pose") != ""
@@ -523,6 +526,14 @@ def main() -> None:
             "living-colony",
             "inhabited-water",
             "inhabited-water-reduced",
+            "soil-trail-gameplay",
+            "soil-trail-close",
+            "environment-contact-repair",
+            "environment-contact-review",
+            "environment-contact-gym",
+            "environment-contact-watchkeeper",
+            "environment-contact-reviewer",
+            "environment-contact-reduced",
             "operations-task-markers",
             "operations-review",
             "operations-comparison",

@@ -26,14 +26,18 @@ Temporal workflow ID prevents duplicate dispatch; bounded captures retry safely.
 Cancellation fences completion and future publication of memory proposals. A
 30–86400 second recurring duty survives worker restarts. Pausing prevents future
 dispatch; already queued/running observations must be stopped separately. Missed
-intervals do not create an unbounded backlog. At most 20 duties and 20 active runs
-are accepted. Editing a duty requires the next generation; stale edits fail.
+intervals do not create an unbounded backlog. At most 20 individually configured
+duties and 20 active runs are accepted; repository watches have a separate
+256-watch capacity. Editing a duty requires the next generation; stale edits fail.
 
 ## Repository watch controls
 
 The [Command District guide](command-district.md) describes native and browser
 repository add/pause/remove/restore, durable polling, bounded multi-PR capture,
 credential binding and additive migrations. Single-PR target files remain supported.
+[GitHub fleet monitoring](github-monitoring.md) adds explicitly scoped owner
+discovery, bounded repository health observations, fair recurring admission and
+a detached local monitor. Discovery preserves existing pause/remove controls.
 
 ## Local setup
 

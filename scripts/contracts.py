@@ -35,7 +35,10 @@ def generate(check: bool, version: int) -> None:
                 "--target-python-version",
                 "3.12",
                 "--disable-timestamp",
-                "--use-annotated",
+                # V6 has a nested object default. Field assignments preserve its
+                # validated default without assigning a dict to a model annotation.
+                "--no-use-annotated" if version == 6 else "--use-annotated",
+                "--field-constraints",
                 "--formatters",
                 "ruff-format",
             ],
@@ -56,7 +59,19 @@ def generate(check: bool, version: int) -> None:
                         else (
                             "contracts/repair.schema.json"
                             if version == 3
-                            else "contracts/field.schema.json"
+                            else (
+                                "contracts/field.schema.json"
+                                if version == 4
+                                else (
+                                    "contracts/joint.schema.json"
+                                    if version == 5
+                                    else (
+                                        "contracts/learning.schema.json"
+                                        if version == 6
+                                        else "contracts/sdlc.schema.json"
+                                    )
+                                )
+                            )
                         )
                     )
                 ),
@@ -73,7 +88,19 @@ def generate(check: bool, version: int) -> None:
                         else (
                             "services/runtime/starbase_runtime/repair_contract.py"
                             if version == 3
-                            else "services/runtime/starbase_runtime/field_contract.py"
+                            else (
+                                "services/runtime/starbase_runtime/field_contract.py"
+                                if version == 4
+                                else (
+                                    "services/runtime/starbase_runtime/joint_contract.py"
+                                    if version == 5
+                                    else (
+                                        "services/runtime/starbase_runtime/learning_contract.py"
+                                        if version == 6
+                                        else "services/runtime/starbase_runtime/sdlc_contract.py"
+                                    )
+                                )
+                            )
                         )
                     )
                 ),
@@ -91,5 +118,5 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
-    for version in (1, 2, 3, 4):
+    for version in (1, 2, 3, 4, 5, 6, 7):
         generate(args.check, version)

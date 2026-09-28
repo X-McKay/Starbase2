@@ -147,6 +147,26 @@ async def main():
                         },
                     )
                 ).status_code == 403
+            discovery_probe = {
+                "owner": "unconfigured",
+                "observed_at": time.time(),
+                "interval_seconds": 900,
+                "complete": True,
+                "repositories": [],
+                "error": None,
+            }
+            # Operator cookies cannot impersonate the discovery worker. Even a valid
+            # worker identity cannot enroll an owner absent the Core allowlist.
+            denied = await http.post("/internal/v4/repository-discovery", json=discovery_probe)
+            assert denied.status_code == 403
+            denied = await http.post(
+                "/internal/v4/repository-discovery",
+                json=discovery_probe,
+                headers={"Authorization": "Bearer " + token_file.read_text().strip()},
+            )
+            assert denied.status_code == 409
+            assert (await http.get("/v4/repository-discovery")).json() == {"discoveries": []}
+            event("discovery_worker_identity_and_owner_fence")
             await submit("cluster-first")
             first = await wait(lambda: completed("cluster-first"))
             assert len(first["report"]["findings"]) == 2
@@ -288,8 +308,16 @@ async def main():
                 result = await wait(watch_done, 75)
                 detail = (await http.get("/v4/runs/" + result["input"]["id"])).json()
                 assert detail["snapshot"]["data"]["simulation"]
-                assert len(detail["report"]["findings"]) == 1
-                assert "fixture/command#7" in detail["report"]["findings"][0]["subject"]
+                findings = detail["report"]["findings"]
+                assert len(findings) == 3
+                assert {"default-branch-ci-failed", "open-pr-review-candidate"} <= {
+                    f["code"] for f in findings
+                }
+                assert any("fixture/command#7 / " in f["subject"] for f in findings)
+                health = detail["snapshot"]["data"]["health"]
+                assert health["head"] == "c" * 40
+                assert health["issues"][0]["number"] == 9
+                assert health["ci"][0]["conclusion"] == "failure"
                 await post(
                     "/v4/repositories",
                     watch_config | {"enabled": False, "removed": True, "generation": 1},

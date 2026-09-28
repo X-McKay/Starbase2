@@ -15,9 +15,11 @@ The browser journal has equivalent observation, watch and memory controls.
 
 Add `owner/repository` under **Repositories** (native) or **Watched repositories**
 (browser). Names normalize to lowercase. Set a 30–86400 second interval; the first
-automatic check follows that interval after worker registration. Once registered,
+automatic check uses a bounded staggered phase after worker registration. Once registered,
 the native target selector or browser **Observe now** can request an immediate
-observation. At most 20 repositories can be retained as non-removed watches.
+observation. At most 256 repositories can be retained as non-removed watches.
+The [fleet monitoring guide](github-monitoring.md) describes owner discovery,
+health observations and the detached local supervisor.
 
 Pause prevents future dispatch. Remove also hides the active watch in the browser
 and retains its configuration tombstone, run evidence and memory. Restore reuses
@@ -37,8 +39,9 @@ A lost native write response triggers record reconciliation, not another write.
 
 Only fixed-origin GitHub GETs are used. Public repositories require no token.
 Private access must already be bound to the exact repository through a
-`token_file` in operator-owned `STARBASE_FIELD_TARGETS_FILE`; ambiguous bindings
-fail. The UI accepts no credential, arbitrary URL, shell command or model prompt.
+`token_file` in operator-owned `STARBASE_FIELD_TARGETS_FILE`, or to its explicitly
+configured discovery owner through `STARBASE_GITHUB_DISCOVERY_FILE`; ambiguous
+bindings fail. The UI accepts no credential, arbitrary URL, shell command or model prompt.
 These watches never request inference or publish GitHub reviews.
 
 Each observation lists up to 11 open PR identities and reviews at most the 10 most

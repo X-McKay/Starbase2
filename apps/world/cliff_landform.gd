@@ -1,6 +1,7 @@
 extends Node3D
 const Art = preload("res://art.gd")
 const Geography = preload("res://geography.gd")
+const CAP_HEIGHT := -0.035
 const SEA_STACKS := [Vector3(-36,-19,47),Vector3(-15,-22,56),Vector3(17,-20,49),Vector3(42,-18,38)]
 var reduced_motion := false
 var water_time := 0.0
@@ -58,7 +59,7 @@ func _ready() -> void:
 	var outline := PackedVector2Array(Geography.OUTLINE)
 	var cap_vertices := PackedVector3Array()
 	for index in Geometry2D.triangulate_polygon(outline):
-		cap_vertices.append(Vector3(outline[index].x,-0.035,outline[index].y))
+		cap_vertices.append(Vector3(outline[index].x,CAP_HEIGHT,outline[index].y))
 	var ground_material := ShaderMaterial.new()
 	ground_material.shader=preload("res://terrain.gdshader")
 	ground_material.set_shader_parameter("stone",preload("res://assets/environment/sandstone/sandstone-v1.png"))

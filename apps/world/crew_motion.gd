@@ -23,6 +23,9 @@ var dwell:=0.0
 var seed_value:=0
 var seated:=false
 var stand_remaining:=0.0
+var work_seated:=false
+var at_work_seat:=false
+var standing_from_work:=false
 
 func configure(member:CharacterBody3D,nav:RefCounted,room_station:Node3D,point:Vector3) -> void:
 	actor=member; navigator=nav; station=room_station; workstation=point
@@ -56,7 +59,9 @@ func choose_home() -> Vector3:
 	return actor.position if not anchors.is_empty() else rest
 
 func route_to(target:Vector3) -> void:
-	if seated and actor.position.distance_to(target)>=0.3:
+	if at_work_seat and actor.position.distance_to(target)>=0.3:
+		standing_from_work=true
+	elif seated and actor.position.distance_to(target)>=0.3:
 		stand_remaining=1.0; seated=false
 	destination=target; stalled=0; previous=actor.position
 	path=navigator.route(actor.position,destination)
@@ -71,11 +76,17 @@ func project(next:Dictionary) -> void:
 	if goal=="hold":
 		path.clear(); destination=Vector3(INF,0,0); route_blocked=false
 		actor.motion=Vector3.ZERO; actor.presentation_pose=""; ambient_activity=""
-		stand_remaining=0; seated=false
+		if not at_work_seat:
+			stand_remaining=0; seated=false
+		else:
+			actor.presentation_pose="stand" if standing_from_work else "sit"
 		return
 	if goal=="workstation":
 		release_anchor()
-		if destination!=workstation: route_to(workstation)
+		if at_work_seat and not standing_from_work and actor.position.distance_to(workstation)<.025:
+			# Reconnection resumes the same occupied seat, not a rounded-grid detour.
+			destination=workstation; path.clear(); route_blocked=false
+		elif destination!=workstation: route_to(workstation)
 	elif old_goal!="home" or not is_finite(destination.x):
 		var target:Vector3=anchor.position if not anchor.is_empty() else choose_home()
 		route_to(target)
@@ -86,14 +97,29 @@ func advance(delta:float) -> void:
 		if is_instance_valid(room) and room.contains(actor.position) and room.cutaway>=0.999:
 			actor.visible=false; break
 	actor.motion=Vector3.ZERO; actor.presentation_pose=""; ambient_activity=""; ambient_facing=Vector3(INF,0,0)
-	if intent.get("goal","hold")=="hold": return
+	# Physical departure waits for the body to stand; operational intent never waits.
+	if standing_from_work:
+		actor.presentation_pose="stand"
+		var visual=actor.model_visual
+		if visual!=null and visual.social_pose=="stand" and visual.social_transition_finished:
+			standing_from_work=false; at_work_seat=false; seated=false
+		previous=actor.position
+		return
+	if intent.get("goal","hold")=="hold":
+		if at_work_seat: actor.presentation_pose="sit"
+		return
 	if stand_remaining>0:
 		actor.presentation_pose="stand"
 		stand_remaining=maxf(0,stand_remaining-delta)
 		previous=actor.position
 		return
 	if not path.is_empty():
-		while not path.is_empty() and actor.position.distance_to(path[0])<0.12: path.remove_at(0)
+		while not path.is_empty():
+			# Hands use actual furniture contacts: physically finish the final approach
+			# more precisely than the ordinary travel waypoint tolerance.
+			var tolerance:=0.015 if path.size()==1 and intent.get("goal")=="workstation" else 0.12
+			if actor.position.distance_to(path[0])>=tolerance: break
+			path.remove_at(0)
 		if not path.is_empty():
 			var movement:Vector3=path[0]-actor.position; movement.y=0
 			actor.motion=movement.normalized()*minf(1.3,movement.length()/maxf(delta,0.001))
@@ -101,10 +127,15 @@ func advance(delta:float) -> void:
 			if stalled>2.0:
 				path.clear(); actor.motion=Vector3.ZERO; route_blocked=true
 	previous=actor.position
-	if route_blocked or not actor.motion.is_zero_approx(): return
+	if route_blocked or not actor.motion.is_zero_approx():
+		if at_work_seat and actor.motion.is_zero_approx(): actor.presentation_pose="sit"
+		return
 	if actor.position.distance_to(destination)>=0.3: return
 	if intent.get("goal")=="workstation":
-		actor.presentation_pose=str(intent.get("pose",""))
+		if actor.position.distance_to(workstation)<0.025:
+			if work_seated:
+				at_work_seat=true; seated=true; actor.presentation_pose="sit"
+			else: actor.presentation_pose=str(intent.get("pose",""))
 	elif not anchor.is_empty():
 		ambient_activity=str(anchor.get("pose","relax"))
 		actor.presentation_pose=ambient_activity

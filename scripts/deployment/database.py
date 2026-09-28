@@ -120,10 +120,12 @@ GRANT USAGE ON SCHEMA public TO {db}_app;
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO {db}_app;
 GRANT INSERT ON missions,evidence,builds_v2,tasks_v2,events_v2,duties_v2,
 runtime_v2,repair_builds,repairs,credits,qualifications TO {db}_app;
-GRANT UPDATE ON missions,tasks_v2,duties_v2,runtime_v2,repairs,
-field_runs,field_duties,agent_memory,repository_watches TO {db}_app;
-GRANT INSERT ON field_builds,field_runs,field_duties,agent_memory,memory_reviews,
-repository_watches TO {db}_app;
+GRANT UPDATE ON learning_control,learning_cycles,joint_missions,missions,tasks_v2,
+duties_v2,runtime_v2,repairs,field_runs,field_duties,agent_memory,
+sdlc_discoveries,sdlc_policy,sdlc_missions,repository_discovery,repository_watches TO {db}_app;
+GRANT INSERT ON learning_control,learning_cycles,joint_builds,joint_missions,
+field_builds,field_runs,field_duties,agent_memory,memory_reviews,
+sdlc_discoveries,sdlc_policy,sdlc_missions,repository_discovery,repository_watches TO {db}_app;
 GRANT USAGE,SELECT ON ALL SEQUENCES IN SCHEMA public TO {db}_app;
 REVOKE ALL ON schema_version FROM {db}_app;
 GRANT SELECT ON schema_version TO {db}_app;

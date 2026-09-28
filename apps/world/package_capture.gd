@@ -73,6 +73,13 @@ func run(tree:SceneTree,scene:Node,directory:String) -> void:
 			for tick in range(90): await tree.physics_frame
 			await capture(tree,"command-workspace",actor)
 			scene.hud.board.tabs.current_tab=4
+			# Tab visibility, container layout and the rendered tab bar settle on
+			# deferred frames. A same-frame image can retain the previous tab.
+			for tick in range(3): await tree.process_frame
+			RenderingServer.force_draw(false)
+			var duty_page:Control=scene.hud.board.tabs.get_current_tab_control()
+			check(scene.hud.board.tabs.current_tab==4 and scene.hud.board.tabs.get_tab_title(4)=="Duties","Native duty capture selected wrong tab")
+			check(duty_page!=null and duty_page.is_visible_in_tree() and duty_page.size.y>0,"Native duty capture page not laid out")
 			await capture(tree,"field-duty-editor",actor)
 			scene.hud.board.tabs.current_tab=0
 			var original_size:Vector2i=tree.root.size
@@ -117,10 +124,24 @@ func run(tree:SceneTree,scene:Node,directory:String) -> void:
 	await capture(tree,"inhabited-water-reduced",actor)
 	scene.hud.reduced=false
 	scene.apply_settings()
+	# Physical regolith crossing in the exported app; no debug stamps or imported
+	# screenshots. The same terrain contact rules govern ordinary play.
+	await walk(tree,scene,Vector3(8,0,-15),null)
+	var prints_before:int=scene.footprints.emitted
+	await walk(tree,scene,Vector3(13.5,0,-15),null)
+	check(scene.footprints.emitted>prints_before,"Packaged soil crossing produced no grounded impressions")
+	for tick in range(6):await tree.physics_frame
+	await capture(tree,"soil-trail-gameplay",actor)
+	var previous_zoom:float=scene.zoom
+	scene.zoom=9.0
+	for tick in range(45):await tree.physics_frame
+	await capture(tree,"soil-trail-close",actor)
+	scene.zoom=previous_zoom
 	scene.colony_overview=true
 	for tick in range(90): await tree.physics_frame
 	await capture(tree,"living-colony",actor)
 	await capture_operations(tree,scene,actor)
+	await capture_environment_contacts(tree,scene)
 	check(scene.commands.payload.is_empty(),"Native review dispatched work")
 	check(scene.hud.operations.commands.payload.is_empty(),"Native operations review dispatched work")
 	check(frames.size()>=4,"Missing physical motion samples")
@@ -163,7 +184,7 @@ func capture_operations(tree:SceneTree,scene:Node,actor:Node3D) -> void:
 	# follows its actual position without teleporting it beside the operator.
 	scene.watch_crew("review")
 	for tick in range(120): await tree.physics_frame
-	check(scene.watched_crew=="review" and scene.get_node("Surveyor").label.visible,"Explicit watch shows the assigned crew's current status")
+	check(scene.watched_crew=="review" and not scene.get_node("Surveyor").label.visible and scene.hud.prompt.text.contains(str(scene.crew_motions.review.intent.get("label","Unknown"))),"Explicit watch shows current status in its structured caption without covering the model")
 	await capture(tree,"operations-task-markers",actor)
 	scene.stop_watching()
 	scene.adjust_zoom(1)
@@ -200,3 +221,50 @@ func capture_operations(tree:SceneTree,scene:Node,actor:Node3D) -> void:
 	scene.hud.open_connection()
 	for tick in range(12): await tree.process_frame
 	await capture(tree,"operations-heartbeat",actor)
+
+func capture_environment_contacts(tree:SceneTree,scene:Node) -> void:
+	# Explicit local fixture staging; every final approach then uses real physics.
+	scene.hud.close_panels();scene.stop_watching();scene.colony_overview=false
+	scene.hud.reduced=false;scene.apply_settings()
+	var seen:float=maxf(Time.get_unix_time_from_system(),float(scene.snapshot.get("observed_at",0))+1)+600
+	var data:Dictionary={"schema_version":2,"observed_at":seen,"worker":{"available":true,"seen_at":seen},"active":[],"recent":[],"repairs":[],"field_runs":[]}
+	for kind in ["review","evaluation"]:
+		data.active.append({"input":{"request":{"id":"fixture-contact-"+kind,"kind":kind}},"state":"running","updated_at":seen})
+	data.repairs.append({"input":{"id":"fixture-contact-repair","scenario":"clamp-v1"},"state":"running","updated_at":seen})
+	for kind in ["watchkeeper","reviewer"]:
+		data.field_runs.append({"input":{"id":"fixture-contact-"+kind,"agent":kind},"state":"running","updated_at":seen})
+	for kind in scene.crew_motions:
+		var motion=scene.crew_motions[kind];var station=scene.interaction_stations[kind]
+		var staged_start:Vector3=motion.workstation-station.global_basis.z*.55
+		if motion.work_seated:
+			staged_start=motion.workstation+station.get_parent().global_basis.x*(-.55 if kind=="watchkeeper" else .55)
+		check(scene.navigator.clear_start_segment(Vector2(staged_start.x,staged_start.z),Vector2(motion.workstation.x,motion.workstation.z)),"Packaged fixture approach must clear furniture: "+kind)
+		motion.actor.global_position=staged_start
+		motion.actor.motion=Vector3.ZERO;motion.actor.last_position=motion.actor.global_position
+		motion.path.clear();motion.destination=Vector3(INF,0,0);motion.seated=false;motion.stand_remaining=0
+		motion.at_work_seat=false;motion.standing_from_work=false;motion.actor.seating_station=null
+	scene.receive_snapshot(data)
+	for tick in range(240):await tree.physics_frame
+	for kind in scene.crew_motions:
+		var motion=scene.crew_motions[kind];var actor=motion.actor
+		check(motion.path.is_empty() and not motion.route_blocked and actor.position.distance_to(motion.workstation)<.025,"Packaged contact approach failed: "+kind)
+		scene.watch_crew(kind)
+		for tick in range(60):await tree.physics_frame
+		var contacted:Dictionary={}
+		for tick in range(600):
+			await tree.physics_frame
+			var driver=actor.model_visual.environment_interaction
+			for key in ["left_key","right_key"]:
+				if float(driver.contact_weights.get(key,0))>.05: contacted[key]=true
+			if contacted.size()==2: break
+		check(contacted.size()==2,"Packaged crew did not contact both keyboard surfaces: "+kind)
+		check(actor.interaction_station==scene.interaction_stations[kind],"Packaged crew binds wrong station: "+kind)
+		if motion.work_seated:
+			check(actor.presentation_pose=="sit" and actor.model_visual.social_transition_finished,"Packaged bridge crew must work seated: "+kind)
+		await capture(tree,"environment-contact-"+kind,actor)
+	scene.hud.reduced=true;scene.apply_settings()
+	for tick in range(3):await tree.physics_frame
+	for kind in scene.crew_motions:
+		var driver=scene.crew_motions[kind].actor.model_visual.environment_interaction
+		check(driver.state=="neutral" and driver.contact_weights.is_empty(),"Packaged reduced contact must stop: "+kind)
+	await capture(tree,"environment-contact-reduced",scene.get_node("Reviewer"))

@@ -12,6 +12,7 @@ from temporalio.exceptions import ApplicationError
 from . import field_sources, memory
 from .inference import configuration
 from .operations import request
+from .repository_discovery import configuration as discovery_configuration
 from .review import digest, manifest
 
 PROMPT = """Review the supplied masked changed Python source or structured cluster observations.
@@ -38,6 +39,7 @@ def targets(watches: list | None = None) -> dict:
         if target["id"] in result:
             raise ValueError("Duplicate field target")
         result[target["id"]] = target
+    discovery = discovery_configuration()
     for watch in watches or []:
         config = watch["config"]
         target = {
@@ -54,6 +56,8 @@ def targets(watches: list | None = None) -> dict:
             if t.get("repository", "").lower() == config["repository"] and t.get("token_file")
         ]
         paths = {t["token_file"] for t in matching}
+        if discovery and config["repository"].split("/")[0].lower() == discovery["owner"]:
+            paths.add(discovery["token_file"])
         if len(paths) > 1:
             raise ValueError("Ambiguous repository credential binding")
         if paths:
@@ -65,6 +69,9 @@ def targets(watches: list | None = None) -> dict:
 
 def builds(watches: list | None = None) -> dict:
     result = {}
+    sources = {p.name: digest(p.read_text()) for p in Path(__file__).parent.glob("*.py")}
+    lock = digest((ROOT / "uv.lock").read_text())
+    analyzer = manifest("surveyor-v2")
     for target in targets(watches).values():
         body = {
             "agent": target["agent"],
@@ -75,9 +82,9 @@ def builds(watches: list | None = None) -> dict:
             "prompt": PROMPT,
             "inference": configuration()
             | {"prompt": PROMPT, "max_tokens": 1200, "max_requests": 1},
-            "analyzer": manifest("surveyor-v2"),
-            "sources": {p.name: digest(p.read_text()) for p in Path(__file__).parent.glob("*.py")},
-            "lock": digest((ROOT / "uv.lock").read_text()),
+            "analyzer": analyzer,
+            "sources": sources,
+            "lock": lock,
             "fixture": digest(
                 (ROOT / "fixtures/field" / (target.get("fixture", "cluster") + ".json")).read_text()
             ),

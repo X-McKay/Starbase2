@@ -9,6 +9,8 @@ var fixture:=""
 var snapshot:Dictionary={}
 var offline:=true
 var commands:Node
+var joint:VBoxContainer
+var learning:VBoxContainer
 var history:VBoxContainer
 var heading:Label
 var notice:Label
@@ -141,6 +143,16 @@ func _ready() -> void:
 	history=preload("res://run_history.gd").new(); history.size_flags_vertical=Control.SIZE_EXPAND_FILL; history_page.add_child(history)
 	history.configure(api,fixture)
 	history.cancel_requested.connect(cancel_run)
+	joint=preload("res://joint_operations.gd").new()
+	joint.name="Joint operations";joint.api=api;joint.fixture=fixture
+	tabs.add_child(joint)
+	joint.configure(api,fixture)
+	learning=preload("res://learning_panel.gd").new();learning.name="Practice";learning.api=api;learning.fixture=fixture
+	tabs.add_child(learning);learning.configure(api,fixture)
+	tabs.tab_changed.connect(func(index:int):
+		briefing_toggle.visible=index<4
+		if index>=4:briefing_scroll.hide()
+		refresh_briefing())
 	# Keep transient command feedback below the workspace so it can never move a
 	# form control after a submission. The slot is always in the layout; the
 	# label remains hidden until there is a message to show.
@@ -191,7 +203,7 @@ func update_snapshot(data:Dictionary,disconnected:bool,blocked:bool=false) -> vo
 	refresh_briefing(); refresh_controls(); render_duties()
 
 func unresolved() -> bool:
-	return commands.phase!="" or commands.uncertain
+	return commands.phase!="" or commands.uncertain or (joint!=null and joint.unresolved()) or (learning!=null and learning.unresolved())
 
 func allowed(capability:String) -> bool:
 	return not offline and fixture.is_empty() and not other_pending and commands.phase.is_empty() and Status.enabled(snapshot,capability)
@@ -315,11 +327,11 @@ func refresh_briefing() -> void:
 		if run.get("state")=="completed" and run.get("evidence")!=null: completed+=1
 		if run.get("state")=="failed": failed+=1
 	var since:="recent retained window" if prior_visit==0 else "since "+Time.get_datetime_string_from_unix_time(int(prior_visit)).replace("T"," ")+" UTC"
-	var record_label:=str(projected.size())+" "+("record" if projected.size()==1 else "records")+" (all work)"
+	var record_label:=str(projected.size())+" "+("record" if projected.size()==1 else "records")+" (operations snapshot)"
 	heading.tooltip_text="Snapshot observed "+Time.get_datetime_string_from_unix_time(int(snapshot.get("observed_at",0)))+" UTC" if snapshot.get("observed_at",0)>0 else "Snapshot time unavailable"
 	heading.text="WORK · "+("FIXTURE" if not fixture.is_empty() else "LAST KNOWN" if offline else "CONNECTED")
 	briefing_toggle.text=("Hide" if briefing_scroll.visible else "Show")+" briefing · %d open · %s"%[active,record_label]
-	briefing.text=("FIXTURE · " if not fixture.is_empty() else "LAST KNOWN · " if offline else "CORE OBSERVED · ")+"%d open · %d completed with evidence · %d failed · %d unknown\n%s; %d all retained work records (%d review/comparison · %d observations · %d repairs). Review History shows review/comparison records; repository watches and memory review are in Command."%[active,completed,failed,unknown,since,projected.size(),review_records,observations,repairs]
+	briefing.text=("FIXTURE · " if not fixture.is_empty() else "LAST KNOWN · " if offline else "CORE OBSERVED · ")+"%d open · %d completed with evidence · %d failed · %d unknown\n%s; %d all retained work records in this operations snapshot (%d review/comparison · %d observations · %d repairs). Review History shows review/comparison records; repository watches and memory review are in Command. Joint operations has a separate mission snapshot."%[active,completed,failed,unknown,since,projected.size(),review_records,observations,repairs]
 
 func configure(endpoint:String,visual_fixture:String="") -> bool:
 	if unresolved() or not Commands.allowed_origin(endpoint): return false
@@ -327,5 +339,7 @@ func configure(endpoint:String,visual_fixture:String="") -> bool:
 	snapshot={}; offline=true; duty_signature=""; prior_visit=0
 	notice.text=""; notice.hide()
 	history.configure(endpoint,visual_fixture)
+	joint.configure(endpoint,visual_fixture)
+	learning.configure(endpoint,visual_fixture)
 	update_snapshot({},true)
 	return true

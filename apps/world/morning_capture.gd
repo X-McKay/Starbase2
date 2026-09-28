@@ -105,16 +105,25 @@ func run(host: SceneTree, world: Node3D, directory: String, _mode: String = "mor
 		if step in [8, 24, 40]: await picture("02-standing-%02d"%step)
 	check(samples.any(func(value):return str(value.clip) == "social/stand_up"), "Assignment visibly interrupts seating with stand-up")
 	var departed: Vector3 = chosen.actor.position
-	while chosen.actor.presentation_pose != "console":
+	while not chosen.at_work_seat or not chosen.actor.model_visual.social_transition_finished:
 		if not await tick(): finish("morning"); return
 		if chosen.route_blocked: check(false, "Physical morning workstation route blocked"); finish("morning"); return
 	check(chosen.actor.position.distance_to(departed)>2, "Assigned crew physically traverses colony")
-	check(chosen.actor.position.distance_to(chosen.workstation)<0.3, "Work gesture requires actual workstation arrival")
-	for step in range(120):
+	check(chosen.actor.position.distance_to(chosen.workstation)<0.025, "Work gesture requires precise physical workstation arrival")
+	var contact_keys:Dictionary={}
+	for step in range(240):
 		if not await tick(): finish("morning"); return
+		for key in ["left_key","right_key"]:
+			if float(chosen.actor.model_visual.environment_interaction.contact_weights.get(key,0))>0.05: contact_keys[key]=true
 	sample("working", chosen); await picture("03-workstation")
 	var slate = chosen.actor.model_visual.get("work_slate")
-	if slate != null: check(slate.visible, "Station work uses the real held slate")
+	var station_bound:bool=chosen.actor.interaction_station==scene.interaction_stations.reviewer
+	check(station_bound and contact_keys.size()==2, "Station work physically contacts both keyboard surfaces")
+	check(slate!=null and not slate.visible, "Station work suppresses incompatible held equipment")
+	samples[-1]["station_bound"]=station_bound
+	samples[-1]["contact_keys"]=contact_keys.keys()
+	samples[-1]["interaction_state"]=chosen.actor.model_visual.environment_interaction.state
+	samples[-1]["held_slate_visible"]=slate.visible if slate!=null else true
 	# The isolated job remains running for a complete observation minute. This is
 	# staged timing, not a measured real-backend work duration or productivity claim.
 	while Time.get_ticks_msec()-started < 62000:
@@ -144,7 +153,7 @@ func run(host: SceneTree, world: Node3D, directory: String, _mode: String = "mor
 	check(not scene.hud.is_open() and not scene.morning_director.enabled, "Escape closes native panels and observation")
 	# Explicit watch follows the actual returning actor without another operator visit.
 	scene.watch_crew("reviewer")
-	while chosen.actor.model_visual.clip != "social/seated":
+	while chosen.at_work_seat or chosen.actor.model_visual.clip != "social/seated":
 		if not await tick(): finish("morning"); return
 		if chosen.route_blocked: check(false, "Physical morning home route blocked"); finish("morning"); return
 	for step in range(120):

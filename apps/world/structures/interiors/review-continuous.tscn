@@ -7,11 +7,11 @@ size = Vector3(3.5000,1.6000,2.5000)
 [sub_resource type="BoxShape3D" id="Shape1"]
 size = Vector3(3.7000,2.6000,1.2000)
 [sub_resource type="BoxShape3D" id="Shape2"]
-size = Vector3(0.7000,1.5000,0.7200)
+size = Vector3(1.0000,1.3400,0.7000)
 [sub_resource type="BoxShape3D" id="Shape3"]
 size = Vector3(3.7000,2.6000,1.2000)
 [sub_resource type="BoxShape3D" id="Shape4"]
-size = Vector3(0.7000,1.5000,0.7200)
+size = Vector3(1.0000,1.3400,0.7000)
 [sub_resource type="BoxShape3D" id="Shape5"]
 size = Vector3(0.8000,2.3000,0.7800)
 [sub_resource type="BoxShape3D" id="Shape6"]
@@ -45,7 +45,7 @@ position = Vector3(-3.2000,1.3000,-9.0500)
 [node name="Collision" type="CollisionShape3D" parent="Prop1"]
 shape = SubResource("Shape1")
 [node name="Prop2" type="StaticBody3D" parent="."]
-position = Vector3(-3.2000,0.7500,-7.6000)
+position = Vector3(-3.2000,0.6700,-7.2200)
 [node name="Collision" type="CollisionShape3D" parent="Prop2"]
 shape = SubResource("Shape2")
 [node name="Prop3" type="StaticBody3D" parent="."]
@@ -53,7 +53,7 @@ position = Vector3(3.2000,1.3000,-9.0500)
 [node name="Collision" type="CollisionShape3D" parent="Prop3"]
 shape = SubResource("Shape3")
 [node name="Prop4" type="StaticBody3D" parent="."]
-position = Vector3(3.2000,0.7500,-7.6000)
+position = Vector3(3.2000,0.6700,-7.2200)
 [node name="Collision" type="CollisionShape3D" parent="Prop4"]
 shape = SubResource("Shape4")
 [node name="Prop5" type="StaticBody3D" parent="."]

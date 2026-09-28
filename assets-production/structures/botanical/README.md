@@ -100,3 +100,16 @@ this pass has no new Meshy charges. Command's representative physical/native
 slice passed before expansion; four-room visual review and corrected world/repository checks passed. Fresh
 standalone export passed in `20260907-final-03`; the first attempt correctly failed source
 hash binding after an intentional test edit. Engineering, characters and operational identities are preserved.
+
+## Dimensional foliage pass
+
+The authored cultivation-bed and potting-bench leaves now use closed, curved,
+cupped geometry from `assets-production/scripts/dimensional_foliage.py`, replacing
+open four-triangle blades. Current selected authored export totals 88,924 triangles;
+exact source/runtime/helper hashes are in provenance. Existing architecture,
+physical bounds and generated hydroponic equipment remain unchanged. The rack's
+generated foliage and opaque exterior foliage glazing remain separate art assets;
+this pass does not imply their replacement. This offline change uses zero paid
+calls. [Native evidence](../../../docs/dimensional-vegetation.md) documents the
+explicit inspection cutaway and focused checks; fresh package validation belongs
+to the parent integration run.

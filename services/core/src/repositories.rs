@@ -5,6 +5,8 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 
+pub(crate) const WATCH_CAPACITY: usize = 256;
+
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 #[serde(deny_unknown_fields)]
 pub struct RepositoryWatch {
@@ -16,7 +18,8 @@ pub struct RepositoryWatch {
 }
 impl Store {
     pub fn repositories(&self) -> Result<Vec<Value>> {
-        self.db
+        let mut watches: Vec<Value> = self
+            .db
             .prepare("SELECT body FROM repository_watches ORDER BY id")
             .map_err(|e| e.to_string())?
             .query_map(params![], |r| r.get::<_, String>(0))
@@ -24,7 +27,23 @@ impl Store {
             .map(|r| {
                 serde_json::from_str(&r.map_err(|e| e.to_string())?).map_err(|e| e.to_string())
             })
-            .collect()
+            .collect::<Result<_>>()?;
+        let latest: std::collections::HashMap<String, Value> = self.db.prepare(self.db.dialect(
+            "SELECT target,body FROM (SELECT body,json_extract(body,'$.input.target') AS target,ROW_NUMBER() OVER (PARTITION BY json_extract(body,'$.input.target') ORDER BY at DESC,id DESC) AS rank FROM field_runs) AS latest WHERE rank=1 AND target IN (SELECT id FROM repository_watches)",
+            "SELECT target,body FROM (SELECT body,body::jsonb->'input'->>'target' AS target,ROW_NUMBER() OVER (PARTITION BY body::jsonb->'input'->>'target' ORDER BY at DESC,id DESC) AS rank FROM field_runs) AS latest WHERE rank=1 AND target IN (SELECT id FROM repository_watches)",
+        )).map_err(|e| e.to_string())?.query_map(params![], |r| Ok((r.get::<_,String>(0)?,r.get::<_,String>(1)?)))
+            .map_err(|e| e.to_string())?.map(|r| {
+                let (target, body) = r.map_err(|e| e.to_string())?;
+                let run: Value = serde_json::from_str(&body).map_err(|e| e.to_string())?;
+                Ok((target, crate::field::summarize_run(&run)))
+            }).collect::<Result<_>>()?;
+        for watch in &mut watches {
+            watch["latest_run"] = latest
+                .get(watch["id"].as_str().unwrap())
+                .cloned()
+                .unwrap_or(Value::Null);
+        }
+        Ok(watches)
     }
     pub fn set_repository(&self, input: &RepositoryWatch) -> Result<Value> {
         let repo = input.repository.trim().to_ascii_lowercase();
@@ -69,18 +88,147 @@ impl Store {
                 .iter()
                 .filter(|r| r["config"]["removed"] != true)
                 .count()
-                >= 20
+                >= WATCH_CAPACITY
         {
-            return Err("Watch budget reached (20 repositories)".into());
+            return Err(format!(
+                "Watch budget reached ({WATCH_CAPACITY} repositories)"
+            ));
         }
-        let value = json!({"id":id,"config":config,"updated_at":now()});
+        let mut value = json!({"id":id,"config":config,"updated_at":now()});
         self.db.execute("INSERT INTO repository_watches VALUES ($1,$2) ON CONFLICT(id) DO UPDATE SET body=excluded.body",params![id,value.to_string()]).map_err(|e|e.to_string())?;
+        value["latest_run"] = old.map_or(Value::Null, |r| r["latest_run"].clone());
         Ok(value)
     }
 }
 #[cfg(test)]
 mod tests {
     use super::*;
+    fn watch(store: &Store, number: usize) -> Value {
+        store
+            .set_repository(&RepositoryWatch {
+                repository: format!("fixture/repository-{number}"),
+                interval_seconds: 300,
+                enabled: true,
+                removed: false,
+                generation: 0,
+            })
+            .unwrap()
+    }
+    fn register(store: &Store, watch: &Value) {
+        let manifest = json!({"agent":"reviewer","target":{"id":watch["id"],"kind":"github_repository","repository":watch["config"]["repository"],"allow_inference":false},"authority":"read-only"});
+        store
+            .field_build(&json!({"manifest":manifest,"digest":hash(&manifest)}))
+            .unwrap();
+    }
+    #[test]
+    fn capacity_and_snapshot_preserve_every_watched_target() {
+        let store = crate::test_store();
+        for n in 0..WATCH_CAPACITY {
+            let w = watch(&store, n);
+            register(&store, &w);
+        }
+        assert_eq!(
+            store.field_snapshot().unwrap()["builds"]
+                .as_array()
+                .unwrap()
+                .len(),
+            WATCH_CAPACITY
+        );
+        assert!(
+            store
+                .set_repository(&RepositoryWatch {
+                    repository: "fixture/overflow".into(),
+                    interval_seconds: 300,
+                    enabled: false,
+                    removed: false,
+                    generation: 0,
+                })
+                .unwrap_err()
+                .contains("256")
+        );
+    }
+    #[test]
+    fn fleet_admission_is_fair_bounded_and_keeps_per_watch_history() {
+        let mut store = crate::test_store();
+        let mut watches: Vec<_> = (0..41)
+            .map(|n| {
+                let w = watch(&store, n);
+                register(&store, &w);
+                w
+            })
+            .collect();
+        watches.sort_by_key(|w| w["id"].as_str().unwrap().to_owned());
+        // A late-sorting timer cannot repeatedly steal a never-observed target's slot.
+        assert_eq!(
+            store
+                .field_tick(watches[40]["id"].as_str().unwrap(), 0, 1)
+                .unwrap()["outcome"],
+            "deferred"
+        );
+        let mut admitted = Vec::new();
+        for w in &watches[..20] {
+            admitted.push(store.field_tick(w["id"].as_str().unwrap(), 0, 1).unwrap());
+        }
+        assert_eq!(
+            admitted.iter().filter(|r| r["state"] == "queued").count(),
+            20
+        );
+        assert_eq!(
+            store
+                .field_tick(watches[20]["id"].as_str().unwrap(), 0, 1)
+                .unwrap()["reason"],
+            "active_run_budget"
+        );
+        for r in &admitted {
+            store
+                .field_update(r["input"]["id"].as_str().unwrap(), "failed", json!({}))
+                .unwrap();
+        }
+        for w in &watches[20..40] {
+            let run = store.field_tick(w["id"].as_str().unwrap(), 0, 2).unwrap();
+            assert_eq!(run["state"], "queued");
+            store
+                .field_update(run["input"]["id"].as_str().unwrap(), "failed", json!({}))
+                .unwrap();
+        }
+        assert_eq!(
+            store
+                .field_tick(watches[40]["id"].as_str().unwrap(), 0, 3)
+                .unwrap()["state"],
+            "queued"
+        );
+        // Newer runs can evict an old observation from global history, not its watch.
+        let hot = watches[20]["id"].as_str().unwrap();
+        for n in 0..125 {
+            let run = store
+                .create_field(&crate::field::FieldInput {
+                    id: format!("recent-{n}"),
+                    agent: "reviewer".into(),
+                    target: hot.into(),
+                    inference: false,
+                })
+                .unwrap();
+            store
+                .field_update(run["input"]["id"].as_str().unwrap(), "failed", json!({}))
+                .unwrap();
+        }
+        let snapshot = store.field_snapshot().unwrap();
+        assert!(
+            !snapshot["runs"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .any(|r| r["input"]["target"] == watches[0]["id"])
+        );
+        let old = store
+            .repositories()
+            .unwrap()
+            .into_iter()
+            .find(|w| w["id"] == watches[0]["id"])
+            .unwrap();
+        assert_eq!(old["latest_run"]["state"], "failed");
+        assert!(old["latest_run"].get("snapshot").is_none());
+    }
     #[test]
     fn watch_normalizes_fences_stale_edits_and_retains_removal() {
         let mut s = crate::test_store();

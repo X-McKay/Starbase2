@@ -154,6 +154,12 @@ func _response(result: int, code: int, headers: PackedStringArray, body: PackedB
 						accepted.emit(run_id)
 						feedback.emit("Record found · inspect current revision before another change.",false)
 						return
+			if path.begins_with("/v7/missions/") and path.ends_with("/cancel"):
+				if record is Dictionary and str(record.get("id",record.get("input",{}).get("id","")))==run_id and (record.get("cancel_requested",false) or record.get("state") in ["cancel_requested","cancelled","failed","blocked","submitted","awaiting_review","completed"]):
+					uncertain=false; accepted.emit(run_id)
+					feedback.emit("Stop reconciled · inspect the retained state and any already-started effects.",false)
+				else: feedback.emit("Stop outcome unknown · the mission still appears active. Reconcile again before another request.",false)
+				return
 			if record is Dictionary and record.get("input",{}).get("request",record.get("input",{})).get("id") == run_id:
 				uncertain = false
 				accepted.emit(run_id)

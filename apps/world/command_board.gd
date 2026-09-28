@@ -41,6 +41,9 @@ var watch_input: LineEdit
 var interval: SpinBox
 var watch_save: Button
 var runs: VBoxContainer
+var watch_search: LineEdit
+var watch_filter: OptionButton
+var fleet_summary: Label
 var watches: VBoxContainer
 var memories: VBoxContainer
 var memory_status: Label
@@ -49,6 +52,7 @@ var tabs: TabContainer
 var guidance: ScrollContainer
 var guidance_toggle: Button
 var timer := Timer.new()
+var sdlc_missions: VBoxContainer
 signal closed
 
 func label(parent: Node, value: String, size: int = 16) -> Label:
@@ -151,15 +155,26 @@ func _ready() -> void:
 	runs=VBoxContainer.new(); runs.add_theme_constant_override("separation",10); operations.add_child(runs)
 	var repository_page := page("Repositories")
 	label(repository_page,"Watched GitHub repositories",21)
-	label(repository_page,"Checks up to 10 recently updated open PRs, with changed-Python analysis. Pausing or removing prevents future dispatch; stop active observations separately.",14)
+	label(repository_page,"Read-only repository observations, with bounded provider coverage and changed-Python analysis. Pausing or removing prevents future dispatch; stop active observations separately.",14)
+	var watch_editor:=VBoxContainer.new()
+	button(repository_page,"Add repository watch",func(): watch_editor.visible=not watch_editor.visible)
+	repository_page.add_child(watch_editor); watch_editor.hide()
 	watch_input=LineEdit.new(); watch_input.placeholder_text="owner/repository"; watch_input.max_length=201
-	form_field(repository_page,"Repository",watch_input)
+	form_field(watch_editor,"Repository",watch_input)
 	interval=SpinBox.new(); interval.min_value=30; interval.max_value=86400; interval.value=300; Commands.track_integer_spinbox(interval)
-	form_field(repository_page,"Interval · seconds",interval)
-	watch_save=button(repository_page,"Watch repository",save_watch,true)
+	form_field(watch_editor,"Interval · seconds",interval)
+	watch_save=button(watch_editor,"Watch repository",save_watch,true)
 	ConsoleTheme.primary(watch_save)
 	repository_page.add_child(HSeparator.new())
 	label(repository_page,"REPOSITORY WATCHES",18)
+	fleet_summary=label(repository_page,"No repository snapshot loaded",16)
+	watch_search=LineEdit.new(); watch_search.placeholder_text="Find repository…"; watch_search.custom_minimum_size.y=40
+	repository_page.add_child(watch_search)
+	watch_filter=OptionButton.new(); watch_filter.custom_minimum_size.y=40
+	for filter_title in ["All watches","Needs attention","Fresh source","No source record","Paused / removed"]: watch_filter.add_item(filter_title)
+	repository_page.add_child(watch_filter)
+	watch_search.text_changed.connect(func(_value:String): render_watches(); controls())
+	watch_filter.item_selected.connect(func(_index:int): render_watches(); controls())
 	watches=VBoxContainer.new(); repository_page.add_child(watches)
 	var memory_page := page("Memory")
 	label(memory_page,"Reviewed observations",21)
@@ -186,6 +201,10 @@ func _ready() -> void:
 	button(duties_page,"New duty",new_field_duty)
 	duties_page.add_child(HSeparator.new()); label(duties_page,"RETAINED FIELD DUTIES",18)
 	duty_records=VBoxContainer.new(); duties_page.add_child(duty_records)
+	var sdlc_page:=page("SDLC missions")
+	sdlc_missions=preload("res://sdlc_missions.gd").new()
+	sdlc_missions.api=api; sdlc_missions.large_text=large_text; sdlc_missions.fixture=not fixture.is_empty(); sdlc_page.add_child(sdlc_missions)
+	tabs.tab_changed.connect(func(index:int): connection.visible=index!=5)
 	# Feedback is below the workspace so accepting or rejecting a command cannot
 	# move the form under the user's pointer or keyboard focus.
 	notice=label(col,"",16); notice.hide()
@@ -234,6 +253,9 @@ func set_installation(value: Dictionary, offline: bool) -> void:
 
 func set_api(value: String) -> void:
 	if pending or (commands != null and (commands.uncertain or not commands.phase.is_empty())): return
+	if sdlc_missions.commands.uncertain or not sdlc_missions.commands.phase.is_empty(): return
+	sdlc_missions.fixture=false
+	sdlc_missions.set_api(value)
 	get_http.cancel_request(); detail_http.cancel_request()
 	api=value; commands.api=value
 	fixture=""; fixture_details.clear(); snapshot.clear(); selected=""; signature=""
@@ -271,9 +293,9 @@ static func source_time(run: Dictionary) -> float:
 
 static func watch_status(watch: Dictionary, records: Array, now: float) -> Dictionary:
 	var config: Dictionary=watch.config
-	var latest: Dictionary={}
-	var observed := 0.0
-	var busy := false
+	var latest: Dictionary=watch.get("latest_run",{}) if watch.get("latest_run") is Dictionary else {}
+	var observed := source_time(latest)
+	var busy := active_run(latest) if not latest.is_empty() else false
 	for run in records:
 		if run.get("input",{}).get("target")!=watch.id: continue
 		busy=busy or active_run(run)
@@ -282,7 +304,10 @@ static func watch_status(watch: Dictionary, records: Array, now: float) -> Dicti
 	var overdue: bool=not config.removed and config.enabled and observed>0 and now-observed>float(config.interval_seconds)*2+480
 	var schedule: String="Removed" if config.removed else "Paused" if not config.enabled else "Busy · active observation" if busy else "Awaiting durable timer tick"
 	var stamp: String="Source observation time unavailable" if observed<=0 else "Source observed "+Time.get_datetime_string_from_unix_time(int(observed))+" UTC"
-	return {"latest":latest,"overdue":overdue,"text":("OVERDUE · " if overdue else "")+schedule+" · every "+str(int(config.interval_seconds))+"s · "+stamp}
+	var state: String="removed" if config.removed else "paused" if not config.enabled else "active" if busy else "failed" if latest.get("state")=="failed" else "stale" if overdue else "missing" if observed<=0 else "fresh"
+	var summary: Dictionary=latest.get("summary",{}) if latest.get("summary") is Dictionary else {}
+	var finding_count:=maxi(0,int(summary.get("finding_count",0)))
+	return {"finding_count":finding_count,"latest":latest,"overdue":overdue,"state":state,"observed_at":observed,"text":("OVERDUE · " if overdue else "")+schedule+" · every "+str(int(config.interval_seconds))+"s · "+stamp}
 
 static func briefing_text(data: Dictionary, now: float) -> String:
 	var active:=0; var failed:=0; var completed:=0; var paused:=0; var overdue:=0
@@ -309,6 +334,7 @@ func received(result: int, code: int, _headers: PackedStringArray, body: PackedB
 	else:
 		connection.text="OFFLINE · retained results are last-known; commands unavailable"
 		signature=""
+		render_watches()
 	controls()
 
 func controls() -> void:
@@ -398,18 +424,7 @@ func render() -> void:
 		if run.state not in ["completed","failed","cancelled"]:
 			button(row,"Stop observation",func(): commands.submit("/v4/runs/"+str(run.input.id)+"/cancel",{},str(run.input.id)),true)
 	if runs.get_child_count()==0: label(runs,"No observations recorded. No activity inferred.")
-	for watch in snapshot.get("repositories",[]):
-		focus_context=str(watch.id)
-		var c: Dictionary=watch.config
-		watches.add_child(HSeparator.new())
-		label(watches,str(c.repository)+" · "+("REMOVED" if c.removed else "WATCH ENABLED" if c.enabled else "PAUSED"),18)
-		var status:=watch_status(watch,snapshot.get("runs",[]),Time.get_unix_time_from_system())
-		var latest: Dictionary=status.latest
-		label(watches,status.text,14)
-		var row := HFlowContainer.new(); watches.add_child(row)
-		button(row,"Restore" if c.removed else "Pause" if c.enabled else "Resume",func(): edit_watch(c,not c.enabled,false),true)
-		if not c.removed: button(row,"Remove",func(): edit_watch(c,false,true),true)
-		if not latest.is_empty(): button(row,"Latest findings",func(): inspect(str(latest.input.id)))
+	render_watches()
 	for duty in snapshot.get("duties",[]):
 		if str(duty.id).begins_with("repo-"): continue
 		var target: Dictionary={}
@@ -424,7 +439,6 @@ func render() -> void:
 		var toggle:=button(duty_actions,"Pause duty" if duty.enabled else "Resume duty",func(): edit_duty(duty,not duty.enabled),true)
 		if not duty.enabled: toggle.set_meta("field_resume",true)
 		button(duty_actions,"Edit duty",func(): load_field_duty(duty))
-	if watches.get_child_count()==0: label(watches,"No repositories watched. Add one above.")
 	for m in snapshot.get("memory",[]).slice(0,100):
 		focus_context=str(m.id)
 		memories.add_child(HSeparator.new())
@@ -440,6 +454,51 @@ func render() -> void:
 	if not focus_key.is_empty():
 		for b in find_children("*","Button",true,false):
 			if b.get_meta("focus_key","")==focus_key: b.grab_focus(); break
+
+func render_watches() -> void:
+	clear(watches)
+	var records: Array=snapshot.get("repositories",[]).duplicate()
+	records.sort_custom(func(a:Dictionary,b:Dictionary): return str(a.config.repository).to_lower()<str(b.config.repository).to_lower())
+	var counts: Dictionary={"fresh":0,"stale":0,"failed":0,"missing":0,"active":0,"paused":0,"removed":0}
+	var shown:=0
+	var with_findings:=0
+	for watch in records:
+		var status:=watch_status(watch,snapshot.get("runs",[]),Time.get_unix_time_from_system())
+		counts[status.state]+=1
+		if status.finding_count>0: with_findings+=1
+		var c: Dictionary=watch.config
+		var query:=watch_search.text.strip_edges().to_lower()
+		if not query.is_empty() and not str(c.repository).to_lower().contains(query): continue
+		if watch_filter.selected==1 and status.state not in ["failed","stale","missing"] and status.finding_count==0: continue
+		if watch_filter.selected==2 and status.state!="fresh": continue
+		if watch_filter.selected==3 and status.observed_at>0: continue
+		if watch_filter.selected==4 and status.state not in ["paused","removed"]: continue
+		shown+=1
+		focus_context=str(watch.id)
+		watches.add_child(HSeparator.new())
+		label(watches,str(c.repository)+" · "+str(status.state).to_upper().replace("MISSING","NO SOURCE RECORD").replace("FRESH","FRESH SOURCE"),18)
+		label(watches,status.text,14)
+		var latest: Dictionary=status.latest
+		if not latest.is_empty():
+			label(watches,"Latest attempt · "+str(latest.get("state","unknown")).to_upper()+" · "+str(latest.get("detail","No detail retained")),14)
+			if latest.get("summary") is Dictionary and latest.summary.has("finding_count"):
+				label(watches,str(status.finding_count)+" retained advisory findings · latest attempt",14)
+		var row:=HFlowContainer.new(); watches.add_child(row)
+		var toggle:=button(row,"Restore" if c.removed else "Pause" if c.enabled else "Resume",func(): edit_watch(c,not c.enabled,false),true)
+		if c.removed or not c.enabled: toggle.set_meta("field_resume",true)
+		if not c.removed: button(row,"Remove",func(): edit_watch(c,false,true),true)
+		if c.enabled and not c.removed:
+			var observe:=button(row,"Observe now",func(): observe_watch(str(watch.id)),true)
+			observe.set_meta("field_resume",true)
+		if not latest.is_empty(): button(row,"Latest findings",func(): inspect(str(latest.input.id)))
+	fleet_summary.text=("LAST KNOWN · " if not online and fixture.is_empty() else "")+"%d watches · %d shown · %d repositories with findings\n%d fresh source · %d active · %d stale · %d failed · %d no source · %d paused · %d removed\nFreshness is source recency, not repository health. Coverage is bounded; inspect findings for exclusions."%[records.size(),shown,with_findings,counts.fresh,counts.active,counts.stale,counts.failed,counts.missing,counts.paused,counts.removed]
+	if shown==0: label(watches,"No repositories watched. Add one above." if records.is_empty() else "No watches match these filters.")
+
+func observe_watch(target_id:String) -> void:
+	if not online or pending or not fixture.is_empty() or installation_offline or not ConnectionStatus.enabled(installation_snapshot,"field") or not snapshot.get("enabled",false) or not watch_enabled(target_id): return
+	if commands.uncertain: return
+	var id:=Crypto.new().generate_random_bytes(16).hex_encode()
+	commands.submit("/v4/runs",{"id":id,"agent":"reviewer","target":target_id,"inference":false},id)
 
 func watch_enabled(id: String) -> bool:
 	for w in snapshot.get("repositories",[]):
@@ -496,6 +555,16 @@ func show_detail(run: Dictionary) -> void:
 	var source: Dictionary=run.get("snapshot",{}) if run.get("snapshot") is Dictionary else {}
 	label(detail,("NO SOURCE CAPTURED · " if source.is_empty() else "SYNTHETIC · " if source.get("data",{}).get("simulation",false) else "RETAINED SOURCE · ")+(Time.get_datetime_string_from_unix_time(int(source_time(run)))+" UTC" if source_time(run)>0 else "capture time unavailable"),14)
 	var report: Dictionary=run.report if run.get("report") is Dictionary else {}
+	var health: Dictionary=source.get("data",{}).get("health",{}) if source.get("data",{}).get("health") is Dictionary else {}
+	if not health.is_empty():
+		label(detail,"REPOSITORY COVERAGE",18)
+		metadata(detail,"Default branch",str(health.get("default_branch","unknown")))
+		metadata(detail,"Captured head",str(health.get("head","unknown")) if health.get("head")!=null else "Unknown · not captured")
+		metadata(detail,"Open issues",str(health.get("issues",[]).size())+" captured · "+("complete provider list" if health.get("issues_complete",false) else "bounded / incomplete"))
+		metadata(detail,"CI runs",str(health.get("ci",[]).size())+" captured · "+("complete provider list" if health.get("ci_complete",false) else "bounded / incomplete"))
+		for ci in health.get("ci",[]):
+			label(detail,"CI · "+str(ci.get("status","unknown"))+" · "+str(ci.get("conclusion","unknown"))+" · head "+str(ci.get("head_sha","unknown")),14)
+		label(detail,"Captured provider metadata is not repository certification. No captured CI runs does not mean passing checks; see coverage exclusions below.",14)
 	label(detail,"FINDINGS",18)
 	if report.get("findings",[]).is_empty(): label(detail,"No findings recorded. Coverage and source remain below.")
 	for f in report.get("findings",[]):
