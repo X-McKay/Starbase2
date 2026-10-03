@@ -377,7 +377,7 @@ records, not a new mission or authority state.
 The crew's decorative field slate follows bounded actual wrist rotation around
 its grip axis and uses muted ceramic and darker glass. Calibration resets on
 pose exit, travel and reduced motion. The measured change is subtle, about
-0.59–1.06 degrees on selected rigs; richer authored task and handoff gestures
+0.59–1.06 degrees on selected rigs; carried tools and shared-screen briefings
 remain future work. [Native before/after evidence](../evidence/world/crew-slate-20260927/README.md)
 records the isolated review and its limits. Neither equipment animation nor
 station inspection dispatches work or claims operational success.
@@ -400,3 +400,14 @@ floors. They are bounded cosmetic feedback, not retained activity records.
 Reduced motion suppresses the effect. The same quality pass reviews moving-camera
 shadows, dimensional foliage and interior sightlines; native evidence and owner
 art acceptance remain separate.
+
+## Cinematic crew presentation · 2026-09-28
+
+[Cinematic crew presentation](cinematic-crew-presentation.md) adds three smooth
+Observe compositions, acceleration-aware class movement, deterministic role work
+vocabularies, and a physical two-crew SDLC handoff in the Commons. Command crew
+sit before working at their large displays; hands target actual furniture and a
+shared transfer token. Retained history, stale state and reduced motion cannot
+replay the exchange. These animations never dispatch work or certify an outcome.
+Native capture corrected an initial wall-occluded shot; owner visual acceptance
+and packaged-build qualification remain open.

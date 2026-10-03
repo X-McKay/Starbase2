@@ -36,9 +36,11 @@ func run() -> void:
 	check(not world.hud.crew_strip.rows.visible,"Observation collapses large roster")
 	world._physics_process(1.0/60.0)
 	var selected_actor:Node3D=world.get_node(world.MEMBERS[world.watched_crew])
+	var observation_target:Vector3=world.morning_director.composition(selected_actor,null,false).focus
+	var observation_distance:float=world.camera_focus.distance_to(observation_target)
 	world._process(1.0/60.0)
-	check(world.camera_focus.distance_to(selected_actor.position)<5.0,"Observation cuts to its subject without sweeping across unrelated terrain")
-	check(not world.observation_camera_cut,"Shot cut is consumed after one rendered update")
+	var eased_distance:float=world.camera_focus.distance_to(observation_target)
+	check(eased_distance<observation_distance and eased_distance>observation_distance*.8,"Observation begins a bounded continuous ease toward its subject")
 	key(world,KEY_V)
 	check(not world.morning_director.enabled and not world.hud.observing,"Second V restores ordinary controls")
 	key(world,KEY_V); key(world,KEY_ESCAPE)

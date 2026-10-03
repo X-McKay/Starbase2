@@ -12,10 +12,11 @@ and locomotion. Hand targets are world transforms, so the pose follows the actua
 furniture rather than an unrelated animation loop.
 
 Shared actions are settling into reach, alternating key presses, reading the
-screen, a brief screen/control gesture, and withdrawing. Role variations are
-presentation mannerisms: Rivet adjusts a control, Moss scans and gestures across
-a schematic, Mae compares screen sections with a quicker typing cadence, Wes
-scans with a tactile control gesture, and Prism uses a deliberate screen gesture.
+screen, comparing, scanning, inspecting, annotating, demonstrating, pointing,
+control work, and withdrawing. Role variations are deterministic presentation
+mannerisms: Rivet adjusts and inspects controls, Moss compares and annotates,
+Mae demonstrates with a quicker cadence, Wes scans and controls, and Prism
+compares and annotates deliberately.
 These do not describe actual reasoning stages, tool calls, or successful work.
 Screens contain static diagrams, not invented telemetry or progress percentages.
 
@@ -53,7 +54,9 @@ adjustments then bring the body into the cushion. Departure withdraws hands for
 The two chairs retain their full collision bounds and collision-safe approaches.
 
 Detailed contracts: [animation and skin calibration](workstation-animation.md)
-and [furniture and contact frames](workstation-affordances.md).
+and [furniture and contact frames](workstation-affordances.md). The
+[cinematic presentation contract](cinematic-crew-presentation.md) covers Observe
+camera behavior, class movement vocabularies and recorded crew handoffs.
 
 ## Review and completion
 
@@ -76,7 +79,7 @@ native interruption evidence before it is enabled:
 | Action | Purpose and completion condition |
 | --- | --- |
 | Tool rack selection and replacement | Rivet picks up a specific attached tool, uses a reachable service panel, and returns it without prop popping or obstructing cancellation. |
-| Shared screen briefing | Two reserved crew positions support gaze and pointing at one display without overlap; ambient conversation stays distinct from recorded coordination. |
+| Shared screen briefing | Two reserved crew positions support gaze and pointing at one display without overlap; ambient conversation stays distinct from the implemented recorded token exchange. |
 | Simulator controls | Mae manipulates separate controls with visible response tied to contact, while evaluation outcomes remain authoritative records. |
 | Inspection walk | Wes inspects existing physical stations along safe reserved stops; visits do not invent incidents or observations. |
 | Desk annotation | Moss and Prism use a supported slate or writing surface with explicit hand/prop ownership and interruption-safe replacement. |

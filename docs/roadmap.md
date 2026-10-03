@@ -61,6 +61,14 @@ a continuous drop, depth scenery and rear wall. Navigation and physical movement
 share the shelf boundary; lower-canyon traversal remains unimplemented.
 No building introduces a service, and cosmetic progression grants no authority.
 
+The [cinematic crew pass](cinematic-crew-presentation.md) locally implements
+smooth Observe compositions, class movement response, richer seated/standing
+workstation choreography and a bounded physical SDLC handoff. It preserves exact
+record and command boundaries. The next character gate is owner review in normal
+play, followed by independently skinned fingers, supported carried tools and a
+two-person shared-screen briefing; each requires native interruption and contact
+evidence before rollout.
+
 The [geology and paths pass](world-geology.md) adds painted rock detail, irregular
 cliff masses, localized ground erosion and connected curved walking corridors.
 Native overview/walking/overlook evidence and corridor safety checks are retained.

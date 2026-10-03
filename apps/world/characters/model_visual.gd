@@ -47,6 +47,8 @@ var seating_prepare_elapsed:=0.0
 var seat_departure_progress:=1.0
 const SEAT_DEPARTURE_PREP:=.60
 var interaction_station:Node3D
+var exchange_partner:Node3D
+var exchange_role:=""
 var environment_interaction=preload("res://characters/environment_interaction.gd").new()
 var work_attention=preload("res://characters/work_attention.gd").new()
 var slate_choreography:RefCounted
@@ -66,6 +68,16 @@ const MOTION_PROFILES:={
 	"trainer":Vector3(1.35,1.10,1.15),
 	"watchkeeper":Vector3(0.85,0.80,0.70),
 	"reviewer":Vector3(1.10,0.95,0.80)}
+const MOTION_VOCABULARY:={
+	"operator":{"start":.24,"stop":.30,"lean":1.0,"cadence":1.0},
+	"mender":{"start":.34,"stop":.40,"lean":1.22,"cadence":.90},
+	"surveyor":{"start":.28,"stop":.34,"lean":.82,"cadence":.96},
+	"trainer":{"start":.18,"stop":.24,"lean":1.18,"cadence":1.08},
+	"watchkeeper":{"start":.36,"stop":.44,"lean":.68,"cadence":.88},
+	"reviewer":{"start":.22,"stop":.28,"lean":.78,"cadence":1.04}}
+var locomotion_energy:=0.0
+var previous_speed:=0.0
+var was_moving:=false
 
 func set_work_treatment(treatment:String) -> void:
 	# Local art-direction choice; never changes assignment, movement or authority.
@@ -168,9 +180,13 @@ func _attach_scene_library(library_name: String, source: PackedScene, clips: Arr
 func project(displacement: Vector3, moving: bool, phase: float, reduced: bool, delta: float = 1.0/60.0, pose: String = "", facing_heading: float = INF) -> void:
 	var previous_heading := rotation.y
 	var motion_style:Vector3=MOTION_PROFILES[motion_profile]
+	var vocabulary:Dictionary=MOTION_VOCABULARY[motion_profile]
 	var valid_step:=delta>0.0 and delta<=0.25 and displacement.is_finite() and displacement.length()<=0.5
 	var actual_moving:=moving and valid_step and Vector2(displacement.x,displacement.z).length()>0.0001
 	var speed:=displacement.length()/maxf(delta,0.001) if actual_moving else 0.0
+	var energy_target:=clampf(speed/6.0,0.0,1.0) if actual_moving else 0.0
+	var energy_rate:=8.0 if energy_target>locomotion_energy else 5.0
+	locomotion_energy=energy_target if reduced else lerpf(locomotion_energy,energy_target,1.0-exp(-delta*energy_rate))
 	if actual_moving:
 		heading=atan2(displacement.x,displacement.z)
 	if not actual_moving and is_finite(facing_heading): heading=facing_heading
@@ -231,14 +247,17 @@ func project(displacement: Vector3, moving: bool, phase: float, reduced: bool, d
 			next="social/seated" if seat_departure_progress>=1 else "social/sit_down"
 			social_time=0.0 if seat_departure_progress>=1 else seat_departure_progress*animation.get_animation(next).length
 			social_transition_finished=false
-	if not reduced: idle_time+=delta
+	if not reduced: idle_time+=delta*float(vocabulary.cadence)
 	if clip != next:
 		start_rotations.clear()
 		start_positions.clear()
 		for i in skeleton.get_bone_count():
 			start_rotations.append(skeleton.get_bone_pose_rotation(i))
 			start_positions.append(skeleton.get_bone_pose_position(i))
-		transition_duration=float(WORK_TREATMENTS[work_treatment].entry) if next=="work/field_slate" else 0.18
+		if next=="work/field_slate":transition_duration=float(WORK_TREATMENTS[work_treatment].entry)
+		elif next in ["walk","run"] and not was_moving:transition_duration=float(vocabulary.start)
+		elif next=="idle" and was_moving:transition_duration=float(vocabulary.stop)
+		else:transition_duration=.18
 		transition=transition_duration
 		work_elapsed=0.0
 		clip = next
@@ -271,8 +290,9 @@ func project(displacement: Vector3, moving: bool, phase: float, reduced: bool, d
 			skeleton.set_bone_pose_rotation(spine,spine_pose*Quaternion(Vector3.RIGHT,sin(idle_time*(1.65+motion_style.y*0.15))*0.012*motion_style.y))
 	# Lean affects only the upper spine, never root height, hips or planted feet.
 	# Social/contact poses use their exact authored channels without this overlay.
-	var target_lean:=Vector2(clampf(speed*0.004,0,0.026),clampf(-turn_velocity*0.006,-0.035,0.035)) if actual_moving and not reduced and pose not in ["sit","stand"] else Vector2.ZERO
-	target_lean*=motion_style.z
+	var acceleration:float=(speed-previous_speed)/maxf(delta,.001) if valid_step else 0.0
+	var target_lean:=Vector2(clampf(speed*0.004+acceleration*.00035,-.012,.034),clampf(-turn_velocity*0.006,-0.035,0.035)) if actual_moving and not reduced and pose not in ["sit","stand"] else Vector2.ZERO
+	target_lean*=motion_style.z*float(vocabulary.lean)
 	locomotion_lean=locomotion_lean.lerp(target_lean,1.0-exp(-maxf(delta,0.0)*12.0)) if not reduced else Vector2.ZERO
 	if pose in ["sit","stand"]: locomotion_lean=Vector2.ZERO
 	if spine_bone>=0 and not reduced and locomotion_lean.length_squared()>0.0000001:
@@ -293,6 +313,9 @@ func project(displacement: Vector3, moving: bool, phase: float, reduced: bool, d
 		var delta_rotation:Quaternion=secondary_bones[bone].step(displacement if actual_moving else Vector3.ZERO,turn,delta,reduced or not valid_step,phase)
 		skeleton.set_bone_pose_rotation(bone,secondary_rest_rotations[bone]*delta_rotation)
 	_apply_ground_contact(pose)
+	previous_speed=speed
+	was_moving=actual_moving
+	if reduced:locomotion_energy=0.0;previous_speed=0.0;was_moving=false
 	if station_work or environment_interaction.blend>0:
 		if slate_choreography!=null:slate_choreography.project(false,true,delta,work_treatment)
 		work_slate.visible=false
@@ -302,7 +325,8 @@ func project(displacement: Vector3, moving: bool, phase: float, reduced: bool, d
 		work_slate.project(skeleton,not moving and not reduced and pose=="console" and clip=="work/field_slate" and transition<=0)
 
 	var tray_ready:bool=not is_instance_valid(seating_station) or not seating_station.has_method("seated_ready") or seating_station.seated_ready()
-	environment_interaction.project(interaction_station,station_work and (pose!="sit" or (social_transition_finished and tray_ready)),reduced,delta)
+	if pose=="handoff":environment_interaction.project_exchange(exchange_partner,exchange_role,reduced,delta)
+	else:environment_interaction.project(interaction_station,station_work and (pose!="sit" or (social_transition_finished and tray_ready)),reduced,delta)
 
 func apply_role(color: Color) -> void:
 	work_slate.apply_role(color)

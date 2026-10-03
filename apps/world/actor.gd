@@ -11,6 +11,8 @@ var presentation_pose := ""
 var presentation_facing := Vector3(INF,0,0)
 var interaction_station:Node3D
 var seating_station:Node3D
+var presentation_partner:Node3D
+var presentation_exchange_role:=""
 signal foot_contact
 @export var character_definition: Resource
 var gait := Gait.new()
@@ -92,6 +94,8 @@ func replace_character_definition(definition:Resource) -> void:
 		model_visual.rotation.y=heading
 		model_visual.interaction_station=interaction_station
 		model_visual.seating_station=seating_station
+		model_visual.exchange_partner=presentation_partner
+		model_visual.exchange_role=presentation_exchange_role
 		model_visual.heading=previous_visual.heading if is_instance_valid(previous_visual) else heading
 		var face_delta:=presentation_facing-global_position
 		var face_heading:=atan2(face_delta.x,face_delta.z) if is_finite(presentation_facing.x) else INF
@@ -123,6 +127,8 @@ func _physics_process(_delta: float) -> void:
 		model_visual.support_sample=support_sample
 		model_visual.interaction_station=interaction_station
 		model_visual.seating_station=seating_station
+		model_visual.exchange_partner=presentation_partner
+		model_visual.exchange_role=presentation_exchange_role
 		model_visual.project(traveled,gait.moving,gait.phase,reduced_motion,_delta,presentation_pose,face_heading)
 	if contact_shadow!=null and support_sample.is_valid():
 		var shadow_point:=global_position

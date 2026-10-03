@@ -87,6 +87,10 @@ func project(next:Dictionary) -> void:
 			# Reconnection resumes the same occupied seat, not a rounded-grid detour.
 			destination=workstation; path.clear(); route_blocked=false
 		elif destination!=workstation: route_to(workstation)
+	elif goal=="handoff":
+		release_anchor()
+		var target:Vector3=intent.get("target",actor.position)
+		if destination!=target:route_to(target)
 	elif old_goal!="home" or not is_finite(destination.x):
 		var target:Vector3=anchor.position if not anchor.is_empty() else choose_home()
 		route_to(target)
@@ -136,6 +140,9 @@ func advance(delta:float) -> void:
 			if work_seated:
 				at_work_seat=true; seated=true; actor.presentation_pose="sit"
 			else: actor.presentation_pose=str(intent.get("pose",""))
+	elif intent.get("goal")=="handoff":
+		actor.presentation_pose="handoff"
+		ambient_facing=intent.get("facing",Vector3(INF,0,0))
 	elif not anchor.is_empty():
 		ambient_activity=str(anchor.get("pose","relax"))
 		actor.presentation_pose=ambient_activity

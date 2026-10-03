@@ -13,11 +13,12 @@ var interaction_stations:Dictionary={}
 var home_reservations:Dictionary={}
 var watched_crew := ""
 var morning_director:=preload("res://morning_director.gd").new()
+var crew_handoff:=preload("res://crew_handoff.gd").new()
+var handoff_token:MeshInstance3D
 var morning_atmosphere:Node3D
 var daybook:Node3D
 var station_signals:Node3D
 var briefing_camera_cut := false
-var observation_camera_cut := false
 var life_ui_timer := 0.0
 var connection_message:="Waiting for the Core snapshot"
 var poll_timer:Timer
@@ -164,12 +165,21 @@ func update_crew_presentation() -> void:
 	hud.sdlc_assignments.clear()
 	var sdlc=hud.board.sdlc_missions
 	var fresh:bool=sdlc.online and Time.get_ticks_msec()-sdlc.received_at_msec<15000 and not disconnected and bool(snapshot.get("worker",{}).get("available",false))
+	var intents:Dictionary={}
 	for kind in crew_presentations:
 		var intent:Dictionary=crew_presentations[kind].update(missions,kind,disconnected,hud.reduced,float(snapshot.get("observed_at",0)),duty_state_for(kind))
 		intent=preload("res://sdlc_crew.gd").project(sdlc.snapshot,kind,fresh,hud.reduced,intent)
 		if intent.has("sdlc_mission_id"): hud.sdlc_assignments[kind]=intent.sdlc_mission_id
+		intents[kind]=intent
+	crew_handoff.observe(sdlc.snapshot,fresh,hud.reduced)
+	for kind in intents:
+		var intent:Dictionary=crew_handoff.override(kind,intents[kind],hud.reduced)
 		crew_motions[kind].project(intent)
-		get_node(MEMBERS[kind]).project_assignment(intent,hud.large_text)
+		var actor:Node3D=get_node(MEMBERS[kind])
+		var partner_kind:=str(intent.get("exchange_partner",""))
+		actor.presentation_partner=get_node(MEMBERS[partner_kind]) if MEMBERS.has(partner_kind) else null
+		actor.presentation_exchange_role=str(intent.get("exchange_role",""))
+		actor.project_assignment(intent,hud.large_text)
 		if hud.crew_strip!=null: hud.crew_strip.project(kind,intent)
 
 func watch_crew(kind:String) -> void:
@@ -376,6 +386,8 @@ func _ready() -> void:
 	add_child(footprints)
 	footprints.watch($Operator)
 	for pair in crew_pairs():footprints.watch(pair[1])
+	handoff_token=Art.box(self,Vector3.ZERO,Vector3(.22,.035,.14),"55dcea","",true)
+	handoff_token.name="RecordedHandoffToken";handoff_token.hide()
 	hud = HUD.new()
 	hud.compact = compact
 	hud.api=api; hud.board_fixture=board_fixture
@@ -888,9 +900,8 @@ func _physics_process(_delta: float) -> void:
 		var chosen:String=morning_director.advance(_delta,intents,hud.reduced)
 		if not chosen.is_empty():
 			watched_crew=chosen; hud.crew_strip.set_watching(chosen)
-			observation_camera_cut=true
-			# A new shot reveals its subject immediately; ordinary walking still eases
-			# through room transitions. No actor, door or backend state is changed.
+			# The subject changes immediately, while the camera eases into its authored
+			# composition. No actor, door or backend state is changed.
 			for station in $Structures.get_children():
 				if station.contains(get_node(MEMBERS[chosen]).position):
 					station.cutaway=0.0; station.room.visible=true
@@ -933,6 +944,16 @@ func _physics_process(_delta: float) -> void:
 		if crew_motions.has(pair[0]):
 			crew_motions[pair[0]].advance(_delta)
 			project_environment_interaction(pair[0])
+	if crew_handoff.active():
+		var giver_kind:=str(crew_handoff.current.giver);var receiver_kind:=str(crew_handoff.current.receiver)
+		var giver_motion=crew_motions[giver_kind];var receiver_motion=crew_motions[receiver_kind]
+		var arrived:bool=giver_motion.path.is_empty() and receiver_motion.path.is_empty() and not giver_motion.route_blocked and not receiver_motion.route_blocked and giver_motion.actor.position.distance_to(giver_motion.destination)<.12 and receiver_motion.actor.position.distance_to(receiver_motion.destination)<.12
+		handoff_token.visible=arrived and not hud.reduced
+		if handoff_token.visible:
+			handoff_token.global_position=(giver_motion.actor.global_position+receiver_motion.actor.global_position)*.5+Vector3(0,1.12,0)
+			handoff_token.rotation.y+=_delta*.55
+		if crew_handoff.advance(_delta,arrived,hud.reduced):update_crew_presentation()
+	else:handoff_token.hide()
 	near_door=""
 	if active_room != null:
 		if MEMBERS.has(room_kind) and $Operator.position.distance_to(active_room.global_position+active_room.console_point)<1.5: nearest=room_kind
@@ -1024,13 +1045,21 @@ func _process(delta: float) -> void:
 	if not watched_crew.is_empty():
 		desired=subject+Vector3(0,0.85,0)
 		desired_size=8.8 if view_room!=null else 10.0
+	if morning_director.enabled and MEMBERS.has(watched_crew) and not hud.is_open():
+		var actor:Node3D=get_node(MEMBERS[watched_crew])
+		var station:Node3D=interaction_stations.get(watched_crew) if crew_motions[watched_crew].intent.get("goal")=="workstation" else null
+		var composition:Dictionary=morning_director.composition(actor,station,view_room!=null)
+		desired=composition.focus
+		desired_offset=composition.offset
+		desired_size=float(composition.size)
 	desired_size*=zoom_factor
 	if hud.briefing!=null and hud.briefing.visible and daybook!=null:
 		var reading_right:=Vector3.UP.cross(desired_offset).normalized()
 		desired=daybook.global_position+Vector3(1,0.4,0)-reading_right*3.5
 		desired_size=13.0*zoom_factor
-	var blend := 1.0 if hud.reduced or briefing_camera_cut or observation_camera_cut else 1-exp(-delta*4)
-	briefing_camera_cut=false; observation_camera_cut=false
+	var camera_rate:=2.8 if morning_director.enabled else 4.0
+	var blend := 1.0 if hud.reduced or briefing_camera_cut else 1-exp(-delta*camera_rate)
+	briefing_camera_cut=false
 	camera_focus=camera_focus.lerp(desired,blend)
 	camera_offset=camera_offset.lerp(desired_offset,blend)
 	camera.position=camera_focus+camera_offset

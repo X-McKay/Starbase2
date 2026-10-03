@@ -19,6 +19,25 @@ var unreachable_targets:Array=[]
 var prior_station:Node3D
 var returning:=false
 var enabled:=true
+var action:="neutral"
+const SEQUENCES:={
+ "operator":[["type",1.5],["read",1.4],["point",1.0],["type",1.4],["compare",1.2]],
+ "mender":[["type",1.8],["inspect",1.2],["control",1.1],["type",1.5],["read",1.4]],
+ "surveyor":[["type",1.6],["compare",1.4],["annotate",1.1],["read",1.8],["type",1.2]],
+ "trainer":[["type",1.2],["demonstrate",1.2],["type",1.2],["scan",1.2],["point",1.0]],
+ "watchkeeper":[["scan",1.8],["type",1.2],["control",1.0],["read",2.2],["type",1.0]],
+ "reviewer":[["type",1.5],["compare",1.3],["control",1.1],["annotate",1.4],["type",1.3],["read",1.5]]}
+
+func sequence_sample(style:String,time:float) -> Dictionary:
+ var sequence:Array=SEQUENCES.get(style,SEQUENCES.operator)
+ var total:=0.0
+ for item in sequence:total+=float(item[1])
+ var cursor:=fposmod(maxf(0,time),total)
+ for item in sequence:
+  var duration:=float(item[1])
+  if cursor<duration:return {"action":str(item[0]),"progress":cursor/duration,"duration":duration,"total":total}
+  cursor-=duration
+ return {"action":"read","progress":0.0,"duration":1.0,"total":total}
 
 func configure(visual:Node3D,identity:String) -> void:
  owner=visual;skeleton=owner.skeleton;character_id=identity
@@ -82,7 +101,7 @@ func project(station:Node3D,active:bool,reduced:bool,delta:float) -> void:
  if not enabled:
   if is_instance_valid(prior_station) and prior_station.has_method("present_contacts"):prior_station.present_contacts({})
   if is_instance_valid(station) and station.has_method("present_contacts"):station.present_contacts({})
-  return
+  action="neutral";return
  var valid:=enabled and is_instance_valid(station) and station.has_method("contacts")
  var targets:Dictionary=station.contacts() if valid else {}
  for key in ["left_key","right_key","screen","control"]:
@@ -91,42 +110,47 @@ func project(station:Node3D,active:bool,reduced:bool,delta:float) -> void:
  if active:active=absf(angle_difference(owner.global_rotation.y,station.global_rotation.y))<.12
  if is_instance_valid(prior_station) and prior_station!=station and prior_station.has_method("present_contacts"):prior_station.present_contacts({})
  if reduced or not enabled:
-  state="neutral";elapsed=0;blend=0;last_rotations.clear();returning=false
+  state="neutral";action="neutral";elapsed=0;blend=0;last_rotations.clear();returning=false
  elif not active:
   elapsed=0
   if not last_rotations.is_empty() and blend>0:
    var return_duration:=.32 if is_instance_valid(owner.seating_station) else .18
-   state="return";blend=maxf(0,blend-delta/return_duration);returning=true
+   state="return";action="return";blend=maxf(0,blend-delta/return_duration);returning=true
    for name in last_rotations:
     var index:=skeleton.find_bone(name)
     skeleton.set_bone_pose_rotation(index,skeleton.get_bone_pose_rotation(index).slerp(last_rotations[name],_ease(blend)))
-  else:state="neutral";returning=false;last_rotations.clear()
+  else:state="neutral";action="neutral";returning=false;last_rotations.clear()
  else:
   if elapsed==0 or returning:
    entry_hands.clear()
    for side in ["Left","Right"]:entry_hands[side]=last_hands.get(side,owner.global_transform.affine_inverse()*bone(side+"Hand"))
    if returning:blend=0;returning=false
   elapsed+=delta;blend=minf(1,blend+delta/.46)
-  var cycle:=fposmod(maxf(0,elapsed-.46),8.4)
-  state="prepare" if blend<1 else "type" if cycle<3.2 else "read" if cycle<5.0 else "gesture" if cycle<6.5 else "read"
   var style:String=owner.motion_profile
+  var sample:=sequence_sample(style,maxf(0,elapsed-.46))
+  action="prepare" if blend<1 else str(sample.action)
+  state="prepare" if blend<1 else "type" if action=="type" else "gesture" if action in ["point","control","demonstrate","annotate"] else "read"
+  var progress:float=float(sample.progress)
   var contacts:Dictionary={"Left":"left_key","Right":"right_key"}
-  var gesture:=_ease((cycle-5.0)/.38)*(1-_ease((cycle-6.12)/.38)) if state=="gesture" else 0.0
+  var gesture_edge:=.40 if style=="reviewer" else .28
+  var gesture:=_ease(progress/gesture_edge)*(1-_ease((progress-(1.0-gesture_edge))/gesture_edge)) if state=="gesture" or action=="compare" else 0.0
   var screen:Transform3D=targets.screen
-  var glance:=sin(cycle*1.2)*.055 if style in ["surveyor","trainer","watchkeeper"] else .015
+  var glance:=(sin(progress*PI)*.075 if action in ["compare","scan"] else .025) if style in ["surveyor","trainer","watchkeeper","reviewer"] else .015
   for side in ["Left","Right"]:
    var key:String=contacts[side];var touch:Transform3D=targets[key]
    # Palms hover between restrained alternating presses; no repeated arm flailing.
-   var tap:=fposmod(cycle*(2.6 if style=="trainer" else 2.0)+(0.5 if side=="Right" else 0.0),1.0)
-   var type_blend:=smoothstep(0,.18,cycle)*(1-smoothstep(3.02,3.2,cycle)) if state=="type" else 0.0
+   var tap:=fposmod(elapsed*(2.6 if style=="trainer" else 2.0)+(0.5 if side=="Right" else 0.0),1.0)
+   var type_blend:=sin(progress*PI) if state=="type" else 0.0
    var lift:=lerpf(.022,.016*(0.5-0.5*cos(TAU*tap)),type_blend)
-   if state=="gesture" and side=="Right":
-    key="control" if style in ["mender","watchkeeper"] or (owner.social_pose=="sit" and is_instance_valid(owner.seating_station)) else "screen"
+   if (state=="gesture" or action=="compare") and side=="Right":
+    key="control" if action=="control" else "screen"
     var destination:Transform3D=targets[key]
     if key=="screen":
      var trace:=Vector2(-.10+glance*.6,0)
-     if style=="trainer":trace.x=-.065 if int(elapsed/8.4)%2==0 else -.135
-     elif style=="reviewer":trace=Vector2(-.10+sin(cycle*3.0)*.025,cos(cycle*3.0)*.018)
+     if action=="demonstrate":trace=Vector2(-.065,.02)
+     elif action=="annotate":trace=Vector2(-.10+sin(progress*TAU)*.035,cos(progress*TAU)*.022)
+     elif style=="trainer":trace.x=-.065 if int(elapsed/6.0)%2==0 else -.135
+     elif style=="reviewer":trace=Vector2(-.10+sin(progress*TAU)*.025,cos(progress*TAU)*.018)
      destination.origin+=station.global_basis.x*trace.x+station.global_basis.y*trace.y
     touch=touch.interpolate_with(destination,gesture);lift=.022*(1-gesture)
    var normal:Vector3=station.global_basis.y.normalized()
@@ -158,3 +182,38 @@ func project(station:Node3D,active:bool,reduced:bool,delta:float) -> void:
  for side in ["Left","Right"]:last_hands[side]=owner.global_transform.affine_inverse()*bone(side+"Hand")
  prior_station=station
  if is_instance_valid(station) and station.has_method("present_contacts"):station.present_contacts(contact_weights)
+
+func project_exchange(partner:Node3D,role:String,reduced:bool,delta:float) -> void:
+ contact_weights.clear();contact_errors.clear();unreachable_targets.clear()
+ if is_instance_valid(prior_station) and prior_station.has_method("present_contacts"):prior_station.present_contacts({})
+ prior_station=null
+ var valid:=enabled and is_instance_valid(partner) and not reduced and delta>0 and delta<=.25
+ if not valid:
+  project(null,false,reduced,delta)
+  return
+ if state!="exchange":
+  elapsed=0.0;blend=0.0;entry_hands.clear()
+  for side in ["Left","Right"]:entry_hands[side]=owner.global_transform.affine_inverse()*bone(side+"Hand")
+ elapsed+=delta;blend=minf(1.0,blend+delta/.52)
+ state="exchange";action="handoff_give" if role=="giver" else "handoff_receive"
+ var midpoint:Vector3=(owner.get_parent().global_position+partner.global_position)*.5+Vector3(0,1.12,0)
+ var side:="Right"
+ var forward:Vector3=(partner.global_position-owner.get_parent().global_position).normalized()
+ var wrist_basis:=Basis(owner.global_basis.x.normalized(),forward,-Vector3.UP).orthonormalized()
+ current_probes[side]=probe(side,"screen")
+ var target:=Transform3D(wrist_basis,midpoint-wrist_basis*(current_probes[side]*.01))
+ var reach:float=bone(side+"Arm").origin.distance_to(target.origin)
+ if reach>=lengths[side].x+lengths[side].y-.003:unreachable_targets.append("handoff")
+ target=(owner.global_transform*entry_hands[side]).interpolate_with(target,_ease(blend))
+ solve(side,target,1.0)
+ contact_errors.handoff=hand_point(side).distance_to(midpoint)
+ if blend>=1 and float(contact_errors.handoff)<.014:contact_weights.handoff=1.0-float(contact_errors.handoff)/.014
+ var head:=bone("Head")
+ var look:Vector3=partner.global_position+Vector3(0,1.35,0)-head.origin
+ if look.length()>0.01:
+  var yaw:=clampf(atan2((owner.global_basis.inverse()*look).x,(owner.global_basis.inverse()*look).z),-.32,.32)
+  turn("Head",Quaternion(owner.global_basis.y,yaw*_ease(blend))*head.basis.orthonormalized().get_rotation_quaternion())
+ last_rotations.clear()
+ for name in ["RightArm","RightForeArm","RightHand","Head"]:last_rotations[name]=skeleton.get_bone_pose_rotation(skeleton.find_bone(name))
+ last_hands.clear()
+ for hand_side in ["Left","Right"]:last_hands[hand_side]=owner.global_transform.affine_inverse()*bone(hand_side+"Hand")
