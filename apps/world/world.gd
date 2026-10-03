@@ -171,7 +171,8 @@ func update_crew_presentation() -> void:
 		intent=preload("res://sdlc_crew.gd").project(sdlc.snapshot,kind,fresh,hud.reduced,intent)
 		if intent.has("sdlc_mission_id"): hud.sdlc_assignments[kind]=intent.sdlc_mission_id
 		intents[kind]=intent
-	crew_handoff.observe(sdlc.snapshot,fresh,hud.reduced)
+	if crew_handoff.observe(sdlc.snapshot,fresh,hud.reduced) and morning_director.enabled:
+		morning_director.feature(str(crew_handoff.current.giver))
 	for kind in intents:
 		var intent:Dictionary=crew_handoff.override(kind,intents[kind],hud.reduced)
 		crew_motions[kind].project(intent)
@@ -1048,7 +1049,13 @@ func _process(delta: float) -> void:
 	if morning_director.enabled and MEMBERS.has(watched_crew) and not hud.is_open():
 		var actor:Node3D=get_node(MEMBERS[watched_crew])
 		var station:Node3D=interaction_stations.get(watched_crew) if crew_motions[watched_crew].intent.get("goal")=="workstation" else null
-		var composition:Dictionary=morning_director.composition(actor,station,view_room!=null)
+		var composition:Dictionary
+		if handoff_token.visible and crew_handoff.active() and watched_crew in [crew_handoff.current.giver,crew_handoff.current.receiver]:
+			var giver:Node3D=get_node(MEMBERS[crew_handoff.current.giver])
+			var receiver:Node3D=get_node(MEMBERS[crew_handoff.current.receiver])
+			composition=morning_director.composition_pair(giver,receiver,get_world_3d().direct_space_state)
+		else:
+			composition=morning_director.composition(actor,station,view_room!=null,get_world_3d().direct_space_state)
 		desired=composition.focus
 		desired_offset=composition.offset
 		desired_size=float(composition.size)

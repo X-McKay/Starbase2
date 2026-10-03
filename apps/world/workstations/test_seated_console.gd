@@ -38,7 +38,8 @@ func run()->void:
    meshes+=1
    for surface in mesh.mesh.get_surface_count():
     var arrays:Array=mesh.mesh.surface_get_arrays(surface);triangles+=arrays[Mesh.ARRAY_INDEX].size()/3
-    for vertex in arrays[Mesh.ARRAY_VERTEX]:forward_extent=maxf(forward_extent,station.to_local(mesh.to_global(vertex)).z)
+    if mesh!=station.cue:
+     for vertex in arrays[Mesh.ARRAY_VERTEX]:forward_extent=maxf(forward_extent,station.to_local(mesh.to_global(vertex)).z)
   for mesh in station.find_children("*","MultiMeshInstance3D",true,false):
    meshes+=1
    for surface in mesh.multimesh.mesh.get_surface_count():triangles+=mesh.multimesh.mesh.surface_get_arrays(surface)[Mesh.ARRAY_INDEX].size()/3*mesh.multimesh.instance_count
@@ -46,7 +47,15 @@ func run()->void:
   check(.76-forward_extent>.28+.1,role+": folded accessory clears approaching torso radius plus10cm")
   print(role," input meshes=",meshes," triangles=",triangles," folded forward extent=",forward_extent)
   check(station.folded_ready() and not station.seated_ready(),role+": tray starts stowed while approaching")
-  station.present_contacts({"left_key":1});check(station.active_weights.left_key==0,role+": closed tray cannot display a false key press")
+  var screen_cue:MeshInstance3D=station.cue
+  var screen_point:Vector3=station.contacts().screen.origin
+  check(screen_cue.global_position.distance_to(screen_point)<.2,role+": contact feedback belongs to the physical large display")
+  check(screen_cue.global_basis.is_equal_approx(room.global_basis),role+": display feedback follows room screen orientation")
+  var station_home:Vector3=station.global_position
+  station.global_position+=room.global_basis*Vector3(0,0,.55);station.present_contacts({})
+  check(screen_cue.global_position.distance_to(screen_point)<.2,role+": chair input adjustment does not dislodge the display cue")
+  station.global_position=station_home;station.present_contacts({})
+  station.present_contacts({"left_key":1});check(station.active_weights.left_key==0 and not screen_cue.visible,role+": closed tray cannot display a false key press")
   station.set_seated_amount(1);station.seated_console.advance(.1)
   check(not station.seated_ready(),role+": input unavailable during tray deployment")
   station.seated_console.advance(.1);station.seated_console.advance(.1)
@@ -56,6 +65,9 @@ func run()->void:
   check(contacts.screen.origin.z<contacts.left_key.origin.z-.9,role+": actual large console screen is a separate gaze target")
   var before:float=contacts.left_key.origin.y;station.present_contacts({"left_key":1})
   check(absf(before-station.contacts().left_key.origin.y-.009)<.0001,role+": observed contact depresses real key9mm")
+  check(screen_cue.visible and screen_cue.scale.x>1.0,role+": exact key contact gives the display a local response")
+  station.present_contacts({"control":1.0});check(screen_cue.visible and station.active_weights.left_key==0,role+": selector contact also updates display without inventing a key press")
+  station.present_contacts({});check(not screen_cue.visible,role+": contact loss resets display feedback immediately")
   station.present_contacts({});station.set_seated_amount(0)
   for step in 3:station.seated_console.advance(.1)
   check(station.folded_ready(),role+": tray folds completely before departure")

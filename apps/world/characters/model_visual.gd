@@ -69,15 +69,17 @@ const MOTION_PROFILES:={
 	"watchkeeper":Vector3(0.85,0.80,0.70),
 	"reviewer":Vector3(1.10,0.95,0.80)}
 const MOTION_VOCABULARY:={
-	"operator":{"start":.24,"stop":.30,"lean":1.0,"cadence":1.0},
-	"mender":{"start":.34,"stop":.40,"lean":1.22,"cadence":.90},
-	"surveyor":{"start":.28,"stop":.34,"lean":.82,"cadence":.96},
-	"trainer":{"start":.18,"stop":.24,"lean":1.18,"cadence":1.08},
-	"watchkeeper":{"start":.36,"stop":.44,"lean":.68,"cadence":.88},
-	"reviewer":{"start":.22,"stop":.28,"lean":.78,"cadence":1.04}}
+	"operator":{"start":.24,"stop":.30,"lean":1.0,"cadence":1.0,"anticipation":1.0,"recovery":11.0},
+	"mender":{"start":.34,"stop":.40,"lean":1.22,"cadence":.90,"anticipation":.78,"recovery":8.0},
+	"surveyor":{"start":.28,"stop":.34,"lean":.82,"cadence":.96,"anticipation":1.05,"recovery":10.0},
+	"trainer":{"start":.18,"stop":.24,"lean":1.18,"cadence":1.08,"anticipation":1.30,"recovery":14.0},
+	"watchkeeper":{"start":.36,"stop":.44,"lean":.68,"cadence":.88,"anticipation":.72,"recovery":8.0},
+	"reviewer":{"start":.22,"stop":.28,"lean":.78,"cadence":1.04,"anticipation":1.12,"recovery":12.0}}
 var locomotion_energy:=0.0
 var previous_speed:=0.0
 var was_moving:=false
+var turn_anticipation:=0.0
+var stop_recovery:=0.0
 
 func set_work_treatment(treatment:String) -> void:
 	# Local art-direction choice; never changes assignment, movement or authority.
@@ -204,6 +206,16 @@ func project(displacement: Vector3, moving: bool, phase: float, reduced: bool, d
 			turn_velocity=clampf(turn_velocity,-10.0,10.0)
 			rotation.y+=turn_velocity*dt
 			remaining-=dt
+	# The chest leads a corner while the root catches up. This overlay is upper
+	# body only: translating or rotating the hips here would disturb sole contact.
+	var anticipation_target:=clampf(angle_difference(rotation.y,heading)*0.38,-0.22,0.22)*float(vocabulary.anticipation) if actual_moving and not reduced and pose not in ["sit","stand","handoff","console"] else 0.0
+	turn_anticipation=0.0 if reduced or not valid_step else lerpf(turn_anticipation,anticipation_target,1.0-exp(-delta*18.0))
+	if was_moving and not actual_moving and not reduced and valid_step:
+		stop_recovery=-minf(previous_speed*0.006,0.018)*motion_style.z*float(vocabulary.lean)
+	elif actual_moving or reduced or not valid_step:
+		stop_recovery=0.0
+	else:
+		stop_recovery*=exp(-delta*float(vocabulary.recovery))
 	var next := "walk" if actual_moving and not reduced else "idle"
 	# Hysteresis prevents noisy measured speed from restarting blends at the threshold.
 	if not actual_moving or reduced: run_selected=false
@@ -293,6 +305,7 @@ func project(displacement: Vector3, moving: bool, phase: float, reduced: bool, d
 	var acceleration:float=(speed-previous_speed)/maxf(delta,.001) if valid_step else 0.0
 	var target_lean:=Vector2(clampf(speed*0.004+acceleration*.00035,-.012,.034),clampf(-turn_velocity*0.006,-0.035,0.035)) if actual_moving and not reduced and pose not in ["sit","stand"] else Vector2.ZERO
 	target_lean*=motion_style.z*float(vocabulary.lean)
+	if not actual_moving and pose not in ["sit","stand","handoff","console"]:target_lean.x=stop_recovery
 	locomotion_lean=locomotion_lean.lerp(target_lean,1.0-exp(-maxf(delta,0.0)*12.0)) if not reduced else Vector2.ZERO
 	if pose in ["sit","stand"]: locomotion_lean=Vector2.ZERO
 	if spine_bone>=0 and not reduced and locomotion_lean.length_squared()>0.0000001:
@@ -306,6 +319,10 @@ func project(displacement: Vector3, moving: bool, phase: float, reduced: bool, d
 		for i in skeleton.get_bone_count():
 			skeleton.set_bone_pose_rotation(i,start_rotations[i].slerp(skeleton.get_bone_pose_rotation(i),blend))
 			skeleton.set_bone_pose_position(i,start_positions[i].lerp(skeleton.get_bone_pose_position(i),blend))
+	if spine_bone>=0 and not reduced and absf(turn_anticipation)>0.0001:
+		# Apply after the gait blend so even the first corner frame can lead the
+		# slower root; no lower-body or hand-contact channel is changed.
+		skeleton.set_bone_pose_rotation(spine_bone,skeleton.get_bone_pose_rotation(spine_bone)*Quaternion(Vector3.UP,turn_anticipation))
 	for bone in secondary_bones:
 		var turn := angle_difference(previous_heading,rotation.y)
 		# Bone pose rotations are absolute local rotations, not rest-relative deltas.

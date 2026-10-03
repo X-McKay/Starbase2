@@ -45,9 +45,11 @@ for args in [
     ["--script", "test_shift_change_ui.gd"],
     ["--script", "test_morning_briefing.gd"],
     ["--script", "test_morning_director.gd"],
+    ["--script", "test_observe_camera.gd"],
     ["--script", "test_crew_handoff.gd"],
     ["--fixed-fps", "60", "--script", "test_crew_handoff_pose.gd"],
     ["--fixed-fps", "60", "--script", "test_crew_handoff_world.gd"],
+    ["--fixed-fps", "60", "--script", "test_seated_handoff_journey.gd"],
     ["--script", "test_work_choreography.gd"],
     ["--script", "test_station_signals.gd"],
     ["--script", "test_station_records.gd"],
@@ -57,6 +59,7 @@ for args in [
     ["--fixed-fps", "60", "--script", "test_cybercat_player.gd"],
     ["--fixed-fps", "60", "--script", "test_player_character.gd"],
     ["--script", "test_cast_motion_continuity.gd"],
+    ["--script", "test_locomotion_anticipation.gd"],
     ["--script", "test_cast_blend_retention.gd"],
     ["--script", "test_morning_controls.gd"],
     ["--script", "test_morning_atmosphere.gd"],
@@ -131,7 +134,7 @@ for args in [
                 for name in ["test_environment_animation.gd", "test_seated_work_animation.gd"]
             )
             else 120
-            if "test_environment_interactions.gd" in args
+            if any(name in args for name in ["test_environment_interactions.gd", "test_seated_handoff_journey.gd"])
             else 60,
         )
     except subprocess.TimeoutExpired as error:

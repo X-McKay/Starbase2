@@ -33,7 +33,10 @@ func configure(value:String,member:Node3D) -> void:
   var room:Node3D=get_parent()
   global_position=room.to_global(Vector3(3.2 if role=="watchkeeper" else -3.2,0,-7.22))
   seated_console=preload("res://workstations/seated_console.gd").new();add_child(seated_console);seated_console.configure(self,member,role)
- else:build_geometry(str(profile.caption));flush_surfaces();present_contacts({})
+  make_screen_cue(to_local(seated_console.contacts().screen.origin+room.global_basis*Vector3(0,-.15,.08)),true)
+  cue.global_basis=room.global_basis
+ else:build_geometry(str(profile.caption));flush_surfaces()
+ present_contacts({})
 func append_box(at:Vector3,size:Vector3,color:String) -> void:
  var mesh:=BoxMesh.new();mesh.size=size
  if not surfaces.has(color):
@@ -89,6 +92,18 @@ func box(at:Vector3,size:Vector3,color:String) -> MeshInstance3D:
  var node:=preload("res://art.gd").box(self,at,size,COLORS[color]);return node
 func marker(key:String,point:Vector3) -> void:
  var node:=Marker3D.new();node.name=key;node.position=point;add_child(node);markers[key]=node
+func make_screen_cue(point:Vector3,large:bool=false) -> void:
+ cue=box(point,Vector3(.30 if large else .14,.014 if large else .009,.004),"ink")
+ cue.name="ContactScreenSweep"
+ var material:=StandardMaterial3D.new()
+ material.albedo_color=Color("79d6d8")
+ material.roughness=.4
+ material.emission_enabled=true
+ material.emission=Color("61cbce")
+ material.emission_energy_multiplier=.65
+ cue.material_override=material
+ cue.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+ cue.visible=false
 func build_geometry(caption:String) -> void:
  # Folded lower tray, supported either by the existing console or a grounded stand.
  append_box(Vector3(0,height-.085,.43),Vector3(.68,.02,.25),"shell")
@@ -134,7 +149,7 @@ func build_geometry(caption:String) -> void:
  for row in 5:append_box(Vector3(0,height+.17+row*.025,.422),Vector3(.32,.008,.007),"edge")
  for x in [-.245,.245]:
   for y in [-.105,.105]:fastener(Vector3(x,height+.22+y,.352),true)
- cue=box(Vector3(.29,height+.005,.44),Vector3(.025,.014,.045),"ink")
+ make_screen_cue(Vector3(0,height+.195,.332))
  var label:=Label3D.new();label.text=caption;label.font_size=24;label.pixel_size=.0015;label.position=Vector3(0,height-.065,.226);label.rotation.y=PI;label.modulate=Color("d8d7c9");label.outline_size=0;add_child(label)
 func contacts() -> Dictionary:
  if uses_seated_work:return seated_console.contacts()
@@ -149,7 +164,10 @@ func footprint_rect() -> Rect2:
  return Rect2(Vector2(minf(a.x,b.x),minf(a.z,b.z)),Vector2(absf(b.x-a.x),absf(b.z-a.z)))
 func present_contacts(weights:Dictionary) -> void:
  if uses_seated_work:
-  seated_console.present_contacts(weights);active_weights=seated_console.active_weights;return
+  seated_console.present_contacts(weights);active_weights=seated_console.active_weights
+  # The large display reacts to real tray input; its remote gaze target is not a hand touch.
+  present_screen_cue(maxf(active_weights.left_key,maxf(active_weights.right_key,active_weights.control)))
+  return
  active_weights={}
  for key in ["left_key","right_key","screen","control"]:
   var value:float=clampf(float(weights.get(key,0.0)),0.0,1.0)
@@ -159,7 +177,16 @@ func present_contacts(weights:Dictionary) -> void:
   keys[key].position=key_rest[key]-Vector3.UP*(.009*active_weights[key])
   markers[key].position.y=keys[key].position.y+.015
  if is_instance_valid(control):control.rotation.z=-.10*active_weights.control
- if is_instance_valid(cue):cue.scale.y=1.0+.25*active_weights.screen
+ present_screen_cue(active_weights.screen)
+
+func present_screen_cue(weight:float) -> void:
+ if not is_instance_valid(cue):return
+ if uses_seated_work:
+  # The imported screen is room-anchored; the chair input fixture can be repositioned.
+  cue.global_position=seated_console.contacts().screen.origin+get_parent().global_basis*Vector3(0,-.15,.08)
+ cue.visible=weight>.02
+ cue.scale.x=1.0+.7*weight
+ cue.scale.y=1.0+.18*weight
 
 func seat() -> Dictionary:return seated_console.seat() if uses_seated_work else {}
 func seat_frame() -> Transform3D:return seat().frame if uses_seated_work else global_transform

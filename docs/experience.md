@@ -411,3 +411,11 @@ shared transfer token. Retained history, stale state and reduced motion cannot
 replay the exchange. These animations never dispatch work or certify an outcome.
 Native capture corrected an initial wall-occluded shot; owner visual acceptance
 and packaged-build qualification remain open.
+
+The 2026-10-03 follow-up adds bounded sightline choices and a two-crew Observe
+frame for a recorded exchange, class-specific corner anticipation and stopping
+response, and display-local feedback tied to physical workstation contact. An
+offline journey checks seated Command work through standing, travel and Commons
+exchange without dispatching a command. New set dressing still needs native
+camera review because render-only meshes are invisible to the physics sightline
+test.

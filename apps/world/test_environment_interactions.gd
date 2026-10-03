@@ -273,5 +273,6 @@ func run()->void:
 	await finish()
 func finish()->void:
 	world.queue_free();await process_frame
+	if not failures.is_empty():print("ENVIRONMENT_INTERACTION_FAILURES ",JSON.stringify(failures))
 	print("ENVIRONMENT_INTERACTIONS_PASSED" if failures.is_empty() else "ENVIRONMENT_INTERACTIONS_FAILED")
 	quit(0 if failures.is_empty() else 1)
