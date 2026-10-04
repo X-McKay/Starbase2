@@ -11,6 +11,24 @@ func key(code: Key, pressed: bool = true) -> void:
 	Input.parse_input_event(event)
 	Input.flush_buffered_events()
 
+## A complete left click (press and release), so no held-button GUI state leaks
+## into the next click.
+func click_at(position: Vector2) -> void:
+	for pressed in [true,false]:
+		var event := InputEventMouseButton.new()
+		event.button_index = MOUSE_BUTTON_LEFT
+		event.pressed = pressed
+		event.position = position
+		# Headless mouse injection targets the viewport, which has no OS pointer focus.
+		root.push_input(event,true)
+
+## The GUI control that would receive a click at this point, or null for the world.
+func control_at(position: Vector2) -> Control:
+	var motion := InputEventMouseMotion.new()
+	motion.position = position
+	root.push_input(motion,true)
+	return root.gui_get_hovered_control()
+
 func _initialize() -> void:
 	call_deferred("run")
 
@@ -126,19 +144,35 @@ func run() -> void:
 	await process_frame
 	check(world.hud.dock.get_global_rect().end.x <= root.get_visible_rect().size.x,"Larger text must not push the inspector offscreen")
 	world.hud.close_panels()
-	var click := InputEventMouseButton.new()
-	click.button_index = MOUSE_BUTTON_LEFT
-	click.pressed = true
-	click.position = world.camera.unproject_position(world.get_node("Structures/Workshop").return_position()+Vector3(4,0,5))
-	# Headless mouse injection targets the viewport, which has no OS pointer focus.
-	root.push_input(click,true)
+	# The operator stands at the Habitat doorway (M exited the room above). Click
+	# a visible, clear stretch of path just in front of them.
+	var habitat = world.get_node("Structures/Habitat")
+	var walk_point: Vector2 = world.camera.unproject_position(habitat.return_position()+Vector3(0,0,4))
+	check(root.get_visible_rect().has_point(walk_point) and control_at(walk_point)==null,"Precondition: the walk-route click lands on the visible world, not offscreen or on HUD chrome")
+	click_at(walk_point)
 	await process_frame
 	check(not world.route.is_empty(),"Click on a clear path creates a walking route")
-	var helmet_click := InputEventMouseButton.new()
-	helmet_click.button_index=MOUSE_BUTTON_LEFT
-	helmet_click.pressed=true
-	helmet_click.position=world.camera.unproject_position(world.get_node("Mender").position+Vector3(0,2.65,0))
-	root.push_input(helmet_click,true)
+	# The resting Mender is inside the Habitat, visible only while the operator's
+	# doorway approach keeps the roof cut away. Walking away closes the roof and
+	# hides them, so return the operator to the doorway and freeze the physics
+	# step: the visible state no longer depends on how many frames have elapsed.
+	var mender = world.get_node("Mender")
+	world.route.clear()
+	world.get_node("Operator").motion = Vector3.ZERO
+	world.get_node("Operator").position = habitat.return_position()
+	await physics_frame
+	await physics_frame
+	world.set_physics_process(false)
+	await process_frame
+	await process_frame
+	# Closing panels re-lays out the HUD; a click in that same frame must still
+	# reach the world rather than a transiently resized navigation button.
+	world.hud.close_panels()
+	var helmet_point: Vector2 = world.camera.unproject_position(mender.position+Vector3(0,2.65,0))
+	check(habitat.contains(mender.position) and habitat.cutaway<0.001 and mender.visible,"Precondition: the Mender is visible inside the cut-away Habitat before the helmet click")
+	check(root.get_visible_rect().has_point(helmet_point) and control_at(helmet_point)==null,"Precondition: the Mender's helmet is on screen and not covered by HUD chrome")
+	check(not world.hud.is_open(),"Precondition: no panel is open before the helmet click")
+	click_at(helmet_point)
 	await process_frame
 	check(world.hud.dock.visible and world.hud.filter_kind=="repair","Clicking the taller character's helmet opens its inspector")
 	# The larger world must remain traversable with reduced-motion room cuts.

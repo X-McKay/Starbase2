@@ -698,9 +698,6 @@ func layout_hud() -> void:
 	chrome_toggle.add_theme_font_size_override("font_size",16 if large_text else 13)
 	header_panel.size=Vector2(viewport_size.x-36,header_panel.get_combined_minimum_size().y)
 	var compact_nav_top:=maxf(72,header_panel.position.y+header_panel.get_combined_minimum_size().y+8)
-	navigation_bar.offset_top=compact_nav_top
-	navigation_bar.offset_left=-minf(980,viewport_size.x-44)-22
-	navigation_bar.offset_right=-22
 	header_panel.size.x=viewport_size.x-36
 	room_exit.position=Vector2(22,116)
 	var top_edge:=maxf(128,compact_nav_top+46) if narrow else 128.0
@@ -724,6 +721,10 @@ func layout_hud() -> void:
 		operations.offset_bottom=-24
 	var wide:=viewport_size.x>=1000
 	room_exit.position=Vector2(184,92) if wide else Vector2(22,compact_nav_top+46)
+	# BoxContainer re-sorts its buttons synchronously when the orientation is set,
+	# using the bar's current size. Set orientation first (so the minimum size is
+	# right) and never give the bar an intermediate width: a transient 980 px
+	# "Map" button would capture world clicks until the deferred re-sort.
 	navigation_bar.vertical=wide
 	navigation_background.visible=navigation_bar.visible
 	navigation_background.position=Vector2(18,92) if wide else Vector2(22,compact_nav_top)
