@@ -1,5 +1,101 @@
 {
   "captures": {
+    "handoff-dialogue": {
+      "badge": "[~] LIVE · last event 6.0 s ago · SYNTHETIC REPLAY",
+      "cards": [
+        {
+          "foot": "Recorded review output, 16:54:55 · the reasoning behind it is not recorded",
+          "lines": [
+            "“Synthetic: the write path now evicts the oldest entry, but reads never refresh recency and capacity 0 raises instead of storing nothing.”"
+          ],
+          "list": [
+            "1  cache.py:7  get() does not refresh access order",
+            "2  cache.py:10  Capacity 0 pops from an empty store",
+            "?  Missing evidence: No public test reads a key between two writes."
+          ],
+          "status": "[!] changes requested",
+          "who": "Prism · reviewer"
+        },
+        {
+          "foot": "Reply is the rationale Rivet recorded with the round 2 candidate, 16:59:55",
+          "lines": [
+            "“Synthetic: taking both findings. get() now refreshes recency, capacity 0 returns before eviction, and updates no longer evict.”"
+          ],
+          "list": [],
+          "status": "[=] round 2 submitted",
+          "who": "Rivet · implementer"
+        }
+      ],
+      "detail": "reviewing → implementing · round 1 → 2",
+      "fixture": "res://../../fixtures/world/transparency/round2-stream.jsonl",
+      "footer": "revision loops used 1 of 3 · fallback implementer: Moss · SYNTHETIC",
+      "heading": "Prism returns the candidate to Rivet",
+      "record_status": "fixture",
+      "size": "(1440, 900)",
+      "stream_state": "live",
+      "track": [
+        "plan [done]",
+        "implement r1 [done]",
+        "test r1 · improved [done]",
+        "review r1 · changes [changes]",
+        "↺ round 1 → 2 [loop]",
+        "implement r2 [done]",
+        "test r2 · improved [done]",
+        "review r2 [current]",
+        "ready to publish [pending]",
+        "Reality Gate · branch + PR [pending]",
+        "awaiting human review [pending]"
+      ],
+      "v7_snapshot_age_s": 10.299
+    },
+    "handoff-dialogue-compact": {
+      "badge": "[~] LIVE · last event 5.2 s ago · SYNTHETIC REPLAY",
+      "cards": [
+        {
+          "foot": "Recorded review output, 16:55:31 · the reasoning behind it is not recorded",
+          "lines": [
+            "“Synthetic: the write path now evicts the oldest entry, but reads never refresh recency and capacity 0 raises instead of storing nothing.”"
+          ],
+          "list": [
+            "1  cache.py:7  get() does not refresh access order",
+            "2  cache.py:10  Capacity 0 pops from an empty store",
+            "?  Missing evidence: No public test reads a key between two writes."
+          ],
+          "status": "[!] changes requested",
+          "who": "Prism · reviewer"
+        },
+        {
+          "foot": "Reply is the rationale Rivet recorded with the round 2 candidate, 17:00:31",
+          "lines": [
+            "“Synthetic: taking both findings. get() now refreshes recency, capacity 0 returns before eviction, and updates no longer evict.”"
+          ],
+          "list": [],
+          "status": "[=] round 2 submitted",
+          "who": "Rivet · implementer"
+        }
+      ],
+      "detail": "reviewing → implementing · round 1 → 2",
+      "fixture": "res://../../fixtures/world/transparency/round2-stream.jsonl",
+      "footer": "revision loops used 1 of 3 · fallback implementer: Moss · SYNTHETIC",
+      "heading": "Prism returns the candidate to Rivet",
+      "record_status": "fixture",
+      "size": "(960, 700)",
+      "stream_state": "live",
+      "track": [
+        "plan [done]",
+        "implement r1 [done]",
+        "test r1 · improved [done]",
+        "review r1 · changes [changes]",
+        "↺ round 1 → 2 [loop]",
+        "implement r2 [done]",
+        "test r2 · improved [done]",
+        "review r2 [current]",
+        "ready to publish [pending]",
+        "Reality Gate · branch + PR [pending]",
+        "awaiting human review [pending]"
+      ],
+      "v7_snapshot_age_s": 10.621
+    },
     "live-crew-view": {
       "activity": [
         "15:43:51 [=] Core graded round 1 · improved (6/6 vs 4/6)",
@@ -115,6 +211,184 @@
       "size": "(1440, 900)",
       "stream_state": "stale",
       "v7_snapshot_age_s": 3.373
+    },
+    "workstation-screen": {
+      "asks": [
+        "Prism asked for (round 1)",
+        "[!] Changes requested",
+        "1  cache.py:7  get() does not refresh access order",
+        "2  cache.py:10  Capacity 0 pops from an empty store",
+        "[?] Missing evidence · No public test reads a key between two writes.",
+        "Addressed or not is for the next review to say."
+      ],
+      "badge": "[~] LIVE · last event 9.3 s ago · SYNTHETIC REPLAY",
+      "banner": [
+        "[=] Full mission record · synthetic fixture"
+      ],
+      "diff_header": "algent/cache.py · +7 −2 · round 2 candidate · recorded 16:59:11",
+      "diff_rows": 15,
+      "fixture": "res://../../fixtures/world/transparency/round2-stream.jsonl",
+      "plan": [
+        "Fix cache eviction so the least recently used entry leaves first",
+        "Synthetic: the eviction loop removes the newest entry when the cache is full.",
+        "[=] diagnose · Moss",
+        "[=] implement r2 · Rivet",
+        "[>] review r2 · Prism · current step",
+        "[ ] publish · Core · Reality Gate",
+        "[ ] human review · operator"
+      ],
+      "receipts": [
+        "[=] inspect_symbol · ok · 0.1 s",
+        "[=] apply_patch · ok · 0.4 s",
+        "[x] run_public_tests · failed · 22.0 s",
+        "[=] apply_patch · ok · 0.3 s",
+        "[=] run_public_tests · ok · 21.1 s",
+        "[=] inspect_diff · ok · 0.1 s",
+        "[=] check_candidate · ok · 0.1 s"
+      ],
+      "record_status": "fixture",
+      "size": "(1440, 900)",
+      "spend": [
+        "Recorded · round 2",
+        "Model requests  3",
+        "Tokens in / out  7.7k / 1.8k",
+        "Member time  58.7 s",
+        "Observed this session (stream notes) · 3 requests · 9.5k tokens",
+        "Cost · not recorded"
+      ],
+      "stream_state": "live",
+      "subtitle": "mission sdlc-42 · X-McKay/algent · round 2 of 3 · testing · SYNTHETIC",
+      "tests": [
+        "Core verdict · improved · round 2",
+        "[x] Baseline failing · capacity_zero, get_refreshes",
+        "[=] Candidate · all 6 cases match",
+        "Expected values stay with Core's trusted oracle."
+      ],
+      "title": "RIVET · IMPLEMENTER CONSOLE",
+      "v7_snapshot_age_s": 6.488,
+      "why": [
+        "[?] Not recorded",
+        "Model reasoning is not stored; ADR 0015 (proposed) would add bounded traces."
+      ]
+    },
+    "workstation-screen-compact": {
+      "asks": [
+        "Prism asked for (round 1)",
+        "[!] Changes requested",
+        "1  cache.py:7  get() does not refresh access order",
+        "2  cache.py:10  Capacity 0 pops from an empty store",
+        "[?] Missing evidence · No public test reads a key between two writes.",
+        "Addressed or not is for the next review to say."
+      ],
+      "badge": "[~] LIVE · last event 4.4 s ago · SYNTHETIC REPLAY",
+      "banner": [
+        "[=] Full mission record · synthetic fixture"
+      ],
+      "diff_header": "algent/cache.py · +7 −2 · round 2 candidate · recorded 17:00:18",
+      "diff_rows": 15,
+      "fixture": "res://../../fixtures/world/transparency/round2-stream.jsonl",
+      "plan": [
+        "Fix cache eviction so the least recently used entry leaves first",
+        "Synthetic: the eviction loop removes the newest entry when the cache is full.",
+        "[=] diagnose · Moss",
+        "[=] implement r2 · Rivet",
+        "[>] review r2 · Prism · current step",
+        "[ ] publish · Core · Reality Gate",
+        "[ ] human review · operator"
+      ],
+      "receipts": [
+        "[=] inspect_symbol · ok · 0.1 s",
+        "[=] apply_patch · ok · 0.4 s",
+        "[x] run_public_tests · failed · 22.0 s",
+        "[=] apply_patch · ok · 0.3 s",
+        "[=] run_public_tests · ok · 21.1 s",
+        "[=] inspect_diff · ok · 0.1 s",
+        "[=] check_candidate · ok · 0.1 s"
+      ],
+      "record_status": "fixture",
+      "size": "(960, 700)",
+      "spend": [
+        "Recorded · round 2",
+        "Model requests  3",
+        "Tokens in / out  7.7k / 1.8k",
+        "Member time  58.7 s",
+        "Observed this session (stream notes) · 3 requests · 9.5k tokens",
+        "Cost · not recorded"
+      ],
+      "stream_state": "live",
+      "subtitle": "mission sdlc-42 · X-McKay/algent · round 2 of 3 · testing · SYNTHETIC",
+      "tests": [
+        "Core verdict · improved · round 2",
+        "[x] Baseline failing · capacity_zero, get_refreshes",
+        "[=] Candidate · all 6 cases match",
+        "Expected values stay with Core's trusted oracle."
+      ],
+      "title": "RIVET · IMPLEMENTER CONSOLE",
+      "v7_snapshot_age_s": 8.627,
+      "why": [
+        "[?] Not recorded",
+        "Model reasoning is not stored; ADR 0015 (proposed) would add bounded traces."
+      ]
+    },
+    "workstation-screen-stale": {
+      "asks": [
+        "Prism asked for (round 1)",
+        "[!] Changes requested",
+        "1  cache.py:7  get() does not refresh access order",
+        "2  cache.py:10  Capacity 0 pops from an empty store",
+        "[?] Missing evidence · No public test reads a key between two writes.",
+        "Addressed or not is for the next review to say."
+      ],
+      "badge": "[?] STALE · last event 16 s ago · heartbeat missed · SYNTHETIC REPLAY",
+      "banner": [
+        "[?] LAST KNOWN · stream not live · nothing below is current",
+        "[=] Full mission record · synthetic fixture"
+      ],
+      "diff_header": "algent/cache.py · +7 −2 · round 2 candidate · recorded 16:59:30",
+      "diff_rows": 15,
+      "fixture": "res://../../fixtures/world/transparency/round2-stream.jsonl",
+      "plan": [
+        "Fix cache eviction so the least recently used entry leaves first",
+        "Synthetic: the eviction loop removes the newest entry when the cache is full.",
+        "[=] diagnose · Moss",
+        "[=] implement r2 · Rivet",
+        "[>] review r2 · Prism · current step",
+        "[ ] publish · Core · Reality Gate",
+        "[ ] human review · operator"
+      ],
+      "receipts": [
+        "[=] inspect_symbol · ok · 0.1 s",
+        "[=] apply_patch · ok · 0.4 s",
+        "[x] run_public_tests · failed · 22.0 s",
+        "[=] apply_patch · ok · 0.3 s",
+        "[=] run_public_tests · ok · 21.1 s",
+        "[=] inspect_diff · ok · 0.1 s",
+        "[=] check_candidate · ok · 0.1 s"
+      ],
+      "record_status": "fixture",
+      "size": "(1440, 900)",
+      "spend": [
+        "Recorded · round 2",
+        "Model requests  3",
+        "Tokens in / out  7.7k / 1.8k",
+        "Member time  58.7 s",
+        "Observed this session (stream notes) · 3 requests · 9.5k tokens",
+        "Cost · not recorded"
+      ],
+      "stream_state": "stale",
+      "subtitle": "mission sdlc-42 · X-McKay/algent · round 2 of 3 · testing · SYNTHETIC",
+      "tests": [
+        "Core verdict · improved · round 2",
+        "[x] Baseline failing · capacity_zero, get_refreshes",
+        "[=] Candidate · all 6 cases match",
+        "Expected values stay with Core's trusted oracle."
+      ],
+      "title": "RIVET · IMPLEMENTER CONSOLE",
+      "v7_snapshot_age_s": 4.07,
+      "why": [
+        "[?] Not recorded",
+        "Model reasoning is not stored; ADR 0015 (proposed) would add bounded traces."
+      ]
     }
   },
   "engine": "4.7.2-stable (official)",
