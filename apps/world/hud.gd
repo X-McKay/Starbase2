@@ -105,6 +105,7 @@ var crew_route := ""
 var freshness_panel: PanelContainer
 var freshness_badge: Label
 var live_view: Control
+var captains_log: PanelContainer
 
 func style(bg: String = "0a0a0ad6", border: String = "77777766", pad: int = 18) -> StyleBoxFlat:
 	var s := StyleBoxFlat.new()
@@ -516,6 +517,8 @@ func _ready() -> void:
 		["CAMERA & NAVIGATION", "V  ·  Observe crew\nT  ·  Live activity panel\nC  ·  Follow / room camera\n+ / − or wheel  ·  Zoom\nEnter  ·  Activate focused control\nEsc  ·  Close workspace\nH  ·  Settings & controls"]]:
 		text(guide,section[0],13,"c9c5c1")
 		text(guide,section[1],15).autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	text(guide,"MISSION RECORDS",13,"c9c5c1")
+	text(guide,"G  ·  Captain's Log (mission timeline)\nInside the log  ·  , . or arrows step · L list view",15).autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	button(guide,"Connection settings [O]",open_connection)
 	var character_page:=settings_page("Character")
 	text(character_page,"Your character",26,"e9e5df")
@@ -569,6 +572,10 @@ func _ready() -> void:
 	crew_strip.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
 	crew_strip.inspect_requested.connect(open_place)
 	crew_strip.home_requested.connect(func():room_requested.emit("habitat"))
+	# Captain's Log (page 4): full-window mission timeline, opened with G.
+	captains_log=preload("res://captains_log.gd").new()
+	root.add_child(captains_log)
+	captains_log.visibility_changed.connect(sync_world_chrome)
 	for workspace in [dock,directory,help,room_details,connection_panel]:
 		workspace.visibility_changed.connect(sync_world_chrome)
 	board.visibility_changed.connect(sync_world_chrome)
@@ -622,6 +629,7 @@ func sync_world_chrome() -> void:
 	workspace_label.text={"crew":"CREW DOSSIER" if dock.visible else "CREW & PLACES","work":"WORK","field":"FIELD OPERATIONS","settings":"SETTINGS","stations":"STATION RECORDS","connection":"CONNECTION"}.get(active,"WORLD")
 	if briefing!=null and briefing.visible: workspace_label.text="HABITAT BRIEFING"
 	if room_details!=null and room_details.visible: workspace_label.text="ROOM GUIDE · "+room_detail_title.text
+	if captains_log!=null and captains_log.visible: workspace_label.text="CAPTAIN'S LOG"
 	active_navigation=active
 	update_navigation_style()
 	var show_exploration:=not expanded and not exploration_hud_collapsed
@@ -760,6 +768,7 @@ func layout_hud() -> void:
 		var live_top:=maxf(header_bottom,compact_nav_top+48) if narrow else header_bottom
 		var live_bottom:=viewport_size.y-16-(crew_strip.get_combined_minimum_size().y if crew_strip!=null else 0.0)-52
 		live_view.fit(viewport_size,narrow,large_text,live_top,live_bottom,184.0 if wide else 22.0)
+	if captains_log!=null and captains_log.canvas!=null: captains_log.fit(viewport_size,large_text)
 
 func settings_page(title:String) -> VBoxContainer:
 	var scroll:=ScrollContainer.new()
@@ -793,6 +802,10 @@ func open_operations() -> void:
 func open_board() -> void:
 	close_panels()
 	board.open()
+
+func open_captains_log() -> void:
+	close_panels()
+	captains_log.open()
 
 func open_room_details(title:String,description:String) -> void:
 	close_panels()
@@ -850,6 +863,7 @@ func close_panels() -> void:
 	directory.hide()
 	help.hide()
 	if room_details!=null: room_details.hide()
+	if captains_log!=null: captains_log.hide()
 	root.get_viewport().gui_release_focus()
 	sync_world_chrome()
 
@@ -887,6 +901,7 @@ func open_place(kind: String) -> void:
 	dock.find_children("*","Button",true,false)[0].grab_focus()
 
 func is_open() -> bool:
+	if captains_log!=null and captains_log.visible: return true
 	return (station_records!=null and station_records.visible) or (briefing!=null and briefing.visible) or (operations!=null and operations.visible) or (connection_panel!=null and connection_panel.visible) or dock.visible or directory.visible or help.visible or (board!=null and board.visible) or (room_details!=null and room_details.visible)
 
 func update_list(missions: Array) -> void:

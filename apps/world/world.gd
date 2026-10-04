@@ -830,6 +830,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		KEY_B: hud.open_board()
 		KEY_I: open_station_records()
 		KEY_K: open_morning_briefing()
+		KEY_G: toggle_captains_log()
 		KEY_V:
 			if morning_director.enabled: stop_watching()
 			else: start_observing()
@@ -1291,3 +1292,30 @@ func update_live_view(delta:float) -> void:
 		var shown_role:String=role if not role.is_empty() else str(MEMBERS[kind]).to_lower()
 		card_lines=LiveActivity.follow_card(name,shown_role,intent,LiveActivity.mission_summary(sdlc.snapshot,mission),act,live_activity.usage_for(mission,role)).lines
 	hud.live_view.set_card(card_lines,anchor,wanted)
+	update_captains_log()
+
+# --- Captain's Log (page 4) -------------------------------------------------
+
+## G opens the log on the mission the Reality Gate shows (followed crew, the
+## selected SDLC mission, or the most recently updated one) and keeps it there.
+func toggle_captains_log() -> void:
+	if hud.captains_log.visible:
+		hud.close_panels()
+		return
+	var panel=hud.captains_log
+	panel.api=api
+	panel.fixture_records={}
+	if not stream_fixture_path.is_empty() and event_stream.fixture_header.get("v7_missions") is Dictionary:
+		var base:=stream_fixture_path.get_base_dir()
+		for id in event_stream.fixture_header.v7_missions: panel.fixture_records[str(id)]=base.path_join(str(event_stream.fixture_header.v7_missions[id]))
+	panel.set_meta("mission",str(gate_mission().get("id","")))
+	hud.open_captains_log()
+	update_captains_log()
+
+func update_captains_log() -> void:
+	if hud==null or hud.captains_log==null or not hud.captains_log.visible: return
+	var sdlc=hud.board.sdlc_missions
+	var current:bool=sdlc.online and Time.get_ticks_msec()-sdlc.received_at_msec<15000
+	# A replayed fixture record is shifted like its paired snapshot.
+	if not stream_fixture_path.is_empty(): hud.captains_log.fixture_offset=event_stream.fixture_time_offset
+	hud.captains_log.update_from(sdlc.snapshot,current,str(hud.captains_log.get_meta("mission","")),live_activity.entries,freshness_model(),Time.get_unix_time_from_system())

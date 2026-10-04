@@ -1,0 +1,432 @@
+{
+  "_fixture": "SYNTHETIC FIXTURE: invented full /v7/missions/sdlc-42 record for mission 42 'Fix cache eviction' on X-McKay/algent, matching v7-snapshot.json, for tests and captures. Not real Core, worker, model or repository activity.",
+  "id": "sdlc-42",
+  "retry_of": null,
+  "input": {
+    "id": "sdlc-42",
+    "repository": "X-McKay/algent",
+    "revision": "3f9c2e1a7b5d40c8a1e2f3b4c5d6e7f8a9b0c1d2",
+    "opportunity": "cache-eviction",
+    "build": {
+      "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  },
+  "policy_generation": 7,
+  "capability": {
+    "id": "cache-eviction",
+    "objective": "Fix cache eviction"
+  },
+  "coordination": {
+    "assignments": [
+      {
+        "role": "lead",
+        "crew": "moss",
+        "task": "plan"
+      },
+      {
+        "role": "implementer",
+        "crew": "rivet",
+        "task": "patch"
+      },
+      {
+        "role": "reviewer",
+        "crew": "prism",
+        "task": "review"
+      }
+    ],
+    "max_rounds": 3,
+    "reservation": "x-mckay/algent:cache-eviction"
+  },
+  "state": "implementing",
+  "events": [
+    {
+      "key": "source-baseline",
+      "event": {
+        "key": "source-baseline",
+        "stage": "investigating",
+        "data": {
+          "sources": {
+            "algent/cache.py": "class Cache:\n    def set(self, key, value):\n        if len(self.items) > self.capacity:\n            self.items.pop(next(reversed(self.items)))\n        self.items[key] = value\n",
+            "tests/test_cache.py": "(synthetic)",
+            "algent/__init__.py": ""
+          },
+          "source_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "baseline": {
+            "exit_code": 0,
+            "cases": [
+              {
+                "id": "case_1",
+                "actual": "a"
+              },
+              {
+                "id": "case_2",
+                "actual": "b"
+              },
+              {
+                "id": "case_3",
+                "actual": "c"
+              },
+              {
+                "id": "case_4",
+                "actual": "d"
+              },
+              {
+                "id": "case_5",
+                "actual": "x"
+              },
+              {
+                "id": "case_6",
+                "actual": "y"
+              }
+            ]
+          },
+          "opportunity": "Fix cache eviction",
+          "scope": "Synthetic: six independent cache cases"
+        }
+      },
+      "at": 1789999160.0
+    },
+    {
+      "key": "lead-handoff",
+      "event": {
+        "key": "lead-handoff",
+        "stage": "implementing",
+        "data": {
+          "role": "lead",
+          "output": {
+            "decision": "implement",
+            "task": "Fix cache eviction so the least recently used entry leaves first",
+            "rationale": "Synthetic: the eviction loop removes the newest entry when the cache is full."
+          },
+          "usage": {
+            "input_tokens": 5200,
+            "output_tokens": 900
+          },
+          "elapsed_ms": 11800,
+          "model": "synthetic-fixture-model"
+        }
+      },
+      "at": 1789999580.0
+    },
+    {
+      "key": "testing-1",
+      "event": {
+        "key": "testing-1",
+        "stage": "testing",
+        "data": {
+          "baseline": {
+            "exit_code": 0,
+            "cases": [
+              {
+                "id": "case_1",
+                "actual": "a"
+              },
+              {
+                "id": "case_2",
+                "actual": "b"
+              },
+              {
+                "id": "case_3",
+                "actual": "c"
+              },
+              {
+                "id": "case_4",
+                "actual": "d"
+              },
+              {
+                "id": "case_5",
+                "actual": "x"
+              },
+              {
+                "id": "case_6",
+                "actual": "y"
+              }
+            ]
+          },
+          "candidate": {
+            "exit_code": 0,
+            "cases": [
+              {
+                "id": "case_1",
+                "actual": "a"
+              },
+              {
+                "id": "case_2",
+                "actual": "b"
+              },
+              {
+                "id": "case_3",
+                "actual": "c"
+              },
+              {
+                "id": "case_4",
+                "actual": "d"
+              },
+              {
+                "id": "case_5",
+                "actual": "e"
+              },
+              {
+                "id": "case_6",
+                "actual": "f"
+              }
+            ]
+          },
+          "candidate_files": {
+            "algent/cache.py": "(synthetic candidate source)"
+          },
+          "patch": {
+            "role": "implementer",
+            "output": {
+              "rationale": "Synthetic: track access order and evict the oldest key.",
+              "edits": [
+                {
+                  "line": 40
+                },
+                {
+                  "line": 41
+                }
+              ]
+            },
+            "usage": {
+              "input_tokens": 7400,
+              "output_tokens": 1300
+            },
+            "elapsed_ms": 15200,
+            "model": "synthetic-fixture-model"
+          },
+          "diff": "--- algent/cache.py\n+++ algent/cache.py\n@@ -38,8 +38,12 @@\n-        if len(self.items) > self.capacity:\n-            self.items.pop(next(reversed(self.items)))\n+        if key in self.items:\n+            self.order.remove(key)\n+        if len(self.items) > self.capacity:\n+            oldest = self.order.pop(0)\n+            self.items.pop(oldest)\n+        self.order.append(key)\n",
+          "artifact_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "validation_error": null,
+          "verdict": "improved",
+          "grading": {
+            "verdict": "improved",
+            "baseline_pass": false,
+            "candidate_pass": true
+          }
+        }
+      },
+      "at": 1789999700.0
+    },
+    {
+      "key": "review-1",
+      "event": {
+        "key": "review-1",
+        "stage": "reviewing",
+        "data": {
+          "role": "reviewer",
+          "status": "revise",
+          "rationale": "Synthetic: eviction order is right but the size check is off by one.",
+          "findings": [
+            {
+              "path": "algent/cache.py",
+              "line": 41,
+              "problem": "Size check uses > instead of >=",
+              "evidence": "case_5 boundary"
+            },
+            {
+              "path": "algent/cache.py",
+              "line": 58,
+              "problem": "Eviction does not update the access list",
+              "evidence": "case_6 order"
+            }
+          ],
+          "missing_evidence": null,
+          "output": {
+            "status": "revise"
+          },
+          "usage": {
+            "input_tokens": 3900,
+            "output_tokens": 600
+          },
+          "elapsed_ms": 9100,
+          "model": "synthetic-fixture-model"
+        }
+      },
+      "at": 1789999800.0
+    }
+  ],
+  "evidence": {
+    "investigating": {
+      "sources": {
+        "algent/cache.py": "class Cache:\n    def set(self, key, value):\n        if len(self.items) > self.capacity:\n            self.items.pop(next(reversed(self.items)))\n        self.items[key] = value\n",
+        "tests/test_cache.py": "(synthetic)",
+        "algent/__init__.py": ""
+      },
+      "source_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "baseline": {
+        "exit_code": 0,
+        "cases": [
+          {
+            "id": "case_1",
+            "actual": "a"
+          },
+          {
+            "id": "case_2",
+            "actual": "b"
+          },
+          {
+            "id": "case_3",
+            "actual": "c"
+          },
+          {
+            "id": "case_4",
+            "actual": "d"
+          },
+          {
+            "id": "case_5",
+            "actual": "x"
+          },
+          {
+            "id": "case_6",
+            "actual": "y"
+          }
+        ]
+      },
+      "opportunity": "Fix cache eviction",
+      "scope": "Synthetic: six independent cache cases"
+    },
+    "implementing": {
+      "role": "lead",
+      "output": {
+        "decision": "implement",
+        "task": "Fix cache eviction so the least recently used entry leaves first",
+        "rationale": "Synthetic: the eviction loop removes the newest entry when the cache is full."
+      },
+      "usage": {
+        "input_tokens": 5200,
+        "output_tokens": 900
+      },
+      "elapsed_ms": 11800,
+      "model": "synthetic-fixture-model"
+    },
+    "testing": {
+      "baseline": {
+        "exit_code": 0,
+        "cases": [
+          {
+            "id": "case_1",
+            "actual": "a"
+          },
+          {
+            "id": "case_2",
+            "actual": "b"
+          },
+          {
+            "id": "case_3",
+            "actual": "c"
+          },
+          {
+            "id": "case_4",
+            "actual": "d"
+          },
+          {
+            "id": "case_5",
+            "actual": "x"
+          },
+          {
+            "id": "case_6",
+            "actual": "y"
+          }
+        ]
+      },
+      "candidate": {
+        "exit_code": 0,
+        "cases": [
+          {
+            "id": "case_1",
+            "actual": "a"
+          },
+          {
+            "id": "case_2",
+            "actual": "b"
+          },
+          {
+            "id": "case_3",
+            "actual": "c"
+          },
+          {
+            "id": "case_4",
+            "actual": "d"
+          },
+          {
+            "id": "case_5",
+            "actual": "e"
+          },
+          {
+            "id": "case_6",
+            "actual": "f"
+          }
+        ]
+      },
+      "candidate_files": {
+        "algent/cache.py": "(synthetic candidate source)"
+      },
+      "patch": {
+        "role": "implementer",
+        "output": {
+          "rationale": "Synthetic: track access order and evict the oldest key.",
+          "edits": [
+            {
+              "line": 40
+            },
+            {
+              "line": 41
+            }
+          ]
+        },
+        "usage": {
+          "input_tokens": 7400,
+          "output_tokens": 1300
+        },
+        "elapsed_ms": 15200,
+        "model": "synthetic-fixture-model"
+      },
+      "diff": "--- algent/cache.py\n+++ algent/cache.py\n@@ -38,8 +38,12 @@\n-        if len(self.items) > self.capacity:\n-            self.items.pop(next(reversed(self.items)))\n+        if key in self.items:\n+            self.order.remove(key)\n+        if len(self.items) > self.capacity:\n+            oldest = self.order.pop(0)\n+            self.items.pop(oldest)\n+        self.order.append(key)\n",
+      "artifact_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "validation_error": null,
+      "verdict": "improved",
+      "grading": {
+        "verdict": "improved",
+        "baseline_pass": false,
+        "candidate_pass": true
+      }
+    },
+    "reviewing": {
+      "role": "reviewer",
+      "status": "revise",
+      "rationale": "Synthetic: eviction order is right but the size check is off by one.",
+      "findings": [
+        {
+          "path": "algent/cache.py",
+          "line": 41,
+          "problem": "Size check uses > instead of >=",
+          "evidence": "case_5 boundary"
+        },
+        {
+          "path": "algent/cache.py",
+          "line": 58,
+          "problem": "Eviction does not update the access list",
+          "evidence": "case_6 order"
+        }
+      ],
+      "missing_evidence": null,
+      "output": {
+        "status": "revise"
+      },
+      "usage": {
+        "input_tokens": 3900,
+        "output_tokens": 600
+      },
+      "elapsed_ms": 9100,
+      "model": "synthetic-fixture-model"
+    }
+  },
+  "publication": null,
+  "effects": [],
+  "cancel_requested": false,
+  "revision_loops": 1,
+  "created_at": 1789999100.0,
+  "updated_at": 1789999800.0,
+  "verifications": []
+}
