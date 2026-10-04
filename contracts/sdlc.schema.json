@@ -3,6 +3,9 @@
   "title": "SdlcContract",
   "type": "object",
   "properties": {
+    "activity_note": {
+      "$ref": "#/$defs/ActivityNote"
+    },
     "discovery": {
       "$ref": "#/$defs/DiscoveryInput"
     },
@@ -39,6 +42,9 @@
     "stage_evidence": {
       "$ref": "#/$defs/SdlcStageEvidence"
     },
+    "stream_event": {
+      "$ref": "#/$defs/StreamEvent"
+    },
     "verification": {
       "$ref": "#/$defs/SdlcVerificationInput"
     }
@@ -56,9 +62,102 @@
     "publication",
     "snapshot",
     "mission_summary",
-    "stage_evidence"
+    "stage_evidence",
+    "stream_event",
+    "activity_note"
   ],
   "$defs": {
+    "ActivityKind": {
+      "type": "string",
+      "enum": [
+        "model_request_started",
+        "model_request_finished",
+        "tool_started",
+        "tool_finished",
+        "sandbox_boot",
+        "sandbox_finished"
+      ]
+    },
+    "ActivityNote": {
+      "type": "object",
+      "properties": {
+        "elapsed_ms": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "error": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "input_tokens": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "kind": {
+          "$ref": "#/$defs/ActivityKind"
+        },
+        "label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ok": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "output_tokens": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "request": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
+        },
+        "role": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "tool": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "verification_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "kind"
+      ]
+    },
     "DiscoveryInput": {
       "type": "object",
       "properties": {
@@ -1010,6 +1109,50 @@
         "state",
         "cancel_requested",
         "input"
+      ]
+    },
+    "StreamEvent": {
+      "type": "object",
+      "properties": {
+        "at": {
+          "type": "number",
+          "format": "double"
+        },
+        "epoch": {
+          "type": "string"
+        },
+        "family": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "payload": true,
+        "record_id": {
+          "type": "string"
+        },
+        "retained": {
+          "type": "boolean"
+        },
+        "seq": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "epoch",
+        "seq",
+        "type",
+        "family",
+        "record_id",
+        "at",
+        "retained",
+        "payload"
       ]
     }
   }

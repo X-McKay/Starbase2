@@ -3,9 +3,36 @@
 
 from __future__ import annotations
 
+from enum import StrEnum
 from typing import Annotated, Any
 
 from pydantic import BaseModel, ConfigDict, Field
+
+
+class ActivityKind(StrEnum):
+    model_request_started = "model_request_started"
+    model_request_finished = "model_request_finished"
+    tool_started = "tool_started"
+    tool_finished = "tool_finished"
+    sandbox_boot = "sandbox_boot"
+    sandbox_finished = "sandbox_finished"
+
+
+class ActivityNote(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    elapsed_ms: Annotated[int | None, Field(ge=0)] = None
+    error: str | None = None
+    input_tokens: Annotated[int | None, Field(ge=0)] = None
+    kind: ActivityKind
+    label: str | None = None
+    ok: bool | None = None
+    output_tokens: Annotated[int | None, Field(ge=0)] = None
+    request: Annotated[int | None, Field(ge=0)] = None
+    role: str | None = None
+    tool: str | None = None
+    verification_id: str | None = None
 
 
 class DiscoveryInput(BaseModel):
@@ -207,6 +234,18 @@ class SdlcVerificationSummary(BaseModel):
     updated_at: float | None = None
 
 
+class StreamEvent(BaseModel):
+    at: float
+    epoch: str
+    family: str
+    id: str
+    payload: Any
+    record_id: str
+    retained: bool
+    seq: Annotated[int, Field(ge=0)]
+    type: str
+
+
 class SdlcReviewEvidence(BaseModel):
     findings: list[SdlcReviewFinding] | None = None
     findings_truncated: bool
@@ -259,6 +298,7 @@ class SdlcSnapshot(BaseModel):
 
 
 class SdlcContract(BaseModel):
+    activity_note: ActivityNote
     discovery: DiscoveryInput
     effect: SdlcEffect
     event: SdlcEvent
@@ -271,4 +311,5 @@ class SdlcContract(BaseModel):
     retry: SdlcRetry
     snapshot: SdlcSnapshot
     stage_evidence: SdlcStageEvidence
+    stream_event: StreamEvent
     verification: SdlcVerificationInput

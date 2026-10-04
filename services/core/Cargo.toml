@@ -5,7 +5,9 @@ edition = "2024"
 
 [dependencies]
 axum = "=0.8.8"
-tokio = { version = "=1.53.1", features = ["macros", "rt-multi-thread", "net", "signal"] }
+tokio = { version = "=1.53.1", features = ["macros", "rt-multi-thread", "net", "signal", "sync", "time"] }
+# Already in Cargo.lock through axum; used directly only to build the SSE stream.
+futures-util = { version = "=0.3.34", default-features = false }
 rusqlite = { version = "=0.32.1", features = ["bundled"] }
 serde = { version = "=1.0.229", features = ["derive"] }
 serde_json = { version = "=1.0.149", features = ["float_roundtrip"] }

@@ -11,6 +11,7 @@ import tempfile
 import time
 from pathlib import Path
 
+from . import sdlc_activity
 from .sandbox import VERSION, command, environment, executable, remove
 
 IMAGES = {
@@ -139,6 +140,29 @@ async def run(name: str, files: dict[str, str]) -> dict:
 
 async def _execute(name: str, source: str, *, seconds: int = 10) -> dict:
     """Execute a supplied Python program; callers must grade the returned bytes."""
+    sdlc_activity.note("sandbox_boot", label=name[:80])
+    started = time.monotonic()
+    try:
+        result = await _execute_vm(name, source, seconds=seconds)
+    except BaseException as error:
+        sdlc_activity.note(
+            "sandbox_finished",
+            label=name[:80],
+            ok=False,
+            error=type(error).__name__,
+            elapsed_ms=int((time.monotonic() - started) * 1000),
+        )
+        raise
+    sdlc_activity.note(
+        "sandbox_finished",
+        label=name[:80],
+        ok=result.get("exit_code") == 0,
+        elapsed_ms=int((time.monotonic() - started) * 1000),
+    )
+    return result
+
+
+async def _execute_vm(name: str, source: str, *, seconds: int = 10) -> dict:
     if len(source.encode()) > 64000 or not 1 <= seconds <= 10:
         raise ValueError("Sandbox input budget exceeded")
     started = time.monotonic()

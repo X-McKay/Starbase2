@@ -85,6 +85,9 @@ pub struct SdlcContract {
     pub snapshot: crate::sdlc_summary::SdlcSnapshot,
     pub mission_summary: crate::sdlc_summary::SdlcMissionSummary,
     pub stage_evidence: crate::sdlc_summary::SdlcStageEvidence,
+    // `data:` JSON of `GET /v8/events` and the internal activity note body.
+    pub stream_event: crate::events::StreamEvent,
+    pub activity_note: crate::events::ActivityNote,
 }
 pub fn enabled() -> bool {
     std::env::var("STARBASE_SDLC_ENABLED").is_ok_and(|v| v == "true")
@@ -276,6 +279,10 @@ fn verification_grade_for(v: &Value, family: &str) -> Value {
 }
 
 impl Store {
+    /// Announce a committed V7 mission change on the live stream.
+    pub(crate) fn sdlc_emit(&self, kind: &str, mission_id: &str, payload: Value) {
+        self.events.record(kind, "v7_mission", mission_id, payload);
+    }
     pub(crate) fn sdlc_records(&self) -> Result<Vec<Value>> {
         self.db
             .prepare("SELECT body FROM sdlc_missions ORDER BY id")
@@ -324,7 +331,44 @@ impl Store {
         result["repository"] = json!("x-mckay/algent");
         result["generation"] = json!(p.generation + 1);
         self.db.execute("INSERT INTO sdlc_policy(id,body) VALUES('pilot',$1) ON CONFLICT(id) DO UPDATE SET body=excluded.body",params![result.to_string()]).map_err(|e|e.to_string())?;
+        self.events.record(
+            "policy.changed",
+            "v7_policy",
+            "pilot",
+            json!({"generation":result["generation"],"enabled":result["enabled"],"publish":result["publish"],"max_missions":result["max_missions"],"expires_at":result["expires_at"]}),
+        );
         Ok(result)
+    }
+    /// Broadcast a transient worker note for an active mission. It is never
+    /// written to the mission record or its bounded `events[]`.
+    pub fn sdlc_activity(&self, id: &str, note: &crate::events::ActivityNote) -> Result<Value> {
+        note.validate()?;
+        let state: Option<String> = self
+            .db
+            .prepare("SELECT body FROM sdlc_missions WHERE id=$1")
+            .map_err(|e| e.to_string())?
+            .query_map(params![id.to_owned()], |r| r.get::<_, String>(0))
+            .map_err(|e| e.to_string())?
+            .next()
+            .transpose()
+            .map_err(|e| e.to_string())?
+            .map(|body| {
+                serde_json::from_str::<Value>(&body)
+                    .map(|v| v["state"].as_str().unwrap_or("").to_owned())
+                    .map_err(|e| e.to_string())
+            })
+            .transpose()?;
+        match state {
+            None => Err("Unknown SDLC mission".into()),
+            Some(state) if terminal(&state) => Err("SDLC mission stopped".into()),
+            Some(state) => {
+                let mut payload = json!(note);
+                payload["state"] = json!(state);
+                self.events
+                    .transient("mission.activity", "v7_mission", id, payload);
+                Ok(json!({"broadcast":true}))
+            }
+        }
     }
     pub fn sdlc_mission(&self, id: &str) -> Result<Value> {
         self.sdlc_records()?
@@ -447,6 +491,11 @@ impl Store {
                 params![i.id.clone(), opportunity, v.to_string()],
             )
             .map_err(|e| e.to_string())?;
+        self.sdlc_emit(
+            "mission.admitted",
+            &i.id,
+            json!({"state":"queued","opportunity":i.opportunity,"retry_of":retry_of}),
+        );
         Ok(v)
     }
     pub fn sdlc_observe_pr(&self, id: &str, input: &SdlcPrObservation) -> Result<Value> {
@@ -480,15 +529,30 @@ impl Store {
             history.push(observation.clone());
         }
         v["pr_observation"] = observation;
-        self.sdlc_save(&v)
+        let saved = self.sdlc_save(&v)?;
+        self.sdlc_emit(
+            "mission.pr_observation",
+            id,
+            json!({"pr_state":input.state,"changed":changed}),
+        );
+        Ok(saved)
     }
     pub fn sdlc_cancel(&self, id: &str) -> Result<Value> {
         let mut v = self.sdlc_mission(id)?;
+        let changed = !terminal(v["state"].as_str().unwrap_or("")) && v["cancel_requested"] != true;
         if !terminal(v["state"].as_str().unwrap_or("")) {
             v["cancel_requested"] = json!(true);
             v["updated_at"] = json!(now());
         }
-        self.sdlc_save(&v)
+        let saved = self.sdlc_save(&v)?;
+        if changed {
+            self.sdlc_emit(
+                "mission.cancel_requested",
+                id,
+                json!({"state":saved["state"]}),
+            );
+        }
+        Ok(saved)
     }
     pub fn sdlc_event(&self, id: &str, e: &SdlcEvent) -> Result<Value> {
         let mut v = self.sdlc_mission(id)?;
@@ -596,7 +660,17 @@ impl Store {
             .as_array_mut()
             .unwrap()
             .push(json!({"key":e.key,"event":event,"at":now()}));
-        self.sdlc_save(&v)
+        let saved = self.sdlc_save(&v)?;
+        let latest = saved["events"]
+            .as_array()
+            .and_then(|events| events.last())
+            .and_then(crate::sdlc_summary::event_summary);
+        self.sdlc_emit(
+            "mission.stage",
+            id,
+            json!({"key":e.key,"stage":e.stage,"state":saved["state"],"label":latest.as_ref().map(|l|&l.label),"role":latest.as_ref().and_then(|l|l.role.clone()),"revision_count":saved["revision_loops"],"verdict":saved["evidence"]["testing"]["verdict"]}),
+        );
+        Ok(saved)
     }
     pub fn sdlc_publication(&self, id: &str, r: &SdlcPublication) -> Result<Value> {
         self.sdlc_publication_at(id, r, enabled())
@@ -631,6 +705,11 @@ impl Store {
         v["state"] = json!("publishing");
         v["updated_at"] = json!(now());
         self.sdlc_save(&v)?;
+        self.sdlc_emit(
+            "mission.publication",
+            id,
+            json!({"state":"publishing","publication":"claimed","branch":claim["branch"]}),
+        );
         Ok(claim)
     }
     pub fn sdlc_effect(&self, id: &str, e: &SdlcEffect) -> Result<Value> {
@@ -671,6 +750,7 @@ impl Store {
         effects.push(claim.clone());
         v["updated_at"] = json!(now());
         self.sdlc_save(&v)?;
+        self.sdlc_emit("mission.effect", id, json!({"kind":e.kind,"key":e.key}));
         Ok(json!({"claimed":true,"claim":claim}))
     }
 }
@@ -801,15 +881,29 @@ impl Store {
             .unwrap()
             .push(v.clone());
         self.sdlc_save(&parent)?;
+        self.sdlc_emit(
+            "verification.admitted",
+            mid,
+            json!({"verification_id":i.id,"state":"queued","head":i.head}),
+        );
         Ok(v)
     }
     pub fn sdlc_verification_cancel(&self, mid: &str, vid: &str) -> Result<Value> {
         let mut v = self.sdlc_verification(mid, vid)?;
+        let changed = !verification_terminal(&v) && v["cancel_requested"] != true;
         if !verification_terminal(&v) {
             v["cancel_requested"] = json!(true);
             v["updated_at"] = json!(now());
         }
-        self.sdlc_save_verification(mid, &v)
+        let saved = self.sdlc_save_verification(mid, &v)?;
+        if changed {
+            self.sdlc_emit(
+                "verification.cancel_requested",
+                mid,
+                json!({"verification_id":vid,"state":saved["state"]}),
+            );
+        }
+        Ok(saved)
     }
     pub fn sdlc_verification_event(&self, mid: &str, vid: &str, e: &SdlcEvent) -> Result<Value> {
         let mut v = self.sdlc_verification(mid, vid)?;
@@ -912,7 +1006,13 @@ impl Store {
             .unwrap()
             .push(json!({"key":e.key,"event":event,"at":now()}));
         v["updated_at"] = json!(now());
-        self.sdlc_save_verification(mid, &v)
+        let saved = self.sdlc_save_verification(mid, &v)?;
+        self.sdlc_emit(
+            "verification.stage",
+            mid,
+            json!({"verification_id":vid,"key":e.key,"stage":e.stage,"state":saved["state"],"outcome":saved["evidence"]["verified"]["outcome"]}),
+        );
+        Ok(saved)
     }
     pub fn sdlc_verification_effect(&self, mid: &str, vid: &str, e: &SdlcEffect) -> Result<Value> {
         self.sdlc_verification_effect_at(mid, vid, e, verification_enabled())
@@ -1012,6 +1112,11 @@ impl Store {
         }
         v["updated_at"] = json!(now());
         self.sdlc_save_verification(mid, &v)?;
+        self.sdlc_emit(
+            "verification.effect",
+            mid,
+            json!({"verification_id":vid,"kind":e.kind,"key":e.key}),
+        );
         Ok(json!({"claimed":true,"claim":claim}))
     }
 }

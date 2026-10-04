@@ -16,6 +16,7 @@ from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
 from typing import Any
 
+from . import sdlc_activity
 from .review import digest
 
 
@@ -138,6 +139,7 @@ class Workspace:
             prior_files = self.snapshot()
             started = time.monotonic()
             result: dict = {}
+            sdlc_activity.note("tool_started", tool=name)
             try:
                 remaining = self._limits.seconds - (started - self._started)
                 if remaining <= 0:
@@ -188,6 +190,14 @@ class Workspace:
                 if self._test_execution is not None:
                     receipt["execution"] = copy.deepcopy(self._test_execution)
                 self._receipts.append(copy.deepcopy(receipt))
+                # Only the outcome class leaves the worker; error text may quote source.
+                sdlc_activity.note(
+                    "tool_finished",
+                    tool=name,
+                    ok=bool(result.get("ok")),
+                    error=None if result.get("ok") else "tool_error",
+                    elapsed_ms=int(receipt["elapsed_seconds"] * 1000),
+                )
             return copy.deepcopy(receipt)
 
     def _read_path(self, path: str) -> str:

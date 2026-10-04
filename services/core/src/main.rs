@@ -120,6 +120,7 @@ async fn main() {
         return;
     }
     let store = Arc::new(Mutex::new(store));
+    let events = store.lock().unwrap().events.clone();
     let mut app = Router::new().merge(starbase_core::operations_api::router(
         starbase_core::operations_api::Access {
             worker: std::env::var("STARBASE_TOKEN_FILE")
@@ -160,7 +161,11 @@ async fn main() {
         .expect("bind loopback");
     println!("Starbase2 local core: http://127.0.0.1:{port}");
     axum::serve(listener, app)
-        .with_graceful_shutdown(shutdown_signal())
+        .with_graceful_shutdown(async move {
+            shutdown_signal().await;
+            // Open event streams would otherwise hold graceful shutdown forever.
+            events.close();
+        })
         .await
         .unwrap();
 }

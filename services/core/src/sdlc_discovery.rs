@@ -173,6 +173,12 @@ impl Store {
             "INSERT INTO sdlc_discoveries(id,body) VALUES($1,$2) ON CONFLICT(id) DO UPDATE SET body=excluded.body",
             params![id, record.to_string()],
         ).map_err(|e| e.to_string())?;
+        self.events.record(
+            "discovery.observed",
+            "v7_discovery",
+            &id,
+            json!({"opportunity":input.opportunity,"outcome":input.outcome}),
+        );
         self.sdlc_discovery_view(record)
     }
 

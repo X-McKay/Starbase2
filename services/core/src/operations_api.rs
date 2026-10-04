@@ -10,7 +10,7 @@ use axum::{
     extract::{Path, Query, Request, State},
     http::{HeaderMap, StatusCode, header},
     middleware::{self, Next},
-    response::{Html, IntoResponse, Response},
+    response::{Html, IntoResponse, Response, sse::Sse},
     routing::{get, post},
 };
 use serde::Deserialize;
@@ -125,6 +125,8 @@ pub fn router(access: Access) -> Router<App> {
         .route("/internal/v3/repairs/{id}/finish", post(repair_finish))
         .route("/v7/snapshot", get(sdlc_snapshot))
         .route("/internal/v7/snapshot", get(sdlc_full_snapshot))
+        .route("/v8/events", get(event_stream))
+        .route("/internal/v7/missions/{id}/activity", post(sdlc_activity))
         .route("/v7/policy", post(sdlc_policy))
         .route("/v7/missions/{id}", get(sdlc_detail))
         .route("/v7/missions/{id}/cancel", post(sdlc_cancel))
@@ -762,6 +764,36 @@ async fn sdlc_snapshot(State(app): State<App>, Query(q): Query<SdlcPageQuery>) -
         .sdlc_summary_snapshot(q.limit, q.before.as_deref())
         .map(|s| Json(json!(s)))
         .map_err(|e| (StatusCode::BAD_REQUEST, Json(json!({"error":e}))))
+}
+#[derive(Deserialize)]
+struct StreamQuery {
+    after: Option<String>,
+}
+/// Live change notifications. `Last-Event-ID` (sent by reconnecting clients)
+/// takes precedence over `?after=`. Records remain authoritative on their routes.
+async fn event_stream(
+    State(app): State<App>,
+    headers: HeaderMap,
+    Query(q): Query<StreamQuery>,
+) -> Response {
+    let hub = app.lock().unwrap().events.clone();
+    let last = headers
+        .get("last-event-id")
+        .and_then(|v| v.to_str().ok())
+        .map(String::from)
+        .or(q.after);
+    Sse::new(crate::events::sse(hub, last)).into_response()
+}
+async fn sdlc_activity(
+    State(app): State<App>,
+    Path(id): Path<String>,
+    Json(note): Json<crate::events::ActivityNote>,
+) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .sdlc_activity(&id, &note)
+        .map(Json)
+        .map_err(err)
 }
 /// Full retained records for the trusted worker's reconciliation loop.
 async fn sdlc_full_snapshot(State(app): State<App>) -> ApiResult {
