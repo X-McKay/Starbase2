@@ -386,7 +386,7 @@ async def reconcile_verifications(client, queue: str) -> None:
     global _next_poll
     from .sdlc_verification_workflow import RepositoryVerification
 
-    snapshot = await request("GET", "/v7/snapshot")
+    snapshot = await request("GET", "/internal/v7/snapshot")
     policy = snapshot["policy"]
     if (
         snapshot["enabled"]
@@ -448,7 +448,7 @@ async def reconcile_verifications(client, queue: str) -> None:
                         **({"feedback_digest": feedback_digest} if feedback_digest else {}),
                     },
                 )
-                snapshot = await request("GET", "/v7/snapshot")
+                snapshot = await request("GET", "/internal/v7/snapshot")
                 break
     for parent in snapshot["missions"]:
         for child in parent.get("verifications", []):

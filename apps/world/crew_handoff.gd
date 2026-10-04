@@ -23,10 +23,16 @@ func selected_mission(snapshot:Dictionary) -> Dictionary:
 func signature(snapshot:Dictionary) -> String:
 	var mission:=selected_mission(snapshot)
 	if mission.is_empty():return ""
-	var events:Array=mission.get("events",[])
+	var events:Array=recent(mission)
 	if events.size()<2:return ""
 	var latest:Dictionary=events[-1]
-	return "%s:%d:%s:%s:%s"%[str(mission.get("id",mission.get("input",{}).get("id",""))),events.size(),str(latest.get("role","")),str(latest.get("state","")),str(mission.get("updated_at",""))]
+	return "%s:%d:%s:%s:%s"%[str(mission.get("id",mission.get("input",{}).get("id",""))),int(mission.get("event_count",events.size())),str(latest.get("role","")),str(latest.get("state",latest.get("stage",""))),str(mission.get("updated_at",""))]
+
+## V7 summaries carry the newest events as `recent_events` (oldest first);
+## full records and fixtures carry `events`.
+static func recent(mission:Dictionary) -> Array:
+	var events=mission.get("recent_events",mission.get("events",[]))
+	return events if events is Array else []
 
 func observe(snapshot:Dictionary,fresh:bool,reduced:bool) -> bool:
 	var next_signature:=signature(snapshot)
@@ -41,7 +47,7 @@ func observe(snapshot:Dictionary,fresh:bool,reduced:bool) -> bool:
 	last_signature=next_signature
 	if not fresh or reduced:return false
 	var mission:Dictionary=selected_mission(snapshot)
-	var events:Array=mission.events
+	var events:Array=recent(mission)
 	var before:Dictionary=events[-2];var after:Dictionary=events[-1]
 	var giver:=str(before.get("role",""));var receiver:=str(after.get("role",""))
 	if giver==receiver or not ROLE_CREW.has(giver) or not ROLE_CREW.has(receiver):return false

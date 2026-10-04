@@ -2,7 +2,8 @@
 
 Status: accepted local advisory pipeline (2026-09-28).
 
-The runtime derives an improvement backlog from Core's `/v7/snapshot`, without
+The runtime derives an improvement backlog from Core's full worker view
+(`/internal/v7/snapshot`; the public `/v7/snapshot` is a bounded summary), without
 reading Core SQL or calling a model. `sdlc_improvement.derive_report(snapshot)`
 returns retained attempt provenance, descriptive metrics, deduplicated immutable
 experiment proposals and predeclared matched pilot plans. The optional periodic

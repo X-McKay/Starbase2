@@ -124,6 +124,7 @@ pub fn router(access: Access) -> Router<App> {
         )
         .route("/internal/v3/repairs/{id}/finish", post(repair_finish))
         .route("/v7/snapshot", get(sdlc_snapshot))
+        .route("/internal/v7/snapshot", get(sdlc_full_snapshot))
         .route("/v7/policy", post(sdlc_policy))
         .route("/v7/missions/{id}", get(sdlc_detail))
         .route("/v7/missions/{id}/cancel", post(sdlc_cancel))
@@ -749,7 +750,21 @@ async fn repository_discover(
         .map_err(err)
 }
 
-async fn sdlc_snapshot(State(app): State<App>) -> ApiResult {
+#[derive(Deserialize)]
+struct SdlcPageQuery {
+    limit: Option<usize>,
+    before: Option<String>,
+}
+/// Bounded summaries for polling clients; full records stay on the detail route.
+async fn sdlc_snapshot(State(app): State<App>, Query(q): Query<SdlcPageQuery>) -> ApiResult {
+    app.lock()
+        .unwrap()
+        .sdlc_summary_snapshot(q.limit, q.before.as_deref())
+        .map(|s| Json(json!(s)))
+        .map_err(|e| (StatusCode::BAD_REQUEST, Json(json!({"error":e}))))
+}
+/// Full retained records for the trusted worker's reconciliation loop.
+async fn sdlc_full_snapshot(State(app): State<App>) -> ApiResult {
     app.lock().unwrap().sdlc_snapshot().map(Json).map_err(err)
 }
 async fn sdlc_policy(State(app): State<App>, Json(p): Json<crate::sdlc::SdlcPolicy>) -> ApiResult {

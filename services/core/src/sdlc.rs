@@ -6,7 +6,7 @@ use serde_json::{Value, json};
 
 const VERIFICATION_RETENTION_LIMIT: usize = 16;
 
-#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
 #[serde(deny_unknown_fields)]
 pub struct SdlcPolicy {
     pub repository: String,
@@ -81,6 +81,10 @@ pub struct SdlcContract {
     pub input: SdlcInput,
     pub event: SdlcEvent,
     pub publication: SdlcPublication,
+    // Bounded `GET /v7/snapshot` response; full records stay on the detail route.
+    pub snapshot: crate::sdlc_summary::SdlcSnapshot,
+    pub mission_summary: crate::sdlc_summary::SdlcMissionSummary,
+    pub stage_evidence: crate::sdlc_summary::SdlcStageEvidence,
 }
 pub fn enabled() -> bool {
     std::env::var("STARBASE_SDLC_ENABLED").is_ok_and(|v| v == "true")
@@ -133,7 +137,7 @@ fn has_active_verification(records: &[Value]) -> bool {
             .is_some_and(|children| children.iter().any(|child| !verification_terminal(child)))
     })
 }
-fn coordination(records: &[Value], p: &Value, on: bool) -> Value {
+pub(crate) fn coordination(records: &[Value], p: &Value, on: bool) -> Value {
     let catalog = capabilities();
     let reserved: Vec<&str> = catalog["capabilities"]
         .as_array()
@@ -184,10 +188,12 @@ fn digest(v: &str, n: usize) -> bool {
 fn terminal(v: &str) -> bool {
     matches!(v, "failed" | "blocked" | "cancelled" | "awaiting_review")
 }
-fn observation_pass_for(run: &Value, family: &str) -> Option<bool> {
-    let expected = json!({"history_all":[0,1,2,3,4],"history_last3":[2,3,4],"history_last1":[4],"history_zero":[],"history_empty":[],"history_context":[9],"history_mixed":[0,1,2,3,4]});
-    let expected = match family {
-        "persistence-history" => expected,
+/// Trusted per-family oracle: case id to the exact expected observation.
+pub(crate) fn expected_cases(family: &str) -> Option<Value> {
+    Some(match family {
+        "persistence-history" => {
+            json!({"history_all":[0,1,2,3,4],"history_last3":[2,3,4],"history_last1":[4],"history_zero":[],"history_empty":[],"history_context":[9],"history_mixed":[0,1,2,3,4]})
+        }
         "memory-key" => {
             json!({"memory_empty_key":[7],"memory_named":[9],"memory_missing":[],"memory_other_agent":[11],"memory_all":[7,9],"memory_zero":[0]})
         }
@@ -195,7 +201,10 @@ fn observation_pass_for(run: &Value, family: &str) -> Option<bool> {
             json!({"logging_initial":[10],"logging_update":[20],"logging_error":[40],"logging_handlers":[1],"logging_omitted":[40],"logging_other":[30]})
         }
         _ => return None,
-    };
+    })
+}
+fn observation_pass_for(run: &Value, family: &str) -> Option<bool> {
+    let expected = expected_cases(family)?;
     let cases = run["cases"].as_array()?;
     if cases.len() != expected.as_object()?.len() || run["exit_code"] != 0 {
         return None;
@@ -267,7 +276,7 @@ fn verification_grade_for(v: &Value, family: &str) -> Value {
 }
 
 impl Store {
-    fn sdlc_records(&self) -> Result<Vec<Value>> {
+    pub(crate) fn sdlc_records(&self) -> Result<Vec<Value>> {
         self.db
             .prepare("SELECT body FROM sdlc_missions ORDER BY id")
             .map_err(|e| e.to_string())?
@@ -289,6 +298,8 @@ impl Store {
             .map_err(|e| e.to_string())?;
         rows.first().map_or_else(||Ok(json!({"repository":"x-mckay/algent","enabled":false,"publish":false,"generation":0,"max_missions":1,"expires_at":0})),|s|serde_json::from_str(s).map_err(|e|e.to_string()))
     }
+    /// Full retained records for the trusted worker (`GET /internal/v7/snapshot`).
+    /// Polling clients use the bounded `sdlc_summary_snapshot` instead.
     pub fn sdlc_snapshot(&self) -> Result<Value> {
         Ok(
             json!({"schema_version":7,"enabled":enabled(),"verification_enabled":verification_enabled(),"policy":self.sdlc_policy()?,"missions":self.sdlc_records()?,"capability_catalog":capabilities(),"discoveries":self.sdlc_discoveries()?,"coordination":coordination(&self.sdlc_records()?, &self.sdlc_policy()?, enabled())}),

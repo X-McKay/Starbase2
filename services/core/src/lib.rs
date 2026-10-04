@@ -12,6 +12,7 @@ pub mod repository_discovery;
 pub mod sdlc;
 pub mod sdlc_discovery;
 pub mod sdlc_feedback;
+pub mod sdlc_summary;
 pub mod storage;
 
 use crate::parameters as params;

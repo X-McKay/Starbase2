@@ -388,7 +388,7 @@ async def discover_catalog(snapshot: dict) -> dict:
                 "observed_at": time.time(),
             },
         )
-    snapshot = await request("GET", "/v7/snapshot")
+    snapshot = await request("GET", "/internal/v7/snapshot")
     if any(
         m["state"] not in TERMINAL
         or any(
@@ -422,7 +422,7 @@ async def discover_catalog(snapshot: dict) -> dict:
         ):
             continue
         await request("POST", f"/internal/v7/discoveries/{finding['id']}/admit", {})
-        return await request("GET", "/v7/snapshot")
+        return await request("GET", "/internal/v7/snapshot")
     return snapshot
 
 
@@ -469,7 +469,7 @@ async def discover_sdlc(snapshot: dict) -> dict:
                         logging.getLogger(__name__).warning(
                             "PR feedback unavailable (%s)", type(exc).__name__
                         )
-                snapshot = await request("GET", "/v7/snapshot")
+                snapshot = await request("GET", "/internal/v7/snapshot")
         if "discoveries" in snapshot:
             return await discover_catalog(snapshot)
         # Legacy Core controls retain their original single-family admission path.
@@ -514,7 +514,7 @@ async def discover_sdlc(snapshot: dict) -> dict:
                                 "capability_digest": pilot.CAPABILITY["digest"],
                             },
                         )
-                        snapshot = await request("GET", "/v7/snapshot")
+                        snapshot = await request("GET", "/internal/v7/snapshot")
     return snapshot
 
 
@@ -541,7 +541,7 @@ async def reconcile_sdlc(client, queue: str) -> None:
 
     from .sdlc_workflow import RepositorySdlc
 
-    snapshot = await request("GET", "/v7/snapshot")
+    snapshot = await request("GET", "/internal/v7/snapshot")
     await record_improvement(snapshot)
     try:
         async with asyncio.timeout(30):
