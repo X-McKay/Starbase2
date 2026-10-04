@@ -1,0 +1,23 @@
+{
+  "_fixture": "SYNTHETIC FIXTURE: invented mission 42 'Fix cache eviction' on X-McKay/algent for tests and captures. Not real Core, worker, model or repository activity.",
+  "schema_version": 2,
+  "observed_at": 1790000000.0,
+  "worker": {
+    "available": true,
+    "seen_at": 1790000000.0
+  },
+  "recent": [],
+  "active": [],
+  "repairs": [],
+  "field_runs": [],
+  "installation": {
+    "id": "fixture-transparency",
+    "environment": "fixture",
+    "capabilities": {
+      "accept_work": {
+        "enabled": true,
+        "reason": "Synthetic fixture"
+      }
+    }
+  }
+}

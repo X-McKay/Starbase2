@@ -83,4 +83,33 @@
       };
     },
   };
+  /* Same-origin Server-Sent Events for GET /v8/events. The browser reconnects
+     with Last-Event-ID itself; Godot reopens with ?after=<id> once it gives up. */
+  window.StarbaseEventSource = {
+    create(callback) {
+      let source = null;
+      const send = (message) => callback(JSON.stringify(message));
+      return {
+        open(url) {
+          this.close();
+          if (!permitted(url) || typeof EventSource !== "function") return false;
+          const current = new EventSource(url);
+          source = current;
+          current.onopen = () => { if (source === current) send(["open"]); };
+          current.onerror = () => { if (source === current) send(["error", current.readyState]); };
+          for (const name of ["ready", "record", "reset", "heartbeat"]) {
+            current.addEventListener(name, (event) => {
+              if (source === current) send(["frame", name, String(event.data), String(event.lastEventId || "")]);
+            });
+          }
+          return true;
+        },
+        close() {
+          if (!source) return;
+          source.close();
+          source = null;
+        },
+      };
+    },
+  };
 })();
