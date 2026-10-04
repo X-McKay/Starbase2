@@ -441,6 +441,7 @@ chronological list with the same events. Retained records, stream observations a
 provisional stream stages look different, and loading, stale, failed and unknown
 record states stay distinct. Native captures use a synthetic fixture; owner visual
 acceptance remains open.
+
 ## Workstation screen and handoff dialogue · 2026-10-04
 
 The [workstation screen](workstation-screen.md) (**N**) opens one crew member's
@@ -452,3 +453,13 @@ with the revision loop. Both read only the `/v7` summary, the full mission recor
 and `/v8` activity notes. Model reasoning and tool arguments are shown as not
 recorded. Stale, failed, blocked, no-change and unknown stay distinct. Native
 captures use a synthetic round-2 fixture; owner visual acceptance is pending.
+
+## Crew board and dialogue · 2026-10-04
+
+The [crew board](crew-board.md) (Tab) shows what needs the operator, alert chips for
+a blocked admission and silent or stale crew, a newest-first feed of crew and Core
+events, one line per crew member and the selected member's day. The crew dialogue
+(T from the board) answers preset questions with fixed templates filled only from
+recorded state, each with a "Based on:" line; Moss answers for a crew member whose
+records are last known. Crew & places moved to P, R is now listed in Controls, and
+comfort settings persist across restarts.

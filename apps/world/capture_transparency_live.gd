@@ -100,9 +100,14 @@ func run() -> void:
 	world.hud.sync_world_chrome()
 	await replay()
 	await picture("live-crew-view-compact-large")
-	var file := FileAccess.open(ProjectSettings.globalize_path(output).path_join("captures.json"), FileAccess.WRITE)
-	file.store_string(JSON.stringify({"fixture":STREAM, "synthetic":true, "engine":Engine.get_version_info().string,
-		"renderer":RenderingServer.get_current_rendering_driver_name(), "captures":notes}, "  "))
+	var path := ProjectSettings.globalize_path(output).path_join("captures.json")
+	var result := {"fixture":STREAM, "synthetic":true, "engine":Engine.get_version_info().string,
+		"renderer":RenderingServer.get_current_rendering_driver_name(), "captures":notes}
+	# Keep other capture sets (the crew board's) that share this evidence folder.
+	var existing = JSON.parse_string(FileAccess.get_file_as_string(path)) if FileAccess.file_exists(path) else null
+	if existing is Dictionary and existing.has("crew_board"): result["crew_board"] = existing.crew_board
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	file.store_string(JSON.stringify(result, "  "))
 	file.close()
 	for failure in failures: push_error(failure)
 	if failures.is_empty(): print("TRANSPARENCY_CAPTURE_PASSED: live, stale, compact and compact large-text captures")

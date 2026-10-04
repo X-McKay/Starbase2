@@ -108,6 +108,10 @@ var live_view: Control
 var captains_log: PanelContainer
 var workstation_screen: PanelContainer
 var handoff_dialogue: Control
+var crew_board: PanelContainer
+var crew_dialogue: PanelContainer
+var reduced_toggle: CheckButton
+var sound_toggle: CheckButton
 
 func style(bg: String = "0a0a0ad6", border: String = "77777766", pad: int = 18) -> StyleBoxFlat:
 	var s := StyleBoxFlat.new()
@@ -228,7 +232,7 @@ func _ready() -> void:
 	top.offset_right = -22
 	top.offset_top = 16
 	nav_buttons.map=button(top,"Map [M]",func(): map_requested.emit())
-	nav_buttons.crew=button(top,"Crew [Tab]",toggle_directory)
+	nav_buttons.crew=button(top,"Crew [Tab]",toggle_crew_board)
 	nav_buttons.work=button(top,"Work [J]",open_operations)
 	nav_buttons.stations=button(top,"Stations [I]",func(): stations_requested.emit())
 	nav_buttons.field=button(top,"Field ops [B]",open_board)
@@ -494,6 +498,7 @@ func _ready() -> void:
 	text(comfort,"Display",26,"e9e5df")
 	text(comfort,"Adjust the native interface and camera to suit you.",15).autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	var rm := CheckButton.new()
+	reduced_toggle=rm
 	rm.text = "Reduced motion · Off"
 	rm.toggled.connect(func(value: bool): reduced=value; rm.text="Reduced motion · "+("On" if value else "Off"); settings_changed.emit())
 	comfort.add_child(rm)
@@ -507,6 +512,7 @@ func _ready() -> void:
 	var audio:=settings_page("Audio")
 	text(audio,"Audio",26,"e9e5df")
 	var sound := CheckButton.new()
+	sound_toggle=sound
 	sound.text="Ambient sounds · Off"
 	sound.toggled.connect(func(value: bool): sound_enabled=value; sound.text="Ambient sounds · "+("On" if value else "Off"); settings_changed.emit())
 	audio.add_child(sound)
@@ -515,7 +521,7 @@ func _ready() -> void:
 	text(guide,"Controls",26,"e9e5df")
 	for section in [
 		["EXPLORE", "WASD / arrows  ·  Walk\nClick a path  ·  Travel\nE  ·  Inspect nearby crew or console\nF  ·  Enter / exit a room\nL  ·  Visit Habitat\nM  ·  Colony map"],
-		["WORKSPACES", "Tab  ·  Crew & places\n1–5  ·  Crew dossier\nN  ·  Workstation console\nU  ·  Handoff dialogue\nB  ·  Field operations\nJ  ·  Work & history\nI  ·  Station records\nK  ·  Habitat briefing\nO  ·  Connection"],
+		["WORKSPACES", "Tab  ·  Crew board\nT  ·  Talk (crew board)\nW  ·  Watch (crew board)\nP  ·  Crew & places\n1–5  ·  Crew dossier\nN  ·  Workstation console\nU  ·  Handoff dialogue\nB  ·  Field operations\nJ / R  ·  Work & history\nI  ·  Station records\nK  ·  Habitat briefing\nO  ·  Connection"],
 		["CAMERA & NAVIGATION", "V  ·  Observe crew\nT  ·  Live activity panel\nC  ·  Follow / room camera\n+ / − or wheel  ·  Zoom\nEnter  ·  Activate focused control\nEsc  ·  Close workspace\nH  ·  Settings & controls"]]:
 		text(guide,section[0],13,"c9c5c1")
 		text(guide,section[1],15).autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
@@ -569,6 +575,14 @@ func _ready() -> void:
 	connection_panel.journal_requested.connect(open_operations)
 	live_view=preload("res://live_crew_view.gd").new()
 	root.add_child(live_view)
+	crew_board=preload("res://crew_board.gd").new()
+	crew_board.hud_ref=self
+	root.add_child(crew_board)
+	crew_dialogue=preload("res://crew_dialogue.gd").new()
+	root.add_child(crew_dialogue)
+	crew_board.talk_requested.connect(open_crew_dialogue)
+	crew_dialogue.closed.connect(func(): if crew_board.visible: crew_board.talk.grab_focus())
+	crew_dialogue.visibility_changed.connect(func(): crew_board.modulate.a=0.3 if crew_dialogue.visible else 1.0)
 	crew_strip=preload("res://crew_strip.gd").new()
 	root.add_child(crew_strip)
 	crew_strip.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
@@ -581,7 +595,7 @@ func _ready() -> void:
 	# Pages 2 and 3 (workstation console, handoff dialogue) sit above the strip.
 	workstation_screen=preload("res://workstation_screen.gd").new(); root.add_child(workstation_screen)
 	handoff_dialogue=preload("res://handoff_dialogue.gd").new(); root.add_child(handoff_dialogue)
-	for workspace in [dock,directory,help,room_details,connection_panel,workstation_screen,handoff_dialogue]:
+	for workspace in [dock,directory,help,room_details,connection_panel,workstation_screen,handoff_dialogue,crew_board,crew_dialogue]:
 		workspace.visibility_changed.connect(sync_world_chrome)
 	board.visibility_changed.connect(sync_world_chrome)
 	operations.visibility_changed.connect(sync_world_chrome)
@@ -612,6 +626,10 @@ func _input(event:InputEvent) -> void:
 	# GUI controls normally consume key events before _unhandled_key_input. These
 	# global workspace controls remain available while a LineEdit has focus.
 	if root==null or root.get_viewport().gui_disable_input: return
+	# Crew board and dialogue keys (T, W, 1–5, Esc in the dialogue) come first.
+	if event is InputEventKey and crew_board!=null and (crew_dialogue.handle_key(event) or (not crew_dialogue.visible and crew_board.handle_key(event))):
+		get_viewport().set_input_as_handled()
+		return
 	if not event is InputEventKey or not event.pressed or event.echo: return
 	match event.physical_keycode:
 		KEY_F1:
@@ -628,11 +646,12 @@ func sync_world_chrome() -> void:
 	if crew_strip==null: return
 	var expanded:bool=is_open()
 	room_exit.visible=room_available and not expanded
-	var active:="crew" if dock.visible or directory.visible else ("work" if operations.visible else ("field" if board.visible else ("settings" if help.visible else ("stations" if station_records!=null and station_records.visible else ("connection" if connection_panel.visible else "")))))
+	var active:="crew" if dock.visible or directory.visible or (crew_board!=null and crew_board.visible) else ("work" if operations.visible else ("field" if board.visible else ("settings" if help.visible else ("stations" if station_records!=null and station_records.visible else ("connection" if connection_panel.visible else "")))))
 	if briefing!=null and briefing.visible: active="stations"
 	if room_details!=null and room_details.visible: active="stations"
 	workspace_label.text={"crew":"CREW DOSSIER" if dock.visible else "CREW & PLACES","work":"WORK","field":"FIELD OPERATIONS","settings":"SETTINGS","stations":"STATION RECORDS","connection":"CONNECTION"}.get(active,"WORLD")
 	if briefing!=null and briefing.visible: workspace_label.text="HABITAT BRIEFING"
+	if crew_board!=null and crew_board.visible: workspace_label.text="CREW DIALOGUE" if crew_dialogue.visible else "CREW BOARD"
 	if room_details!=null and room_details.visible: workspace_label.text="ROOM GUIDE · "+room_detail_title.text
 	if captains_log!=null and captains_log.visible: workspace_label.text="CAPTAIN'S LOG"
 	active_navigation=active
@@ -779,6 +798,13 @@ func layout_hud() -> void:
 		# The dialogue keeps the masthead and navigation readable around it.
 		var page_top:=header_panel.position.y+header_panel.get_combined_minimum_size().y+8
 		handoff_dialogue.fit(viewport_size,large_text,Vector2(184.0 if wide else 0.0,maxf(page_top,compact_nav_top+48) if narrow else page_top))
+	if crew_board!=null and crew_board.columns!=null:
+		var board_area:=Rect2(184,92,viewport_size.x-206,viewport_size.y-116) if wide else Rect2(22,top_edge,viewport_size.x-44,viewport_size.y-top_edge-24)
+		crew_board.fit(board_area,narrow)
+		var talk_size:=Vector2(minf(760.0,board_area.size.x-40.0),minf(700.0,board_area.size.y-24.0))
+		crew_dialogue.custom_minimum_size=talk_size
+		crew_dialogue.size=talk_size
+		crew_dialogue.position=board_area.position+(board_area.size-talk_size)*0.5
 
 func settings_page(title:String) -> VBoxContainer:
 	var scroll:=ScrollContainer.new()
@@ -869,6 +895,7 @@ func close_panels() -> void:
 	if operations!=null: operations.hide()
 	if board!=null: board.hide()
 	if connection_panel!=null: connection_panel.hide()
+	if crew_board!=null: crew_board.hide(); crew_dialogue.hide()
 	dock.hide()
 	directory.hide()
 	help.hide()
@@ -886,6 +913,32 @@ func toggle_directory() -> void:
 	if directory.visible:
 		update_directory_records()
 		directory.find_children("*","Button",true,false)[0].grab_focus()
+
+## Page 5: the crew board (Tab). Focus lands inside the board so Tab then
+## traverses its controls; Esc closes it.
+func toggle_crew_board() -> void:
+	var was:=crew_board.visible
+	close_panels()
+	if not was: crew_board.open()
+
+## Page 6: the crew dialogue (T from the board), over the board.
+func open_crew_dialogue(kind:String,question:String="") -> void:
+	crew_dialogue.open_for(kind,crew_board.model,question)
+	layout_hud()
+	sync_world_chrome()
+
+## Comfort settings restored at start (saved by the world on each change).
+func set_comfort(values:Dictionary) -> void:
+	reduced=bool(values.get("reduced_motion",reduced))
+	sound_enabled=bool(values.get("sound",sound_enabled))
+	large_text=bool(values.get("large_text",large_text))
+	reduced_toggle.set_pressed_no_signal(reduced); reduced_toggle.text="Reduced motion · "+("On" if reduced else "Off")
+	sound_toggle.set_pressed_no_signal(sound_enabled); sound_toggle.text="Ambient sounds · "+("On" if sound_enabled else "Off")
+	set_crew_summary(bool(values.get("crew_summary",crew_summary)))
+	scale_text()
+
+func comfort() -> Dictionary:
+	return {"reduced_motion":reduced,"large_text":large_text,"sound":sound_enabled,"crew_summary":crew_summary}
 
 func open_place(kind: String) -> void:
 	if sdlc_assignments.has(kind):
@@ -914,7 +967,7 @@ func open_place(kind: String) -> void:
 
 func is_open() -> bool:
 	if captains_log!=null and captains_log.visible: return true
-	return (station_records!=null and station_records.visible) or (briefing!=null and briefing.visible) or (operations!=null and operations.visible) or (connection_panel!=null and connection_panel.visible) or dock.visible or directory.visible or help.visible or (board!=null and board.visible) or (room_details!=null and room_details.visible) or (workstation_screen!=null and workstation_screen.visible) or (handoff_dialogue!=null and handoff_dialogue.visible)
+	return (crew_board!=null and crew_board.visible) or (station_records!=null and station_records.visible) or (briefing!=null and briefing.visible) or (operations!=null and operations.visible) or (connection_panel!=null and connection_panel.visible) or dock.visible or directory.visible or help.visible or (board!=null and board.visible) or (room_details!=null and room_details.visible) or (workstation_screen!=null and workstation_screen.visible) or (handoff_dialogue!=null and handoff_dialogue.visible)
 
 func update_list(missions: Array) -> void:
 	directory_records=missions

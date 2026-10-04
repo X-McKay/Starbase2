@@ -40,7 +40,15 @@ func run() -> void:
 	await process_frame
 	key(KEY_TAB)
 	await process_frame
-	check(world.hud.directory.visible,"Tab opens the crew directory")
+	check(world.hud.crew_board.visible,"Tab opens the crew board")
+	key(KEY_TAB,false)
+	key(KEY_ESCAPE)
+	await process_frame
+	key(KEY_ESCAPE,false)
+	check(not world.hud.is_open(),"Escape closes the crew board")
+	key(KEY_P)
+	await process_frame
+	check(world.hud.directory.visible,"P opens the crew directory")
 	key(KEY_ENTER)
 	await process_frame
 	key(KEY_ENTER,false)

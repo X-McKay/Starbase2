@@ -570,6 +570,280 @@
       ]
     }
   },
+  "crew_board": {
+    "captures": {
+      "crew-board": {
+        "action_status": "",
+        "badge": "[~] LIVE · last event 2.2 s ago · SYNTHETIC REPLAY",
+        "board_freshness": "[~] LIVE · last event 2.2 s ago · SYNTHETIC REPLAY",
+        "chips": [
+          "[x] Next mission blocked: active_mission",
+          "[/] Wes silent 6 m"
+        ],
+        "crew": [
+          "Mo  Moss   [||] waiting · Holding mission 42 while Rivet is implementing",
+          "Ri  Rivet   [>] working · [>] Running tests · mission 42, round 2",
+          "Pr  Prism   [||] waiting · Holding mission 42 while Rivet is implementing",
+          "We  Wes   [/] silent 6 m · last known · Last known: workload check on training workload (unconfirmed)",
+          "Ma  Mae   [-] idle · Nothing recorded right now"
+        ],
+        "day": [
+          "Moss · lead · duty officer",
+          "[||] waiting · Command",
+          "3 runs in the last 24 h · no tokens observed this session",
+          "Holding mission 42 while Rivet is implementing",
+          "Wait for mission 42 round 2 to finish",
+          "DONE · LAST 24 H · 2",
+          "[=] Mission 41 accepted · PR #118 opened for your review\n[=] Repository review on X-McKay/Starbase2 · 2 findings",
+          "Talk to Moss [T]",
+          "Watch Moss in the world [W]"
+        ],
+        "feed": [
+          "17:02 Rivet [>] started running tests",
+          "17:01 Rivet [x] ran tests · failed",
+          "17:00 Rivet [/] applied a patch · ok",
+          "17:00 Rivet [/] model request 3 · 3.1k tokens · 4.1 s",
+          "16:59 Prism [x] requested changes · 2 findings",
+          "16:57 Core [=] graded round 1 · improved (6/6 vs 4/6)",
+          "16:56 Wes [/] last record: workload check on training workload · running",
+          "16:55 Moss [>] handed the plan to Rivet",
+          "16:47 Core [/] admitted mission 42 under policy gen 7",
+          "16:04 Wes [=] workload check on flux namespace · 0 findings",
+          "13:01 Core [!] opened PR #118 for mission 41 · waiting for your review",
+          "12:50 Prism [=] accepted mission 41",
+          "12:30 Core [=] graded mission 41 · improved",
+          "12:12 Moss [/] handed the mission 41 plan to Rivet"
+        ],
+        "feed_title": "ACTIVITY · ALL CREW AND CORE · NEWEST FIRST",
+        "needs": [
+          "[!] Review PR #118 on algent Mission 41 passed the gate · crew never merge · 4 h Open PR",
+          "[!] Publish policy ends in 2d 14h Then nothing new is admitted or published Extend",
+          "[?] Memory notes · not in these records The review queue is in Field ops, which this board does not read Review in Field ops"
+        ],
+        "needs_title": "[!] NEEDS YOU · 2 known · 1 unknown · oldest first",
+        "selected": "",
+        "size": "(1440, 900)",
+        "stream_state": "live"
+      },
+      "crew-board-compact": {
+        "action_status": "",
+        "badge": "[~] LIVE · last event 2.0 s ago · SYNTHETIC REPLAY",
+        "board_freshness": "[~] LIVE · last event 2.0 s ago · SYNTHETIC REPLAY",
+        "chips": [
+          "[x] Next mission blocked: active_mission",
+          "[/] Wes silent 6 m"
+        ],
+        "crew": [
+          "Mo  Moss   [||] waiting · Holding mission 42 while Rivet is implementing",
+          "Ri  Rivet   [>] working · [>] Running tests · mission 42, round 2",
+          "Pr  Prism   [||] waiting · Holding mission 42 while Rivet is implementing",
+          "We  Wes   [/] silent 6 m · last known · Last known: workload check on training workload (unconfirmed)",
+          "Ma  Mae   [-] idle · Nothing recorded right now"
+        ],
+        "day": [
+          "Moss · lead · duty officer",
+          "[||] waiting · Command",
+          "3 runs in the last 24 h · no tokens observed this session",
+          "Holding mission 42 while Rivet is implementing",
+          "Wait for mission 42 round 2 to finish",
+          "DONE · LAST 24 H · 2",
+          "[=] Mission 41 accepted · PR #118 opened for your review\n[=] Repository review on X-McKay/Starbase2 · 2 findings",
+          "Talk to Moss [T]",
+          "Watch Moss [W]"
+        ],
+        "feed": [
+          "17:03 Rivet [>] started running tests",
+          "17:02 Rivet [x] ran tests · failed",
+          "17:01 Rivet [/] applied a patch · ok",
+          "17:01 Rivet [/] model request 3 · 3.1k tokens · 4.1 s",
+          "17:00 Prism [x] requested changes · 2 findings",
+          "16:58 Core [=] graded round 1 · improved (6/6 vs 4/6)",
+          "16:57 Wes [/] last record: workload check on training workload · running",
+          "16:56 Moss [>] handed the plan to Rivet",
+          "16:48 Core [/] admitted mission 42 under policy gen 7",
+          "16:05 Wes [=] workload check on flux namespace · 0 findings",
+          "13:02 Core [!] opened PR #118 for mission 41 · waiting for your review",
+          "12:51 Prism [=] accepted mission 41",
+          "12:31 Core [=] graded mission 41 · improved",
+          "12:13 Moss [/] handed the mission 41 plan to Rivet"
+        ],
+        "feed_title": "ACTIVITY · ALL CREW AND CORE · NEWEST FIRST",
+        "needs": [
+          "[!] Review PR #118 on algent Mission 41 passed the gate · crew never merge · 4 h Open PR",
+          "[!] Publish policy ends in 2d 14h Then nothing new is admitted or published Extend",
+          "[?] Memory notes · not in these records The review queue is in Field ops, which this board does not read Review in Field ops"
+        ],
+        "needs_title": "[!] NEEDS YOU · 2 known · 1 unknown · oldest first",
+        "selected": "",
+        "size": "(960, 700)",
+        "stream_state": "live"
+      },
+      "crew-board-filtered": {
+        "action_status": "",
+        "badge": "[~] LIVE · last event 2.5 s ago · SYNTHETIC REPLAY",
+        "board_freshness": "[~] LIVE · last event 2.5 s ago · SYNTHETIC REPLAY",
+        "chips": [
+          "[x] Next mission blocked: active_mission",
+          "[/] Wes silent 6 m"
+        ],
+        "crew": [
+          "Mo  Moss   [||] waiting · Holding mission 42 while Rivet is implementing",
+          "Ri  Rivet   [>] working · [>] Running tests · mission 42, round 2",
+          "Pr  Prism   [||] waiting · Holding mission 42 while Rivet is implementing",
+          "We  Wes   [/] silent 6 m · last known · Last known: workload check on training workload (unconfirmed)",
+          "Ma  Mae   [-] idle · Nothing recorded right now"
+        ],
+        "day": [
+          "Rivet · implementer",
+          "[>] working · Workshop",
+          "3 runs in the last 24 h · 3.1k tokens observed this session",
+          "[>] Running tests · mission 42, round 2",
+          "Hand round 2 to Core for testing",
+          "DONE · LAST 24 H · 2",
+          "[=] Mission 41 accepted · PR #118 opened for your review\n[=] Repair on clamp-v1 · inconclusive",
+          "Talk to Rivet [T]",
+          "Watch Rivet in the world [W]"
+        ],
+        "feed": [
+          "17:02 Rivet [>] started running tests",
+          "17:01 Rivet [x] ran tests · failed",
+          "17:00 Rivet [/] applied a patch · ok",
+          "17:00 Rivet [/] model request 3 · 3.1k tokens · 4.1 s",
+          "11:47 Rivet [=] repair on clamp-v1 · inconclusive"
+        ],
+        "feed_title": "ACTIVITY · RIVET ONLY · NEWEST FIRST",
+        "needs": [
+          "[!] Review PR #118 on algent Mission 41 passed the gate · crew never merge · 4 h Open PR",
+          "[!] Publish policy ends in 2d 14h Then nothing new is admitted or published Extend",
+          "[?] Memory notes · not in these records The review queue is in Field ops, which this board does not read Review in Field ops"
+        ],
+        "needs_title": "[!] NEEDS YOU · 2 known · 1 unknown · oldest first",
+        "selected": "repair",
+        "size": "(1440, 900)",
+        "stream_state": "live"
+      },
+      "crew-dialogue": {
+        "action_status": "",
+        "badge": "[~] LIVE · last event 2.3 s ago · SYNTHETIC REPLAY",
+        "board_freshness": "[~] LIVE · last event 2.4 s ago · SYNTHETIC REPLAY",
+        "chips": [
+          "[x] Next mission blocked: active_mission",
+          "[/] Wes silent 6 m"
+        ],
+        "crew": [
+          "Mo  Moss   [||] waiting · Holding mission 42 while Rivet is implementing",
+          "Ri  Rivet   [>] working · [>] Running tests · mission 42, round 2",
+          "Pr  Prism   [||] waiting · Holding mission 42 while Rivet is implementing",
+          "We  Wes   [/] silent 6 m · last known · Last known: workload check on training workload (unconfirmed)",
+          "Ma  Mae   [-] idle · Nothing recorded right now"
+        ],
+        "day": [
+          "Rivet · implementer",
+          "[>] working · Workshop",
+          "3 runs in the last 24 h · 3.1k tokens observed this session",
+          "[>] Running tests · mission 42, round 2",
+          "Hand round 2 to Core for testing",
+          "DONE · LAST 24 H · 2",
+          "[=] Mission 41 accepted · PR #118 opened for your review\n[=] Repair on clamp-v1 · inconclusive",
+          "Talk to Rivet [T]",
+          "Watch Rivet in the world [W]"
+        ],
+        "dialogue": {
+          "based_on": "Based on: admission active_mission · mission sdlc-42 state implementing · /v7 snapshot 1 s ago",
+          "heading": "SHIFT BRIEFING · ASKING RIVET",
+          "line": "\"Core refused admission with active_mission.\nRivet is still on mission 42, implementing, round 2. When it finishes, the next one can start.\"",
+          "options": [
+            "1   What is waiting on me?    [2 NEED YOU]",
+            "2   Why can't we start another mission?    [BLOCKED]",
+            "3   Is everyone accounted for?    [1 LAST KNOWN]",
+            "4   What finished in the last 24 h?    [LOG]",
+            "5   Carry on. [Esc]"
+          ],
+          "speaker": "Rivet",
+          "subtitle": "implementer · speaking from recorded state",
+          "summary": "2 need you · 1 blocked · 1 last known · [~] LIVE · last event 2.4 s ago · SYNTHETIC REPLAY"
+        },
+        "feed": [
+          "17:02 Rivet [>] started running tests",
+          "17:02 Rivet [x] ran tests · failed",
+          "17:00 Rivet [/] applied a patch · ok",
+          "17:00 Rivet [/] model request 3 · 3.1k tokens · 4.1 s",
+          "11:47 Rivet [=] repair on clamp-v1 · inconclusive"
+        ],
+        "feed_title": "ACTIVITY · RIVET ONLY · NEWEST FIRST",
+        "needs": [
+          "[!] Review PR #118 on algent Mission 41 passed the gate · crew never merge · 4 h Open PR",
+          "[!] Publish policy ends in 2d 14h Then nothing new is admitted or published Extend",
+          "[?] Memory notes · not in these records The review queue is in Field ops, which this board does not read Review in Field ops"
+        ],
+        "needs_title": "[!] NEEDS YOU · 2 known · 1 unknown · oldest first",
+        "selected": "repair",
+        "size": "(1440, 900)",
+        "stream_state": "live"
+      },
+      "crew-dialogue-stale": {
+        "action_status": "",
+        "badge": "[~] LIVE · last event 2.1 s ago · SYNTHETIC REPLAY",
+        "board_freshness": "[~] LIVE · last event 2.1 s ago · SYNTHETIC REPLAY",
+        "chips": [
+          "[x] Next mission blocked: active_mission",
+          "[/] Wes silent 6 m"
+        ],
+        "crew": [
+          "Mo  Moss   [||] waiting · Holding mission 42 while Rivet is implementing",
+          "Ri  Rivet   [>] working · [>] Running tests · mission 42, round 2",
+          "Pr  Prism   [||] waiting · Holding mission 42 while Rivet is implementing",
+          "We  Wes   [/] silent 6 m · last known · Last known: workload check on training workload (unconfirmed)",
+          "Ma  Mae   [-] idle · Nothing recorded right now"
+        ],
+        "day": [
+          "Wes · watchkeeper",
+          "[/] silent 6 m · last known · Cluster watch · last known",
+          "3 runs in the last 24 h · tokens not recorded",
+          "Last known: workload check on training workload (unconfirmed)",
+          "Nothing queued in the records",
+          "DONE · LAST 24 H · 2",
+          "[=] Workload check on flux namespace · 0 findings\n[=] Workload check on flux namespace · 1 finding",
+          "Ask Moss about Wes [T]",
+          "Watch Wes in the world [W]"
+        ],
+        "dialogue": {
+          "based_on": "Based on: Wes record wes-workload-1336 running · last update 16:56 UTC · /v2 snapshot current · /v7 snapshot 1 s ago",
+          "heading": "SHIFT BRIEFING · ABOUT WES",
+          "line": "\"Not Wes. Nothing from the watchkeeper has changed in 6 m. The last thing recorded is workload check on training workload. I am not treating that as healthy.\nEveryone else is accounted for: Moss waiting, Rivet working, Prism waiting and Mae idle.\"",
+          "options": [
+            "1   What is waiting on me?    [2 NEED YOU]",
+            "2   Why can't we start another mission?    [BLOCKED]",
+            "3   Is everyone accounted for?    [1 LAST KNOWN]",
+            "4   What finished in the last 24 h?    [LOG]",
+            "5   Carry on. [Esc]"
+          ],
+          "speaker": "Moss",
+          "subtitle": "lead · answering for Wes (silent 6 m · last known) from last known records",
+          "summary": "2 need you · 1 blocked · 1 last known · [~] LIVE · last event 2.1 s ago · SYNTHETIC REPLAY"
+        },
+        "feed": [
+          "16:56 Wes [/] last record: workload check on training workload · running",
+          "16:04 Wes [=] workload check on flux namespace · 0 findings",
+          "10:29 Wes [=] workload check on flux namespace · 1 finding"
+        ],
+        "feed_title": "ACTIVITY · WES ONLY · NEWEST FIRST",
+        "needs": [
+          "[!] Review PR #118 on algent Mission 41 passed the gate · crew never merge · 4 h Open PR",
+          "[!] Publish policy ends in 2d 14h Then nothing new is admitted or published Extend",
+          "[?] Memory notes · not in these records The review queue is in Field ops, which this board does not read Review in Field ops"
+        ],
+        "needs_title": "[!] NEEDS YOU · 2 known · 1 unknown · oldest first",
+        "selected": "watchkeeper",
+        "size": "(1440, 900)",
+        "stream_state": "live"
+      }
+    },
+    "engine": "4.7.2-stable (official)",
+    "fixture": "res://../../fixtures/world/transparency/crew-board-stream.jsonl",
+    "renderer": "opengl3",
+    "synthetic": true
+  },
   "engine": "4.7.2-stable (official)",
   "fixture": "res://../../fixtures/world/transparency/stream.jsonl",
   "renderer": "opengl3",
