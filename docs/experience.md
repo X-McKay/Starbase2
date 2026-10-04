@@ -441,3 +441,14 @@ chronological list with the same events. Retained records, stream observations a
 provisional stream stages look different, and loading, stale, failed and unknown
 record states stay distinct. Native captures use a synthetic fixture; owner visual
 acceptance remains open.
+## Workstation screen and handoff dialogue · 2026-10-04
+
+The [workstation screen](workstation-screen.md) (**N**) opens one crew member's
+console: the mission plan and its current step, what the reviewer asked for, the
+recorded diff, Core-graded test cases, tool receipts, and recorded and observed
+spend. The [handoff dialogue](handoff-dialogue.md) (**U**) shows a review's
+findings and the implementer's recorded reply as speech cards above a stage track
+with the revision loop. Both read only the `/v7` summary, the full mission record
+and `/v8` activity notes. Model reasoning and tool arguments are shown as not
+recorded. Stale, failed, blocked, no-change and unknown stay distinct. Native
+captures use a synthetic round-2 fixture; owner visual acceptance is pending.

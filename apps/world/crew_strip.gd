@@ -4,6 +4,8 @@ signal inspect_requested(kind:String)
 signal home_requested
 signal briefing_requested
 signal observe_requested
+signal console_requested
+signal handoff_requested
 const NAMES := {"repair":"Rivet","review":"Moss Bombadil","gym":"Mae Jin","watchkeeper":"Wes Walker","reviewer":"Prism"}
 var entries:Dictionary={}
 var rows:HBoxContainer
@@ -22,7 +24,7 @@ func _ready() -> void:
 	watching.add_theme_font_size_override("font_size",13)
 	watching.add_theme_color_override("font_color",Color("c9c5c1"))
 	watching.size_flags_horizontal=Control.SIZE_EXPAND_FILL; head.add_child(watching)
-	for action in [["Briefing [K]",briefing_requested],["Observe [V]",observe_requested]]:
+	for action in [["Briefing [K]",briefing_requested],["Observe [V]",observe_requested],["Console [N]",console_requested],["Handoff [U]",handoff_requested]]:
 		var control:=Button.new(); control.text=action[0]; control.flat=false
 		control.add_theme_font_size_override("font_size",14); head.add_child(control)
 		control.pressed.connect(func():action[1].emit())

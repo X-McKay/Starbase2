@@ -20,6 +20,7 @@ for args in [
     ["--script", "test_event_stream.gd"],
     ["--script", "test_live_crew_view.gd"],
     ["--script", "test_captains_log.gd"],
+    ["--script", "test_transparency_pages.gd"],
     ["--script", "test_crew_guide.gd"],
     ["--script", "test_crew_slate.gd"],
     ["--script", "test_crew_attention.gd"],

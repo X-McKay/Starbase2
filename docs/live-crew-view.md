@@ -8,6 +8,8 @@ stream reports *that* records changed. The `/v7/snapshot` and `/v2/snapshot`
 polls stay authoritative: a stream record event only asks for a sooner `/v7`
 refresh, and a `reset` refetches both snapshots. Activity notes are observations,
 not evidence. No part of this view dispatches work or grants authority.
+Page 2, the [workstation screen](workstation-screen.md), and page 3, the
+[handoff dialogue](handoff-dialogue.md), build on the same stream and freshness rule.
 
 ## Stream client
 

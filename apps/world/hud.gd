@@ -106,6 +106,8 @@ var freshness_panel: PanelContainer
 var freshness_badge: Label
 var live_view: Control
 var captains_log: PanelContainer
+var workstation_screen: PanelContainer
+var handoff_dialogue: Control
 
 func style(bg: String = "0a0a0ad6", border: String = "77777766", pad: int = 18) -> StyleBoxFlat:
 	var s := StyleBoxFlat.new()
@@ -513,7 +515,7 @@ func _ready() -> void:
 	text(guide,"Controls",26,"e9e5df")
 	for section in [
 		["EXPLORE", "WASD / arrows  ·  Walk\nClick a path  ·  Travel\nE  ·  Inspect nearby crew or console\nF  ·  Enter / exit a room\nL  ·  Visit Habitat\nM  ·  Colony map"],
-		["WORKSPACES", "Tab  ·  Crew & places\n1–5  ·  Crew dossier\nB  ·  Field operations\nJ  ·  Work & history\nI  ·  Station records\nK  ·  Habitat briefing\nO  ·  Connection"],
+		["WORKSPACES", "Tab  ·  Crew & places\n1–5  ·  Crew dossier\nN  ·  Workstation console\nU  ·  Handoff dialogue\nB  ·  Field operations\nJ  ·  Work & history\nI  ·  Station records\nK  ·  Habitat briefing\nO  ·  Connection"],
 		["CAMERA & NAVIGATION", "V  ·  Observe crew\nT  ·  Live activity panel\nC  ·  Follow / room camera\n+ / − or wheel  ·  Zoom\nEnter  ·  Activate focused control\nEsc  ·  Close workspace\nH  ·  Settings & controls"]]:
 		text(guide,section[0],13,"c9c5c1")
 		text(guide,section[1],15).autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
@@ -576,7 +578,10 @@ func _ready() -> void:
 	captains_log=preload("res://captains_log.gd").new()
 	root.add_child(captains_log)
 	captains_log.visibility_changed.connect(sync_world_chrome)
-	for workspace in [dock,directory,help,room_details,connection_panel]:
+	# Pages 2 and 3 (workstation console, handoff dialogue) sit above the strip.
+	workstation_screen=preload("res://workstation_screen.gd").new(); root.add_child(workstation_screen)
+	handoff_dialogue=preload("res://handoff_dialogue.gd").new(); root.add_child(handoff_dialogue)
+	for workspace in [dock,directory,help,room_details,connection_panel,workstation_screen,handoff_dialogue]:
 		workspace.visibility_changed.connect(sync_world_chrome)
 	board.visibility_changed.connect(sync_world_chrome)
 	operations.visibility_changed.connect(sync_world_chrome)
@@ -769,6 +774,11 @@ func layout_hud() -> void:
 		var live_bottom:=viewport_size.y-16-(crew_strip.get_combined_minimum_size().y if crew_strip!=null else 0.0)-52
 		live_view.fit(viewport_size,narrow,large_text,live_top,live_bottom,184.0 if wide else 22.0)
 	if captains_log!=null and captains_log.canvas!=null: captains_log.fit(viewport_size,large_text)
+	if workstation_screen!=null: workstation_screen.fit(viewport_size,large_text)
+	if handoff_dialogue!=null and live_view!=null:
+		# The dialogue keeps the masthead and navigation readable around it.
+		var page_top:=header_panel.position.y+header_panel.get_combined_minimum_size().y+8
+		handoff_dialogue.fit(viewport_size,large_text,Vector2(184.0 if wide else 0.0,maxf(page_top,compact_nav_top+48) if narrow else page_top))
 
 func settings_page(title:String) -> VBoxContainer:
 	var scroll:=ScrollContainer.new()
@@ -864,6 +874,8 @@ func close_panels() -> void:
 	help.hide()
 	if room_details!=null: room_details.hide()
 	if captains_log!=null: captains_log.hide()
+	if workstation_screen!=null: workstation_screen.hide()
+	if handoff_dialogue!=null: handoff_dialogue.hide()
 	root.get_viewport().gui_release_focus()
 	sync_world_chrome()
 
@@ -902,7 +914,7 @@ func open_place(kind: String) -> void:
 
 func is_open() -> bool:
 	if captains_log!=null and captains_log.visible: return true
-	return (station_records!=null and station_records.visible) or (briefing!=null and briefing.visible) or (operations!=null and operations.visible) or (connection_panel!=null and connection_panel.visible) or dock.visible or directory.visible or help.visible or (board!=null and board.visible) or (room_details!=null and room_details.visible)
+	return (station_records!=null and station_records.visible) or (briefing!=null and briefing.visible) or (operations!=null and operations.visible) or (connection_panel!=null and connection_panel.visible) or dock.visible or directory.visible or help.visible or (board!=null and board.visible) or (room_details!=null and room_details.visible) or (workstation_screen!=null and workstation_screen.visible) or (handoff_dialogue!=null and handoff_dialogue.visible)
 
 func update_list(missions: Array) -> void:
 	directory_records=missions

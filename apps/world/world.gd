@@ -12,6 +12,7 @@ const LiveActivity = preload("res://live_activity.gd")
 const RealityGate = preload("res://reality_gate.gd")
 const Freshness = preload("res://freshness.gd")
 const SdlcCrew = preload("res://sdlc_crew.gd")
+const TransparencyPages = preload("res://transparency_pages.gd")
 # Live stream (v8) state. The stream only signals that records changed; the
 # polled snapshots stay authoritative and are refetched on change or reset.
 var event_stream:Node
@@ -20,6 +21,7 @@ var stream_fixture_path := ""
 var stream_fixture_v7_path := ""
 var stream_fixture_reloads := 0
 var live_view_timer := 0.0
+var transparency:Node # pages 2-3: workstation console and handoff dialogue
 var crew_presentations:Dictionary={}
 var crew_motions:Dictionary={}
 var interaction_stations:Dictionary={}
@@ -479,6 +481,7 @@ func _ready() -> void:
 	timer.timeout.connect(poll)
 	add_child(timer)
 	setup_event_stream()
+	transparency=TransparencyPages.new(); add_child(transparency); transparency.setup(self)
 	if fixture_path != "":
 		var data = JSON.parse_string(FileAccess.get_file_as_string(fixture_path))
 		if data is Dictionary and not stream_fixture_path.is_empty(): data=EventStream.rebase(data,event_stream.fixture_time_offset)
@@ -835,6 +838,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			if morning_director.enabled: stop_watching()
 			else: start_observing()
 		KEY_T: hud.live_view.toggle_activity()
+		KEY_N: transparency.toggle_workstation()
+		KEY_U: transparency.toggle_handoff()
 		KEY_4: hud.open_place("watchkeeper")
 		KEY_5: hud.open_place("reviewer")
 		KEY_TAB: hud.toggle_directory()
@@ -1292,6 +1297,7 @@ func update_live_view(delta:float) -> void:
 		var shown_role:String=role if not role.is_empty() else str(MEMBERS[kind]).to_lower()
 		card_lines=LiveActivity.follow_card(name,shown_role,intent,LiveActivity.mission_summary(sdlc.snapshot,mission),act,live_activity.usage_for(mission,role)).lines
 	hud.live_view.set_card(card_lines,anchor,wanted)
+	if transparency!=null: transparency.refresh()
 	update_captains_log()
 
 # --- Captain's Log (page 4) -------------------------------------------------
