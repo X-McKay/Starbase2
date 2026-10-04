@@ -17,6 +17,8 @@ for args in [
     ["--fixed-fps", "60", "--script", "test_world_ground_contact.gd"],
     ["--script", "test_hud_polish.gd"],
     ["--script", "test_compact_chrome.gd"],
+    ["--script", "test_event_stream.gd"],
+    ["--script", "test_live_crew_view.gd"],
     ["--script", "test_crew_guide.gd"],
     ["--script", "test_crew_slate.gd"],
     ["--script", "test_crew_attention.gd"],

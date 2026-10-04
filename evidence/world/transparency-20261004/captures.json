@@ -1,0 +1,124 @@
+{
+  "captures": {
+    "live-crew-view": {
+      "activity": [
+        "15:43:51 [=] Core graded round 1 · improved (6/6 vs 4/6)",
+        "15:45:31 [x] Prism requested changes · 2 findings",
+        "15:46:25 [/] Rivet model request 3 · 3.1k tokens · 4.1 s",
+        "15:46:52 [/] Rivet applied a patch · ok",
+        "15:47:59 [x] Rivet ran tests · failed",
+        "15:48:50 [>] Rivet started running tests"
+      ],
+      "badge": "[~] LIVE · last event 3.3 s ago · SYNTHETIC REPLAY",
+      "card": [
+        "RIVET · IMPLEMENTER",
+        "Mission sdlc-42 · round 2",
+        "[>] Running tests",
+        "1 model request · 3.1k tokens · observed"
+      ],
+      "gate": [
+        "[x] CLOSED · 1 failing",
+        "Policy gen 7 · expires in 2d 14h",
+        "1 / 3 missions used · admission active mission",
+        "[=] Policy enabled + publish · allowed",
+        "[=] Test verdict · improved · 6/6 vs 4/6 · +6 −2",
+        "[x] Reviewer · changes requested · 2 findings"
+      ],
+      "rivet_strip": "Rivet\nRunning tests",
+      "size": "(1440, 900)",
+      "stream_state": "live",
+      "v7_snapshot_age_s": 10.215
+    },
+    "live-crew-view-compact": {
+      "activity": [
+        "15:44:19 [=] Core graded round 1 · improved (6/6 vs 4/6)",
+        "15:45:59 [x] Prism requested changes · 2 findings",
+        "15:46:53 [/] Rivet model request 3 · 3.1k tokens · 4.1 s",
+        "15:47:20 [/] Rivet applied a patch · ok",
+        "15:48:27 [x] Rivet ran tests · failed",
+        "15:49:18 [>] Rivet started running tests"
+      ],
+      "badge": "[~] LIVE · last event 1.9 s ago · SYNTHETIC REPLAY",
+      "card": [
+        "RIVET · IMPLEMENTER",
+        "Mission sdlc-42 · round 2",
+        "[>] Running tests",
+        "1 model request · 3.1k tokens · observed"
+      ],
+      "gate": [
+        "[x] CLOSED · 1 failing",
+        "Policy gen 7 · expires in 2d 14h",
+        "1 / 3 missions used · admission active mission",
+        "[=] Policy enabled + publish · allowed",
+        "[=] Test verdict · improved · 6/6 vs 4/6 · +6 −2",
+        "[x] Reviewer · changes requested · 2 findings"
+      ],
+      "rivet_strip": "Rivet\nRunning tests",
+      "size": "(960, 700)",
+      "stream_state": "live",
+      "v7_snapshot_age_s": 1.958
+    },
+    "live-crew-view-compact-large": {
+      "activity": [
+        "15:44:29 [=] Core graded round 1 · improved (6/6 vs 4/6)",
+        "15:46:09 [x] Prism requested changes · 2 findings",
+        "15:47:03 [/] Rivet model request 3 · 3.1k tokens · 4.1 s",
+        "15:47:30 [/] Rivet applied a patch · ok",
+        "15:48:37 [x] Rivet ran tests · failed",
+        "15:49:28 [>] Rivet started running tests"
+      ],
+      "badge": "[~] LIVE · last event 1.9 s ago · SYNTHETIC REPLAY",
+      "card": [
+        "RIVET · IMPLEMENTER",
+        "Mission sdlc-42 · round 2",
+        "[>] Running tests",
+        "1 model request · 3.1k tokens · observed"
+      ],
+      "gate": [
+        "[x] CLOSED · 1 failing",
+        "Policy gen 7 · expires in 2d 14h",
+        "1 / 3 missions used · admission active mission",
+        "[=] Policy enabled + publish · allowed",
+        "[=] Test verdict · improved · 6/6 vs 4/6 · +6 −2",
+        "[x] Reviewer · changes requested · 2 findings"
+      ],
+      "rivet_strip": "Rivet\nRunning tests",
+      "size": "(960, 700)",
+      "stream_state": "live",
+      "v7_snapshot_age_s": 1.513
+    },
+    "live-crew-view-stale": {
+      "activity": [
+        "15:43:51 [=] Core graded round 1 · improved (6/6 vs 4/6)",
+        "15:45:31 [x] Prism requested changes · 2 findings",
+        "15:46:25 [/] Rivet model request 3 · 3.1k tokens · 4.1 s",
+        "15:46:52 [/] Rivet applied a patch · ok",
+        "15:47:59 [x] Rivet ran tests · failed",
+        "15:48:50 [>] Rivet started running tests"
+      ],
+      "badge": "[?] STALE · last event 13 s ago · heartbeat missed · SYNTHETIC REPLAY",
+      "card": [
+        "RIVET · IMPLEMENTER",
+        "Mission sdlc-42 · round 2",
+        "[?] Activity unknown · stream not live",
+        "1 model request · 3.1k tokens · observed"
+      ],
+      "gate": [
+        "[x] CLOSED · 1 failing",
+        "Policy gen 7 · expires in 2d 14h",
+        "1 / 3 missions used · admission active mission",
+        "[=] Policy enabled + publish · allowed",
+        "[=] Test verdict · improved · 6/6 vs 4/6 · +6 −2",
+        "[x] Reviewer · changes requested · 2 findings"
+      ],
+      "rivet_strip": "Rivet\nSDLC implementer · implementing",
+      "size": "(1440, 900)",
+      "stream_state": "stale",
+      "v7_snapshot_age_s": 3.373
+    }
+  },
+  "engine": "4.7.2-stable (official)",
+  "fixture": "res://../../fixtures/world/transparency/stream.jsonl",
+  "renderer": "opengl3",
+  "synthetic": true
+}

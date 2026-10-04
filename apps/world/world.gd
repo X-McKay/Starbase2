@@ -7,6 +7,19 @@ const Art = preload("res://art.gd")
 const ConnectionStatus = preload("res://connection_status.gd")
 const CrewPresentation = preload("res://crew_presentation.gd")
 const CrewMotion = preload("res://crew_motion.gd")
+const EventStream = preload("res://event_stream.gd")
+const LiveActivity = preload("res://live_activity.gd")
+const RealityGate = preload("res://reality_gate.gd")
+const Freshness = preload("res://freshness.gd")
+const SdlcCrew = preload("res://sdlc_crew.gd")
+# Live stream (v8) state. The stream only signals that records changed; the
+# polled snapshots stay authoritative and are refetched on change or reset.
+var event_stream:Node
+var live_activity:=LiveActivity.new()
+var stream_fixture_path := ""
+var stream_fixture_v7_path := ""
+var stream_fixture_reloads := 0
+var live_view_timer := 0.0
 var crew_presentations:Dictionary={}
 var crew_motions:Dictionary={}
 var interaction_stations:Dictionary={}
@@ -181,7 +194,7 @@ func update_crew_presentation() -> void:
 		actor.presentation_partner=get_node(MEMBERS[partner_kind]) if MEMBERS.has(partner_kind) else null
 		actor.presentation_exchange_role=str(intent.get("exchange_role",""))
 		actor.project_assignment(intent,hud.large_text)
-		if hud.crew_strip!=null: hud.crew_strip.project(kind,intent)
+		if hud.crew_strip!=null: hud.crew_strip.project(kind,activity_intent(kind,intent))
 
 func watch_crew(kind:String) -> void:
 	morning_director.stop()
@@ -265,6 +278,8 @@ func connect_to_core(endpoint:String) -> void:
 		hud.board.api=api; hud.board.commands.api=api; hud.board.fixture=""
 		hud.board.snapshot={}; hud.board.online=false; hud.board.signature=""
 	for kind in crew_presentations: crew_presentations[kind]=CrewPresentation.new()
+	live_activity=LiveActivity.new(); stream_fixture_path=""
+	event_stream.last_event_id=""; event_stream.start(api)
 	connection_message="Connecting to "+api
 	hud.connection_panel.feedback.text=connection_message
 	hud.connection.text=connection_message
@@ -279,6 +294,7 @@ func _ready() -> void:
 		if arg.begins_with("--api=") and not OS.has_feature("web"): api = arg.trim_prefix("--api=").trim_suffix("/")
 		if arg.begins_with("--frames="): capture_frames = maxi(60,int(arg.trim_prefix("--frames=")))
 		if arg.begins_with("--fixture="): fixture_path = arg.trim_prefix("--fixture=")
+		if arg.begins_with("--stream-fixture="): stream_fixture_path = arg.trim_prefix("--stream-fixture=")
 		if arg.begins_with("--board-tab="): board_tab=int(arg.trim_prefix("--board-tab="))
 		if arg.begins_with("--board-evidence="): board_evidence=arg.trim_prefix("--board-evidence=")
 		if arg=="--board": board_on_start=true
@@ -303,6 +319,7 @@ func _ready() -> void:
 		if arg == "--large-text": large_on_start = true
 		if arg == "--reduced-motion": reduced_on_start = true
 		if arg == "--directory": directory_on_start = true
+	if not stream_fixture_path.is_empty(): prepare_stream_fixture()
 	var package_capture_directory := ""
 	var shift_capture_directory := ""
 	var shift_capture_mode := "domestic"
@@ -461,8 +478,10 @@ func _ready() -> void:
 	timer.wait_time = 1.0
 	timer.timeout.connect(poll)
 	add_child(timer)
+	setup_event_stream()
 	if fixture_path != "":
 		var data = JSON.parse_string(FileAccess.get_file_as_string(fixture_path))
+		if data is Dictionary and not stream_fixture_path.is_empty(): data=EventStream.rebase(data,event_stream.fixture_time_offset)
 		if data is Dictionary: receive_snapshot(data)
 		hud.connection.text = "VISUAL TEST FIXTURE · not live operational activity"
 	else:
@@ -814,6 +833,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		KEY_V:
 			if morning_director.enabled: stop_watching()
 			else: start_observing()
+		KEY_T: hud.live_view.toggle_activity()
 		KEY_4: hud.open_place("watchkeeper")
 		KEY_5: hud.open_place("reviewer")
 		KEY_TAB: hud.toggle_directory()
@@ -988,7 +1008,7 @@ func _physics_process(_delta: float) -> void:
 			var activity: String="At home" if not life.anchor.is_empty() else "Between assignments"
 			if not life.path.is_empty(): activity="Walking home" if life.intent.get("goal")=="home" else "Heading to station"
 			elif life.ambient_activity=="sit": activity="Taking a break"
-			hud.crew_strip.project(kind,life.intent,activity,life.route_blocked)
+			hud.crew_strip.project(kind,activity_intent(kind,life.intent),activity,life.route_blocked)
 	if station_signals!=null:
 		station_signals.set_selected_context(hud.station_records.selected_station if hud.station_records.visible else "")
 		station_signals.update_view(camera,$Operator.position,active_room!=null or not watched_crew.is_empty() or hud.is_open() or colony_overview,hud.large_text)
@@ -1079,6 +1099,7 @@ func _process(delta: float) -> void:
 		hud.connection.text = connection_message
 		show_mission()
 	if hud.connection_panel.visible: refresh_connection_panel()
+	update_live_view(delta)
 	if capture_path != "" and frame_count == capture_frames:
 		RenderingServer.force_draw(false)
 		get_viewport().get_texture().get_image().save_png(capture_path)
@@ -1114,3 +1135,159 @@ func configure_support_surfaces() -> void:
 	# Use the same sampled floor as the crew soles, not the actor's navigation Y.
 	for station in interaction_stations.values():
 		station.global_position.y=support_surface.height_at(station.global_position)
+
+# --- Live event stream (v8) and the live crew view --------------------------
+
+## A stream fixture is self-describing: its header names the synthetic V2/V7
+## snapshots it pairs with. Fixtures never open a network connection.
+func prepare_stream_fixture() -> void:
+	event_stream=EventStream.new(); event_stream.name="EventStream"
+	if not event_stream.start_fixture(stream_fixture_path):
+		push_error("Stream fixture unreadable: "+stream_fixture_path)
+		stream_fixture_path=""
+		return
+	var base:=stream_fixture_path.get_base_dir()
+	var header:Dictionary=event_stream.fixture_header
+	if fixture_path.is_empty() and header.get("world_snapshot") is String: fixture_path=base.path_join(header.world_snapshot)
+	if header.get("v7_snapshot") is String: stream_fixture_v7_path=base.path_join(header.v7_snapshot)
+	if board_fixture.is_empty(): board_fixture="__empty_visual_fixture__"
+
+func setup_event_stream() -> void:
+	if event_stream==null:
+		event_stream=EventStream.new(); event_stream.name="EventStream"
+	add_child(event_stream)
+	event_stream.record_event.connect(on_stream_record)
+	event_stream.activity.connect(on_stream_activity)
+	event_stream.reset.connect(on_stream_reset)
+	event_stream.connection_changed.connect(func(_state:String): update_live_view(1.0))
+	if not stream_fixture_path.is_empty():
+		event_stream.restart_fixture_clock()
+		load_stream_fixture_snapshot()
+		var reload:=Timer.new(); reload.name="FixtureSnapshotPoll"; reload.wait_time=1.0
+		# Stands in for the 1 s /v2 and 5 s /v7 polls, which continue whether or not
+		# the stream is live; the stream alone decides live versus stale.
+		reload.timeout.connect(poll_stream_fixture); add_child(reload); reload.start()
+	elif fixture_path.is_empty():
+		event_stream.start(api)
+
+## Replay the stream fixture from its first frame (captures and tests only).
+func restart_stream_fixture() -> void:
+	if stream_fixture_path.is_empty(): return
+	live_activity=LiveActivity.new()
+	event_stream.start_fixture(stream_fixture_path)
+	load_stream_fixture_snapshot()
+
+func poll_stream_fixture() -> void:
+	if stream_fixture_path.is_empty(): return
+	var data=JSON.parse_string(FileAccess.get_file_as_string(fixture_path))
+	if data is Dictionary and ConnectionStatus.valid(data): receive_snapshot(EventStream.rebase(data,event_stream.fixture_time_offset))
+	# Wall-clock 5 s like the live poll; a slow renderer may fire this timer late.
+	if Time.get_ticks_msec()-hud.board.sdlc_missions.received_at_msec>=5000: load_stream_fixture_snapshot()
+
+func refresh_strip_verbs() -> void:
+	if hud==null or hud.crew_strip==null: return
+	for kind in crew_motions:
+		hud.crew_strip.project(kind,activity_intent(kind,crew_motions[kind].intent),"",crew_motions[kind].route_blocked)
+
+func load_stream_fixture_snapshot() -> void:
+	if stream_fixture_path.is_empty() or stream_fixture_v7_path.is_empty(): return
+	var data=JSON.parse_string(FileAccess.get_file_as_string(stream_fixture_v7_path))
+	if not data is Dictionary or data.get("schema_version")!=7: return
+	var sdlc=hud.board.sdlc_missions
+	sdlc.snapshot=EventStream.rebase(data,event_stream.fixture_time_offset)
+	sdlc.online=true; sdlc.received_at_msec=Time.get_ticks_msec()
+	stream_fixture_reloads+=1
+	sdlc.render(); sdlc.snapshot_changed.emit()
+	update_live_view(1.0)
+
+## Stream events only trigger a faster refetch of the authoritative /v7 snapshot.
+func refresh_v7() -> void:
+	if not stream_fixture_path.is_empty(): load_stream_fixture_snapshot.call_deferred()
+	elif fixture_path.is_empty(): hud.board.sdlc_missions.refresh_soon()
+
+func on_stream_record(evt:Dictionary) -> void:
+	live_activity.ingest(evt,event_stream.now_msec())
+	if str(evt.get("family","")).begins_with("v7_"): refresh_v7()
+	update_live_view(1.0)
+
+func on_stream_activity(evt:Dictionary) -> void:
+	live_activity.ingest(evt,event_stream.now_msec())
+	update_live_view(1.0)
+
+func on_stream_reset(reason:String) -> void:
+	live_activity.note_reset(reason,Time.get_unix_time_from_system(),event_stream.now_msec())
+	if fixture_path.is_empty() and stream_fixture_path.is_empty(): poll()
+	refresh_v7()
+	update_live_view(1.0)
+
+func stream_live() -> bool:
+	return event_stream!=null and event_stream.state==EventStream.LIVE and event_stream.last_event_age_seconds()<=event_stream.stale_after_seconds()
+
+func activity_intent(kind:String,intent:Dictionary) -> Dictionary:
+	var role:String=SdlcCrew.ROLES.get(kind,"")
+	var mission:=str(intent.get("sdlc_mission_id",""))
+	if role.is_empty() or mission.is_empty() or bool(intent.get("unknown",true)) or event_stream==null: return intent
+	var act:Dictionary=live_activity.current(mission,role,event_stream.now_msec(),stream_live())
+	if not act.fresh: return intent
+	var result:=intent.duplicate()
+	result.activity_verb=str(act.text)
+	result.activity_glyph=str(act.glyph)
+	return result
+
+func follow_kind() -> String:
+	if MEMBERS.has(watched_crew): return watched_crew
+	return hud.crew_strip.detail_kind if hud.crew_strip!=null and MEMBERS.has(hud.crew_strip.detail_kind) else ""
+
+func gate_mission() -> Dictionary:
+	var sdlc=hud.board.sdlc_missions
+	var kind:=follow_kind()
+	var id:=""
+	if crew_motions.has(kind): id=str(crew_motions[kind].intent.get("sdlc_mission_id",""))
+	if id.is_empty(): id=str(sdlc.selected)
+	var found:=LiveActivity.mission_summary(sdlc.snapshot,id)
+	if not found.is_empty(): return found
+	for mission in sdlc.snapshot.get("missions",[]):
+		if mission is Dictionary and (found.is_empty() or float(mission.get("updated_at",0))>float(found.get("updated_at",0))): found=mission
+	return found
+
+func freshness_model() -> Dictionary:
+	if event_stream==null or (not fixture_path.is_empty() and stream_fixture_path.is_empty()):
+		return {"text":"[?] FIXTURE · no live stream or snapshot","color":Freshness.COLORS.unknown,"status":"unknown","live":false}
+	var snapshot_age:=(Time.get_ticks_msec()-last_received)/1000.0 if last_received>0 else -1.0
+	return Freshness.evaluate(event_stream.state if event_stream.running else "",event_stream.last_event_age_seconds(),event_stream.heartbeat_seconds,not disconnected,snapshot_age,not stream_fixture_path.is_empty())
+
+func update_live_view(delta:float) -> void:
+	if hud==null or hud.live_view==null or hud.live_view.gate_panel==null: return
+	var kind:=follow_kind()
+	var anchor:=Vector2.ZERO
+	var wanted:=false
+	if crew_motions.has(kind):
+		var actor:Node3D=get_node(MEMBERS[kind])
+		var head:=actor.global_position+Vector3(0,2.05,0)
+		wanted=actor.visible and not camera.is_position_behind(head)
+		anchor=camera.unproject_position(head)
+	live_view_timer+=delta
+	if live_view_timer<0.2:
+		# Between text refreshes only the card follows the actor's screen position.
+		hud.live_view.card_anchor=anchor
+		hud.live_view.card_wanted=hud.live_view.card_wanted and wanted
+		hud.live_view.place_card()
+		return
+	live_view_timer=0.0
+	hud.set_freshness(freshness_model())
+	var sdlc=hud.board.sdlc_missions
+	var current:bool=sdlc.online and Time.get_ticks_msec()-sdlc.received_at_msec<15000
+	hud.live_view.set_activity(live_activity.visible_entries(sdlc.snapshot,6),stream_live())
+	# Verbs follow note freshness and stream state, not only snapshot changes.
+	refresh_strip_verbs()
+	hud.live_view.set_gate(RealityGate.evaluate(sdlc.snapshot,gate_mission(),Time.get_unix_time_from_system(),current))
+	var card_lines:Array=[]
+	if crew_motions.has(kind):
+		var intent:Dictionary=crew_motions[kind].intent
+		var role:String=SdlcCrew.ROLES.get(kind,"")
+		var mission:=str(intent.get("sdlc_mission_id",""))
+		var act:Dictionary=live_activity.current(mission,role,event_stream.now_msec(),stream_live()) if event_stream!=null else {}
+		var name:String=str(hud.crew_strip.NAMES.get(kind,kind)).split(" ")[0]
+		var shown_role:String=role if not role.is_empty() else str(MEMBERS[kind]).to_lower()
+		card_lines=LiveActivity.follow_card(name,shown_role,intent,LiveActivity.mission_summary(sdlc.snapshot,mission),act,live_activity.usage_for(mission,role)).lines
+	hud.live_view.set_card(card_lines,anchor,wanted)

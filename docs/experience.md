@@ -419,3 +419,13 @@ offline journey checks seated Command work through standing, travel and Commons
 exchange without dispatching a command. New set dressing still needs native
 camera review because render-only meshes are invisible to the physics sightline
 test.
+
+## Live crew view · 2026-10-04
+
+The [live crew view](live-crew-view.md) adds a stream-driven freshness badge, a
+live activity panel, a follow-card above the watched crew member and a Reality
+Gate panel to the exploration HUD. Verbs come from transient activity notes only
+while the stream is live; records and gate checks come from the polled `/v7`
+snapshot. Stale, offline, disconnected and unknown stay distinct, and missing
+evidence is never shown as passed. Native captures use a synthetic fixture;
+owner visual acceptance and Web browser verification remain open.

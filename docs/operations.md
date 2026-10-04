@@ -292,5 +292,7 @@ token file posts nothing. A note can never fail, block or retry the activity.
 
 Limits: the buffer is per Core process and not persisted; a single local Core is
 assumed (no multi-replica fan-out); the stream has no per-client authorization
-beyond the loopback boundary; and the native client does not consume it yet.
+beyond the loopback boundary. The native world client consumes it for the
+[live crew view](live-crew-view.md) (freshness badge, activity panel,
+follow-card and Reality Gate); its Web `EventSource` path is not yet browser-verified.
 

@@ -102,6 +102,9 @@ var crew_limits: Label
 var crew_availability: Label
 var crew_action: Button
 var crew_route := ""
+var freshness_panel: PanelContainer
+var freshness_badge: Label
+var live_view: Control
 
 func style(bg: String = "0a0a0ad6", border: String = "77777766", pad: int = 18) -> StyleBoxFlat:
 	var s := StyleBoxFlat.new()
@@ -176,7 +179,22 @@ func _ready() -> void:
 	chrome_toggle.clip_text=false
 	chrome_toggle.size_flags_horizontal=Control.SIZE_SHRINK_END
 	chrome_toggle.add_theme_font_size_override("font_size",11)
-	connection = text(mast,"Connecting to local core…",12,"bcb9b6")
+	var status_row:=HBoxContainer.new()
+	status_row.name="FreshnessRow"
+	status_row.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	status_row.add_theme_constant_override("separation",10)
+	mast.add_child(status_row)
+	freshness_panel=PanelContainer.new()
+	freshness_panel.name="FreshnessBadge"
+	freshness_panel.mouse_filter=Control.MOUSE_FILTER_PASS
+	var badge_style:=style("0b1626e6","c6bdd688",0)
+	badge_style.content_margin_left=7; badge_style.content_margin_right=7; badge_style.content_margin_top=1; badge_style.content_margin_bottom=1
+	freshness_panel.add_theme_stylebox_override("panel",badge_style)
+	status_row.add_child(freshness_panel)
+	freshness_badge=text(freshness_panel,"[?] UNKNOWN · nothing received from Core",12,"c6bdd6")
+	freshness_badge.mouse_filter=Control.MOUSE_FILTER_PASS
+	connection = text(status_row,"Connecting to local core…",12,"bcb9b6")
+	connection.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	connection.clip_text=true
 	connection.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
 	connection.mouse_filter=Control.MOUSE_FILTER_PASS
@@ -495,7 +513,7 @@ func _ready() -> void:
 	for section in [
 		["EXPLORE", "WASD / arrows  ·  Walk\nClick a path  ·  Travel\nE  ·  Inspect nearby crew or console\nF  ·  Enter / exit a room\nL  ·  Visit Habitat\nM  ·  Colony map"],
 		["WORKSPACES", "Tab  ·  Crew & places\n1–5  ·  Crew dossier\nB  ·  Field operations\nJ  ·  Work & history\nI  ·  Station records\nK  ·  Habitat briefing\nO  ·  Connection"],
-		["CAMERA & NAVIGATION", "V  ·  Observe crew\nC  ·  Follow / room camera\n+ / − or wheel  ·  Zoom\nEnter  ·  Activate focused control\nEsc  ·  Close workspace\nH  ·  Settings & controls"]]:
+		["CAMERA & NAVIGATION", "V  ·  Observe crew\nT  ·  Live activity panel\nC  ·  Follow / room camera\n+ / − or wheel  ·  Zoom\nEnter  ·  Activate focused control\nEsc  ·  Close workspace\nH  ·  Settings & controls"]]:
 		text(guide,section[0],13,"c9c5c1")
 		text(guide,section[1],15).autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	button(guide,"Connection settings [O]",open_connection)
@@ -544,6 +562,8 @@ func _ready() -> void:
 	root.add_child(connection_panel)
 	connection_panel.connect_requested.connect(func(value:String): connect_requested.emit(value))
 	connection_panel.journal_requested.connect(open_operations)
+	live_view=preload("res://live_crew_view.gd").new()
+	root.add_child(live_view)
 	crew_strip=preload("res://crew_strip.gd").new()
 	root.add_child(crew_strip)
 	crew_strip.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
@@ -555,6 +575,17 @@ func _ready() -> void:
 	operations.visibility_changed.connect(sync_world_chrome)
 	root.resized.connect(layout_hud)
 	layout_hud.call_deferred()
+
+## Masthead freshness: glyph + text + age, colour is never the only signal.
+func set_freshness(model:Dictionary) -> void:
+	if freshness_badge==null: return
+	freshness_badge.text=str(model.get("text","[?] UNKNOWN"))
+	freshness_badge.tooltip_text=freshness_badge.text+"\nStale after a missed heartbeat window (heartbeat × 2 + 1 s). Connection [O]"
+	freshness_panel.tooltip_text=freshness_badge.tooltip_text
+	var color:=Color(str(model.get("color","c6bdd6")))
+	freshness_badge.add_theme_color_override("font_color",color)
+	var surface:StyleBoxFlat=freshness_panel.get_theme_stylebox("panel")
+	if surface!=null: surface.border_color=Color(color,0.6)
 
 func set_location(value:String) -> void:
 	location.text=value
@@ -595,6 +626,7 @@ func sync_world_chrome() -> void:
 	update_navigation_style()
 	var show_exploration:=not expanded and not exploration_hud_collapsed
 	crew_strip.visible=show_exploration
+	if live_view!=null: live_view.visible=show_exploration
 	crew_strip.rows.visible=show_exploration and not observing
 	prompt_panel.visible=show_exploration
 	navigation_bar.visible=show_exploration or expanded
@@ -721,6 +753,13 @@ func layout_hud() -> void:
 		crew_strip.offset_top=-16-strip_height
 		prompt_panel.offset_bottom=-16-strip_height
 		prompt_panel.offset_top=prompt_panel.offset_bottom-44
+	if live_view!=null and live_view.gate_panel!=null:
+		# The right column sits under the masthead (and compact navigation) and
+		# ends above the prompt, so live panels never cover crew-strip controls.
+		var header_bottom:=header_panel.position.y+header_panel.get_combined_minimum_size().y+10
+		var live_top:=maxf(header_bottom,compact_nav_top+48) if narrow else header_bottom
+		var live_bottom:=viewport_size.y-16-(crew_strip.get_combined_minimum_size().y if crew_strip!=null else 0.0)-52
+		live_view.fit(viewport_size,narrow,large_text,live_top,live_bottom,184.0 if wide else 22.0)
 
 func settings_page(title:String) -> VBoxContainer:
 	var scroll:=ScrollContainer.new()

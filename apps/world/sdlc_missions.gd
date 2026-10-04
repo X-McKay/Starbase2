@@ -31,6 +31,7 @@ var feedback: Label
 var cancel: Button
 var reconcile: Button
 var signature := ""
+var refresh_pending := false
 
 func label(parent: Node, text: String, size: int = 16) -> Label:
 	var item := Label.new(); item.text=text
@@ -78,8 +79,20 @@ func poll() -> void:
 	var result:int=http.request(api+"/v7/snapshot")
 	if result!=OK: received(HTTPRequest.RESULT_CANT_CONNECT,0,[],PackedByteArray())
 
+## A stream record event asks for the authoritative snapshot sooner than the
+## 5 s poll. Bursts coalesce: one request in flight plus at most one follow-up.
+func refresh_soon() -> void:
+	if fixture: return
+	if http.get_http_client_status()!=HTTPClient.STATUS_DISCONNECTED:
+		refresh_pending=true
+		return
+	poll()
+
 func received(result:int,code:int,_headers:PackedStringArray,body:PackedByteArray) -> void:
 	if fixture: return
+	if refresh_pending:
+		refresh_pending=false
+		poll.call_deferred()
 	var data=JSON.parse_string(body.get_string_from_utf8()) if code==200 else null
 	online=result==HTTPRequest.RESULT_SUCCESS and code==200 and data is Dictionary and data.get("schema_version")==7 and data.get("missions") is Array
 	if online:
