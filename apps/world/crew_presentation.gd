@@ -2,7 +2,7 @@ extends RefCounted
 ## Cosmetic intent only. World navigation resolves destinations; this never dispatches work.
 const StateView = preload("res://state.gd")
 const TERMINAL := ["completed","failed","cancelled"]
-const WORKING := ["running","executing","analyzing","evaluating","verifying"]
+const WORKING := StateView.WORKING_STATES
 var last_observed_at := -1.0
 var retained: Array = []
 var selected_run_id := ""

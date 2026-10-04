@@ -1,7 +1,7 @@
 extends Node3D
 ## Exterior record aggregates. Rendering and inspection cannot dispatch work.
 const StateView = preload("res://state.gd")
-const OPEN := ["queued", "running", "cancel_requested", "executing", "analyzing", "evaluating", "verifying", "capturing", "reviewing"]
+const OPEN := StateView.OPEN_STATES
 const TERMINAL := ["completed", "failed", "cancelled"]
 const GROUPS := {"review":["review", "watchkeeper", "reviewer"], "repair":["repair"], "gym":["gym"]}
 const TITLES := {"review":"COMMAND", "repair":"WORKSHOP", "gym":"TRIAL HALL"}

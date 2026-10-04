@@ -42,5 +42,16 @@ func _initialize() -> void:
 	assert(a.goal=="home" and a.duty_label=="On duty · waiting")
 	a=p.update([],"gym",false,false,11,{"known":true,"enabled":false})
 	assert(a.goal=="home" and a.duty_label=="Duty paused")
+	# Regression: capturing/reviewing counted as open for station signs but idle
+	# for crew motion. Both read one shared definition now.
+	var Signals=preload("res://station_signals.gd")
+	for open_state in ["capturing","reviewing"]:
+		var q=Presentation.new()
+		var working={"input":{"id":"w-"+open_state,"kind":"evaluation"},"state":open_state,"updated_at":20.0,"stale":false,"evidence":null}
+		var intent=q.update([working],"gym",false,false,20)
+		assert(intent.goal=="workstation" and intent.pose=="console" and intent.active_count==1,"Open state moves crew to work: "+open_state)
+		assert(intent.task_markers[0].status=="active","Open state marker is active: "+open_state)
+		assert(open_state in Signals.OPEN,"Station signs agree: "+open_state)
+	for state in Presentation.WORKING: assert(state in Signals.OPEN,"Every working state is open: "+state)
 	print("CREW_PRESENTATION_PASSED: intent only, chronological coalescing, concurrency, offline/stale, reduced motion, evidence and cancellation")
 	quit()
