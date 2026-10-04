@@ -429,3 +429,15 @@ while the stream is live; records and gate checks come from the polled `/v7`
 snapshot. Stale, offline, disconnected and unknown stay distinct, and missing
 evidence is never shown as passed. Native captures use a synthetic fixture;
 owner visual acceptance and Web browser verification remain open.
+
+## Captain's Log · 2026-10-04
+
+The [Captain's Log](captains-log.md) (page 4, key **G**) shows one SDLC mission as
+a timeline with a lane each for Moss, Rivet, Prism and Core. Events sit at their
+recorded times, and long quiet gaps are collapsed. Selecting an event by click,
+arrow keys or Tab opens its evidence from the record and lists what Core does not
+record, such as model reasoning and tool arguments. **L** switches to a
+chronological list with the same events. Retained records, stream observations and
+provisional stream stages look different, and loading, stale, failed and unknown
+record states stay distinct. Native captures use a synthetic fixture; owner visual
+acceptance remains open.

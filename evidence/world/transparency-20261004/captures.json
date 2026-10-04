@@ -1,4 +1,183 @@
 {
+  "captains_log": {
+    "captures": {
+      "captains-log": {
+        "detail": [
+          "› Finding · algent/cache.py:41 · Size check uses > instead of >= · evidence: case_5 boundary",
+          "› Finding · algent/cache.py:58 · Eviction does not update the access list · evidence: case_6 order",
+          "› Missing evidence · none noted",
+          "› Model usage · 4.5k tokens (3900 in, 600 out) · 9.1 s"
+        ],
+        "events": [
+          "1. 16:36:43 UTC · Core · [/] Mission admitted",
+          "2. 16:37:43 UTC · Core · [/] Sources captured · 3 files",
+          "3. 16:44:43 UTC · Moss · [>] Plan handed to Rivet",
+          "4. 16:46:43 UTC · Rivet · [/] Patch round 1 · +6 −2",
+          "5. 16:46:43 UTC · Core · [=] Graded round 1 · improved",
+          "6. 16:48:23 UTC · Prism · [x] Changes requested · 2 findings",
+          "7. 16:49:44 UTC · Rivet · [/] Rivet applied a patch · ok · observed, not retained",
+          "8. 16:50:51 UTC · Rivet · [x] Rivet ran tests · failed · observed, not retained",
+          "9. 16:51:42 UTC · Rivet · [>] Rivet started running tests · observed, not retained"
+        ],
+        "meta": "X-McKay/algent · admitted 16:36 UTC · now implementing round 2 · 19.3k tokens retained · cost not recorded",
+        "mode": "timeline",
+        "not_recorded": [
+          "› Model reasoning · not recorded (Core keeps only the returned output)"
+        ],
+        "selected": "EVENT 6 OF 9 · [x] Changes requested · 2 findings",
+        "size": "(1440, 900)",
+        "source": "/v7/missions/sdlc-42 · events[3] · key review-1",
+        "status": [
+          "[~] LIVE · last event 2.7 s ago · SYNTHETIC REPLAY",
+          "[=] Synthetic fixture record · 4 retained events",
+          "[-] Admission now · active mission (current Core state, not a timeline event)"
+        ],
+        "stream_state": "live",
+        "ticks": [
+          "≈ 7 m quiet",
+          "16:46",
+          "16:48",
+          "16:50"
+        ],
+        "title": "Mission 42 · Fix cache eviction"
+      },
+      "captains-log-compact": {
+        "detail": [
+          "› Diff · 1 file · +6 −2",
+          "› Candidate run · 6 cases observed · exit code 0",
+          "› Artifact digest · cccccccccccc",
+          "› Stated rationale · Synthetic: track access order and evict the oldest key.",
+          "› Model usage · 8.7k tokens (7400 in, 1300 out) · 15.2 s"
+        ],
+        "events": [
+          "1. 16:37:25 UTC · Core · [/] Mission admitted",
+          "2. 16:38:25 UTC · Core · [/] Sources captured · 3 files",
+          "3. 16:45:25 UTC · Moss · [>] Plan handed to Rivet",
+          "4. 16:47:25 UTC · Rivet · [/] Patch round 1 · +6 −2",
+          "5. 16:47:25 UTC · Core · [=] Graded round 1 · improved",
+          "6. 16:49:05 UTC · Prism · [x] Changes requested · 2 findings",
+          "7. 16:50:26 UTC · Rivet · [/] Rivet applied a patch · ok · observed, not retained",
+          "8. 16:51:33 UTC · Rivet · [x] Rivet ran tests · failed · observed, not retained",
+          "9. 16:52:24 UTC · Rivet · [>] Rivet started running tests · observed, not retained"
+        ],
+        "meta": "X-McKay/algent · admitted 16:37 UTC · now implementing round 2 · 19.3k tokens retained · cost not recorded",
+        "mode": "timeline",
+        "not_recorded": [
+          "› Model reasoning · not recorded (Core keeps only the returned output)",
+          "› Tool arguments · not recorded"
+        ],
+        "selected": "EVENT 4 OF 9 · [/] Patch round 1 · +6 −2",
+        "size": "(960, 700)",
+        "source": "/v7/missions/sdlc-42 · events[2] · key testing-1",
+        "status": [
+          "[~] LIVE · last event 2.4 s ago · SYNTHETIC REPLAY",
+          "[=] Synthetic fixture record · 4 retained events",
+          "[-] Admission now · active mission (current Core state, not a timeline event)"
+        ],
+        "stream_state": "live",
+        "ticks": [
+          "16:38",
+          "≈ 7 m quiet",
+          "16:46",
+          "16:48",
+          "16:50",
+          "16:52"
+        ],
+        "title": "Mission 42 · Fix cache eviction"
+      },
+      "captains-log-detail": {
+        "detail": [
+          "› Diff · 1 file · +6 −2",
+          "› Candidate run · 6 cases observed · exit code 0",
+          "› Artifact digest · cccccccccccc",
+          "› Stated rationale · Synthetic: track access order and evict the oldest key.",
+          "› Model usage · 8.7k tokens (7400 in, 1300 out) · 15.2 s"
+        ],
+        "events": [
+          "1. 16:36:55 UTC · Core · [/] Mission admitted",
+          "2. 16:37:55 UTC · Core · [/] Sources captured · 3 files",
+          "3. 16:44:55 UTC · Moss · [>] Plan handed to Rivet",
+          "4. 16:46:55 UTC · Rivet · [/] Patch round 1 · +6 −2",
+          "5. 16:46:55 UTC · Core · [=] Graded round 1 · improved",
+          "6. 16:48:35 UTC · Prism · [x] Changes requested · 2 findings",
+          "7. 16:49:56 UTC · Rivet · [/] Rivet applied a patch · ok · observed, not retained",
+          "8. 16:51:03 UTC · Rivet · [x] Rivet ran tests · failed · observed, not retained",
+          "9. 16:51:54 UTC · Rivet · [>] Rivet started running tests · observed, not retained"
+        ],
+        "meta": "X-McKay/algent · admitted 16:36 UTC · now implementing round 2 · 19.3k tokens retained · cost not recorded",
+        "mode": "timeline",
+        "not_recorded": [
+          "› Model reasoning · not recorded (Core keeps only the returned output)",
+          "› Tool arguments · not recorded"
+        ],
+        "selected": "EVENT 4 OF 9 · [/] Patch round 1 · +6 −2",
+        "size": "(1440, 900)",
+        "source": "/v7/missions/sdlc-42 · events[2] · key testing-1",
+        "status": [
+          "[~] LIVE · last event 2.3 s ago · SYNTHETIC REPLAY",
+          "[=] Synthetic fixture record · 4 retained events",
+          "[-] Admission now · active mission (current Core state, not a timeline event)"
+        ],
+        "stream_state": "live",
+        "ticks": [
+          "≈ 7 m quiet",
+          "16:46",
+          "16:48",
+          "16:50"
+        ],
+        "title": "Mission 42 · Fix cache eviction"
+      },
+      "captains-log-list": {
+        "detail": [
+          "› Diff · 1 file · +6 −2",
+          "› Candidate run · 6 cases observed · exit code 0",
+          "› Artifact digest · cccccccccccc",
+          "› Stated rationale · Synthetic: track access order and evict the oldest key.",
+          "› Model usage · 8.7k tokens (7400 in, 1300 out) · 15.2 s"
+        ],
+        "events": [
+          "1. 16:37:06 UTC · Core · [/] Mission admitted",
+          "2. 16:38:06 UTC · Core · [/] Sources captured · 3 files",
+          "3. 16:45:06 UTC · Moss · [>] Plan handed to Rivet",
+          "4. 16:47:06 UTC · Rivet · [/] Patch round 1 · +6 −2",
+          "5. 16:47:06 UTC · Core · [=] Graded round 1 · improved",
+          "6. 16:48:46 UTC · Prism · [x] Changes requested · 2 findings",
+          "7. 16:50:07 UTC · Rivet · [/] Rivet applied a patch · ok · observed, not retained",
+          "8. 16:51:14 UTC · Rivet · [x] Rivet ran tests · failed · observed, not retained",
+          "9. 16:52:05 UTC · Rivet · [>] Rivet started running tests · observed, not retained"
+        ],
+        "meta": "X-McKay/algent · admitted 16:37 UTC · now implementing round 2 · 19.3k tokens retained · cost not recorded",
+        "mode": "list",
+        "not_recorded": [
+          "› Model reasoning · not recorded (Core keeps only the returned output)",
+          "› Tool arguments · not recorded"
+        ],
+        "selected": "EVENT 4 OF 9 · [/] Patch round 1 · +6 −2",
+        "size": "(1440, 900)",
+        "source": "/v7/missions/sdlc-42 · events[2] · key testing-1",
+        "status": [
+          "[~] LIVE · last event 3.7 s ago · SYNTHETIC REPLAY",
+          "[=] Synthetic fixture record · 4 retained events",
+          "[-] Admission now · active mission (current Core state, not a timeline event)"
+        ],
+        "stream_state": "live",
+        "ticks": [
+          "16:38",
+          "≈ 7 m quiet",
+          "16:46",
+          "16:48",
+          "16:50",
+          "16:52"
+        ],
+        "title": "Mission 42 · Fix cache eviction"
+      }
+    },
+    "engine": "4.7.2-stable (official)",
+    "fixture": "res://../../fixtures/world/transparency/stream.jsonl",
+    "record": "res://../../fixtures/world/transparency/mission-sdlc-42.json",
+    "renderer": "opengl3",
+    "synthetic": true
+  },
   "captures": {
     "live-crew-view": {
       "activity": [
