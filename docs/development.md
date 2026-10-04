@@ -139,7 +139,7 @@ for scene authoring, asset contracts, evidence and the remaining integration gat
 `mise exec -- just world-structure repair` previews a building definition without
 services. Add `50` for the shared-art load fixture. The [building authoring guide](building-catalog.md)
 explains how PNG/native exteriors and reusable interior scenes are added without
-new building-specific GDScript. `Tab` includes searchable direct place visits.
+new building-specific GDScript. `P` (Crew & places) includes searchable direct place visits.
 
 The [playable rollout](world-rollout.md) runs with ordinary `just world`.
 For local visual checks, `godot --path apps/world -- --room=repair` starts in the

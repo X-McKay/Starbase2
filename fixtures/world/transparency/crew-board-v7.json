@@ -1,0 +1,284 @@
+{
+  "_fixture": "SYNTHETIC FIXTURE: invented crew board day around mission 42 'Fix cache eviction' and mission 41 (PR #118) on X-McKay/algent, plus invented watchkeeper, surveyor and mender records. Not real Core, worker, model or repository activity.",
+  "schema_version": 7,
+  "view": "summary",
+  "enabled": true,
+  "verification_enabled": false,
+  "policy": {
+    "repository": "X-McKay/algent",
+    "enabled": true,
+    "publish": true,
+    "generation": 7,
+    "max_missions": 3,
+    "expires_at": 1790225000.0
+  },
+  "coordination": {
+    "admission": "active_mission",
+    "can_discover": false,
+    "reserved_opportunities": [],
+    "resolution": "Mission 42 is active; new admission waits for it to finish."
+  },
+  "capability_catalog": {
+    "schema_version": 1,
+    "capabilities": []
+  },
+  "discovery_count": 0,
+  "missions": [
+    {
+      "id": "sdlc-42",
+      "state": "implementing",
+      "current_stage": "implementing",
+      "revision_count": 1,
+      "verdict": "improved",
+      "objective": "Fix cache eviction",
+      "repository": "X-McKay/algent",
+      "policy_generation": 7,
+      "retry_of": null,
+      "created_at": 1789999100.0,
+      "updated_at": 1789999800.0,
+      "input": {
+        "id": "sdlc-42",
+        "repository": "X-McKay/algent",
+        "revision": "3f9c2e1a7b5d40c8a1e2f3b4c5d6e7f8a9b0c1d2",
+        "opportunity": "cache-eviction",
+        "build_digest": null,
+        "capability_digest": null
+      },
+      "assigned_crew": {
+        "lead": "moss",
+        "implementer": "rivet",
+        "reviewer": "prism"
+      },
+      "latest_event": {
+        "key": "review-1",
+        "stage": "reviewing",
+        "label": "reviewing · reviewer · revise",
+        "role": "reviewer",
+        "at": 1789999800.0
+      },
+      "recent_events": [
+        {
+          "key": "lead-handoff",
+          "stage": "implementing",
+          "label": "implementing · lead · implement",
+          "role": "lead",
+          "at": 1789999580.0
+        },
+        {
+          "key": "testing-1",
+          "stage": "testing",
+          "label": "testing · implementer · improved",
+          "role": "implementer",
+          "at": 1789999700.0
+        },
+        {
+          "key": "review-1",
+          "stage": "reviewing",
+          "label": "reviewing · reviewer · revise",
+          "role": "reviewer",
+          "at": 1789999800.0
+        }
+      ],
+      "event_count": 4,
+      "publication": {
+        "state": "none",
+        "branch": null,
+        "pr_number": null,
+        "pr_url": null,
+        "pr_state": null,
+        "pr_observed_at": null
+      },
+      "cancel_requested": false,
+      "verifications": [],
+      "stage_evidence": {
+        "plan": {
+          "decision": "implement",
+          "role": "lead",
+          "task": "Fix cache eviction so the least recently used entry leaves first",
+          "rationale": "Synthetic: the eviction loop removes the newest entry when the cache is full."
+        },
+        "testing": {
+          "baseline_cases": {
+            "passed": [
+              "case_1",
+              "case_2",
+              "case_3",
+              "case_4"
+            ],
+            "failed": [
+              "case_5",
+              "case_6"
+            ]
+          },
+          "candidate_cases": {
+            "passed": [
+              "case_1",
+              "case_2",
+              "case_3",
+              "case_4",
+              "case_5",
+              "case_6"
+            ],
+            "failed": []
+          },
+          "diff": {
+            "files": 1,
+            "additions": 6,
+            "deletions": 2
+          },
+          "grading": {
+            "baseline_pass": false,
+            "candidate_pass": true,
+            "verdict": "improved"
+          },
+          "verdict": "improved",
+          "artifact_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "validation_error": null
+        },
+        "reviewing": {
+          "role": "reviewer",
+          "status": "revise",
+          "rationale": "Synthetic: eviction order is right but the size check is off by one.",
+          "findings": [
+            {
+              "path": "algent/cache.py",
+              "line": 41,
+              "problem": "Size check uses > instead of >=",
+              "evidence": "case_5 boundary"
+            },
+            {
+              "path": "algent/cache.py",
+              "line": 58,
+              "problem": "Eviction does not update the access list",
+              "evidence": "case_6 order"
+            }
+          ],
+          "findings_truncated": false,
+          "missing_evidence": null
+        }
+      }
+    },
+    {
+      "id": "sdlc-41",
+      "state": "awaiting_review",
+      "current_stage": "awaiting_review",
+      "revision_count": 0,
+      "verdict": "improved",
+      "objective": "Bound retry backoff",
+      "repository": "X-McKay/algent",
+      "policy_generation": 7,
+      "retry_of": null,
+      "created_at": 1789982000.0,
+      "updated_at": 1789985600.0,
+      "input": {
+        "id": "sdlc-41",
+        "repository": "X-McKay/algent",
+        "revision": "3f9c2e1a7b5d40c8a1e2f3b4c5d6e7f8a9b0c1d2",
+        "opportunity": "retry-backoff",
+        "build_digest": null,
+        "capability_digest": null
+      },
+      "assigned_crew": {
+        "lead": "moss",
+        "implementer": "rivet",
+        "reviewer": "prism"
+      },
+      "latest_event": {
+        "key": "submitted-1",
+        "stage": "awaiting_review",
+        "label": "awaiting_review · core · submitted",
+        "role": "core",
+        "at": 1789985600.0
+      },
+      "recent_events": [
+        {
+          "key": "lead-handoff",
+          "stage": "implementing",
+          "label": "implementing · lead · implement",
+          "role": "lead",
+          "at": 1789982600.0
+        },
+        {
+          "key": "testing-1",
+          "stage": "testing",
+          "label": "testing · implementer · improved",
+          "role": "implementer",
+          "at": 1789983700.0
+        },
+        {
+          "key": "review-1",
+          "stage": "reviewing",
+          "label": "reviewing · reviewer · accept",
+          "role": "reviewer",
+          "at": 1789984900.0
+        }
+      ],
+      "event_count": 6,
+      "publication": {
+        "state": "submitted",
+        "branch": "starbase/sdlc-41",
+        "pr_number": 118,
+        "pr_url": "https://github.com/X-McKay/algent/pull/118",
+        "pr_state": "open",
+        "pr_observed_at": 1789985550.0
+      },
+      "cancel_requested": false,
+      "verifications": [],
+      "stage_evidence": {
+        "plan": {
+          "decision": "implement",
+          "role": "lead",
+          "task": "Bound retry backoff",
+          "rationale": "Synthetic: retries never cap their delay."
+        },
+        "testing": {
+          "baseline_cases": {
+            "passed": [
+              "case_1",
+              "case_2"
+            ],
+            "failed": [
+              "case_3"
+            ]
+          },
+          "candidate_cases": {
+            "passed": [
+              "case_1",
+              "case_2",
+              "case_3"
+            ],
+            "failed": []
+          },
+          "diff": {
+            "files": 1,
+            "additions": 4,
+            "deletions": 1
+          },
+          "grading": {
+            "baseline_pass": false,
+            "candidate_pass": true,
+            "verdict": "improved"
+          },
+          "verdict": "improved",
+          "artifact_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "validation_error": null
+        },
+        "reviewing": {
+          "role": "reviewer",
+          "status": "accept",
+          "rationale": "Synthetic: the cap is applied before jitter.",
+          "findings": [],
+          "findings_truncated": false,
+          "missing_evidence": null
+        }
+      }
+    }
+  ],
+  "page": {
+    "order": "updated_desc",
+    "limit": 50,
+    "total": 2,
+    "returned": 2,
+    "next_before": null
+  }
+}

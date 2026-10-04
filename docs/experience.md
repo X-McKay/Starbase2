@@ -429,3 +429,13 @@ while the stream is live; records and gate checks come from the polled `/v7`
 snapshot. Stale, offline, disconnected and unknown stay distinct, and missing
 evidence is never shown as passed. Native captures use a synthetic fixture;
 owner visual acceptance and Web browser verification remain open.
+
+## Crew board and dialogue · 2026-10-04
+
+The [crew board](crew-board.md) (Tab) shows what needs the operator, alert chips for
+a blocked admission and silent or stale crew, a newest-first feed of crew and Core
+events, one line per crew member and the selected member's day. The crew dialogue
+(T from the board) answers preset questions with fixed templates filled only from
+recorded state, each with a "Based on:" line; Moss answers for a crew member whose
+records are last known. Crew & places moved to P, R is now listed in Controls, and
+comfort settings persist across restarts.

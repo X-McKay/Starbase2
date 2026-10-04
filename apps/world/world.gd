@@ -447,6 +447,9 @@ func _ready() -> void:
 	hud.selection_changed.connect(func(_id): show_mission())
 	hud.connect_requested.connect(connect_to_core)
 	hud.settings_changed.connect(apply_settings)
+	hud.settings_changed.connect(save_comfort)
+	hud.crew_board.visibility_changed.connect(update_crew_board)
+	for toggle in hud.summary_toggles: toggle.toggled.connect(func(_value:bool): save_comfort())
 	hud.player_character_selected.connect(func(character_id:String):set_player_character(character_id))
 	hud.map_requested.connect(toggle_map)
 	hud.zoom_requested.connect(adjust_zoom)
@@ -508,6 +511,7 @@ func _ready() -> void:
 	# Fixtures do not read or mutate personal cosmetic preferences.
 	if not fixture_path.is_empty() and player_preferences_path==preload("res://player_preferences.gd").PATH:player_preferences_path=""
 	set_player_character(preload("res://player_preferences.gd").read_character(player_preferences_path),false)
+	restore_comfort()
 	if directory_on_start: hud.toggle_directory()
 	if walk_test:
 		route = navigator.route($Operator.position, walk_destination)
@@ -836,7 +840,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		KEY_T: hud.live_view.toggle_activity()
 		KEY_4: hud.open_place("watchkeeper")
 		KEY_5: hud.open_place("reviewer")
-		KEY_TAB: hud.toggle_directory()
+		KEY_TAB: hud.toggle_crew_board()
+		KEY_P: hud.toggle_directory()
 		KEY_ESCAPE:
 			hud.close_panels()
 			stop_watching()
@@ -1291,3 +1296,42 @@ func update_live_view(delta:float) -> void:
 		var shown_role:String=role if not role.is_empty() else str(MEMBERS[kind]).to_lower()
 		card_lines=LiveActivity.follow_card(name,shown_role,intent,LiveActivity.mission_summary(sdlc.snapshot,mission),act,live_activity.usage_for(mission,role)).lines
 	hud.live_view.set_card(card_lines,anchor,wanted)
+	update_crew_board()
+
+# --- Crew board (page 5) and dialogue (page 6) -------------------------------
+
+## Inputs for the board projection: authoritative records and stream entries only.
+func crew_board_context() -> Dictionary:
+	var sdlc=hud.board.sdlc_missions
+	var fixture_only:=not fixture_path.is_empty() and stream_fixture_path.is_empty()
+	return {"now":Time.get_unix_time_from_system(),"v7":sdlc.snapshot,
+		"v7_current":sdlc.online and Time.get_ticks_msec()-sdlc.received_at_msec<15000,
+		"v7_age":(Time.get_ticks_msec()-sdlc.received_at_msec)/1000.0 if sdlc.received_at_msec>0 else -1.0,
+		"v2_missions":missions,"v2_disconnected":disconnected or (fixture_path.is_empty() and Time.get_ticks_msec()-last_received>5000),
+		"v2_observed_at":float(snapshot.get("observed_at",0)),"activity":live_activity,
+		"stream_live":stream_live(),"now_msec":event_stream.now_msec() if event_stream!=null else Time.get_ticks_msec(),
+		"freshness":str(freshness_model().get("text","[?] UNKNOWN")),"fixture_only":fixture_only}
+
+func update_crew_board() -> void:
+	if hud.crew_board==null or not hud.crew_board.visible: return
+	var model:Dictionary=preload("res://crew_board_model.gd").build(crew_board_context())
+	hud.crew_board.set_model(model)
+	hud.crew_dialogue.set_model(model)
+
+## Comfort settings persist on this device; fixtures never read them, and a
+## harness that instantiates the world reads them only from an explicit path, so
+## a developer's saved larger text or reduced motion cannot change test runs.
+func restore_comfort() -> void:
+	if player_preferences_path.is_empty(): return
+	if get_tree().current_scene!=self and player_preferences_path==preload("res://player_preferences.gd").PATH: return
+	var values:Dictionary=preload("res://player_preferences.gd").read_comfort(player_preferences_path)
+	if values.is_empty(): return
+	if large_on_start: values.large_text=true
+	if reduced_on_start: values.reduced_motion=true
+	hud.set_comfort(values)
+	apply_settings()
+
+func save_comfort() -> void:
+	if player_preferences_path.is_empty(): return
+	if get_tree().current_scene!=self and player_preferences_path==preload("res://player_preferences.gd").PATH: return
+	preload("res://player_preferences.gd").write_comfort(hud.comfort(),player_preferences_path)
