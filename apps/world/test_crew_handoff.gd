@@ -31,5 +31,13 @@ func _initialize() -> void:
 	mission.events.append({"role":"implementer","state":"repairing"});mission.updated_at=4
 	assert(not controller.observe(snapshot,true,true),"Reduced motion cannot start a handoff")
 	assert(mission.events.size()==5,"Presentation never mutates authoritative history")
+	var bounded=Handoff.new()
+	var summary={"id":"mission-s","updated_at":1,"event_count":7,"recent_events":[{"role":"lead","stage":"investigating"}]}
+	var summaries={"schema_version":7,"missions":[summary]}
+	assert(not bounded.observe(summaries,true,false))
+	summary.recent_events=[{"role":"lead","stage":"investigating"},{"role":"implementer","stage":"implementing"}];summary.event_count=8;summary.updated_at=2
+	assert(bounded.observe(summaries,true,false) and bounded.current.receiver=="repair","Bounded summary recent events drive the same handoff")
+	summary.recent_events=[{"role":null,"stage":"testing"},{"role":"reviewer","stage":"reviewing"}];summary.event_count=9;summary.updated_at=3
+	assert(not bounded.observe(summaries,true,false),"Unknown role cannot invent a handoff")
 	print("CREW_HANDOFF_PASSED: new exact event only, physical anchors, truthful labels, stale/reduced suppression, bounded completion")
 	quit()

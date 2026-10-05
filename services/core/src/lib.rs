@@ -1,3 +1,6 @@
+pub mod events;
+#[cfg(test)]
+mod events_http_tests;
 pub mod field;
 pub mod grader;
 pub mod joint;
@@ -12,6 +15,7 @@ pub mod repository_discovery;
 pub mod sdlc;
 pub mod sdlc_discovery;
 pub mod sdlc_feedback;
+pub mod sdlc_summary;
 pub mod storage;
 
 use crate::parameters as params;
@@ -33,6 +37,8 @@ pub fn terminal(state: &str) -> bool {
 
 pub struct Store {
     db: storage::Database,
+    /// Live change stream; publish only after the corresponding write commits.
+    pub events: std::sync::Arc<events::EventHub>,
 }
 impl Store {
     pub fn open(path: &str) -> Result<Self> {
@@ -116,6 +122,7 @@ impl Store {
             .map_err(|e| e.to_string())?;
         }
         Ok(Self {
+            events: Default::default(),
             db: storage::Database::Sqlite(db),
         })
     }
@@ -348,7 +355,10 @@ impl Store {
         if actual != v8 {
             return Err("Unsupported SDLC discovery schema checksum".into());
         }
-        Ok(Self { db })
+        Ok(Self {
+            db,
+            events: Default::default(),
+        })
     }
     pub fn create(&self, input: &MissionInput) -> Result<()> {
         if input.id.is_empty()

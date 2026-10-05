@@ -168,6 +168,7 @@ impl Store {
         entries.push(serde_json::to_value(&record).map_err(|e| e.to_string())?);
         parent["feedback"] = json!(entries);
         self.sdlc_save(&parent)?;
+        self.sdlc_emit("mission.feedback", mid, json!({"head":input.head}));
         Ok(record)
     }
 }

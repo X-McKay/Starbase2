@@ -12,7 +12,7 @@ from temporalio.common import WorkflowIDReusePolicy
 from temporalio.exceptions import ApplicationError, WorkflowAlreadyStartedError
 from temporalio.service import RPCError, RPCStatusCode
 
-from . import sdlc_families, sdlc_regression, sdlc_sandbox, sdlc_tool_bridge
+from . import sdlc_activity, sdlc_families, sdlc_regression, sdlc_sandbox, sdlc_tool_bridge
 from . import sdlc_pilot as pilot
 from . import sdlc_revision_publish as publisher
 from .field_sources import get_json
@@ -56,6 +56,8 @@ def path(input: dict) -> str:
 
 
 async def records(input: dict, *, authorize: bool = True) -> tuple[dict, dict]:
+    # Every verification activity reads its authoritative records here first.
+    sdlc_activity.bind(input["mission_id"], input["verification_id"])
     parent = await request("GET", "/v7/missions/" + input["mission_id"])
     child = next(v for v in parent.get("verifications", []) if v["id"] == input["verification_id"])
     if authorize:
@@ -144,6 +146,11 @@ async def verification_status(input: dict) -> dict:
 
 
 async def repair_member(input: dict, parent: dict, child: dict, role: str, context: dict) -> dict:
+    with sdlc_activity.role(role):
+        return await _repair_member(input, parent, child, role, context)
+
+
+async def _repair_member(input: dict, parent: dict, child: dict, role: str, context: dict) -> dict:
     if sdlc_tool_bridge.enabled(child.get("input", {}).get("build", {})):
 
         async def guard():
@@ -386,7 +393,7 @@ async def reconcile_verifications(client, queue: str) -> None:
     global _next_poll
     from .sdlc_verification_workflow import RepositoryVerification
 
-    snapshot = await request("GET", "/v7/snapshot")
+    snapshot = await request("GET", "/internal/v7/snapshot")
     policy = snapshot["policy"]
     if (
         snapshot["enabled"]
@@ -448,7 +455,7 @@ async def reconcile_verifications(client, queue: str) -> None:
                         **({"feedback_digest": feedback_digest} if feedback_digest else {}),
                     },
                 )
-                snapshot = await request("GET", "/v7/snapshot")
+                snapshot = await request("GET", "/internal/v7/snapshot")
                 break
     for parent in snapshot["missions"]:
         for child in parent.get("verifications", []):

@@ -1,5 +1,9 @@
 extends RefCounted
 ## Shared interpretation: operational state never comes from an animation.
+# One definition of in-progress work. Station signs, briefings and crew motion
+# all read these, so a state cannot count as open for one and idle for another.
+const WORKING_STATES := ["running", "executing", "analyzing", "evaluating", "verifying", "capturing", "reviewing"]
+const OPEN_STATES := ["queued", "cancel_requested"] + WORKING_STATES
 static func describe(mission: Dictionary, disconnected: bool) -> String:
 	if disconnected:
 		return "Disconnected · last known " + str(mission.get("state", "unknown"))

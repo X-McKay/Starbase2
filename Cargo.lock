@@ -1328,6 +1328,7 @@ name = "starbase-core"
 version = "0.1.0"
 dependencies = [
  "axum",
+ "futures-util",
  "rusqlite",
  "schemars",
  "serde",

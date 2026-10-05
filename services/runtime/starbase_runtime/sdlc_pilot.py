@@ -17,7 +17,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from pydantic_ai import Agent, NativeOutput
 from pydantic_ai.usage import UsageLimits
 
-from . import sdlc_capabilities, sdlc_families, sdlc_regression, sdlc_sandbox
+from . import sdlc_activity, sdlc_capabilities, sdlc_families, sdlc_regression, sdlc_sandbox
 from .agents.sdlc import definition as agent_definition
 from .field_sources import get_json, headers
 from .inference import configuration as inference_configuration
@@ -438,12 +438,20 @@ async def member(role: str, context: dict) -> dict:
                 "extra_body": {"chat_template_kwargs": {"enable_thinking": False}},
             },
         )
+        sdlc_activity.note("model_request_started", request=1)
         try:
             async with asyncio.timeout(125):
                 result = await agent.run(
                     json.dumps(context), usage_limits=UsageLimits(request_limit=1)
                 )
         except Exception as exc:
+            sdlc_activity.note(
+                "model_request_finished",
+                request=1,
+                ok=False,
+                error=type(exc).__name__,
+                elapsed_ms=int((time.monotonic() - started) * 1000),
+            )
             raise MemberFailure(
                 {
                     "role": role,
@@ -454,6 +462,14 @@ async def member(role: str, context: dict) -> dict:
                     "model": cfg["model"],
                 }
             ) from exc
+        sdlc_activity.note(
+            "model_request_finished",
+            request=1,
+            ok=True,
+            input_tokens=(wrapper.usage or {}).get("input_tokens"),
+            output_tokens=(wrapper.usage or {}).get("output_tokens"),
+            elapsed_ms=int((time.monotonic() - started) * 1000),
+        )
         return {
             "role": role,
             "output": result.output.model_dump(mode="json"),

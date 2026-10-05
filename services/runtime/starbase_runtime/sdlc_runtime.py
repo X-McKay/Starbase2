@@ -12,6 +12,7 @@ from temporalio.exceptions import ApplicationError, WorkflowAlreadyStartedError
 from temporalio.service import RPCError, RPCStatusCode
 
 from . import (
+    sdlc_activity,
     sdlc_capabilities,
     sdlc_families,
     sdlc_feedback_runtime,
@@ -31,6 +32,8 @@ _next_improvement_report = 0.0
 
 
 async def mission(identity: str) -> dict:
+    # Every V7 activity reads its authoritative record here first.
+    sdlc_activity.bind(identity)
     value = await request("GET", "/v7/missions/" + identity)
     if value["input"]["build"] != pilot.run_build(value):
         raise ApplicationError("Pinned SDLC build unavailable", non_retryable=True)
@@ -62,6 +65,11 @@ async def event(identity: str, key: str, stage: str, data: dict) -> dict:
 
 
 async def assigned_member(run: dict, role: str, context: dict) -> dict:
+    with sdlc_activity.role(role):
+        return await _assigned_member(run, role, context)
+
+
+async def _assigned_member(run: dict, role: str, context: dict) -> dict:
     cap = pilot.contract(run)
     task = sdlc_capabilities.assignment(run, role, cap)
     if task is not None:
@@ -388,7 +396,7 @@ async def discover_catalog(snapshot: dict) -> dict:
                 "observed_at": time.time(),
             },
         )
-    snapshot = await request("GET", "/v7/snapshot")
+    snapshot = await request("GET", "/internal/v7/snapshot")
     if any(
         m["state"] not in TERMINAL
         or any(
@@ -422,7 +430,7 @@ async def discover_catalog(snapshot: dict) -> dict:
         ):
             continue
         await request("POST", f"/internal/v7/discoveries/{finding['id']}/admit", {})
-        return await request("GET", "/v7/snapshot")
+        return await request("GET", "/internal/v7/snapshot")
     return snapshot
 
 
@@ -469,7 +477,7 @@ async def discover_sdlc(snapshot: dict) -> dict:
                         logging.getLogger(__name__).warning(
                             "PR feedback unavailable (%s)", type(exc).__name__
                         )
-                snapshot = await request("GET", "/v7/snapshot")
+                snapshot = await request("GET", "/internal/v7/snapshot")
         if "discoveries" in snapshot:
             return await discover_catalog(snapshot)
         # Legacy Core controls retain their original single-family admission path.
@@ -514,7 +522,7 @@ async def discover_sdlc(snapshot: dict) -> dict:
                                 "capability_digest": pilot.CAPABILITY["digest"],
                             },
                         )
-                        snapshot = await request("GET", "/v7/snapshot")
+                        snapshot = await request("GET", "/internal/v7/snapshot")
     return snapshot
 
 
@@ -541,7 +549,7 @@ async def reconcile_sdlc(client, queue: str) -> None:
 
     from .sdlc_workflow import RepositorySdlc
 
-    snapshot = await request("GET", "/v7/snapshot")
+    snapshot = await request("GET", "/internal/v7/snapshot")
     await record_improvement(snapshot)
     try:
         async with asyncio.timeout(30):

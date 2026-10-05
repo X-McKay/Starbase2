@@ -78,7 +78,10 @@ separate tables and binaries alone would not establish isolation.
    failure remains failure even when stop was requested. Missing acknowledgement
    remains pending/stale; no client animation certifies it.
 
-Clients poll a full bounded snapshot once a second. Five seconds without a
+Clients poll a full bounded snapshot once a second. (Later extensions add a
+push notification stream, `GET /v8/events`; see
+[operations](operations.md#live-event-stream-v8). It signals changes; records
+remain authoritative.) Five seconds without a
 running/queued update marks that record stale. Client transport failure preserves
 last-known data as disconnected, and completion without evidence is unknown.
 Terminal evidence remains historical when the connection is lost. There is no

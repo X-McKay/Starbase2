@@ -254,7 +254,9 @@ async def main():
             ):
                 accepted = []
                 for index, family in enumerate(FAMILIES):
-                    snapshot = await runtime.discover_catalog(await request("GET", "/v7/snapshot"))
+                    snapshot = await runtime.discover_catalog(
+                        await request("GET", "/internal/v7/snapshot")
+                    )
                     active = [m for m in snapshot["missions"] if m["state"] not in runtime.TERMINAL]
                     assert len(active) == 1 and active[0]["input"]["opportunity"] == family
                     run = active[0]
@@ -303,7 +305,9 @@ async def main():
                         change["old"], change["new"], 1
                     )
                 state.update(revision="b" * 40, files=corrected)
-                healthy = await runtime.discover_catalog(await request("GET", "/v7/snapshot"))
+                healthy = await runtime.discover_catalog(
+                    await request("GET", "/internal/v7/snapshot")
+                )
                 assert len(healthy["missions"]) == 3
                 assert sum(d["outcome"] == "no_change" for d in healthy["discoveries"]) == 3
                 state["provider_down"] = True

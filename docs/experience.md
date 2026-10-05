@@ -419,3 +419,47 @@ offline journey checks seated Command work through standing, travel and Commons
 exchange without dispatching a command. New set dressing still needs native
 camera review because render-only meshes are invisible to the physics sightline
 test.
+
+## Live crew view · 2026-10-04
+
+The [live crew view](live-crew-view.md) adds a stream-driven freshness badge, a
+live activity panel, a follow-card above the watched crew member and a Reality
+Gate panel to the exploration HUD. Verbs come from transient activity notes only
+while the stream is live; records and gate checks come from the polled `/v7`
+snapshot. Stale, offline, disconnected and unknown stay distinct, and missing
+evidence is never shown as passed. Native captures use a synthetic fixture;
+owner visual acceptance and Web browser verification remain open.
+
+## Captain's Log · 2026-10-04
+
+The [Captain's Log](captains-log.md) (page 4, key **G**) shows one SDLC mission as
+a timeline with a lane each for Moss, Rivet, Prism and Core. Events sit at their
+recorded times, and long quiet gaps are collapsed. Selecting an event by click,
+arrow keys or Tab opens its evidence from the record and lists what Core does not
+record, such as model reasoning and tool arguments. **L** switches to a
+chronological list with the same events. Retained records, stream observations and
+provisional stream stages look different, and loading, stale, failed and unknown
+record states stay distinct. Native captures use a synthetic fixture; owner visual
+acceptance remains open.
+
+## Workstation screen and handoff dialogue · 2026-10-04
+
+The [workstation screen](workstation-screen.md) (**N**) opens one crew member's
+console: the mission plan and its current step, what the reviewer asked for, the
+recorded diff, Core-graded test cases, tool receipts, and recorded and observed
+spend. The [handoff dialogue](handoff-dialogue.md) (**U**) shows a review's
+findings and the implementer's recorded reply as speech cards above a stage track
+with the revision loop. Both read only the `/v7` summary, the full mission record
+and `/v8` activity notes. Model reasoning and tool arguments are shown as not
+recorded. Stale, failed, blocked, no-change and unknown stay distinct. Native
+captures use a synthetic round-2 fixture; owner visual acceptance is pending.
+
+## Crew board and dialogue · 2026-10-04
+
+The [crew board](crew-board.md) (Tab) shows what needs the operator, alert chips for
+a blocked admission and silent or stale crew, a newest-first feed of crew and Core
+events, one line per crew member and the selected member's day. The crew dialogue
+(T from the board) answers preset questions with fixed templates filled only from
+recorded state, each with a "Based on:" line; Moss answers for a crew member whose
+records are last known. Crew & places moved to P, R is now listed in Controls, and
+comfort settings persist across restarts.

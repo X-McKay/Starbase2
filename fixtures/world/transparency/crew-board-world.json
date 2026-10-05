@@ -1,0 +1,124 @@
+{
+  "_fixture": "SYNTHETIC FIXTURE: invented crew board day around mission 42 'Fix cache eviction' and mission 41 (PR #118) on X-McKay/algent, plus invented watchkeeper, surveyor and mender records. Not real Core, worker, model or repository activity.",
+  "schema_version": 2,
+  "observed_at": 1790000000.0,
+  "worker": {
+    "available": true,
+    "seen_at": 1790000000.0
+  },
+  "recent": [
+    {
+      "input": {
+        "request": {
+          "id": "moss-repo-review-0600",
+          "kind": "review",
+          "target": "X-McKay/Starbase2"
+        }
+      },
+      "state": "completed",
+      "detail": "SYNTHETIC: repository review fixture.",
+      "report": {
+        "summary": {
+          "outcome": "findings",
+          "finding_count": 2
+        }
+      },
+      "created_at": 1789970400.0,
+      "updated_at": 1789973880.0
+    }
+  ],
+  "active": [],
+  "repairs": [
+    {
+      "input": {
+        "id": "rivet-repair-0810",
+        "scenario": "clamp-v1"
+      },
+      "state": "completed",
+      "detail": "SYNTHETIC: repair trial fixture.",
+      "summary": {
+        "outcome": "inconclusive",
+        "synthetic_task": true
+      },
+      "created_at": 1789978200.0,
+      "updated_at": 1789981080.0
+    }
+  ],
+  "field_runs": [
+    {
+      "input": {
+        "id": "wes-flux-0700",
+        "agent": "watchkeeper",
+        "target": "flux namespace"
+      },
+      "state": "completed",
+      "detail": "SYNTHETIC: watchkeeper fixture.",
+      "snapshot": {
+        "data": {
+          "simulation": true
+        }
+      },
+      "report": {
+        "findings": [
+          {}
+        ],
+        "coverage": [],
+        "memory": {
+          "status": "proposed"
+        }
+      },
+      "created_at": 1789974000.0,
+      "updated_at": 1789976400.0
+    },
+    {
+      "input": {
+        "id": "wes-reconcile-1300",
+        "agent": "watchkeeper",
+        "target": "flux namespace"
+      },
+      "state": "completed",
+      "detail": "SYNTHETIC: watchkeeper fixture.",
+      "snapshot": {
+        "data": {
+          "simulation": true
+        }
+      },
+      "report": {
+        "findings": [],
+        "coverage": [],
+        "memory": {
+          "status": "available"
+        }
+      },
+      "created_at": 1789996200.0,
+      "updated_at": 1789996500.0
+    },
+    {
+      "input": {
+        "id": "wes-workload-1336",
+        "agent": "watchkeeper",
+        "target": "training workload"
+      },
+      "state": "running",
+      "detail": "SYNTHETIC: open watchkeeper run whose record stopped changing.",
+      "snapshot": {
+        "data": {
+          "simulation": true
+        }
+      },
+      "report": null,
+      "created_at": 1789999560.0,
+      "updated_at": 1789999620.0
+    }
+  ],
+  "installation": {
+    "id": "fixture-crew-board",
+    "environment": "fixture",
+    "capabilities": {
+      "accept_work": {
+        "enabled": true,
+        "reason": "Synthetic fixture"
+      }
+    }
+  }
+}

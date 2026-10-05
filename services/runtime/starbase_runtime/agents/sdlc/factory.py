@@ -12,6 +12,7 @@ from pydantic_ai.models.wrapper import WrapperModel
 from pydantic_ai.settings import ModelSettings
 from pydantic_ai.usage import UsageLimits
 
+from ... import sdlc_activity
 from ... import sdlc_pilot as pilot
 from ...sdlc_workspace import Workspace
 from . import definition
@@ -63,6 +64,7 @@ class BoundedModel(WrapperModel):
         row = {"request": len(self.calls) + 1, "status": "dispatched"}
         self.calls.append(row)
         started = time.monotonic()
+        sdlc_activity.note("model_request_started", request=row["request"])
         task = asyncio.create_task(self.wrapped.request(messages, model_settings, params))
         try:
             while not task.done():
@@ -82,6 +84,15 @@ class BoundedModel(WrapperModel):
             )
             if not usage.input_tokens or not usage.output_tokens:
                 self.usage_complete = False
+            sdlc_activity.note(
+                "model_request_finished",
+                request=row["request"],
+                ok=response.finish_reason != "length",
+                error="truncated" if response.finish_reason == "length" else None,
+                input_tokens=usage.input_tokens,
+                output_tokens=usage.output_tokens,
+                elapsed_ms=row["elapsed_ms"],
+            )
             if response.finish_reason == "length":
                 raise ValueError("Model response truncated; retained as incomplete")
             return response
@@ -93,6 +104,13 @@ class BoundedModel(WrapperModel):
             )
             if "input_tokens" not in row:
                 self.usage_complete = False
+                sdlc_activity.note(
+                    "model_request_finished",
+                    request=row["request"],
+                    ok=False,
+                    error=type(error).__name__,
+                    elapsed_ms=row["elapsed_ms"],
+                )
             raise
         finally:
             if not task.done():

@@ -200,3 +200,99 @@ The [shared rollout fixture](../contracts/fixtures/operations-installation.json)
 shows enabled policy with an unavailable worker. Rust policy tests use injected
 configuration rather than mutating process environment; Python wire tests accept
 both old snapshots and additive fields.
+
+## Live event stream (v8)
+
+Implemented 2026-10-04. Clients previously learned about every change by polling,
+and nothing inside a long SDLC stage (model calls and sandbox runs of two to three
+minutes) was visible until the activity posted its stage event.
+`GET /v8/events` is a loopback, unauthenticated Server-Sent Events stream
+(`text/event-stream`) like the other public GET routes. It reports **that** a
+record changed and when; the record routes stay authoritative and a client must
+refetch them (`/v7/snapshot`, `/v7/missions/{id}`) rather than rebuild state from
+events. The stream adds no service, datastore or authority.
+
+Every frame's `data:` is one JSON object. Record frames use SSE `event: record` and
+an `id:`; their data is the `StreamEvent` type in
+[the V7 contract](../contracts/sdlc.schema.json):
+
+```json
+{"id":"18f0c2a7d3e4b5a6-42","epoch":"18f0c2a7d3e4b5a6","seq":42,
+ "type":"mission.stage","family":"v7_mission","record_id":"sdlc-0123abcd",
+ "at":1790000000.25,"retained":true,
+ "payload":{"key":"review-1","stage":"reviewing","state":"reviewing",
+            "label":"reviewing · reviewer · accept","role":"reviewer",
+            "revision_count":0,"verdict":"improved"}}
+```
+
+| `family` | `type` | `payload` |
+|---|---|---|
+| `v7_mission` | `mission.admitted` | `state`, `opportunity`, `retry_of` |
+| `v7_mission` | `mission.stage` | `key`, `stage`, `state`, `label`, `role`, `revision_count`, `verdict` |
+| `v7_mission` | `mission.cancel_requested` | `state` |
+| `v7_mission` | `mission.publication` | `state`, `publication: "claimed"`, `branch` |
+| `v7_mission` | `mission.effect` | `kind`, `key` |
+| `v7_mission` | `mission.pr_observation` | `pr_state`, `changed` |
+| `v7_mission` | `mission.feedback` | `head` |
+| `v7_mission` | `verification.admitted`, `.stage`, `.effect`, `.cancel_requested` | `verification_id` plus stage/state/outcome/kind |
+| `v7_mission` | `mission.activity` (transient) | an activity note plus the mission `state` |
+| `v7_policy` | `policy.changed` (`record_id: "pilot"`) | `generation`, `enabled`, `publish`, `max_missions`, `expires_at` |
+| `v7_discovery` | `discovery.observed` | `opportunity`, `outcome` |
+
+Other families (v2-v6) are not yet emitted; their clients keep polling.
+Events are published only after the corresponding write commits, and only when
+something changed (an idempotent replay emits nothing). Payloads over 4 KB are
+replaced by `{"truncated":true}`.
+
+Control frames have `event:` equal to their `type`:
+
+- `ready`: sent once per connection after any replay, with `id:` set to the current
+  cursor and `{"type":"ready","epoch","cursor","at","oldest_retained","replayed",
+  "heartbeat_seconds":5,"retained_capacity":1000}`. It also sets `retry: 3000`.
+- `reset`: `{"type":"reset","reason","epoch","cursor","at"}` with `id:` set to the
+  cursor. The client cannot be brought up to date from the buffer and must refetch
+  its snapshots. Reasons: `buffer_exceeded`, `epoch_changed` (Core restarted),
+  `unknown_position`, `invalid_id` and `lagged` (a slow client overflowed the
+  256-event live channel).
+- `heartbeat`: every 5 seconds, with no `id:`, `{"type":"heartbeat","epoch",
+  "cursor","at"}`. Use `at` and arrival time to measure freshness; three missed
+  heartbeats should be treated as a disconnected or stale stream.
+
+Ids are `<epoch>-<seq>`. `seq` increases by one for every published event,
+including transient ones, so gaps are normal. The epoch is chosen when Core starts.
+Resume with the standard `Last-Event-ID` header (sent automatically by reconnecting
+EventSource clients) or `?after=<id>`; the header wins when both are present. Core
+replays retained record events newer than that id, then sends `ready`. With no id,
+the stream starts live from `ready`. The buffer keeps the newest 1,000 record events
+in memory only. A Core restart, an evicted position or an id from another epoch
+produces `reset`, never a silent gap. Graceful Core shutdown closes open streams.
+
+### Worker activity notes
+
+`POST /internal/v7/missions/{id}/activity` (worker bearer token, like other
+internal routes) accepts one typed `ActivityNote`:
+`kind` (`model_request_started`, `model_request_finished`, `tool_started`,
+`tool_finished`, `sandbox_boot`, `sandbox_finished`) and optional `role`,
+`verification_id`, `tool`, `label` (sandbox name), `request`, `ok`, `error`
+(`tool_error`, `truncated` or an exception class name, never message text), `input_tokens`,
+`output_tokens` and `elapsed_ms`. Text fields are limited to 80 printable ASCII
+characters and unknown fields are rejected. Core returns 409 for an unknown or
+stopped mission. A note is broadcast as `mission.activity` with `retained: false`.
+It is never written to the mission record or its 100-entry `events[]`, and it is
+not replayed on resume. Notes are observations, not evidence; retained receipts
+and Core grading remain the evidence.
+
+The SDLC runtime binds the mission when an activity first reads its record and
+posts notes at model request boundaries (`agents/sdlc/factory.py` and the legacy
+single-request path in `sdlc_pilot.py`), at workspace tool dispatch
+(`sdlc_workspace.py`) and around microVM execution (`sdlc_sandbox.py`). Posting
+is best effort: each note is a detached task with a 1-second timeout, failures are
+logged at INFO and dropped, at most 16 notes are in flight, and a worker without a
+token file posts nothing. A note can never fail, block or retry the activity.
+
+Limits: the buffer is per Core process and not persisted; a single local Core is
+assumed (no multi-replica fan-out); the stream has no per-client authorization
+beyond the loopback boundary. The native world client consumes it for the
+[live crew view](live-crew-view.md) (freshness badge, activity panel,
+follow-card and Reality Gate); its Web `EventSource` path is not yet browser-verified.
+

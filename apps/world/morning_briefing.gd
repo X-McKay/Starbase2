@@ -4,7 +4,7 @@ const StateView = preload("res://state.gd")
 const ConsoleTheme = preload("res://console_theme.gd")
 const MAX_REPORTS := 5
 const TERMINAL := ["completed", "failed", "cancelled"]
-const OPEN := ["queued", "running", "cancel_requested", "executing", "analyzing", "evaluating", "verifying", "capturing", "reviewing"]
+const OPEN := StateView.OPEN_STATES
 const CREW := {"review":"Moss Bombadil", "evaluation":"Mae Jin", "gym":"Mae Jin", "repair":"Rivet", "watchkeeper":"Wes Walker", "reviewer":"Prism"}
 signal inspect_requested(run_id: String, context: String)
 signal closed

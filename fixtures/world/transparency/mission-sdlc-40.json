@@ -1,0 +1,340 @@
+{
+  "_fixture": "SYNTHETIC FIXTURE: invented full /v7/missions/sdlc-40 record (two rounds, published PR, long quiet wait for CI) for Captain's Log tests. Not real Core, worker, model, provider or repository activity.",
+  "id": "sdlc-40",
+  "retry_of": "sdlc-39",
+  "input": {
+    "id": "sdlc-40",
+    "repository": "X-McKay/algent",
+    "revision": "1111111111111111111111111111111111111111",
+    "opportunity": "cache-eviction"
+  },
+  "policy_generation": 6,
+  "capability": {
+    "objective": "Fix cache eviction"
+  },
+  "coordination": {
+    "assignments": [
+      {
+        "role": "lead",
+        "crew": "moss"
+      },
+      {
+        "role": "implementer",
+        "crew": "rivet"
+      },
+      {
+        "role": "reviewer",
+        "crew": "prism"
+      }
+    ]
+  },
+  "state": "awaiting_review",
+  "events": [
+    {
+      "key": "source-baseline",
+      "event": {
+        "key": "source-baseline",
+        "stage": "investigating",
+        "data": {
+          "sources": {
+            "algent/cache.py": "x"
+          },
+          "source_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "baseline": {
+            "exit_code": 0,
+            "cases": [
+              {
+                "id": "case_1",
+                "actual": "a"
+              },
+              {
+                "id": "case_2",
+                "actual": "x"
+              }
+            ]
+          },
+          "opportunity": "Fix cache eviction",
+          "scope": "Synthetic"
+        }
+      },
+      "at": 1789980060.0
+    },
+    {
+      "key": "lead-handoff",
+      "event": {
+        "key": "lead-handoff",
+        "stage": "implementing",
+        "data": {
+          "role": "lead",
+          "output": {
+            "decision": "implement",
+            "task": "Synthetic task",
+            "rationale": "Synthetic rationale"
+          },
+          "usage": {
+            "input_tokens": 1000,
+            "output_tokens": 200
+          },
+          "elapsed_ms": 5000
+        }
+      },
+      "at": 1789980200.0
+    },
+    {
+      "key": "testing-1",
+      "event": {
+        "key": "testing-1",
+        "stage": "testing",
+        "data": {
+          "baseline": {
+            "exit_code": 0,
+            "cases": [
+              {
+                "id": "case_1",
+                "actual": "a"
+              },
+              {
+                "id": "case_2",
+                "actual": "x"
+              }
+            ]
+          },
+          "candidate": {
+            "exit_code": null,
+            "cases": [],
+            "not_executed": true
+          },
+          "patch": {
+            "role": "implementer",
+            "output": {
+              "rationale": "Synthetic",
+              "edits": []
+            },
+            "usage": null,
+            "elapsed_ms": 4000
+          },
+          "diff": "",
+          "artifact_digest": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "validation_error": "Edit text not found in source",
+          "verdict": "ineligible",
+          "grading": {
+            "verdict": "ineligible",
+            "baseline_pass": false,
+            "candidate_pass": null
+          }
+        }
+      },
+      "at": 1789980320.0
+    },
+    {
+      "key": "review-1",
+      "event": {
+        "key": "review-1",
+        "stage": "reviewing",
+        "data": {
+          "role": "patch-validator",
+          "status": "revise",
+          "validation_error": "Edit text not found in source",
+          "verdict": "ineligible",
+          "rationale": "No candidate was executed."
+        }
+      },
+      "at": 1789980321.0
+    },
+    {
+      "key": "validation-revise-1",
+      "event": {
+        "key": "validation-revise-1",
+        "stage": "implementing",
+        "data": {
+          "role": "patch-validator",
+          "status": "revise",
+          "validation_error": "Edit text not found in source"
+        }
+      },
+      "at": 1789980322.0
+    },
+    {
+      "key": "testing-2",
+      "event": {
+        "key": "testing-2",
+        "stage": "testing",
+        "data": {
+          "baseline": {
+            "exit_code": 0,
+            "cases": [
+              {
+                "id": "case_1",
+                "actual": "a"
+              },
+              {
+                "id": "case_2",
+                "actual": "x"
+              }
+            ]
+          },
+          "candidate": {
+            "exit_code": 0,
+            "cases": [
+              {
+                "id": "case_1",
+                "actual": "a"
+              },
+              {
+                "id": "case_2",
+                "actual": "b"
+              }
+            ]
+          },
+          "patch": {
+            "role": "implementer",
+            "output": {
+              "rationale": "Synthetic",
+              "edits": [
+                {
+                  "line": 1
+                }
+              ]
+            },
+            "usage": {
+              "input_tokens": 2000,
+              "output_tokens": 400
+            },
+            "elapsed_ms": 6000
+          },
+          "diff": "--- algent/cache.py\n+++ algent/cache.py\n@@ -1,2 +1,3 @@\n-a\n+b\n+c\n",
+          "artifact_digest": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+          "validation_error": null,
+          "verdict": "improved",
+          "grading": {
+            "verdict": "improved",
+            "baseline_pass": false,
+            "candidate_pass": true
+          }
+        }
+      },
+      "at": 1789980500.0
+    },
+    {
+      "key": "review-2",
+      "event": {
+        "key": "review-2",
+        "stage": "reviewing",
+        "data": {
+          "role": "reviewer",
+          "status": "accept",
+          "rationale": "Synthetic accept",
+          "findings": [],
+          "missing_evidence": null,
+          "usage": {
+            "input_tokens": 800,
+            "output_tokens": 100
+          }
+        }
+      },
+      "at": 1789980620.0
+    },
+    {
+      "key": "ready",
+      "event": {
+        "key": "ready",
+        "stage": "ready_to_publish",
+        "data": {}
+      },
+      "at": 1789980621.0
+    },
+    {
+      "key": "published-branch",
+      "event": {
+        "key": "published-branch",
+        "stage": "publishing",
+        "data": {
+          "branch": "starbase/sdlc-40",
+          "head": "dddddddddddddddddddddddddddddddddddddddd"
+        }
+      },
+      "at": 1789980700.0
+    },
+    {
+      "key": "published-pr",
+      "event": {
+        "key": "published-pr",
+        "stage": "publishing",
+        "data": {
+          "url": "https://github.com/X-McKay/algent/pull/17",
+          "number": 17,
+          "head": "dddddddddddddddddddddddddddddddddddddddd"
+        }
+      },
+      "at": 1789980710.0
+    },
+    {
+      "key": "submitted",
+      "event": {
+        "key": "submitted",
+        "stage": "submitted",
+        "data": {
+          "url": "https://github.com/X-McKay/algent/pull/17",
+          "number": 17,
+          "head": "dddddddddddddddddddddddddddddddddddddddd"
+        }
+      },
+      "at": 1789980720.0
+    },
+    {
+      "key": "awaiting-review",
+      "event": {
+        "key": "awaiting-review",
+        "stage": "awaiting_review",
+        "data": {
+          "ci": {
+            "status": "absent",
+            "head": "dddddddddddddddddddddddddddddddddddddddd",
+            "urls": []
+          },
+          "status": "PR submitted; human merge decision remains",
+          "verified_merge": false,
+          "xp_awarded": 0
+        }
+      },
+      "at": 1789991520.0
+    }
+  ],
+  "evidence": {},
+  "publication": {
+    "branch": "starbase/sdlc-40",
+    "policy_generation": 6,
+    "claimed_at": 1789980650.0,
+    "authority": "create branch and pull request only; no merge",
+    "status": "claimed"
+  },
+  "effects": [
+    {
+      "input": {
+        "key": "branch",
+        "kind": "branch",
+        "data": {}
+      },
+      "claimed_at": 1789980690.0
+    },
+    {
+      "input": {
+        "key": "pr",
+        "kind": "pr",
+        "data": {}
+      },
+      "claimed_at": 1789980705.0
+    }
+  ],
+  "pr_observation": {
+    "number": 17,
+    "head": "dddddddddddddddddddddddddddddddddddddddd",
+    "state": "open",
+    "observed_at": 1789991580.0
+  },
+  "cancel_requested": false,
+  "revision_loops": 1,
+  "created_at": 1789980000.0,
+  "updated_at": 1789991580.0,
+  "verifications": []
+}

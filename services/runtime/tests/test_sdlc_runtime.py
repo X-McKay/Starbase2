@@ -15,6 +15,7 @@ from unittest.mock import AsyncMock
 
 import pytest
 from pydantic import ValidationError
+from starbase_runtime import sdlc_contract
 from starbase_runtime import sdlc_pilot as pilot
 from starbase_runtime import sdlc_runtime as runtime
 from starbase_runtime import sdlc_workflow as workflow
@@ -413,6 +414,27 @@ def test_core_http_v7_worker_operator_separation(tmp_path):
         assert status == 200 and child["retry_of"] == "http-pilot"
         assert call(retry_path, retry, operator)[1] == child
         assert call("/v7/missions/http-pilot")[1]["state"] == "cancelled"
+        # Public polling view is bounded and typed; the full records are worker-only.
+        status, summary = call("/v7/snapshot?limit=1")
+        assert status == 200 and summary["view"] == "summary"
+        sdlc_contract.SdlcSnapshot.model_validate(summary)
+        assert [m["id"] for m in summary["missions"]] == ["http-retry"]
+        assert summary["page"] == {
+            "order": "created_at_desc",
+            "limit": 1,
+            "total": 2,
+            "returned": 1,
+            "next_before": "http-retry",
+        }
+        assert "events" not in summary["missions"][0]
+        status, older = call("/v7/snapshot?limit=1&before=http-retry")
+        assert status == 200 and [m["id"] for m in older["missions"]] == ["http-pilot"]
+        assert older["missions"][0]["latest_event"]["stage"] == "cancelled"
+        assert call("/v7/snapshot?limit=0")[0] == 400
+        assert call("/v7/snapshot?before=unknown")[0] == 400
+        assert call("/internal/v7/snapshot")[0] == 403
+        status, full = call("/internal/v7/snapshot", headers=worker)
+        assert status == 200 and len(full["missions"]) == 2 and "events" in full["missions"][0]
     finally:
         process.terminate()
         process.wait(timeout=5)

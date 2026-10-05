@@ -102,6 +102,16 @@ var crew_limits: Label
 var crew_availability: Label
 var crew_action: Button
 var crew_route := ""
+var freshness_panel: PanelContainer
+var freshness_badge: Label
+var live_view: Control
+var captains_log: PanelContainer
+var workstation_screen: PanelContainer
+var handoff_dialogue: Control
+var crew_board: PanelContainer
+var crew_dialogue: PanelContainer
+var reduced_toggle: CheckButton
+var sound_toggle: CheckButton
 
 func style(bg: String = "0a0a0ad6", border: String = "77777766", pad: int = 18) -> StyleBoxFlat:
 	var s := StyleBoxFlat.new()
@@ -176,7 +186,22 @@ func _ready() -> void:
 	chrome_toggle.clip_text=false
 	chrome_toggle.size_flags_horizontal=Control.SIZE_SHRINK_END
 	chrome_toggle.add_theme_font_size_override("font_size",11)
-	connection = text(mast,"Connecting to local core…",12,"bcb9b6")
+	var status_row:=HBoxContainer.new()
+	status_row.name="FreshnessRow"
+	status_row.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	status_row.add_theme_constant_override("separation",10)
+	mast.add_child(status_row)
+	freshness_panel=PanelContainer.new()
+	freshness_panel.name="FreshnessBadge"
+	freshness_panel.mouse_filter=Control.MOUSE_FILTER_PASS
+	var badge_style:=style("0b1626e6","c6bdd688",0)
+	badge_style.content_margin_left=7; badge_style.content_margin_right=7; badge_style.content_margin_top=1; badge_style.content_margin_bottom=1
+	freshness_panel.add_theme_stylebox_override("panel",badge_style)
+	status_row.add_child(freshness_panel)
+	freshness_badge=text(freshness_panel,"[?] UNKNOWN · nothing received from Core",12,"c6bdd6")
+	freshness_badge.mouse_filter=Control.MOUSE_FILTER_PASS
+	connection = text(status_row,"Connecting to local core…",12,"bcb9b6")
+	connection.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	connection.clip_text=true
 	connection.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
 	connection.mouse_filter=Control.MOUSE_FILTER_PASS
@@ -207,7 +232,7 @@ func _ready() -> void:
 	top.offset_right = -22
 	top.offset_top = 16
 	nav_buttons.map=button(top,"Map [M]",func(): map_requested.emit())
-	nav_buttons.crew=button(top,"Crew [Tab]",toggle_directory)
+	nav_buttons.crew=button(top,"Crew [Tab]",toggle_crew_board)
 	nav_buttons.work=button(top,"Work [J]",open_operations)
 	nav_buttons.stations=button(top,"Stations [I]",func(): stations_requested.emit())
 	nav_buttons.field=button(top,"Field ops [B]",open_board)
@@ -473,6 +498,7 @@ func _ready() -> void:
 	text(comfort,"Display",26,"e9e5df")
 	text(comfort,"Adjust the native interface and camera to suit you.",15).autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	var rm := CheckButton.new()
+	reduced_toggle=rm
 	rm.text = "Reduced motion · Off"
 	rm.toggled.connect(func(value: bool): reduced=value; rm.text="Reduced motion · "+("On" if value else "Off"); settings_changed.emit())
 	comfort.add_child(rm)
@@ -486,6 +512,7 @@ func _ready() -> void:
 	var audio:=settings_page("Audio")
 	text(audio,"Audio",26,"e9e5df")
 	var sound := CheckButton.new()
+	sound_toggle=sound
 	sound.text="Ambient sounds · Off"
 	sound.toggled.connect(func(value: bool): sound_enabled=value; sound.text="Ambient sounds · "+("On" if value else "Off"); settings_changed.emit())
 	audio.add_child(sound)
@@ -494,10 +521,12 @@ func _ready() -> void:
 	text(guide,"Controls",26,"e9e5df")
 	for section in [
 		["EXPLORE", "WASD / arrows  ·  Walk\nClick a path  ·  Travel\nE  ·  Inspect nearby crew or console\nF  ·  Enter / exit a room\nL  ·  Visit Habitat\nM  ·  Colony map"],
-		["WORKSPACES", "Tab  ·  Crew & places\n1–5  ·  Crew dossier\nB  ·  Field operations\nJ  ·  Work & history\nI  ·  Station records\nK  ·  Habitat briefing\nO  ·  Connection"],
-		["CAMERA & NAVIGATION", "V  ·  Observe crew\nC  ·  Follow / room camera\n+ / − or wheel  ·  Zoom\nEnter  ·  Activate focused control\nEsc  ·  Close workspace\nH  ·  Settings & controls"]]:
+		["WORKSPACES", "Tab  ·  Crew board\nT  ·  Talk (crew board)\nW  ·  Watch (crew board)\nP  ·  Crew & places\n1–5  ·  Crew dossier\nN  ·  Workstation console\nU  ·  Handoff dialogue\nB  ·  Field operations\nJ / R  ·  Work & history\nI  ·  Station records\nK  ·  Habitat briefing\nO  ·  Connection"],
+		["CAMERA & NAVIGATION", "V  ·  Observe crew\nT  ·  Live activity panel\nC  ·  Follow / room camera\n+ / − or wheel  ·  Zoom\nEnter  ·  Activate focused control\nEsc  ·  Close workspace\nH  ·  Settings & controls"]]:
 		text(guide,section[0],13,"c9c5c1")
 		text(guide,section[1],15).autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	text(guide,"MISSION RECORDS",13,"c9c5c1")
+	text(guide,"G  ·  Captain's Log (mission timeline)\nInside the log  ·  , . or arrows step · L list view",15).autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	button(guide,"Connection settings [O]",open_connection)
 	var character_page:=settings_page("Character")
 	text(character_page,"Your character",26,"e9e5df")
@@ -544,17 +573,45 @@ func _ready() -> void:
 	root.add_child(connection_panel)
 	connection_panel.connect_requested.connect(func(value:String): connect_requested.emit(value))
 	connection_panel.journal_requested.connect(open_operations)
+	live_view=preload("res://live_crew_view.gd").new()
+	root.add_child(live_view)
+	crew_board=preload("res://crew_board.gd").new()
+	crew_board.hud_ref=self
+	root.add_child(crew_board)
+	crew_dialogue=preload("res://crew_dialogue.gd").new()
+	root.add_child(crew_dialogue)
+	crew_board.talk_requested.connect(open_crew_dialogue)
+	crew_dialogue.closed.connect(func(): if crew_board.visible: crew_board.talk.grab_focus())
+	crew_dialogue.visibility_changed.connect(func(): crew_board.modulate.a=0.3 if crew_dialogue.visible else 1.0)
 	crew_strip=preload("res://crew_strip.gd").new()
 	root.add_child(crew_strip)
 	crew_strip.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
 	crew_strip.inspect_requested.connect(open_place)
 	crew_strip.home_requested.connect(func():room_requested.emit("habitat"))
-	for workspace in [dock,directory,help,room_details,connection_panel]:
+	# Captain's Log (page 4): full-window mission timeline, opened with G.
+	captains_log=preload("res://captains_log.gd").new()
+	root.add_child(captains_log)
+	captains_log.visibility_changed.connect(sync_world_chrome)
+	# Pages 2 and 3 (workstation console, handoff dialogue) sit above the strip.
+	workstation_screen=preload("res://workstation_screen.gd").new(); root.add_child(workstation_screen)
+	handoff_dialogue=preload("res://handoff_dialogue.gd").new(); root.add_child(handoff_dialogue)
+	for workspace in [dock,directory,help,room_details,connection_panel,workstation_screen,handoff_dialogue,crew_board,crew_dialogue]:
 		workspace.visibility_changed.connect(sync_world_chrome)
 	board.visibility_changed.connect(sync_world_chrome)
 	operations.visibility_changed.connect(sync_world_chrome)
 	root.resized.connect(layout_hud)
 	layout_hud.call_deferred()
+
+## Masthead freshness: glyph + text + age, colour is never the only signal.
+func set_freshness(model:Dictionary) -> void:
+	if freshness_badge==null: return
+	freshness_badge.text=str(model.get("text","[?] UNKNOWN"))
+	freshness_badge.tooltip_text=freshness_badge.text+"\nStale after a missed heartbeat window (heartbeat × 2 + 1 s). Connection [O]"
+	freshness_panel.tooltip_text=freshness_badge.tooltip_text
+	var color:=Color(str(model.get("color","c6bdd6")))
+	freshness_badge.add_theme_color_override("font_color",color)
+	var surface:StyleBoxFlat=freshness_panel.get_theme_stylebox("panel")
+	if surface!=null: surface.border_color=Color(color,0.6)
 
 func set_location(value:String) -> void:
 	location.text=value
@@ -569,6 +626,10 @@ func _input(event:InputEvent) -> void:
 	# GUI controls normally consume key events before _unhandled_key_input. These
 	# global workspace controls remain available while a LineEdit has focus.
 	if root==null or root.get_viewport().gui_disable_input: return
+	# Crew board and dialogue keys (T, W, 1–5, Esc in the dialogue) come first.
+	if event is InputEventKey and crew_board!=null and (crew_dialogue.handle_key(event) or (not crew_dialogue.visible and crew_board.handle_key(event))):
+		get_viewport().set_input_as_handled()
+		return
 	if not event is InputEventKey or not event.pressed or event.echo: return
 	match event.physical_keycode:
 		KEY_F1:
@@ -585,16 +646,19 @@ func sync_world_chrome() -> void:
 	if crew_strip==null: return
 	var expanded:bool=is_open()
 	room_exit.visible=room_available and not expanded
-	var active:="crew" if dock.visible or directory.visible else ("work" if operations.visible else ("field" if board.visible else ("settings" if help.visible else ("stations" if station_records!=null and station_records.visible else ("connection" if connection_panel.visible else "")))))
+	var active:="crew" if dock.visible or directory.visible or (crew_board!=null and crew_board.visible) else ("work" if operations.visible else ("field" if board.visible else ("settings" if help.visible else ("stations" if station_records!=null and station_records.visible else ("connection" if connection_panel.visible else "")))))
 	if briefing!=null and briefing.visible: active="stations"
 	if room_details!=null and room_details.visible: active="stations"
 	workspace_label.text={"crew":"CREW DOSSIER" if dock.visible else "CREW & PLACES","work":"WORK","field":"FIELD OPERATIONS","settings":"SETTINGS","stations":"STATION RECORDS","connection":"CONNECTION"}.get(active,"WORLD")
 	if briefing!=null and briefing.visible: workspace_label.text="HABITAT BRIEFING"
+	if crew_board!=null and crew_board.visible: workspace_label.text="CREW DIALOGUE" if crew_dialogue.visible else "CREW BOARD"
 	if room_details!=null and room_details.visible: workspace_label.text="ROOM GUIDE · "+room_detail_title.text
+	if captains_log!=null and captains_log.visible: workspace_label.text="CAPTAIN'S LOG"
 	active_navigation=active
 	update_navigation_style()
 	var show_exploration:=not expanded and not exploration_hud_collapsed
 	crew_strip.visible=show_exploration
+	if live_view!=null: live_view.visible=show_exploration
 	crew_strip.rows.visible=show_exploration and not observing
 	prompt_panel.visible=show_exploration
 	navigation_bar.visible=show_exploration or expanded
@@ -634,9 +698,6 @@ func layout_hud() -> void:
 	chrome_toggle.add_theme_font_size_override("font_size",16 if large_text else 13)
 	header_panel.size=Vector2(viewport_size.x-36,header_panel.get_combined_minimum_size().y)
 	var compact_nav_top:=maxf(72,header_panel.position.y+header_panel.get_combined_minimum_size().y+8)
-	navigation_bar.offset_top=compact_nav_top
-	navigation_bar.offset_left=-minf(980,viewport_size.x-44)-22
-	navigation_bar.offset_right=-22
 	header_panel.size.x=viewport_size.x-36
 	room_exit.position=Vector2(22,116)
 	var top_edge:=maxf(128,compact_nav_top+46) if narrow else 128.0
@@ -660,6 +721,10 @@ func layout_hud() -> void:
 		operations.offset_bottom=-24
 	var wide:=viewport_size.x>=1000
 	room_exit.position=Vector2(184,92) if wide else Vector2(22,compact_nav_top+46)
+	# BoxContainer re-sorts its buttons synchronously when the orientation is set,
+	# using the bar's current size. Set orientation first (so the minimum size is
+	# right) and never give the bar an intermediate width: a transient 980 px
+	# "Map" button would capture world clicks until the deferred re-sort.
 	navigation_bar.vertical=wide
 	navigation_background.visible=navigation_bar.visible
 	navigation_background.position=Vector2(18,92) if wide else Vector2(22,compact_nav_top)
@@ -721,6 +786,26 @@ func layout_hud() -> void:
 		crew_strip.offset_top=-16-strip_height
 		prompt_panel.offset_bottom=-16-strip_height
 		prompt_panel.offset_top=prompt_panel.offset_bottom-44
+	if live_view!=null and live_view.gate_panel!=null:
+		# The right column sits under the masthead (and compact navigation) and
+		# ends above the prompt, so live panels never cover crew-strip controls.
+		var header_bottom:=header_panel.position.y+header_panel.get_combined_minimum_size().y+10
+		var live_top:=maxf(header_bottom,compact_nav_top+48) if narrow else header_bottom
+		var live_bottom:=viewport_size.y-16-(crew_strip.get_combined_minimum_size().y if crew_strip!=null else 0.0)-52
+		live_view.fit(viewport_size,narrow,large_text,live_top,live_bottom,184.0 if wide else 22.0)
+	if captains_log!=null and captains_log.canvas!=null: captains_log.fit(viewport_size,large_text)
+	if workstation_screen!=null: workstation_screen.fit(viewport_size,large_text)
+	if handoff_dialogue!=null and live_view!=null:
+		# The dialogue keeps the masthead and navigation readable around it.
+		var page_top:=header_panel.position.y+header_panel.get_combined_minimum_size().y+8
+		handoff_dialogue.fit(viewport_size,large_text,Vector2(184.0 if wide else 0.0,maxf(page_top,compact_nav_top+48) if narrow else page_top))
+	if crew_board!=null and crew_board.columns!=null:
+		var board_area:=Rect2(184,92,viewport_size.x-206,viewport_size.y-116) if wide else Rect2(22,top_edge,viewport_size.x-44,viewport_size.y-top_edge-24)
+		crew_board.fit(board_area,narrow)
+		var talk_size:=Vector2(minf(760.0,board_area.size.x-40.0),minf(700.0,board_area.size.y-24.0))
+		crew_dialogue.custom_minimum_size=talk_size
+		crew_dialogue.size=talk_size
+		crew_dialogue.position=board_area.position+(board_area.size-talk_size)*0.5
 
 func settings_page(title:String) -> VBoxContainer:
 	var scroll:=ScrollContainer.new()
@@ -754,6 +839,10 @@ func open_operations() -> void:
 func open_board() -> void:
 	close_panels()
 	board.open()
+
+func open_captains_log() -> void:
+	close_panels()
+	captains_log.open()
 
 func open_room_details(title:String,description:String) -> void:
 	close_panels()
@@ -807,10 +896,14 @@ func close_panels() -> void:
 	if operations!=null: operations.hide()
 	if board!=null: board.hide()
 	if connection_panel!=null: connection_panel.hide()
+	if crew_board!=null: crew_board.hide(); crew_dialogue.hide()
 	dock.hide()
 	directory.hide()
 	help.hide()
 	if room_details!=null: room_details.hide()
+	if captains_log!=null: captains_log.hide()
+	if workstation_screen!=null: workstation_screen.hide()
+	if handoff_dialogue!=null: handoff_dialogue.hide()
 	root.get_viewport().gui_release_focus()
 	sync_world_chrome()
 
@@ -821,6 +914,32 @@ func toggle_directory() -> void:
 	if directory.visible:
 		update_directory_records()
 		directory.find_children("*","Button",true,false)[0].grab_focus()
+
+## Page 5: the crew board (Tab). Focus lands inside the board so Tab then
+## traverses its controls; Esc closes it.
+func toggle_crew_board() -> void:
+	var was:=crew_board.visible
+	close_panels()
+	if not was: crew_board.open()
+
+## Page 6: the crew dialogue (T from the board), over the board.
+func open_crew_dialogue(kind:String,question:String="") -> void:
+	crew_dialogue.open_for(kind,crew_board.model,question)
+	layout_hud()
+	sync_world_chrome()
+
+## Comfort settings restored at start (saved by the world on each change).
+func set_comfort(values:Dictionary) -> void:
+	reduced=bool(values.get("reduced_motion",reduced))
+	sound_enabled=bool(values.get("sound",sound_enabled))
+	large_text=bool(values.get("large_text",large_text))
+	reduced_toggle.set_pressed_no_signal(reduced); reduced_toggle.text="Reduced motion · "+("On" if reduced else "Off")
+	sound_toggle.set_pressed_no_signal(sound_enabled); sound_toggle.text="Ambient sounds · "+("On" if sound_enabled else "Off")
+	set_crew_summary(bool(values.get("crew_summary",crew_summary)))
+	scale_text()
+
+func comfort() -> Dictionary:
+	return {"reduced_motion":reduced,"large_text":large_text,"sound":sound_enabled,"crew_summary":crew_summary}
 
 func open_place(kind: String) -> void:
 	if sdlc_assignments.has(kind):
@@ -848,7 +967,8 @@ func open_place(kind: String) -> void:
 	dock.find_children("*","Button",true,false)[0].grab_focus()
 
 func is_open() -> bool:
-	return (station_records!=null and station_records.visible) or (briefing!=null and briefing.visible) or (operations!=null and operations.visible) or (connection_panel!=null and connection_panel.visible) or dock.visible or directory.visible or help.visible or (board!=null and board.visible) or (room_details!=null and room_details.visible)
+	if captains_log!=null and captains_log.visible: return true
+	return (crew_board!=null and crew_board.visible) or (station_records!=null and station_records.visible) or (briefing!=null and briefing.visible) or (operations!=null and operations.visible) or (connection_panel!=null and connection_panel.visible) or dock.visible or directory.visible or help.visible or (board!=null and board.visible) or (room_details!=null and room_details.visible) or (workstation_screen!=null and workstation_screen.visible) or (handoff_dialogue!=null and handoff_dialogue.visible)
 
 func update_list(missions: Array) -> void:
 	directory_records=missions

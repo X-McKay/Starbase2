@@ -1,5 +1,7 @@
 extends VBoxContainer
 ## V7 is authoritative. Inspecting a mission never dispatches work.
+## /v7/snapshot carries bounded summaries; the selected mission's full record
+## (evidence, events, contract) is read from /v7/missions/{id} on change.
 const Commands = preload("res://commands.gd")
 var api := preload("res://transport.gd").default_origin()
 var fixture := false
@@ -11,6 +13,12 @@ var received_at_msec := 0
 signal snapshot_changed
 var selected := ""
 var http = preload("res://transport.gd").create()
+var detail_http = preload("res://transport.gd").create()
+var detail: Dictionary = {}
+var detail_signature := ""
+var detail_pending := ""
+var detail_pending_id := ""
+var detail_status := ""
 var commands: Node
 var timer := Timer.new()
 var status: Label
@@ -23,6 +31,7 @@ var feedback: Label
 var cancel: Button
 var reconcile: Button
 var signature := ""
+var refresh_pending := false
 
 func label(parent: Node, text: String, size: int = 16) -> Label:
 	var item := Label.new(); item.text=text
@@ -39,7 +48,7 @@ func _ready() -> void:
 	policy=label(self,"Standing policy not reported.")
 	operating=VBoxContainer.new(); operating.add_theme_constant_override("separation",8); add_child(operating)
 	choices=OptionButton.new(); choices.fit_to_longest_item=false; choices.custom_minimum_size.y=40; add_child(choices)
-	choices.item_selected.connect(func(index:int): selected=str(choices.get_item_metadata(index)); render_mission())
+	choices.item_selected.connect(func(index:int): selected=str(choices.get_item_metadata(index)); render_mission(); fetch_detail())
 	content=VBoxContainer.new(); content.add_theme_constant_override("separation",10); add_child(content)
 	cancel=Button.new(); cancel.text="Stop future mission actions"; cancel.custom_minimum_size.y=40; add_child(cancel)
 	cancel.pressed.connect(cancel_selected)
@@ -52,6 +61,8 @@ func _ready() -> void:
 	commands.accepted.connect(func(_id:String): poll())
 	add_child(http); http.timeout=4; http.max_redirects=0; http.body_size_limit=4194304
 	http.request_completed.connect(received)
+	add_child(detail_http); detail_http.timeout=8; detail_http.max_redirects=0; detail_http.body_size_limit=16777216
+	detail_http.request_completed.connect(received_detail)
 	timer.wait_time=5; timer.timeout.connect(poll); add_child(timer); timer.start()
 	visibility_changed.connect(poll)
 	render()
@@ -59,6 +70,8 @@ func _ready() -> void:
 func set_api(value:String) -> void:
 	if commands.uncertain or not commands.phase.is_empty(): return
 	http.cancel_request(); api=value; commands.api=value
+	if not detail_pending.is_empty(): detail_http.cancel_request()
+	detail.clear(); detail_signature=""; detail_pending=""; detail_pending_id=""; detail_status=""
 	snapshot.clear(); selected=""; signature=""; online=false; render(); poll()
 
 func poll() -> void:
@@ -66,8 +79,20 @@ func poll() -> void:
 	var result:int=http.request(api+"/v7/snapshot")
 	if result!=OK: received(HTTPRequest.RESULT_CANT_CONNECT,0,[],PackedByteArray())
 
+## A stream record event asks for the authoritative snapshot sooner than the
+## 5 s poll. Bursts coalesce: one request in flight plus at most one follow-up.
+func refresh_soon() -> void:
+	if fixture: return
+	if http.get_http_client_status()!=HTTPClient.STATUS_DISCONNECTED:
+		refresh_pending=true
+		return
+	poll()
+
 func received(result:int,code:int,_headers:PackedStringArray,body:PackedByteArray) -> void:
 	if fixture: return
+	if refresh_pending:
+		refresh_pending=false
+		poll.call_deferred()
 	var data=JSON.parse_string(body.get_string_from_utf8()) if code==200 else null
 	online=result==HTTPRequest.RESULT_SUCCESS and code==200 and data is Dictionary and data.get("schema_version")==7 and data.get("missions") is Array
 	if online:
@@ -135,17 +160,50 @@ func render() -> void:
 			if id==selected: choices.select(choices.item_count-1)
 		if choices.item_count>0: selected=str(choices.get_item_metadata(choices.selected))
 		render_mission()
+		fetch_detail()
 	controls()
 
-func mission_record() -> Dictionary:
+func mission_summary() -> Dictionary:
 	for record in snapshot.get("missions",[]):
 		if record is Dictionary and str(record.get("id",record.get("input",{}).get("id","")))==selected: return record
 	return {}
+
+## Full retained record when it has been read for the selected mission; otherwise
+## the bounded summary (or a full fixture record).
+func mission_record() -> Dictionary:
+	if not selected.is_empty() and str(detail.get("id",""))==selected: return detail
+	return mission_summary()
+
+func is_summary(record:Dictionary) -> bool:
+	return record.has("stage_evidence") and not record.has("evidence")
+
+func fetch_detail() -> void:
+	var summary:=mission_summary()
+	if fixture or not online or selected.is_empty() or not is_summary(summary) or not detail_pending.is_empty(): return
+	var next:=selected+JSON.stringify(summary)
+	if next==detail_signature and str(detail.get("id",""))==selected: return
+	detail_pending=next; detail_pending_id=selected
+	var result:int=detail_http.request(api+"/v7/missions/"+selected.uri_encode())
+	if result!=OK: received_detail(HTTPRequest.RESULT_CANT_CONNECT,0,PackedStringArray(),PackedByteArray())
+
+func received_detail(result:int,code:int,_headers:PackedStringArray,body:PackedByteArray) -> void:
+	var requested:=detail_pending
+	var requested_id:=detail_pending_id
+	detail_pending=""; detail_pending_id=""
+	if fixture or requested.is_empty(): return
+	var data=JSON.parse_string(body.get_string_from_utf8()) if result==HTTPRequest.RESULT_SUCCESS and code==200 else null
+	if data is Dictionary and str(data.get("id",""))==requested_id:
+		detail=data; detail_signature=requested; detail_status="live"
+	else:
+		detail_status="unavailable"
+	render_mission()
+	if requested!=selected+JSON.stringify(mission_summary()): fetch_detail()
 
 func render_mission() -> void:
 	for child in content.get_children(): content.remove_child(child); child.queue_free()
 	var record:=mission_record()
 	if record.is_empty(): label(content,"No mission records available. Repository observation alone does not authorize a change."); controls(); return
+	if is_summary(record): render_summary(record); controls(); return
 	var input:Dictionary=record.get("input",{})
 	label(content,"MISSION · "+str(record.get("state","unknown")).replace("_"," ").to_upper(),19)
 	label(content,"OPPORTUNITY",18)
@@ -154,6 +212,7 @@ func render_mission() -> void:
 	var updated=record.get("updated_at")
 	var updated_text:=Time.get_datetime_string_from_unix_time(int(updated)).replace("T"," ")+" UTC" if updated is float or updated is int else str(updated)
 	label(content,"Updated · "+updated_text+" · "+("live record" if online and not fixture else "last known / fixture"))
+	if not fixture and detail_status=="unavailable" and str(detail.get("id",""))==selected: label(content,"Full record refresh failed · showing last known detail; the mission list above is current.")
 	var state:=str(record.get("state","unknown"))
 	if state in ["submitted","awaiting_review"]: label(content,"PR submitted · awaiting external review. This is not a merge, production verification, or an XP award.")
 	if state=="cancel_requested" or record.get("cancel_requested",false): label(content,"Stop requested · already-started effects may still complete. Await reconciliation.")
@@ -195,6 +254,31 @@ func render_mission() -> void:
 	content.add_child(disclosure); content.add_child(raw); raw.hide()
 	disclosure.pressed.connect(func(): raw.visible=not raw.visible; disclosure.text="Hide technical ledger" if raw.visible else "Show technical ledger")
 	controls()
+
+## Bounded summary while the full record is loading or unavailable. Missing
+## evidence is reported as not recorded, never as success.
+func render_summary(record:Dictionary) -> void:
+	var input:Dictionary=record.get("input",{}) if record.get("input") is Dictionary else {}
+	var state:=str(record.get("state","unknown"))
+	label(content,"MISSION · "+state.replace("_"," ").to_upper(),19)
+	label(content,"OBJECTIVE",18)
+	var objective=record.get("objective")
+	label(content,str(objective) if objective is String else "Not recorded (legacy or unknown)")
+	label(content,"Repository · "+str(input.get("repository","Unknown"))+"\nPinned revision · "+str(input.get("revision","Unknown")))
+	var updated=record.get("updated_at")
+	label(content,"Updated · "+(Time.get_datetime_string_from_unix_time(int(updated)).replace("T"," ")+" UTC" if updated is float or updated is int else "unknown"))
+	if state in ["submitted","awaiting_review"]: label(content,"PR submitted · awaiting external review. This is not a merge, production verification, or an XP award.")
+	if record.get("cancel_requested",false): label(content,"Stop requested · already-started effects may still complete. Await reconciliation.")
+	var latest=record.get("latest_event")
+	label(content,"Latest event · "+(str(latest.get("label","event")) if latest is Dictionary else "none recorded"))
+	label(content,"Full evidence · "+("unavailable · showing bounded summary" if detail_status=="unavailable" and detail_pending.is_empty() else "loading full mission record"))
+	label(content,"STAGE EVIDENCE SUMMARY",18)
+	var stages=record.get("stage_evidence",{})
+	if stages is Dictionary:
+		for key in ["plan","testing","reviewing"]:
+			if stages.get(key) is Dictionary:
+				label(content,key.to_upper(),16); render_value(content,stages[key])
+			else: label(content,key.capitalize()+" · not recorded")
 
 func render_coordination(record:Dictionary) -> void:
 	var contract:Dictionary=record.get("capability",{}) if record.get("capability") is Dictionary else {}
@@ -306,8 +390,11 @@ static func safe_pr_url(url:String,repository:String) -> bool:
 
 func controls() -> void:
 	if cancel==null or commands==null: return
-	var state:=str(mission_record().get("state",""))
-	cancel.disabled=fixture or not online or selected.is_empty() or mission_record().get("cancel_requested",false) or state in ["","failed","blocked","cancelled","cancel_requested","submitted","awaiting_review"] or commands.uncertain or not commands.phase.is_empty()
+	# The polled summary is the freshest authority for command availability.
+	var current:=mission_summary()
+	if current.is_empty(): current=mission_record()
+	var state:=str(current.get("state",""))
+	cancel.disabled=fixture or not online or selected.is_empty() or current.get("cancel_requested",false) or state in ["","failed","blocked","cancelled","cancel_requested","submitted","awaiting_review"] or commands.uncertain or not commands.phase.is_empty()
 	for stop in content.find_children("*","Button",true,false):
 		if stop.has_meta("verification_cancel_id"):
 			var item:=verification_record(str(stop.get_meta("verification_cancel_id")))

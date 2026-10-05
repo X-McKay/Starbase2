@@ -3,9 +3,36 @@
 
 from __future__ import annotations
 
+from enum import StrEnum
 from typing import Annotated, Any
 
 from pydantic import BaseModel, ConfigDict, Field
+
+
+class ActivityKind(StrEnum):
+    model_request_started = "model_request_started"
+    model_request_finished = "model_request_finished"
+    tool_started = "tool_started"
+    tool_finished = "tool_finished"
+    sandbox_boot = "sandbox_boot"
+    sandbox_finished = "sandbox_finished"
+
+
+class ActivityNote(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+    elapsed_ms: Annotated[int | None, Field(ge=0)] = None
+    error: str | None = None
+    input_tokens: Annotated[int | None, Field(ge=0)] = None
+    kind: ActivityKind
+    label: str | None = None
+    ok: bool | None = None
+    output_tokens: Annotated[int | None, Field(ge=0)] = None
+    request: Annotated[int | None, Field(ge=0)] = None
+    role: str | None = None
+    tool: str | None = None
+    verification_id: str | None = None
 
 
 class DiscoveryInput(BaseModel):
@@ -34,6 +61,24 @@ class FeedbackInput(BaseModel):
     proposal: Any
 
 
+class SdlcCaseResults(BaseModel):
+    failed: list[str]
+    passed: list[str]
+
+
+class SdlcCoordinationSummary(BaseModel):
+    admission: str
+    can_discover: bool
+    reserved_opportunities: list[str]
+    resolution: str
+
+
+class SdlcDiffStats(BaseModel):
+    additions: Annotated[int, Field(ge=0)]
+    deletions: Annotated[int, Field(ge=0)]
+    files: Annotated[int, Field(ge=0)]
+
+
 class SdlcEffect(BaseModel):
     data: Any
     key: str
@@ -49,6 +94,20 @@ class SdlcEvent(BaseModel):
     stage: str
 
 
+class SdlcEventSummary(BaseModel):
+    at: float | None = None
+    key: str
+    label: str
+    role: str | None = None
+    stage: str
+
+
+class SdlcGradingSummary(BaseModel):
+    baseline_pass: bool | None = None
+    candidate_pass: bool | None = None
+    verdict: str | None = None
+
+
 class SdlcInput(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
@@ -59,6 +118,30 @@ class SdlcInput(BaseModel):
     opportunity: str
     repository: str
     revision: str
+
+
+class SdlcInputSummary(BaseModel):
+    build_digest: str | None = None
+    capability_digest: str | None = None
+    id: str
+    opportunity: str | None = None
+    repository: str | None = None
+    revision: str | None = None
+
+
+class SdlcPage(BaseModel):
+    limit: Annotated[int, Field(ge=0)]
+    next_before: str | None = None
+    order: str
+    returned: Annotated[int, Field(ge=0)]
+    total: Annotated[int, Field(ge=0)]
+
+
+class SdlcPlanEvidence(BaseModel):
+    decision: str | None = None
+    rationale: str | None = None
+    role: str | None = None
+    task: str | None = None
 
 
 class SdlcPolicy(BaseModel):
@@ -91,12 +174,38 @@ class SdlcPublication(BaseModel):
     revision: str
 
 
+class SdlcPublicationSummary(BaseModel):
+    branch: str | None = None
+    pr_number: Annotated[int | None, Field(ge=0)] = None
+    pr_observed_at: float | None = None
+    pr_state: str | None = None
+    pr_url: str | None = None
+    state: str
+
+
 class SdlcRetry(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
     )
     build: Any
     id: str
+
+
+class SdlcReviewFinding(BaseModel):
+    evidence: str | None = None
+    line: Annotated[int | None, Field(ge=0)] = None
+    path: str | None = None
+    problem: str | None = None
+
+
+class SdlcTestingEvidence(BaseModel):
+    artifact_digest: str | None = None
+    baseline_cases: SdlcCaseResults | None = None
+    candidate_cases: SdlcCaseResults | None = None
+    diff: SdlcDiffStats | None = None
+    grading: SdlcGradingSummary | None = None
+    validation_error: str | None = None
+    verdict: str | None = None
 
 
 class SdlcVerificationInput(BaseModel):
@@ -109,14 +218,98 @@ class SdlcVerificationInput(BaseModel):
     id: str
 
 
+class SdlcVerificationInputSummary(BaseModel):
+    build_digest: str | None = None
+    feedback_digest: str | None = None
+    head: str | None = None
+
+
+class SdlcVerificationSummary(BaseModel):
+    cancel_requested: bool
+    id: str
+    input: SdlcVerificationInputSummary
+    outcome: str | None = None
+    policy_generation: Annotated[int | None, Field(ge=0)] = None
+    state: str
+    updated_at: float | None = None
+
+
+class StreamEvent(BaseModel):
+    at: float
+    epoch: str
+    family: str
+    id: str
+    payload: Any
+    record_id: str
+    retained: bool
+    seq: Annotated[int, Field(ge=0)]
+    type: str
+
+
+class SdlcReviewEvidence(BaseModel):
+    findings: list[SdlcReviewFinding] | None = None
+    findings_truncated: bool
+    missing_evidence: str | None = None
+    rationale: str | None = None
+    role: str | None = None
+    status: str | None = None
+
+
+class SdlcStageEvidence(BaseModel):
+    plan: SdlcPlanEvidence | None = None
+    reviewing: SdlcReviewEvidence | None = None
+    testing: SdlcTestingEvidence | None = None
+
+
+class SdlcMissionSummary(BaseModel):
+    assigned_crew: dict[str, Any] | None = None
+    cancel_requested: bool
+    created_at: float | None = None
+    current_stage: str | None = None
+    event_count: Annotated[int, Field(ge=0)]
+    id: str
+    input: SdlcInputSummary
+    latest_event: SdlcEventSummary | None = None
+    objective: str | None = None
+    policy_generation: Annotated[int | None, Field(ge=0)] = None
+    publication: SdlcPublicationSummary
+    recent_events: list[SdlcEventSummary]
+    repository: str | None = None
+    retry_of: str | None = None
+    revision_count: Annotated[int, Field(ge=0)]
+    stage_evidence: SdlcStageEvidence
+    state: str
+    updated_at: float | None = None
+    verdict: str | None = None
+    verifications: list[SdlcVerificationSummary]
+
+
+class SdlcSnapshot(BaseModel):
+    capability_catalog: Any
+    coordination: SdlcCoordinationSummary
+    discovery_count: Annotated[int, Field(ge=0)]
+    enabled: bool
+    missions: list[SdlcMissionSummary]
+    page: SdlcPage
+    policy: SdlcPolicy
+    schema_version: Annotated[int, Field(ge=0)]
+    verification_enabled: bool
+    view: str
+
+
 class SdlcContract(BaseModel):
+    activity_note: ActivityNote
     discovery: DiscoveryInput
     effect: SdlcEffect
     event: SdlcEvent
     feedback: FeedbackInput
     input: SdlcInput
+    mission_summary: SdlcMissionSummary
     policy: SdlcPolicy
     pr_observation: SdlcPrObservation
     publication: SdlcPublication
     retry: SdlcRetry
+    snapshot: SdlcSnapshot
+    stage_evidence: SdlcStageEvidence
+    stream_event: StreamEvent
     verification: SdlcVerificationInput

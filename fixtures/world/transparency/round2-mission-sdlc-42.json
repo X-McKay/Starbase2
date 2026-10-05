@@ -1,0 +1,1059 @@
+{
+  "_fixture": "SYNTHETIC FIXTURE: invented mission 42 'Fix cache eviction' round 2 on X-McKay/algent for tests and captures. Not real Core, worker, model or repository activity.",
+  "id": "sdlc-42",
+  "retry_of": null,
+  "input": {
+    "id": "sdlc-42",
+    "repository": "X-McKay/algent",
+    "revision": "3f9c2e1a7b5d40c8a1e2f3b4c5d6e7f8a9b0c1d2",
+    "opportunity": "cache-eviction",
+    "build": {
+      "digest": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    }
+  },
+  "policy_generation": 7,
+  "capability": {
+    "id": "synthetic-cache-eviction-v1",
+    "objective": "Fix cache eviction",
+    "digest": "9999999999999999999999999999999999999999999999999999999999999999",
+    "editable_paths": [
+      "algent/cache.py"
+    ],
+    "limits": {
+      "max_rounds": 3
+    },
+    "assignments": [
+      {
+        "task": "diagnose",
+        "role": "lead",
+        "crew": "moss",
+        "requires": [],
+        "evidence": "investigating"
+      },
+      {
+        "task": "implement",
+        "role": "implementer",
+        "crew": "rivet",
+        "requires": [
+          "diagnose"
+        ],
+        "evidence": "implementing",
+        "fallback_crews": [
+          "moss"
+        ]
+      },
+      {
+        "task": "review",
+        "role": "reviewer",
+        "crew": "prism",
+        "requires": [
+          "implement"
+        ],
+        "evidence": "testing"
+      }
+    ]
+  },
+  "coordination": {
+    "assignments": [
+      {
+        "task": "diagnose",
+        "role": "lead",
+        "crew": "moss",
+        "requires": [],
+        "evidence": "investigating"
+      },
+      {
+        "task": "implement",
+        "role": "implementer",
+        "crew": "rivet",
+        "requires": [
+          "diagnose"
+        ],
+        "evidence": "implementing",
+        "fallback_crews": [
+          "moss"
+        ]
+      },
+      {
+        "task": "review",
+        "role": "reviewer",
+        "crew": "prism",
+        "requires": [
+          "implement"
+        ],
+        "evidence": "testing"
+      }
+    ],
+    "max_rounds": 3,
+    "reservation": "x-mckay/algent:cache-eviction"
+  },
+  "state": "testing",
+  "events": [
+    {
+      "key": "source-baseline",
+      "event": {
+        "key": "source-baseline",
+        "stage": "investigating",
+        "data": {
+          "sources": {
+            "algent/cache.py": "class Cache:\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self._store = OrderedDict()\n\n    def get(self, key):\n        return self._store.get(key)\n\n    def set(self, key, value):\n        if len(self._store) >= self.capacity:\n            self._store.popitem(last=True)\n        self._store[key] = value\n"
+          },
+          "source_digest": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "baseline": {
+            "exit_code": 1,
+            "cases": [
+              {
+                "id": "evict_oldest",
+                "actual": "synthetic-expected-evict_oldest"
+              },
+              {
+                "id": "get_refreshes",
+                "actual": "synthetic-wrong-get_refreshes"
+              },
+              {
+                "id": "capacity_zero",
+                "actual": "synthetic-wrong-capacity_zero"
+              },
+              {
+                "id": "update_existing",
+                "actual": "synthetic-expected-update_existing"
+              },
+              {
+                "id": "size_limit",
+                "actual": "synthetic-expected-size_limit"
+              },
+              {
+                "id": "empty_get",
+                "actual": "synthetic-expected-empty_get"
+              }
+            ]
+          },
+          "opportunity": "Cache eviction keeps least recently used entries",
+          "scope": "Six synthetic cache behaviours"
+        }
+      },
+      "at": 1789999160.0
+    },
+    {
+      "key": "lead-handoff",
+      "event": {
+        "key": "lead-handoff",
+        "stage": "implementing",
+        "data": {
+          "role": "lead",
+          "output": {
+            "decision": "implement",
+            "task": "Fix cache eviction so the least recently used entry leaves first",
+            "rationale": "Synthetic: the eviction loop removes the newest entry when the cache is full."
+          },
+          "model": "synthetic-model",
+          "usage": {
+            "input_tokens": 4400,
+            "output_tokens": 790
+          },
+          "usage_complete": true,
+          "elapsed_ms": 19800,
+          "model_requests": [
+            {
+              "request": 1,
+              "status": "returned",
+              "model": "synthetic-model",
+              "finish_reason": "stop",
+              "elapsed_ms": 9100,
+              "input_tokens": 2600,
+              "output_tokens": 410
+            },
+            {
+              "request": 2,
+              "status": "returned",
+              "model": "synthetic-model",
+              "finish_reason": "stop",
+              "elapsed_ms": 7400,
+              "input_tokens": 1800,
+              "output_tokens": 380
+            }
+          ],
+          "tools": [
+            {
+              "sequence": 1,
+              "tool": "inspect_symbol",
+              "input_digest": "01aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "before_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "candidate_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+              "elapsed_seconds": 0.1,
+              "ok": true
+            },
+            {
+              "sequence": 2,
+              "tool": "search_source",
+              "input_digest": "02aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "before_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "candidate_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+              "elapsed_seconds": 0.2,
+              "ok": true
+            }
+          ],
+          "profile": "synthetic-profile",
+          "strategy": "engineering"
+        }
+      },
+      "at": 1789999300.0
+    },
+    {
+      "key": "testing-1",
+      "event": {
+        "key": "testing-1",
+        "stage": "testing",
+        "data": {
+          "baseline": {
+            "exit_code": 1,
+            "cases": [
+              {
+                "id": "evict_oldest",
+                "actual": "synthetic-expected-evict_oldest"
+              },
+              {
+                "id": "get_refreshes",
+                "actual": "synthetic-wrong-get_refreshes"
+              },
+              {
+                "id": "capacity_zero",
+                "actual": "synthetic-wrong-capacity_zero"
+              },
+              {
+                "id": "update_existing",
+                "actual": "synthetic-expected-update_existing"
+              },
+              {
+                "id": "size_limit",
+                "actual": "synthetic-expected-size_limit"
+              },
+              {
+                "id": "empty_get",
+                "actual": "synthetic-expected-empty_get"
+              }
+            ]
+          },
+          "candidate": {
+            "exit_code": 1,
+            "cases": [
+              {
+                "id": "evict_oldest",
+                "actual": "synthetic-expected-evict_oldest"
+              },
+              {
+                "id": "get_refreshes",
+                "actual": "synthetic-wrong-get_refreshes"
+              },
+              {
+                "id": "capacity_zero",
+                "actual": "synthetic-wrong-capacity_zero"
+              },
+              {
+                "id": "update_existing",
+                "actual": "synthetic-expected-update_existing"
+              },
+              {
+                "id": "size_limit",
+                "actual": "synthetic-expected-size_limit"
+              },
+              {
+                "id": "empty_get",
+                "actual": "synthetic-expected-empty_get"
+              }
+            ]
+          },
+          "candidate_files": {
+            "algent/cache.py": "synthetic candidate source"
+          },
+          "patch": {
+            "role": "implementer",
+            "output": {
+              "status": "submit",
+              "rationale": "Synthetic: evict from the front of the ordered store and move written keys to the end.",
+              "artifact_digest": "1111111111111111111111111111111111111111111111111111111111111111"
+            },
+            "model": "synthetic-model",
+            "usage": {
+              "input_tokens": 5200,
+              "output_tokens": 1160
+            },
+            "usage_complete": true,
+            "elapsed_ms": 44100,
+            "model_requests": [
+              {
+                "request": 1,
+                "status": "returned",
+                "model": "synthetic-model",
+                "finish_reason": "stop",
+                "elapsed_ms": 11200,
+                "input_tokens": 2900,
+                "output_tokens": 620
+              },
+              {
+                "request": 2,
+                "status": "returned",
+                "model": "synthetic-model",
+                "finish_reason": "stop",
+                "elapsed_ms": 9800,
+                "input_tokens": 2300,
+                "output_tokens": 540
+              }
+            ],
+            "tools": [
+              {
+                "sequence": 1,
+                "tool": "inspect_symbol",
+                "input_digest": "01aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "before_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "candidate_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+                "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+                "elapsed_seconds": 0.1,
+                "ok": true
+              },
+              {
+                "sequence": 2,
+                "tool": "apply_patch",
+                "input_digest": "02aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "before_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "candidate_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+                "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+                "elapsed_seconds": 0.3,
+                "ok": true
+              },
+              {
+                "sequence": 3,
+                "tool": "run_public_tests",
+                "input_digest": "03aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "before_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "candidate_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+                "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+                "elapsed_seconds": 21.4,
+                "ok": true,
+                "cached": false
+              },
+              {
+                "sequence": 4,
+                "tool": "inspect_diff",
+                "input_digest": "04aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "before_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "candidate_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+                "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+                "elapsed_seconds": 0.1,
+                "ok": true
+              }
+            ],
+            "profile": "synthetic-profile",
+            "strategy": "engineering"
+          },
+          "diff": "--- algent/cache.py\n+++ algent/cache.py\n@@ -9,4 +9,5 @@ class Cache:\n     def set(self, key, value):\n         if len(self._store) >= self.capacity:\n-            self._store.popitem(last=True)\n+            self._store.popitem(last=False)\n         self._store[key] = value\n+        self._store.move_to_end(key)\n",
+          "artifact_digest": "1111111111111111111111111111111111111111111111111111111111111111",
+          "validation_error": null
+        }
+      },
+      "at": 1789999500.0
+    },
+    {
+      "key": "review-1",
+      "event": {
+        "key": "review-1",
+        "stage": "reviewing",
+        "data": {
+          "role": "reviewer",
+          "output": {
+            "status": "revise",
+            "rationale": "Synthetic: the write path now evicts the oldest entry, but reads never refresh recency and capacity 0 raises instead of storing nothing.",
+            "findings": [
+              {
+                "path": "algent/cache.py",
+                "line": 7,
+                "problem": "get() does not refresh access order",
+                "evidence": "get_refreshes case; reads never move a key"
+              },
+              {
+                "path": "algent/cache.py",
+                "line": 10,
+                "problem": "Capacity 0 pops from an empty store",
+                "evidence": "capacity_zero case raises KeyError"
+              }
+            ],
+            "missing_evidence": "No public test reads a key between two writes."
+          },
+          "model": "synthetic-model",
+          "usage": {
+            "input_tokens": 3400,
+            "output_tokens": 520
+          },
+          "usage_complete": true,
+          "elapsed_ms": 15200,
+          "model_requests": [
+            {
+              "request": 1,
+              "status": "returned",
+              "model": "synthetic-model",
+              "finish_reason": "stop",
+              "elapsed_ms": 12600,
+              "input_tokens": 3400,
+              "output_tokens": 520
+            }
+          ],
+          "tools": [
+            {
+              "sequence": 1,
+              "tool": "inspect_diff",
+              "input_digest": "01aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "before_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "candidate_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+              "elapsed_seconds": 0.1,
+              "ok": true
+            },
+            {
+              "sequence": 2,
+              "tool": "check_candidate",
+              "input_digest": "02aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "before_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "candidate_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+              "elapsed_seconds": 0.2,
+              "ok": true
+            }
+          ],
+          "profile": "synthetic-profile",
+          "strategy": "engineering",
+          "status": "revise",
+          "rationale": "Synthetic: the write path now evicts the oldest entry, but reads never refresh recency and capacity 0 raises instead of storing nothing.",
+          "findings": [
+            {
+              "path": "algent/cache.py",
+              "line": 7,
+              "problem": "get() does not refresh access order",
+              "evidence": "get_refreshes case; reads never move a key"
+            },
+            {
+              "path": "algent/cache.py",
+              "line": 10,
+              "problem": "Capacity 0 pops from an empty store",
+              "evidence": "capacity_zero case raises KeyError"
+            }
+          ],
+          "missing_evidence": "No public test reads a key between two writes."
+        }
+      },
+      "at": 1789999650.0
+    },
+    {
+      "key": "revise-1",
+      "event": {
+        "key": "revise-1",
+        "stage": "implementing",
+        "data": {
+          "role": "reviewer",
+          "feedback": {
+            "role": "reviewer",
+            "output": {
+              "status": "revise",
+              "rationale": "Synthetic: the write path now evicts the oldest entry, but reads never refresh recency and capacity 0 raises instead of storing nothing.",
+              "findings": [
+                {
+                  "path": "algent/cache.py",
+                  "line": 7,
+                  "problem": "get() does not refresh access order",
+                  "evidence": "get_refreshes case; reads never move a key"
+                },
+                {
+                  "path": "algent/cache.py",
+                  "line": 10,
+                  "problem": "Capacity 0 pops from an empty store",
+                  "evidence": "capacity_zero case raises KeyError"
+                }
+              ],
+              "missing_evidence": "No public test reads a key between two writes."
+            },
+            "model": "synthetic-model",
+            "usage": {
+              "input_tokens": 3400,
+              "output_tokens": 520
+            },
+            "usage_complete": true,
+            "elapsed_ms": 15200,
+            "model_requests": [
+              {
+                "request": 1,
+                "status": "returned",
+                "model": "synthetic-model",
+                "finish_reason": "stop",
+                "elapsed_ms": 12600,
+                "input_tokens": 3400,
+                "output_tokens": 520
+              }
+            ],
+            "tools": [
+              {
+                "sequence": 1,
+                "tool": "inspect_diff",
+                "input_digest": "01aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "before_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "candidate_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+                "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+                "elapsed_seconds": 0.1,
+                "ok": true
+              },
+              {
+                "sequence": 2,
+                "tool": "check_candidate",
+                "input_digest": "02aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "before_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "candidate_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+                "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+                "elapsed_seconds": 0.2,
+                "ok": true
+              }
+            ],
+            "profile": "synthetic-profile",
+            "strategy": "engineering",
+            "status": "revise",
+            "rationale": "Synthetic: the write path now evicts the oldest entry, but reads never refresh recency and capacity 0 raises instead of storing nothing.",
+            "findings": [
+              {
+                "path": "algent/cache.py",
+                "line": 7,
+                "problem": "get() does not refresh access order",
+                "evidence": "get_refreshes case; reads never move a key"
+              },
+              {
+                "path": "algent/cache.py",
+                "line": 10,
+                "problem": "Capacity 0 pops from an empty store",
+                "evidence": "capacity_zero case raises KeyError"
+              }
+            ],
+            "missing_evidence": "No public test reads a key between two writes."
+          },
+          "verdict": "improved"
+        }
+      },
+      "at": 1789999652.0
+    },
+    {
+      "key": "testing-2",
+      "event": {
+        "key": "testing-2",
+        "stage": "testing",
+        "data": {
+          "baseline": {
+            "exit_code": 1,
+            "cases": [
+              {
+                "id": "evict_oldest",
+                "actual": "synthetic-expected-evict_oldest"
+              },
+              {
+                "id": "get_refreshes",
+                "actual": "synthetic-wrong-get_refreshes"
+              },
+              {
+                "id": "capacity_zero",
+                "actual": "synthetic-wrong-capacity_zero"
+              },
+              {
+                "id": "update_existing",
+                "actual": "synthetic-expected-update_existing"
+              },
+              {
+                "id": "size_limit",
+                "actual": "synthetic-expected-size_limit"
+              },
+              {
+                "id": "empty_get",
+                "actual": "synthetic-expected-empty_get"
+              }
+            ]
+          },
+          "candidate": {
+            "exit_code": 0,
+            "cases": [
+              {
+                "id": "evict_oldest",
+                "actual": "synthetic-expected-evict_oldest"
+              },
+              {
+                "id": "get_refreshes",
+                "actual": "synthetic-expected-get_refreshes"
+              },
+              {
+                "id": "capacity_zero",
+                "actual": "synthetic-expected-capacity_zero"
+              },
+              {
+                "id": "update_existing",
+                "actual": "synthetic-expected-update_existing"
+              },
+              {
+                "id": "size_limit",
+                "actual": "synthetic-expected-size_limit"
+              },
+              {
+                "id": "empty_get",
+                "actual": "synthetic-expected-empty_get"
+              }
+            ]
+          },
+          "candidate_files": {
+            "algent/cache.py": "synthetic candidate source"
+          },
+          "patch": {
+            "role": "implementer",
+            "output": {
+              "status": "submit",
+              "rationale": "Synthetic: taking both findings. get() now refreshes recency, capacity 0 returns before eviction, and updates no longer evict.",
+              "artifact_digest": "2222222222222222222222222222222222222222222222222222222222222222"
+            },
+            "model": "synthetic-model",
+            "usage": {
+              "input_tokens": 7700,
+              "output_tokens": 1770
+            },
+            "usage_complete": true,
+            "elapsed_ms": 58700,
+            "model_requests": [
+              {
+                "request": 1,
+                "status": "returned",
+                "model": "synthetic-model",
+                "finish_reason": "stop",
+                "elapsed_ms": 12100,
+                "input_tokens": 3100,
+                "output_tokens": 690
+              },
+              {
+                "request": 2,
+                "status": "returned",
+                "model": "synthetic-model",
+                "finish_reason": "stop",
+                "elapsed_ms": 10400,
+                "input_tokens": 2400,
+                "output_tokens": 600
+              },
+              {
+                "request": 3,
+                "status": "returned",
+                "model": "synthetic-model",
+                "finish_reason": "stop",
+                "elapsed_ms": 8900,
+                "input_tokens": 2200,
+                "output_tokens": 480
+              }
+            ],
+            "tools": [
+              {
+                "sequence": 1,
+                "tool": "inspect_symbol",
+                "input_digest": "01aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "before_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "candidate_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+                "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+                "elapsed_seconds": 0.1,
+                "ok": true
+              },
+              {
+                "sequence": 2,
+                "tool": "apply_patch",
+                "input_digest": "02aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "before_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "candidate_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+                "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+                "elapsed_seconds": 0.4,
+                "ok": true
+              },
+              {
+                "sequence": 3,
+                "tool": "run_public_tests",
+                "input_digest": "03aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "before_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "candidate_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+                "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+                "elapsed_seconds": 22.0,
+                "ok": false,
+                "error": "Synthetic tool failure",
+                "cached": false
+              },
+              {
+                "sequence": 4,
+                "tool": "apply_patch",
+                "input_digest": "04aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "before_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "candidate_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+                "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+                "elapsed_seconds": 0.3,
+                "ok": true
+              },
+              {
+                "sequence": 5,
+                "tool": "run_public_tests",
+                "input_digest": "05aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "before_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "candidate_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+                "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+                "elapsed_seconds": 21.1,
+                "ok": true,
+                "cached": false
+              },
+              {
+                "sequence": 6,
+                "tool": "inspect_diff",
+                "input_digest": "06aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "before_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "candidate_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+                "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+                "elapsed_seconds": 0.1,
+                "ok": true
+              },
+              {
+                "sequence": 7,
+                "tool": "check_candidate",
+                "input_digest": "07aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "before_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "candidate_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+                "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+                "elapsed_seconds": 0.1,
+                "ok": true
+              }
+            ],
+            "profile": "synthetic-profile",
+            "strategy": "engineering"
+          },
+          "diff": "--- algent/cache.py\n+++ algent/cache.py\n@@ -6,7 +6,11 @@ class Cache:\n     def get(self, key):\n+        if key in self._store:\n+            self._store.move_to_end(key)\n         return self._store.get(key)\n\n     def set(self, key, value):\n-        if len(self._store) >= self.capacity:\n-            self._store.popitem(last=True)\n+        if self.capacity == 0:\n+            return\n+        if key not in self._store and len(self._store) >= self.capacity:\n+            self._store.popitem(last=False)\n         self._store[key] = value\n+        self._store.move_to_end(key)\n",
+          "artifact_digest": "2222222222222222222222222222222222222222222222222222222222222222",
+          "validation_error": null
+        }
+      },
+      "at": 1789999950.0
+    }
+  ],
+  "evidence": {
+    "investigating": {
+      "sources": {
+        "algent/cache.py": "class Cache:\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self._store = OrderedDict()\n\n    def get(self, key):\n        return self._store.get(key)\n\n    def set(self, key, value):\n        if len(self._store) >= self.capacity:\n            self._store.popitem(last=True)\n        self._store[key] = value\n"
+      },
+      "source_digest": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "baseline": {
+        "exit_code": 1,
+        "cases": [
+          {
+            "id": "evict_oldest",
+            "actual": "synthetic-expected-evict_oldest"
+          },
+          {
+            "id": "get_refreshes",
+            "actual": "synthetic-wrong-get_refreshes"
+          },
+          {
+            "id": "capacity_zero",
+            "actual": "synthetic-wrong-capacity_zero"
+          },
+          {
+            "id": "update_existing",
+            "actual": "synthetic-expected-update_existing"
+          },
+          {
+            "id": "size_limit",
+            "actual": "synthetic-expected-size_limit"
+          },
+          {
+            "id": "empty_get",
+            "actual": "synthetic-expected-empty_get"
+          }
+        ]
+      },
+      "opportunity": "Cache eviction keeps least recently used entries",
+      "scope": "Six synthetic cache behaviours"
+    },
+    "implementing": {
+      "role": "reviewer",
+      "feedback": {
+        "role": "reviewer",
+        "output": {
+          "status": "revise",
+          "rationale": "Synthetic: the write path now evicts the oldest entry, but reads never refresh recency and capacity 0 raises instead of storing nothing.",
+          "findings": [
+            {
+              "path": "algent/cache.py",
+              "line": 7,
+              "problem": "get() does not refresh access order",
+              "evidence": "get_refreshes case; reads never move a key"
+            },
+            {
+              "path": "algent/cache.py",
+              "line": 10,
+              "problem": "Capacity 0 pops from an empty store",
+              "evidence": "capacity_zero case raises KeyError"
+            }
+          ],
+          "missing_evidence": "No public test reads a key between two writes."
+        },
+        "model": "synthetic-model",
+        "usage": {
+          "input_tokens": 3400,
+          "output_tokens": 520
+        },
+        "usage_complete": true,
+        "elapsed_ms": 15200,
+        "model_requests": [
+          {
+            "request": 1,
+            "status": "returned",
+            "model": "synthetic-model",
+            "finish_reason": "stop",
+            "elapsed_ms": 12600,
+            "input_tokens": 3400,
+            "output_tokens": 520
+          }
+        ],
+        "tools": [
+          {
+            "sequence": 1,
+            "tool": "inspect_diff",
+            "input_digest": "01aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "before_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "candidate_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+            "elapsed_seconds": 0.1,
+            "ok": true
+          },
+          {
+            "sequence": 2,
+            "tool": "check_candidate",
+            "input_digest": "02aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "before_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "candidate_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+            "elapsed_seconds": 0.2,
+            "ok": true
+          }
+        ],
+        "profile": "synthetic-profile",
+        "strategy": "engineering",
+        "status": "revise",
+        "rationale": "Synthetic: the write path now evicts the oldest entry, but reads never refresh recency and capacity 0 raises instead of storing nothing.",
+        "findings": [
+          {
+            "path": "algent/cache.py",
+            "line": 7,
+            "problem": "get() does not refresh access order",
+            "evidence": "get_refreshes case; reads never move a key"
+          },
+          {
+            "path": "algent/cache.py",
+            "line": 10,
+            "problem": "Capacity 0 pops from an empty store",
+            "evidence": "capacity_zero case raises KeyError"
+          }
+        ],
+        "missing_evidence": "No public test reads a key between two writes."
+      },
+      "verdict": "improved"
+    },
+    "testing": {
+      "baseline": {
+        "exit_code": 1,
+        "cases": [
+          {
+            "id": "evict_oldest",
+            "actual": "synthetic-expected-evict_oldest"
+          },
+          {
+            "id": "get_refreshes",
+            "actual": "synthetic-wrong-get_refreshes"
+          },
+          {
+            "id": "capacity_zero",
+            "actual": "synthetic-wrong-capacity_zero"
+          },
+          {
+            "id": "update_existing",
+            "actual": "synthetic-expected-update_existing"
+          },
+          {
+            "id": "size_limit",
+            "actual": "synthetic-expected-size_limit"
+          },
+          {
+            "id": "empty_get",
+            "actual": "synthetic-expected-empty_get"
+          }
+        ]
+      },
+      "candidate": {
+        "exit_code": 0,
+        "cases": [
+          {
+            "id": "evict_oldest",
+            "actual": "synthetic-expected-evict_oldest"
+          },
+          {
+            "id": "get_refreshes",
+            "actual": "synthetic-expected-get_refreshes"
+          },
+          {
+            "id": "capacity_zero",
+            "actual": "synthetic-expected-capacity_zero"
+          },
+          {
+            "id": "update_existing",
+            "actual": "synthetic-expected-update_existing"
+          },
+          {
+            "id": "size_limit",
+            "actual": "synthetic-expected-size_limit"
+          },
+          {
+            "id": "empty_get",
+            "actual": "synthetic-expected-empty_get"
+          }
+        ]
+      },
+      "candidate_files": {
+        "algent/cache.py": "synthetic candidate source"
+      },
+      "patch": {
+        "role": "implementer",
+        "output": {
+          "status": "submit",
+          "rationale": "Synthetic: taking both findings. get() now refreshes recency, capacity 0 returns before eviction, and updates no longer evict.",
+          "artifact_digest": "2222222222222222222222222222222222222222222222222222222222222222"
+        },
+        "model": "synthetic-model",
+        "usage": {
+          "input_tokens": 7700,
+          "output_tokens": 1770
+        },
+        "usage_complete": true,
+        "elapsed_ms": 58700,
+        "model_requests": [
+          {
+            "request": 1,
+            "status": "returned",
+            "model": "synthetic-model",
+            "finish_reason": "stop",
+            "elapsed_ms": 12100,
+            "input_tokens": 3100,
+            "output_tokens": 690
+          },
+          {
+            "request": 2,
+            "status": "returned",
+            "model": "synthetic-model",
+            "finish_reason": "stop",
+            "elapsed_ms": 10400,
+            "input_tokens": 2400,
+            "output_tokens": 600
+          },
+          {
+            "request": 3,
+            "status": "returned",
+            "model": "synthetic-model",
+            "finish_reason": "stop",
+            "elapsed_ms": 8900,
+            "input_tokens": 2200,
+            "output_tokens": 480
+          }
+        ],
+        "tools": [
+          {
+            "sequence": 1,
+            "tool": "inspect_symbol",
+            "input_digest": "01aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "before_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "candidate_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+            "elapsed_seconds": 0.1,
+            "ok": true
+          },
+          {
+            "sequence": 2,
+            "tool": "apply_patch",
+            "input_digest": "02aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "before_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "candidate_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+            "elapsed_seconds": 0.4,
+            "ok": true
+          },
+          {
+            "sequence": 3,
+            "tool": "run_public_tests",
+            "input_digest": "03aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "before_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "candidate_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+            "elapsed_seconds": 22.0,
+            "ok": false,
+            "error": "Synthetic tool failure",
+            "cached": false
+          },
+          {
+            "sequence": 4,
+            "tool": "apply_patch",
+            "input_digest": "04aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "before_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "candidate_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+            "elapsed_seconds": 0.3,
+            "ok": true
+          },
+          {
+            "sequence": 5,
+            "tool": "run_public_tests",
+            "input_digest": "05aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "before_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "candidate_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+            "elapsed_seconds": 21.1,
+            "ok": true,
+            "cached": false
+          },
+          {
+            "sequence": 6,
+            "tool": "inspect_diff",
+            "input_digest": "06aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "before_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "candidate_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+            "elapsed_seconds": 0.1,
+            "ok": true
+          },
+          {
+            "sequence": 7,
+            "tool": "check_candidate",
+            "input_digest": "07aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "before_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "candidate_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "source_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+            "elapsed_seconds": 0.1,
+            "ok": true
+          }
+        ],
+        "profile": "synthetic-profile",
+        "strategy": "engineering"
+      },
+      "diff": "--- algent/cache.py\n+++ algent/cache.py\n@@ -6,7 +6,11 @@ class Cache:\n     def get(self, key):\n+        if key in self._store:\n+            self._store.move_to_end(key)\n         return self._store.get(key)\n\n     def set(self, key, value):\n-        if len(self._store) >= self.capacity:\n-            self._store.popitem(last=True)\n+        if self.capacity == 0:\n+            return\n+        if key not in self._store and len(self._store) >= self.capacity:\n+            self._store.popitem(last=False)\n         self._store[key] = value\n+        self._store.move_to_end(key)\n",
+      "artifact_digest": "2222222222222222222222222222222222222222222222222222222222222222",
+      "validation_error": null,
+      "verdict": "improved",
+      "grading": {
+        "verdict": "improved",
+        "baseline_pass": false,
+        "candidate_pass": true
+      }
+    },
+    "reviewing": null
+  },
+  "publication": null,
+  "cancel_requested": false,
+  "revision_loops": 1,
+  "created_at": 1789999100.0,
+  "updated_at": 1789999950.0
+}

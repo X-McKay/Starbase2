@@ -1,0 +1,149 @@
+{
+  "_fixture": "SYNTHETIC FIXTURE: invented mission 42 'Fix cache eviction' round 2 on X-McKay/algent for tests and captures. Not real Core, worker, model or repository activity.",
+  "schema_version": 7,
+  "view": "summary",
+  "enabled": true,
+  "verification_enabled": false,
+  "policy": {
+    "repository": "X-McKay/algent",
+    "enabled": true,
+    "publish": true,
+    "generation": 7,
+    "max_missions": 3,
+    "expires_at": 1790225000.0
+  },
+  "coordination": {
+    "admission": "active_mission",
+    "can_discover": false,
+    "reserved_opportunities": [],
+    "resolution": "Mission 42 is active; new admission waits for it to finish."
+  },
+  "capability_catalog": {
+    "schema_version": 1,
+    "capabilities": []
+  },
+  "discovery_count": 0,
+  "missions": [
+    {
+      "id": "sdlc-42",
+      "state": "testing",
+      "repository": "X-McKay/algent",
+      "objective": "Fix cache eviction",
+      "current_stage": "testing",
+      "revision_count": 1,
+      "assigned_crew": {
+        "implementer": "rivet",
+        "lead": "moss",
+        "reviewer": "prism"
+      },
+      "created_at": 1789999100.0,
+      "updated_at": 1789999950.0,
+      "latest_event": {
+        "key": "testing-2",
+        "stage": "testing",
+        "at": 1789999950.0,
+        "label": "testing",
+        "role": null
+      },
+      "recent_events": [
+        {
+          "key": "review-1",
+          "stage": "reviewing",
+          "at": 1789999650.0,
+          "label": "reviewing · reviewer · revise",
+          "role": "reviewer"
+        },
+        {
+          "key": "revise-1",
+          "stage": "implementing",
+          "at": 1789999652.0,
+          "label": "implementing · reviewer · improved",
+          "role": "reviewer"
+        },
+        {
+          "key": "testing-2",
+          "stage": "testing",
+          "at": 1789999950.0,
+          "label": "testing",
+          "role": null
+        }
+      ],
+      "event_count": 6,
+      "verdict": "improved",
+      "publication": {
+        "state": "none",
+        "branch": null,
+        "pr_number": null,
+        "pr_url": null,
+        "pr_state": null,
+        "pr_observed_at": null
+      },
+      "cancel_requested": false,
+      "policy_generation": 7,
+      "retry_of": null,
+      "input": {
+        "id": "sdlc-42",
+        "repository": "X-McKay/algent",
+        "revision": "3f9c2e1a7b5d40c8a1e2f3b4c5d6e7f8a9b0c1d2",
+        "opportunity": "cache-eviction",
+        "build_digest": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "capability_digest": null
+      },
+      "verifications": [],
+      "stage_evidence": {
+        "plan": {
+          "role": "lead",
+          "decision": "implement",
+          "task": "Fix cache eviction so the least recently used entry leaves first",
+          "rationale": "Synthetic: the eviction loop removes the newest entry when the cache is full."
+        },
+        "testing": {
+          "verdict": "improved",
+          "grading": {
+            "verdict": "improved",
+            "baseline_pass": false,
+            "candidate_pass": true
+          },
+          "baseline_cases": {
+            "passed": [
+              "evict_oldest",
+              "update_existing",
+              "size_limit",
+              "empty_get"
+            ],
+            "failed": [
+              "get_refreshes",
+              "capacity_zero"
+            ]
+          },
+          "candidate_cases": {
+            "passed": [
+              "evict_oldest",
+              "get_refreshes",
+              "capacity_zero",
+              "update_existing",
+              "size_limit",
+              "empty_get"
+            ],
+            "failed": []
+          },
+          "diff": {
+            "files": 1,
+            "additions": 7,
+            "deletions": 2
+          },
+          "artifact_digest": "2222222222222222222222222222222222222222222222222222222222222222",
+          "validation_error": null
+        },
+        "reviewing": null
+      }
+    }
+  ],
+  "page": {
+    "order": "created_at_desc",
+    "limit": 25,
+    "total": 1,
+    "returned": 1,
+    "next_before": null
+  }
+}

@@ -52,7 +52,7 @@ and interiors load on entry. Static buildings do not poll or run an update loop.
 Interior prop BoxShape3D bounds supply both physics and click routing; unsupported
 collision shapes produce errors rather than silently becoming navigation holes.
 
-**Tab → Visit a place** is a searchable, scrollable directory generated from the
+**P (Crew & places) → Places** is a searchable, scrollable directory generated from the
 placed buildings with interiors. It provides direct visits and keyboard focus;
 the original crew inspectors and shortcuts remain available.
 

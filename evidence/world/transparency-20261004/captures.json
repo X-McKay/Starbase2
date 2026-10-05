@@ -1,0 +1,851 @@
+{
+  "captains_log": {
+    "captures": {
+      "captains-log": {
+        "detail": [
+          "› Finding · algent/cache.py:41 · Size check uses > instead of >= · evidence: case_5 boundary",
+          "› Finding · algent/cache.py:58 · Eviction does not update the access list · evidence: case_6 order",
+          "› Missing evidence · none noted",
+          "› Model usage · 4.5k tokens (3900 in, 600 out) · 9.1 s"
+        ],
+        "events": [
+          "1. 16:36:43 UTC · Core · [/] Mission admitted",
+          "2. 16:37:43 UTC · Core · [/] Sources captured · 3 files",
+          "3. 16:44:43 UTC · Moss · [>] Plan handed to Rivet",
+          "4. 16:46:43 UTC · Rivet · [/] Patch round 1 · +6 −2",
+          "5. 16:46:43 UTC · Core · [=] Graded round 1 · improved",
+          "6. 16:48:23 UTC · Prism · [x] Changes requested · 2 findings",
+          "7. 16:49:44 UTC · Rivet · [/] Rivet applied a patch · ok · observed, not retained",
+          "8. 16:50:51 UTC · Rivet · [x] Rivet ran tests · failed · observed, not retained",
+          "9. 16:51:42 UTC · Rivet · [>] Rivet started running tests · observed, not retained"
+        ],
+        "meta": "X-McKay/algent · admitted 16:36 UTC · now implementing round 2 · 19.3k tokens retained · cost not recorded",
+        "mode": "timeline",
+        "not_recorded": [
+          "› Model reasoning · not recorded (Core keeps only the returned output)"
+        ],
+        "selected": "EVENT 6 OF 9 · [x] Changes requested · 2 findings",
+        "size": "(1440, 900)",
+        "source": "/v7/missions/sdlc-42 · events[3] · key review-1",
+        "status": [
+          "[~] LIVE · last event 2.7 s ago · SYNTHETIC REPLAY",
+          "[=] Synthetic fixture record · 4 retained events",
+          "[-] Admission now · active mission (current Core state, not a timeline event)"
+        ],
+        "stream_state": "live",
+        "ticks": [
+          "≈ 7 m quiet",
+          "16:46",
+          "16:48",
+          "16:50"
+        ],
+        "title": "Mission 42 · Fix cache eviction"
+      },
+      "captains-log-compact": {
+        "detail": [
+          "› Diff · 1 file · +6 −2",
+          "› Candidate run · 6 cases observed · exit code 0",
+          "› Artifact digest · cccccccccccc",
+          "› Stated rationale · Synthetic: track access order and evict the oldest key.",
+          "› Model usage · 8.7k tokens (7400 in, 1300 out) · 15.2 s"
+        ],
+        "events": [
+          "1. 16:37:25 UTC · Core · [/] Mission admitted",
+          "2. 16:38:25 UTC · Core · [/] Sources captured · 3 files",
+          "3. 16:45:25 UTC · Moss · [>] Plan handed to Rivet",
+          "4. 16:47:25 UTC · Rivet · [/] Patch round 1 · +6 −2",
+          "5. 16:47:25 UTC · Core · [=] Graded round 1 · improved",
+          "6. 16:49:05 UTC · Prism · [x] Changes requested · 2 findings",
+          "7. 16:50:26 UTC · Rivet · [/] Rivet applied a patch · ok · observed, not retained",
+          "8. 16:51:33 UTC · Rivet · [x] Rivet ran tests · failed · observed, not retained",
+          "9. 16:52:24 UTC · Rivet · [>] Rivet started running tests · observed, not retained"
+        ],
+        "meta": "X-McKay/algent · admitted 16:37 UTC · now implementing round 2 · 19.3k tokens retained · cost not recorded",
+        "mode": "timeline",
+        "not_recorded": [
+          "› Model reasoning · not recorded (Core keeps only the returned output)",
+          "› Tool arguments · not recorded"
+        ],
+        "selected": "EVENT 4 OF 9 · [/] Patch round 1 · +6 −2",
+        "size": "(960, 700)",
+        "source": "/v7/missions/sdlc-42 · events[2] · key testing-1",
+        "status": [
+          "[~] LIVE · last event 2.4 s ago · SYNTHETIC REPLAY",
+          "[=] Synthetic fixture record · 4 retained events",
+          "[-] Admission now · active mission (current Core state, not a timeline event)"
+        ],
+        "stream_state": "live",
+        "ticks": [
+          "16:38",
+          "≈ 7 m quiet",
+          "16:46",
+          "16:48",
+          "16:50",
+          "16:52"
+        ],
+        "title": "Mission 42 · Fix cache eviction"
+      },
+      "captains-log-detail": {
+        "detail": [
+          "› Diff · 1 file · +6 −2",
+          "› Candidate run · 6 cases observed · exit code 0",
+          "› Artifact digest · cccccccccccc",
+          "› Stated rationale · Synthetic: track access order and evict the oldest key.",
+          "› Model usage · 8.7k tokens (7400 in, 1300 out) · 15.2 s"
+        ],
+        "events": [
+          "1. 16:36:55 UTC · Core · [/] Mission admitted",
+          "2. 16:37:55 UTC · Core · [/] Sources captured · 3 files",
+          "3. 16:44:55 UTC · Moss · [>] Plan handed to Rivet",
+          "4. 16:46:55 UTC · Rivet · [/] Patch round 1 · +6 −2",
+          "5. 16:46:55 UTC · Core · [=] Graded round 1 · improved",
+          "6. 16:48:35 UTC · Prism · [x] Changes requested · 2 findings",
+          "7. 16:49:56 UTC · Rivet · [/] Rivet applied a patch · ok · observed, not retained",
+          "8. 16:51:03 UTC · Rivet · [x] Rivet ran tests · failed · observed, not retained",
+          "9. 16:51:54 UTC · Rivet · [>] Rivet started running tests · observed, not retained"
+        ],
+        "meta": "X-McKay/algent · admitted 16:36 UTC · now implementing round 2 · 19.3k tokens retained · cost not recorded",
+        "mode": "timeline",
+        "not_recorded": [
+          "› Model reasoning · not recorded (Core keeps only the returned output)",
+          "› Tool arguments · not recorded"
+        ],
+        "selected": "EVENT 4 OF 9 · [/] Patch round 1 · +6 −2",
+        "size": "(1440, 900)",
+        "source": "/v7/missions/sdlc-42 · events[2] · key testing-1",
+        "status": [
+          "[~] LIVE · last event 2.3 s ago · SYNTHETIC REPLAY",
+          "[=] Synthetic fixture record · 4 retained events",
+          "[-] Admission now · active mission (current Core state, not a timeline event)"
+        ],
+        "stream_state": "live",
+        "ticks": [
+          "≈ 7 m quiet",
+          "16:46",
+          "16:48",
+          "16:50"
+        ],
+        "title": "Mission 42 · Fix cache eviction"
+      },
+      "captains-log-list": {
+        "detail": [
+          "› Diff · 1 file · +6 −2",
+          "› Candidate run · 6 cases observed · exit code 0",
+          "› Artifact digest · cccccccccccc",
+          "› Stated rationale · Synthetic: track access order and evict the oldest key.",
+          "› Model usage · 8.7k tokens (7400 in, 1300 out) · 15.2 s"
+        ],
+        "events": [
+          "1. 16:37:06 UTC · Core · [/] Mission admitted",
+          "2. 16:38:06 UTC · Core · [/] Sources captured · 3 files",
+          "3. 16:45:06 UTC · Moss · [>] Plan handed to Rivet",
+          "4. 16:47:06 UTC · Rivet · [/] Patch round 1 · +6 −2",
+          "5. 16:47:06 UTC · Core · [=] Graded round 1 · improved",
+          "6. 16:48:46 UTC · Prism · [x] Changes requested · 2 findings",
+          "7. 16:50:07 UTC · Rivet · [/] Rivet applied a patch · ok · observed, not retained",
+          "8. 16:51:14 UTC · Rivet · [x] Rivet ran tests · failed · observed, not retained",
+          "9. 16:52:05 UTC · Rivet · [>] Rivet started running tests · observed, not retained"
+        ],
+        "meta": "X-McKay/algent · admitted 16:37 UTC · now implementing round 2 · 19.3k tokens retained · cost not recorded",
+        "mode": "list",
+        "not_recorded": [
+          "› Model reasoning · not recorded (Core keeps only the returned output)",
+          "› Tool arguments · not recorded"
+        ],
+        "selected": "EVENT 4 OF 9 · [/] Patch round 1 · +6 −2",
+        "size": "(1440, 900)",
+        "source": "/v7/missions/sdlc-42 · events[2] · key testing-1",
+        "status": [
+          "[~] LIVE · last event 3.7 s ago · SYNTHETIC REPLAY",
+          "[=] Synthetic fixture record · 4 retained events",
+          "[-] Admission now · active mission (current Core state, not a timeline event)"
+        ],
+        "stream_state": "live",
+        "ticks": [
+          "16:38",
+          "≈ 7 m quiet",
+          "16:46",
+          "16:48",
+          "16:50",
+          "16:52"
+        ],
+        "title": "Mission 42 · Fix cache eviction"
+      }
+    },
+    "engine": "4.7.2-stable (official)",
+    "fixture": "res://../../fixtures/world/transparency/stream.jsonl",
+    "record": "res://../../fixtures/world/transparency/mission-sdlc-42.json",
+    "renderer": "opengl3",
+    "synthetic": true
+  },
+  "captures": {
+    "handoff-dialogue": {
+      "badge": "[~] LIVE · last event 6.0 s ago · SYNTHETIC REPLAY",
+      "cards": [
+        {
+          "foot": "Recorded review output, 16:54:55 · the reasoning behind it is not recorded",
+          "lines": [
+            "“Synthetic: the write path now evicts the oldest entry, but reads never refresh recency and capacity 0 raises instead of storing nothing.”"
+          ],
+          "list": [
+            "1  cache.py:7  get() does not refresh access order",
+            "2  cache.py:10  Capacity 0 pops from an empty store",
+            "?  Missing evidence: No public test reads a key between two writes."
+          ],
+          "status": "[!] changes requested",
+          "who": "Prism · reviewer"
+        },
+        {
+          "foot": "Reply is the rationale Rivet recorded with the round 2 candidate, 16:59:55",
+          "lines": [
+            "“Synthetic: taking both findings. get() now refreshes recency, capacity 0 returns before eviction, and updates no longer evict.”"
+          ],
+          "list": [],
+          "status": "[=] round 2 submitted",
+          "who": "Rivet · implementer"
+        }
+      ],
+      "detail": "reviewing → implementing · round 1 → 2",
+      "fixture": "res://../../fixtures/world/transparency/round2-stream.jsonl",
+      "footer": "revision loops used 1 of 3 · fallback implementer: Moss · SYNTHETIC",
+      "heading": "Prism returns the candidate to Rivet",
+      "record_status": "fixture",
+      "size": "(1440, 900)",
+      "stream_state": "live",
+      "track": [
+        "plan [done]",
+        "implement r1 [done]",
+        "test r1 · improved [done]",
+        "review r1 · changes [changes]",
+        "↺ round 1 → 2 [loop]",
+        "implement r2 [done]",
+        "test r2 · improved [done]",
+        "review r2 [current]",
+        "ready to publish [pending]",
+        "Reality Gate · branch + PR [pending]",
+        "awaiting human review [pending]"
+      ],
+      "v7_snapshot_age_s": 10.299
+    },
+    "handoff-dialogue-compact": {
+      "badge": "[~] LIVE · last event 5.2 s ago · SYNTHETIC REPLAY",
+      "cards": [
+        {
+          "foot": "Recorded review output, 16:55:31 · the reasoning behind it is not recorded",
+          "lines": [
+            "“Synthetic: the write path now evicts the oldest entry, but reads never refresh recency and capacity 0 raises instead of storing nothing.”"
+          ],
+          "list": [
+            "1  cache.py:7  get() does not refresh access order",
+            "2  cache.py:10  Capacity 0 pops from an empty store",
+            "?  Missing evidence: No public test reads a key between two writes."
+          ],
+          "status": "[!] changes requested",
+          "who": "Prism · reviewer"
+        },
+        {
+          "foot": "Reply is the rationale Rivet recorded with the round 2 candidate, 17:00:31",
+          "lines": [
+            "“Synthetic: taking both findings. get() now refreshes recency, capacity 0 returns before eviction, and updates no longer evict.”"
+          ],
+          "list": [],
+          "status": "[=] round 2 submitted",
+          "who": "Rivet · implementer"
+        }
+      ],
+      "detail": "reviewing → implementing · round 1 → 2",
+      "fixture": "res://../../fixtures/world/transparency/round2-stream.jsonl",
+      "footer": "revision loops used 1 of 3 · fallback implementer: Moss · SYNTHETIC",
+      "heading": "Prism returns the candidate to Rivet",
+      "record_status": "fixture",
+      "size": "(960, 700)",
+      "stream_state": "live",
+      "track": [
+        "plan [done]",
+        "implement r1 [done]",
+        "test r1 · improved [done]",
+        "review r1 · changes [changes]",
+        "↺ round 1 → 2 [loop]",
+        "implement r2 [done]",
+        "test r2 · improved [done]",
+        "review r2 [current]",
+        "ready to publish [pending]",
+        "Reality Gate · branch + PR [pending]",
+        "awaiting human review [pending]"
+      ],
+      "v7_snapshot_age_s": 10.621
+    },
+    "live-crew-view": {
+      "activity": [
+        "15:43:51 [=] Core graded round 1 · improved (6/6 vs 4/6)",
+        "15:45:31 [x] Prism requested changes · 2 findings",
+        "15:46:25 [/] Rivet model request 3 · 3.1k tokens · 4.1 s",
+        "15:46:52 [/] Rivet applied a patch · ok",
+        "15:47:59 [x] Rivet ran tests · failed",
+        "15:48:50 [>] Rivet started running tests"
+      ],
+      "badge": "[~] LIVE · last event 3.3 s ago · SYNTHETIC REPLAY",
+      "card": [
+        "RIVET · IMPLEMENTER",
+        "Mission sdlc-42 · round 2",
+        "[>] Running tests",
+        "1 model request · 3.1k tokens · observed"
+      ],
+      "gate": [
+        "[x] CLOSED · 1 failing",
+        "Policy gen 7 · expires in 2d 14h",
+        "1 / 3 missions used · admission active mission",
+        "[=] Policy enabled + publish · allowed",
+        "[=] Test verdict · improved · 6/6 vs 4/6 · +6 −2",
+        "[x] Reviewer · changes requested · 2 findings"
+      ],
+      "rivet_strip": "Rivet\nRunning tests",
+      "size": "(1440, 900)",
+      "stream_state": "live",
+      "v7_snapshot_age_s": 10.215
+    },
+    "live-crew-view-compact": {
+      "activity": [
+        "15:44:19 [=] Core graded round 1 · improved (6/6 vs 4/6)",
+        "15:45:59 [x] Prism requested changes · 2 findings",
+        "15:46:53 [/] Rivet model request 3 · 3.1k tokens · 4.1 s",
+        "15:47:20 [/] Rivet applied a patch · ok",
+        "15:48:27 [x] Rivet ran tests · failed",
+        "15:49:18 [>] Rivet started running tests"
+      ],
+      "badge": "[~] LIVE · last event 1.9 s ago · SYNTHETIC REPLAY",
+      "card": [
+        "RIVET · IMPLEMENTER",
+        "Mission sdlc-42 · round 2",
+        "[>] Running tests",
+        "1 model request · 3.1k tokens · observed"
+      ],
+      "gate": [
+        "[x] CLOSED · 1 failing",
+        "Policy gen 7 · expires in 2d 14h",
+        "1 / 3 missions used · admission active mission",
+        "[=] Policy enabled + publish · allowed",
+        "[=] Test verdict · improved · 6/6 vs 4/6 · +6 −2",
+        "[x] Reviewer · changes requested · 2 findings"
+      ],
+      "rivet_strip": "Rivet\nRunning tests",
+      "size": "(960, 700)",
+      "stream_state": "live",
+      "v7_snapshot_age_s": 1.958
+    },
+    "live-crew-view-compact-large": {
+      "activity": [
+        "15:44:29 [=] Core graded round 1 · improved (6/6 vs 4/6)",
+        "15:46:09 [x] Prism requested changes · 2 findings",
+        "15:47:03 [/] Rivet model request 3 · 3.1k tokens · 4.1 s",
+        "15:47:30 [/] Rivet applied a patch · ok",
+        "15:48:37 [x] Rivet ran tests · failed",
+        "15:49:28 [>] Rivet started running tests"
+      ],
+      "badge": "[~] LIVE · last event 1.9 s ago · SYNTHETIC REPLAY",
+      "card": [
+        "RIVET · IMPLEMENTER",
+        "Mission sdlc-42 · round 2",
+        "[>] Running tests",
+        "1 model request · 3.1k tokens · observed"
+      ],
+      "gate": [
+        "[x] CLOSED · 1 failing",
+        "Policy gen 7 · expires in 2d 14h",
+        "1 / 3 missions used · admission active mission",
+        "[=] Policy enabled + publish · allowed",
+        "[=] Test verdict · improved · 6/6 vs 4/6 · +6 −2",
+        "[x] Reviewer · changes requested · 2 findings"
+      ],
+      "rivet_strip": "Rivet\nRunning tests",
+      "size": "(960, 700)",
+      "stream_state": "live",
+      "v7_snapshot_age_s": 1.513
+    },
+    "live-crew-view-stale": {
+      "activity": [
+        "15:43:51 [=] Core graded round 1 · improved (6/6 vs 4/6)",
+        "15:45:31 [x] Prism requested changes · 2 findings",
+        "15:46:25 [/] Rivet model request 3 · 3.1k tokens · 4.1 s",
+        "15:46:52 [/] Rivet applied a patch · ok",
+        "15:47:59 [x] Rivet ran tests · failed",
+        "15:48:50 [>] Rivet started running tests"
+      ],
+      "badge": "[?] STALE · last event 13 s ago · heartbeat missed · SYNTHETIC REPLAY",
+      "card": [
+        "RIVET · IMPLEMENTER",
+        "Mission sdlc-42 · round 2",
+        "[?] Activity unknown · stream not live",
+        "1 model request · 3.1k tokens · observed"
+      ],
+      "gate": [
+        "[x] CLOSED · 1 failing",
+        "Policy gen 7 · expires in 2d 14h",
+        "1 / 3 missions used · admission active mission",
+        "[=] Policy enabled + publish · allowed",
+        "[=] Test verdict · improved · 6/6 vs 4/6 · +6 −2",
+        "[x] Reviewer · changes requested · 2 findings"
+      ],
+      "rivet_strip": "Rivet\nSDLC implementer · implementing",
+      "size": "(1440, 900)",
+      "stream_state": "stale",
+      "v7_snapshot_age_s": 3.373
+    },
+    "workstation-screen": {
+      "asks": [
+        "Prism asked for (round 1)",
+        "[!] Changes requested",
+        "1  cache.py:7  get() does not refresh access order",
+        "2  cache.py:10  Capacity 0 pops from an empty store",
+        "[?] Missing evidence · No public test reads a key between two writes.",
+        "Addressed or not is for the next review to say."
+      ],
+      "badge": "[~] LIVE · last event 9.3 s ago · SYNTHETIC REPLAY",
+      "banner": [
+        "[=] Full mission record · synthetic fixture"
+      ],
+      "diff_header": "algent/cache.py · +7 −2 · round 2 candidate · recorded 16:59:11",
+      "diff_rows": 15.0,
+      "fixture": "res://../../fixtures/world/transparency/round2-stream.jsonl",
+      "plan": [
+        "Fix cache eviction so the least recently used entry leaves first",
+        "Synthetic: the eviction loop removes the newest entry when the cache is full.",
+        "[=] diagnose · Moss",
+        "[=] implement r2 · Rivet",
+        "[>] review r2 · Prism · current step",
+        "[ ] publish · Core · Reality Gate",
+        "[ ] human review · operator"
+      ],
+      "receipts": [
+        "[=] inspect_symbol · ok · 0.1 s",
+        "[=] apply_patch · ok · 0.4 s",
+        "[x] run_public_tests · failed · 22.0 s",
+        "[=] apply_patch · ok · 0.3 s",
+        "[=] run_public_tests · ok · 21.1 s",
+        "[=] inspect_diff · ok · 0.1 s",
+        "[=] check_candidate · ok · 0.1 s"
+      ],
+      "record_status": "fixture",
+      "size": "(1440, 900)",
+      "spend": [
+        "Recorded · round 2",
+        "Model requests  3",
+        "Tokens in / out  7.7k / 1.8k",
+        "Member time  58.7 s",
+        "Observed this session (stream notes) · 3 requests · 9.5k tokens",
+        "Cost · not recorded"
+      ],
+      "stream_state": "live",
+      "subtitle": "mission sdlc-42 · X-McKay/algent · round 2 of 3 · testing · SYNTHETIC",
+      "tests": [
+        "Core verdict · improved · round 2",
+        "[x] Baseline failing · capacity_zero, get_refreshes",
+        "[=] Candidate · all 6 cases match",
+        "Expected values stay with Core's trusted oracle."
+      ],
+      "title": "RIVET · IMPLEMENTER CONSOLE",
+      "v7_snapshot_age_s": 6.488,
+      "why": [
+        "[?] Not recorded",
+        "Model reasoning is not stored; ADR 0015 (proposed) would add bounded traces."
+      ]
+    },
+    "workstation-screen-compact": {
+      "asks": [
+        "Prism asked for (round 1)",
+        "[!] Changes requested",
+        "1  cache.py:7  get() does not refresh access order",
+        "2  cache.py:10  Capacity 0 pops from an empty store",
+        "[?] Missing evidence · No public test reads a key between two writes.",
+        "Addressed or not is for the next review to say."
+      ],
+      "badge": "[~] LIVE · last event 4.4 s ago · SYNTHETIC REPLAY",
+      "banner": [
+        "[=] Full mission record · synthetic fixture"
+      ],
+      "diff_header": "algent/cache.py · +7 −2 · round 2 candidate · recorded 17:00:18",
+      "diff_rows": 15.0,
+      "fixture": "res://../../fixtures/world/transparency/round2-stream.jsonl",
+      "plan": [
+        "Fix cache eviction so the least recently used entry leaves first",
+        "Synthetic: the eviction loop removes the newest entry when the cache is full.",
+        "[=] diagnose · Moss",
+        "[=] implement r2 · Rivet",
+        "[>] review r2 · Prism · current step",
+        "[ ] publish · Core · Reality Gate",
+        "[ ] human review · operator"
+      ],
+      "receipts": [
+        "[=] inspect_symbol · ok · 0.1 s",
+        "[=] apply_patch · ok · 0.4 s",
+        "[x] run_public_tests · failed · 22.0 s",
+        "[=] apply_patch · ok · 0.3 s",
+        "[=] run_public_tests · ok · 21.1 s",
+        "[=] inspect_diff · ok · 0.1 s",
+        "[=] check_candidate · ok · 0.1 s"
+      ],
+      "record_status": "fixture",
+      "size": "(960, 700)",
+      "spend": [
+        "Recorded · round 2",
+        "Model requests  3",
+        "Tokens in / out  7.7k / 1.8k",
+        "Member time  58.7 s",
+        "Observed this session (stream notes) · 3 requests · 9.5k tokens",
+        "Cost · not recorded"
+      ],
+      "stream_state": "live",
+      "subtitle": "mission sdlc-42 · X-McKay/algent · round 2 of 3 · testing · SYNTHETIC",
+      "tests": [
+        "Core verdict · improved · round 2",
+        "[x] Baseline failing · capacity_zero, get_refreshes",
+        "[=] Candidate · all 6 cases match",
+        "Expected values stay with Core's trusted oracle."
+      ],
+      "title": "RIVET · IMPLEMENTER CONSOLE",
+      "v7_snapshot_age_s": 8.627,
+      "why": [
+        "[?] Not recorded",
+        "Model reasoning is not stored; ADR 0015 (proposed) would add bounded traces."
+      ]
+    },
+    "workstation-screen-stale": {
+      "asks": [
+        "Prism asked for (round 1)",
+        "[!] Changes requested",
+        "1  cache.py:7  get() does not refresh access order",
+        "2  cache.py:10  Capacity 0 pops from an empty store",
+        "[?] Missing evidence · No public test reads a key between two writes.",
+        "Addressed or not is for the next review to say."
+      ],
+      "badge": "[?] STALE · last event 16 s ago · heartbeat missed · SYNTHETIC REPLAY",
+      "banner": [
+        "[?] LAST KNOWN · stream not live · nothing below is current",
+        "[=] Full mission record · synthetic fixture"
+      ],
+      "diff_header": "algent/cache.py · +7 −2 · round 2 candidate · recorded 16:59:30",
+      "diff_rows": 15.0,
+      "fixture": "res://../../fixtures/world/transparency/round2-stream.jsonl",
+      "plan": [
+        "Fix cache eviction so the least recently used entry leaves first",
+        "Synthetic: the eviction loop removes the newest entry when the cache is full.",
+        "[=] diagnose · Moss",
+        "[=] implement r2 · Rivet",
+        "[>] review r2 · Prism · current step",
+        "[ ] publish · Core · Reality Gate",
+        "[ ] human review · operator"
+      ],
+      "receipts": [
+        "[=] inspect_symbol · ok · 0.1 s",
+        "[=] apply_patch · ok · 0.4 s",
+        "[x] run_public_tests · failed · 22.0 s",
+        "[=] apply_patch · ok · 0.3 s",
+        "[=] run_public_tests · ok · 21.1 s",
+        "[=] inspect_diff · ok · 0.1 s",
+        "[=] check_candidate · ok · 0.1 s"
+      ],
+      "record_status": "fixture",
+      "size": "(1440, 900)",
+      "spend": [
+        "Recorded · round 2",
+        "Model requests  3",
+        "Tokens in / out  7.7k / 1.8k",
+        "Member time  58.7 s",
+        "Observed this session (stream notes) · 3 requests · 9.5k tokens",
+        "Cost · not recorded"
+      ],
+      "stream_state": "stale",
+      "subtitle": "mission sdlc-42 · X-McKay/algent · round 2 of 3 · testing · SYNTHETIC",
+      "tests": [
+        "Core verdict · improved · round 2",
+        "[x] Baseline failing · capacity_zero, get_refreshes",
+        "[=] Candidate · all 6 cases match",
+        "Expected values stay with Core's trusted oracle."
+      ],
+      "title": "RIVET · IMPLEMENTER CONSOLE",
+      "v7_snapshot_age_s": 4.07,
+      "why": [
+        "[?] Not recorded",
+        "Model reasoning is not stored; ADR 0015 (proposed) would add bounded traces."
+      ]
+    }
+  },
+  "crew_board": {
+    "captures": {
+      "crew-board": {
+        "action_status": "",
+        "badge": "[~] LIVE · last event 1.9 s ago · SYNTHETIC REPLAY",
+        "board_freshness": "[~] LIVE · last event 1.9 s ago · SYNTHETIC REPLAY",
+        "chips": [
+          "[x] Next mission blocked: active_mission",
+          "[/] Wes silent 6 m"
+        ],
+        "crew": [
+          "Moss   [_] waiting · Holding mission 42 while Rivet is implementing",
+          "Rivet   [>] working · Running tests · mission 42, round 2",
+          "Prism   [_] waiting · Holding mission 42 while Rivet is implementing",
+          "Wes   [/] silent 6 m · last known · Last known: workload check on training workload (unconfirmed)",
+          "Mae   [-] idle · Nothing recorded right now"
+        ],
+        "day": [
+          "Moss · lead · duty officer",
+          "[_] waiting · Command",
+          "3 runs in the last 24 h · no tokens observed this session",
+          "Holding mission 42 while Rivet is implementing",
+          "Wait for mission 42 round 2 to finish",
+          "DONE · LAST 24 H · 2",
+          "[=] Mission 41 accepted · PR #118 opened for your review\n[=] Repository review on X-McKay/Starbase2 · 2 findings",
+          "Talk to Moss [T]",
+          "Watch Moss in the world [W]"
+        ],
+        "feed": [
+          "00:58 Rivet [>] started running tests",
+          "00:57 Rivet [x] ran tests · failed",
+          "00:56 Rivet [/] applied a patch · ok",
+          "00:55 Rivet [/] model request 3 · 3.1k tokens · 4.1 s",
+          "00:54 Prism [x] requested changes · 2 findings",
+          "00:53 Core [=] graded round 1 · improved (6/6 vs 4/6)",
+          "00:51 Wes [/] last record: workload check on training workload · running",
+          "00:51 Moss [>] handed the plan to Rivet",
+          "00:43 Core [/] admitted mission 42 under policy gen 7",
+          "23:59 Wes [=] workload check on flux namespace · 0 findings",
+          "20:57 Core [!] opened PR #118 for mission 41 · waiting for your review",
+          "20:46 Prism [=] accepted mission 41",
+          "20:26 Core [=] graded mission 41 · improved",
+          "20:08 Moss [/] handed the mission 41 plan to Rivet"
+        ],
+        "feed_title": "ACTIVITY · ALL CREW AND CORE · NEWEST FIRST",
+        "needs": [
+          "[!] Review PR #118 on algent Mission 41 passed the gate · crew never merge · 4 h Open PR",
+          "[!] Publish policy ends in 2d 14h Then nothing new is admitted or published Extend",
+          "[?] Memory notes · not in these records The review queue is in Field ops, which this board does not read Review in Field ops"
+        ],
+        "needs_title": "[!] NEEDS YOU · 2 known · 1 unknown · oldest first",
+        "selected": "",
+        "size": "(1440, 900)",
+        "stream_state": "live"
+      },
+      "crew-board-compact": {
+        "action_status": "",
+        "badge": "[~] LIVE · last event 1.5 s ago · SYNTHETIC REPLAY",
+        "board_freshness": "[~] LIVE · last event 1.5 s ago · SYNTHETIC REPLAY",
+        "chips": [
+          "[x] Next mission blocked: active_mission",
+          "[/] Wes silent 6 m"
+        ],
+        "crew": [
+          "Moss   [_] waiting · Holding mission 42 while Rivet is implementing",
+          "Rivet   [>] working · Running tests · mission 42, round 2",
+          "Prism   [_] waiting · Holding mission 42 while Rivet is implementing",
+          "Wes   [/] silent 6 m · last known · Last known: workload check on training workload (unconfirmed)",
+          "Mae   [-] idle · Nothing recorded right now"
+        ],
+        "day": [
+          "Moss · lead · duty officer",
+          "[_] waiting · Command",
+          "3 runs in the last 24 h · no tokens observed this session",
+          "Holding mission 42 while Rivet is implementing",
+          "Wait for mission 42 round 2 to finish",
+          "DONE · LAST 24 H · 2",
+          "[=] Mission 41 accepted · PR #118 opened for your review\n[=] Repository review on X-McKay/Starbase2 · 2 findings",
+          "Talk to Moss [T]",
+          "Watch Moss [W]"
+        ],
+        "feed": [
+          "00:58 Rivet [>] started running tests",
+          "00:58 Rivet [x] ran tests · failed",
+          "00:57 Rivet [/] applied a patch · ok",
+          "00:56 Rivet [/] model request 3 · 3.1k tokens · 4.1 s",
+          "00:55 Prism [x] requested changes · 2 findings",
+          "00:53 Core [=] graded round 1 · improved (6/6 vs 4/6)",
+          "00:52 Wes [/] last record: workload check on training workload · running",
+          "00:51 Moss [>] handed the plan to Rivet",
+          "00:43 Core [/] admitted mission 42 under policy gen 7",
+          "00:00 Wes [=] workload check on flux namespace · 0 findings",
+          "20:58 Core [!] opened PR #118 for mission 41 · waiting for your review",
+          "20:47 Prism [=] accepted mission 41",
+          "20:27 Core [=] graded mission 41 · improved",
+          "20:08 Moss [/] handed the mission 41 plan to Rivet"
+        ],
+        "feed_title": "ACTIVITY · ALL CREW AND CORE · NEWEST FIRST",
+        "needs": [
+          "[!] Review PR #118 on algent Mission 41 passed the gate · crew never merge · 4 h Open PR",
+          "[!] Publish policy ends in 2d 14h Then nothing new is admitted or published Extend",
+          "[?] Memory notes · not in these records The review queue is in Field ops, which this board does not read Review in Field ops"
+        ],
+        "needs_title": "[!] NEEDS YOU · 2 known · 1 unknown · oldest first",
+        "selected": "",
+        "size": "(960, 700)",
+        "stream_state": "live"
+      },
+      "crew-board-filtered": {
+        "action_status": "",
+        "badge": "[~] LIVE · last event 1.2 s ago · SYNTHETIC REPLAY",
+        "board_freshness": "[~] LIVE · last event 1.2 s ago · SYNTHETIC REPLAY",
+        "chips": [
+          "[x] Next mission blocked: active_mission",
+          "[/] Wes silent 6 m"
+        ],
+        "crew": [
+          "Moss   [_] waiting · Holding mission 42 while Rivet is implementing",
+          "Rivet   [>] working · Running tests · mission 42, round 2",
+          "Prism   [_] waiting · Holding mission 42 while Rivet is implementing",
+          "Wes   [/] silent 6 m · last known · Last known: workload check on training workload (unconfirmed)",
+          "Mae   [-] idle · Nothing recorded right now"
+        ],
+        "day": [
+          "Rivet · implementer",
+          "[>] working · Workshop",
+          "3 runs in the last 24 h · 3.1k tokens observed this session",
+          "[>] Running tests · mission 42, round 2",
+          "Hand round 2 to Core for testing",
+          "DONE · LAST 24 H · 2",
+          "[=] Mission 41 accepted · PR #118 opened for your review\n[=] Repair on clamp-v1 · inconclusive",
+          "Talk to Rivet [T]",
+          "Watch Rivet in the world [W]"
+        ],
+        "feed": [
+          "00:58 Rivet [>] started running tests",
+          "00:57 Rivet [x] ran tests · failed",
+          "00:56 Rivet [/] applied a patch · ok",
+          "00:55 Rivet [/] model request 3 · 3.1k tokens · 4.1 s",
+          "19:42 Rivet [=] repair on clamp-v1 · inconclusive"
+        ],
+        "feed_title": "ACTIVITY · RIVET ONLY · NEWEST FIRST",
+        "needs": [
+          "[!] Review PR #118 on algent Mission 41 passed the gate · crew never merge · 4 h Open PR",
+          "[!] Publish policy ends in 2d 14h Then nothing new is admitted or published Extend",
+          "[?] Memory notes · not in these records The review queue is in Field ops, which this board does not read Review in Field ops"
+        ],
+        "needs_title": "[!] NEEDS YOU · 2 known · 1 unknown · oldest first",
+        "selected": "repair",
+        "size": "(1440, 900)",
+        "stream_state": "live"
+      },
+      "crew-dialogue": {
+        "action_status": "",
+        "badge": "[~] LIVE · last event 1.9 s ago · SYNTHETIC REPLAY",
+        "board_freshness": "[~] LIVE · last event 1.9 s ago · SYNTHETIC REPLAY",
+        "chips": [
+          "[x] Next mission blocked: active_mission",
+          "[/] Wes silent 6 m"
+        ],
+        "crew": [
+          "Moss   [_] waiting · Holding mission 42 while Rivet is implementing",
+          "Rivet   [>] working · Running tests · mission 42, round 2",
+          "Prism   [_] waiting · Holding mission 42 while Rivet is implementing",
+          "Wes   [/] silent 6 m · last known · Last known: workload check on training workload (unconfirmed)",
+          "Mae   [-] idle · Nothing recorded right now"
+        ],
+        "day": [
+          "Rivet · implementer",
+          "[>] working · Workshop",
+          "3 runs in the last 24 h · 3.1k tokens observed this session",
+          "[>] Running tests · mission 42, round 2",
+          "Hand round 2 to Core for testing",
+          "DONE · LAST 24 H · 2",
+          "[=] Mission 41 accepted · PR #118 opened for your review\n[=] Repair on clamp-v1 · inconclusive",
+          "Talk to Rivet [T]",
+          "Watch Rivet in the world [W]"
+        ],
+        "dialogue": {
+          "based_on": "Based on: admission active_mission · mission sdlc-42 state implementing · /v7 snapshot 1 s ago",
+          "heading": "SHIFT BRIEFING · ASKING RIVET",
+          "line": "\"Core refused admission with active_mission.\nRivet is still on mission 42, implementing, round 2. When it finishes, the next one can start.\"",
+          "options": [
+            "1   What is waiting on me?    [2 NEED YOU]",
+            "2   Why can't we start another mission?    [BLOCKED]",
+            "3   Is everyone accounted for?    [1 LAST KNOWN]",
+            "4   What finished in the last 24 h?    [LOG]",
+            "5   Carry on. [Esc]"
+          ],
+          "speaker": "Rivet",
+          "subtitle": "implementer · speaking from recorded state",
+          "summary": "2 need you · 1 blocked · 1 last known · [~] LIVE · last event 1.9 s ago · SYNTHETIC REPLAY"
+        },
+        "feed": [
+          "00:58 Rivet [>] started running tests",
+          "00:57 Rivet [x] ran tests · failed",
+          "00:56 Rivet [/] applied a patch · ok",
+          "00:56 Rivet [/] model request 3 · 3.1k tokens · 4.1 s",
+          "19:43 Rivet [=] repair on clamp-v1 · inconclusive"
+        ],
+        "feed_title": "ACTIVITY · RIVET ONLY · NEWEST FIRST",
+        "needs": [
+          "[!] Review PR #118 on algent Mission 41 passed the gate · crew never merge · 4 h Open PR",
+          "[!] Publish policy ends in 2d 14h Then nothing new is admitted or published Extend",
+          "[?] Memory notes · not in these records The review queue is in Field ops, which this board does not read Review in Field ops"
+        ],
+        "needs_title": "[!] NEEDS YOU · 2 known · 1 unknown · oldest first",
+        "selected": "repair",
+        "size": "(1440, 900)",
+        "stream_state": "live"
+      },
+      "crew-dialogue-stale": {
+        "action_status": "",
+        "badge": "[~] LIVE · last event 1.9 s ago · SYNTHETIC REPLAY",
+        "board_freshness": "[~] LIVE · last event 1.9 s ago · SYNTHETIC REPLAY",
+        "chips": [
+          "[x] Next mission blocked: active_mission",
+          "[/] Wes silent 6 m"
+        ],
+        "crew": [
+          "Moss   [_] waiting · Holding mission 42 while Rivet is implementing",
+          "Rivet   [>] working · Running tests · mission 42, round 2",
+          "Prism   [_] waiting · Holding mission 42 while Rivet is implementing",
+          "Wes   [/] silent 6 m · last known · Last known: workload check on training workload (unconfirmed)",
+          "Mae   [-] idle · Nothing recorded right now"
+        ],
+        "day": [
+          "Wes · watchkeeper",
+          "[/] silent 6 m · last known · Cluster watch · last known",
+          "3 runs in the last 24 h · tokens not recorded",
+          "Last known: workload check on training workload (unconfirmed)",
+          "Nothing queued in the records",
+          "DONE · LAST 24 H · 2",
+          "[=] Workload check on flux namespace · 0 findings\n[=] Workload check on flux namespace · 1 finding",
+          "Ask Moss about Wes [T]",
+          "Watch Wes in the world [W]"
+        ],
+        "dialogue": {
+          "based_on": "Based on: Wes record wes-workload-1336 running · last update 00:52 UTC · /v2 snapshot current · /v7 snapshot 2 s ago",
+          "heading": "SHIFT BRIEFING · ABOUT WES",
+          "line": "\"Not Wes. Nothing from the watchkeeper has changed in 6 m. The last thing recorded is workload check on training workload. I am not treating that as healthy.\nEveryone else is accounted for: Moss waiting, Rivet working, Prism waiting and Mae idle.\"",
+          "options": [
+            "1   What is waiting on me?    [2 NEED YOU]",
+            "2   Why can't we start another mission?    [BLOCKED]",
+            "3   Is everyone accounted for?    [1 LAST KNOWN]",
+            "4   What finished in the last 24 h?    [LOG]",
+            "5   Carry on. [Esc]"
+          ],
+          "speaker": "Moss",
+          "subtitle": "lead · answering for Wes (silent 6 m · last known) from last known records",
+          "summary": "2 need you · 1 blocked · 1 last known · [~] LIVE · last event 1.9 s ago · SYNTHETIC REPLAY"
+        },
+        "feed": [
+          "00:52 Wes [/] last record: workload check on training workload · running",
+          "00:00 Wes [=] workload check on flux namespace · 0 findings",
+          "18:25 Wes [=] workload check on flux namespace · 1 finding"
+        ],
+        "feed_title": "ACTIVITY · WES ONLY · NEWEST FIRST",
+        "needs": [
+          "[!] Review PR #118 on algent Mission 41 passed the gate · crew never merge · 4 h Open PR",
+          "[!] Publish policy ends in 2d 14h Then nothing new is admitted or published Extend",
+          "[?] Memory notes · not in these records The review queue is in Field ops, which this board does not read Review in Field ops"
+        ],
+        "needs_title": "[!] NEEDS YOU · 2 known · 1 unknown · oldest first",
+        "selected": "watchkeeper",
+        "size": "(1440, 900)",
+        "stream_state": "live"
+      }
+    },
+    "engine": "4.7.2-stable (official)",
+    "fixture": "res://../../fixtures/world/transparency/crew-board-stream.jsonl",
+    "renderer": "opengl3",
+    "synthetic": true
+  },
+  "engine": "4.7.2-stable (official)",
+  "fixture": "res://../../fixtures/world/transparency/stream.jsonl",
+  "renderer": "opengl3",
+  "synthetic": true
+}

@@ -44,9 +44,12 @@ The initial pilot uses the existing CLI identity through the narrow adapter;
 a dedicated GitHub App is required for broader operational rollout.
 
 Core V7 owns policy, missions, events, independent grading, cancellation and
-publication claims. `/v7/snapshot` exposes the retained records. The native
-Command Board's **SDLC missions** tab shows policy, stage, role handoffs, test and
-publication evidence, cancellation and a full technical ledger. Unknown,
+publication claims. `/v7/snapshot` exposes bounded, typed mission summaries
+(see [Bounded V7 snapshot](#bounded-v7-snapshot)); `GET /v7/missions/{id}` returns
+one full retained record. The native Command Board's **SDLC missions** tab lists
+summaries, reads the selected mission's full record when its summary changes, and
+shows policy, stage, role handoffs, test and publication evidence, cancellation
+and a full technical ledger. Unknown,
 blocked and stale states remain distinct. The panel does not dispatch on travel.
 Moss, Rivet and Prism project retained lead, implementation and review assignments
 through the existing workstation motions. Waiting, cancellation, stale data and
@@ -133,7 +136,8 @@ advances the branch without force, then publishes a COMMENT review. A new child
 subsequently verifies the new published head. Infrastructure/configuration errors
 stop this path without requesting a code patch. No merge or XP follows.
 
-Nested child records are available on `/v7/missions/{id}` and `/v7/snapshot`.
+Full nested child records are available on `/v7/missions/{id}`; `/v7/snapshot`
+carries a compact summary of each child (id, state, head, build digest, outcome).
 Operator cancellation uses
 `/v7/missions/{id}/verifications/{verification_id}/cancel`. Worker-only admission,
 events, authorization and effect claims use the matching internal V7 paths.
@@ -174,3 +178,58 @@ above describe the original package, not the scope of every installed family.
 [Rapid trials](autonomy-trials.md) replace the proposed 72-hour initial wait with
 one control cycle capped at 15 minutes. Local validation does not activate the
 monitor or expand publication authority.
+
+## Bounded V7 snapshot
+
+Implemented 2026-10-04. Before this change `/v7/snapshot` returned every retained
+mission body unpaged, including captured sources, all stage evidence and up to 100
+events of up to 128 KB each, and the native client polled it every five seconds.
+
+`GET /v7/snapshot?limit=N&before=ID` (public loopback read, like before) now returns
+the `SdlcSnapshot` type in [the V7 contract](../contracts/sdlc.schema.json):
+
+- `schema_version: 7`, `view: "summary"`, `enabled`, `verification_enabled`,
+  `policy`, `coordination` (admission state), `capability_catalog` and
+  `discovery_count`;
+- `missions`: at most `limit` `SdlcMissionSummary` records (default 25, 1-100;
+  100 equals mission retention), ordered newest admission first by immutable
+  `created_at` with id descending on ties;
+- `page`: `order`, `limit`, `total`, `returned` and `next_before`. Pass
+  `next_before` as `before` for the next older page. An invalid `limit` or unknown
+  `before` id returns HTTP 400 rather than restarting at the first page.
+
+A mission summary carries `id`, `state`, `repository`, `objective`, `current_stage`
+(stage of the latest retained event), `revision_count`, `assigned_crew` (role to
+crew from the retained plan), `created_at`, `updated_at`, `latest_event` and the
+last three `recent_events` (`key`, `stage`, `at`, `label`, `role`), `event_count`,
+the Core testing `verdict`, `publication` (`state` none/claimed/submitted/
+awaiting_review, branch, PR number/URL and last observed PR lifecycle),
+`cancel_requested`, `policy_generation`, `retry_of`, a compact `input` (no build
+manifest), compact `verifications`, and `stage_evidence`:
+
+- `plan`: the latest lead `decision`, `rationale` and `task`;
+- `testing`: Core `verdict`, `grading` (`baseline_pass`, `candidate_pass`), per-case
+  `baseline_cases`/`candidate_cases` (`passed` and `failed` case ids, recomputed
+  against the trusted family oracle), `diff` stats (`files`, `additions`,
+  `deletions`), `artifact_digest` and `validation_error`;
+- `reviewing`: `status`, `rationale`, up to five `findings` with
+  `findings_truncated`, and `missing_evidence`.
+
+Null always means not recorded, not run or not interpretable; it is never an empty
+success. For example `candidate_cases: null` means the candidate was not executed
+or its observation was malformed, while `{"passed":[],"failed":[]}` means it ran
+with no cases; `findings: null` means the reviewer did not report findings while
+`[]` means it reported none. A stage is null until Core retains it for the current
+revision round (a revision clears testing and reviewing). Text fields are clipped
+(800 characters for rationale/task, 400 for other fields) with a trailing `…`.
+Summaries are derived on read from the same record; no storage, migration or
+authority changed.
+
+Sources, raw observations, diffs, events, effects, feedback and the pinned
+capability contract stay on `GET /v7/missions/{id}`. The trusted worker reads the
+previous full shape from `GET /internal/v7/snapshot` (worker bearer token required)
+for reconciliation, discovery, verification and Trainer reports. Deploy Core before
+a worker that uses that route; an older Core returns 404 to it. The full internal
+view is still unpaged and bounded only by retention (100 missions); that is a known
+limit of the worker path, not of the polling clients.
+

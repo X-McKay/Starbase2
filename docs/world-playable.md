@@ -16,7 +16,7 @@ live in [the art directory](../apps/world/assets/README.md).
 Walk with WASD/arrows or click a path. Collision prevents walking through habitats
 or off the terrace; click routing goes around obstacles. E near a crew member
 opens its inspector. Clicking a character or using 1/2/3 reaches the same view
-without travel. Tab opens the directory, Escape closes panels, J opens the
+without travel. P opens the directory (Tab opens the [crew board](crew-board.md)), Escape closes panels, J opens the
 independent journal, C toggles camera follow, and the wheel adjusts zoom. H opens
 help, larger text, and reduced motion. Enter activates the focused control.
 

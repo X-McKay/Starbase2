@@ -79,8 +79,27 @@ func run() -> void:
 			for _frame in 3: await process_frame
 			RenderingServer.force_draw(false)
 			root.get_texture().get_image().save_png("res://../../evidence/world/sdlc-missions-20260928/evidence-%d.png"%size.x)
+	# Bounded V7 summaries: the list and controls use the summary; the full record
+	# arrives separately and unknown evidence is never rendered as success.
+	var summary={"id":"pilot-2","state":"testing","repository":"X-McKay/algent","objective":"Preserve history order","current_stage":"testing","updated_at":12400,"cancel_requested":false,"policy_generation":1,"input":{"id":"pilot-2","repository":"X-McKay/algent","revision":"b".repeat(40),"opportunity":"persistence-history"},"verifications":[],"latest_event":{"key":"testing-1","stage":"testing","at":12400,"label":"testing","role":null},"recent_events":[],"event_count":3,"publication":{"state":"none"},"stage_evidence":{"plan":{"decision":"implement","rationale":"Reproduced","task":"Fix","role":"lead"},"testing":null,"reviewing":null}}
+	view.fixture=false; view.online=true; view.selected="pilot-2"; view.signature=""
+	view.snapshot={"schema_version":7,"view":"summary","enabled":true,"policy":{"enabled":true},"missions":[summary]}
+	view.render(); await process_frame
+	words=text_of(view.content)
+	assert(words.contains("STAGE EVIDENCE SUMMARY") and words.contains("Testing · not recorded") and words.contains("loading full mission record"),"Summary view marks missing evidence and pending detail")
+	assert(not view.cancel.disabled,"Command availability comes from the polled summary")
+	assert(view.detail_pending_id=="pilot-2","Selecting a summary requests its full record")
+	view.detail_http.cancel_request()
+	var full:Dictionary=record.duplicate(true); full.id="pilot-2"; full.state="testing"; full.erase("verifications")
+	view.received_detail(HTTPRequest.RESULT_SUCCESS,200,PackedStringArray(),JSON.stringify(full).to_utf8_buffer())
+	await process_frame
+	assert(view.mission_record().has("evidence") and text_of(view.content).contains("CURRENT STAGE EVIDENCE"),"Full record replaces the summary view")
+	view.detail_pending=view.selected+"stale"; view.detail_pending_id="pilot-2"
+	view.received_detail(HTTPRequest.RESULT_SUCCESS,500,PackedStringArray(),PackedByteArray())
+	assert(view.detail_status=="unavailable" and text_of(view.content).contains("Full record refresh failed"),"Failed refresh keeps last known detail visibly")
+	view.detail_http.cancel_request(); view.detail_pending=""; view.detail_pending_id=""
 	board.queue_free(); await process_frame
-	print("SDLC mission checks passed: policy, baseline/candidate, crew handoffs, pending/last-known state, fixture fences and keyboard bounds")
+	print("SDLC mission checks passed: policy, baseline/candidate, crew handoffs, pending/last-known state, fixture fences, bounded summaries and keyboard bounds")
 	quit()
 func text_of(node:Node) -> String:
 	var text:=""

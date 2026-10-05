@@ -3,6 +3,9 @@
   "title": "SdlcContract",
   "type": "object",
   "properties": {
+    "activity_note": {
+      "$ref": "#/$defs/ActivityNote"
+    },
     "discovery": {
       "$ref": "#/$defs/DiscoveryInput"
     },
@@ -18,6 +21,9 @@
     "input": {
       "$ref": "#/$defs/SdlcInput"
     },
+    "mission_summary": {
+      "$ref": "#/$defs/SdlcMissionSummary"
+    },
     "policy": {
       "$ref": "#/$defs/SdlcPolicy"
     },
@@ -29,6 +35,15 @@
     },
     "retry": {
       "$ref": "#/$defs/SdlcRetry"
+    },
+    "snapshot": {
+      "$ref": "#/$defs/SdlcSnapshot"
+    },
+    "stage_evidence": {
+      "$ref": "#/$defs/SdlcStageEvidence"
+    },
+    "stream_event": {
+      "$ref": "#/$defs/StreamEvent"
     },
     "verification": {
       "$ref": "#/$defs/SdlcVerificationInput"
@@ -44,9 +59,105 @@
     "policy",
     "input",
     "event",
-    "publication"
+    "publication",
+    "snapshot",
+    "mission_summary",
+    "stage_evidence",
+    "stream_event",
+    "activity_note"
   ],
   "$defs": {
+    "ActivityKind": {
+      "type": "string",
+      "enum": [
+        "model_request_started",
+        "model_request_finished",
+        "tool_started",
+        "tool_finished",
+        "sandbox_boot",
+        "sandbox_finished"
+      ]
+    },
+    "ActivityNote": {
+      "type": "object",
+      "properties": {
+        "elapsed_ms": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "error": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "input_tokens": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "kind": {
+          "$ref": "#/$defs/ActivityKind"
+        },
+        "label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ok": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "output_tokens": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "request": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
+        },
+        "role": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "tool": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "verification_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "kind"
+      ]
+    },
     "DiscoveryInput": {
       "type": "object",
       "properties": {
@@ -119,6 +230,78 @@
         "observed_at"
       ]
     },
+    "SdlcCaseResults": {
+      "type": "object",
+      "properties": {
+        "failed": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "passed": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "passed",
+        "failed"
+      ]
+    },
+    "SdlcCoordinationSummary": {
+      "type": "object",
+      "properties": {
+        "admission": {
+          "type": "string"
+        },
+        "can_discover": {
+          "type": "boolean"
+        },
+        "reserved_opportunities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "resolution": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "admission",
+        "can_discover",
+        "reserved_opportunities",
+        "resolution"
+      ]
+    },
+    "SdlcDiffStats": {
+      "type": "object",
+      "properties": {
+        "additions": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "deletions": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "files": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "files",
+        "additions",
+        "deletions"
+      ]
+    },
     "SdlcEffect": {
       "type": "object",
       "properties": {
@@ -154,6 +337,61 @@
         "data"
       ]
     },
+    "SdlcEventSummary": {
+      "type": "object",
+      "properties": {
+        "at": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "key": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "role": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "stage": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "key",
+        "stage",
+        "label"
+      ]
+    },
+    "SdlcGradingSummary": {
+      "type": "object",
+      "properties": {
+        "baseline_pass": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "candidate_pass": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "verdict": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
     "SdlcInput": {
       "type": "object",
       "properties": {
@@ -185,6 +423,239 @@
         "opportunity",
         "build"
       ]
+    },
+    "SdlcInputSummary": {
+      "type": "object",
+      "properties": {
+        "build_digest": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "capability_digest": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "id": {
+          "type": "string"
+        },
+        "opportunity": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "repository": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "revision": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "SdlcMissionSummary": {
+      "type": "object",
+      "properties": {
+        "assigned_crew": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "cancel_requested": {
+          "type": "boolean"
+        },
+        "created_at": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "current_stage": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "event_count": {
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "id": {
+          "type": "string"
+        },
+        "input": {
+          "$ref": "#/$defs/SdlcInputSummary"
+        },
+        "latest_event": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SdlcEventSummary"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "objective": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "policy_generation": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "publication": {
+          "$ref": "#/$defs/SdlcPublicationSummary"
+        },
+        "recent_events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SdlcEventSummary"
+          }
+        },
+        "repository": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "retry_of": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "revision_count": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "stage_evidence": {
+          "$ref": "#/$defs/SdlcStageEvidence"
+        },
+        "state": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "verdict": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "verifications": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SdlcVerificationSummary"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "state",
+        "revision_count",
+        "recent_events",
+        "event_count",
+        "publication",
+        "cancel_requested",
+        "input",
+        "verifications",
+        "stage_evidence"
+      ]
+    },
+    "SdlcPage": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "next_before": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "order": {
+          "type": "string"
+        },
+        "returned": {
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "total": {
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "order",
+        "limit",
+        "total",
+        "returned"
+      ]
+    },
+    "SdlcPlanEvidence": {
+      "type": "object",
+      "properties": {
+        "decision": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rationale": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "role": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "task": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
     },
     "SdlcPolicy": {
       "type": "object",
@@ -266,6 +737,50 @@
         "revision"
       ]
     },
+    "SdlcPublicationSummary": {
+      "type": "object",
+      "properties": {
+        "branch": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "pr_number": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "pr_observed_at": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "pr_state": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "pr_url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "state": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "state"
+      ]
+    },
     "SdlcRetry": {
       "type": "object",
       "properties": {
@@ -279,6 +794,231 @@
         "id",
         "build"
       ]
+    },
+    "SdlcReviewEvidence": {
+      "type": "object",
+      "properties": {
+        "findings": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/$defs/SdlcReviewFinding"
+          }
+        },
+        "findings_truncated": {
+          "type": "boolean"
+        },
+        "missing_evidence": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rationale": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "role": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "status": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "findings_truncated"
+      ]
+    },
+    "SdlcReviewFinding": {
+      "type": "object",
+      "properties": {
+        "evidence": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "line": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "problem": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "SdlcSnapshot": {
+      "type": "object",
+      "properties": {
+        "capability_catalog": true,
+        "coordination": {
+          "$ref": "#/$defs/SdlcCoordinationSummary"
+        },
+        "discovery_count": {
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "missions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SdlcMissionSummary"
+          }
+        },
+        "page": {
+          "$ref": "#/$defs/SdlcPage"
+        },
+        "policy": {
+          "$ref": "#/$defs/SdlcPolicy"
+        },
+        "schema_version": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "verification_enabled": {
+          "type": "boolean"
+        },
+        "view": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "view",
+        "enabled",
+        "verification_enabled",
+        "policy",
+        "coordination",
+        "capability_catalog",
+        "discovery_count",
+        "missions",
+        "page"
+      ]
+    },
+    "SdlcStageEvidence": {
+      "type": "object",
+      "properties": {
+        "plan": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SdlcPlanEvidence"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reviewing": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SdlcReviewEvidence"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "testing": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SdlcTestingEvidence"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "SdlcTestingEvidence": {
+      "type": "object",
+      "properties": {
+        "artifact_digest": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "baseline_cases": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SdlcCaseResults"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "candidate_cases": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SdlcCaseResults"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "diff": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SdlcDiffStats"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "grading": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SdlcGradingSummary"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "validation_error": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "verdict": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
     },
     "SdlcVerificationInput": {
       "type": "object",
@@ -302,6 +1042,117 @@
         "id",
         "head",
         "build"
+      ]
+    },
+    "SdlcVerificationInputSummary": {
+      "type": "object",
+      "properties": {
+        "build_digest": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "feedback_digest": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "head": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "SdlcVerificationSummary": {
+      "type": "object",
+      "properties": {
+        "cancel_requested": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "input": {
+          "$ref": "#/$defs/SdlcVerificationInputSummary"
+        },
+        "outcome": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "policy_generation": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "state": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "required": [
+        "id",
+        "state",
+        "cancel_requested",
+        "input"
+      ]
+    },
+    "StreamEvent": {
+      "type": "object",
+      "properties": {
+        "at": {
+          "type": "number",
+          "format": "double"
+        },
+        "epoch": {
+          "type": "string"
+        },
+        "family": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "payload": true,
+        "record_id": {
+          "type": "string"
+        },
+        "retained": {
+          "type": "boolean"
+        },
+        "seq": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "epoch",
+        "seq",
+        "type",
+        "family",
+        "record_id",
+        "at",
+        "retained",
+        "payload"
       ]
     }
   }
