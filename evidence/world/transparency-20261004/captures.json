@@ -405,7 +405,7 @@
         "[=] Full mission record · synthetic fixture"
       ],
       "diff_header": "algent/cache.py · +7 −2 · round 2 candidate · recorded 16:59:11",
-      "diff_rows": 15,
+      "diff_rows": 15.0,
       "fixture": "res://../../fixtures/world/transparency/round2-stream.jsonl",
       "plan": [
         "Fix cache eviction so the least recently used entry leaves first",
@@ -464,7 +464,7 @@
         "[=] Full mission record · synthetic fixture"
       ],
       "diff_header": "algent/cache.py · +7 −2 · round 2 candidate · recorded 17:00:18",
-      "diff_rows": 15,
+      "diff_rows": 15.0,
       "fixture": "res://../../fixtures/world/transparency/round2-stream.jsonl",
       "plan": [
         "Fix cache eviction so the least recently used entry leaves first",
@@ -524,7 +524,7 @@
         "[=] Full mission record · synthetic fixture"
       ],
       "diff_header": "algent/cache.py · +7 −2 · round 2 candidate · recorded 16:59:30",
-      "diff_rows": 15,
+      "diff_rows": 15.0,
       "fixture": "res://../../fixtures/world/transparency/round2-stream.jsonl",
       "plan": [
         "Fix cache eviction so the least recently used entry leaves first",
@@ -574,18 +574,18 @@
     "captures": {
       "crew-board": {
         "action_status": "",
-        "badge": "[~] LIVE · last event 2.2 s ago · SYNTHETIC REPLAY",
-        "board_freshness": "[~] LIVE · last event 2.2 s ago · SYNTHETIC REPLAY",
+        "badge": "[~] LIVE · last event 1.3 s ago · SYNTHETIC REPLAY",
+        "board_freshness": "[~] LIVE · last event 1.3 s ago · SYNTHETIC REPLAY",
         "chips": [
           "[x] Next mission blocked: active_mission",
           "[/] Wes silent 6 m"
         ],
         "crew": [
-          "Mo  Moss   [||] waiting · Holding mission 42 while Rivet is implementing",
-          "Ri  Rivet   [>] working · [>] Running tests · mission 42, round 2",
-          "Pr  Prism   [||] waiting · Holding mission 42 while Rivet is implementing",
-          "We  Wes   [/] silent 6 m · last known · Last known: workload check on training workload (unconfirmed)",
-          "Ma  Mae   [-] idle · Nothing recorded right now"
+          "Moss   [||] waiting · Holding mission 42 while Rivet is implementing",
+          "Rivet   [>] working · [>] Running tests · mission 42, round 2",
+          "Prism   [||] waiting · Holding mission 42 while Rivet is implementing",
+          "Wes   [/] silent 6 m · last known · Last known: workload check on training workload (unconfirmed)",
+          "Mae   [-] idle · Nothing recorded right now"
         ],
         "day": [
           "Moss · lead · duty officer",
@@ -599,20 +599,20 @@
           "Watch Moss in the world [W]"
         ],
         "feed": [
-          "17:02 Rivet [>] started running tests",
-          "17:01 Rivet [x] ran tests · failed",
-          "17:00 Rivet [/] applied a patch · ok",
-          "17:00 Rivet [/] model request 3 · 3.1k tokens · 4.1 s",
-          "16:59 Prism [x] requested changes · 2 findings",
-          "16:57 Core [=] graded round 1 · improved (6/6 vs 4/6)",
-          "16:56 Wes [/] last record: workload check on training workload · running",
-          "16:55 Moss [>] handed the plan to Rivet",
-          "16:47 Core [/] admitted mission 42 under policy gen 7",
-          "16:04 Wes [=] workload check on flux namespace · 0 findings",
-          "13:01 Core [!] opened PR #118 for mission 41 · waiting for your review",
-          "12:50 Prism [=] accepted mission 41",
-          "12:30 Core [=] graded mission 41 · improved",
-          "12:12 Moss [/] handed the mission 41 plan to Rivet"
+          "00:45 Rivet [>] started running tests",
+          "00:44 Rivet [x] ran tests · failed",
+          "00:43 Rivet [/] applied a patch · ok",
+          "00:43 Rivet [/] model request 3 · 3.1k tokens · 4.1 s",
+          "00:42 Prism [x] requested changes · 2 findings",
+          "00:40 Core [=] graded round 1 · improved (6/6 vs 4/6)",
+          "00:39 Wes [/] last record: workload check on training workload · running",
+          "00:38 Moss [>] handed the plan to Rivet",
+          "00:30 Core [/] admitted mission 42 under policy gen 7",
+          "23:47 Wes [=] workload check on flux namespace · 0 findings",
+          "20:44 Core [!] opened PR #118 for mission 41 · waiting for your review",
+          "20:33 Prism [=] accepted mission 41",
+          "20:13 Core [=] graded mission 41 · improved",
+          "19:55 Moss [/] handed the mission 41 plan to Rivet"
         ],
         "feed_title": "ACTIVITY · ALL CREW AND CORE · NEWEST FIRST",
         "needs": [
@@ -627,18 +627,18 @@
       },
       "crew-board-compact": {
         "action_status": "",
-        "badge": "[~] LIVE · last event 2.0 s ago · SYNTHETIC REPLAY",
-        "board_freshness": "[~] LIVE · last event 2.0 s ago · SYNTHETIC REPLAY",
+        "badge": "[~] LIVE · last event 1.5 s ago · SYNTHETIC REPLAY",
+        "board_freshness": "[~] LIVE · last event 1.5 s ago · SYNTHETIC REPLAY",
         "chips": [
           "[x] Next mission blocked: active_mission",
           "[/] Wes silent 6 m"
         ],
         "crew": [
-          "Mo  Moss   [||] waiting · Holding mission 42 while Rivet is implementing",
-          "Ri  Rivet   [>] working · [>] Running tests · mission 42, round 2",
-          "Pr  Prism   [||] waiting · Holding mission 42 while Rivet is implementing",
-          "We  Wes   [/] silent 6 m · last known · Last known: workload check on training workload (unconfirmed)",
-          "Ma  Mae   [-] idle · Nothing recorded right now"
+          "Moss   [||] waiting · Holding mission 42 while Rivet is implementing",
+          "Rivet   [>] working · [>] Running tests · mission 42, round 2",
+          "Prism   [||] waiting · Holding mission 42 while Rivet is implementing",
+          "Wes   [/] silent 6 m · last known · Last known: workload check on training workload (unconfirmed)",
+          "Mae   [-] idle · Nothing recorded right now"
         ],
         "day": [
           "Moss · lead · duty officer",
@@ -652,20 +652,20 @@
           "Watch Moss [W]"
         ],
         "feed": [
-          "17:03 Rivet [>] started running tests",
-          "17:02 Rivet [x] ran tests · failed",
-          "17:01 Rivet [/] applied a patch · ok",
-          "17:01 Rivet [/] model request 3 · 3.1k tokens · 4.1 s",
-          "17:00 Prism [x] requested changes · 2 findings",
-          "16:58 Core [=] graded round 1 · improved (6/6 vs 4/6)",
-          "16:57 Wes [/] last record: workload check on training workload · running",
-          "16:56 Moss [>] handed the plan to Rivet",
-          "16:48 Core [/] admitted mission 42 under policy gen 7",
-          "16:05 Wes [=] workload check on flux namespace · 0 findings",
-          "13:02 Core [!] opened PR #118 for mission 41 · waiting for your review",
-          "12:51 Prism [=] accepted mission 41",
-          "12:31 Core [=] graded mission 41 · improved",
-          "12:13 Moss [/] handed the mission 41 plan to Rivet"
+          "00:46 Rivet [>] started running tests",
+          "00:45 Rivet [x] ran tests · failed",
+          "00:44 Rivet [/] applied a patch · ok",
+          "00:43 Rivet [/] model request 3 · 3.1k tokens · 4.1 s",
+          "00:43 Prism [x] requested changes · 2 findings",
+          "00:41 Core [=] graded round 1 · improved (6/6 vs 4/6)",
+          "00:40 Wes [/] last record: workload check on training workload · running",
+          "00:39 Moss [>] handed the plan to Rivet",
+          "00:31 Core [/] admitted mission 42 under policy gen 7",
+          "23:48 Wes [=] workload check on flux namespace · 0 findings",
+          "20:45 Core [!] opened PR #118 for mission 41 · waiting for your review",
+          "20:34 Prism [=] accepted mission 41",
+          "20:14 Core [=] graded mission 41 · improved",
+          "19:56 Moss [/] handed the mission 41 plan to Rivet"
         ],
         "feed_title": "ACTIVITY · ALL CREW AND CORE · NEWEST FIRST",
         "needs": [
@@ -680,18 +680,18 @@
       },
       "crew-board-filtered": {
         "action_status": "",
-        "badge": "[~] LIVE · last event 2.5 s ago · SYNTHETIC REPLAY",
-        "board_freshness": "[~] LIVE · last event 2.5 s ago · SYNTHETIC REPLAY",
+        "badge": "[~] LIVE · last event 1.3 s ago · SYNTHETIC REPLAY",
+        "board_freshness": "[~] LIVE · last event 1.3 s ago · SYNTHETIC REPLAY",
         "chips": [
           "[x] Next mission blocked: active_mission",
           "[/] Wes silent 6 m"
         ],
         "crew": [
-          "Mo  Moss   [||] waiting · Holding mission 42 while Rivet is implementing",
-          "Ri  Rivet   [>] working · [>] Running tests · mission 42, round 2",
-          "Pr  Prism   [||] waiting · Holding mission 42 while Rivet is implementing",
-          "We  Wes   [/] silent 6 m · last known · Last known: workload check on training workload (unconfirmed)",
-          "Ma  Mae   [-] idle · Nothing recorded right now"
+          "Moss   [||] waiting · Holding mission 42 while Rivet is implementing",
+          "Rivet   [>] working · [>] Running tests · mission 42, round 2",
+          "Prism   [||] waiting · Holding mission 42 while Rivet is implementing",
+          "Wes   [/] silent 6 m · last known · Last known: workload check on training workload (unconfirmed)",
+          "Mae   [-] idle · Nothing recorded right now"
         ],
         "day": [
           "Rivet · implementer",
@@ -705,11 +705,11 @@
           "Watch Rivet in the world [W]"
         ],
         "feed": [
-          "17:02 Rivet [>] started running tests",
-          "17:01 Rivet [x] ran tests · failed",
-          "17:00 Rivet [/] applied a patch · ok",
-          "17:00 Rivet [/] model request 3 · 3.1k tokens · 4.1 s",
-          "11:47 Rivet [=] repair on clamp-v1 · inconclusive"
+          "00:45 Rivet [>] started running tests",
+          "00:44 Rivet [x] ran tests · failed",
+          "00:43 Rivet [/] applied a patch · ok",
+          "00:43 Rivet [/] model request 3 · 3.1k tokens · 4.1 s",
+          "19:30 Rivet [=] repair on clamp-v1 · inconclusive"
         ],
         "feed_title": "ACTIVITY · RIVET ONLY · NEWEST FIRST",
         "needs": [
@@ -724,18 +724,18 @@
       },
       "crew-dialogue": {
         "action_status": "",
-        "badge": "[~] LIVE · last event 2.3 s ago · SYNTHETIC REPLAY",
-        "board_freshness": "[~] LIVE · last event 2.4 s ago · SYNTHETIC REPLAY",
+        "badge": "[~] LIVE · last event 2.0 s ago · SYNTHETIC REPLAY",
+        "board_freshness": "[~] LIVE · last event 2.0 s ago · SYNTHETIC REPLAY",
         "chips": [
           "[x] Next mission blocked: active_mission",
           "[/] Wes silent 6 m"
         ],
         "crew": [
-          "Mo  Moss   [||] waiting · Holding mission 42 while Rivet is implementing",
-          "Ri  Rivet   [>] working · [>] Running tests · mission 42, round 2",
-          "Pr  Prism   [||] waiting · Holding mission 42 while Rivet is implementing",
-          "We  Wes   [/] silent 6 m · last known · Last known: workload check on training workload (unconfirmed)",
-          "Ma  Mae   [-] idle · Nothing recorded right now"
+          "Moss   [||] waiting · Holding mission 42 while Rivet is implementing",
+          "Rivet   [>] working · [>] Running tests · mission 42, round 2",
+          "Prism   [||] waiting · Holding mission 42 while Rivet is implementing",
+          "Wes   [/] silent 6 m · last known · Last known: workload check on training workload (unconfirmed)",
+          "Mae   [-] idle · Nothing recorded right now"
         ],
         "day": [
           "Rivet · implementer",
@@ -761,14 +761,14 @@
           ],
           "speaker": "Rivet",
           "subtitle": "implementer · speaking from recorded state",
-          "summary": "2 need you · 1 blocked · 1 last known · [~] LIVE · last event 2.4 s ago · SYNTHETIC REPLAY"
+          "summary": "2 need you · 1 blocked · 1 last known · [~] LIVE · last event 2.0 s ago · SYNTHETIC REPLAY"
         },
         "feed": [
-          "17:02 Rivet [>] started running tests",
-          "17:02 Rivet [x] ran tests · failed",
-          "17:00 Rivet [/] applied a patch · ok",
-          "17:00 Rivet [/] model request 3 · 3.1k tokens · 4.1 s",
-          "11:47 Rivet [=] repair on clamp-v1 · inconclusive"
+          "00:45 Rivet [>] started running tests",
+          "00:44 Rivet [x] ran tests · failed",
+          "00:43 Rivet [/] applied a patch · ok",
+          "00:43 Rivet [/] model request 3 · 3.1k tokens · 4.1 s",
+          "19:30 Rivet [=] repair on clamp-v1 · inconclusive"
         ],
         "feed_title": "ACTIVITY · RIVET ONLY · NEWEST FIRST",
         "needs": [
@@ -783,18 +783,18 @@
       },
       "crew-dialogue-stale": {
         "action_status": "",
-        "badge": "[~] LIVE · last event 2.1 s ago · SYNTHETIC REPLAY",
-        "board_freshness": "[~] LIVE · last event 2.1 s ago · SYNTHETIC REPLAY",
+        "badge": "[~] LIVE · last event 1.9 s ago · SYNTHETIC REPLAY",
+        "board_freshness": "[~] LIVE · last event 1.9 s ago · SYNTHETIC REPLAY",
         "chips": [
           "[x] Next mission blocked: active_mission",
           "[/] Wes silent 6 m"
         ],
         "crew": [
-          "Mo  Moss   [||] waiting · Holding mission 42 while Rivet is implementing",
-          "Ri  Rivet   [>] working · [>] Running tests · mission 42, round 2",
-          "Pr  Prism   [||] waiting · Holding mission 42 while Rivet is implementing",
-          "We  Wes   [/] silent 6 m · last known · Last known: workload check on training workload (unconfirmed)",
-          "Ma  Mae   [-] idle · Nothing recorded right now"
+          "Moss   [||] waiting · Holding mission 42 while Rivet is implementing",
+          "Rivet   [>] working · [>] Running tests · mission 42, round 2",
+          "Prism   [||] waiting · Holding mission 42 while Rivet is implementing",
+          "Wes   [/] silent 6 m · last known · Last known: workload check on training workload (unconfirmed)",
+          "Mae   [-] idle · Nothing recorded right now"
         ],
         "day": [
           "Wes · watchkeeper",
@@ -808,7 +808,7 @@
           "Watch Wes in the world [W]"
         ],
         "dialogue": {
-          "based_on": "Based on: Wes record wes-workload-1336 running · last update 16:56 UTC · /v2 snapshot current · /v7 snapshot 1 s ago",
+          "based_on": "Based on: Wes record wes-workload-1336 running · last update 00:39 UTC · /v2 snapshot current · /v7 snapshot 1 s ago",
           "heading": "SHIFT BRIEFING · ABOUT WES",
           "line": "\"Not Wes. Nothing from the watchkeeper has changed in 6 m. The last thing recorded is workload check on training workload. I am not treating that as healthy.\nEveryone else is accounted for: Moss waiting, Rivet working, Prism waiting and Mae idle.\"",
           "options": [
@@ -820,12 +820,12 @@
           ],
           "speaker": "Moss",
           "subtitle": "lead · answering for Wes (silent 6 m · last known) from last known records",
-          "summary": "2 need you · 1 blocked · 1 last known · [~] LIVE · last event 2.1 s ago · SYNTHETIC REPLAY"
+          "summary": "2 need you · 1 blocked · 1 last known · [~] LIVE · last event 1.9 s ago · SYNTHETIC REPLAY"
         },
         "feed": [
-          "16:56 Wes [/] last record: workload check on training workload · running",
-          "16:04 Wes [=] workload check on flux namespace · 0 findings",
-          "10:29 Wes [=] workload check on flux namespace · 1 finding"
+          "00:39 Wes [/] last record: workload check on training workload · running",
+          "23:47 Wes [=] workload check on flux namespace · 0 findings",
+          "18:12 Wes [=] workload check on flux namespace · 1 finding"
         ],
         "feed_title": "ACTIVITY · WES ONLY · NEWEST FIRST",
         "needs": [

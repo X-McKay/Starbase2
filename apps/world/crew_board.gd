@@ -331,7 +331,7 @@ func render() -> void:
 	for item in model.get("crew", []):
 		var entry: Button = crew_buttons.get(item.kind)
 		if entry == null: continue
-		entry.text = "%s  %s   %s %s · %s" % [item.init, item.name, item.glyph, item.state_text, item.now]
+		entry.text = "%s   %s %s · %s" % [item.name, item.glyph, item.state_text, item.now]
 		entry.tooltip_text = "%s · %s\n%s\nEnter selects · T talks · W watches" % [item.name, item.state_text, item.now]
 		entry.set_pressed_no_signal(item.kind == selected)
 		var on: bool = item.kind == selected
