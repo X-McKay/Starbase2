@@ -43,7 +43,7 @@ used as a reply, and no reply text is ever written for the crew. The states are:
 | Next round recorded | `[=] round N+1 submitted` and the quoted rationale |
 | Revising, stream live | `[>] revising · reply not recorded yet` |
 | Revising, stream not live | `[?] last known · reply not recorded` |
-| Mission blocked, failed or stopped | `[\|\|] no reply · mission blocked` (failed uses `[x]`) |
+| Mission blocked, failed or stopped | `[_] no reply · mission blocked` (failed uses `[x]`) |
 | Review accepted | `[-] no reply needed` |
 | Otherwise | `[?] reply not recorded` |
 
@@ -53,7 +53,7 @@ member recorded with the candidate. The footer lists any reassignment.
 **Stage track:** plan → implement rN → test rN → review rN → ↺ round N → N+1 → …
 → ready to publish → Reality Gate · branch + PR → awaiting human review. Each chip
 has a glyph and text: `[=]` done, `[>]` current, `[!]` changes, `[x]` failed,
-`[||]` blocked, `[?]` unknown, `[ ]` not reached. A past round's test verdict comes
+`[_]` blocked, `[?]` unknown, `[ ]` not reached. A past round's test verdict comes
 from the stream's `mission.stage` event when this client saw it; otherwise the chip
 reads "verdict not retained", because Core keeps grading only for the current round.
 The footer gives the mission objective, the revision loops used against the limit,

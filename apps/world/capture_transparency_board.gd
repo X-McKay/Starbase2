@@ -64,7 +64,7 @@ func board_checks(tag: String) -> void:
 	check(board.need_rows[1].title.text == "Publish policy ends in 2d 14h" and board.need_rows[1].action.text == "Extend", tag + " policy need")
 	check(board.need_rows[2].title.text == "Memory notes · not in these records", tag + " memory unknown")
 	check(board.chips[0].button.text == "[x] Next mission blocked: active_mission" and board.chips[1].button.text.begins_with("[/] Wes silent "), tag + " chips: " + board.chips[1].button.text)
-	check(board.crew_buttons.repair.text.contains("[>] working · [>] Running tests"), tag + " Rivet row: " + board.crew_buttons.repair.text)
+	check(board.crew_buttons.repair.text.contains("[>] working · Running tests"), tag + " Rivet row: " + board.crew_buttons.repair.text)
 	check(board.crew_buttons.watchkeeper.text.contains("silent") and board.crew_buttons.watchkeeper.text.contains("last known"), tag + " Wes row")
 
 func run() -> void:

@@ -243,7 +243,7 @@ static func describe_event(item: Dictionary, index: int, crew: Dictionary, lates
 			elif data.get("error_type") is String: title = "Model request failed · " + str(data.error_type)
 			elif data.get("status") is String: title = stage.capitalize() + " · review " + str(data.status)
 			elif data.get("reason") is String: title = stage.capitalize() + " · bounded activity ended"
-			e = make(at, lane, stage, key, title, "[x]" if stage != "cancelled" else "[||]", "failed")
+			e = make(at, lane, stage, key, title, "[x]" if stage != "cancelled" else "[_]", "failed")
 			e.body = str(data.get("reason", output.get("rationale", data.get("rationale", "Reason not recorded"))))
 			if data.has("external_effect_may_have_started"): e.evidence.append("External effect may have started · " + str(data.external_effect_may_have_started))
 			if data.has("usage") or data.has("elapsed_ms"): e.evidence.append(usage_text(data))
@@ -326,7 +326,7 @@ static func stream_events(entries: Array, mission_id: String, record_keys: Dicti
 			e.source = "/v8 stream · mission.publication"
 			shown.append(e)
 		elif type == "mission.cancel_requested":
-			var e := make(at, "core", "cancel_requested", "stream:cancel", "Stop requested", "[||]", "waiting")
+			var e := make(at, "core", "cancel_requested", "stream:cancel", "Stop requested", "[_]", "waiting")
 			e.kind = "observation"
 			e.body = "Core keeps the stop flag but not its time; this time comes from the stream. Already-started effects may still complete."
 			e.source = "/v8 stream · mission.cancel_requested"

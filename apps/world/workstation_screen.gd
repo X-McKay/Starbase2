@@ -90,7 +90,7 @@ static func build(ctx: Dictionary) -> Dictionary:
 		"unavailable": result.banner.append(line("[x] Full record read failed · " + ("showing last known record" if story.full else "bounded summary only"), "failed"))
 		"missing": result.banner.append(line("[?] Full record not available · bounded summary only", "unknown"))
 	if state in ["blocked", "failed", "cancelled"] or summary.get("cancel_requested", false):
-		result.banner.append(line(("[||] Mission blocked" if state == "blocked" else ("[x] Mission failed" if state == "failed" else "[||] Mission stopped")) + " · " + (state.replace("_", " ") if not summary.get("cancel_requested", false) else "stop requested"), "blocked" if state != "failed" else "failed"))
+		result.banner.append(line(("[_] Mission blocked" if state == "blocked" else ("[x] Mission failed" if state == "failed" else "[_] Mission stopped")) + " · " + (state.replace("_", " ") if not summary.get("cancel_requested", false) else "stop requested"), "blocked" if state != "failed" else "failed"))
 	result.plan = plan_lines(story, summary, state, round)
 	var asks := asks_lines(story, summary, round)
 	result.asks = asks.lines
@@ -110,7 +110,7 @@ static func plan_lines(story: Dictionary, summary: Dictionary, state: String, ro
 	if plan.get("task") is String:
 		lines.append(line(str(plan.task), "title"))
 		if plan.get("rationale") is String: lines.append(line(str(plan.rationale), "muted"))
-		if plan.get("decision") is String and plan.decision != "implement": lines.append(line("[||] Lead decision · " + str(plan.decision), "blocked"))
+		if plan.get("decision") is String and plan.decision != "implement": lines.append(line("[_] Lead decision · " + str(plan.decision), "blocked"))
 	else:
 		lines.append(line("[?] Plan not recorded yet" if state in ["queued", "investigating"] else "[?] Plan not recorded", "unknown"))
 	var current: String = STEP_FOR_STATE.get(state, "")
@@ -129,7 +129,7 @@ static func plan_lines(story: Dictionary, summary: Dictionary, state: String, ro
 		if step[0] in ["implement", "review"]: text = "%s r%d · %s" % [step[0], round, step[1]]
 		if is_current:
 			reached = true
-			if stopped: lines.append(line("[||] " + text + " · stopped", "blocked"))
+			if stopped: lines.append(line("[_] " + text + " · stopped", "blocked"))
 			elif state == "reviewing": lines.append(line("[?] " + text + " · recorded; Core decides next", "unknown"))
 			else: lines.append(line("[>] " + text + " · current step", "working"))
 		elif not reached and not current.is_empty(): lines.append(line("[=] " + text, "passed"))

@@ -55,6 +55,18 @@ func label(parent: Node, text: String, size: int, color: String) -> Label:
 	parent.add_child(item)
 	return item
 
+## What each status marker means; shown in a legend and in every crew tooltip.
+const MARKERS := {"[>]":"working", "[_]":"waiting", "[...]":"queued", "[-]":"idle",
+	"[/]":"silent · last known", "[?]":"unknown"}
+const LEGEND := "[>] working · [_] waiting · [-] idle · [/] silent, last known · [?] unknown"
+
+## The crew line carries one marker: drop the activity's own leading marker.
+static func without_marker(text: String) -> String:
+	if text.begins_with("["):
+		var end := text.find("] ")
+		if end > 0 and end <= 5: return text.substr(end + 2)
+	return text
+
 func heading(parent: Node, text: String) -> Label:
 	return label(parent, text, 12, LiveView.MUTED)
 
@@ -198,6 +210,10 @@ func _ready() -> void:
 		entry.pressed.connect(func(): select("" if selected == kind else kind))
 		right.add_child(entry)
 		crew_buttons[kind] = entry
+	var legend := label(right, LEGEND, 11, LiveView.MUTED)
+	legend.name = "CrewLegend"
+	legend.clip_text = true
+	legend.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	day_panel = PanelContainer.new()
 	day_panel.name = "CrewDay"
 	day_panel.add_theme_stylebox_override("panel", box("0f1c28f0", "7fdcff55", 12))
@@ -331,8 +347,8 @@ func render() -> void:
 	for item in model.get("crew", []):
 		var entry: Button = crew_buttons.get(item.kind)
 		if entry == null: continue
-		entry.text = "%s   %s %s · %s" % [item.name, item.glyph, item.state_text, item.now]
-		entry.tooltip_text = "%s · %s\n%s\nEnter selects · T talks · W watches" % [item.name, item.state_text, item.now]
+		entry.text = "%s   %s %s · %s" % [item.name, item.glyph, item.state_text, without_marker(str(item.now))]
+		entry.tooltip_text = "%s · %s %s (%s)\n%s\nEnter selects · T talks · W watches" % [item.name, item.glyph, item.state_text, MARKERS.get(item.glyph, "status"), item.now]
 		entry.set_pressed_no_signal(item.kind == selected)
 		var on: bool = item.kind == selected
 		var border := "7fdcff" if on else ("ff8f7d88" if item.last_known else "7fdcff33")

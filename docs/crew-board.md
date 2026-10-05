@@ -57,7 +57,8 @@ Left side:
 Right side:
 
 - **Crew**, one line each: Moss (lead, duty officer), Rivet, Prism, Wes, Mae, with
-  glyph, state and what they are doing. **Enter** selects or clears a member;
+  one status marker, state and what they are doing. A legend under the list
+  explains the markers, and each tooltip names its marker's meaning. **Enter** selects or clears a member;
   selecting filters the feed to that member (**Show all crew ×** clears it).
 - **Their day**: role, state and place, runs in the last 24 h, tokens, *Doing now*,
   *Up next*, *Done · last 24 h*, and **Talk [T]** and **Watch in the world [W]**.
@@ -68,7 +69,7 @@ Right side:
 | State | Glyph | Rule |
 |---|---|---|
 | working | `[>]` | open `/v2` record, or the V7 stage is assigned to this role; the verb comes from a fresh activity note only while the stream is live |
-| waiting | `[\|\|]` | on the active V7 mission, another role holds the stage |
+| waiting | `[_]` | on the active V7 mission, another role holds the stage |
 | queued | `[...]` | only queued `/v2` records |
 | idle | `[-]` | no open record and no active mission |
 | silent | `[/]` | an open `/v2` record has not changed for 5 min or more (relative to the snapshot's `observed_at`) · last known |

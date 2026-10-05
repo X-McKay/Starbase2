@@ -104,7 +104,7 @@ func workstation_checks(record: Dictionary, summary: Dictionary) -> void:
 	var blocked: Dictionary = summary.duplicate(true)
 	blocked.state = "blocked"
 	model = Workstation.build(base_ctx(record, blocked))
-	check(texts(model.banner).has("[||] Mission blocked · blocked") and texts(model.plan).has("[?] Current step unknown · state blocked"), "Blocked is distinct: " + str(texts(model.banner)))
+	check(texts(model.banner).has("[_] Mission blocked · blocked") and texts(model.plan).has("[?] Current step unknown · state blocked"), "Blocked is distinct: " + str(texts(model.banner)))
 	var failed: Dictionary = summary.duplicate(true); failed.state = "failed"
 	check(texts(Workstation.build(base_ctx(record, failed)).banner).has("[x] Mission failed · failed"), "Failed is distinct from blocked")
 	var rejected: Dictionary = record.duplicate(true)
@@ -150,7 +150,7 @@ func handoff_checks(record: Dictionary, summary: Dictionary) -> void:
 	var stopped: Dictionary = pending.duplicate(true)
 	stopped.events.remove_at(4)
 	model = Handoff.build(base_ctx(stopped, blocked))
-	check(model.cards[1].status.text == "[||] no reply · mission blocked" and model.track[model.track.size() - 1].status == "blocked", "Blocked reply")
+	check(model.cards[1].status.text == "[_] no reply · mission blocked" and model.track[model.track.size() - 1].status == "blocked", "Blocked reply")
 	# No review yet; summary only.
 	var early: Dictionary = record.duplicate(true)
 	early.events = early.events.slice(0, 3)

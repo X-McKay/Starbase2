@@ -175,7 +175,7 @@ func describe_record(entry: Dictionary, snapshot: Dictionary) -> Dictionary:
 			var who := crew_name(role) if not role.is_empty() else "Core"
 			return {"glyph":"[>]", "text":who + " · " + (label if not label.is_empty() else stage.replace("_", " ")), "tone":"working"}
 		"mission.admitted": return {"glyph":"[>]", "text":"Core admitted mission " + mission, "tone":"working"}
-		"mission.cancel_requested": return {"glyph":"[||]", "text":"Stop requested · effects may still be in flight", "tone":"waiting"}
+		"mission.cancel_requested": return {"glyph":"[_]", "text":"Stop requested · effects may still be in flight", "tone":"waiting"}
 		"mission.publication": return {"glyph":"[>]", "text":"Core claimed publication · " + str(payload.get("branch", "branch not reported")), "tone":"working"}
 		"mission.effect": return {"glyph":"[/]", "text":"Core recorded effect · " + str(payload.get("kind", "unknown")), "tone":"working"}
 		"mission.pr_observation": return {"glyph":"[/]", "text":"Core observed the PR · " + str(payload.get("pr_state", "unknown")), "tone":"working"}

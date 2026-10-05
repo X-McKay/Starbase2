@@ -13,7 +13,7 @@ signal close_requested
 const TONES := {"title":"f2f6f8", "text":"eef3f6", "muted":"9fb3c1", "working":"7fdcff", "waiting":"ffc861",
 	"passed":"6fe3a1", "failed":"ff8a70", "unknown":"c6bdd6", "stale":"ff8a70", "blocked":"f3a0d8"}
 const STAGE_STYLE := {"done":["6fe3a11f", "c9d6de", "[=]"], "current":["7fdcff2e", "d8f4ff", "[>]"], "changes":["ffc8612e", "ffe2a6", "[!]"],
-	"failed":["ff8a702e", "ffc2b8", "[x]"], "blocked":["f3a0d82e", "f8d0ec", "[||]"], "unknown":["c6bdd61f", "c6bdd6", "[?]"],
+	"failed":["ff8a702e", "ffc2b8", "[x]"], "blocked":["f3a0d82e", "f8d0ec", "[_]"], "unknown":["c6bdd61f", "c6bdd6", "[?]"],
 	"pending":["ffffff0f", "8195a3", "[ ]"], "loop":["00000000", "ffc861", ""]}
 
 var large_text := false
@@ -175,7 +175,7 @@ static func build(ctx: Dictionary) -> Dictionary:
 		var crew_now := Story.crew_name(str(Story.dict(Story.dict(patch.get("assignment"))).get("crew", "")))
 		if patch.get("assignment") is Dictionary and crew_now != implementer: reply.name = crew_now
 	elif state in ["blocked", "failed", "cancelled"] or summary.get("cancel_requested", false):
-		reply.status = line("[||] no reply · mission " + (state.replace("_", " ") if not summary.get("cancel_requested", false) else "stop requested"), "blocked" if state != "failed" else "failed")
+		reply.status = line("[_] no reply · mission " + (state.replace("_", " ") if not summary.get("cancel_requested", false) else "stop requested"), "blocked" if state != "failed" else "failed")
 		reply.lines.append(line("No round %d candidate was recorded." % (r + 1), "muted"))
 	elif moved or (state == "implementing" and round == r + 1):
 		reply.status = line("[>] revising · reply not recorded yet" if live else "[?] last known · reply not recorded", "working" if live else "stale")

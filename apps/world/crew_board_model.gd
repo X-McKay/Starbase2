@@ -27,7 +27,7 @@ const POLICY_WARN_SECONDS := 3.0 * 86400.0
 const FEED_LIMIT := 14
 const TONES := {"working":"6fe3f0", "waiting":"f3c26b", "passed":"8fdc8a", "failed":"ff8a70", "muted":"aebccc", "need":"ffc861"}
 const STATUS := {
-	"working":{"glyph":"[>]", "tone":"working"}, "waiting":{"glyph":"[||]", "tone":"waiting"},
+	"working":{"glyph":"[>]", "tone":"working"}, "waiting":{"glyph":"[_]", "tone":"waiting"},
 	"queued":{"glyph":"[...]", "tone":"muted"}, "idle":{"glyph":"[-]", "tone":"muted"},
 	"silent":{"glyph":"[/]", "tone":"failed"}, "stale":{"glyph":"[/]", "tone":"failed"},
 	"unknown":{"glyph":"[?]", "tone":"failed"}}

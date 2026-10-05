@@ -159,6 +159,12 @@ func world_checks() -> void:
 	world.update_live_view(1.0)
 	check(board.needs_title.text == "[!] NEEDS YOU · 2 known · 1 unknown · oldest first", "Needs heading: " + board.needs_title.text)
 	check(board.crew_buttons.watchkeeper.text.contains("[/] silent 6 m · last known"), "Wes row: " + board.crew_buttons.watchkeeper.text)
+	for kind in board.crew_buttons:
+		var row: String = board.crew_buttons[kind].text
+		check(row.count("[") == 1, "Crew row carries one status marker: " + row)
+		check(not row.contains("[||]"), "Waiting uses [_]: " + row)
+	check(board.find_child("CrewLegend", true, false) != null and board.find_child("CrewLegend", true, false).text.contains("[_] waiting"), "The crew list explains its markers")
+	check(board.crew_buttons.watchkeeper.tooltip_text.contains("(silent · last known)"), "Tooltips say what the marker means: " + board.crew_buttons.watchkeeper.tooltip_text)
 	# Tab still traverses focus inside the open board (it does not close it).
 	var first: Control = get_root().gui_get_focus_owner()
 	await tap(KEY_TAB)
