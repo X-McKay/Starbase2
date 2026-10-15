@@ -14,7 +14,7 @@ dependencies = [
 dev = [
     "pytest==9.1.1",
     "ty==0.0.78",
-    "datamodel-code-generator==0.76.2",
+    "datamodel-code-generator==0.81.0",
     "falkordblite==0.5.0",
 ]
 
